@@ -63,5 +63,26 @@
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
     "next_required_integration": "Provide validated native full course and streak repository state, then verify native session initialization and rendering. Do not force readiness flags to true."
+  },
+  "continuation_2026_10_31_cloud": {
+    "release_ready": false,
+    "verified_this_environment": {
+      "handoff_artifact_sha256_matches": 4,
+      "linux_diagnostic_build": true,
+      "instrumentation_build": true,
+      "same_local_test_signer": true,
+      "original_entries_preserved": 18248,
+      "rich_question_grading_cases": 48,
+      "bank_validation": "passed",
+      "editorial_regression": "passed"
+    },
+    "runtime_observation": "Not yet executed in this environment. Android system image provisioning in progress; KVM unavailable.",
+    "changes": [
+      "Portable native-base build paths with environment overrides and build-only instrumentation option.",
+      "Observe actual course/user/streak loader flows without forcing readiness or replacing their values.",
+      "Correct static interpretation: bp1.h optional string selects a path section, and its output is gz8 path state."
+    ],
+    "test_signer_sha256": "aaad9d3d1b22c028a3cdc3570e9f7d8eb95f5541d0d9e3ecc742d73b0d6a4798",
+    "production_apk_delivered": false
   }
 }

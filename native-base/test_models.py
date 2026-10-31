@@ -1,13 +1,17 @@
 from pathlib import Path
-import subprocess,zipfile
-R=Path.cwd();W=Path.home()/'.codex/duoaero-native-base';SDK=Path.home()/'AppData/Local/Android/Sdk';BT=SDK/'build-tools/35.0.0';J=Path('C:/Program Files/Android/Android Studio/jbr/bin');platform=SDK/'platforms/android-36/android.jar'
+import subprocess,zipfile,shutil
+from runtime_config import ROOT as R, WORK as W, SDK, BT, JAR as platform, KEY, ADB, java, tool
+import sys
 def run(*args):subprocess.run([str(a) for a in args],check=True)
-for folder in ['testclasses','testdex']:(W/folder).mkdir(exist_ok=True)
-run(BT/'aapt2.exe','link','-o',W/'tests.apk','--manifest',R/'native-base/tests/AndroidManifest.xml','-I',platform)
-run(J/'javac.exe','--release','8','-encoding','UTF-8','-classpath',platform,'-d',W/'testclasses',*list((R/'native-base/tests').glob('*.java')))
-run(J/'java.exe','-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',platform,'--min-api','29','--output',W/'testdex',*list((W/'testclasses').rglob('*.class')))
+for folder in ['testclasses','testdex']:
+ path=W/folder
+ if path.exists():shutil.rmtree(path)
+ path.mkdir(parents=True,exist_ok=True)
+run(tool('aapt2'),'link','-o',W/'tests.apk','--manifest',R/'native-base/tests/AndroidManifest.xml','-I',platform)
+run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',platform,'-d',W/'testclasses',*list((R/'native-base/tests').glob('*.java')))
+run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',platform,'--min-api','29','--output',W/'testdex',*list((W/'testclasses').rglob('*.class')))
 with zipfile.ZipFile(W/'tests.apk','a') as z:
  z.write(W/'testdex/classes.dex','classes.dex')
  for fixture in (R/'native-base/tests/fixtures').glob('*.json'):z.write(fixture,'assets/'+fixture.name)
-run(J/'java.exe','-jar',BT/'lib/apksigner.jar','sign','--ks',R/'build/debug.p12','--ks-pass','pass:android','--out',W/'tests-signed.apk',W/'tests.apk')
-run(SDK/'platform-tools/adb.exe','install','-r',W/'tests-signed.apk')
+run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',W/'tests-signed.apk',W/'tests.apk')
+if '--build-only' not in sys.argv:run(ADB,'install','-r',W/'tests-signed.apk')

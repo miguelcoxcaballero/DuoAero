@@ -7,7 +7,7 @@ import java.lang.reflect.*;
 /** Offline-only integration probe: never sends the synthetic profile to a service. */
 public final class UserSessionProbe extends Instrumentation {
  public void onCreate(Bundle args){start();}
- public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();try{
+ public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
   bridge.getField("localOnly").setBoolean(null,true);
@@ -71,7 +71,14 @@ public final class UserSessionProbe extends Instrumentation {
   Thread.sleep(12000);
   android.app.Activity current=resumed.get();
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
-  if(current!=null && activity.isInstance(current))runOnMainSync(()->{
+  if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
+  Object observedVm=activity.getMethod("J").invoke(current);
+  try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
+   Thread.sleep(5000);
+   report.append(dependencies.report());
+  }
+  final java.util.concurrent.atomic.AtomicReference<Throwable> snapshotError=new java.util.concurrent.atomic.AtomicReference<>();
+  runOnMainSync(()->{
    try {
     Object vm=activity.getMethod("J").invoke(current);
     for(String name:new String[]{"s2","t2","u2","v2","l4"}){
@@ -92,10 +99,12 @@ public final class UserSessionProbe extends Instrumentation {
      Object value=subject.getClass().getMethod("y0").invoke(subject);
      report.append("Initialization ").append(name).append('=').append(value instanceof Boolean?value:value==null?"null":value.getClass().getName()).append('\n');
     }
-   }catch(Throwable e){report.append(e.toString());}
+   }catch(Throwable e){snapshotError.set(e);}
   });
+  if(snapshotError.get()!=null)throw new IllegalStateException("Cannot inspect original session state",snapshotError.get());
   android.util.Log.i("DuoAeroProbe",report.toString());
-  Thread.sleep(15000);
+  completed=true;
+  report.append("Diagnostic collection completed. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
- output.putString("stream",report.toString());finish(-1,output);}
+ output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }

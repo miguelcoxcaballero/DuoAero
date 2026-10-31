@@ -1,0 +1,76 @@
+name: Original runtime diagnostic
+on:
+  push:
+    branches: [codex/original-runtime-integration]
+    paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DUOAERO_APK: /tmp/duoaero-handoff/Duolingo_v6.103.5.apk
+      DUOAERO_DECODED: /tmp/duoaero-decoded
+      DUOAERO_SMALI: /tmp/duoaero-decoded
+      DUOAERO_APKTOOL: /tmp/apktool.jar
+      DUOAERO_WORK: /tmp/duoaero-native-base
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Prepare original APK and local diagnostic signer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/duoaero-handoff build /tmp/duoaero-evidence
+          gh release download handoff-2026-10-31-native-runtime-1 --repo "$GITHUB_REPOSITORY" --dir /tmp/duoaero-handoff
+          python - <<'PY'
+          import json, hashlib, pathlib, zipfile
+          for a in json.load(open('native-base/handoff-artifacts.json'))['artifacts']:
+              p=pathlib.Path('/tmp/duoaero-handoff')/a['name']
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==a['sha256'], p.name
+          with zipfile.ZipFile('/tmp/duoaero-handoff/DuoAero-handoff-fixtures.zip') as z:
+              for name in z.namelist():
+                  if name.startswith('native-base/tests/fixtures/'):
+                      z.extract(name,'.')
+          PY
+          curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.12.1/apktool_2.12.1.jar -o "$DUOAERO_APKTOOL"
+          java -jar "$DUOAERO_APKTOOL" d "$DUOAERO_APK" -o "$DUOAERO_SMALI"
+          python -m pip install fonttools==4.61.1
+          keytool -genkeypair -keystore build/debug.p12 -storetype PKCS12 -storepass android -keypass android -alias androiddebugkey -dname 'CN=DuoAero CI Diagnostic' -keyalg RSA -validity 365
+          sdkmanager 'platform-tools' 'platforms;android-36' 'build-tools;35.0.0' 'emulator' 'system-images;android-36;google_apis;x86_64'
+      - name: Build diagnostic APKs, preserving original runtime
+        run: |
+          python native-base/build.py
+          python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
+          python native-base/test_models.py --build-only
+      - name: Observe original session dependencies
+        run: |
+          test -e /dev/kvm
+          sudo chmod 666 /dev/kvm
+          echo no | avdmanager create avd --name DuoAeroDiagnostic --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
+          "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader -accel on > /tmp/duoaero-evidence/emulator.txt 2>&1 &
+          adb wait-for-device
+          ready=false
+          for attempt in $(seq 1 150); do
+            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ]; then ready=true; break; fi
+            sleep 2
+          done
+          test "$ready" = true
+          adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
+          adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
+          timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > /tmp/duoaero-evidence/session.txt
+          adb exec-out screencap -p > /tmp/duoaero-evidence/session.png
+          adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > /tmp/duoaero-evidence/probe-log.txt
+          cat /tmp/duoaero-evidence/session.txt
+          rg 'diagnostic_completed=true' /tmp/duoaero-evidence/session.txt
+          echo 'Diagnostic collection only. This does not establish a playable lesson or authorize release.' > /tmp/duoaero-evidence/NOT-A-RELEASE.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: original-runtime-diagnostic
+          path: |
+            /tmp/duoaero-evidence/
+            /tmp/duoaero-native-base/*-test.apk
+            /tmp/duoaero-native-base/tests-signed.apk
+          retention-days: 7

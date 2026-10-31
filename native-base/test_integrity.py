@@ -3,10 +3,9 @@ from pathlib import Path
 import zipfile
 import xml.etree.ElementTree as ET
 
-HOME = Path.home()
-WORK = HOME/'.codex/duoaero-native-base'
+from runtime_config import WORK, APK
 allowed = {'AndroidManifest.xml', 'classes4.dex'}
-with zipfile.ZipFile(HOME/'Downloads/Duolingo_v6.103.5.apk') as original, zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as built:
+with zipfile.ZipFile(APK) as original, zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as built:
     checked = 0
     for entry in original.infolist():
         name = entry.filename

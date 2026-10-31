@@ -52,10 +52,11 @@ def extend(original, donor_path=DONOR):
     return result.getvalue(), additions
 
 if __name__ == '__main__':
-    output = Path.home()/'.codex/duoaero-native-base/font-overlays'
+    from runtime_config import WORK, APK
+    output = WORK/'font-overlays'
     output.mkdir(parents=True, exist_ok=True)
     receipt = {}
-    with zipfile.ZipFile(Path.home()/'Downloads/Duolingo_v6.103.5.apk') as apk:
+    with zipfile.ZipFile(APK) as apk:
         for name in apk.namelist():
             if name.startswith('res/font/duolingosansmath_') and name.endswith('.ttf'):
                 data, additions = extend(apk.read(name))
