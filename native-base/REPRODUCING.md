@@ -50,14 +50,14 @@ adb shell am instrument -w \
 
 `SessionDependencies` observes the actual `ou10.j` loader's course, user and
 streak inputs using the original Flow-to-Rx bridge. It reports `NO_EMISSION`,
-`EMITTED <class>` or `ERROR <class>`, then disposes its subscriptions. No values,
-account payloads or tokens are logged. It does not replace repository values or
+`EMITTED <class>` or `ERROR <class>`, then disposes its subscriptions. Only classes and Boolean values are logged, without
+account payloads or tokens. It does not replace repository values or
 set initialization booleans. Subscription itself can activate cold flows, so this
 is an instrumented diagnostic, not a passive trace or proof of normal startup.
 
 `diagnostic_completed=true` means state collection completed only. A nonzero adb
 exit status is not the only failure signal: inspect the instrumentation result
-and stream. Engine state `do10`, null session fields or a blank screen remain a
+and stream. Engine state `do10` fields or a blank screen remain a
 failure to initialize a playable lesson, even when diagnostic collection succeeds.
 
 ## Source findings
@@ -90,9 +90,9 @@ workflow result means **diagnostic collection succeeded**, not lesson acceptance
 
 | Synthetic profile course | Course flow | User/streak flows | Session |
 | --- | --- | --- | --- |
-| Aerospace | `fz8` (unsupported course) | Both emitted | `do10`, null session |
-| Original `MATH_BT` ID | No emission during observation | Both emitted | `do10`, null session |
-| No course | `ez8` | Both emitted | `do10`, null session |
+| Aerospace | `fz8` (unsupported course) | Both emitted | `do10` |
+| Original `MATH_BT` ID | No emission during observation | Both emitted | `do10` |
+| No course | `ez8` | Both emitted | `do10` |
 
 All three resumed the original SessionActivity and kept all initialization flags
 false. The Aerospace screenshot, captured before instrumentation finished, was
@@ -119,4 +119,22 @@ The optional `-e experiments native-defaults` probe supplies the original
 `vir` models, to both legacy and new experiment repositories before launch.
 The original client experiment selects the implementation, and the original
 code resolves treatment conditions. This tests one dependency; it is not a
-production offline adapter and its effect on lesson loading is not yet verified.
+production offline adapter. Its measured effect is documented below.
+
+
+[Default-entry run 41251414547](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41251414547)
+confirmed that the original experiment treatment stream emits when those default
+models are supplied. The engine changed from `do10` to `eo10`, whose `e` field is
+an original Session model. The screenshot was inspected and remains blank; all
+view initialization flags remain false. This resolves one input wait in the
+isolated probe but does not establish a rendered or playable lesson.
+
+Correction to earlier shorthand: `ou10.s2` is optional pre-session reward-road
+state, and `ou10.l4` is an auxiliary field. Their nullness alone does not establish
+whether a Session has loaded. Inspect the engine and actual UI separately.
+
+The next probe observes the original loading/view streams `w2`, `x2`, `i3`,
+`o3`, `q3`, preload completion and loading-indicator readiness. Its screen evidence
+also includes the accessibility tree for the isolated target package. Neither
+readiness values nor view visibility are forced. Screenshots from a previous
+variant are deleted before each run to avoid mislabeling stale evidence.

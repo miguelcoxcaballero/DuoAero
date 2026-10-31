@@ -62,7 +62,7 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Trace remaining original initializer operands, especially experiments/configuration. Course, user and streak already emit for Aerospace; their emission alone does not establish valid course state. Do not force readiness flags."
+    "next_required_integration": "Engine now reaches eo10 with original default experiment entries in isolated test; trace view/loading readiness dependencies without forcing flags. UI still blank."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -101,7 +101,14 @@
       "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41250852462",
       "result": "Session experiment treatment records did not emit in any of the three profile variants. All other measured final-initializer operands emitted for Aerospace, including combined loader jn7.",
       "additional_probe": "vm.S1.a also did not emit, but the final initializer uses vm.S1.d, which did emit. Do not confuse these flows.",
-      "next_test": "Supply original default experiment-entry models to the isolated synthetic profile; retain native treatment conversion and initializer flags. Result pending."
+      "next_test": "Default input tested: see default_experiment_observation. Next: observe loading/view readiness flows and capture accessibility tree."
+    },
+    "default_experiment_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41251414547",
+      "input": "Original empty/default ExperimentsState entry map in native per-user legacy/new models, synthetic profile only.",
+      "result": "Experiment stream emits TreatmentRecords; engine transitions from do10 to eo10 (contains original Session model).",
+      "visual_result": "Screenshot inspected: session remains blank. Original view/render initialization still blocked.",
+      "not_acceptance": "No question rendered, answer graded or session completed. s2/l4 are auxiliary fields, not the loaded Session; do not use their nullness as proof that no Session model exists."
     }
   }
 }

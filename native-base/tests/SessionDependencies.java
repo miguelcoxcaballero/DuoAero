@@ -54,6 +54,11 @@ final class SessionDependencies implements AutoCloseable {
     Object lazy=field(repository,entry[1]);
     observe("experiments-entries-"+entry[0],Class.forName("qvl",true,loader).getMethod("getValue").invoke(lazy),dispatcher);
    }
+   for(String name:new String[]{"w2","x2","i3","j3","o3","q3","m3","n3"})observeRx("view."+name,field(viewModel,name));
+   observe("view.preload-completion",field(field(viewModel,"A1"),"u"),dispatcher);
+   observeRx("view.loading-indicator",field(field(viewModel,"x1"),"k"));
+   observe("view.course",field(viewModel,"F").getClass().getMethod("d").invoke(field(viewModel,"F")),dispatcher);
+   observe("view.loading-experiment",field(field(viewModel,"z0"),"a"),dispatcher);
   } catch(Exception error) { close(); throw error; }
  }
  private void observe(String name,Object flow,Object dispatcher) throws Exception {
@@ -75,9 +80,9 @@ final class SessionDependencies implements AutoCloseable {
  private Object consumer(Class<?> type,String name,boolean error) {
   return Proxy.newProxyInstance(loader,new Class[]{type},(proxy,method,args)->{
    if(method.getName().equals("accept")) {
-    // Report classes only: no account data, payloads, URLs or tokens.
+    // Report classes and Boolean values: no account data, payloads, URLs or tokens.
     Object value=args[0];
-    states.put(name,(error?"ERROR ":"EMITTED ")+(value==null?"null":value.getClass().getName()));
+    states.put(name,(error?"ERROR ":"EMITTED ")+(value==null?"null":value.getClass().getName())+(value instanceof Boolean?"="+value:""));
     return null;
    }
    if(method.getName().equals("toString"))return "Session dependency observer: "+name;

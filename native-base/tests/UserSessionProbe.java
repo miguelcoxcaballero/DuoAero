@@ -96,6 +96,11 @@ public final class UserSessionProbe extends Instrumentation {
     Object engineFlow=engine.getClass().getField("k").get(engine);
     Object engineState=engineFlow.getClass().getMethod("getValue").invoke(engineFlow);
     report.append("Engine state: ").append(engineState==null?"null":engineState.getClass().getName()).append('\n');
+    if(engineState!=null && engineState.getClass().getName().equals("eo10")){
+     Object loadedSession=engineState.getClass().getField("e").get(engineState);
+     report.append("Loaded original Session model: ").append(loadedSession.getClass().getName()).append('\n');
+     report.append("Loaded challenge count: ").append(loadedSession.getClass().getMethod("g").invoke(loadedSession)).append('\n');
+    }
     Object init=vm.getClass().getField("x1").get(vm);
     for(String name:new String[]{"a","b","c","d","e","f","g","h","i"}){
      Object subject=init.getClass().getField(name).get(init);
@@ -110,11 +115,7 @@ public final class UserSessionProbe extends Instrumentation {
   });
   if(snapshotError.get()!=null)throw new IllegalStateException("Cannot inspect original session state",snapshotError.get());
   android.util.Log.i("DuoAeroProbe",report.toString());
-  android.graphics.Bitmap screenshot=getUiAutomation().takeScreenshot();
-  if(screenshot==null)throw new IllegalStateException("Cannot capture session screen");
-  java.io.File screenshotFile=new java.io.File(getTargetContext().getExternalFilesDir(null),"session-diagnostic.png");
-  try(java.io.FileOutputStream file=new java.io.FileOutputStream(screenshotFile)){screenshot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,file);}
-  screenshot.recycle();
+  SessionScreen.capture(this);
   completed=true;
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}

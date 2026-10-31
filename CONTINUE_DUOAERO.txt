@@ -9,7 +9,11 @@ but all remained at do10 with null session fields and no rendered lesson.
 For Aerospace, course/user/streak ALL emitted; course state was fz8 (unsupported).
 The older missing-emission hypothesis below is therefore not the current result.
 Also bp1.h's optional string is a PATH SECTION ID, not a course ID. Remaining
-configuration/experiment inputs are being instrumented. No production APK exists.
+configuration/experiment inputs have now been measured. Run 41251414547 supplied
+original default experiment-entry models: TreatmentRecords emitted and the engine
+reached eo10, containing a Session model. The screenshot still remained blank.
+Next: loading/view readiness, not forcing flags. s2/l4 are auxiliary fields, not
+the Session model. No playable lesson or production APK exists.
 
 START HERE
 Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
