@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 30
     env:
       ANDROID_HOME: /tmp/duoaero-sdk
+      ANDROID_USER_HOME: /tmp/duoaero-android
+      ANDROID_AVD_HOME: /tmp/duoaero-android/avd
       DUOAERO_APK: /tmp/duoaero-handoff/Duolingo_v6.103.5.apk
       DUOAERO_DECODED: /tmp/duoaero-decoded
       DUOAERO_SMALI: /tmp/duoaero-decoded
@@ -56,7 +58,8 @@ jobs:
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
-          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name DuoAeroDiagnostic --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
+          mkdir -p "$ANDROID_AVD_HOME"
+          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name DuoAeroDiagnostic --path "$ANDROID_AVD_HOME/DuoAeroDiagnostic.avd" --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
           "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader -accel on > /tmp/duoaero-evidence/emulator.txt 2>&1 &
           emulator_pid=$!
           ready=false
