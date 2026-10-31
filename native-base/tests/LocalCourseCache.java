@@ -21,11 +21,12 @@ final class LocalCourseCache {
   JSONObject course=(JSONObject)UserModelProbe.defaults(descriptor,Class.forName("kotlinx.serialization.descriptors.SerialDescriptor",true,loader),0);
   String sectionId="DUOAERO_DIAGNOSTIC_EMPTY";
   course.put("id","MATH_BT").put("title","Aerospace Technology")
+   .put("subject","math").put("topic","math")
    .put("learningLanguage","en").put("fromLanguage","en")
    .put("activePathSectionId",sectionId).put("pathSectionsSummary",new JSONArray());
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());
-  if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo");
+  if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo; got "+info.getClass().getName());
   JSONObject sectionJson=new JSONObject().put("id",sectionId).put("index",0).put("units",new JSONArray());
   Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionJson.toString());
   Object courseRepository=field(field(viewModel,"j"),"f");

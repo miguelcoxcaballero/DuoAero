@@ -77,8 +77,9 @@ jobs:
             probe_experiments="$3"
             probe_bootstrap="${4:-late}"
             probe_course_cache="${5:-none}"
+            probe_lesson="${6:-math}"
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
-            timeout 180 adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt"
+            timeout 180 adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "/tmp/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "/tmp/duoaero-evidence/views-$probe_label.json" || true
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
@@ -86,6 +87,7 @@ jobs:
           }
           run_probe math-no-cache MATH_BT native-defaults
           run_probe math-native-cache MATH_BT native-defaults late native-minimal
+          run_probe aerospace-native-cache MATH_BT native-defaults late native-minimal aerospace
           python - <<'PYTHON'
           from pathlib import Path
           for path in Path('/tmp/duoaero-evidence').glob('session-*.txt'):

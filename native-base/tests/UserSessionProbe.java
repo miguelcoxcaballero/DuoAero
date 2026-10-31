@@ -10,15 +10,18 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean defaultExperiments=false;
  private boolean earlySetup=false;
  private boolean nativeCourseCache=false;
+ private String lesson="math";
  private Throwable setupError;
  public void onCreate(Bundle args){
   if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));earlySetup="early".equals(args.getString("bootstrap"));}
   nativeCourseCache=args!=null&&"native-minimal".equals(args.getString("course_cache"));
+  if(args!=null)lesson=args.getString("lesson",lesson);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
   start();
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
+  if(!lesson.equals("math")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Unsupported diagnostic lesson");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
@@ -43,8 +46,10 @@ public final class UserSessionProbe extends Instrumentation {
   getTargetContext().startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
   Thread.sleep(6000);
   Class<?> activity=Class.forName("com.duolingo.session.SessionActivity",true,loader);
+  String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":"hardcoded_sessions/duoaero/aerospace_lesson.json";
+  report.append("Lesson input: ").append(lessonAsset).append('\n');
   Object params=Class.forName("com.duolingo.data.session.start.SessionStartParams$Hardcoded",true,loader)
-   .getConstructor(String.class,boolean.class).newInstance("hardcoded_sessions/math/math_lesson.json",false);
+   .getConstructor(String.class,boolean.class).newInstance(lessonAsset,false);
   Object via=Class.forName("com.duolingo.data.onboarding.OnboardingVia",true,loader).getField("HOME").get(null);
   for(Method method:activity.getDeclaredMethods())if(method.getName().equals("L")&&method.getParameterTypes().length==13){
    Intent intent=(Intent)method.invoke(null,getTargetContext(),params,false,via,false,false,null,null,null,true,false,null,activity);

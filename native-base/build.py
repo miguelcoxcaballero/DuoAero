@@ -45,6 +45,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')
+ # A separate input for the original hardcoded-session loader. The original
+ # math reference asset remains unchanged for baseline comparisons.
+ lesson=ROOT/'native-base/tests/fixtures/aerospace_lesson.json'
+ out.write(lesson,'assets/hardcoded_sessions/duoaero/aerospace_lesson.json')
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
 run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
 print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')

@@ -48,7 +48,7 @@
     "Native math renderer does not display text-mode Greek with text/mathrm macros; use supported math symbols."
   ],
   "diagnostic_findings": {
-    "session_engine_state": "do10",
+    "session_engine_state": "eo10 with original default experiment entries; do10 without them",
     "initialization_flags": {
       "a": false,
       "b": false,
@@ -62,7 +62,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Provide original course-path model data to the pre-lesson energy check; latest isolated engine eo10 still renders no question."
+    "next_required_integration": "Provide original course-path model data to the pre-lesson energy check; latest isolated engine eo10 still renders no question.",
+    "scope": "Isolated synthetic-profile diagnostic loading the original 15-question math reference asset. No playable Aerospace lesson verified."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -128,6 +129,12 @@
       "result": "Both timings: p6d.h energy eligibility does not emit; other nine measured wn10.a inputs emit. Screen remains blank.",
       "source_dependency": "p6d.h combines User, energy preferences, bp1.j CoursePathInfo and another Boolean. bp1.j filters unsupported/no-course states, emitting only a loaded CoursePathInfo.",
       "next_test": "Use original MATH_BT profile and original native cache writes with a minimal CoursePathInfo and an empty CoursePathSection. This is a dependency experiment, not a course or learning-path implementation."
+    },
+    "first_native_cache_attempt": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41253808775",
+      "result": "Diagnostic failed its explicit Math CoursePathInfo type guard before any cache write. The synthetic MATH_BT course had omitted subject, so the native serializer used the language-course default.",
+      "correction": "Set subject=math and required topic=math for the MATH_BT diagnostic profile and course cache model. Earlier MATH_BT-only comparisons used a mismatched subject and must not be treated as a valid math profile.",
+      "next_test": "Repeat corrected original math baseline/cache comparison, then load the separate 19-question Aerospace fixture through the original hardcoded-session loader. All UI outcomes pending."
     }
   }
 }

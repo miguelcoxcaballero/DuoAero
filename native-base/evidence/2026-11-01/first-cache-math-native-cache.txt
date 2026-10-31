@@ -1,0 +1,10 @@
+Diagnostic course variant: MATH_BT
+Diagnostic setup phase: instrumentation onStart
+Experiment input: original empty/default entries for synthetic user.
+Original SessionActivity requested with isolated local profile. Network blocked.
+Resumed: com.duolingo.session.SessionActivity
+java.lang.IllegalStateException: Expected original Math CoursePathInfo
+	at com.duoaero.nativebase.LocalCourseCache.install(LocalCourseCache.java:28)
+	at com.duoaero.nativebase.UserSessionProbe.onStart(UserSessionProbe.java:60)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2597)
+

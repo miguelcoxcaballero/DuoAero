@@ -176,3 +176,18 @@ using original resource descriptors (`tt8`/`qy8`), `nrx.t` and `prx.x0`, awaitin
 actual write completion. No flow, readiness flag or view is replaced. The empty
 section has no learning-path units and is not the Aerospace course. This test
 still opens the original hardcoded math reference session.
+
+[First cache run 41253808775](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41253808775)
+failed the explicit Math `CoursePathInfo` type guard **before any cache write**.
+The synthetic course omitted `subject`, whose original serializer defaults to
+`language`; the ID `MATH_BT` does not select the serialized model type. The
+corrected diagnostic now supplies `subject: math` and required `topic: math` in
+both the user's course summary and cached course info. Earlier MATH_BT-only
+comparisons must not be interpreted as a valid math-profile test.
+
+The build also packages the handoff's 19-question `aerospace_lesson.json` under
+`assets/hardcoded_sessions/duoaero/`. `-e lesson aerospace` selects it with the
+original Hardcoded SessionStartParams. The original math asset is unchanged.
+Local compilation and original-entry integrity passed; no Aerospace question
+has yet been shown or answered. The next CI compares the corrected math profile
+with/without native cache input, then the Aerospace asset with that same input.

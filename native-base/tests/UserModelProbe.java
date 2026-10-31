@@ -35,6 +35,7 @@ public final class UserModelProbe extends Instrumentation {
   Object courseDescriptor=courseSerializer.getClass().getMethod("getDescriptor").invoke(courseSerializer);
   JSONObject course=(JSONObject)defaults(courseDescriptor,dc,0);
   course.put("id",courseId).put("title","Aerospace Technology").put("learningLanguage","en").put("fromLanguage","en");
+  if(courseId.equals("MATH_BT"))course.put("subject","math").put("topic","math");
   if(courseId.equals("none")){profile.put("allCourses",new JSONArray());profile.put("currentCourseId",JSONObject.NULL);}
   else profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId",courseId);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
