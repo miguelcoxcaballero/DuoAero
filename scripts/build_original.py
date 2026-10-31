@@ -40,10 +40,12 @@ stdlib=kotlin/'kotlin-stdlib.jar'
 classpath=os.pathsep.join(map(str,[ANDROID,deps/'core.jar',stdlib,WORK/'classes']))
 updater=ROOT/'vendor/inhouse-services-updater/android'
 run([JAVA/('java'+EXE),'-cp',str(kotlin/'*'),'org.jetbrains.kotlin.cli.jvm.K2JVMCompiler','-no-stdlib','-no-reflect','-jvm-target','1.8','-classpath',classpath,'-d',WORK/'classes',updater/'PhotosUpdateInstaller.kt',*updater.glob('*.java')])
-sources=list((ROOT/'app/src').rglob('*.java'))+list(updater.glob('*.java'))
+sources=list((ROOT/'app/src').rglob('*.java'))+list(updater.glob('*.java'))+list((ROOT/'original/compile-stubs').rglob('*.java'))
 run([JAVA/('javac'+EXE),'-encoding','UTF-8','--release','8','-cp',classpath,'-d',WORK/'classes',*sources])
 with zipfile.ZipFile(WORK/'controller.jar','w') as outjar:
-    for file in (WORK/'classes').rglob('*.class'):outjar.write(file,file.relative_to(WORK/'classes').as_posix())
+    for file in (WORK/'classes').rglob('*.class'):
+        name=file.relative_to(WORK/'classes').as_posix()
+        if not name.startswith('androidx/activity/'):outjar.write(file,name)
 asmcp=os.pathsep.join(map(str,[deps/'asm.jar',deps/'asm-commons.jar',WORK/'shading']))
 run([JAVA/('javac'+EXE),'-cp',asmcp,'-d',WORK/'shading',ROOT/'scripts/ShadeDependencies.java'])
 run([JAVA/('java'+EXE),'-cp',asmcp,'ShadeDependencies',WORK/'controller-shaded.jar',WORK/'controller.jar',deps/'core.jar',stdlib])
@@ -63,7 +65,7 @@ entries['classes12.dex']=WORK/'dex/classes.dex'
 with zipfile.ZipFile(WORK/'resources.apk') as src,zipfile.ZipFile(WORK/'unsigned.apk','w') as dst:
     for e in src.infolist(): dst.writestr(e,src.read(e))
     for name,p in entries.items(): dst.write(p,name,compress_type=zipfile.ZIP_STORED if name.startswith('lib/') or name.lower().endswith(('.mp3','.ogg','.wav')) else zipfile.ZIP_DEFLATED)
-out=ROOT/'dist/DuoAero-1.1.1-unsigned.apk'
+out=ROOT/'dist/DuoAero-1.2.0-unsigned.apk'
 run([BT/('zipalign'+EXE),'-f','-p','4',WORK/'unsigned.apk',out])
 with zipfile.ZipFile(out) as apk:
     for p in original_dex: assert hashlib.sha256(apk.read(p.name)).digest()==hashlib.sha256(p.read_bytes()).digest()

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<com.duolingo.core.design.juicy.ui.CardView xmlns:ns0="http://schemas.android.com/apk/res/android" xmlns:ns1="http://schemas.android.com/apk/res-auto" ns0:orientation="horizontal" ns0:layout_width="fill_parent" ns0:layout_height="wrap_content" ns0:minHeight="?android:listPreferredItemHeight" style="@style/SelectableCard" ns0:padding="16dp" ns0:clickable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout ns0:layout_width="fill_parent" ns0:layout_height="wrap_content">
+        <com.duolingo.core.design.juicy.ui.JuicyTextView ns0:id="@id/optionName" ns0:layout_width="0.0dip" ns0:layout_height="wrap_content" ns1:layout_constraintEnd_toStartOf="@id/check" ns1:layout_constraintStart_toStartOf="parent" ns1:layout_constraintTop_toTopOf="parent" style="@style/Paragraph" ns1:layout_constraintBottom_toBottomOf="parent" ns0:layout_marginEnd="8dp" />
+        <androidx.appcompat.widget.AppCompatImageView ns0:id="@id/check" ns0:layout_width="wrap_content" ns0:layout_height="wrap_content" ns1:layout_constraintBottom_toBottomOf="parent" ns1:layout_constraintEnd_toEndOf="parent" ns1:layout_constraintTop_toTopOf="parent" ns1:srcCompat="@drawable/blue_check" ns0:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.duolingo.core.design.juicy.ui.CardView>

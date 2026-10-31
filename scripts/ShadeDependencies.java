@@ -16,7 +16,9 @@ public final class ShadeDependencies {
      if(!name.endsWith(".class")||name.startsWith("META-INF/")||name.equals("module-info.class"))continue;
      byte[] bytes;try(InputStream stream=in.getInputStream(entry)){bytes=stream.readAllBytes();}
      ClassReader reader=new ClassReader(bytes);ClassWriter writer=new ClassWriter(0);
-     reader.accept(new ClassRemapper(writer,map),0);
+     // UI host references belong to the original APK. Only updater dependencies
+     // use the relocated AndroidX/Kotlin copies to avoid ABI collisions.
+     reader.accept(new ClassRemapper(writer,reader.getClassName().startsWith("com/duoaero/")?new Remapper(){}:map),0);
      name=map.map(reader.getClassName())+".class";
      if(!seen.add(name))throw new IllegalStateException("Duplicate class "+name);
      out.putNextEntry(new ZipEntry(name));out.write(writer.toByteArray());out.closeEntry();

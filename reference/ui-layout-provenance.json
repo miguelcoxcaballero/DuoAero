@@ -1,0 +1,71 @@
+{
+  "duoaero_tabs.xml": {
+    "source": "res/layout/tab_redesign_reordered_view_tab_icons.xml",
+    "sourceSha256": "d9bde67a4d76196b39f9f6943893c6377856702dc30eb2adf37692490b338673",
+    "changes": [
+      "Keep four relevant tabs",
+      "Bind course actions and English accessibility labels",
+      "Reconnect existing constraint chain"
+    ],
+    "runtimeClass": "com.duolingo.home.DuoTabView"
+  },
+  "duoaero_session.xml": {
+    "source": "res/layout/activity_session.xml",
+    "sourceSha256": "43f16d5def3392d98fcf5fffb1371ce927ec1ff0b0de2c252cb0dd54669c2569",
+    "changes": [
+      "Remove music, promotions and paid energy components",
+      "Bind course exercise and feedback containers",
+      "Use original JuicyProgressBarView with local progress"
+    ],
+    "runtimeRoot": "com.duolingo.core.ui.DuoFrameLayout"
+  },
+  "duoaero_loading.xml": {
+    "source": "res/layout/view_large_loading_indicator_content.xml",
+    "sourceSha256": "75160bee6838db906f1a6e3391fcc0c80c590c0ad4ef474d3a4f50fbf58b39ab",
+    "changes": [
+      "Replace bird animation surface with requested mascot",
+      "Bind English course labels"
+    ]
+  },
+  "duoaero_complete.xml": {
+    "source": "res/layout/fragment_session_complete.xml",
+    "sourceSha256": "638966bc8e217b39567b33c854122a3b75a4ae9876b435280ed3627dd8796750",
+    "changes": [
+      "Remove music, chess, subscription and sharing components",
+      "Use requested mascot in original animation bounds",
+      "Bind study result labels and stats"
+    ]
+  },
+  "duoaero_review_header.xml": {
+    "source": "res/layout/mistakes_collection_header.xml",
+    "sourceSha256": "c416cdc5b9e57ab4f463b647cef2aad7edf86cb9cde8707b9624acd0a24e927c",
+    "changes": [
+      "Replace bird with mascot",
+      "English study labels"
+    ]
+  },
+  "duoaero_answer.xml": {
+    "source": "res/layout/view_checkable_option.xml",
+    "sourceSha256": "db658c3cd22b35d2545d25077aae0d9c8266b7294e09584b5abced0f1b0486d1",
+    "changes": [
+      "Unrestricted English option text",
+      "Bind local selections and feedback"
+    ]
+  },
+  "duoaero_course_header.xml": {
+    "source": "res/layout/view_path_persistent_unit_header.xml",
+    "sourceSha256": "e644967994da52660cdcb991f100323efbbc00a091a725b8c1c225c047e8d3ca",
+    "changes": [
+      "Keep primary header",
+      "Bind Aerospace Technology labels"
+    ]
+  },
+  "duoaero_input.xml": {
+    "source": "res/layout/view_juicy_text_input_with_atomic_delight.xml",
+    "sourceSha256": "588d8c4c200f81124e08f3d35931ae7727d65ff8ed2f8d5dd896c74d5d2bb3fc",
+    "changes": [
+      "Keep original JuicyTextInput and OutlineInput style",
+      "Wrap input height"
+    ]
+  }
+}

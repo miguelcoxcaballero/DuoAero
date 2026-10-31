@@ -1,0 +1,12 @@
+{
+  "base": "Duolingo_v6.103.5.apk",
+  "baseSha256": "1468b090287a33810bcd2e856ac5fbb6e1d9ec241e3d1ee8f5ed42f8fd66a966",
+  "testPackage": "com.duoaero.originalprobe",
+  "application": "com.duolingo.core.DuoApp",
+  "launcher": "com.duolingo.splash.LaunchActivity",
+  "originalDexUnchanged": 11,
+  "install": "Success",
+  "launchResult": "Status: ok; cold start 4027ms",
+  "courseAdaptationComplete": false,
+  "releaseReady": false
+}

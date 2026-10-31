@@ -2,9 +2,9 @@
 
 Aerospace Technology, Midterm 1: 1,200 questions, 400 per difficulty, 81 lessons across 42 named topics. Includes exam provenance, slide reflections, five question types, end-of-lesson retries and persistent mistake review.
 
-## Android 1.1.0
+## Android 1.2.0
 
-This build retains all eleven compiled DEX files, resources and libraries from the supplied Duolingo 6.103.5 APK. It adds a course controller and adapts its sign-in layout. Buttons, typography and the lesson progress bar instantiate the original compiled Juicy UI classes. The course path, exercise orchestration and Drive adapter are DuoAero code. It does not claim to reuse the complete original online course service or every original screen.
+This build retains all eleven compiled DEX files, resources and libraries from the supplied Duolingo 6.103.5 APK. It adds the local course controller and adapts original sign-in, navigation, course header, exercise container, answer cards, loading, mistake review and completion layouts. These instantiate the original compiled Juicy UI classes. Original settings widgets and original haptic presets are used. The Compose statistic counter is replaced with a JuicyTextView to remove its dependency on Duolingo experiments services. The course path, exercise orchestration and Drive adapter are DuoAero code. It does not claim to reuse the complete original online course service or every original screen.
 
 The visible mascot is Snoopy on an ordinary red doghouse, with no wings. Lesson rings turn green only after actual completion. One-lesson topics have an uninterrupted ring.
 
@@ -22,7 +22,7 @@ node --test tests/auth.test.cjs
 python scripts/test_android.py
 ```
 
-The Android test command installs debug APKs on the connected disposable emulator. Do not run it against a personal phone with a release installation. Output: `dist/DuoAero-1.1.0-unsigned.apk`. Release signing uses the existing YouTube Calma GitHub secret, never a local copy of the key. A hash-bound build input and source inventory are verified before the signing step.
+The Android test command installs debug APKs on the connected disposable emulator. Do not run it against a personal phone with a release installation. Output: `dist/DuoAero-1.2.0-unsigned.apk`. Release signing uses the existing YouTube Calma GitHub secret, never a local copy of the key. A hash-bound build input and source inventory are verified before the signing step.
 
 Automated OAuth tests simulate token responses; they do not prove a real Google account has completed consent. A real account sign-in and Drive round trip must be checked separately.
 

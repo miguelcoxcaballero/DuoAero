@@ -30,6 +30,11 @@ public class EngineTest extends Instrumentation {
   night.uiMode=(night.uiMode&~android.content.res.Configuration.UI_MODE_NIGHT_MASK)|android.content.res.Configuration.UI_MODE_NIGHT_YES;
   Context dark=c.createConfigurationContext(night);
   require(dark.getColor(activity.res("color","juicySnow"))==0xff131f22,"original night background resolves");
+  for(String preset:new String[]{"cta_button_v3","flashcards_correct_haptic","flashcards_final_incorrect_haptic","lessoncomplete_v6","perfect_lesson_duo_v2"})for(String level:new String[]{"_l1","_l2"}){
+   int resource=activity.res("raw",preset+level);require(resource!=0,"original haptic resource exists "+preset+level);
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();try(java.io.InputStream input=c.getResources().openRawResource(resource)){byte[] buffer=new byte[1024];int count;while((count=input.read(buffer))!=-1)bytes.write(buffer,0,count);}
+   JSONObject effect=new JSONObject(bytes.toString("UTF-8"));JSONArray timings=effect.getJSONArray("Timings"),amplitudes=effect.getJSONArray("Amplitudes");require(timings.length()==amplitudes.length(),"haptic timing/amplitude correspondence");long[] times=new long[timings.length()];int[] amps=new int[amplitudes.length()];for(int i=0;i<times.length;i++){times[i]=timings.getLong(i);amps[i]=amplitudes.getInt(i);}require(android.os.VibrationEffect.createWaveform(times,amps,-1)!=null,"Android accepts original haptic waveform");
+  }
   for(String sound:c.getAssets().list("audio")){
    try(android.content.res.AssetFileDescriptor audio=c.getAssets().openFd("audio/"+sound)){
     android.media.MediaPlayer media=new android.media.MediaPlayer();
@@ -47,6 +52,8 @@ public class EngineTest extends Instrumentation {
   runOnMainSync(()->{JSONObject saved=activity.engine.state;try{
    require(activity.button("Test",true,()->{}).getClass().getName().equals("com.duolingo.core.design.juicy.ui.JuicyButton"),"original compiled button");
    require(activity.text("Test",16,false).getClass().getName().equals("com.duolingo.core.design.juicy.ui.JuicyTextView"),"original compiled typography");
+   require(activity instanceof androidx.activity.ComponentActivity,"original AndroidX lifecycle host");
+   ViewChecks.assertOriginalLayouts(activity);
    String longAnswer="The aircraft must maintain sufficient aerodynamic lift while the atmospheric density decreases, which changes the relationship between indicated airspeed, true airspeed and dynamic pressure.";
    android.widget.TextView answer=activity.button(longAnswer,false,()->{});answer.setAllCaps(false);answer.setTextSize(26);
    answer.measure(android.view.View.MeasureSpec.makeMeasureSpec(activity.dp(240),android.view.View.MeasureSpec.EXACTLY),android.view.View.MeasureSpec.makeMeasureSpec(0,android.view.View.MeasureSpec.UNSPECIFIED));
