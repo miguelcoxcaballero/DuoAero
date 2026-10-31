@@ -60,6 +60,8 @@
       "h": false,
       "i": false
     },
-    "offline_profile_mode_test": "No change to blank session after supplying local repository mode."
+    "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
+    "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
+    "next_required_integration": "Provide validated native full course and streak repository state, then verify native session initialization and rendering. Do not force readiness flags to true."
   }
 }
