@@ -13,6 +13,10 @@ public final class UserModelProbe extends Instrumentation {
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
  output.putString("stream",report.toString());finish(-1,output);}
  public static Object makeLocalUser(android.content.Context context)throws Exception {
+  return makeLocalUser(context,"DUOAERO_AEROSPACE_MIDTERM1");
+ }
+ public static Object makeLocalUser(android.content.Context context,String courseId)throws Exception {
+  if(!courseId.equals("DUOAERO_AEROSPACE_MIDTERM1")&&!courseId.equals("MATH_BT")&&!courseId.equals("none"))throw new IllegalArgumentException("Unsupported diagnostic course variant");
   ClassLoader loader=context.getClassLoader();
   Object app=context.getApplicationContext();
   Object component=app.getClass().getMethod("generatedComponent").invoke(app);
@@ -30,8 +34,9 @@ public final class UserModelProbe extends Instrumentation {
   Object courseSerializer=courseCompanion.getClass().getMethod("serializer").invoke(courseCompanion);
   Object courseDescriptor=courseSerializer.getClass().getMethod("getDescriptor").invoke(courseSerializer);
   JSONObject course=(JSONObject)defaults(courseDescriptor,dc,0);
-  course.put("id","DUOAERO_AEROSPACE_MIDTERM1").put("title","Aerospace Technology").put("learningLanguage","en").put("fromLanguage","en");
-  profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId","DUOAERO_AEROSPACE_MIDTERM1");
+  course.put("id",courseId).put("title","Aerospace Technology").put("learningLanguage","en").put("fromLanguage","en");
+  if(courseId.equals("none")){profile.put("allCourses",new JSONArray());profile.put("currentCourseId",JSONObject.NULL);}
+  else profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId",courseId);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object user=decode.invoke(json,serializer,profile.toString());
   return user;

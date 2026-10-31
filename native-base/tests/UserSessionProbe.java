@@ -6,12 +6,14 @@ import java.lang.reflect.*;
 
 /** Offline-only integration probe: never sends the synthetic profile to a service. */
 public final class UserSessionProbe extends Instrumentation {
- public void onCreate(Bundle args){start();}
+ private String courseId="DUOAERO_AEROSPACE_MIDTERM1";
+ public void onCreate(Bundle args){if(args!=null)courseId=args.getString("course_id",courseId);start();}
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
   bridge.getField("localOnly").setBoolean(null,true);
-  Object user=UserModelProbe.makeLocalUser(getTargetContext());
+  Object user=UserModelProbe.makeLocalUser(getTargetContext(),courseId);
+  report.append("Diagnostic course variant: ").append(courseId).append("\n");
   Object app=getTargetContext().getApplicationContext();
   final java.util.concurrent.atomic.AtomicReference<android.app.Activity> resumed=new java.util.concurrent.atomic.AtomicReference<>();
   ((android.app.Application)app).registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks(){
@@ -103,8 +105,13 @@ public final class UserSessionProbe extends Instrumentation {
   });
   if(snapshotError.get()!=null)throw new IllegalStateException("Cannot inspect original session state",snapshotError.get());
   android.util.Log.i("DuoAeroProbe",report.toString());
+  android.graphics.Bitmap screenshot=getUiAutomation().takeScreenshot();
+  if(screenshot==null)throw new IllegalStateException("Cannot capture session screen");
+  java.io.File screenshotFile=new java.io.File(getTargetContext().getExternalFilesDir(null),"session-diagnostic.png");
+  try(java.io.FileOutputStream file=new java.io.FileOutputStream(screenshotFile)){screenshot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,file);}
+  screenshot.recycle();
   completed=true;
-  report.append("Diagnostic collection completed. This does not assert lesson rendering or grading.\n");
+  report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }
