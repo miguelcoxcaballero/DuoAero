@@ -1,0 +1,29 @@
+{
+  "source": "miguelcoxcaballero/inhousenotes",
+  "commit": "25fc0932253151bc630da455e7297fbd6fdf3cc8",
+  "file": "index.html",
+  "functions": {
+    "initDriveAuth": "d29643e98a189594837d1d0aa8f9c4aa74199a33e31d275c77de335bc5697524",
+    "getDriveRedirectUri": "9e34d0d28aa7175e26d50b5fe893937bcd25e540630ebda7361a3ef6c87fd83b",
+    "openAndroidAuthUrl": "3eb2797130a1e43d7eaae9e48365e651bb4054f8e4c6d3bd420079221df5f674",
+    "generatePkceVerifier": "2a6d7edf99ab9c8849ebf534d8a0a6f6c864526c3c330d6735ba66ecdcb7c2b8",
+    "base64UrlEncodeBytes": "17ff379f43880acbff87c516df55c1344f8f0e07dbc827cb3429d9cae4ac3218",
+    "pkceChallengeFromVerifier": "82080e3f00750167722fcc48814bf0e530326d361c287af36c1e1e8af84d9639",
+    "startAndroidPkceSignIn": "58c7f7c4026b4e8f74448971ef9560be9dfc67e96c3b4e2be0e919025cf9152d",
+    "exchangeAuthCodeForTokens": "fa99475a7975a15873288e19ee72f6c88ca9d261562f5fdfa3fd39d762c1078b",
+    "refreshDriveAccessTokenWithRefreshToken": "68df838c90d0fd1158e379dae34f7f16f85a9e14416a5343b63305783bd44cb9",
+    "applyTokenResponse": "667057f8ebf2b718c99fbd128af3a6200103aac2ef09826262b77490254eccf5",
+    "startDriveRedirectSignIn": "24f66906410ca67647b8f86d364074bea0f33d43eb50f8392c9bdfb34c1c4e38",
+    "completeDriveSignInFromParams": "46fbd500d34fb7311f8e791a3f4d4b660c823802404dd45029500ad833cf1c5a",
+    "processDriveOAuthRedirect": "d43609536f107d2b495699e75b53967cfde830a550d7eebac7b417c970c73745",
+    "scheduleDriveTokenRefresh": "11c1a8ce8864c3ceb969197d13883d4a4a15d865540e0785f42fa5f466eed594",
+    "ensureDriveToken": "7c0c5c1c51ee7c219ec9efe7c9e843850dae66424ae420d884f68553418326f8",
+    "signInDrive": "8fa31f3bbd477201878a89ebdd560ee0b8692a0d5d2954227dead377d05e50bc",
+    "saveDriveTokenToStorage": "220ce01f047c65a549bdd0456a3536de684e571a7bca1a1f3117a50c72f809dc",
+    "hasGoogleScope": "c8f9ca1dfa46477b867ea413a4f2f0db00570e02970252b5c63e2c88461f0ba0",
+    "normalizeGrantedScopes": "b1bdb491c00a3e38b40d4fbc6a3a0b2ede3a8a0b1a1d1c448e2f29bcfb83fd95",
+    "clearDriveTokenStorage": "9937730ecdce7ba6524dd7ecd1c9b5e05b499f8484f3a5636565a9697cf7d410",
+    "loadDriveTokenFromStorage": "07e71add4cddf2868664d2f3291d174258997244516157bc2a2cd33695d31158"
+  },
+  "integration": "Functions copied unchanged. Application-specific constants, UI callbacks and storage namespace are supplied separately."
+}

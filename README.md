@@ -1,31 +1,33 @@
 # DuoAero
 
-Offline native Android study app for **Aerospace Technology — Midterm 1**.
+Aerospace Technology, Midterm 1: 1,200 questions, 400 per difficulty, 81 lessons across 42 named topics. Includes exam provenance, slide reflections, five question types, end-of-lesson retries and persistent mistake review.
 
-- 1,200 questions: 400 each at one, two and three stars.
-- Historical exam attribution and original excerpts, slide reflections, and practice.
-- Choice, multiple selection, ordering, matching and one-word completion.
-- 42 named path points, 81 lessons of 10–20 questions; 1–3 lessons per point.
-- Whole grey/green lesson arcs; a single lesson uses an unbroken ring.
-- Automatic private-device storage using Android AtomicFile. Sessions resume after restart; unresolved mistakes remain in review until corrected.
-- Offline sounds, haptics and reduced-motion support.
+## Android 1.1.0
 
-## Build
+This build retains all eleven compiled DEX files, resources and libraries from the supplied Duolingo 6.103.5 APK. It adds a course controller and adapts its sign-in layout. Buttons, typography and the lesson progress bar instantiate the original compiled Juicy UI classes. The course path, exercise orchestration and Drive adapter are DuoAero code. It does not claim to reuse the complete original online course service or every original screen.
 
-Install JDK 17+ and Android SDK (platform 36, build-tools 35+). Set `JAVA_HOME` and `ANDROID_HOME`, then run:
+The visible mascot is Snoopy on an ordinary red doghouse, with no wings. Lesson rings turn green only after actual completion. One-lesson topics have an uninterrupted ring.
+
+Google login copies the 21 Inhouse Notes OAuth functions unchanged; `shared/auth/provenance.json` records their origin and hashes. Android uses the registered `com.duoaero` client, PKCE, a persistent refresh token and account-separated local progress. Google Drive synchronization merges answer records and completed lessons; interrupted lessons remain local to each device. Authentication tokens are never uploaded with study progress. Android backups are disabled to exclude tokens.
+
+The canonical Inhouse services updater is vendored at the locked revision without source edits. Its dependencies are relocated during compilation to avoid collisions with the original APK's obfuscated libraries. B is the default channel; new releases are published only in A. Choosing A requires its existing warning, acknowledgement and slide confirmation.
+
+## Build and test
+
+Use JDK 17+, Android SDK platform 36/build-tools 35.0.0 and Kotlin's compiler libraries. Set `JAVA_HOME`, `ANDROID_HOME` and optionally `KOTLIN_LIB`. `scripts/build_original.py` accepts `DUOAERO_DECODED` (apktool resource-only decode of the supplied APK) and `DUOAERO_RESOURCE_CACHE` (aapt2 compiled resource ZIP). The default paths match the owner's local reference workspace. Build dependencies in `.codex/duoaero-build-deps` are AndroidX core 1.13.1, ASM 9.7.1 and ASM Commons 9.7.1 from their official Maven repositories.
 
 ```
 python scripts/build.py
+node --test tests/auth.test.cjs
+python scripts/test_android.py
 ```
 
-Output: `dist/DuoAero-1.0.0-unsigned.apk`. Release signing takes place in the owner's YouTube Calma GitHub Actions runner with the existing secret; no signing key is in this repository.
+The Android test command installs debug APKs on the connected disposable emulator. Do not run it against a personal phone with a release installation. Output: `dist/DuoAero-1.1.0-unsigned.apk`. Release signing uses the existing YouTube Calma GitHub secret, never a local copy of the key. A hash-bound build input and source inventory are verified before the signing step.
 
-With an Android emulator/device connected, `python scripts/test_android.py` builds a disposable debug version and runs instrumentation tests of all canonical answers, lesson assignment, restart persistence, retries and completion. It installs test APKs; use a test device.
+Automated OAuth tests simulate token responses; they do not prove a real Google account has completed consent. A real account sign-in and Drive round trip must be checked separately.
 
-## Sources and implementation
+## Sources
 
-`app/assets/questions.json` contains question-level source URLs, original excerpts and answer-basis fields. Retained material includes 106 exam exercises and 21 slide reflections. Derived solutions are identified rather than claimed as official answer keys. The unrecoverable measured angle in 2022 Q13 is not fabricated; that exercise is adapted and its original excerpt retained.
+The bank retains 106 exam exercises and 21 slide reflections with source excerpts and derived-answer labels. The unrecoverable measured angle in 2022 Q13 is not fabricated. Supplied third-party code and assets retain their original ownership. This is not an official Duolingo product.
 
-The course engine and native screens are implemented for this app. Selected XML layout hierarchy, fonts, icons, sounds and transitions were adapted from the user-supplied Duolingo APK and previously retrieved Duolingo audio. `reference/` documents supplied layout resources and asset provenance. This is not the complete original Duolingo application or an official Duolingo product. Third-party assets retain their original ownership; no license to those assets is asserted here.
-
-`web/` preserves the existing standalone web app and its question-bank build sources. Android progress is stored separately; uninstalling the app or clearing its storage can remove it. The app does not request Internet permission.
+`web/` still contains the earlier standalone web version. Its matching original UI port and shared Google progress integration are not yet complete.

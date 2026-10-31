@@ -12,6 +12,7 @@ public final class Engine {
  public final JSONArray bank, nodes;
  public final Map<String,JSONObject> questions=new LinkedHashMap<>();
  public JSONObject state;
+ public Runnable onSaved;
  private final AtomicFile file;
  public Engine(Context context,String filename)throws Exception{
   bank=new JSONArray(read(context.getAssets().open("questions.json")));
@@ -25,7 +26,7 @@ public final class Engine {
   if(!state.has("xp"))state.put("xp",0);
  }
  static String read(InputStream input)throws IOException{try(InputStream in=input;ByteArrayOutputStream out=new ByteArrayOutputStream()){byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1)out.write(b,0,n);return out.toString("UTF-8");}}
- public void save()throws Exception{state.put("updatedAt",System.currentTimeMillis());FileOutputStream out=null;try{out=file.startWrite();out.write(state.toString().getBytes(StandardCharsets.UTF_8));file.finishWrite(out);}catch(Exception e){if(out!=null)file.failWrite(out);throw e;}}
+ public void save()throws Exception{state.put("updatedAt",System.currentTimeMillis());FileOutputStream out=null;try{out=file.startWrite();out.write(state.toString().getBytes(StandardCharsets.UTF_8));file.finishWrite(out);if(onSaved!=null)onSaved.run();}catch(Exception e){if(out!=null)file.failWrite(out);throw e;}}
  public JSONObject records(){return state.optJSONObject("records");}
  public JSONObject settings(){return state.optJSONObject("settings");}
  public JSONObject session(){return state.optJSONObject("session");}

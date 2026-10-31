@@ -1,0 +1,7 @@
+PASS: 2681 assertions; 81 lessons; grading, retries, persistence and completion.
+
+
+Node OAuth tests: 5 passed; mocked token responses.
+Original eleven DEX files unchanged.
+Canonical updater source hashes verified. Provider read and Activity startup passed.
+Real Google account login and Drive round trip: pending interactive verification.

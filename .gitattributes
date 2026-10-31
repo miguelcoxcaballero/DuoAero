@@ -1,0 +1,6 @@
+* text=auto eol=lf
+/vendor/inhouse-services-updater/** -text
+/shared/inhouse-services-updater/** -text
+*.png binary
+*.otf binary
+*.mp3 binary

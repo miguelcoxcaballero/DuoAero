@@ -1,0 +1,1 @@
+<resources><attr name="selected" format="boolean"/><style name="DuoAeroOriginalTheme" parent="@style/NoActionBarTheme"><item name="isInPreview">true</item><item name="android:windowLightStatusBar">true</item><item name="android:windowBackground">@color/juicySnow</item></style></resources>
