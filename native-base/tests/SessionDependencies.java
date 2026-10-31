@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 final class SessionDependencies implements AutoCloseable {
  private final ClassLoader loader;
  private final List<Object> subscriptions = new ArrayList<>();
+ private final List<String> names = new ArrayList<>();
  private final Map<String,String> states = new ConcurrentHashMap<>();
  SessionDependencies(Object viewModel) throws Exception {
   loader = viewModel.getClass().getClassLoader();
@@ -20,15 +21,46 @@ final class SessionDependencies implements AutoCloseable {
    observe("course", course.getClass().getMethod("h",String.class,boolean.class).invoke(course,null,true),dispatcher);
    observe("user",user.getClass().getMethod("f").invoke(user),dispatcher);
    observe("streak",streak.getClass().getMethod("a").invoke(streak),dispatcher);
+   observeRx("loader-combined", sessionLoader.getClass().getMethod("a",Class.forName("com.duolingo.data.home.path.PathLevelSessionEndInfo",true,loader)).invoke(sessionLoader,new Object[]{null}));
+   observeRx("vm.V",field(viewModel,"V"));
+   observeRx("vm.l2",field(viewModel,"l2"));
+   observeRx("vm.G3",field(viewModel,"G3"));
+   for(String[] item:new String[][]{{"n0","a"},{"T1","b"},{"S1","a"},{"Z0","a"},{"M0","a"},{"X0","getNetworkStatus"}}) {
+    Object repository=field(viewModel,item[0]);
+    observe("vm."+item[0]+"."+item[1],repository.getClass().getMethod(item[1]).invoke(repository),dispatcher);
+   }
+   observe("vm.C.v",field(field(viewModel,"C"),"v"),dispatcher);
+   observe("vm.g1.d",field(field(viewModel,"g1"),"d"),dispatcher);
+   for(String parent:new String[]{"S1","z1"}) {
+    Object lazy=field(field(viewModel,parent),"d");
+    Object value=Class.forName("qvl",true,loader).getMethod("getValue").invoke(lazy);
+    observe("vm."+parent+".d",value,dispatcher);
+   }
+   Object selector=Class.forName("pd10",true,loader).getConstructor(int.class).newInstance(26);
+   observe("user-pd10-26",user.getClass().getMethod("g",Class.forName("qqh",true,loader)).invoke(user,selector),dispatcher);
+   observe("user-w9o.h",Class.forName("w9o",true,loader).getMethod("h",Class.forName("ce90",true,loader)).invoke(null,user),dispatcher);
+   List<Object> experiments=new ArrayList<>();
+   for(String[] entry:new String[][]{{"g9w","b"},{"z8q","g"},{"z8q","o"},{"z8q","f"},{"z8q","l"},{"buo","i"},{"bd10","i"}})
+    experiments.add(Class.forName(entry[0],true,loader).getField(entry[1]).get(null));
+   Class<?> registry=Class.forName("com.duolingo.core.experiments.Experiments",true,loader);
+   Object instance=registry.getField("INSTANCE").get(null);
+   for(String getter:new String[]{"getENERGY_ANDROID_DECREASE_REWARD_EV","getSPACK_DECREASE_PERFECT_LESSON_ENERGY_REWARD"})experiments.add(registry.getMethod(getter).invoke(instance));
+   observeRx("session-experiments",Class.forName("com.duolingo.core.experiments.ExperimentsRepository",true,loader).getMethod("observeTreatmentRecords",Collection.class).invoke(field(viewModel,"U"),experiments));
   } catch(Exception error) { close(); throw error; }
  }
  private void observe(String name,Object flow,Object dispatcher) throws Exception {
-  states.put(name,"NO_EMISSION");
-  Class<?> consumer=Class.forName("qb8",true,loader);
-  Object next=consumer(consumer,name,false),error=consumer(consumer,name,true);
+
   Object observable=Class.forName("mao",true,loader)
    .getMethod("b",Class.forName("qdf",true,loader),Class.forName("pn8",true,loader))
    .invoke(null,flow,dispatcher);
+  observeRx(name,observable);
+ }
+ private static Object field(Object owner,String name)throws Exception {return owner.getClass().getField(name).get(owner);}
+ private void observeRx(String name,Object observable)throws Exception {
+  names.add(name);
+  states.put(name,"NO_EMISSION");
+  Class<?> consumer=Class.forName("qb8",true,loader);
+  Object next=consumer(consumer,name,false),error=consumer(consumer,name,true);
   Object disposable=Class.forName("ohf",true,loader).getMethod("l0",consumer,consumer).invoke(observable,next,error);
   subscriptions.add(disposable);
  }
@@ -48,7 +80,7 @@ final class SessionDependencies implements AutoCloseable {
  }
  String report() {
   StringBuilder text=new StringBuilder();
-  for(String name:new String[]{"course","user","streak"})text.append("Dependency ").append(name).append(": ").append(states.get(name)).append('\n');
+  for(String name:names)text.append("Dependency ").append(name).append(": ").append(states.get(name)).append('\n');
   return text.toString();
  }
  public void close() throws Exception {
