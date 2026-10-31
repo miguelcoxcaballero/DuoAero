@@ -1,0 +1,5 @@
+PASS: 2693 assertions; 81 lessons; grading, retries, persistence and completion.
+
+
+Six sound assets decoded by Android MediaPlayer. Long answer layout tested at large font size. Launcher icon and original night background resolve.
+Full original screens, original loading flow and original haptics remain pending. Real Google login not verified.

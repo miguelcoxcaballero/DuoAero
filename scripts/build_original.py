@@ -62,8 +62,8 @@ for p in original_dex: entries[p.name]=p
 entries['classes12.dex']=WORK/'dex/classes.dex'
 with zipfile.ZipFile(WORK/'resources.apk') as src,zipfile.ZipFile(WORK/'unsigned.apk','w') as dst:
     for e in src.infolist(): dst.writestr(e,src.read(e))
-    for name,p in entries.items(): dst.write(p,name,compress_type=zipfile.ZIP_DEFLATED if not name.startswith('lib/') else zipfile.ZIP_STORED)
-out=ROOT/'dist/DuoAero-1.1.0-unsigned.apk'
+    for name,p in entries.items(): dst.write(p,name,compress_type=zipfile.ZIP_STORED if name.startswith('lib/') or name.lower().endswith(('.mp3','.ogg','.wav')) else zipfile.ZIP_DEFLATED)
+out=ROOT/'dist/DuoAero-1.1.1-unsigned.apk'
 run([BT/('zipalign'+EXE),'-f','-p','4',WORK/'unsigned.apk',out])
 with zipfile.ZipFile(out) as apk:
     for p in original_dex: assert hashlib.sha256(apk.read(p.name)).digest()==hashlib.sha256(p.read_bytes()).digest()

@@ -10,7 +10,7 @@ with zipfile.ZipFile(build/'tests.apk','a') as z:
 key=build/'debug.p12'
 if not key.exists():run([java/('keytool'+suffix),'-genkeypair','-keystore',key,'-storepass','android','-keypass','android','-alias','debug','-dname','CN=DuoAero Test','-keyalg','RSA','-validity','100'])
 def sign(src,out):run([java/('java'+suffix),'-jar',bt/'lib/apksigner.jar','sign','--ks',key,'--ks-pass','pass:android','--out',out,src])
-sign(dist/'DuoAero-1.1.0-unsigned.apk',build/'debug.apk');sign(build/'tests.apk',build/'tests-signed.apk')
+sign(dist/'DuoAero-1.1.1-unsigned.apk',build/'debug.apk');sign(build/'tests.apk',build/'tests-signed.apk')
 adb=sdk/'platform-tools'/('adb'+suffix)
 run([adb,'wait-for-device'])
 import time

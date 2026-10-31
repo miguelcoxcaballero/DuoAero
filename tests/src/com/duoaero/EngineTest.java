@@ -24,6 +24,18 @@ public class EngineTest extends Instrumentation {
   JSONObject multi=null;for(JSONObject item:e.questions.values())if(item.getString("type").equals("multi")){multi=item;break;}JSONArray duplicate=new JSONArray();for(int i=0;i<multi.getJSONArray("answer").length();i++)duplicate.put(99);require(!Engine.grade(multi,duplicate),"invalid multi rejected");
   android.content.Intent intent=new android.content.Intent(c,MainActivity.class).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
   MainActivity activity=(MainActivity)startActivitySync(intent);final Throwable[] uiFailure={null};
+  require(c.getApplicationInfo().icon!=0,"launcher icon registered");
+  require(c.getPackageManager().getApplicationIcon(c.getApplicationInfo())!=null,"launcher icon resolves");
+  android.content.res.Configuration night=new android.content.res.Configuration(c.getResources().getConfiguration());
+  night.uiMode=(night.uiMode&~android.content.res.Configuration.UI_MODE_NIGHT_MASK)|android.content.res.Configuration.UI_MODE_NIGHT_YES;
+  Context dark=c.createConfigurationContext(night);
+  require(dark.getColor(activity.res("color","juicySnow"))==0xff131f22,"original night background resolves");
+  for(String sound:c.getAssets().list("audio")){
+   try(android.content.res.AssetFileDescriptor audio=c.getAssets().openFd("audio/"+sound)){
+    android.media.MediaPlayer media=new android.media.MediaPlayer();
+    try{media.setDataSource(audio.getFileDescriptor(),audio.getStartOffset(),audio.getLength());media.prepare();require(media.getDuration()>0,"packaged audio decodes: "+sound);}finally{media.release();}
+   }
+  }
   java.util.concurrent.CountDownLatch runtimeReady=new java.util.concurrent.CountDownLatch(1);
   final String[] runtimeResult={null};
   for(int wait=0;wait<100&&!activity.cloud.ready;wait++)Thread.sleep(100);
@@ -35,6 +47,13 @@ public class EngineTest extends Instrumentation {
   runOnMainSync(()->{JSONObject saved=activity.engine.state;try{
    require(activity.button("Test",true,()->{}).getClass().getName().equals("com.duolingo.core.design.juicy.ui.JuicyButton"),"original compiled button");
    require(activity.text("Test",16,false).getClass().getName().equals("com.duolingo.core.design.juicy.ui.JuicyTextView"),"original compiled typography");
+   String longAnswer="The aircraft must maintain sufficient aerodynamic lift while the atmospheric density decreases, which changes the relationship between indicated airspeed, true airspeed and dynamic pressure.";
+   android.widget.TextView answer=activity.button(longAnswer,false,()->{});answer.setAllCaps(false);answer.setTextSize(26);
+   answer.measure(android.view.View.MeasureSpec.makeMeasureSpec(activity.dp(240),android.view.View.MeasureSpec.EXACTLY),android.view.View.MeasureSpec.makeMeasureSpec(0,android.view.View.MeasureSpec.UNSPECIFIED));
+   answer.layout(0,0,answer.getMeasuredWidth(),answer.getMeasuredHeight());
+   require(answer.getLayout().getLineCount()>1,"long answer wraps at large font size");
+   require(answer.getLayout().getLineEnd(answer.getLayout().getLineCount()-1)==longAnswer.length(),"complete answer text remains in layout");
+   require(answer.getMeasuredHeight()>=answer.getLayout().getHeight()+answer.getCompoundPaddingTop()+answer.getCompoundPaddingBottom(),"answer height contains every line");
    activity.engine.state=new JSONObject(saved.toString());activity.engine.state.put("completedLessons",new JSONObject());
    Set<String> rendered=new HashSet<>();for(JSONObject item:activity.engine.questions.values())if(rendered.add(item.getString("type"))){
     activity.engine.start(Collections.singletonList(item.getString("id")),"UI test","practice","");activity.quiz();require(activity.body.getChildCount()>3,"question controls rendered");activity.engine.select(correct(item));activity.engine.check();activity.quiz();require(activity.footer.getChildCount()>=3,"feedback rendered");activity.engine.advance();activity.quiz();
