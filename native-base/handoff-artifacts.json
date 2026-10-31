@@ -1,0 +1,32 @@
+{
+  "handoff": "handoff-2026-10-31-native-runtime-1",
+  "implementation_commit": "3873100c15088203c09ae663790a41fa9c83e72b",
+  "release_ready": false,
+  "test_package": "com.duoaero.nativebase",
+  "artifacts": [
+    {
+      "name": "Duolingo_v6.103.5.apk",
+      "size": 173423175,
+      "sha256": "1468b090287a33810bcd2e856ac5fbb6e1d9ec241e3d1ee8f5ed42f8fd66a966",
+      "role": "Original user-provided reference APK; not DuoAero"
+    },
+    {
+      "name": "DuoAero-native-base-test.apk",
+      "size": 178236216,
+      "sha256": "b49f1dec6bb48ca0de83177e33f4cb5b4c5e79a9246a8c162d7280762fd1cd1e",
+      "role": "INCOMPLETE native-runtime diagnostic APK; debug signed"
+    },
+    {
+      "name": "tests-signed.apk",
+      "size": 684576,
+      "sha256": "c189225487c6cd31057f7708c9dd02a0c6f8f5d217c7549040e64ca24461d18b",
+      "role": "Instrumentation APK, same test signer; requires diagnostic target"
+    },
+    {
+      "name": "DuoAero-handoff-fixtures.zip",
+      "size": 93847,
+      "sha256": "bcc7fa660c38567d6d2d1b55a63659c32c5b1f5c106933d772d12729b076863a",
+      "role": "Generated test fixtures and font repair receipt; no credentials"
+    }
+  ]
+}

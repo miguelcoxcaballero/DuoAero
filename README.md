@@ -1,5 +1,9 @@
 # DuoAero
 
+## Agent continuation handoff
+
+Read [CONTINUE_DUOAERO.txt](CONTINUE_DUOAERO.txt) before continuing. The current original-runtime investigation is on `codex/original-runtime-integration`, under `native-base/`, and is **not a working release**. [Handoff APKs and fixtures](https://github.com/miguelcoxcaballero/DuoAero/releases/tag/handoff-2026-10-31-native-runtime-1) are diagnostic artifacts. The Android 1.2.0 description below refers to the older implementation the user rejected as the final UI architecture.
+
 Aerospace Technology, Midterm 1: 1,200 questions, 400 per difficulty, 81 lessons across 42 named topics. Includes exam provenance, slide reflections, five question types, end-of-lesson retries and persistent mistake review.
 
 ## Android 1.2.0

@@ -1,0 +1,287 @@
+DUOAERO: PROMPT AND TECHNICAL HANDOFF FOR THE NEXT AGENT
+Snapshot: 2026-10-31, Europe/Madrid
+
+START HERE
+Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
+native-base/status.json and the actual code before editing. Work from branch
+codex/original-runtime-integration, not just main. Do not rebuild a lookalike UI
+and call it the original app. The user explicitly rejected that approach.
+This handoff describes unfinished work. No completed new APK exists.
+
+Repository: https://github.com/miguelcoxcaballero/DuoAero
+Development branch: codex/original-runtime-integration
+Last implementation commit before this handoff: 3873100c15088203c09ae663790a41fa9c83e72b
+Handoff artifacts:
+https://github.com/miguelcoxcaballero/DuoAero/releases/tag/handoff-2026-10-31-native-runtime-1
+The handoff release is a prerelease, NOT an app update. Do not put it into A/B catalogs.
+
+USER'S OBJECTIVE AND ACCEPTANCE CRITERIA
+Deliver a signed, working Android APK uploaded to this GitHub repository.
+Use the supplied original Duolingo 6.103.5 APK as the implementation base:
+retain its actual screens, learning path, animations, controls, sounds, night
+mode, loading screen and haptics. Modify it to teach Aerospace Technology.
+The user also requested a corresponding web version with the same UI/logic.
+Do not describe model deserialization, retained DEX files or a successful cold
+launch as proof that an Aerospace lesson works.
+
+Course requirements:
+- All content and terminology in English. Aerospace Technology, Midterm 1.
+- 1,200 questions: exactly 400 each at difficulties 1, 2 and 3, visibly starred.
+- Cover all supplied exams, older years, current slides and organization folder.
+- Preserve every verified exam item and truthful date/exam/question provenance.
+  Practice inspired by exams must be labelled as practice, not an actual exam.
+- Include slide reflection questions. User confirmed those are the intended
+  'Think at home' items even when that exact label was not found.
+- Plausible distractors addressing real misconceptions, not obvious giveaway
+  answers. Test the concepts and reasoning expected in the actual exams.
+- LaTeX supported in stems, options and explanations, not only plain formulas.
+- Single choice, multiple selection, matching, ordering and word-gap questions.
+- Midterm = section; real named topics/subtopics organize the path. Remove the
+  purple checkpoints. Existing plan has 81 lessons in 42 named topic nodes.
+- Normally 10-20 questions per lesson and 1-3 lessons per node. Earlier maximum
+  was 8, preferably 5, subsequently reduced to 1-3 with more real topic names.
+- No lesson dropdown on tapping a node; remove redundant counts/labels.
+- Center node and ring. Small gaps between segments; one-lesson ring has no gap.
+  Gray until completion, green only for genuinely completed lessons, no partial
+  or overlapping segment artifacts.
+- Retry lesson mistakes at session end; persistent mistake review includes
+  every lesson mistake not yet corrected, not only the last session's errors.
+- Preserve progress, resume sessions, avoid clipped text and overflow.
+- Replace original birds with the requested Snoopy/Flying Ace mascot on an
+  ordinary red doghouse. The house MUST NOT have wings. Existing mascot assets
+  are under app/assets/mascot; replacement across the native base is unfinished.
+- Remove unnecessary long dashes in user-facing prose; preserve math minus signs.
+- Google-only sign-in using exactly the Inhouse Notes OAuth code where applicable,
+  persistent account tokens and Google Drive progress, isolated per account.
+- Integrate canonical Inhouse services updater under its frozen-installer policy.
+
+AUTHORIZATION AND OPERATING RULES
+User authorized development, GitHub upload, signing via YouTube Calma's secret,
+and creating/configuring the DuoAero Android OAuth client in inhouse-notes.
+Do not ask for the same authorization again. Do not export signing secrets.
+Do not upload refresh tokens, private keys, local credentials or account data.
+Read AGENTS.md: installer is frozen; never edit its vendored implementation.
+New app releases go to channel A. B is the default CLIENT channel and requires
+an explicit user request to publish/promote. A handoff is not an app release.
+Do not change Inhouse Notes merely because the desktop opens in that directory.
+No new subagents were authorized in the latest work.
+Use short Spanish progress updates and be honest about what is not working.
+
+CURRENT ARCHITECTURE: TWO DIFFERENT IMPLEMENTATIONS
+1. main / release 1.2.0 is the older custom-controller implementation.
+   It contains original resources and compiled Juicy widgets, but own path and
+   exercise orchestration. The user rejected it. README.md describes THIS build.
+   It is a source of reusable bank/auth/updater/mascot work, not the accepted UI.
+   APK: https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.2.0/DuoAero-1.2.0.apk
+   Public version 1.2.0, versionCode 10200. Recheck latest codes before publishing.
+2. native-base/ is the newer original-runtime investigation on this branch.
+   It retains original DuoApp, LaunchActivity, SessionActivity and original
+   controllers. Test package com.duoaero.nativebase; no custom MainActivity.
+   This APK is DIAGNOSTIC ONLY. Its lesson screen remains blank. It does not
+   contain a playable Aerospace course, working Google/Drive or integrated updater.
+   experiments/original-runtime/ is an earlier experiment; native-base/ is current.
+
+WHAT HAS ACTUALLY BEEN VERIFIED
+- Original welcome screen displayed in the emulator with original runtime.
+- Original SessionActivity is created and resumed, but shows a blank screen.
+- 18,248 original APK entries remain byte-for-byte identical in native-base test.
+  Manifest, classes4.dex and seven math fonts are intentional exclusions.
+- 1,195 supported questions deserialize using the ORIGINAL Session serializer,
+  with one challenge retained per fixture; 0 failures. This does not test grading,
+  rendering, progress or complete lessons. Five gap/order questions unsupported.
+- Bank validation: 1,200 total, 400/difficulty, 106 exam items, 21 reflections,
+  complete lesson-plan coverage. This is structural, not a full editorial audit.
+- Five practice questions received explicit editorial revisions this iteration:
+  TA1-0402, TA1-0265, TA1-0232, TA1-0753-D3, TA1-0832-D3.
+  Original 106 exam records were unchanged by those revisions.
+- Three rich-text practice choices use original mathChallengeBlob/selectOne:
+  TA1-0232, TA1-0753-D3, TA1-0832-D3. Model decoding passes. All 48 possible
+  selection masks pass generated JS grading tests. Native screen rendering of
+  those complete questions is NOT verified due to session initialization blocker.
+- Original MathLatexView rendered alpha, gamma, rho, varrho, sigma and pi after
+  font repair. Native renderer had missing Greek/math-italic glyphs.
+  Existing font mappings were preserved; missing outlines added from bundled
+  Noto Sans Math (OFL). Both basic Greek and U+1D6A8..U+1D7CB are needed.
+  Text-mode Greek in text/mathrm macros still does not display: use math symbols.
+- Real Google consent/Drive round-trip, audible lesson events, actual physical
+  vibration, night-mode regression, all screens/animations and text wrapping
+  have NOT been validated in this new architecture.
+
+BANK, SOURCES AND PRIOR WORK
+app/assets/questions.json and web/bank_en_final.json are the current banks.
+app/assets/lesson_plan.json and web/lesson_plan.json contain the course structure.
+web/Exam_sources.csv and web/exam_reflection_en.json contain provenance.
+Exam inventory in the bank:
+2019-10-23 A:20; 2021-10-28 open answer:11; 2022-11-08 A:20;
+2023-11-06 A:20; 2025-01-13 A:15; 2025-11-06 A:20.
+The unrecoverable measured angle in 2022 Q13 must not be invented.
+Question sources contain links/excerpts. Consult the connected Drive originals
+when verifying content; do not treat a reference to a slide as proof of exam origin.
+Most D3 practice questions come from repeated numerical templates (about 46
+normalized families). Only five were reviewed in this iteration. A broader
+exam-style/conceptual review remains necessary.
+Existing web app: web/Aeroracha_Tecnologia_Aeroespacial.html,
+web/english.app.js, web/english.template.html and web/build_english.py.
+Old Android code: app/src/com/duoaero/MainActivity.java, Engine.java,
+GoogleProgress.java. GoogleProgress is tied to the old host; adapt carefully.
+Auth provenance: shared/auth/provenance.json (21 copied Notes functions).
+Old release/build scripts are scripts/build.py, scripts/build_original.py and
+scripts/prepare_release.py. They build the old custom controller, NOT native-base.
+
+NATIVE IMPLEMENTATION DETAILS
+native-base/build.py copies original APK entries, changes only manifest/runtime
+hook/fonts, appends own bridge as classes12.dex. classes4.dex receives one hook
+in okhttp3.OkHttpClient$Builder.build(): NativeCourseBridge.install(builder).
+The smali input file is restored in finally after assembly. AssembleDex uses API
+29; trying API 36 failed due to incompatible DEX format in prior investigation.
+Manifest keeps original fully-qualified components and application, renames
+package/provider authorities, removes external BROWSABLE intent filters for test
+identity, enables debug, uses min29/target36. Test identity is NOT production.
+Bridge localOnly=true returns synthetic 503 {} without network, to isolate fake
+profile tests. Throwing IOException from the reflection Proxy previously caused
+UndeclaredThrowableException because the Kotlin interceptor lacks Throws metadata.
+Default localOnly=false: bridge passes requests through and saves whitelisted
+course/session JSON fields under native-course-schemas. It does not log tokens.
+Treat captured app data cautiously; do not upload arbitrary app directories.
+
+native-base/course_adapter.py:
+choice -> original assist prompt/options(text)/correctIndex;
+multi -> mathMultiSelect/productSelectInput;
+matching -> mathMatch pairs;
+rich choice -> rich_question.py -> original mathChallengeBlob selectOne schema.
+gap/order explicitly raise NotImplementedError (INTERACTIVE-1,2,5,6,11).
+Translate and completeReverseTranslation require gradingFST binary; providing
+correctSolutions alone does not satisfy original conversion. Do not silently
+turn unsupported types into choice questions.
+Rich text is optional {stem:[{text}|{latex}], options:[[...]], explanation:[...]}
+with plain fields retained. The data adapter does not replace any native UI.
+
+CURRENT BLOCKER AND NEXT INVESTIGATION
+UserSessionProbe constructs a synthetic local User, profile CourseProgressSummary,
+local login state and flows, blocks network, runs LaunchActivity then starts
+SessionActivity with SessionStartParams$Hardcoded(reference math asset,false).
+Result: original SessionActivity resumed, engine state do10, s2/l4 null, all
+SessionInitializationBridge flags a..i false. Course summary/profile decode
+success does not mean that native repositories have initialized.
+Latest source trace: oq10.invoke default branch is initialization callback 8;
+Hardcoded -> fj10 -> nnk loader. nnk.a combines:
+  bp1.h(courseId,true) full course flow,
+  rs1.f() user state flow,
+  xa90.a() streak flow.
+All are needed before the original session is constructed. Determine which
+flows fail to emit, then provide validated local repository models/state.
+Do NOT force readiness booleans true merely to hide the loading state.
+The experiments/configuration and other startup dependencies may also need
+local initialization; those have not been proven to be the remaining cause.
+After one real Aerospace session renders and grades, integrate path/progress,
+auth/updater and all remaining screens. Do not start polishing a replacement UI.
+
+USEFUL ORIGINAL SYMBOLS (OBFUSCATED, VERSION-SPECIFIC)
+DuoApp.generatedComponent() -> mm9.
+Configured Kotlinx JSON provider: mm9.a0.get(), factory private field json.
+Default a8l.d JSON fails PVector contextual serializer. Use configured instance.
+a8l.b(KSerializer,String) decodes; Session.Companion.serializer(), likewise User.
+SerialDescriptor: d=count, e(index)=field name, g(index)=child, i(index)=optional,
+b()=nullable, h()=serial name; getKind prints obfuscated kinds (wf00=enum).
+User required defaults need UTC timezone; empty timezone crashes parsing.
+UsersRepository provider mm9.q2.get() -> rs1, implements ce90.
+DuoApp.z is null before startup; do not depend on it in instrumentation.
+rs1 t/u/v are lazy flows; t/u carry wd90(User), v carries User.
+rs1.w is a lazy mode Boolean flow; h() via q70 reads w then x or v.
+Supplying false for w did NOT solve the blank session.
+rs1.l -> bxn LoginRepository; bxn.c lazy LoginState flow.
+qwn(UserId, LoginMethod.UNKNOWN) is synthetic logged-in state; wd90(User)
+is separate profile state. if40(Object) is original MutableStateFlow; qvl is Lazy.
+No real account/JWT is used in these tests. Keep network blocked for fake user 1.
+SessionActivity.L is original 13-argument Intent factory; see SessionProbe.java.
+SessionActivity.J() -> ou10 ViewModel (not E()). ou10.t2 -> tp10 engine,
+tp10.k -> state flow; ou10.x1 -> df10 initialization bridge.
+df10 a/b are m63 subjects, c..i f2z subjects; f2z.a -> ig00.b -> subject,
+m63.y0() reads value. do10 is initial engine state.
+Native LaTeX view: com.duolingo.feature.math.ui.figure.MathLatexView,
+constructor(Context), setLatexString, setFontSizeDp, setGlobalColor.
+Direct WelcomeFlowActivity launch without required extras crashes.
+startActivitySync/waitForIdleSync can hang animated original startup. Existing
+probes use startActivity and ActivityLifecycleCallbacks instead.
+
+LOCAL ENVIRONMENT / REPRODUCTION
+Repo: C:/Users/migue/Desktop/Files/Programas Código/DuoAero
+Original: C:/Users/migue/Downloads/Duolingo_v6.103.5.apk
+Resource-only decode: C:/Users/migue/.codex/duolingo-reference-decoded
+Full smali decode: C:/Users/migue/.codex/duoaero-original-patch
+Build/output: C:/Users/migue/.codex/duoaero-native-base
+apktool: C:/Users/migue/.codex/apktool_2.12.1.jar
+Java: C:/Program Files/Android/Android Studio/jbr/bin
+SDK: C:/Users/migue/AppData/Local/Android/Sdk (platform36, build-tools35.0.0)
+FontTools: C:/Users/migue/.codex/duoaero-build-deps/fonttools
+Signing checkout: C:/Users/migue/.codex/youtube-calma-signing
+Updater checkout: C:/Users/migue/.codex/duoaero-updater
+Notes source: C:/Users/migue/Desktop/Files/Programas Código/inhouse notes
+Emulator: PruebaAulaSakai, emulator-5554, API36 Google APIs x86_64.
+Use computer-use tooling for visual checks; ADB for install/logs/instrumentation.
+Do not accidentally inspect original com.duolingo after test process exits.
+
+For a different machine adapt build.py paths; install official Android SDK/JDK,
+apktool 2.12.1 and FontTools. Decode supplied original APK with apktool (full
+smali for .codex/duoaero-original-patch; -s resource decode for reference-decoded).
+Create a NEW local test key if build/debug.p12 is absent; do not request the real
+release key. build.py/test_models.py use store password android for test-only key.
+A new test key requires installing both newly signed target and test APKs in a
+disposable emulator. Do not uninstall a user's production app or erase progress.
+
+Run from the DuoAero repository (PowerShell):
+  python native-base/course_adapter.py
+  python native-base/build.py
+  python native-base/test_integrity.py
+  python native-base/test_models.py
+  adb install -r "$HOME/.codex/duoaero-native-base/DuoAero-native-base-test.apk"
+  adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe
+  adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UserModelProbe
+  adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe
+  adb logcat -d -s DuoAeroProbe:I '*:S'
+  python native-base/test_rich_question.py
+  python native-base/test_editorial.py
+  python tests/validate_bank.py
+test_models.py builds/installs the instrumentation APK; it does NOT run tests.
+Read instrumentation report, not merely adb exit status. Several diagnostics
+return success even when a caught failure is printed. ModelProbe counts failures.
+LatexProbe is visual diagnostic only and temporarily replaces activity content
+with original MathLatexViews; it is not the actual lesson screen.
+The artifact zip contains generated native_sessions.json and aerospace_lesson.json
+fixtures. aerospace_lesson.json is not yet wired into native runtime APK assets.
+
+SIGNING / GOOGLE / UPDATER
+Production package: com.duoaero. Test package: com.duoaero.nativebase.
+Production signing key stays in YouTube Calma GitHub Actions secret EJEMPLO.
+Existing .github/workflows/sign-duoaero.yml in signing checkout targets 1.2.0;
+update version/hash-bound inputs for a real new release, never reuse stale input.
+Verify the production certificate fingerprint directly against the published
+signed 1.2.0 APK and signing workflow before publishing a new production APK.
+Handoff test APK cert SHA256 (verified with apksigner):
+ba35f64881c174b0b856d25f6d96a15fb8c951ee692fbc5aa1c39104b77b9c19
+It is a DEBUG/test key, not the production signer; Google production client will
+not match the test identity/certificate.
+Android OAuth client configured in inhouse-notes project:
+435784295430-unt269845n77h7k4g599is7ni2b0c9qb.apps.googleusercontent.com
+Production redirect: com.duoaero:/oauth2redirect.
+Client IDs are public identifiers, not secrets. Real sign-in/Drive must be tested
+with production package and signer; mocked OAuth tests are insufficient.
+Locked updater revision should be read from inhouse-updater.lock.json. Preserve
+frozen installer and use canonical sync workflow for shared changes.
+Before real release: increment versionCode globally, build/rebuild exact source,
+verify signature and digest, install/test, publish immutable APK then matching A
+catalog. Recheck remote commit and uploaded assets. Never promote B implicitly.
+
+DELIVERY CHECKLIST FOR THE NEXT AGENT
+1. Reproduce blank native session and identify missing repository emission.
+2. Run a real Aerospace question through original UI, grading and session end.
+3. Connect original path to actual course data and persistent lesson progress.
+4. Complete all five unsupported gap/order adapters, LaTeX rendering and review.
+5. Integrate Google/Drive, account separation, persistent mistakes and updater.
+6. Replace mascots and compare every screen to original APK with visual evidence.
+7. Check day/night, text wrapping/font scaling, sounds, loading/completion
+   animations and physical haptics (emulator cannot establish physical feel).
+8. Perform real account/Drive round-trip, restart/resume and update installation.
+9. Upload signed completed APK with exact source commit and evidence. Clearly
+   distinguish verified behavior, static asset preservation and pending work.
+Do not report completion just because source or a diagnostic APK was uploaded.
