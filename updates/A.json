@@ -2,15 +2,24 @@
   "schemaVersion": 1,
   "channel": "A",
   "latest": {
-    "version": "1.1.1",
-    "versionCode": 10101,
-    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.1.1/DuoAero-1.1.1.apk",
-    "apkSha256": "76a2fb9bee3247274ad7159213e4f2760b600a19f1fb223b02bb44ab967f25bc",
-    "apkSizeBytes": 255809147,
-    "changelog": "Restore audio, wrapping text and launcher icon",
-    "releasedAt": "2026-10-31T19:26:53+00:00"
+    "version": "1.2.0",
+    "versionCode": 10200,
+    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.2.0/DuoAero-1.2.0.apk",
+    "apkSha256": "71721ab3471cfa129065fd81d32289c2cf3921afabce9828e54115a6595ad9d6",
+    "apkSizeBytes": 255813862,
+    "changelog": "Original lesson UI, sound and dark mode",
+    "releasedAt": "2026-10-31T20:07:48+00:00"
   },
   "releases": [
+    {
+      "version": "1.2.0",
+      "versionCode": 10200,
+      "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.2.0/DuoAero-1.2.0.apk",
+      "apkSha256": "71721ab3471cfa129065fd81d32289c2cf3921afabce9828e54115a6595ad9d6",
+      "apkSizeBytes": 255813862,
+      "changelog": "Original lesson UI, sound and dark mode",
+      "releasedAt": "2026-10-31T20:07:48+00:00"
+    },
     {
       "version": "1.1.1",
       "versionCode": 10101,
