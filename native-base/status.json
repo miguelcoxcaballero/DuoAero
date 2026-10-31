@@ -116,6 +116,12 @@
       "remaining_wait": "in10.u (pre-render completion) does not emit; view.q3 and view.x2 remain without emission.",
       "screen_evidence": "Accessibility trees contain 15 nodes and no text for all three variants. No question rendered or graded.",
       "next_test": "Observe pre-render preparation inputs and compare synthetic profile installation in Instrumentation.onCreate versus onStart."
+    },
+    "preload_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41252766236",
+      "result": "Both early and late synthetic-profile installation load the original reference Session but remain blank. The original pre-lesson selector wn10.a does not emit; other directly measured preparation operands emit, including leagues state.",
+      "limits": "The derived recent-login stream has not yet been measured independently. Native reference asset, not Aerospace lesson acceptance.",
+      "next_test": "Observe all original wn10.a inputs without bypassing the selector or forcing completion."
     }
   }
 }

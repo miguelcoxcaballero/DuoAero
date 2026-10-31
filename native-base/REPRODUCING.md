@@ -152,3 +152,12 @@ synthetic profile in `Instrumentation.onCreate` (`-e bootstrap early`) versus
 `onStart`. The earlier phase tests whether already-created repositories retain
 references to the initial empty profile. Both variants keep the original
 application lifecycle, session controller, preparation logic and readiness flags.
+
+[Preparation run 41252766236](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41252766236)
+found that early and late profile installation both leave the original pre-lesson
+selector `wn10.a` without emission. Other directly measured preparation inputs,
+including the native leagues state and experiment records, emit. The complete
+recent-login-derived stream was not independently measured. The engine still
+loads only the original reference Session; there is no rendered Aerospace lesson.
+Reports for both timings are retained in the evidence directory. The next probe
+observes the selector's original inputs without supplying a completion signal.

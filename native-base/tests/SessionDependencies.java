@@ -74,6 +74,28 @@ final class SessionDependencies implements AutoCloseable {
    Object route=viewModel.getClass().getMethod("L0").invoke(viewModel);
    Object beforeLesson=field(preload,"l");
    observe("preload.l.a",beforeLesson.getClass().getMethod("a",Class.forName("com.duolingo.data.session.SessionRouteParams",true,loader)).invoke(beforeLesson,route),dispatcher);
+   // Observe the original pre-lesson screen selector's operands, including
+   // nullable emissions. Do not bypass the selector or signal completion.
+   for(String[] item:new String[][]{{"e","h"},{"h","a"},{"g","b"}}){
+    Object repository=field(beforeLesson,item[0]);
+    observe("before."+item[0]+"."+item[1],repository.getClass().getMethod(item[1]).invoke(repository),dispatcher);
+   }
+   observe("before.d.c",field(field(beforeLesson,"d"),"c"),dispatcher);
+   observe("before.f.e.h",field(field(field(beforeLesson,"f"),"e"),"h"),dispatcher);
+   Object beforeUserSelector=Class.forName("pd10",true,loader).getConstructor(int.class).newInstance(21);
+   observe("before.user21",user.getClass().getMethod("g",Class.forName("qqh",true,loader)).invoke(user,beforeUserSelector),dispatcher);
+   Object sponsor=field(beforeLesson,"i");
+   Object sponsorUser=field(sponsor,"e");
+   Object sponsorUserFlow=sponsorUser.getClass().getMethod("h").invoke(sponsorUser);
+   Class<?> continuation=Class.forName("ql8",true,loader);
+   Object sponsorSelector=Class.forName("h740",true,loader).getConstructor(continuation,Class.forName("l740",true,loader),int.class).newInstance(null,sponsor,1);
+   Object sponsorFlow=Class.forName("mff",true,loader).getMethod("e",Class.forName("qdf",true,loader),Class.forName("grh",true,loader)).invoke(null,sponsorUserFlow,sponsorSelector);
+   observe("before.sponsor",sponsorFlow,dispatcher);
+   observe("before.j.i",field(field(beforeLesson,"j"),"i"),dispatcher);
+   observe("before.a.d",field(field(beforeLesson,"a"),"d"),dispatcher);
+   Object preference=Class.forName("g70",true,loader).getField("b").get(null);
+   Object preferences=field(beforeLesson,"c");
+   observe("before.c.b",preferences.getClass().getMethod("b",Class.forName("age",true,loader)).invoke(preferences,preference),dispatcher);
    Object middle=field(preload,"m");
    Object source=field(middle,"a");
    observe("preload.m.a.n",source.getClass().getMethod("n").invoke(source),dispatcher);
