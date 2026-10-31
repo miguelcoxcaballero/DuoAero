@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources><color name="juicyHare">#ffafafaf</color>
+    <color name="juicyCardinal">#ffff4b4b</color>
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar" /></resources>

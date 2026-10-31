@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.duolingo.core.ui.ChallengeIndicatorView android:id="@id/challengeIndicator" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/duoSpacing12" app:layout_constraintBottom_toTopOf="@id/challengeInstruction" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <com.duolingo.core.design.juicy.ui.JuicyTextView android:id="@id/challengeInstruction" android:focusable="true" android:clickable="true" app:layout_constraintBottom_toTopOf="@id/challengeLatexInstructionStub" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/challengeIndicator" style="@style/H1" />
+    <com.duolingo.feature.math.latex.MathLatexViewStub android:id="@id/challengeLatexInstructionStub" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/challengeInstruction" />
+</merge>

@@ -1,0 +1,82 @@
+[
+  {
+    "path": "app/res/anim/adventures_slide_in_bottom.xml",
+    "sha256": "801dce2079904cf294a597fe1d29e53fddd1cffd8c5eb6066bd1bae674a2b717",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/anim/challenge_slide_in_left_snappy_300.xml",
+    "sha256": "19f1eac96f47ca6cbc96063173757de2fe7223bc103d17e397c194f18b506692",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/anim/fade_in.xml",
+    "sha256": "388f17b3293242c7e43b58b2ae9302417cea6da48a3aa8fc3947018818176c87",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/drawable/close_actionbar.xml",
+    "sha256": "00c03f665f69e415a7e815d179c1f7508ef94d8a31ccdab91d3c4987324dde10",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/drawable/hard_exercise.xml",
+    "sha256": "3990576c6069b38cd0153c227e0b462e810d59ba40c29b166b366b79b659c9b8",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/interpolator/snappy_transition_ease_out.xml",
+    "sha256": "2013b7ff9fe78d3a33c4c2b6c70ab07d1e1677610208ee4e865daab15ecf3374",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/layout/activity_session.xml",
+    "sha256": "689bf5243d0ddc969d578f557c84666eddc8aa6b2f21fede027efdbfe48674f3",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/res/values/styles.xml",
+    "sha256": "f49f58d43e3d4e4aac6faa991832a3d0f851ecfd084eaa969496d22f2be1d2ce",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/combo10.mp3",
+    "sha256": "fd5ab2e9d69773f84fb6c43e520589546b10fbf8e4e3971a247ff739f42c753b",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/combo5.mp3",
+    "sha256": "4e333d6fd0da527f5b30fe2f6f10f7576924e55149aa62633d91b2a0a443e318",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/complete.mp3",
+    "sha256": "7398b79ac4bd05bae9de71a59c27b8708f6c74375df7cd0ece9bb737db2e710b",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/correct.mp3",
+    "sha256": "c509a5957af198939ae868c9cf17676d00927d400b7c721ea08d3f734c39301e",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/perfect.mp3",
+    "sha256": "fea0286a972fe64c5555a90922e5d270fcdcd085c26579fc9b0d3e2e88d13bf2",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/audio/wrong.mp3",
+    "sha256": "bc134b0e6339896b74486065e94b1e2053015e3d8d69f890e9e631424980ee1e",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/fonts/duolingosans_bold.otf",
+    "sha256": "23ce0a097d51fe7aa89a633fd26284703f1d9b90c25d47023393b280be693d20",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  },
+  {
+    "path": "app/assets/fonts/duolingosans_regular.otf",
+    "sha256": "d0fb03f3128596d2ea8f3c9c5cd55c34ce934083403ce0ad4326a6de9380c613",
+    "source": "User-supplied Duolingo_v6.103.5.apk, except correct/wrong audio from prior public-CDN bank"
+  }
+]

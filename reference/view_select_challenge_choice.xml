@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:id="@id/content" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.duolingo.core.svg.DuoSvgImageView android:id="@id/svg" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="0.0dip" android:scaleType="fitCenter" android:layout_weight="1.0" />
+        <com.duolingo.core.text.JuicyTransliterableTextView android:textColor="@color/selectable_text_color" android:gravity="center" android:id="@id/imageText" android:visibility="gone" style="@style/Paragraph" />
+        <com.duolingo.core.design.juicy.ui.JuicyTextView android:textStyle="bold" android:textColor="@color/juicyEel" android:gravity="center" android:id="@id/scaledText" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:lines="1" app:autoSizeTextType="uniform" />
+    </LinearLayout>
+</merge>
