@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "channel": "A",
+  "latest": {
+    "version": "1.1.0",
+    "versionCode": 10100,
+    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.1.0/DuoAero-1.1.0.apk",
+    "apkSha256": "9f045abd306dd97f3f49cfe5c5e8f870da7638db05c1cfa0dacf2401cf232f8b",
+    "apkSizeBytes": 255026551,
+    "changelog": "Original UI controls, Google sync and updater",
+    "releasedAt": "2026-10-31T19:06:04+00:00"
+  },
+  "releases": [
+    {
+      "version": "1.1.0",
+      "versionCode": 10100,
+      "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.1.0/DuoAero-1.1.0.apk",
+      "apkSha256": "9f045abd306dd97f3f49cfe5c5e8f870da7638db05c1cfa0dacf2401cf232f8b",
+      "apkSizeBytes": 255026551,
+      "changelog": "Original UI controls, Google sync and updater",
+      "releasedAt": "2026-10-31T19:06:04+00:00"
+    }
+  ]
+}
