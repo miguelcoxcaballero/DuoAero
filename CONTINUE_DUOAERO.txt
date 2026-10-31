@@ -1,6 +1,16 @@
 DUOAERO: PROMPT AND TECHNICAL HANDOFF FOR THE NEXT AGENT
 Snapshot: 2026-10-31, Europe/Madrid
 
+CONTINUATION NOTE (2026-11-01, Europe/Madrid)
+The original snapshot below is retained as history. Read the newer measured
+results in native-base/REPRODUCING.md and native-base/status.json. CI run
+41250570051 resumed SessionActivity for Aerospace, MATH_BT and no-course profiles,
+but all remained at do10 with null session fields and no rendered lesson.
+For Aerospace, course/user/streak ALL emitted; course state was fz8 (unsupported).
+The older missing-emission hypothesis below is therefore not the current result.
+Also bp1.h's optional string is a PATH SECTION ID, not a course ID. Remaining
+configuration/experiment inputs are being instrumented. No production APK exists.
+
 START HERE
 Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
 native-base/status.json and the actual code before editing. Work from branch

@@ -46,6 +46,14 @@ final class SessionDependencies implements AutoCloseable {
    Object instance=registry.getField("INSTANCE").get(null);
    for(String getter:new String[]{"getENERGY_ANDROID_DECREASE_REWARD_EV","getSPACK_DECREASE_PERFECT_LESSON_ENERGY_REWARD"})experiments.add(registry.getMethod(getter).invoke(instance));
    observeRx("session-experiments",Class.forName("com.duolingo.core.experiments.ExperimentsRepository",true,loader).getMethod("observeTreatmentRecords",Collection.class).invoke(field(viewModel,"U"),experiments));
+   Object experimentRepository=field(viewModel,"U");
+   observe("experiments-implementation-selector",field(experimentRepository,"d"),dispatcher);
+   observe("user-id",user.getClass().getMethod("h").invoke(user),dispatcher);
+   for(String[] entry:new String[][]{{"a","p"},{"b","n"}}){
+    Object repository=field(experimentRepository,entry[0]);
+    Object lazy=field(repository,entry[1]);
+    observe("experiments-entries-"+entry[0],Class.forName("qvl",true,loader).getMethod("getValue").invoke(lazy),dispatcher);
+   }
   } catch(Exception error) { close(); throw error; }
  }
  private void observe(String name,Object flow,Object dispatcher) throws Exception {

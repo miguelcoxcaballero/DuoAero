@@ -80,3 +80,43 @@ For original APK SHA-256
 
 These are static findings. Runtime observations and UI acceptance must be recorded
 separately; none of them proves rendering, grading, persistence or session end.
+
+## Runtime comparison, 2026-11-01 (Europe/Madrid)
+
+[Run 41250570051](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41250570051)
+built and installed the original-runtime diagnostic on an accelerated Android 36
+emulator. The three reports are retained in `evidence/2026-11-01/`. Its successful
+workflow result means **diagnostic collection succeeded**, not lesson acceptance.
+
+| Synthetic profile course | Course flow | User/streak flows | Session |
+| --- | --- | --- | --- |
+| Aerospace | `fz8` (unsupported course) | Both emitted | `do10`, null session |
+| Original `MATH_BT` ID | No emission during observation | Both emitted | `do10`, null session |
+| No course | `ez8` | Both emitted | `do10`, null session |
+
+All three resumed the original SessionActivity and kept all initialization flags
+false. The Aerospace screenshot, captured before instrumentation finished, was
+visually inspected and is blank. Merely switching the course ID does not fix the
+session. For Aerospace, the previous hypothesis that one of the three loader
+inputs never emits is disproven by this run. Other initializer operands and the
+validity of emitted course state still require investigation.
+
+The unaccelerated local container emulator suffered an Android system ANR and
+package-install timeout; no app-runtime acceptance is claimed from that machine.
+The CI workflow publishes separate small evidence and full diagnostic artifacts.
+Neither is a production release, and neither updates A/B catalogs.
+
+[Extended run 41250852462](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41250852462)
+measured the other operands of the initializer's final Rx zip. For Aerospace,
+the combined loader emitted `jn7` and all measured configuration operands emitted
+except `session-experiments`. That experiment-treatment stream did not emit for
+any of the three profiles. `vm.S1.a` also did not emit, but the final initializer
+uses the separate `vm.S1.d` flow, which did emit. Reports are in
+`evidence/2026-11-01/initializer-dependencies.txt`.
+
+The optional `-e experiments native-defaults` probe supplies the original
+`ExperimentsState()` empty entry map, wrapped in the original per-user `gsd` and
+`vir` models, to both legacy and new experiment repositories before launch.
+The original client experiment selects the implementation, and the original
+code resolves treatment conditions. This tests one dependency; it is not a
+production offline adapter and its effect on lesson loading is not yet verified.

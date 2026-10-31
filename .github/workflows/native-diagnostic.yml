@@ -77,6 +77,10 @@ jobs:
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$course.txt"
             cat "/tmp/duoaero-evidence/session-$course.txt"
           done
+          timeout 180 adb shell am instrument -w -e experiments native-defaults com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > /tmp/duoaero-evidence/session-default-experiments.txt
+          adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /tmp/duoaero-evidence/session-default-experiments.png || true
+          adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > /tmp/duoaero-evidence/probe-default-experiments.txt
+          cat /tmp/duoaero-evidence/session-default-experiments.txt
           python - <<'PYTHON'
           from pathlib import Path
           for path in Path('/tmp/duoaero-evidence').glob('session-*.txt'):
@@ -91,4 +95,10 @@ jobs:
             /tmp/duoaero-evidence/
             /tmp/duoaero-native-base/*-test.apk
             /tmp/duoaero-native-base/tests-signed.apk
+          retention-days: 7
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: original-runtime-evidence
+          path: /tmp/duoaero-evidence/
           retention-days: 7

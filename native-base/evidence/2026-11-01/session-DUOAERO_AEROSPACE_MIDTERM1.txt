@@ -1,0 +1,23 @@
+Diagnostic course variant: DUOAERO_AEROSPACE_MIDTERM1
+Original SessionActivity requested with isolated local profile. Network blocked.
+Resumed: com.duolingo.session.SessionActivity
+Dependency course: EMITTED fz8
+Dependency user: EMITTED wd90
+Dependency streak: EMITTED com.duolingo.data.streak.UserStreak
+s2=null
+t2=tp10
+u2=bm00
+v2=ik10
+l4=null
+Engine state: do10
+Initialization a=false
+Initialization b=false
+Initialization c=false
+Initialization d=false
+Initialization e=false
+Initialization f=false
+Initialization g=false
+Initialization h=false
+Initialization i=false
+DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.
+

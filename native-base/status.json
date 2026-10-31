@@ -62,7 +62,7 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Provide validated native full course and streak repository state, then verify native session initialization and rendering. Do not force readiness flags to true."
+    "next_required_integration": "Trace remaining original initializer operands, especially experiments/configuration. Course, user and streak already emit for Aerospace; their emission alone does not establish valid course state. Do not force readiness flags."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -76,13 +76,32 @@
       "bank_validation": "passed",
       "editorial_regression": "passed"
     },
-    "runtime_observation": "Not yet executed in this environment. Android system image provisioning in progress; KVM unavailable.",
+    "runtime_observation": {
+      "local_container": "No KVM. Software emulator reached Android boot but system ANR and package-install timeout prevented app tests. This is not an app test result.",
+      "github_actions_run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41250570051",
+      "diagnostic_collection": "Passed for Aerospace, MATH_BT and no-course variants on accelerated Android 36 emulator.",
+      "lesson_initialization": "Failed in all three variants: original SessionActivity resumed, engine do10, s2/l4 null, flags a..i false.",
+      "course_flow": {
+        "DUOAERO_AEROSPACE_MIDTERM1": "EMITTED fz8 (unsupported course)",
+        "MATH_BT": "NO_EMISSION during five-second observation",
+        "none": "EMITTED ez8"
+      },
+      "user_and_streak": "Both emitted in all three variants. The earlier missing-emission hypothesis is disproven for Aerospace in this run.",
+      "visual_evidence": "Aerospace screenshot inspected: blank white session screen. Screenshots captured before instrumentation completion.",
+      "acceptance": "No playable Aerospace lesson, grading or completion verified."
+    },
     "changes": [
       "Portable native-base build paths with environment overrides and build-only instrumentation option.",
       "Observe actual course/user/streak loader flows without forcing readiness or replacing their values.",
       "Correct static interpretation: bp1.h optional string selects a path section, and its output is gz8 path state."
     ],
     "test_signer_sha256": "aaad9d3d1b22c028a3cdc3570e9f7d8eb95f5541d0d9e3ecc742d73b0d6a4798",
-    "production_apk_delivered": false
+    "production_apk_delivered": false,
+    "extended_initializer_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41250852462",
+      "result": "Session experiment treatment records did not emit in any of the three profile variants. All other measured final-initializer operands emitted for Aerospace, including combined loader jn7.",
+      "additional_probe": "vm.S1.a also did not emit, but the final initializer uses vm.S1.d, which did emit. Do not confuse these flows.",
+      "next_test": "Supply original default experiment-entry models to the isolated synthetic profile; retain native treatment conversion and initializer flags. Result pending."
+    }
   }
 }

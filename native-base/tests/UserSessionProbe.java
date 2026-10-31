@@ -7,7 +7,8 @@ import java.lang.reflect.*;
 /** Offline-only integration probe: never sends the synthetic profile to a service. */
 public final class UserSessionProbe extends Instrumentation {
  private String courseId="DUOAERO_AEROSPACE_MIDTERM1";
- public void onCreate(Bundle args){if(args!=null)courseId=args.getString("course_id",courseId);start();}
+ private boolean defaultExperiments=false;
+ public void onCreate(Bundle args){if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));}start();}
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
@@ -54,6 +55,10 @@ public final class UserSessionProbe extends Instrumentation {
   final Object loginFlow=flow.getConstructor(Object.class).newInstance(loginState);
   Object loginHolder=Proxy.newProxyInstance(loader,new Class[]{lazy},(proxy,method,args)->method.getName().equals("getValue")?loginFlow:method.getName().equals("isInitialized")?true:"Offline local identity");
   Field loginField=loginRepository.getClass().getField("c");loginField.setAccessible(true);loginField.set(loginRepository,loginHolder);
+  if(defaultExperiments){
+   LocalExperimentProfile.install(component,userId,loader);
+   report.append("Experiment input: original empty/default entries for synthetic user.\n");
+  }
   // Exercise the real startup path before opening a session. Directly launching
   // SessionActivity skips application initialization performed by LaunchActivity.
   Intent launch=getTargetContext().getPackageManager().getLaunchIntentForPackage(getTargetContext().getPackageName());
