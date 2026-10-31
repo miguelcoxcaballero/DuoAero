@@ -14656,16 +14656,16 @@
     "id": "TA1-0232",
     "topic": "2.2",
     "subtopic": "Conceptual application",
-    "stem": "ce in kg/(N s) is used in jet Breguet. What factor prevents a unit error in scope?",
+    "stem": "In the jet Breguet equation, fuel consumption ce is measured in kg/(N s). Which prefactor gives range in metres when multiplied by L/D and ln(mi/mf)?",
     "type": "choice",
     "options": [
-      "Use ce/V as the dimensional prefactor.",
-      "Use V/(g ce) as the dimensional prefactor.",
-      "Use V/ce as the dimensional prefactor.",
-      "Use gV/ce as the dimensional prefactor."
+      "ce/V",
+      "V/(g ce)",
+      "V/ce",
+      "g V/ce"
     ],
     "answer": 1,
-    "explanation": "g ce has units s^-1, so V/(g ce) is a length.",
+    "explanation": "The mass-specific coefficient ce must be multiplied by g to obtain a weight-specific coefficient in s^-1. Thus V/(g ce) has units of length.",
     "difficulty": 2,
     "origin": {
       "kind": "practice",
@@ -14673,12 +14673,73 @@
       "url": "https://drive.google.com/file/d/1cVduAcPJ1AJBUBFEBqKBnKB0X_RjbhFG/view"
     },
     "option_explanations": {
-      "Use ce/V as the dimensional prefactor.": "Incorrect: This is an inverse factor and does not produce a length.",
-      "Use V/(g ce) as the dimensional prefactor.": "Correct: g ce has units s^-1, so V/(g ce) is a length.",
-      "Use V/ce as the dimensional prefactor.": "Incorrect: Mass-specific ce must first be converted to a weight-based rate.",
-      "Use gV/ce as the dimensional prefactor.": "Incorrect: This inserts g in the opposite direction."
+      "ce/V": "Inverts the speed and consumption dependence.",
+      "V/(g ce)": "Correct: converts mass flow to weight flow.",
+      "V/ce": "Omits the conversion between mass and weight.",
+      "g V/ce": "Places gravity in the numerator instead of the denominator."
     },
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "exam_alignment": [
+      "EX-2025-11-06-6",
+      "EX-2022-11-08-8"
+    ],
+    "rich_text": {
+      "stem": [
+        {
+          "text": "In the jet Breguet equation, fuel consumption "
+        },
+        {
+          "latex": "c_e"
+        },
+        {
+          "text": " is measured in "
+        },
+        {
+          "latex": "\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+        },
+        {
+          "text": ". Which prefactor gives range in metres when multiplied by "
+        },
+        {
+          "latex": "\\frac{L}{D}"
+        },
+        {
+          "text": " and "
+        },
+        {
+          "latex": "\\ln(m_i/m_f)"
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "options": [
+        [
+          {
+            "latex": "\\frac{c_e}{V}"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{V}{g c_e}"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{V}{c_e}"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{gV}{c_e}"
+          }
+        ]
+      ]
+    },
+    "editorial_review": {
+      "basis": "Comparison with the cited stored exam excerpts; these are new practice questions, not original exam questions.",
+      "version": 1
+    }
   },
   {
     "id": "TA1-0249",
@@ -14712,16 +14773,16 @@
     "id": "TA1-0265",
     "topic": "2.1",
     "subtopic": "Conceptual application",
-    "stem": "An airplane maintains mass and true speed and compares two level flights at different altitudes. If the density above is lower, what CL do you need?",
+    "stem": "An aircraft climbs to a level where air density is 20% lower. Weight and true airspeed are unchanged, and both conditions are steady level flight below stall. Which change is required?",
     "type": "choice",
     "options": [
-      "A lower CL at the higher altitude.",
-      "A higher CL at the higher altitude.",
-      "The same CL at both altitudes.",
-      "A CL that depends on pressure alone, independent of density."
+      "Reduce the lift coefficient by 20%.",
+      "Increase the lift coefficient by 25%.",
+      "Increase the lift coefficient by 20%.",
+      "Keep the lift coefficient unchanged because weight is unchanged."
     ],
     "answer": 1,
-    "explanation": "L = W and fixed V require CL inversely proportional to density.",
+    "explanation": "Level flight requires W = rho V² S CL/2. Therefore CL2/CL1 = rho1/rho2 = 1/0.80 = 1.25. Before stall, this normally requires a higher angle of attack.",
     "difficulty": 2,
     "origin": {
       "kind": "practice",
@@ -14729,12 +14790,19 @@
       "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
     },
     "option_explanations": {
-      "A lower CL at the higher altitude.": "Incorrect: Lower CL would reduce lift further as density falls.",
-      "A higher CL at the higher altitude.": "Correct: L = W and fixed V require CL inversely proportional to density.",
-      "The same CL at both altitudes.": "Incorrect: Unchanged CL would give less lift at lower density.",
-      "A CL that depends on pressure alone, independent of density.": "Incorrect: The lift equation uses density directly; pressure alone is insufficient."
+      "Reduce the lift coefficient by 20%.": "Reverses the density dependence.",
+      "Increase the lift coefficient by 25%.": "Correct: uses the reciprocal density ratio.",
+      "Increase the lift coefficient by 20%.": "Treats a reciprocal change as the same percentage.",
+      "Keep the lift coefficient unchanged because weight is unchanged.": "Ignores the change in dynamic pressure."
     },
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "exam_alignment": [
+      "EX-2023-11-06-4"
+    ],
+    "editorial_review": {
+      "basis": "Comparison with the cited stored exam excerpts; these are new practice questions, not original exam questions.",
+      "version": 1
+    }
   },
   {
     "id": "TA1-0272",
@@ -14880,16 +14948,16 @@
     "id": "TA1-0402",
     "topic": "2.1",
     "subtopic": "Conceptual application",
-    "stem": "Can it be stated that the actual temperature of the entire skin is always equal to the ideal backwater temperature?",
+    "stem": "Regarding kinetic heating during flight, which statement is correct?",
     "type": "choice",
     "options": [
-      "Yes: all skin points must equal the ideal stagnation temperature.",
-      "No: wall temperature also depends on heat transfer.",
-      "Yes: stagnation temperature fixes the wall temperature independently of cooling.",
-      "No: stagnation temperature always equals the undisturbed static temperature."
+      "Every point on the aircraft skin reaches the ideal stagnation temperature.",
+      "Skin temperature depends on heat transfer as well as the local flow conditions.",
+      "Cabin pressurisation determines the stagnation temperature at the wing leading edge.",
+      "At a fixed Mach number, stagnation temperature is independent of static air temperature."
     ],
     "answer": 1,
-    "explanation": "An ideal gas-flow stagnation state does not solve the wall heat balance.",
+    "explanation": "Stagnation temperature describes an ideal adiabatic deceleration. Actual skin temperature also depends on recovery and heat transfer. For a calorically perfect gas, Tt/T = 1 + (gamma - 1) M²/2.",
     "difficulty": 2,
     "origin": {
       "kind": "practice",
@@ -14897,12 +14965,19 @@
       "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
     },
     "option_explanations": {
-      "Yes: all skin points must equal the ideal stagnation temperature.": "Incorrect: Surface location and heat transfer produce nonuniform wall temperatures.",
-      "No: wall temperature also depends on heat transfer.": "Correct: An ideal gas-flow stagnation state does not solve the wall heat balance.",
-      "Yes: stagnation temperature fixes the wall temperature independently of cooling.": "Incorrect: Cooling and heat exchange can alter wall temperature.",
-      "No: stagnation temperature always equals the undisturbed static temperature.": "Incorrect: At nonzero Mach the ideal stagnation temperature exceeds static temperature."
+      "Every point on the aircraft skin reaches the ideal stagnation temperature.": "Confuses ideal stagnation temperature with actual wall temperature.",
+      "Skin temperature depends on heat transfer as well as the local flow conditions.": "Correct: distinguishes flow energy from surface thermal equilibrium.",
+      "Cabin pressurisation determines the stagnation temperature at the wing leading edge.": "Confuses cabin conditions with the external flow.",
+      "At a fixed Mach number, stagnation temperature is independent of static air temperature.": "Omits the static-temperature factor."
     },
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "exam_alignment": [
+      "EX-2025-11-06-4"
+    ],
+    "editorial_review": {
+      "basis": "Comparison with the cited stored exam excerpts; these are new practice questions, not original exam questions.",
+      "version": 1
+    }
   },
   {
     "id": "TA1-0417",
@@ -26665,21 +26740,21 @@
     "id": "TA1-0753-D3",
     "topic": "2.1",
     "subtopic": "Convert the limits to speeds: Vthermal=425.22 m/s and VMach=258.4 m/s.",
-    "stem": "An aircraft with W=3.3e+05 N and S=95 m² flies at static T=230 K and rho=0.55 kg/m³. Ideal stagnation temperature must not exceed 320 K and Mach must not exceed 0.85. Use Tt=T+V²/(2cp), cp=1004.5 J/(kg K), gamma=1.4 and R=287 J/(kg K). What CL is required in level flight at the highest speed allowed by both limits? Choose the closest value.",
+    "stem": "At constant static temperature, an aircraft flies at the maximum Mach number allowed by a leading-edge heating limit. It climbs to air density 20% lower while weight and configuration remain unchanged. The same heating limit applies. What lift-coefficient ratio is required in steady level flight?",
     "type": "choice",
     "options": [
-      "0.13598",
-      "0.18918",
-      "0.069861",
-      "0.019285"
+      "CL2/CL1 = 0.80",
+      "CL2/CL1 = 1.25",
+      "CL2/CL1 = 1.20",
+      "CL2/CL1 = 1.00"
     ],
     "answer": 1,
-    "explanation": "Convert the limits to speeds: Vthermal=425.22 m/s and VMach=258.4 m/s. The feasible maximum is their minimum, V=258.4 m/s. Then CL=2W/(rho V²S)=0.18918. Ideal stagnation temperature is not a uniform actual skin temperature.",
+    "explanation": "The unchanged static temperature and stagnation-temperature limit give the same limiting Mach number and true airspeed. Lift balance then requires CL2/CL1 = rho1/rho2 = 1/0.80 = 1.25. This combines the heating limit with the density effect rather than treating them independently.",
     "option_explanations": {
-      "0.13598": "Uses the total-temperature ceiling instead of static temperature to calculate the Mach speed ceiling.",
-      "0.18918": "Correct. Convert the limits to speeds: Vthermal=425.22 m/s and VMach=258.4 m/s. The feasible maximum is their minimum, V=258.4 m/s. Then CL=2W/(rho V²S)=0.18918. Ideal stagnation temperature is not a uniform actual skin temperature.",
-      "0.069861": "Checks only the thermal speed ceiling.",
-      "0.019285": "Divides by g although W is already a weight force."
+      "CL2/CL1 = 0.80": "Reverses the density ratio.",
+      "CL2/CL1 = 1.25": "Correct: resolves the thermal speed constraint before applying lift balance.",
+      "CL2/CL1 = 1.20": "Uses a 20% rather than reciprocal increase.",
+      "CL2/CL1 = 1.00": "Assumes constant Mach also implies constant dynamic pressure."
     },
     "difficulty": 3,
     "origin": {
@@ -26697,27 +26772,59 @@
       -2.220446049250313e-16
     ],
     "legacy_id": "TA1-0753",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "exam_alignment": [
+      "EX-2025-11-06-4",
+      "EX-2023-11-06-4"
+    ],
+    "rich_text": {
+      "options": [
+        [
+          {
+            "latex": "\\frac{C_{L,2}}{C_{L,1}}=0.80"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{C_{L,2}}{C_{L,1}}=1.25"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{C_{L,2}}{C_{L,1}}=1.20"
+          }
+        ],
+        [
+          {
+            "latex": "\\frac{C_{L,2}}{C_{L,1}}=1.00"
+          }
+        ]
+      ]
+    },
+    "editorial_review": {
+      "basis": "Comparison with the cited stored exam excerpts; these are new practice questions, not original exam questions.",
+      "version": 1
+    }
   },
   {
     "id": "TA1-0832-D3",
     "topic": "2.1",
     "subtopic": "At fixed pressure and Mach, q=rho V²/2=gamma p M²/2 is unchanged.",
-    "stem": "Two ideal jet cruises retain pressure 37000 Pa, Mach 0.7, mean weight 3.5e+05 N, area 98 m², polar CD=0.021+0.046 CL² and mass ratio mi/mf. Temperature changes from 228 to 248 K; ce1=1.4e-05 and ce2=1.442e-05 kg/(N s). With R=287 J/(kg K) and gamma=1.4, what is Breguet range ratio R2/R1? Determine whether q and L/D change. Choose the closest value.",
+    "stem": "A jet cruises at unchanged pressure, Mach number, weight, wing area and drag polar. Static temperature rises by 10%, while mass-specific fuel consumption rises by 3%. With the same initial-to-final mass ratio, what is the approximate ratio of the new Breguet range to the original range?",
     "type": "choice",
     "options": [
-      "1.0742",
-      "1.0126",
-      "0.97087",
-      "0.89258"
+      "1.068",
+      "1.018",
+      "0.971",
+      "0.925"
     ],
     "answer": 1,
-    "explanation": "At fixed pressure and Mach, q=rho V²/2=gamma p M²/2 is unchanged. Thus CL and L/D are unchanged. Speed ratio is sqrt(T2/T1), so R2/R1=sqrt(T2/T1)×ce1/ce2=1.0126.",
+    "explanation": "At fixed pressure and Mach, q = gamma p M²/2 is unchanged, so CL and L/D are unchanged. True airspeed scales as sqrt(T). Thus R2/R1 = sqrt(1.10)/1.03 = 1.0183. The distractors respectively use T instead of sqrt(T), ignore the speed change, or reverse the temperature effect.",
     "option_explanations": {
-      "1.0742": "Multiplies by the consumption ratio rather than dividing.",
-      "1.0126": "Correct. At fixed pressure and Mach, q=rho V²/2=gamma p M²/2 is unchanged. Thus CL and L/D are unchanged. Speed ratio is sqrt(T2/T1), so R2/R1=sqrt(T2/T1)×ce1/ce2=1.0126.",
-      "0.97087": "Ignores the temperature-driven change in true airspeed.",
-      "0.89258": "Applies an inverse linear temperature factor despite fixed Mach."
+      "1.068": "Makes true airspeed proportional to temperature.",
+      "1.018": "Correct: combines constant dynamic pressure with the square-root speed change.",
+      "0.971": "Accounts for consumption but ignores temperature.",
+      "0.925": "Reverses the speed response to temperature."
     },
     "difficulty": 3,
     "origin": {
@@ -26734,7 +26841,34 @@
       -3.3306690738754696e-16
     ],
     "legacy_id": "TA1-0832",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "exam_alignment": [
+      "EX-2023-11-06-8",
+      "EX-2025-01-13-6"
+    ],
+    "rich_text": {
+      "explanation": [
+        {
+          "text": "At fixed pressure and Mach, "
+        },
+        {
+          "latex": "q=\\frac{\\gamma p M^2}{2}"
+        },
+        {
+          "text": " is unchanged. Therefore CL and L/D stay fixed, while true airspeed scales with the square root of temperature. Hence "
+        },
+        {
+          "latex": "\\frac{R_2}{R_1}=\\frac{\\sqrt{1.10}}{1.03}\\approx1.0183"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    "editorial_review": {
+      "basis": "Comparison with the cited stored exam excerpts; these are new practice questions, not original exam questions.",
+      "version": 1
+    }
   },
   {
     "id": "TA1-0625-D3",

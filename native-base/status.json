@@ -1,0 +1,65 @@
+{
+  "release_ready": false,
+  "base": "User-provided Duolingo_v6.103.5.apk",
+  "architecture": "Original DuoApp, LaunchActivity, activities, resources and runtime; original OkHttp builder receives a diagnostic-only bridge.",
+  "verified": {
+    "original_welcome_screen": true,
+    "native_question_model_decoding": {
+      "passed": 1195,
+      "failed": 0
+    },
+    "bank_count": 1200,
+    "questions_per_difficulty": [
+      400,
+      400,
+      400
+    ],
+    "original_exam_items_unchanged": 106,
+    "explicit_practice_reviews": 5,
+    "rich_text_data_fields": [
+      "stem",
+      "options",
+      "explanation"
+    ],
+    "original_entries_preserved": 18248,
+    "native_latex_greek_symbols": [
+      "alpha",
+      "gamma",
+      "rho",
+      "varrho",
+      "sigma",
+      "pi"
+    ],
+    "native_rich_choice_models": 3,
+    "rich_choice_grading_selection_cases": 48,
+    "synthetic_user_with_course_decoded": true,
+    "session_activity_created_and_resumed": true
+  },
+  "not_verified_or_incomplete": [
+    "Original SessionActivity still displays a blank screen with the isolated synthetic profile and course, including when LaunchActivity runs first.",
+    "Original learning path not yet connected to Aerospace data.",
+    "Five gap/order questions still lack native grading adapters.",
+    "Three rich-text choice questions now use the original mathChallengeBlob selectOne model; end-to-end rendering remains unverified because SessionActivity is blank.",
+    "Google/Drive integration is not connected to this native base.",
+    "Updater, mascot replacement, full screen comparison, audio/haptics/night-mode and text-overflow regression checks remain."
+  ],
+  "publication": "Development source only. Diagnostic APK must not be published as a completed course.",
+  "limitations": [
+    "Native math renderer does not display text-mode Greek with text/mathrm macros; use supported math symbols."
+  ],
+  "diagnostic_findings": {
+    "session_engine_state": "do10",
+    "initialization_flags": {
+      "a": false,
+      "b": false,
+      "c": false,
+      "d": false,
+      "e": false,
+      "f": false,
+      "g": false,
+      "h": false,
+      "i": false
+    },
+    "offline_profile_mode_test": "No change to blank session after supplying local repository mode."
+  }
+}
