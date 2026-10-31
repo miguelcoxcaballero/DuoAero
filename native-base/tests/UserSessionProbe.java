@@ -8,13 +8,20 @@ import java.lang.reflect.*;
 public final class UserSessionProbe extends Instrumentation {
  private String courseId="DUOAERO_AEROSPACE_MIDTERM1";
  private boolean defaultExperiments=false;
- public void onCreate(Bundle args){if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));}start();}
+ private boolean earlySetup=false;
+ private Throwable setupError;
+ public void onCreate(Bundle args){
+  if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));earlySetup="early".equals(args.getString("bootstrap"));}
+  if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
+  start();
+ }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
-  Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
-  bridge.getField("localOnly").setBoolean(null,true);
-  Object user=UserModelProbe.makeLocalUser(getTargetContext(),courseId);
+  if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
+  if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
+  report.append("Diagnostic setup phase: ").append(earlySetup?"before Application.onCreate":"instrumentation onStart").append('\n');
+  if(defaultExperiments)report.append("Experiment input: original empty/default entries for synthetic user.\n");
   Object app=getTargetContext().getApplicationContext();
   final java.util.concurrent.atomic.AtomicReference<android.app.Activity> resumed=new java.util.concurrent.atomic.AtomicReference<>();
   ((android.app.Application)app).registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks(){
@@ -26,39 +33,6 @@ public final class UserSessionProbe extends Instrumentation {
    public void onActivitySaveInstanceState(android.app.Activity a,Bundle b){}
    public void onActivityDestroyed(android.app.Activity a){}
   });
-  Object component=app.getClass().getMethod("generatedComponent").invoke(app);
-  Object provider=component.getClass().getField("q2").get(component);
-  Method provide=provider.getClass().getMethod("get");provide.setAccessible(true);
-  Object repository=provide.invoke(provider);
-  Class<?> flow=Class.forName("if40",true,loader);
-  Object state=Class.forName("wd90",true,loader).getConstructor(user.getClass()).newInstance(user);
-  Object stateFlow=flow.getConstructor(Object.class).newInstance(state);
-  Object userFlow=flow.getConstructor(Object.class).newInstance(user);
-  Object offlineRepositoryMode=flow.getConstructor(Object.class).newInstance(Boolean.FALSE);
-  Class<?> lazy=Class.forName("qvl",true,loader);
-  for(String fieldName:new String[]{"t","u","v","w"}){
-   final Object value=fieldName.equals("w")?offlineRepositoryMode:fieldName.equals("v")?userFlow:stateFlow;
-   Object holder=Proxy.newProxyInstance(loader,new Class[]{lazy},(proxy,method,args)->{
-    if(method.getName().equals("getValue"))return value;
-    if(method.getName().equals("isInitialized"))return true;
-    if(method.getName().equals("toString"))return "Offline synthetic course state";
-    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
-    if(method.getName().equals("equals"))return proxy==args[0];
-    throw new UnsupportedOperationException(method.getName());
-   });
-   Field field=repository.getClass().getField(fieldName);field.setAccessible(true);field.set(repository,holder);
-  }
-  Object loginRepository=repository.getClass().getField("l").get(repository);
-  Object userId=user.getClass().getField("b").get(user);
-  Class<?> loginMethod=Class.forName("com.duolingo.core.signuplogin.LoginState$LoginMethod",true,loader);
-  Object loginState=Class.forName("qwn",true,loader).getConstructor(userId.getClass(),loginMethod).newInstance(userId,loginMethod.getField("UNKNOWN").get(null));
-  final Object loginFlow=flow.getConstructor(Object.class).newInstance(loginState);
-  Object loginHolder=Proxy.newProxyInstance(loader,new Class[]{lazy},(proxy,method,args)->method.getName().equals("getValue")?loginFlow:method.getName().equals("isInitialized")?true:"Offline local identity");
-  Field loginField=loginRepository.getClass().getField("c");loginField.setAccessible(true);loginField.set(loginRepository,loginHolder);
-  if(defaultExperiments){
-   LocalExperimentProfile.install(component,userId,loader);
-   report.append("Experiment input: original empty/default entries for synthetic user.\n");
-  }
   // Exercise the real startup path before opening a session. Directly launching
   // SessionActivity skips application initialization performed by LaunchActivity.
   Intent launch=getTargetContext().getPackageManager().getLaunchIntentForPackage(getTargetContext().getPackageName());

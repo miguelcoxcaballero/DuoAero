@@ -109,6 +109,13 @@
       "result": "Experiment stream emits TreatmentRecords; engine transitions from do10 to eo10 (contains original Session model).",
       "visual_result": "Screenshot inspected: session remains blank. Original view/render initialization still blocked.",
       "not_acceptance": "No question rendered, answer graded or session completed. s2/l4 are auxiliary fields, not the loaded Session; do not use their nullness as proof that no Session model exists."
+    },
+    "view_readiness_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41252204375",
+      "result": "With original default experiment entries, both Aerospace and no-course variants contain an original Session with 15 challenges. view.w2 emits eo10, view.o3 emits false, view.i3 emits sql.",
+      "remaining_wait": "in10.u (pre-render completion) does not emit; view.q3 and view.x2 remain without emission.",
+      "screen_evidence": "Accessibility trees contain 15 nodes and no text for all three variants. No question rendered or graded.",
+      "next_test": "Observe pre-render preparation inputs and compare synthetic profile installation in Instrumentation.onCreate versus onStart."
     }
   }
 }

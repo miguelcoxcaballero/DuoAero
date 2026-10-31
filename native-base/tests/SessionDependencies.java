@@ -59,6 +59,31 @@ final class SessionDependencies implements AutoCloseable {
    observeRx("view.loading-indicator",field(field(viewModel,"x1"),"k"));
    observe("view.course",field(viewModel,"F").getClass().getMethod("d").invoke(field(viewModel,"F")),dispatcher);
    observe("view.loading-experiment",field(field(viewModel,"z0"),"a"),dispatcher);
+   Object preload=field(viewModel,"A1");
+   for(String[] item:new String[][]{{"f","d"},{"c","b"}}){
+    Object repository=field(preload,item[0]);
+    observe("preload."+item[0]+"."+item[1],repository.getClass().getMethod(item[1]).invoke(repository),dispatcher);
+   }
+   observe("preload.h.c",field(field(preload,"h"),"c"),dispatcher);
+   Object preloadUserSelector=Class.forName("pd10",true,loader).getConstructor(int.class).newInstance(15);
+   observe("preload.user15",user.getClass().getMethod("g",Class.forName("qqh",true,loader)).invoke(user,preloadUserSelector),dispatcher);
+   Object preloadLogin=field(field(preload,"o"),"d");
+   observe("preload.login",preloadLogin.getClass().getMethod("b").invoke(preloadLogin),dispatcher);
+   Object first=field(preload,"a");
+   observeRx("preload.a.c",first.getClass().getMethod("c").invoke(first));
+   Object route=viewModel.getClass().getMethod("L0").invoke(viewModel);
+   Object beforeLesson=field(preload,"l");
+   observe("preload.l.a",beforeLesson.getClass().getMethod("a",Class.forName("com.duolingo.data.session.SessionRouteParams",true,loader)).invoke(beforeLesson,route),dispatcher);
+   Object middle=field(preload,"m");
+   Object source=field(middle,"a");
+   observe("preload.m.a.n",source.getClass().getMethod("n").invoke(source),dispatcher);
+   source=field(middle,"b");
+   observe("preload.m.b.b",source.getClass().getMethod("b").invoke(source),dispatcher);
+   Object last=field(preload,"e");
+   Class<?> lastType=Class.forName("m3m",true,loader);
+   observe("preload.e.a",lastType.getMethod("a",lastType).invoke(null,last),dispatcher);
+   Object preloadExperiment=Class.forName("bcm",true,loader).getField("b").get(null);
+   observeRx("preload.experiment",Class.forName("com.duolingo.core.experiments.ExperimentsRepository",true,loader).getMethod("observeTreatmentRecords",Collection.class).invoke(field(preload,"b"),Collections.singletonList(preloadExperiment)));
   } catch(Exception error) { close(); throw error; }
  }
  private void observe(String name,Object flow,Object dispatcher) throws Exception {

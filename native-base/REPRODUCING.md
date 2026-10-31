@@ -138,3 +138,17 @@ The next probe observes the original loading/view streams `w2`, `x2`, `i3`,
 also includes the accessibility tree for the isolated target package. Neither
 readiness values nor view visibility are forced. Screenshots from a previous
 variant are deleted before each run to avoid mislabeling stale evidence.
+
+[View-readiness run 41252204375](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41252204375)
+confirmed a loaded original Session with 15 challenges for both Aerospace and
+no-course profiles with default experiment entries. `w2` emitted `eo10`, `o3`
+emitted false and `i3` emitted `sql`, but the pre-render preparation completion
+stream `in10.u` did not emit. Consequently `q3` and `x2` did not emit. The captured
+accessibility trees contain 15 nodes with no question text. This is still not a
+rendered lesson.
+
+The next comparison measures the inputs of `in10.e` and installs the same
+synthetic profile in `Instrumentation.onCreate` (`-e bootstrap early`) versus
+`onStart`. The earlier phase tests whether already-created repositories retain
+references to the initial empty profile. Both variants keep the original
+application lifecycle, session controller, preparation logic and readiness flags.
