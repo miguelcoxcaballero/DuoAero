@@ -52,20 +52,22 @@ jobs:
           python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
+        timeout-minutes: 8
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
           echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name DuoAeroDiagnostic --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
           "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader -accel on > /tmp/duoaero-evidence/emulator.txt 2>&1 &
-          adb wait-for-device
+          emulator_pid=$!
           ready=false
           for attempt in $(seq 1 150); do
-            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ]; then ready=true; break; fi
+            if ! kill -0 "$emulator_pid" 2>/dev/null; then cat /tmp/duoaero-evidence/emulator.txt; exit 1; fi
+            if [ "$(timeout 5 adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = 1 ]; then ready=true; break; fi
             sleep 2
           done
-          test "$ready" = true
-          adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
-          adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
+          if [ "$ready" != true ]; then cat /tmp/duoaero-evidence/emulator.txt; exit 1; fi
+          timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
+          timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
           timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > /tmp/duoaero-evidence/session.txt
           adb exec-out screencap -p > /tmp/duoaero-evidence/session.png
           adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > /tmp/duoaero-evidence/probe-log.txt
