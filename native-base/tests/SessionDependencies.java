@@ -96,6 +96,10 @@ final class SessionDependencies implements AutoCloseable {
    Object preference=Class.forName("g70",true,loader).getField("b").get(null);
    Object preferences=field(beforeLesson,"c");
    observe("before.c.b",preferences.getClass().getMethod("b",Class.forName("age",true,loader)).invoke(preferences,preference),dispatcher);
+   Object energy=field(beforeLesson,"e");
+   Object energyCourse=field(energy,"c"),energyPrefs=field(energy,"i");
+   observe("energy.course-info",energyCourse.getClass().getMethod("j").invoke(energyCourse),dispatcher);
+   observe("energy.preferences",energyPrefs.getClass().getMethod("a").invoke(energyPrefs),dispatcher);
    Object middle=field(preload,"m");
    Object source=field(middle,"a");
    observe("preload.m.a.n",source.getClass().getMethod("n").invoke(source),dispatcher);

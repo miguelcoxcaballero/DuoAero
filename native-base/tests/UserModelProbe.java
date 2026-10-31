@@ -42,7 +42,7 @@ public final class UserModelProbe extends Instrumentation {
   return user;
 
  }
- private static Object defaults(Object descriptor,Class<?> dc,int depth)throws Exception {
+ static Object defaults(Object descriptor,Class<?> dc,int depth)throws Exception {
   if(depth>12)throw new IllegalStateException("Recursive descriptor");
   if((Boolean)dc.getMethod("b").invoke(descriptor))return JSONObject.NULL;
   String name=(String)dc.getMethod("h").invoke(descriptor);

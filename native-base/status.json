@@ -62,7 +62,7 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Engine now reaches eo10 with original default experiment entries in isolated test; trace view/loading readiness dependencies without forcing flags. UI still blank."
+    "next_required_integration": "Provide original course-path model data to the pre-lesson energy check; latest isolated engine eo10 still renders no question."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -122,6 +122,12 @@
       "result": "Both early and late synthetic-profile installation load the original reference Session but remain blank. The original pre-lesson selector wn10.a does not emit; other directly measured preparation operands emit, including leagues state.",
       "limits": "The derived recent-login stream has not yet been measured independently. Native reference asset, not Aerospace lesson acceptance.",
       "next_test": "Observe all original wn10.a inputs without bypassing the selector or forcing completion."
+    },
+    "before_lesson_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41253267825",
+      "result": "Both timings: p6d.h energy eligibility does not emit; other nine measured wn10.a inputs emit. Screen remains blank.",
+      "source_dependency": "p6d.h combines User, energy preferences, bp1.j CoursePathInfo and another Boolean. bp1.j filters unsupported/no-course states, emitting only a loaded CoursePathInfo.",
+      "next_test": "Use original MATH_BT profile and original native cache writes with a minimal CoursePathInfo and an empty CoursePathSection. This is a dependency experiment, not a course or learning-path implementation."
     }
   }
 }

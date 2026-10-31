@@ -9,14 +9,17 @@ public final class UserSessionProbe extends Instrumentation {
  private String courseId="DUOAERO_AEROSPACE_MIDTERM1";
  private boolean defaultExperiments=false;
  private boolean earlySetup=false;
+ private boolean nativeCourseCache=false;
  private Throwable setupError;
  public void onCreate(Bundle args){
   if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));earlySetup="early".equals(args.getString("bootstrap"));}
+  nativeCourseCache=args!=null&&"native-minimal".equals(args.getString("course_cache"));
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
   start();
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
+  if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
@@ -54,6 +57,7 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
   if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
   Object observedVm=activity.getMethod("J").invoke(current);
+  if(nativeCourseCache){report.append(LocalCourseCache.install(getTargetContext(),observedVm));Thread.sleep(12000);}
   try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
    Thread.sleep(5000);
    report.append(dependencies.report());

@@ -161,3 +161,18 @@ recent-login-derived stream was not independently measured. The engine still
 loads only the original reference Session; there is no rendered Aerospace lesson.
 Reports for both timings are retained in the evidence directory. The next probe
 observes the selector's original inputs without supplying a completion signal.
+
+[Pre-lesson input run 41253267825](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41253267825)
+found that `p6d.h` did not emit for either profile timing; the other nine measured
+`wn10.a` operands emitted. Static tracing shows `p6d.h` requires a loaded
+`CoursePathInfo` through `bp1.j`, which filters out unsupported/no-course states.
+The previous `fz8` emission therefore does not satisfy this separate dependency.
+The screen remains blank; reports are retained under `before-lesson-*.txt`.
+
+The next diagnostic uses original `MATH_BT` with default experiment entries,
+comparing no cache input with `-e course_cache native-minimal`. The latter decodes
+original `CoursePathInfo` and an **empty** `CoursePathSection`, then writes them
+using original resource descriptors (`tt8`/`qy8`), `nrx.t` and `prx.x0`, awaiting
+actual write completion. No flow, readiness flag or view is replaced. The empty
+section has no learning-path units and is not the Aerospace course. This test
+still opens the original hardcoded math reference session.
