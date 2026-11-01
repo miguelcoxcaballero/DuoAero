@@ -42,6 +42,10 @@ def challenge(question):
         if not separator or sentence.count('___') != 1:
             raise ValueError('Gap sentence needs exactly one reviewed placeholder: ' + question['id'])
         words = [s for s in re.split(r'(\s+|___)', sentence.strip()) if s and not s.isspace()]
+        # Avoid an isolated punctuation glyph at the top of a taller token
+        # when the missing word is the last item in the sentence.
+        if len(words)>1 and words[-2]=='___' and words[-1] in ('.','!','?'):
+            words.pop()
         parts = [s if s == '___' else text_latex(s) for s in words]
         payload = base64.b64encode(json.dumps(parts, ensure_ascii=False).encode('utf-8')).decode('ascii')
         prompt = result['promptInputChallenge']['prompt']
