@@ -23,7 +23,7 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  private final Set<Activity> sessions=Collections.newSetFromMap(new WeakHashMap<Activity,Boolean>());
  private final Map<Activity,ViewTreeObserver.OnGlobalLayoutListener> welcomeObservers=new WeakHashMap<>();
  private WeakReference<Activity> foreground=new WeakReference<>(null);
- private boolean ready,manualSync;
+ private boolean ready,manualSync,manualSignIn;
  private static Object logoutClick;
  private String pending="",status="Progress saved on this device";
  private NativeGoogleHost(Application application){
@@ -54,12 +54,12 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  public static void connect(Activity activity){
   install(activity.getApplication());instance.foreground=new WeakReference<>(activity);
   if(!instance.ready){Toast.makeText(activity,"Google sign-in is loading. Please try again.",Toast.LENGTH_SHORT).show();return;}
-  if(NativeAccountStore.current(activity).isEmpty())instance.web.evaluateJavascript("DuoAuth.signIn()",null);
+  if(NativeAccountStore.current(activity).isEmpty()){instance.manualSignIn=true;instance.web.evaluateJavascript("DuoAuth.signIn()",null);}
   else{instance.manualSync=true;instance.web.evaluateJavascript("DuoSync.sync()",null);}
  }
  public static void changeAccount(Activity activity){
   install(activity.getApplication());instance.foreground=new WeakReference<>(activity);
-  if(instance.ready)instance.web.evaluateJavascript("localStorage.removeItem('drive-hint-email');localStorage.removeItem('drive-consent-granted');DuoAuth.signIn()",null);
+  if(instance.ready){instance.manualSignIn=true;instance.web.evaluateJavascript("localStorage.removeItem('drive-hint-email');localStorage.removeItem('drive-consent-granted');DuoAuth.signIn()",null);}
  }
  public static Object logoutHandler(Object original){
   NativeGoogleHost host=instance;if(host==null||!NativeAccountStore.required(host.app))return original;
@@ -104,7 +104,11 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  @JavascriptInterface public void openAuthUrl(String raw){
   Uri uri=Uri.parse(raw);
   if(!"https".equals(uri.getScheme())||!"accounts.google.com".equals(uri.getHost())||!"/o/oauth2/v2/auth".equals(uri.getPath())
-   ||!"com.duoaero:/oauth2redirect".equals(uri.getQueryParameter("redirect_uri"))||!"S256".equals(uri.getQueryParameter("code_challenge_method")))throw new SecurityException("Unexpected Google authorization URL");
+   ||!"com.duoaero:/oauth2redirect".equals(uri.getQueryParameter("redirect_uri"))||!"S256".equals(uri.getQueryParameter("code_challenge_method"))
+   ||!"435784295430-unt269845n77h7k4g599is7ni2b0c9qb.apps.googleusercontent.com".equals(uri.getQueryParameter("client_id"))
+   ||!"inhouse_notes_pkce".equals(uri.getQueryParameter("state"))||!"code".equals(uri.getQueryParameter("response_type"))
+   ||!"https://www.googleapis.com/auth/drive".equals(uri.getQueryParameter("scope"))
+   ||uri.getQueryParameter("code_challenge")==null||!uri.getQueryParameter("code_challenge").matches("[A-Za-z0-9_-]{43}"))throw new SecurityException("Unexpected Google authorization URL");
   ui(()->{
    if(hasSession())throw new IllegalStateException("Finish the current lesson before changing accounts");
    if(!app.getSharedPreferences("duoaero-google",0).edit().putLong("oauth-pending",System.currentTimeMillis()).commit())throw new IOException("Cannot preserve sign-in request");
@@ -123,7 +127,7 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
     NativeAccountStore.select(app,id,label);
     try{NativeBootstrap.accountChanged(app,true);}
     catch(Exception error){NativeAccountStore.select(app,previous,oldLabel);NativeBootstrap.accountChanged(app,!previous.isEmpty());throw error;}
-    launch();return null;
+    manualSignIn=false;launch();return null;
    }
   });
  }
@@ -140,6 +144,10 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  @JavascriptInterface public void onStatus(String message){
   main.post(()->{
    status=message;
+   String lower=message.toLowerCase(java.util.Locale.ROOT);
+   if(manualSignIn&&(lower.contains("failed")||lower.contains("cancelled")||lower.contains("retry")||lower.contains("invalid"))){
+    Activity activity=foreground.get();if(activity!=null)Toast.makeText(activity,message,Toast.LENGTH_LONG).show();manualSignIn=false;
+   }
    if(manualSync&&!message.startsWith("Syncing")){
     Activity activity=foreground.get();if(activity!=null)Toast.makeText(activity,message,Toast.LENGTH_LONG).show();manualSync=false;
    }

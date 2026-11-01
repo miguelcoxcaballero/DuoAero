@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater, review, accounts]
+        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater, review, accounts, google]
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -76,7 +76,8 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes|updater|review) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_course_progress.py
@@ -190,6 +191,12 @@ jobs:
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
           case "$DIAGNOSTIC_SCENARIO" in
+            google)
+              timeout 300 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > ${{ runner.temp }}/duoaero-evidence/google.txt
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ ${{ runner.temp }}/duoaero-evidence/google-files || true
+              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/google-logcat.txt
+              python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text()"
+              ;;
             accounts)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt
               python -c "from pathlib import Path; assert 'ACCOUNT_STORAGE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/accounts.txt').read_text()"

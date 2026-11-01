@@ -40,3 +40,21 @@ test('Drive merges preserve recent corrections, completed lessons and local sess
  const remote={records:{a:{at:10,correct:false},b:{at:2,correct:true}},completedLessons:{l2:{at:6}},session:{cursor:99},xp:40};
  const out=merge(local,remote);assert.equal(out.records.a.correct,true);assert.equal(out.records.b.correct,true);assert.equal(out.session.cursor,4);assert.deepEqual(Object.keys(out.completedLessons),['l1','l2']);assert.equal(out.xp,40);assert.equal(local.records.b.correct,false);
 });
+test('Drive retries identity verification when the native account switch was rejected',async()=>{
+ let reject=true,identified=0,uploaded=0;const reads=[],applies=[];
+ const ctx={driveUserProfile:null,URLSearchParams,crypto:crypto.webcrypto,console,navigator:{onLine:true},document:{getElementById:()=>({textContent:''})},
+  CustomEvent:class{},dispatchEvent(){},addEventListener(){},setInterval(){},setTimeout(){},clearTimeout(){},
+  localStorage:{getItem:()=>null,setItem(){}},DuoAuth:{init(){},connected:()=>true,token:async()=>'synthetic-token'},
+  InhouseNative:{onStatus(){},onAccount(id){identified++;if(reject)throw Error('Finish lesson');assert.equal(id,'account-b');},
+   readProgressForAccount(id){reads.push(id);return '{"nativeSchema":1,"records":{},"completedLessons":{}}';},
+   applyProgressForAccount(id,raw){applies.push(id);assert.equal(JSON.parse(raw).nativeSchema,1);}},
+  fetch:async(url,opts)=>{
+   if(url.includes('/about?'))return {ok:true,json:async()=>({user:{permissionId:'account-b'}})};
+   if(url.includes('/upload/')){uploaded++;assert.match(opts.body,/account-b/);return {ok:true};}
+   return {ok:true,json:async()=>({files:[]})};
+  }};
+ vm.createContext(ctx);vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../shared/drive-sync.js'),'utf8'),ctx);
+ await ctx.DuoSync.sync();assert.equal(identified,1);assert.deepEqual(reads,[]);assert.equal(uploaded,0);
+ reject=false;await ctx.DuoSync.sync();assert.equal(identified,2);assert.equal(uploaded,1);
+ assert.ok(reads.length>0);assert.ok(reads.every(id=>id==='account-b'));assert.deepEqual(applies,['account-b']);
+});
