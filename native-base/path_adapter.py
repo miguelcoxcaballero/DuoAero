@@ -108,7 +108,7 @@ def build_path(plan, bank):
             'debugName': 'Aerospace Technology', 'title': 'Aerospace Technology',
             'pathSectionGroups': [{'id': 'DUOAERO_FIRST_MIDTERM',
                 'debugName': 'Midterm 1', 'title': 'Midterm 1',
-                'subtitle': 'Aerospace Technology', 'state': 'unlocked',
+                'subtitle': 'Aerospace Technology', 'state': 'unlocked', 'iconText': '1',
                 'completedUnits': 0, 'totalUnits': len(units),
                 'sectionIds': [SECTION_ID], 'type': 'learning'}]}],
         'globalPracticeMetadata': {'id': 'duoaero_review', 'type': 'global_practice'},

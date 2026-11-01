@@ -9,6 +9,7 @@ import os
 from runtime_config import WORK, APK, BASE, tool
 from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
 from branding import rebrand_table, animation_overlays, mascot_drawables, LOGO_PATH
+from mascot_assets import parse
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex', 'res/mipmap-anydpi-v21/ic_launcher.xml'}
 target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base-test.apk')))
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
@@ -17,6 +18,17 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     completion=animation_report['res/raw/lesson_complete_redesign_v72.riv']['artboards']
     assert '01_duo_epic_arboard' in completion
     assert 'EpicDuo_Eyes_artboard' not in completion, 'Do not draw a second mascot in a nested eye artboard'
+    _, scene, _ = parse(overlays['res/raw/lesson_complete_redesign_v72.riv'])
+    names = [values.get(4,'') for kind,values,_ in scene if kind == 1]
+    secondary=[]; primary=[]; root=False
+    for kind,values,_ in scene:
+        if kind == 1: root=values.get(4)=='_interstitial_main_artboard'
+        elif root and kind == 92 and values.get(5) in (371,632):
+            target_id=values.get(197,-1)
+            if 0<=target_id<len(names) and '_duo_' in names[target_id].lower():
+                (primary if values[5]==371 else secondary).append(values.get(129,0))
+    assert primary and secondary and any(not flags&1 for flags in primary)
+    assert all(flags&1 for flags in secondary), 'Sparkle-only copies of the mascot must stay hidden'
     checked = 0
     for entry in original.infolist():
         name = entry.filename

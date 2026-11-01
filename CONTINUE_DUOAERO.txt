@@ -7,8 +7,11 @@ native-base/test_atmosphere.py seeds prior nodes only, answers the actual first
 Atmosphere lesson including a wrong/retried answer, and checks the next lesson
 before and after restart. Run 41320924521 reached the word-gap question but
 the driver failed to tap a non-clickable text child; the driver was adjusted.
-The mascot build no longer replaces the nested EpicDuo_Eyes artboard with an
-additional full image; motion and the reported overlap remain unverified.
+The normal completion screenshot from run 41322452477 reproduced two full
+overlapping mascots. The original Rive scene has a moving character layer and
+a separate sparkle-only instance of the same artboard. The build now hides
+only secondary Duo instances in that scene while preserving the moving ones;
+actual Android frames after this change remain unverified.
 An experimental inline word-gap implementation composes native figures and
 the native token slot in a wrapping row; it requires mixed-question device
 interaction, screenshots, font-size/night checks and full Atmosphere testing.

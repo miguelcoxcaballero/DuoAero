@@ -29,6 +29,8 @@ try:
  # The home header already says Midterm 1. Require the home path to be gone,
  # otherwise a transition frame falsely passes without opening the selector.
  picker=wait('sections-picker',lambda t:has(t,'Midterm 1') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
+ assert has(picker,'DuoAero'),'Picker retained the original Math heading'
+ assert any(n.get('text','').strip()=='1' for n in picker.iter('node')),'First midterm has the wrong section icon'
  labels=[n for n in picker.iter('node') if 'midterm 1' in n.get('text','').casefold()]
  assert len(labels)>=2,'Missing original midterm navigation row'
  tap(labels[-1])

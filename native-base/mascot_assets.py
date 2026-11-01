@@ -66,6 +66,7 @@ def encode(kind,values,props=PROPS):
 
 def rive(data,name,png,width,height):
     header,objects,props=parse(data)
+    artboard_names=[p.get(4,'') for t,p,b in objects if t==1]
     asset_index=sum(t in ASSET for t,p,b in objects)
     asset_unique=max([p.get(204,0) for t,p,b in objects if t in ASSET]+[0])+1
     pure=bool(re.search(r'(^|_)duo(?:_|$)|resurrectedduo',name)) and 'waveform' not in name
@@ -93,6 +94,18 @@ def rive(data,name,png,width,height):
                 motion_parent=component_id
         update=dict(values)
         if replace and kind in DRAWABLE:update[129]=values.get(129,0)|1
+        # The completion scene instantiates each character twice: the first
+        # group (parent 371) is the moving character and the second (parent
+        # 632) plays its sparkle-only state. Our full-image replacements also
+        # draw in that sparkle-only instance, creating a stationary duplicate.
+        # Hide only those secondary Duo instances; retain the moving group and
+        # every non-Duo character and surrounding scene element.
+        if (name=='lesson_complete_redesign_v72' and art is not None
+            and art.get(4)=='_interstitial_main_artboard' and kind==92
+            and values.get(5)==632):
+            target=values.get(197,-1)
+            if 0<=target<len(artboard_names) and re.search(r'(^|_)duo(?:_|$)',artboard_names[target],re.I):
+                update[129]=values.get(129,0)|1
         # Text runs change; state-machine, input and artboard names stay intact.
         if SCHEMA['types'].get(str(kind))=='TextValueRun':
             for k,v in values.items():

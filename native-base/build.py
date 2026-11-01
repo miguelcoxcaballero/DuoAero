@@ -306,7 +306,20 @@ tabs_replacement='''    if-le v3, v7, :duoaero_tab_count_valid
     if-ne v7, v15, :cond_19
     :duoaero_tab_count_valid
     if-ge v7, v2, :cond_19'''
+picker_source=SMALI/'smali_classes6/com/duolingo/feature/math/section/MathSectionPickerView.smali'
+picker_original=picker_source.read_bytes()
+picker_text=picker_original.decode('utf-8').replace('\r\n','\n')
+picker_anchor='.method public final setSectionPickerTitle(Ljava/lang/String;)V\n    .locals 0'
+assert picker_text.count(picker_anchor)==1
+picker_hook='''.method public final setSectionPickerTitle(Ljava/lang/String;)V
+    .locals 1
+    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z
+    move-result v0
+    if-eqz v0, :duoaero_original_picker_title
+    const-string p1, "DuoAero"
+    :duoaero_original_picker_title'''
 try:
+ picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
  bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
  factory_source.write_text(factory_text.replace(factory_anchor,factory_hook).replace(factory_timeout,factory_timeout_hook),encoding='utf-8')
@@ -317,6 +330,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ picker_source.write_bytes(picker_original)
  tabs_source.write_bytes(tabs_original)
  bank_source.write_bytes(bank_original)
  factory_source.write_bytes(factory_original)
