@@ -519,7 +519,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
  # Exercise the reported unformatted density fraction on the actual original
  # select-one screen, in addition to authored rich-text samples.
- sample=lesson_questions(plain_sample[:1]+[by_id['TA1-0148'],by_id['TA1-0078-D2'],by_id['TA1-0132-D2'],by_id['TA1-0154-D2'],by_id['TA1-0397-D2'],by_id['TA1-0107-D2']]+[q for q in bank if q.get('rich_text')])
+ sample=lesson_questions(plain_sample[:1]+[by_id['TA1-0148'],by_id['TA1-0078-D2'],by_id['TA1-0132-D2'],by_id['TA1-0154-D2'],by_id['TA1-0081-D2'],by_id['TA1-0397-D2'],by_id['TA1-0107-D2']]+[q for q in bank if q.get('rich_text')])
  sample_ids={q['id'] for q in sample}
  sample.extend(q for q in plain_sample[1:] if q['id'] not in sample_ids)
  sample=sample[:20]
