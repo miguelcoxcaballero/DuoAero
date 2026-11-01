@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
+ private static boolean actualTouch;
  static String firstPathNode(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/oval");i++)Thread.sleep(200);
   for(int i=0;i<150&&!contains(test,"Aeronautical organizations");i++){test.getUiAutomation().clearCache();Thread.sleep(200);}
@@ -25,7 +26,8 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test,boolean hintRetry)throws Exception {
+ static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch)throws Exception {
+  actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
@@ -388,7 +390,19 @@ final class SessionInteraction {
   }
   if(node==null)throw new IllegalStateException("Native bank token not visible: "+text);
   try{for(int i=0;i<8&&!node.isClickable();i++){AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;}
-   if(!own(node)||!node.isEnabled()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
+   if(!own(node)||!node.isEnabled())throw new IllegalStateException("Native bank token unavailable: "+text);
+   if(actualTouch){
+    android.graphics.Rect rect=new android.graphics.Rect();node.getBoundsInScreen(rect);
+    if(rect.isEmpty())throw new IllegalStateException("Empty native token touch bounds: "+text);
+    long down=android.os.SystemClock.uptimeMillis();
+    android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,rect.exactCenterX(),rect.exactCenterY(),0);
+    android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+30,android.view.MotionEvent.ACTION_UP,rect.exactCenterX(),rect.exactCenterY(),0);
+    try{
+     if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Token down event not injected: "+text);
+     Thread.sleep(30);
+     if(!test.getUiAutomation().injectInputEvent(last,true))throw new IllegalStateException("Token up event not injected: "+text);
+    }finally{first.recycle();last.recycle();}
+   }else if(!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
   }finally{node.recycle();}
  }
  /** The hosted emulator occasionally shows an ANR for its Pixel Launcher

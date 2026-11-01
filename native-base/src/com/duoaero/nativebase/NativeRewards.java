@@ -22,13 +22,14 @@ final class NativeRewards {
       Object reward=Class.forName("com.duolingo.core.rewards.RewardsServiceReward$CurrencyReward",true,activity.getClassLoader())
        .getConstructor(String.class,int.class,boolean.class).newInstance("duoaero-path-gems",NativeChestRewards.GEMS,false);
       if(displayed.add(activity) && NativeChestRewards.claim(viewModel,reward)){
-       // The original reward activity can render a blank frame even after the
-       // award succeeds. Keep that activity and show a visible confirmation.
-       android.app.AlertDialog dialog=new android.app.AlertDialog.Builder(activity)
-        .setTitle("Chest opened!").setMessage("+25 gems")
-        .setPositiveButton("CONTINUE",(d,which)->activity.finish()).create();
-       dialog.setCancelable(false);
-       dialog.show();
+       try{showOriginalChest(activity,viewModel,reward);}
+       catch(Exception animationError){
+        android.util.Log.e("DuoAeroNative","Original chest animation unavailable; showing confirmation",animationError);
+        android.app.AlertDialog dialog=new android.app.AlertDialog.Builder(activity)
+         .setTitle("Chest opened!").setMessage("+25 gems")
+         .setPositiveButton("CONTINUE",(d,which)->activity.finish()).create();
+        dialog.setCancelable(false);dialog.show();
+       }
       }
      }catch(Exception error){android.util.Log.e("DuoAeroNative","Cannot record path chest opening",error);}
     }
@@ -41,6 +42,35 @@ final class NativeRewards {
    public void onActivitySaveInstanceState(android.app.Activity a,android.os.Bundle b){}
    public void onActivityDestroyed(android.app.Activity a){}
   });
+ }
+ /** Populate the native PathChestRewardActivity and trigger its own Rive view. */
+ private static void showOriginalChest(android.app.Activity activity,Object viewModel,Object reward)throws Exception {
+  ClassLoader loader=activity.getClassLoader();
+  android.view.View message=findView(activity.getWindow().getDecorView(),"com.duolingo.core.ui.FullscreenMessageView");
+  android.view.View chest=findView(activity.getWindow().getDecorView(),"com.duolingo.core.rewards.ChestRewardView");
+  if(message==null||chest==null)throw new IllegalStateException("Original chest views are missing");
+  Class<?> textType=Class.forName("tt80",true,loader),text=Class.forName("wg90",true,loader);
+  java.lang.reflect.Constructor<?> makeText=text.getConstructor(String.class);
+  message.getClass().getMethod("F",textType).invoke(message,makeText.newInstance("Chest opened!"));
+  message.getClass().getMethod("setBodyText",textType).invoke(message,makeText.newInstance("+25 gems"));
+  message.getClass().getMethod("A",textType,android.view.View.OnClickListener.class)
+   .invoke(message,makeText.newInstance("CONTINUE"),(android.view.View.OnClickListener)v->activity.finish());
+  Class<?> model=Class.forName("zit",true,loader),continuation=Class.forName("ql8",true,loader);
+  Object mapper=Class.forName("cit",true,loader).getConstructor(model,continuation).newInstance(viewModel,null);
+  Object state=mapper.getClass().getMethod("invoke",Object.class,Object.class,Object.class,Object.class)
+   .invoke(mapper,Boolean.FALSE,java.util.Arrays.asList(reward,reward),null,null);
+  if(state==null||!state.getClass().getName().equals("p07"))throw new IllegalStateException("Original gem chest state unavailable");
+  Object events=model.getField("S").get(viewModel);
+  events.getClass().getMethod("f",Object.class).invoke(events,state);
+  android.util.Log.i("DuoAeroNative","Original gem chest state sent to reward animation");
+ }
+ private static android.view.View findView(android.view.View view,String name){
+  if(view.getClass().getName().equals(name))return view;
+  if(view instanceof android.view.ViewGroup){
+   android.view.ViewGroup group=(android.view.ViewGroup)view;
+   for(int i=0;i<group.getChildCount();i++){android.view.View found=findView(group.getChildAt(i),name);if(found!=null)return found;}
+  }
+  return null;
  }
  static void refresh(Application app,boolean path){
   String account=NativeAccountStore.current(app);

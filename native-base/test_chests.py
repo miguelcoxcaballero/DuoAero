@@ -54,11 +54,16 @@ try:
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait('chest-home',lambda t:counter(t,initial) and chest_nodes(t))
     tap(chest_nodes(tree)[0])
-    deadline=time.monotonic()+90;opened=False;shown=False
+    deadline=time.monotonic()+90;opened=False;shown=False;native_frames=False
     while time.monotonic()<deadline:
         tree=capture('chest-open')
         if tree is not None:
             shown=shown or any('+25 gems' in n.get('text','') for n in tree.iter('node'))
+            if shown and not native_frames and os.environ.get('DUOAERO_REQUIRE_NATIVE_CHEST') == '1':
+                for frame in range(6):
+                    (OUT/('chest-animation-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
+                    time.sleep(.5)
+                native_frames=True
             buttons=[n for n in tree.iter('node') if n.get('text','').strip().upper() in {'OPEN','OPEN CHEST','CLAIM','CONTINUE','CLAIM REWARD'} and n.get('enabled')=='true']
             if buttons:tap(buttons[0])
         result=subprocess.run(['adb','exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/chests.json'],capture_output=True,timeout=30)
@@ -69,6 +74,10 @@ try:
         time.sleep(2)
     assert opened,'Original chest interaction did not durably award gems'
     assert shown,'Chest reward confirmation was not visible'
+    if os.environ.get('DUOAERO_REQUIRE_NATIVE_CHEST') == '1':
+        log = adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E').decode(errors='replace')
+        assert 'Original gem chest state sent to reward animation' in log, 'Native chest state was not delivered'
+        assert 'Original chest animation unavailable; showing confirmation' not in log, 'Native chest fell back to alert dialog'
     # Return through the original reward activity's footer if still present.
     for _ in range(5):
         tree=capture('chest-reward')

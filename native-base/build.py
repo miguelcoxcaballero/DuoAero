@@ -349,7 +349,16 @@ picker_hook='''.method public final setSectionPickerTitle(Ljava/lang/String;)V
     if-eqz v0, :duoaero_original_picker_title
     const-string p1, "DuoAero"
     :duoaero_original_picker_title'''
+profile_image_source=SMALI/'smali_classes6/oup.smali'
+profile_image_original=profile_image_source.read_bytes()
+profile_image_text=profile_image_original.decode('utf-8').replace('\r\n','\n')
+# This is the actual drawable passed to Compose's painterResource in the
+# profile-completion card. The h4w score value is a count, not a resource ID.
+profile_image_anchor='    const v4, 0x7f0826dc\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
+assert profile_image_text.count(profile_image_anchor)==1
+profile_image_hook='    const v4, 0x7f0826dc\n\n    invoke-static {v4}, Lcom/duoaero/nativebase/NativeProfileDrawable;->supported(I)I\n\n    move-result v4\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
 try:
+ profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
  bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
@@ -361,6 +370,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
  tabs_source.write_bytes(tabs_original)
  bank_source.write_bytes(bank_original)
@@ -525,6 +535,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  else:
   mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
   mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
+ if os.environ.get('DUOAERO_WORD_TOUCH_DIAGNOSTIC')=='1' and not production:
+  # A short real-touch probe of one-word and multiple-symbol formulas.
+  mixed=lesson_questions([by_id['BOOK-V6-01-D1']],teach_words=True)
+  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:2])
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
@@ -560,7 +574,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   lesson_total+=len(node['lessons'])
   for position,entry in enumerate(node['lessons']):
    selected=[by_id[i] for i in entry['ids']]
-   try: adapted=native_session(selected,entry['id'],stable_id('skill',node['id']))
+   try: adapted=native_session(selected,entry['id'],stable_id('skill',node['id']),teach_words=True)
    except NotImplementedError: continue
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted

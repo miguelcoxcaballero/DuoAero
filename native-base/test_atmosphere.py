@@ -4,6 +4,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
 from rich_question import content
+from course_adapter import lesson_questions
 from visual_controls import claim_xp
 
 OUT=Path(os.environ['DUOAERO_EVIDENCE']); PACKAGE='com.duoaero.nativebase'
@@ -92,12 +93,14 @@ try:
     bank={q['id']:q for q in json.loads((ROOT/'app/assets/questions.json').read_text())}
     plan=json.loads((ROOT/'app/assets/lesson_plan.json').read_text())
     source=next(lesson for node in plan for lesson in node['lessons'] if lesson['id']==first)
+    expanded=lesson_questions([bank[qid] for qid in source['ids']],teach_words=True)
+    bank.update({question['id']:question for question in expanded})
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait('atmosphere-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
     open_atmosphere('atmosphere-initial')
     # Reproduce a mistake and its native retry: the reported lesson includes
     # formula/gap controllers and the user's screenshot shows wrong feedback.
-    sequence=[(source['ids'][0],True,False)]+[(qid,False,HINT_TEST and qid=='TA1-0148') for qid in source['ids'][1:]]+[(source['ids'][0],False,False)]
+    sequence=[(expanded[0]['id'],True,False)]+[(q['id'],False,HINT_TEST and q['id']=='TA1-0148') for q in expanded[1:]]+[(expanded[0]['id'],False,False)]
     if HINT_TEST:sequence.append(('TA1-0148',False,False))
     for index,(qid,wrong,hinted) in enumerate(sequence):
         q=bank[qid];kind=q['type']

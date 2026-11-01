@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration]
+    branches: [codex/original-runtime-integration, codex/integration-137]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["s24","google","lesson","accounts","formula","chests","atmosphere"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["formula-words-touch","updater","chests-native","atmosphere-hint"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -85,12 +85,14 @@ jobs:
           python native-base/test_icon_layout.py
           python native-base/test_mascot_animation.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|chests-native|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
+          python native-base/test_formula_words.py
           python native-base/test_intro_formulas.py
           python native-base/test_path_structure.py
           python native-base/test_course_progress.py
@@ -248,6 +250,10 @@ jobs:
             chests)
               python native-base/test_chests.py
               ;;
+            chests-native)
+              export DUOAERO_REQUIRE_NATIVE_CHEST=1
+              python native-base/test_chests.py
+              ;;
             accounts)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt
               python -c "from pathlib import Path; assert 'ACCOUNT_STORAGE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/accounts.txt').read_text()"
@@ -269,6 +275,10 @@ jobs:
               ;;
             wind-mixed)
               run_probe aerospace-wind-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
+              ;;
+            formula-words-touch)
+              run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 4 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
               ;;
             wind-mixed-hint)
               run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

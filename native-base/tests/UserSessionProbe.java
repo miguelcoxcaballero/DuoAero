@@ -34,7 +34,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-touch").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -159,7 +159,7 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
-  if(interaction.equals("mixed")||interaction.equals("mixed-hint"))report.append(SessionInteraction.mixedAnswers(this,interaction.equals("mixed-hint")));
+  if(interaction.equals("mixed")||interaction.equals("mixed-hint")||interaction.equals("mixed-touch"))report.append(SessionInteraction.mixedAnswers(this,interaction.equals("mixed-hint"),interaction.equals("mixed-touch")));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
   else if(interaction.equals("math-hint"))report.append(SessionInteraction.allMathHintRetry(this,current));
   else if(interaction.startsWith("formula"))report.append(SessionInteraction.formulaAnswers(this,current,interaction.equals("formula-wrong")));

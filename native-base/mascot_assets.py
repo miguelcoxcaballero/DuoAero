@@ -178,6 +178,7 @@ def rive(data,name,png,width,height):
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
+    zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
              'duo_perfect_lfg_03':{'lc_character_artboard':determined},
@@ -187,6 +188,7 @@ def rive(data,name,png,width,height):
              'duo_normal_lovey_dovey_03':{'lc_character_artboard':lovey},
              'duo_perfect_chefs_kiss_03':{'lc_character_artboard':chef},
              'duo_normal_foam_finger_02':{'lc_character_artboard':foam},
+             'duo_zen_04':{'36_zen_duo':zen},
              'lesson_complete_main_29':{'lc_character_artboard':hero},
              'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
                  '17_duo_perfect_jaw_drop_artboard':surprised,
@@ -224,7 +226,7 @@ def rive(data,name,png,width,height):
     static_index=asset_index+len(all_frames)
     keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
     animation=None
-    replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0
+    replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0;state_layer=None
     def finish():
         if not replace:return
         w,h=art.get(7,600.),art.get(8,600.)
@@ -254,7 +256,9 @@ def rive(data,name,png,width,height):
         for i in range(len(frames)):
             output.extend(encode(25,{51:counts[art.get(4)]+1+i}))
             output.extend(encode(26,{53:18}))
-            for t in range(0,max(1,duration)):
+            # A native loop can end exactly at its timeline duration; key the
+            # endpoint too so its final sample agrees with the loop start.
+            for t in range(0,max(1,duration)+1):
                 current=((t-phase)*len(frames)//cycle)%len(frames)
                 previous=((t-1-phase)*len(frames)//cycle)%len(frames)
                 if t==0 or current!=previous:
@@ -263,11 +267,14 @@ def rive(data,name,png,width,height):
         if animation is not None and kind not in keyed:
             finish_animation();animation=None
         if kind==1:
-            finish();art=values;component_id=0;motion_parent=0;label=values.get(4,'');w,h=values.get(7,0),values.get(8,0)
+            finish();art=values;component_id=0;motion_parent=0;state_layer=None;label=values.get(4,'');w,h=values.get(7,0),values.get(8,0)
             # Some large character artboards nest another artboard containing
             # only eyes. Replacing both draws two full Snoopy images on top
             # of one another (and can put Snoopy inside Duo's eyes).
             replace=(pure and label==primary) or (name=='lesson_complete_main_29' and label=='lc_character_artboard') or ('duo' in label.lower() and min(w,h)>=100 and not auxiliary(label))
+            # The zen scene's outer board nests its actual character board.
+            # Replacing both would draw two full characters on top of each other.
+            if name=='duo_zen_04' and label=='lc_character_artboard':replace=False
             if replace:changed.append(label)
         elif art is not None and kind in COMPONENT:
             component_id+=1
@@ -276,8 +283,17 @@ def rive(data,name,png,width,height):
             if replace and not motion_parent and kind==2 and values.get(5)==0 and abs(values.get(13,0))<1 and abs(values.get(14,0))<1:
                 motion_parent=component_id
         if replace and kind==31:animation=values
+        if replace and kind==57:state_layer=values.get(138,'')
         update=dict(values)
         if replace and kind in DRAWABLE:update[129]=values.get(129,0)|1
+        # The original foam rig cross-fades its intro into the loop. That
+        # blends several opaque sprite poses at once. The two tracks meet at
+        # the same registered pose, so switch at the boundary instead.
+        if (art is not None and kind==65 and state_layer=='idleLoop'
+            and values.get(158)==800 and (name,art.get(4)) in (
+                ('duo_normal_foam_finger_02','lc_character_artboard'),
+                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))):
+            update[158]=0
         # The completion scene instantiates each character twice: the first
         # group (parent 371) is the moving character and the second (parent
         # 632) plays its sparkle-only state. Our full-image replacements also
