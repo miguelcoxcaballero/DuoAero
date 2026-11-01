@@ -123,16 +123,22 @@ try:
             return current and 'continue' in labels and 'got it' not in labels
         tree=wait_for('standalone-graded-'+str(i),correct_feedback,30)
         tap(tree,text='CONTINUE')
-    deadline=time.monotonic()+60
+    deadline=time.monotonic()+90
+    end_seen=False
     while time.monotonic()<deadline:
         tree=capture('standalone-complete')
         if tree is not None:
             label=next((n.get('text') for n in tree.iter('node') if n.get('text','').strip().casefold()=='claim xp'),None)
             if label:
                 tap(tree,text=label);break
-            if any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node')):
-                # Some original summaries render the entire button inside
-                # Rive. Locate its visible text, then use ordinary touch.
+            end_seen |= any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node'))
+        # Rive can keep UiAutomator from reaching its idle condition even when
+        # the summary is fully visible. Keep the already observed end container
+        # and inspect this fresh screenshot only while our session is resumed.
+        if end_seen:
+            activities=adb('shell','dumpsys','activity','activities').decode()
+            active=any(('mResumedActivity' in line or 'topResumedActivity' in line) and PACKAGE+'/' in line and 'SessionActivity' in line for line in activities.splitlines())
+            if active:
                 point=claim_xp(OUT/'standalone-complete.png',OUT/'standalone-claim-ocr.png')
                 if point is not None:
                     adb('shell','input','tap',str(point[0]),str(point[1]));break

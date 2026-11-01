@@ -68,7 +68,9 @@
     "original_wrong_answer_retry_and_persistent_resolution": true,
     "original_resource_ids_and_values_preserved_with_updater_xml": true,
     "native_account_storage_synthetic_checks": 15,
-    "original_settings_updates_review_drive_controls_visible": true
+    "original_settings_updates_review_drive_controls_visible": true,
+    "night_mode_rich_session_at_130_percent_font": "Run 41275526803: 15 correct answers, original Claim XP and return; dark screenshots and long-prompt scrolling inspected.",
+    "emulator_audio_haptic_service_events": "Run 41275526803: 16 original-app SoundPool start events and at least 15 original-app haptic completions. Physical output quality remains unverified."
   },
   "not_verified_or_incomplete": [
     "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",

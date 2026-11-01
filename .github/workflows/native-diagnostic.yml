@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","accounts","night-large"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","standalone","resume","mistakes"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -237,6 +237,7 @@ jobs:
               adb shell dumpsys vibrator_manager > ${{ runner.temp }}/duoaero-evidence/vibration-observation.txt
               adb shell dumpsys audio > ${{ runner.temp }}/duoaero-evidence/audio-observation.txt
               adb shell dumpsys uimode > ${{ runner.temp }}/duoaero-evidence/night-observation.txt
+              python native-base/test_device_effects.py
               ;;
             lesson)
               run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache true
