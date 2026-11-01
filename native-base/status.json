@@ -372,5 +372,27 @@
       "physical audio and haptics",
       "complete course traversal"
     ]
+  },
+  "v1_3_6_development": {
+    "release": "https://github.com/miguelcoxcaballero/DuoAero/releases/tag/v1.3.6",
+    "versionCode": 10306,
+    "source_commit": "46c861c7cfec95c1349ffd581ef1648f72f9222e",
+    "apk_sha256": "522f96145a062fb71d603d3a455265ebd7d26f75eb91c738e829c53b3e33e91c",
+    "signer_sha256": "7133a4b3e4b9f9c4d2fbbd38b7dd2d44c7b8d0d7d16568bfe3da74a09e7887b6",
+    "signed_run": "https://github.com/miguelcoxcaballero/youtube-calma/actions/runs/41351858856",
+    "production_smoke": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41351950384",
+    "atmosphere_diagnostic": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41349148630",
+    "mixed_and_s24_diagnostic": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41348094953",
+    "tested": "Exact signed APK installed over 1.3.0 and fresh in an emulator; Google welcome visible before and after restart. Diagnostic build completed the real first Atmosphere lesson with prior nodes seeded, hint and retry, persisted completion and next lesson after restart. Separate diagnostic exercised a mixed hint sequence and S24-like geometry. The combined diagnostic run initially failed Atmosphere because an emulator Pixel Launcher ANR dialog obscured the path; the repeat passed.",
+    "not_yet_verified_or_complete": [
+      "All calculations have formula hints and prerequisite exercises",
+      "All long questions and mathematical notation reviewed",
+      "All requested mascot and character animations, transitions and poses",
+      "Entire course and all midterms",
+      "Real Google sign-in and Drive sync",
+      "Prior user data migration on upgrade",
+      "In-app updater install and real S24 Ultra",
+      "Physical audio and haptics"
+    ]
   }
 }
