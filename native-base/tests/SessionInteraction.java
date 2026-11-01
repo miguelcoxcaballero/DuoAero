@@ -25,7 +25,7 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test)throws Exception {
+ static String mixedAnswers(Instrumentation test,boolean hintRetry)throws Exception {
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
@@ -35,6 +35,13 @@ final class SessionInteraction {
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
+   boolean hinted=hintRetry&&q.getString("id").equals("TA1-0107-D2-S1");
+   if(hinted){
+    clickTip(test);Thread.sleep(800);
+    if(!contains(test,"a tip")||contains(test,"GOT IT")&&contains(test,"Incorrect"))throw new IllegalStateException("Hint sheet failed or graded before Check");
+    SessionScreen.capture(test,"mixed-mach-hint","mixed-mach-hint");
+    test.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);Thread.sleep(700);
+   }
    if(kind.equals("multi")){
     org.json.JSONArray answer=q.getJSONArray("answer"),options=q.getJSONArray("options");
     for(int j=0;j<answer.length();j++){click(test,null,options.getString(answer.getInt(j)));Thread.sleep(300);}
@@ -63,6 +70,12 @@ final class SessionInteraction {
    boolean correct=hasContinue(test)&&!contains(test,"GOT IT");
    for(String label:positive)if(contains(test,label))correct=true;
    if(!correct)click(test,"com.duolingo:id/submitButton",null);
+   if(hinted){
+    for(int attempt=0;attempt<150&&!contains(test,"GOT IT");attempt++)Thread.sleep(200);
+    if(!contains(test,"GOT IT"))throw new IllegalStateException("Hint did not produce incorrect feedback at Check");
+    SessionScreen.capture(test,"mixed-mach-hinted-feedback","mixed-mach-hinted-feedback");
+    click(test,null,"GOT IT");continue;
+   }
    for(int attempt=0;attempt<150&&!correct;attempt++){
     correct=hasContinue(test)&&!contains(test,"GOT IT");
     for(String label:positive)if(contains(test,label))correct=true;
@@ -72,6 +85,22 @@ final class SessionInteraction {
    if(!correct)throw new IllegalStateException("No original correct feedback for "+q.getString("id"));
    android.util.Log.i("DuoAeroProbe","Native mixed feedback CORRECT: "+q.getString("id")+" type="+kind);
    click(test,null,"CONTINUE");
+  }
+  if(hintRetry){
+   for(int attempt=0;attempt<150&&!contains(test,"17.97");attempt++){
+    if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
+    Thread.sleep(200);
+   }
+   if(!contains(test,"17.97"))throw new IllegalStateException("Hinted Mach calculation did not retry at lesson end");
+   SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
+   click(test,"com.duolingo:id/mathCard","17.97");Thread.sleep(1500);
+   click(test,"com.duolingo:id/submitButton",null);
+   for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
+   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct Mach retry did not grade correctly");
+   click(test,null,"CONTINUE");
+   for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
+   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Mach retry did not reach lesson completion");
+   return "PASS: native Mach formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
   }
   return "All "+questions.length()+" mixed source exercises produced original visible correct feedback through native controls. No course completion or overflow acceptance asserted.\n";
  }
