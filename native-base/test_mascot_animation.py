@@ -35,9 +35,11 @@ with zipfile.ZipFile(APK) as original:
             ('duo_perfect_lfg_03', 'lc_character_artboard', 'Duo_LFG_IdleLoop', 60, 180),
             ('duo_perfect_jaw_drop_04', 'lc_character_artboard', 'JawdropDuo_Loop_animation', 120, 240),
             ('duo_obsessed_02', 'lc_character_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
+            ('duo_perfect_starry_eyed_03', 'lc_character_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '01_duo_epic_arboard', 'EpicDuo_IdleLoop', 70, 190),
             ('lesson_complete_redesign_v72', '04_duo_lfg_artboard', 'Duo_LFG_IdleLoop', 60, 180),
             ('lesson_complete_redesign_v72', '02_duo_obsessed_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
+            ('lesson_complete_redesign_v72', '22_duo_perfect_starry_eyed_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '17_duo_perfect_jaw_drop_artboard', 'JawdropDuo_Loop_animation', 120, 240)]:
         source = original.read(f'res/raw/{name}.riv')
         _, before, _ = parse(source)
@@ -99,22 +101,22 @@ with zipfile.ZipFile(APK) as original:
         poses = []
         for kind, values, _ in objects:
             if kind == 1: board, timeline = values.get(4), None
-            elif board == 'character' and kind == 31: timeline = values.get(55, '').strip()
+            elif board == 'character' and kind == 31: timeline = values.get(55, '').strip().lower()
             elif board == 'character' and kind == 100 and values.get(4, '').startswith(f'DuoAero {character} frame '):
                 poses.append(values)
-            elif board == 'character' and timeline in ('Idle_00', 'Correct_00', 'Incorrect_00'):
+            elif board == 'character' and timeline in ('idle_00', 'correct_00', 'incorrect_00'):
                 if kind == 25: object_id = values.get(51)
-                elif kind == 30 and original_count + 1 <= (object_id or 0) <= original_count + 32:
+                elif kind == 30 and original_count + 1 <= (object_id or 0) <= original_count + 48:
                     tracks.setdefault(timeline, {}).setdefault(object_id, []).append((values[67], values[70]))
-        assert len(poses) == 32 and len({p[206] for p in poses}) == 32
-        for timeline, emotion in [('Idle_00', 0), ('Correct_00', 0), ('Incorrect_00', 1)]:
+        assert len(poses) == 48 and len({p[206] for p in poses}) == 48
+        for timeline, emotion in [('idle_00', 0), ('correct_00', 1), ('incorrect_00', 2)]:
             group = tracks[timeline]
-            assert len(group) == 32
+            assert len(group) == 48
             for time in range(60):
                 active = [object_id for object_id, track in group.items()
                           if next(value for frame, value in reversed(track) if frame <= time)]
                 assert len(active) == 1 and (active[0] - original_count - 1)//16 == emotion
-        for mood in ('happy', 'sad'):
+        for mood in ('idle', 'happy', 'sad'):
             for image_path in (ROOT/'app/assets/mascot/characters'/character/mood).glob('*.png'):
                 with Image.open(image_path) as image:
                     assert image.mode == 'RGBA'
