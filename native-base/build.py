@@ -232,7 +232,18 @@ resume_text=resume_original.decode('utf-8').replace('\r\n','\n')
 resume_anchor='    iput-object p1, p0, Leo10;->a:Lcom/duolingo/data/session/state/PersistedState;'
 assert resume_text.count(resume_anchor)==1
 resume_hook='    invoke-static {p1, p5}, Lcom/duoaero/nativebase/NativeSessionResume;->stateForSession(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object p1\n\n    check-cast p1, Lcom/duolingo/data/session/state/PersistedState;\n\n'
+tip_source=SMALI/'smali_classes3/pqm.smali'
+tip_original=tip_source.read_bytes();tip_text=tip_original.decode('utf-8').replace('\r\n','\n')
+tip_anchor='    sget-object v0, Lcom/duolingo/core/session/buttons/ChallengeButton;->TIP:Lcom/duolingo/core/session/buttons/ChallengeButton;'
+assert tip_text.count(tip_anchor)==1
+submit_source=SMALI/'smali_classes3/ll.smali'
+submit_original=submit_source.read_bytes();submit_text=submit_original.decode('utf-8').replace('\r\n','\n')
+submit_anchor='    invoke-virtual {v13, v11}, Lcom/duolingo/session/challenges/ElementFragment;->H(Lnha0;)Lcom/duolingo/core/session/FragmentGuess;\n\n    move-result-object v0'
+assert submit_text.count(submit_anchor)==1
+submit_hook=submit_anchor+'\n\n    invoke-static {v13, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->diagnosticHintGuess(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v0\n\n    check-cast v0, Lcom/duolingo/core/session/FragmentGuess;'
 try:
+ tip_source.write_text(tip_text.replace(tip_anchor,'    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->diagnosticTipOpened()V\n\n'+tip_anchor),encoding='utf-8')
+ submit_source.write_text(submit_text.replace(submit_anchor,submit_hook),encoding='utf-8')
  unit_header_source.write_text(unit_header_text.replace(unit_header_anchor,unit_header_hook+unit_header_anchor),encoding='utf-8')
  profile_inputs_source.write_text(profile_inputs_text.replace(profile_inputs_anchor,'    invoke-static {v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordProfileInputs([Ljava/lang/Object;)V\n\n'+profile_inputs_anchor),encoding='utf-8')
  resume_source.write_text(resume_text.replace(resume_anchor,resume_hook+resume_anchor),encoding='utf-8')
@@ -243,6 +254,8 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ tip_source.write_bytes(tip_original)
+ submit_source.write_bytes(submit_original)
  unit_header_source.write_bytes(unit_header_original)
  profile_inputs_source.write_bytes(profile_inputs_original)
  resume_source.write_bytes(resume_original)
