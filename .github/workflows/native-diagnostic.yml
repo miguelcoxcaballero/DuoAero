@@ -65,6 +65,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = standalone ]; then export DUOAERO_STANDALONE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
+          python native-base/test_profile_response.py
           python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies

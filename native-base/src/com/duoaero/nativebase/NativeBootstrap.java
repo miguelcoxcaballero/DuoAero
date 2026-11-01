@@ -30,8 +30,17 @@ public final class NativeBootstrap {
    NativeCourseBridge.serveLocalCourse=true;
    Log.i("DuoAeroNative","Standalone native profile/course initialized in "+(SystemClock.elapsedRealtime()-begin)+" ms");
    new Thread(()->{
-    try{NativeLocalFeatures.goals(app);NativeLocalFeatures.social(app);Log.i("DuoAeroNative","Standalone optional feature caches ready");}
-    catch(Exception error){Log.e("DuoAeroNative","Standalone feature initialization failed",error);}
+    // Social cache input is independent of the goals scope. A cold launcher
+    // may take longer than one observation window to publish that scope.
+    try{NativeLocalFeatures.social(app);}
+    catch(Exception error){Log.e("DuoAeroNative","Standalone social initialization failed",error);}
+    for(int attempt=1;attempt<=3;attempt++){
+     try{NativeLocalFeatures.goals(app);Log.i("DuoAeroNative","Standalone goals cache ready on attempt "+attempt);break;}
+     catch(Exception error){
+      if(attempt==3)Log.e("DuoAeroNative","Standalone goals initialization failed",error);
+      else Log.w("DuoAeroNative","Original goals scope not ready; retrying native cache initialization");
+     }
+    }
    },"duoaero-native-features").start();
   }catch(Exception error){
    Log.e("DuoAeroNative","Standalone native initialization failed",error);

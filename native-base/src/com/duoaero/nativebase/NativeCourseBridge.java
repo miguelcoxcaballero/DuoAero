@@ -21,9 +21,12 @@ public final class NativeCourseBridge {
   // Both original profile readers share /users/1: the legacy User model and
   // the nested UserStreak resource. A missing longestStreak becomes the
   // all-null 'unavailable' sentinel on refresh, erasing the seeded zero streak.
-  if(!user.has("streakData")||user.isNull("streakData"))user.put("streakData",new JSONObject()
-   .put("length",0).put("updatedTimestamp",0).put("updatedTimeZone","UTC")
-   .put("longestStreak",new JSONObject().put("length",0)));
+  JSONObject streak=user.optJSONObject("streakData");
+  if(streak==null){streak=new JSONObject();user.put("streakData",streak);}
+  if(!streak.has("length"))streak.put("length",0);
+  if(!streak.has("updatedTimestamp"))streak.put("updatedTimestamp",0);
+  if(!streak.has("updatedTimeZone"))streak.put("updatedTimeZone","UTC");
+  if(!streak.has("longestStreak")||streak.isNull("longestStreak"))streak.put("longestStreak",new JSONObject().put("length",0));
   diagnosticProfile=user.toString();
   return diagnosticProfile;
  }

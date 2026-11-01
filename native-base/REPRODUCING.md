@@ -525,3 +525,18 @@ named popup, then requires all real answers, end screen and Claim XP. Grade
 observation allows 30 seconds for the original asynchronous sandbox; an actual
 GRADING_ERROR still fails immediately. The cold-start driver also handles the
 original between-question streak Continue control. Runtime checks pending.
+
+The first lifetime-response change failed its original decoder guard: the
+generated profile already contains a partial legacy streakData object, so
+creating the object only when absent did not add longestStreak. The normalizer
+now merges missing fields into that existing object and preserves supplied
+values. Seven host checks execute the packaged Java normalizer with real JSON,
+including this regression, idempotence and foreign-identity rejection. Android
+decoding and end-to-end completion still require the next runtime run.
+
+Standalone run 41268748299 shows 12 consecutive correct native answers. Its
+driver failed on the positive randomized label Great!, absent from the test
+whitelist. All 11 original grade_correct_* resource strings are now recognized.
+The same run exposed a goals-context startup timeout: social initialization now
+runs independently, and goals initialization retries the original context
+observation at most three times. It does not manufacture a goals scope.

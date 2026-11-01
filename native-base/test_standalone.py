@@ -69,7 +69,8 @@ try:
     root=Path(__file__).resolve().parents[1]
     bank={q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
     plan=json.loads((root/'app/assets/lesson_plan.json').read_text())
-    positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great job!','Nice job!','Nice!','Nicely done!'}
+    # Exact original grade_correct_* strings, including randomized variants.
+    positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great!','Great job!','Nice job!','Nice!','Nicely done!','Wow!'}
     for i,qid in enumerate(plan[0]['lessons'][0]['ids']):
         q=bank[qid]
         assert q['type']=='choice' and not q.get('rich_text'), 'Cold-start driver needs reviewed support for this type'
