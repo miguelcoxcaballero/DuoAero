@@ -15,7 +15,7 @@ for name,expected in {'duo_happy':'celebrate','duo_flying':'plane','duo_thinking
     assert mascot_name(name) and static_mood(name)==expected,(name,expected)
 for name in ('duo_radio_play','duo_radio_check_correct','super_duo_fly_glow','super_duo_light_beam'):
     assert not mascot_name(name), name
-assert static_mood('duo_sad') is None  # Do not disguise a sad pose as happy.
+assert static_mood('duo_sad') == 'sad'
 for mood,source in MOOD_SCENES.items():
     with Image.open(ROOT/'app/assets/mascot'/source) as image:
         assert image.mode=='RGBA' and image.getchannel('A').getextrema()[0]==0,mood

@@ -9,8 +9,9 @@ verify the appended resource table and that the wrappers link, but do not
 establish what every screen looks like on Android.
 
 This is partial coverage: a name-based inventory currently identifies only
-110 of 503 replaced mascot paths for a reviewed non-generic pose or character. Sad, crying,
-and ambiguous names deliberately remain on the prior generic artwork rather
-than mapping them to an unrelated emotion. Android animated-vector resources
+133 of 503 replaced mascot paths for a reviewed non-generic pose or character.
+Explicit sad and crying names use a transparent sad Snoopy; ambiguous names
+deliberately remain on the prior generic artwork rather than mapping them to
+an unrelated emotion. Android animated-vector resources
 are not demonstrated to animate merely because the replacement artwork is
 transparent. A scene-by-scene artwork and animation review remains necessary.
