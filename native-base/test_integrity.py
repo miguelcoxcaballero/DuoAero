@@ -35,6 +35,9 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
 A = '{http://schemas.android.com/apk/res/android}'
 manifest = ET.parse(WORK/'AndroidManifest.xml').getroot()
 assert manifest.find('application').get(A+'name') == 'com.duolingo.core.DuoApp'
+for component in manifest.find('application'):
+    if any(any(category.get(A+'name') == 'android.intent.category.LAUNCHER' for category in intent.findall('category')) for intent in component.findall('intent-filter')):
+        assert component.get(A+'label') == manifest.find('application').get(A+'label')
 assert any(a.get(A+'name') == 'com.duolingo.session.SessionActivity' for a in manifest.findall('./application/activity'))
 assert not any(a.get(A+'name') == 'com.duoaero.MainActivity' for a in manifest.findall('./application/activity'))
 provider = next(p for p in manifest.findall('./application/provider') if p.get(A+'authorities','').endswith('.update-provider'))

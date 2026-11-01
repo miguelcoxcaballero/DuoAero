@@ -93,6 +93,8 @@ def prototypes():
 if __name__ == '__main__':
     root = Path(__file__).resolve().parents[1]
     questions = prototypes()
+    bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
+    questions.extend(q for q in bank if q['type'] == 'formula_blocks')
     session = {'id': 'duoaero_formula_blocks_diagnostic', 'type': 'MATH_LESSON',
                'fromLanguage': 'en', 'skillId': 'duoaero_aerospace_diagnostic',
                'levelIndex': 0, 'levelSessionIndex': 0,
@@ -100,4 +102,4 @@ if __name__ == '__main__':
                'challenges': [formula_challenge(q) for q in questions]}
     destination = root / 'native-base/tests/fixtures/aerospace_formula_lesson.json'
     destination.write_text(json.dumps(session, ensure_ascii=False), encoding='utf-8')
-    print('Two textbook formula prototypes; runtime rendering and grading must be tested.')
+    print(f'{len(questions)} formula exercises including the complete textbook bank; runtime rendering and grading must be tested.')

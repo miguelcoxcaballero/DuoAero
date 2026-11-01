@@ -132,6 +132,8 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
   });
  }
  @JavascriptInterface public String readProgressForAccount(String id){try{return NativeProgressSync.read(app,id);}catch(Exception error){throw new IllegalStateException("Cannot read this account's progress",error);}}
+ @JavascriptInterface public String readAuthStorage(){try{return NativeAuthStorage.read(app);}catch(Exception error){throw new IllegalStateException("Cannot restore Google authentication storage",error);}}
+ @JavascriptInterface public void writeAuthStorage(String key,String value){try{NativeAuthStorage.write(app,key,value);}catch(Exception error){throw new IllegalStateException("Cannot save Google authentication storage",error);}}
  @JavascriptInterface public void applyProgressForAccount(String id,String raw){
   try{NativeProgressSync.apply(app,id,raw);}catch(Exception error){throw new IllegalStateException("Cannot merge this account's progress",error);}
   main.post(()->{

@@ -4,6 +4,7 @@ from runtime_config import ROOT as R, WORK as W, SDK, BT, JAR as platform, KEY, 
 import sys
 import json
 from rich_question import content
+from formula_exercises import prototypes
 def run(*args):subprocess.run([str(a) for a in args],check=True)
 for folder in ['testclasses','testdex']:
  path=W/folder
@@ -20,6 +21,8 @@ with zipfile.ZipFile(W/'tests.apk','a') as z:
  with zipfile.ZipFile(W/'DuoAero-native-base-test.apk') as target:
   lesson=json.loads(target.read('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json'))
  bank={q['id']:q for q in json.loads((R/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
+ formula_questions=prototypes()+[q for q in bank.values() if q['type']=='formula_blocks']
+ z.writestr('assets/formula-selections.json',json.dumps([{'id':q['id'],'tokens':q['answer_blocks']} for q in formula_questions]))
  selections=[]
  for challenge in lesson['challenges']:
   question=bank[challenge['id']];index=question['answer']

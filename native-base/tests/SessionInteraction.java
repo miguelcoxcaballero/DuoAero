@@ -67,21 +67,27 @@ final class SessionInteraction {
  }
  static String formulaAnswers(Instrumentation test,android.app.Activity activity,boolean wrong)throws Exception {
   // Select through the original token controls; no model/grade injection.
-  String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
-  for(int i=0;i<answers.length;i++){
+  org.json.JSONArray answers;
+  try(java.io.InputStream input=test.getContext().getAssets().open("formula-selections.json")){
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
+   answers=new org.json.JSONArray(bytes.toString("UTF-8"));
+  }
+  for(int i=0;i<(wrong?1:answers.length());i++){
+   test.getUiAutomation().clearCache();
    SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
-   for(String token:answers[i]){clickLast(test,token);Thread.sleep(500);}
+   org.json.JSONArray tokens=wrong?new org.json.JSONArray().put("V"):answers.getJSONObject(i).getJSONArray("tokens");
+   for(int j=0;j<tokens.length();j++){clickLast(test,tokens.getString(j));Thread.sleep(500);}
    SessionScreen.capture(test,"formula-selected-"+i,"formula-selected-"+i);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1500);
    SessionScreen.capture(test,"formula-graded-"+i,"formula-graded-"+i);
    NativeMathGrade.require(test,activity,wrong?"INCORRECT":"CORRECT");
-   android.util.Log.i("DuoAeroProbe","Native formula controller with Aerospace symbolic comparison: "+(wrong?"INCORRECT":"CORRECT")+" at "+i);
+   android.util.Log.i("DuoAeroProbe","Native formula controller with Aerospace symbolic comparison: "+(wrong?"INCORRECT":"CORRECT")+" at "+i+" source="+answers.getJSONObject(i).getString("id"));
    String action=wrong?"GOT IT":"CONTINUE";
    for(int attempt=0;attempt<150&&!contains(test,action);attempt++)Thread.sleep(200);
    click(test,null,action);Thread.sleep(1200);
   }
-  return "Formula prototype selections submitted through native controls; Aerospace symbolic comparison checked against visible original fragment result. No full course acceptance.\n";
+  return (wrong?1:answers.length())+" formula selections submitted through native controls; Aerospace symbolic comparison checked against visible original fragment result. No full course acceptance.\n";
  }
  static String firstAssistAnswer(Instrumentation test)throws Exception {
   String stem="Which one from the following characteristics does not define the aerospace industry?";

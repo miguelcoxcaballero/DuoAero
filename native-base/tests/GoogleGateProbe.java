@@ -24,9 +24,9 @@ public final class GoogleGateProbe extends Instrumentation {
    if(!ready.getBoolean(host))throw new IllegalStateException("Bundled OAuth runtime did not load");
    Field webField=type.getDeclaredField("web");webField.setAccessible(true);android.webkit.WebView web=(android.webkit.WebView)webField.get(host);
    if(restart){
-    String value=script(web,"localStorage.getItem('duoaero-probe-restart')");
+    String value=script(web,"localStorage.getItem('duoaero-drive-pkce-verifier-v1')");
     if(!"\"original-runtime-storage\"".equals(value))throw new IllegalStateException("OAuth WebView storage lost across process restart");
-    script(web,"localStorage.removeItem('duoaero-probe-restart')");
+    script(web,"localStorage.removeItem('duoaero-drive-pkce-verifier-v1')");
     report.append("GOOGLE_STORAGE_RESTART_VERIFIED=true\n");
     result.putString("stream",report.toString());finish(-1,result);return;
    }
@@ -35,7 +35,10 @@ public final class GoogleGateProbe extends Instrumentation {
    type.getMethod("onSignedOut").invoke(host);
    await("CONTINUE WITH GOOGLE");SessionScreen.capture(this,"google-signed-out","google-signed-out");
    if(!context.getSharedPreferences("duoaero-google",0).getString("account","").isEmpty())throw new IllegalStateException("Account retained after sign out");
-   script(web,"localStorage.setItem('duoaero-probe-restart','original-runtime-storage')");
+   script(web,"localStorage.setItem('duoaero-drive-pkce-verifier-v1','original-runtime-storage')");
+   java.util.Map<String,?> encrypted=context.getSharedPreferences("duoaero-auth-encrypted",0).getAll();
+   if(!encrypted.containsKey("duoaero-drive-pkce-verifier-v1"))throw new IllegalStateException("Authentication write did not commit before return");
+   for(Object value:encrypted.values())if(String.valueOf(value).contains("original-runtime-storage"))throw new IllegalStateException("Authentication value persisted without encryption");
    report.append("PASS: original Google-only welcome, synthetic identity activation reaches original course, sign out returns to original welcome. No real OAuth or Drive network acceptance asserted.\n");
    result.putBoolean("GOOGLE_GATE_VERIFIED",true);
    report.append("GOOGLE_GATE_VERIFIED=true\n");

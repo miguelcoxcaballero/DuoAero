@@ -10,7 +10,7 @@ jobs:
       - name: Validate course
         run: python3 tests/validate_bank.py
       - name: Check account and Drive boundaries
-        run: node --test tests/auth.test.cjs
+        run: node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
       - name: Verify frozen updater sources
         run: python3 vendor/inhouse-services-updater/verify.py
       # Android builds and device tests use native-diagnostic.yml. The retired

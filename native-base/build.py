@@ -32,8 +32,13 @@ for el in root.iter():
  if A+'authorities' in el.attrib and not el.get(A+'authorities').startswith(package):el.set(A+'authorities',el.get(A+'authorities')+'.duoaero.nativebase')
  if el.get(A+'name','').startswith('.'):el.set(A+'name','com.duolingo'+el.get(A+'name'))
 E.SubElement(root,'uses-sdk',{A+'minSdkVersion':'29',A+'targetSdkVersion':'36'})
-app=root.find('application');app.set(A+'label','DuoAero' if production else 'DuoAero original base · test');app.set(A+'debuggable','false' if production else 'true')
+app=root.find('application');app_label='DuoAero' if production else 'DuoAero original base · test';app.set(A+'label',app_label);app.set(A+'debuggable','false' if production else 'true')
 assert app.get(A+'name')=='com.duolingo.core.DuoApp'
+for component in app:
+ if any(any(category.get(A+'name')=='android.intent.category.LAUNCHER' for category in intent.findall('category')) for intent in component.findall('intent-filter')):
+  # Activity aliases override the application label, including the original
+  # alternate launcher identities. Keep their routing and show the course name.
+  component.set(A+'label',app_label)
 # Do not register the reference service's external app links under the test identity.
 for component in app:
  for f in list(component.findall('intent-filter')):
