@@ -170,6 +170,16 @@ public final class UserSessionProbe extends Instrumentation {
     android.app.Activity pathSession=resumed.get();
     if(pathSession==null||!activity.isInstance(pathSession))throw new IllegalStateException("Original path session did not resume");
     report.append(SessionInteraction.allPathAnswers(this,pathSession));
+    Object pathVm=pathSession.getClass().getMethod("J").invoke(pathSession);
+    Object pathEngine=pathVm.getClass().getField("t2").get(pathVm);
+    Object pathStateFlow=pathEngine.getClass().getField("k").get(pathEngine);
+    Object pathState=pathStateFlow.getClass().getMethod("getValue").invoke(pathStateFlow);
+    report.append("Path engine after all answers: ").append(pathState.getClass().getName()).append('\n');
+    if(pathState.getClass().getName().equals("eo10")){
+     Object streak=pathState.getClass().getField("d").get(pathState);
+     report.append("Path engine streak: ").append(streak==null?"null":streak.getClass().getName()).append('\n');
+     if(streak!=null)report.append("Path engine lifetime streak present: ").append(streak.getClass().getField("a").get(streak)!=null).append('\n');
+    }
     try(SessionDependencies dependencies=SessionDependencies.end(this,pathSession)){
      Thread.sleep(5000);report.append(dependencies.report());
     }

@@ -208,7 +208,7 @@
     "web_logic_checks_passed": 23,
     "native_latest_run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41264928908",
     "native_one_slot_correct_and_incorrect_verified": true,
-    "native_many_slots_verified": false,
+    "native_many_slots_verified": true,
     "native_path_node_popup_verified": true,
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
@@ -225,9 +225,10 @@
     "native_decode_latest_observed": "1200 passed, zero failures in run 41267475095.",
     "gap_order_adapter": "Native word-bank slots and strict sequence grading implemented; rendering and grading unverified.",
     "formula_latex_rendered": true,
-    "formula_latex_semantic_card_labels": "Bound labels to actual native figure view and parent mathCard; runtime verification pending.",
+    "formula_latex_semantic_card_labels": "Run 41268267850: native one-slot correct/incorrect and five-slot ideal-gas expression CORRECT; screenshots inspected.",
     "native_first_path_session": "Original path opened lesson; all 19 answers graded CORRECT in run 41267475095. End remains loading; no Claim XP or persisted completion verified.",
     "remaining": "Standalone full course, reliable grading, persistent progress/resume/mistakes, Google/Drive, updater, mascot, full audio/haptics/night/text QA, production signing and publication to main.",
-    "original_js_grading": "Intermittent null result; original swallowed exception logging and bounded retries for marked pure choice functions added. No grade injected; runtime verification pending."
+    "original_js_grading": "Intermittent null result; original swallowed exception logging and bounded retries for marked pure choice functions added. No grade injected; runtime verification pending.",
+    "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending."
   }
 }

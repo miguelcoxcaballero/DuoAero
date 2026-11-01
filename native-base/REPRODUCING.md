@@ -497,3 +497,23 @@ skipping the expected learnButton popup. The assertion failed on that absent
 intermediate control even though the question was visible. The driver now
 accepts either native route and still requires the actual question. This does
 not establish answer grading, completion, persistent progress or release readiness.
+
+Run 41268267850 verifies native LaTeX block selection and original feedback for
+a correct single slot, incorrect single slot, and the five-block expression
+rho × R_a × T. Correct multi-slot screenshot inspected. Its first path lesson
+grades all 19 answers but SessionEndConfigureArgs never emits. The hardcoded
+15-question probe in the same run reaches Claim XP and issues a PUT; that
+diagnostic ID is outside the real lesson catalog and is not recorded as progress.
+
+The local /users/1 response previously omitted streakData, although native
+initialization seeded a known zero-day lifetime UserStreak. The original nested
+UserStreak serializer interprets an absent longestStreak as unavailable. The
+response now includes a zero-day longestStreak together with the legacy streak
+fields. Both original User and UserStreak deserializers must accept the same
+response, and the latter must retain its lifetime record. This restores data
+consistency; it awards no learned days or XP. Lesson-end impact pending UI.
+
+Opt-in synthetic diagnostics now log original warning/error exception types and
+stack frames, omitting exception messages and request data. The path probe also
+reports whether the actual ending engine retains a lifetime streak. No original
+error, readiness state or completion flag is suppressed or forced.

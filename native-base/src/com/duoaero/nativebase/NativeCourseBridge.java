@@ -15,10 +15,17 @@ public final class NativeCourseBridge {
  public static volatile boolean localCourseInstalled = false;
  public static volatile boolean serveLocalCourse = false;
  private static volatile String diagnosticProfile = null;
- public static void setDiagnosticProfile(String value)throws JSONException {
+ public static String setDiagnosticProfile(String value)throws JSONException {
   JSONObject user=new JSONObject(value);
   if(user.getLong("id")!=1||!"aerospace-local-test".equals(user.getString("username")))throw new IllegalArgumentException("Only the isolated test identity is supported");
-  diagnosticProfile=value;
+  // Both original profile readers share /users/1: the legacy User model and
+  // the nested UserStreak resource. A missing longestStreak becomes the
+  // all-null 'unavailable' sentinel on refresh, erasing the seeded zero streak.
+  if(!user.has("streakData")||user.isNull("streakData"))user.put("streakData",new JSONObject()
+   .put("length",0).put("updatedTimestamp",0).put("updatedTimeZone","UTC")
+   .put("longestStreak",new JSONObject().put("length",0)));
+  diagnosticProfile=user.toString();
+  return diagnosticProfile;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
  /** Retry only this course's explicitly marked pure function on the original
@@ -49,6 +56,18 @@ public final class NativeCourseBridge {
  }
  public static void reportGradingFailure(Throwable error){
   if(localOnly&&captureLocalRequests)Log.e("DuoAeroNative","Original Math grader failed",error);
+ }
+ public static void reportRuntimeFailure(Object owner,int priority,Throwable error){
+  if(!localOnly||!captureLocalRequests||priority<5||error==null)return;
+  // Synthetic runtime diagnosis only. Do not export exception messages,
+  // request bodies, headers, query strings or arbitrary app data.
+  StringBuilder report=new StringBuilder("Original runtime failure owner=").append(owner);
+  for(int cause=0;error!=null&&cause<6;cause++,error=error.getCause()){
+   report.append("\n").append(error.getClass().getName());
+   StackTraceElement[] frames=error.getStackTrace();
+   for(int i=0;i<Math.min(frames.length,35);i++)report.append("\n at ").append(frames[i]);
+  }
+  Log.e("DuoAeroNative",report.toString());
  }
  public static long sandboxStartupTimeoutSeconds(){return hasLocalCourse()?20L:3L;}
  public static void reportSandboxStartupTimeout(){

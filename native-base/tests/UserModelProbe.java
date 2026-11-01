@@ -39,8 +39,12 @@ public final class UserModelProbe extends Instrumentation {
   if(courseId.equals("none")){profile.put("allCourses",new JSONArray());profile.put("currentCourseId",JSONObject.NULL);}
   else profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId",courseId);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
-  Object user=decode.invoke(json,serializer,profile.toString());
-  Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("setDiagnosticProfile",String.class).invoke(null,profile.toString());
+  String response=(String)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("setDiagnosticProfile",String.class).invoke(null,profile.toString());
+  Object user=decode.invoke(json,serializer,response);
+  Object streakCompanion=Class.forName("com.duolingo.data.streak.UserStreak",true,loader).getField("Companion").get(null);
+  Object streakSerializer=streakCompanion.getClass().getMethod("serializer").invoke(streakCompanion);
+  Object streak=decode.invoke(json,streakSerializer,response);
+  if(streak.getClass().getField("a").get(streak)==null)throw new IllegalStateException("Local profile refresh loses known lifetime streak");
   return user;
 
  }

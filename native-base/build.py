@@ -70,7 +70,14 @@ bootstrap_hook='    invoke-static {v0}, Lio/sentry/android/core/performance/f;->
 bootstrap_entry='.method public final onCreate()V\n    .locals 26\n\n    move-object/from16 v0, p0'
 assert bootstrap_text.count(bootstrap_entry)==1
 bootstrap_text=bootstrap_text.replace(bootstrap_entry,bootstrap_entry+'\n\n    invoke-static {v0}, Lcom/duoaero/nativebase/NativeBootstrap;->prepare(Landroid/app/Application;)V')
+runtime_log_source=SMALI/'smali/w2c.smali'
+runtime_log_original=runtime_log_source.read_bytes()
+runtime_log_text=runtime_log_original.decode('utf-8').replace('\r\n','\n')
+runtime_log_anchor='.method public final f(Lcom/duolingo/core/log/LogOwner;ILjava/lang/String;Ljava/lang/Throwable;)V\n    .locals 1'
+assert runtime_log_text.count(runtime_log_anchor)==1
+runtime_log_hook=runtime_log_anchor+'\n\n    invoke-static {p1, p2, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportRuntimeFailure(Ljava/lang/Object;ILjava/lang/Throwable;)V'
 try:
+ runtime_log_source.write_text(runtime_log_text.replace(runtime_log_anchor,runtime_log_hook),encoding='utf-8')
  bootstrap_source.write_text(bootstrap_text.replace(bootstrap_anchor,bootstrap_hook),encoding='utf-8')
  latex_source.write_text(latex_text.replace(latex_anchor,latex_hook+latex_anchor),encoding='utf-8')
  flow_source.write_text(flow_text.replace(flow_anchor,flow_anchor+'\n\n    invoke-static {p1, p2}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordFlow(Ljava/lang/Object;Ljava/lang/String;)V'),encoding='utf-8')
@@ -78,6 +85,7 @@ try:
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ runtime_log_source.write_bytes(runtime_log_original)
  bootstrap_source.write_bytes(bootstrap_original)
  latex_source.write_bytes(latex_original)
  flow_source.write_bytes(flow_original)
