@@ -42,6 +42,11 @@ public class CourseProgressCheck {
   check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("failed",true),expanded,lesson));
   check(!NativeCourseProgress.isRecordedCompletion(good,expanded,copy(lesson).put("id","other")));
   check(!NativeCourseProgress.isRecordedCompletion(good,expanded,null));
+  JSONArray history=new JSONArray().put(lesson);
+  check(NativeCourseProgress.isRecordedCompletion(good,expanded,null,history));
+  check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("challenges",new JSONArray("[{id:'q1'}]")),expanded,null,history));
+  check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'q2'},{id:'foreign'}]")),expanded,null,history));
+  check(!NativeCourseProgress.isRecordedCompletion(good,expanded,null,new JSONArray().put(copy(lesson).put("id","other"))));
   JSONObject course=new JSONObject("{pathSectionsSummary:[{id:'section'}]}");
   JSONObject section=new JSONObject("{id:'section',units:[{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'a'},{id:'b'}]}}]},{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'c'}]}}]}]}");
   NativeCourseProgress.project(course,section,Collections.emptySet());

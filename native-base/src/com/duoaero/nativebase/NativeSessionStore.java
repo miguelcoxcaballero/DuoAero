@@ -12,7 +12,11 @@ public final class NativeSessionStore {
  private static boolean validStoredProof(Application app,JSONObject proof,JSONObject lesson)throws Exception {
   if(proof==null)return false;
   JSONObject legacy=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-session-catalog.json"));
-  return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacy.optJSONObject(lesson.getString("id")));
+  JSONObject old136=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/history-1.3.6.json"));
+  org.json.JSONArray history=new org.json.JSONArray();
+  JSONObject previous=old136.optJSONObject(lesson.getString("id"));
+  if(previous!=null)history.put(previous);
+  return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacy.optJSONObject(lesson.getString("id")),history);
  }
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
   if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");

@@ -14,6 +14,17 @@ public final class NativeCourseProgress {
   return submission!=null&&(isCompleted(submission,lesson)
       ||(legacy!=null&&lesson.getString("id").equals(legacy.optString("id"))&&isCompleted(submission,legacy)));
  }
+ /** Historical proofs are checked against the exact published question set,
+  * never against an arbitrary subset of the current lesson. */
+ public static boolean isRecordedCompletion(JSONObject submission,JSONObject lesson,JSONObject legacy,JSONArray history)throws JSONException {
+  if(isRecordedCompletion(submission,lesson,legacy))return true;
+  if(submission==null||history==null)return false;
+  for(int i=0;i<history.length();i++){
+   JSONObject previous=history.optJSONObject(i);
+   if(previous!=null&&lesson.getString("id").equals(previous.optString("id"))&&isCompleted(submission,previous))return true;
+  }
+  return false;
+ }
  public static String completionIssue(JSONObject submission,JSONObject lesson)throws JSONException {
   return completionIssue(submission,lesson,true);
  }

@@ -565,6 +565,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
+ # Keep the exact 1.3.6 question sets for old on-device and Drive proofs;
+ # later lesson expansions must not invalidate previously completed lessons.
+ out.write(ROOT/'native-base/session-history/1.3.6.json','assets/duoaero/course/history-1.3.6.json')
  print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; runtime navigation and completion require separate acceptance.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')
