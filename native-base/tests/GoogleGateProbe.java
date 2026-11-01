@@ -25,6 +25,7 @@ public final class GoogleGateProbe extends Instrumentation {
    if(!context.getSharedPreferences("duoaero-google",0).getString("account","").isEmpty())throw new IllegalStateException("Account retained after sign out");
    report.append("PASS: original Google-only welcome, synthetic identity activation reaches original course, sign out returns to original welcome. No real OAuth or Drive network acceptance asserted.\n");
    result.putBoolean("GOOGLE_GATE_VERIFIED",true);
+   report.append("GOOGLE_GATE_VERIFIED=true\n");
   }catch(Throwable error){
    if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));
    try{SessionScreen.capture(this,"google-failure","google-failure");}catch(Throwable ignored){}

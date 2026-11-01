@@ -25,6 +25,18 @@ final class NativeReviewStore {
   catch(FileNotFoundException absent){return null;}
  }
  static JSONObject create(Application app)throws Exception {
+  // Re-enter the same original session after process death so its saved
+  // Parcelable restores the remaining review questions and answer history.
+  AtomicFile active=new AtomicFile(new File(directory(app),"active.json"));
+  try{
+   String previous=read(active).getString("id");JSONObject existing=lookup(app,previous);
+   if(existing!=null){
+    boolean completed=false;
+    try{completed=read(new AtomicFile(new File(directory(app),previous+"-submission.json"))).optBoolean("completed");}
+    catch(FileNotFoundException notSubmitted){}
+    if(!completed)return existing;
+   }
+  }catch(FileNotFoundException noActiveReview){}
   JSONObject state;
   try{state=read(new AtomicFile(new File(NativeAccountStore.root(app),"question-state.json")));}
   catch(FileNotFoundException empty){return null;}
@@ -44,6 +56,7 @@ final class NativeReviewStore {
   JSONObject lesson=new JSONObject(template.toString()).put("id",id).put("levelSessionIndex",0)
    .put("metadata",new JSONObject().put("id",id).put("type","math_lesson")).put("challenges",selected);
   write(new AtomicFile(new File(directory(app),id+".json")),lesson);
+  write(active,new JSONObject().put("id",id));
   return lesson;
  }
  static void record(Application app,String id,JSONObject submission)throws Exception {

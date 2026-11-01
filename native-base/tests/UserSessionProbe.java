@@ -31,7 +31,7 @@ public final class UserSessionProbe extends Instrumentation {
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);}catch(Throwable error){setupError=error;}
   start();
  }
- public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
+ public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
   if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula","formula-wrong","path-first","mixed").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
@@ -201,5 +201,6 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));try{SessionScreen.capture(this);}catch(Throwable captureError){report.append("Failure screenshot unavailable\n");}}
  try{report.append("Final isolated endpoint counts: ").append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,getTargetContext().getClassLoader()).getMethod("diagnosticRequests").invoke(null)).append('\n');}catch(Exception ignored){}
+ report.append(playback.report());playback.close();
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }

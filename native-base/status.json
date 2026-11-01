@@ -66,7 +66,9 @@
     "native_mixed_eight_exercises": true,
     "standalone_resumed_lesson_return_restart_and_next_lesson": true,
     "original_wrong_answer_retry_and_persistent_resolution": true,
-    "original_resource_ids_and_values_preserved_with_updater_xml": true
+    "original_resource_ids_and_values_preserved_with_updater_xml": true,
+    "native_account_storage_synthetic_checks": 15,
+    "original_settings_updates_review_drive_controls_visible": true
   },
   "not_verified_or_incomplete": [
     "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",
@@ -249,7 +251,8 @@
     "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
     "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
     "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending.",
-    "google_drive": "Native host compiled; five OAuth/Drive host tests and 34 native progress checks pass. Synthetic account-storage instrumentation added, not yet run. Real Google/Drive acceptance pending.",
-    "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step."
+    "google_drive": "Native host compiled; six OAuth/Drive host checks pass. Run 41274982620 passes 15 synthetic Android account-storage checks; job falsely fails because am instrument hides Boolean Bundle results when stream is present, so explicit stream markers added. Real Google/Drive acceptance pending.",
+    "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step.",
+    "settings": "Run 41274982620 screenshot shows original Settings with APP UPDATES, REVIEW MISTAKES, GOOGLE DRIVE, SWITCH GOOGLE ACCOUNT. Original native component uppercases text; test selector corrected. Updater opening/provider and review completion remain pending."
   }
 }

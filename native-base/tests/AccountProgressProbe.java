@@ -43,9 +43,15 @@ public final class AccountProgressProbe extends Instrumentation {
    check(!first.getJSONObject("records").getJSONObject(qid).getBoolean("correct"));
    check(!first.toString().contains("must-not-export")&&!first.toString().contains("trackingProperties"));
    check(!first.has("session")&&!first.has("cursors"));
+   Class<?> review=Class.forName("com.duoaero.nativebase.NativeReviewStore",true,loader);
+   Method create=review.getDeclaredMethod("create",Application.class);create.setAccessible(true);
+   JSONObject initialReview=(JSONObject)create.invoke(null,app);
+   check(initialReview.getJSONArray("challenges").length()==1);
+   check(initialReview.getString("id").equals(((JSONObject)create.invoke(null,app)).getString("id")));
    check(prefs.edit().putString("account","synthetic-account-b").commit());
    JSONObject other=new JSONObject((String)read.invoke(null,app,"synthetic-account-b"));
    check(other.getJSONObject("records").length()==0&&other.getJSONObject("completedLessons").length()==0);
+   check(create.invoke(null,app)==null);
    boolean denied=false;
    try{read.invoke(null,app,"synthetic-account-a");}catch(InvocationTargetException error){denied=error.getCause() instanceof SecurityException;}
    check(denied);
@@ -66,6 +72,7 @@ public final class AccountProgressProbe extends Instrumentation {
    check(restored.getJSONObject("completedLessons").has(lessonId));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
+   report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
   }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
   finally{prefs.edit().remove("account").commit();}
   result.putString("stream",report.toString());finish(-1,result);

@@ -41,6 +41,7 @@ public final class UpdaterProbe extends Instrumentation {
    if(!found){
     SessionScreen.capture(this,"updater-settings","updater-settings");
     try(SessionDependencies dependencies=SessionDependencies.named(settings)){Thread.sleep(5000);report.append(dependencies.report());}
+    catch(Exception observation){report.append("Optional dependency observation unavailable: ").append(observation.getClass().getSimpleName()).append('\n');}
     throw new IllegalStateException("Original settings did not expose App updates");
    }
    Thread.sleep(6000);
@@ -63,6 +64,7 @@ public final class UpdaterProbe extends Instrumentation {
    }finally{sample.delete();}
    report.append("PASS: original settings App updates control opens canonical settings; default B without A consent; own update-provider resolves canonical cache paths and reads exact bytes. No update installation asserted.\n");
    result.putBoolean("UPDATER_HOST_VERIFIED",true);
+   report.append("UPDATER_HOST_VERIFIED=true\n");
   }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
   result.putString("stream",report.toString());finish(-1,result);
  }
