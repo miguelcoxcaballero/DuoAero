@@ -69,6 +69,16 @@ try:
  launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:launch_source.write_bytes(launch_original)
+prompt_source=SMALI/'smali_classes6/qyv.smali'
+prompt_original=prompt_source.read_bytes()
+prompt_text=prompt_original.decode('utf-8').replace('\r\n','\n')
+prompt_anchor='    invoke-static/range {v0 .. v12}, Ljvo;->a(Lcom/duolingo/core/math/models/figure/MathFigureUiState;Lz5q;Lcvo;Lkotlin/jvm/functions/Function0;Lqqh;Lqqh;Lkotlin/jvm/functions/Function0;Ljava/lang/Integer;Ls6p;Lcom/duolingo/feature/math/ui/figure/WebViewInteractionState;Lo18;II)V'
+assert prompt_text.count(prompt_anchor)==1
+prompt_hook='    invoke-static {v0, v1, v10}, Lcom/duoaero/nativebase/NativeCourseBridge;->scrollPrompt(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v1\n\n    check-cast v1, Lz5q;\n\n'
+try:
+ prompt_source.write_text(prompt_text.replace(prompt_anchor,prompt_hook+prompt_anchor),encoding='utf-8')
+ run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
+finally:prompt_source.write_bytes(prompt_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
@@ -79,6 +89,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
   elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
   elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
+  elif n=='classes6.dex':out.writestr(entry,(WORK/'classes6.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')

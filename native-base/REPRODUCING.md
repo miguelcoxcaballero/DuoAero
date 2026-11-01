@@ -411,3 +411,5 @@ previous emulator's GLES 3.0 SwiftShader renderer, keeping the APK's original Ri
 runtime and assets. Attached renderer state is read without forcing playback. It
 also clicks the actual Claim XP button and tests native profile cache writes with
 repository flow holders untouched. These are pending checks, not release claims.
+
+A local-course-only modifier now bounds native text prompts to 30% of screen height (120–240 dp) and uses the original Compose vertical scroll/remembered scroll state. Text and font size are preserved, scroll position is keyed by prompt, answer cards and grading remain original. Instrumentation requires a real scroll action on the long rich prompt and captures before/after. Local assembly/integrity passes (18,245 unchanged entries); device layout acceptance is pending.

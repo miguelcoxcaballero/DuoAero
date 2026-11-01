@@ -71,6 +71,14 @@ final class SessionInteraction {
     Thread.sleep(200);
    }
    if(i>=1&&i<=3)SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
+   if(i==2){
+    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+    boolean scrolled=false;
+    if(root!=null)try{scrolled=scrollForward(root,0);}finally{root.recycle();}
+    if(!scrolled)throw new IllegalStateException("Long Aerospace prompt does not expose working native scrolling");
+    Thread.sleep(700);
+    SessionScreen.capture(test,"lesson-prompt-scrolled","lesson-prompt-scrolled");
+   }
    click(test,"com.duolingo:id/mathCard",answer);
    Thread.sleep(250);
    click(test,"com.duolingo:id/submitButton",null);
@@ -92,6 +100,15 @@ final class SessionInteraction {
   Thread.sleep(6000);
   SessionScreen.capture(test,"lesson-after-claim-xp","lesson-after-claim-xp");
   return "Clicked original Claim XP through accessibility; captured the resulting screen. Persistence is not asserted.\n";
+ }
+ private static boolean scrollForward(AccessibilityNodeInfo node,int depth){
+  if(depth>50||!own(node))return false;
+  if(node.isVisibleToUser()&&node.isScrollable()&&node.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD))return true;
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{if(scrollForward(child,depth+1))return true;}finally{child.recycle();}
+  }
+  return false;
  }
  private static boolean contains(Instrumentation test,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();

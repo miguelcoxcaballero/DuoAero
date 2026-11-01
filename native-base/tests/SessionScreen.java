@@ -35,6 +35,7 @@ final class SessionScreen {
     .put("text",String.valueOf(node.getText())).put("description",String.valueOf(node.getContentDescription()))
     .put("resource",node.getViewIdResourceName()).put("bounds",bounds.flattenToString())
     .put("clickable",node.isClickable()).put("visible",node.isVisibleToUser())
+    .put("scrollable",node.isScrollable())
     .put("enabled",node.isEnabled()).put("selected",node.isSelected()));
   }
   for(int i=0;i<node.getChildCount();i++){

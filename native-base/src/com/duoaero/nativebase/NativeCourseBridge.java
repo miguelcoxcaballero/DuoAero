@@ -14,6 +14,24 @@ public final class NativeCourseBridge {
  // home with zero XP. Enrollment is set only after both native path writes.
  public static volatile boolean localCourseInstalled = false;
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ /** Keep the native figure and cards, bounding only the prompt's scroll area. */
+ public static Object scrollPrompt(Object figure,Object modifier,Object composer){
+  if(!hasLocalCourse()||figure==null||!figure.getClass().getName().equals("com.duolingo.core.math.models.figure.MathFigureUiState$LatexString"))return modifier;
+  try{
+   ClassLoader loader=figure.getClass().getClassLoader();
+   Class<?> compose=Class.forName("cuh",true,loader);
+   String prompt=(String)figure.getClass().getField("a").get(figure);
+   compose.getMethod("f0",int.class).invoke(composer,0x44554145^prompt.hashCode());
+   try{
+    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+    float maximum=Math.max(120f,Math.min(240f,app.getResources().getConfiguration().screenHeightDp*0.30f));
+    Class<?> mod=Class.forName("z5q",true,loader),state=Class.forName("qxz",true,loader),scroll=Class.forName("kqp",true,loader);
+    Object bounded=Class.forName("androidx.compose.foundation.layout.b",true,loader).getMethod("i",mod,float.class,float.class).invoke(null,modifier,Float.NaN,maximum);
+    Object position=scroll.getMethod("R",int.class,Class.forName("o18",true,loader),int.class).invoke(null,0,composer,0);
+    return scroll.getMethod("d0",mod,state,boolean.class,int.class).invoke(null,bounded,position,true,0);
+   }finally{compose.getMethod("q",boolean.class).invoke(composer,false);}
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind original prompt scrolling",error);}
+ }
  private static final Map<String,Object> namedFlows=new LinkedHashMap<>();
  public static synchronized void recordFlow(Object flow,String name){
   if(!localOnly||!captureNativeFlows||flow==null||name==null||!name.matches("[A-Za-z][A-Za-z0-9_.-]{0,100}"))return;
