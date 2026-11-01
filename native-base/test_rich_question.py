@@ -148,7 +148,9 @@ shirt = json.loads(choice_blob(reported)['challengeBlob'])['shirt']['value']
 assert r'\frac{p}{R\,T}' in shirt and 'p/(R T)' not in shirt
 assert reported['options'][reported['answer']] == 'Density'
 assert 'hint' not in json.loads(choice_blob(reported)['challengeBlob'])
-hint = json.loads(choice_blob(reported, diagnostic_formula_hint=True)['challengeBlob'])['hint']
+hint = json.loads(choice_blob(reported, include_formula_hint=True)['challengeBlob'])['hint']
+from course_adapter import challenge as native_challenge
+assert json.loads(native_challenge(reported)['challengeBlob'])['hint'] == hint
 assert hint['explanation']['value'] == r'p=\rho R_aT'
 plan = json.loads((root / 'app/assets/lesson_plan.json').read_text())
 course_order = [qid for node in plan for lesson in node['lessons'] for qid in lesson['ids']]

@@ -50,7 +50,7 @@ public final class UserSessionProbe extends Instrumentation {
    LocalFeatureInputs.social(getTargetContext());
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
   }
-  if(interaction.equals("math-hint"))Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("diagnosticHintRetry").setBoolean(null,true);
+  Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("formulaHintRetryEnabled").setBoolean(null,interaction.equals("math-hint"));
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
   report.append("Diagnostic setup phase: ").append(earlySetup?"before Application.onCreate":"instrumentation onStart").append('\n');
   if(defaultExperiments)report.append("Experiment input: original empty/default entries for synthetic user.\n");
