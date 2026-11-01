@@ -5,9 +5,9 @@ import java.lang.reflect.*;
 
 /** Known empty optional features of the isolated account, via native resources. */
 final class LocalFeatureInputs {
- static String goals(Context context,Object sessionVm)throws Exception {
+ static String goals(Context context)throws Exception {
   ClassLoader loader=context.getClassLoader();
-  Object repository=field(sessionVm,"X");
+  Object repository=repository(context,"v6","hji");
   if(!repository.getClass().getName().equals("hji"))throw new IllegalStateException("Unexpected goals repository");
   Object contextFlow=repository.getClass().getMethod("b").invoke(repository);
   Object scope=LocalCourseCache.first(loader,contextFlow,field(repository,"j"));
@@ -21,8 +21,9 @@ final class LocalFeatureInputs {
   LocalCourseCache.write(loader,field(repository,"p"),resource,schema);
   return "Original goals schema cache: no assigned goals or rewards for the isolated account.\n";
  }
- static void social(ClassLoader loader,Object endVm)throws Exception {
-  Object repository=field(endVm,"C1"),factory=field(repository,"j");
+ static void social(Context context)throws Exception {
+  ClassLoader loader=context.getClassLoader();
+  Object repository=repository(context,"J4","sb90"),factory=field(repository,"j");
   Class<?> userIdType=Class.forName("com.duolingo.core.data.model.UserId",true,loader);
   Object userId=userIdType.getConstructor(long.class).newInstance(1L);
   Object resource=factory.getClass().getMethod("a",userIdType).invoke(factory,userId);
@@ -39,6 +40,13 @@ final class LocalFeatureInputs {
    Object listResource=listFactory.getClass().getMethod("a",userIdType).invoke(listFactory,userId);
    LocalCourseCache.write(loader,field(repository,"i"),listResource,list);
   }
+ }
+ private static Object repository(Context context,String providerName,String expected)throws Exception {
+  Object app=context.getApplicationContext();
+  Object component=app.getClass().getMethod("generatedComponent").invoke(app);
+  Object value=Class.forName("ymw",true,context.getClassLoader()).getMethod("get").invoke(field(component,providerName));
+  if(!value.getClass().getName().equals(expected))throw new IllegalStateException("Unexpected native feature repository");
+  return value;
  }
  private static Object field(Object owner,String name)throws Exception{return owner.getClass().getField(name).get(owner);}
 }

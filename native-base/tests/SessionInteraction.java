@@ -127,7 +127,10 @@ final class SessionInteraction {
  private static boolean own(AccessibilityNodeInfo node){return "com.duoaero.nativebase".contentEquals(node.getPackageName()==null?"":node.getPackageName());}
  private static AccessibilityNodeInfo find(AccessibilityNodeInfo node,String id,String text,int depth){
   if(depth>50||!own(node))return null;
-  if(node.isVisibleToUser()&&(id==null||id.equals(node.getViewIdResourceName()))&&(text==null||text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
+  // Preserve source-bank answer matching while allowing the native inline
+  // fraction presentation command in card accessibility descriptions.
+  CharSequence description=node.getContentDescription()==null?"":node.getContentDescription();
+  if(node.isVisibleToUser()&&(id==null||id.equals(node.getViewIdResourceName()))&&(text==null||text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(description)||("\\textstyle "+text).contentEquals(description)))return AccessibilityNodeInfo.obtain(node);
   for(int i=0;i<node.getChildCount();i++){
    AccessibilityNodeInfo child=node.getChild(i);
    if(child!=null)try{AccessibilityNodeInfo found=find(child,id,text,depth+1);if(found!=null)return found;}finally{child.recycle();}

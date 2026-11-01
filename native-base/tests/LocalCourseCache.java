@@ -8,7 +8,7 @@ import org.json.*;
 
 /** Diagnostic native cache input. Model decoding is not path/UI acceptance. */
 final class LocalCourseCache {
- static String install(Context context,Object viewModel,boolean fullPath)throws Exception {
+ static String install(Context context,boolean fullPath)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Object app=context.getApplicationContext();
   Object component=app.getClass().getMethod("generatedComponent").invoke(app);
@@ -34,7 +34,8 @@ final class LocalCourseCache {
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());
   if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo; got "+info.getClass().getName());
   Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionJson.toString());
-  Object courseRepository=field(field(viewModel,"j"),"f");
+  Object courseRepository=Class.forName("ymw",true,loader).getMethod("get").invoke(field(component,"O2"));
+  if(!courseRepository.getClass().getName().equals("bp1"))throw new IllegalStateException("Unexpected native course repository");
   Object cache=field(courseRepository,"m");
   Class<?> userType=Class.forName("com.duolingo.core.data.model.UserId",true,loader);
   Class<?> courseType=Class.forName("com.duolingo.core.data.model.CourseId",true,loader);
@@ -91,7 +92,7 @@ final class LocalCourseCache {
   }
  }
  static Object first(ClassLoader loader,Object flow,Object dispatcher)throws Exception {
-  Object observable=Class.forName("mao",true,loader).getMethod("b",Class.forName("qdf",true,loader),Class.forName("rn8",true,loader)).invoke(null,flow,dispatcher);
+  Object observable=Class.forName("mao",true,loader).getMethod("b",Class.forName("qdf",true,loader),Class.forName("pn8",true,loader)).invoke(null,flow,dispatcher);
   Class<?> consumerType=Class.forName("qb8",true,loader);
   CountDownLatch done=new CountDownLatch(1);
   AtomicReference<Object> value=new AtomicReference<>();

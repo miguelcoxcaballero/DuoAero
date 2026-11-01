@@ -37,6 +37,12 @@ public final class UserSessionProbe extends Instrumentation {
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
   if(seedConfig&&!captureHome)report.append(LocalConfigCache.install(getTargetContext()));
+  if(nativeCourseCache){
+   report.append(LocalCourseCache.install(getTargetContext(),fullCoursePath));
+   report.append(LocalFeatureInputs.goals(getTargetContext()));
+   LocalFeatureInputs.social(getTargetContext());
+   report.append("Native empty social profile and follower lists supplied before activity launch.\n");
+  }
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
   report.append("Diagnostic setup phase: ").append(earlySetup?"before Application.onCreate":"instrumentation onStart").append('\n');
   if(defaultExperiments)report.append("Experiment input: original empty/default entries for synthetic user.\n");
@@ -74,8 +80,6 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
   if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
   Object observedVm=activity.getMethod("J").invoke(current);
-  if(nativeCourseCache){report.append(LocalCourseCache.install(getTargetContext(),observedVm,fullCoursePath));Thread.sleep(12000);}
-  if(nativeCourseCache)report.append(LocalFeatureInputs.goals(getTargetContext(),observedVm));
   try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
    Thread.sleep(5000);
    report.append(dependencies.report());
@@ -133,7 +137,6 @@ public final class UserSessionProbe extends Instrumentation {
    }
   }
   if(interaction.equals("math-all")){
-   report.append("Supplying empty native social profile before end observation; this is a diagnostic input.\n");
    try(SessionDependencies dependencies=SessionDependencies.end(this,current)){
     Thread.sleep(5000);report.append(dependencies.report());
    }

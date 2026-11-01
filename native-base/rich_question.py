@@ -43,7 +43,11 @@ def choice_blob(question):
     correct = question['answer']
     if type(correct) is not int or not 0 <= correct < len(options):
         raise ValueError('Invalid correct answer index')
-    answer = {'type': 'text', 'value': content(options[correct], question['options'][correct])}
+    # Native MTMath supports textstyle: inline fractions fit ordinary option
+    # cards better than display-style fractions without dropping their notation.
+    option_values = [r'\textstyle ' + content(parts, option)
+                     for parts, option in zip(options, question['options'])]
+    answer = {'type': 'text', 'value': option_values[correct]}
     feedback = {'type': 'text', 'value': content(rich.get('explanation'), question['explanation'])}
     # All content is encoded as JSON literals, never interpolated as JS source.
     grading = ('function grade(variables) { const expected = ' + str(correct) + '; '
@@ -55,10 +59,12 @@ def choice_blob(question):
                ', displayAnswer:' + json.dumps(answer) + '}; }')
     blob = {
         'layout': 'selectOne',
-        'instruction': {'type': 'text', 'value': text_latex(difficulty_stars(question) + ' Select the correct answer')},
+        # MTMath's supported star command maps to U+22C6. Raw U+2605 inside
+        # text did not appear in the measured native header.
+        'instruction': {'type': 'text', 'value': r'\star ' * len(difficulty_stars(question)) + text_latex(' Select the correct answer')},
         'shirt': {'type': 'text', 'value': content(rich.get('stem'), question['stem'])},
         'pants': [{'type': 'button', 'id': 'answer_' + str(i), 'width': 'full',
-                   'child': {'type': 'text', 'value': content(options[i], option)}}
+                   'child': {'type': 'text', 'value': option_values[i]}}
                   for i, option in enumerate(question['options'])],
         'onesie': None, 'headband': None, 'grading_function': grading,
     }

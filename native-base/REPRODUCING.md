@@ -381,3 +381,23 @@ original update-time lookup had retained the old installed package name. The
 build now changes only that exact getPackageInfo constant to its manifest
 package, with a single-anchor assertion and restoration of original smali.
 It does not suppress the exception or falsify PackageInfo. Revalidation pending.
+
+The next rich-text comparison uses MTMath's supported \star command (U+22C6,
+now included in the font overlay) instead of raw U+2605 inside text. Options
+use native \textstyle to reduce fraction height. These preserve mathematical
+content and original controls; screenshots must verify stars and card bounds.
+All 48 JS grading combinations, build and original-entry integrity pass locally.
+Instrumentation locators allow that presentation prefix while expected answers
+still come independently from the source bank.
+
+Run 41261324886 stopped in instrumentation: LocalCourseCache.first requested
+mao.b(qdf,rn8), but the actual declared parameter is pn8 (the dispatcher base
+class). This was a reflection binding error, not an app acceptance result.
+The binding now matches original smali and the existing dependency observer.
+
+Native course/goals/social input now occurs before LaunchActivity, using original
+component providers mm9.O2 (bp1), v6 (hji) and J4 (sb90), each with a class guard.
+The goals resource uses its actual emitted uhi context; the social profile and
+both follower/following lists are empty. No feature cache writes occur inside
+the end observer. This tests the initialization order needed by a normal app
+bootstrap; it does not itself implement the standalone bootstrap.

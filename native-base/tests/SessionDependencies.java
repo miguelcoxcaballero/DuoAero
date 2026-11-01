@@ -21,7 +21,6 @@ final class SessionDependencies implements AutoCloseable {
   if(fragment==null)throw new IllegalStateException("Original SessionEndFragment not found");
   Method getter=fragment.getClass().getDeclaredMethod("getViewModel");getter.setAccessible(true);
   Object vm=getter.invoke(fragment),dispatcher=field(vm,"z");
-  LocalFeatureInputs.social(result.loader,vm);
   try{
    Map<?,?> named=(Map<?,?>)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticFlows").invoke(null);
    for(Map.Entry<?,?> entry:named.entrySet())result.observe("end.named."+entry.getKey(),entry.getValue(),dispatcher);
