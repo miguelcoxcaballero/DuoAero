@@ -1,4 +1,5 @@
 name: Build original runtime production candidate
+# Rebuild candidate after correcting dotted lesson IDs.
 on:
   workflow_dispatch:
   push:
