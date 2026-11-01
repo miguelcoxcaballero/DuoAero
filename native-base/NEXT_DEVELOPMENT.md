@@ -1,5 +1,16 @@
 # Development after the 1.3.5 preview
 
+## Wind practice after the 1.3.6 preview
+
+An experimental branch teaches three wind/time formulas before the first
+tailwind calculation and splits six related round-trip problems into two
+short numerical questions. Host checks cover the arithmetic, lesson sizes,
+formula prerequisites and stable lesson IDs. Run 41352937662 tests the new
+formula blocks and one split problem through the original Android controller;
+until it succeeds, the screen rendering, block selection and native grading
+remain unverified. The change is not part of the signed 1.3.6 APK. Two
+related wind problems and other calculation families still need review.
+
 This branch is experimental and is not represented by the 1.3.5 release APK.
 Do not publish it as a finished product. It has 74 active authored hints, including
 TA1-0148; the rest of the calculations still need reviewed hints and
