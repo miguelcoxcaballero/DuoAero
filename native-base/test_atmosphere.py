@@ -41,6 +41,14 @@ def matching(tree,needle,resource=None):
     return [n for n in tree.iter('node') if n.get('enabled')=='true'
             and (resource is None or n.get('resource-id')==resource)
             and needle in (n.get('text','')+' '+n.get('content-desc',''))]
+def choose(node,kind,label):
+    if kind=='formula_blocks':
+        # Independent instrumentation targets the test APK, not the running
+        # lesson process, and performs the visible original accessibility click.
+        output=adb('shell','am','instrument','-w','-e','label',label,
+                   'com.duoaero.nativebase.tests/com.duoaero.nativebase.IndependentClickProbe')
+        assert b'INDEPENDENT_CLICK_VERIFIED=true' in output,output.decode(errors='replace')
+    else:tap_node(node)
 def write_private(path,data):
     assert re.fullmatch(r'[A-Za-z0-9_./-]+',path)
     subprocess.run(['adb','shell','run-as',PACKAGE,'sh','-c',"'cat > "+path+"'"],input=json.dumps(data).encode(),check=True,timeout=30)
@@ -113,7 +121,7 @@ try:
         # it accepts input. Let the transition settle, then retry the actual
         # touch only while the Check action remains disabled.
         time.sleep(1)
-        tap_node(candidates[-1])
+        choose(candidates[-1],kind,needle)
         for retry in range(3):
             try:
                 tree=wait('atmosphere-selected-'+str(index),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),10)
@@ -127,7 +135,7 @@ try:
                     clickable=[n for n in candidates if n.get('clickable')=='true']
                     if clickable:candidates=clickable
                 assert candidates,'Answer disappeared while waiting: '+qid
-                tap_node(candidates[-1])
+                choose(candidates[-1],kind,needle)
         if kind=='choice':time.sleep(1.5)  # Original asynchronous JS grading.
         tap_node(next(n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true'))
         tree=wait('atmosphere-graded-'+str(index),lambda t:bool(matching(t,'CONTINUE') or matching(t,'GOT IT')),45)
