@@ -1,5 +1,33 @@
 # Development after the 1.3.5 preview
 
+## Integration after 1.3.6
+
+The 1.3.6 A-channel preview is published, but remains incomplete. In its
+Android diagnostic the profile crashed when Compose tried to load an
+unsupported replacement drawable, preventing access to settings. The first
+attempted repair targeted a score count instead of the actual resource and
+failed in run 41355236302. This integration targets the `duo_profile_completion`
+resource at the actual painter call; it requires a new Android result.
+
+Run 41354968697 shows the original reward screen with a chest and 25 gems,
+and persistence after restart, with earlier lessons seeded. The still frames
+were all captured after opening and therefore do not establish that the
+opening animation played. A later diagnostic records from before the tap.
+
+The 29 authored symbolic formula-block exercises have an authored word-gap
+introduction that names the physical quantities before the symbolic exercise.
+Several lessons expand to as many as 23 native questions; exact old completed
+lesson proofs are retained in the published-version history. This does not
+cover every formula mentioned elsewhere or prove visual layout, rapid tapping,
+full course traversal or a real-account migration. A diagnostic checks real
+30 ms pointer events instead of only accessibility clicks; it has not yet
+passed. The in-progress test run is 41356359569.
+
+The zen sprite and a targeted foam transition fix are integrated, along with
+previous Peanuts assets. Host tests validate transparent frames and Rive
+tracks. They do not demonstrate that every character or mood is replaced or
+that all animations are smooth in the Android app.
+
 ## Wind practice after the 1.3.6 preview
 
 An experimental branch teaches three wind/time formulas before the first
@@ -7,10 +35,10 @@ tailwind calculation and splits six related round-trip problems into two
 short numerical questions. Host checks cover the arithmetic, lesson sizes,
 formula prerequisites and stable lesson IDs. Run 41353227644 tests the new
 formula blocks and one split problem through the original Android controller;
-it graded them correctly, but its screenshots show an invisible blue plus
-operator. The branch now changes how these two operator blocks are represented;
-the corrected appearance and grading still need Android verification. The
-change is not part of the signed 1.3.6 APK. Two
+it graded them correctly, but its screenshots showed an invisible blue plus
+operator. Run 41354340336 verified the corrected plus and grading in Android;
+screenshots show the symbol in its slot. The change is not part of the signed
+1.3.6 APK. Two
 related wind problems and other calculation families still need review.
 The same branch also converts reviewed speed and Mach inequalities such as
 `TAS>=1.3Vs` and `M<=0.75` into mathematical notation. Host checks cover these
@@ -18,11 +46,13 @@ patterns; native Android layout for them is still unverified.
 Four introductory stiffness and wing-geometry questions now also practice
 their exact fraction formulas before a calculation hint. Their arithmetic and
 prerequisite ordering pass host checks, but their token rendering and grading
-have not yet been accepted in the original Android interface.
+have not all been accepted in the original Android interface. One axial
+stiffness formula was rendered and graded in run 41354340336.
 
 This branch is experimental and is not represented by the 1.3.5 release APK.
-Do not publish it as a finished product. It has 74 active authored hints, including
-TA1-0148; the rest of the calculations still need reviewed hints and
+Do not publish it as a finished product. The 1.3.6 preview has 74 active
+authored hints, including TA1-0148; this integration has 92. The rest of the
+calculations still need reviewed hints and
 prerequisite formula-block questions. Only the TA1-0148 hint has been verified
 in the actual course on Android. Many long problems and math expressions still
 require review.

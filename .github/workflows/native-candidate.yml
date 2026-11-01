@@ -3,7 +3,7 @@ name: Build original runtime production candidate
 on:
   workflow_dispatch:
   push:
-    branches: [codex/original-runtime-integration]
+    branches: [codex/original-runtime-integration, codex/integration-137]
     paths: ['.github/workflows/native-candidate.yml', '.github/native-candidate-request.json']
 permissions:
   contents: read

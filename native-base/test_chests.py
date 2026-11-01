@@ -53,7 +53,23 @@ try:
     initial=len(metadata)*10
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait('chest-home',lambda t:counter(t,initial) and chest_nodes(t))
+    recorder=None
+    if os.environ.get('DUOAERO_REQUIRE_NATIVE_CHEST') == '1':
+        # Capture from before the tap: a UI hierarchy dump takes several
+        # seconds and can miss a short opening animation completely.
+        recorder=subprocess.Popen(['adb','shell','screenrecord','--time-limit','8',
+                                   '/sdcard/duoaero-chest-opening.mp4'],
+                                  stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        time.sleep(.8)
     tap(chest_nodes(tree)[0])
+    if recorder is not None:
+        try:
+            recorder.wait(timeout=12)
+            if recorder.returncode==0:
+                subprocess.run(['adb','pull','/sdcard/duoaero-chest-opening.mp4',str(OUT/'chest-opening.mp4')],
+                               check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+        except subprocess.TimeoutExpired:
+            recorder.kill()
     deadline=time.monotonic()+90;opened=False;shown=False;native_frames=False
     while time.monotonic()<deadline:
         tree=capture('chest-open')
