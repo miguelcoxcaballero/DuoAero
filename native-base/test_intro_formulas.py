@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from course_adapter import lesson_questions
 from formula_exercises import formula_challenge
+from rich_question import choice_blob, content
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
@@ -21,6 +22,10 @@ for qid, (formula_id, answer) in expected.items():
     assert question['formula_hint']['prerequisite'] == formula_id
     assert question['formula_hint']['latex'] == formula['formula_latex']
     assert question['options'][question['answer']] == answer
+    solution = content(question['rich_text']['explanation'], question['explanation'])
+    assert r'\frac' in solution
+    grade = json.loads(choice_blob(question, include_formula_hint=True)['challengeBlob'])['grading_function']
+    assert json.dumps({'type': 'text', 'value': solution}) in grade
     assert formula['answer_blocks'][0] in formula['blocks']
     assert r'\frac' in formula['answer_blocks'][0]
     native = formula_challenge(formula)['promptInputChallenge']

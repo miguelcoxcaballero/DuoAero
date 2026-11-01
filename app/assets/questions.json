@@ -6783,6 +6783,13 @@
       "formula_hint": {
         "latex": "k=\\frac{EA}{L}",
         "prerequisite": "INTRO-AXIAL-STIFFNESS"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "k=\\frac{12}{3}=4\\,\\mathrm{MN/m}"
+          }
+        ]
       }
     }
   ]
@@ -6870,6 +6877,13 @@
       "formula_hint": {
         "latex": "k=\\frac{3EI}{L^3}",
         "prerequisite": "INTRO-CANTILEVER-STIFFNESS"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "k=\\frac{3(80000)}{8}=30000\\,\\mathrm{N/m}=30\\,\\mathrm{kN/m}"
+          }
+        ]
       }
     }
   ]
@@ -8085,6 +8099,13 @@
       "formula_hint": {
         "latex": "\\mathrm{AR}=\\frac{b^2}{S}",
         "prerequisite": "INTRO-ASPECT-RATIO"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "\\mathrm{AR}=\\frac{20^2}{40}=10"
+          }
+        ]
       }
     }
   ]
@@ -8172,6 +8193,13 @@
       "formula_hint": {
         "latex": "\\lambda=\\frac{c_t}{c_r}",
         "prerequisite": "INTRO-TAPER-RATIO"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "\\lambda=\\frac{1}{4}=0.25"
+          }
+        ]
       }
     }
   ]
