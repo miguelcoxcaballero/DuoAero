@@ -30,6 +30,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Kotlin 2.0's bundled IntelliJ parser predates Java 25. Use the
+          # runner's supported JDK for both the canonical updater and DEX tools.
+          test -x "$JAVA_HOME_17_X64/bin/java"
+          echo "JAVA_HOME=$JAVA_HOME_17_X64" >> "$GITHUB_ENV"
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
           # This job installs its pinned SDK under /tmp. Remove only the
           # duplicate hosted-runner Android SDK to leave room for the emulator.
           if [ "$RUNNER_ENVIRONMENT" = github-hosted ] && [ -d /usr/local/lib/android/sdk ]; then
