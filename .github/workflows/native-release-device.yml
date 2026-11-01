@@ -46,10 +46,15 @@ jobs:
           sudo chmod 666 /dev/kvm
           echo "JAVA_HOME=$JAVA_HOME_17_X64" >> "$GITHUB_ENV"
           export JAVA_HOME="$JAVA_HOME_17_X64"
+          export ANDROID_USER_HOME="$RUNNER_TEMP/production-android"
+          export ANDROID_AVD_HOME="$ANDROID_USER_HOME/avd"
+          echo "ANDROID_USER_HOME=$ANDROID_USER_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
+          mkdir -p "$ANDROID_AVD_HOME"
           if [ "$RUNNER_ENVIRONMENT" = github-hosted ]; then sudo rm -rf "$ANDROID_HOME/ndk"; fi
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platform-tools' 'emulator' 'system-images;android-36;google_apis;x86_64'
           echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
-          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name Production --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
+          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name Production --path "$ANDROID_AVD_HOME/Production.avd" --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
       - name: Install and launch production bytes
         run: |
           mkdir -p evidence
