@@ -1,0 +1,20 @@
+name: Check signing artifact access
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/original-runtime-integration]
+    paths: ['.github/workflows/native-artifact-access.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  access:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check cross-repository artifact download authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' https://api.github.com/repos/miguelcoxcaballero/youtube-calma/actions/artifacts/13055388951/zip)
+          test "$code" = 302
+          echo 'Signing artifact download is accessible; no key or artifact URL exported.'

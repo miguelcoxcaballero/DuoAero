@@ -11,9 +11,31 @@ def run(adb, tap, wait_for, capture, out, package, question, first_lesson):
     tree=wait_for('review-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/tabProfile' for n in t.iter('node')))
     tap(tree,'com.duolingo:id/tabProfile')
     settings_ids={'com.duolingo:id/settingsButton','com.duolingo:id/menuSettings'}
-    tree=wait_for('review-profile',lambda t:any(n.get('resource-id') in settings_ids for n in t.iter('node')),60)
-    control=next(n.get('resource-id') for n in tree.iter('node') if n.get('resource-id') in settings_ids)
-    tap(tree,control)
+    def settings_control(tree):
+        nodes=list(tree.iter('node'))
+        known=[n for n in nodes if n.get('resource-id') in settings_ids or n.get('content-desc','').casefold()=='settings']
+        if len(known)==1:return known[0]
+        if not nodes:return None
+        # This original Compose toolbar exposes its visible gear as an
+        # anonymous clickable node. Match its unique toolbar position using
+        # the measured app bounds, then require the actual settings activity.
+        left,top,right,bottom=map(int,re.findall(r'\d+',nodes[0].get('bounds')))
+        candidates=[]
+        for node in nodes:
+            if node.get('clickable')!='true' or node.get('package')!=package:continue
+            x1,y1,x2,y2=map(int,re.findall(r'\d+',node.get('bounds')))
+            if x1>=left+(right-left)*.8 and top<=y1<y2<=top+(bottom-top)*.16 and .75<=(x2-x1)/max(1,y2-y1)<=1.33:
+                candidates.append(node)
+        return candidates[0] if len(candidates)==1 else None
+    tree=wait_for('review-profile',lambda t:settings_control(t) is not None,60)
+    node=settings_control(tree)
+    x1,y1,x2,y2=map(int,re.findall(r'\d+',node.get('bounds')))
+    adb('shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
+    for attempt in range(30):
+        activities=adb('shell','dumpsys','activity','activities').decode()
+        if any(('mResumedActivity' in line or 'topResumedActivity' in line) and package+'/com.duolingo.settings.SettingsActivity' in line for line in activities.splitlines()):break
+        time.sleep(1)
+    else:raise AssertionError('The visible original profile gear did not open SettingsActivity')
     for attempt in range(35):
         tree=capture('review-settings')
         if tree is not None and any(n.get('text','').casefold()=='review mistakes' for n in tree.iter('node')):
