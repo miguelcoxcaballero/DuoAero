@@ -349,7 +349,16 @@ picker_hook='''.method public final setSectionPickerTitle(Ljava/lang/String;)V
     if-eqz v0, :duoaero_original_picker_title
     const-string p1, "DuoAero"
     :duoaero_original_picker_title'''
+profile_drawable_source=SMALI/'smali_classes6/h4w.smali'
+profile_drawable_original=profile_drawable_source.read_bytes()
+profile_drawable_text=profile_drawable_original.decode('utf-8').replace('\r\n','\n')
+profile_drawable_anchor='    iget v8, v8, Lvzv;->a:I'
+assert profile_drawable_text.count(profile_drawable_anchor)==1
+profile_drawable_hook=profile_drawable_anchor+'''
+    invoke-static {v8}, Lcom/duoaero/nativebase/NativeProfileDrawable;->supported(I)I
+    move-result v8'''
 try:
+ profile_drawable_source.write_text(profile_drawable_text.replace(profile_drawable_anchor,profile_drawable_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
  bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
@@ -361,6 +370,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ profile_drawable_source.write_bytes(profile_drawable_original)
  picker_source.write_bytes(picker_original)
  tabs_source.write_bytes(tabs_original)
  bank_source.write_bytes(bank_original)
