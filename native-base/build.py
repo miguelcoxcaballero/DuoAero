@@ -357,7 +357,27 @@ profile_image_text=profile_image_original.decode('utf-8').replace('\r\n','\n')
 profile_image_anchor='    const v4, 0x7f0826dc\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
 assert profile_image_text.count(profile_image_anchor)==1
 profile_image_hook='    const v4, 0x7f0826dc\n\n    invoke-static {v4}, Lcom/duoaero/nativebase/NativeProfileDrawable;->supported(I)I\n\n    move-result v4\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
+token_touch_source=SMALI/'smali_classes6/kp3.smali'
+token_touch_original=token_touch_source.read_bytes()
+token_touch_text=token_touch_original.decode('utf-8').replace('\r\n','\n')
+token_touch_anchor='    invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setFigure(Lcom/duolingo/core/math/models/figure/MathFigureUiState;)V'
+assert token_touch_text.count(token_touch_anchor)==1
+# The original token is an Android card containing a MathFigureView. Its
+# embedded figure can consume a fast pointer sequence before the card sees
+# it. The original figure supports touch passthrough; enable it only for this
+# local course so both tapping and the parent drag controller receive input.
+token_touch_hook=token_touch_anchor+'''
+
+    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z
+    move-result v2
+    if-eqz v2, :duoaero_token_touch_done
+    invoke-virtual {v0}, Landroid/view/View;->getImportantForAccessibility()I
+    move-result v3
+    invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setTouchPassthrough(Z)V
+    invoke-virtual {v0, v3}, Landroid/view/View;->setImportantForAccessibility(I)V
+    :duoaero_token_touch_done'''
 try:
+ token_touch_source.write_text(token_touch_text.replace(token_touch_anchor,token_touch_hook),encoding='utf-8')
  profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
@@ -370,6 +390,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ token_touch_source.write_bytes(token_touch_original)
  profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
  tabs_source.write_bytes(tabs_original)

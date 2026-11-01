@@ -397,6 +397,8 @@ final class SessionInteraction {
     long down=android.os.SystemClock.uptimeMillis();
     android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,rect.exactCenterX(),rect.exactCenterY(),0);
     android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+30,android.view.MotionEvent.ACTION_UP,rect.exactCenterX(),rect.exactCenterY(),0);
+    first.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+    last.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
     try{
      if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Token down event not injected: "+text);
      Thread.sleep(30);
