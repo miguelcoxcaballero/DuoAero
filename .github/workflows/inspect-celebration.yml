@@ -1,0 +1,32 @@
+name: Inspect original celebration artboards
+on:
+  push:
+    branches: [codex/inspect-celebration]
+    paths: ['.github/workflows/inspect-celebration.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Inspect packaged animation structure
+        run: |
+          gh release download handoff-2026-10-31-native-runtime-1 --repo "$GITHUB_REPOSITORY" --pattern 'Duolingo_v6.103.5.apk' --dir "$RUNNER_TEMP"
+          python - <<'PY'
+          import os,sys,zipfile
+          sys.path.insert(0,'native-base')
+          from mascot_assets import parse
+          apk=zipfile.ZipFile(os.path.join(os.environ['RUNNER_TEMP'],'Duolingo_v6.103.5.apk'))
+          for name in apk.namelist():
+              if not name.endswith('.riv') or not any(x in name.lower() for x in ('complete','duo')):continue
+              try: _,obj,_=parse(apk.read(name))
+              except Exception as e:
+                  print('PARSE ERROR',name,type(e).__name__);continue
+              boards=[p for t,p,b in obj if t==1]
+              if 'complete' not in name.lower() and not any('epicduo' in p.get(4,'').lower() for p in boards):continue
+              print('RESOURCE',name)
+              for i,p in enumerate(boards):print('BOARD',i,repr(p.get(4,'')),'width',p.get(7),'height',p.get(8))
+          PY
