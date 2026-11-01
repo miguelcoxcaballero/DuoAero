@@ -53,7 +53,7 @@
   },
   "not_verified_or_incomplete": [
     "15 native CORRECT answers reach original Lesson complete summary with 15 XP, 100% accuracy and time. Claim XP is clicked and LaunchActivity resumes, but screenshot still shows old summary; path return, persistent progress and resume remain unverified.",
-    "42 native units decode/cache. Startup now opens WelcomeFlowActivity above SessionActivity: original zero-XP onboarding branch. Local enrolled-course routing change pending UI verification.",
+    "Original home/path and named lesson popup render in diagnostic native profile mode. Standalone bootstrap, node-to-session loading and persistent course navigation remain unverified.",
     "Five gap/order questions still lack native grading adapters.",
     "Rich stems/options render and grade, but a long lift-coefficient question has fractions extending beyond card borders. Explanation LaTeX, font scaling and text/overflow QA remain incomplete.",
     "Google/Drive integration is not connected to this native base.",
@@ -197,5 +197,22 @@
       "home": "Still splash. Bridge d/f/j and launch K/L/S emit, user wd90 emits; launch N/V and LaunchCheckViewModel.g do not emit. The latter check implementation is an empty observable, so its non-emission alone is not a blocker.",
       "next": "Launch startup xsl awaits fm1.u Config before login routing. Compare native Config {} via real w58 cache, observe q/r/u/v, and retry full sequence with same Config. Main diagnostic bridge records only bounded synthetic session/config/path endpoint counts, no query/headers/body. Regenerated bank uses native selectOne + MATH_LESSON, pending runtime decoding."
     }
+  },
+  "textbook_v6": {
+    "integrated_practice_records": 45,
+    "formula_blocks": 16,
+    "matching": 8,
+    "systems_records": 24,
+    "nodes": 43,
+    "lessons": 79,
+    "web_logic_checks_passed": 23,
+    "native_latest_run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41264928908",
+    "native_one_slot_correct_and_incorrect_verified": true,
+    "native_many_slots_verified": false,
+    "native_path_node_popup_verified": true,
+    "native_path_session_verified": false,
+    "new_bank_native_decoding_verified": false,
+    "first_choice_grading_error_in_latest_run": true,
+    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   }
 }

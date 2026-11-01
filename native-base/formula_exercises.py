@@ -1,9 +1,10 @@
 """Formula recall inputs for the original Math token and expression controllers.
 
-These are native model inputs, not a replacement interface. The controller's
-structural grader compares the selected symbolic expression. UI acceptance is
+These are native model inputs, not a replacement interface. A scoped extension
+to the original numeric grader compares marked Aerospace symbolic expressions. UI acceptance is
 recorded separately from successful serialization.
 """
+from collections import Counter
 import html
 import json
 from pathlib import Path
@@ -11,9 +12,7 @@ from pathlib import Path
 SOURCE = {
     'kind': 'practice',
     'title': 'Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso',
-    'url': 'https://drive.google.com/file/d/1rFE-y4JTn__S0Rj52unvKb7LyW78_PfH/view',
-    'sha256': 'd07019ff2d22d5969bf651d1435cc7c6f47ef588874cbeefd50eb13c3232d6ac',
-    'edition': 'V6, November 2026',
+    'url': '',  # Private source: user authorized title and cited pages only.
 }
 
 
@@ -52,7 +51,7 @@ def formula_challenge(question):
                 'size': len(answer), 'text': {'text': ''},
                 'accessibilityLabel': 'Missing formula components'}}]}}
     inputs = {'gradingSpecification': grading,
-              'dragChoices': [figure(t, True) for t in tokens]}
+              'dragChoices': [figure(t, True) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
     inputs['slotCount'] = len(answer)
     return {'id': question['id'], 'type': 'mathExpressionBuild',
             'noHint': {}, 'promptInputChallenge': {'prompt': {

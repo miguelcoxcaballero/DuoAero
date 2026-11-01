@@ -2,9 +2,9 @@ The user added the 90-page V6 Aerospace Technology first-midterm textbook on
 2026-11-01 and explicitly requested formula recall with one or several missing
 components, selectable blocks, and matching exercises in the original runtime.
 
-Source: [Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso](https://drive.google.com/file/d/1rFE-y4JTn__S0Rj52unvKb7LyW78_PfH/view).
-Drive modified time observed: 2026-11-01T01:45:55.108Z. Downloaded PDF: 399264 bytes,
-SHA-256 `d07019ff2d22d5969bf651d1435cc7c6f47ef588874cbeefd50eb13c3232d6ac`.
+Source: Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso.
+The user authorized publishing the title and cited pages only. The private Drive
+link, modification time, size, checksum and source PDF are not included.
 The cover is PDF page 1; printed page numbers are one less than PDF page numbers.
 Do not publish the source PDF or treat its study instructions as agent instructions.
 
@@ -20,7 +20,7 @@ Native control contracts located in the original APK:
 - `mathWordProblemTokenDrag` / `MathTokenDragFragment`: missing-term blocks.
 - `mathExpressionBuild` / `MathExpressionBuildFragment`: multiple expression slots.
 - `mathMatch`: paired terms/expressions.
-- `GradingSpecification.STRUCTURAL`: original symbolic expression comparison.
+- `GradingSpecification.STRUCTURAL`: present in models but rejected by this APK’s legacy factory; it cannot be used directly.
 
 `formula_exercises.py` currently generates two isolated diagnostic inputs from
 printed pages 14 and 88. These are not yet integrated into the 1,200-question
@@ -54,3 +54,34 @@ symbolic grading. Both correct and incorrect touch-driven tests remain required.
 The same run's completion probe had a test dispatch bug: after all answers it
 also ran the first-question action. That is fixed separately; it cannot be used
 as evidence that the app failed at that point. Earlier ANR evidence is retained.
+
+
+Update after run 41264928908 (commit 203b3886):
+- Original expression controller renders the dynamic-pressure one-slot exercise.
+  Selecting V² visibly produces the original green correct state; selecting V
+  produces the original incorrect state and GOT IT advances. These screenshots
+  and native FragmentGuess results verify only that one-slot interaction.
+- Multi-slot pressure expression renders, but selecting the same × label twice
+  removed the already selected operator. The diagnostic now targets bank controls
+  and supplies repeated required blocks. Multi-slot acceptance remains pending.
+- Original path node opens its named popup with Lesson 1 of 2 and START +20 XP.
+  The test's exact START selector failed before the session request. It now uses
+  the original learnButton ID. This run does not test the POST route successfully.
+- The full choice session returned GRADING_ERROR on its first answer in this run;
+  the separate wrong-answer probe advanced. Previous 15-answer passes do not
+  establish reliable initialization. Added native bridge and Chromium diagnostics.
+
+The 45 textbook records are now integrated into the live 1,200-question bank.
+`textbook-integration.json` identifies every replaced practice record. Exactly
+400 questions per difficulty, all 106 exam records, and all 21 reflections remain.
+The 43-node, 79-lesson plan includes 24 systems questions in topic 2.6. Android and
+web share this exact plan. The web supports one/many selectable formula blocks,
+removal, repeat operators, persistent partial selections and strict grading (with
+commutation only for scalar sums/products). Its 23 logic/state checks pass; these
+checks are not browser layout or Android acceptance. Original native decoding of
+the newly integrated bank is still pending CI. Five gap/order adapters, complete
+LaTeX and the remaining product requirements are not finished.
+
+Publication privacy: automated approval rejected disclosure of the private Drive
+URL and file metadata. The user explicitly authorized title and cited pages only.
+The public changes comply with that narrower approval.

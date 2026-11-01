@@ -7,6 +7,7 @@ import html
 import json
 from pathlib import Path
 from rich_question import choice_blob, difficulty_stars
+from formula_exercises import formula_challenge
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,6 +19,8 @@ def challenge(question):
     kind = question['type']
     if kind == 'choice':
         return choice_blob(question)
+    if kind == 'formula_blocks':
+        return formula_challenge(question)
     if kind == 'multi':
         result.update(type='mathMultiSelect', noHint={}, promptInputChallenge={
             'prompt': {'instruction': {'text': difficulty_stars(question) + ' Select all correct answers'},

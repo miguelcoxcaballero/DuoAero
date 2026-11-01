@@ -5613,32 +5613,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0028",
-    "topic": "2.1",
-    "subtopic": "Atmospheric magnitudes and relationships",
-    "stem": "Which term matches this definition: magnitude that must be expressed in kelvin when using the equation of state p = rho R T?",
+    "id": "BOOK-V6-SYS-03-D1",
     "type": "choice",
-    "options": [
-      "Pressure",
-      "Density",
-      "Absolute temperature",
-      "Geopotential altitude"
-    ],
-    "answer": 2,
-    "explanation": "Absolute temperature: magnitude that must be expressed in kelvin when using the equation of state p = rho R T.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "Does fly-by-wire require electrically powered surface actuators?",
+    "options": [
+      "Yes; the signal itself supplies all actuator power",
+      "No; electrical command signals can control hydraulic actuators",
+      "Yes; hydraulic actuators are incompatible",
+      "No; it requires mechanical command cables"
+    ],
+    "answer": 1,
+    "explanation": "Command transmission and actuator power source are different parts of the system.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "option_explanations": {
-      "Pressure": "Incorrect for this definition: magnitude whose vertical derivative in hydrostatic equilibrium is -rho g. This describes a different concept.",
-      "Density": "Incorrect for this definition: magnitude obtained as p/(R T) for an ideal gas. This describes a different concept.",
-      "Absolute temperature": "Correct: magnitude that must be expressed in kelvin when using the equation of state p = rho R T.",
-      "Geopotential altitude": "Incorrect for this definition: vertical coordinate used in the formulation of the standard atmosphere of the slides. This describes a different concept."
-    },
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 70,
+      "pdf_page": 71
+    }
   },
   {
     "id": "TA1-0113",
@@ -5697,62 +5693,57 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0025-F1",
-    "topic": "2.1",
-    "subtopic": "ISA days: density comparison",
-    "stem": "At fixed pressure, rho_B/rho_A = T_A/T_B. If T_A = 250 K and T_B = 300 K, what is the density ratio?",
+    "id": "BOOK-V6-SYS-01-D1",
     "type": "choice",
-    "options": [
-      "0.833",
-      "1.200",
-      "0.694",
-      "1.000"
-    ],
-    "answer": 0,
-    "explanation": "250/300 = 0.833.",
     "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "0.833": "Correct: 250/300 = 0.833.",
-      "1.200": "Incorrect: This reverses the temperature ratio.",
-      "0.694": "Incorrect: This squares the required ratio.",
-      "1.000": "Incorrect: Equal pressure does not mean equal density at different temperatures."
-    },
-    "legacy_id": "TA1-0025",
-    "section": "Midterm 1"
-  },
-  {
-    "id": "TA1-0014",
-    "topic": "2.1",
-    "subtopic": "ISA reference conditions at sea level",
-    "stem": "What specific gas constant R is used for dry air in this course?",
-    "type": "choice",
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "What supplies the spring action in an oleopneumatic landing-gear strut?",
     "options": [
-      "207 J/(kg K)",
-      "8314 J/(kg K)",
-      "461 J/(kg K)",
-      "287 J/(kg K)"
+      "Oil flowing through an orifice",
+      "The retraction actuator",
+      "The wheel brake",
+      "Compressed gas"
     ],
     "answer": 3,
-    "explanation": "Dry air uses R ≈ 287 J/(kg K).",
-    "difficulty": 1,
+    "explanation": "Compressed gas stores elastic energy; restricted oil flow dissipates energy.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 67,
+      "pdf_page": 68
+    }
+  },
+  {
+    "topic": "2.1",
+    "subtopic": "Ideal gas",
+    "section": "Midterm 1",
+    "origin": {
+      "kind": "practice",
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 14,
+      "pdf_page": 15
     },
-    "option_explanations": {
-      "207 J/(kg K)": "This is not the course dry-air gas constant.",
-      "8314 J/(kg K)": "8314 is the universal gas constant per kilomole, not the specific constant per kilogram of dry air.",
-      "461 J/(kg K)": "About 461 J/(kg K) is the specific gas constant of water vapour.",
-      "287 J/(kg K)": "Dry air uses R ≈ 287 J/(kg K)."
-    },
-    "section": "Midterm 1"
+    "explanation": "Pressure equals density times the specific gas constant times absolute temperature. Use kelvins; at fixed pressure, increasing temperature reduces density.",
+    "formula_latex": "p=\\rho R_aT",
+    "id": "BOOK-V6-01-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the ideal gas formula",
+    "prefix": "p = ρ R_a",
+    "blocks": [
+      "1/T",
+      "V",
+      "g",
+      "T",
+      "T²"
+    ],
+    "answer_blocks": [
+      "T"
+    ]
   },
   {
     "id": "TA1-0182-F1",
@@ -5845,34 +5836,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0043-F1",
-    "topic": "2.1",
-    "subtopic": "Ideal gas: density",
-    "stem": "For an ideal gas rho = p/(RT). Here p = 86100 Pa and RT = 86100 m²/s². What is density?",
+    "id": "BOOK-V6-SYS-05-D1",
     "type": "choice",
-    "options": [
-      "1.225 kg/m³",
-      "0.50 kg/m³",
-      "1.00 kg/m³",
-      "2.00 kg/m³"
-    ],
-    "answer": 2,
-    "explanation": "Equal numerator and denominator give density 1.00.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "What does a radio altimeter measure?",
+    "options": [
+      "Pressure altitude above mean sea level",
+      "Altitude from static pressure",
+      "Distance to the nearest VOR",
+      "Height above the terrain beneath the aircraft"
+    ],
+    "answer": 3,
+    "explanation": "It uses radio signals to estimate distance to the terrain, so its reading differs from barometric altitude.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "1.225 kg/m³": "Incorrect: 1.225 kg/m³ is the ISA sea-level value, not the result for these inputs.",
-      "0.50 kg/m³": "Incorrect: No factor of one half appears in the ideal-gas relation.",
-      "1.00 kg/m³": "Correct: Equal numerator and denominator give density 1.00.",
-      "2.00 kg/m³": "Incorrect: No factor of two appears in the ideal-gas relation."
-    },
-    "legacy_id": "TA1-0043",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 71,
+      "pdf_page": 72
+    }
   },
   {
     "id": "TA1-0290",
@@ -6129,34 +6114,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0036-F1",
     "topic": "2.2",
-    "subtopic": "Breguet: changes in efficiency and consumption",
-    "stem": "For fixed speed and mass ratio, jet Breguet range is proportional to (L/D)/ce. L/D rises by 10%, while ce stays fixed. What is R_new/R_old?",
-    "type": "choice",
-    "options": [
-      "0.90",
-      "1.10",
-      "1.21",
-      "1.00"
-    ],
-    "answer": 1,
-    "explanation": "The range has the same factor 1.10 as L/D.",
-    "difficulty": 1,
+    "subtopic": "Jet range",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aircraft Design",
-      "url": "https://drive.google.com/file/d/1DOmAhn2AuxfzIxwLhU4BMJ7tD4o7UpJ7/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 25,
+      "pdf_page": 26
     },
-    "option_explanations": {
-      "0.90": "Incorrect: This applies the change in the opposite direction.",
-      "1.10": "Correct: The range has the same factor 1.10 as L/D.",
-      "1.21": "Incorrect: This squares a factor that enters only linearly.",
-      "1.00": "Incorrect: This ignores the change in aerodynamic efficiency."
-    },
-    "legacy_id": "TA1-0036",
-    "section": "Midterm 1"
+    "explanation": "This jet Breguet model assumes constant speed, aerodynamic efficiency and mass-based thrust-specific fuel consumption c_T in kg/(N s). The logarithm uses total initial and final aircraft masses.",
+    "formula_latex": "R=\\frac{VE}{gc_T}\\ln\\frac{m_i}{m_f}",
+    "id": "BOOK-V6-03-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the jet range formula",
+    "prefix": "R = [V E/(g c_T)]",
+    "blocks": [
+      "ln(m_i − m_f)",
+      "ln(m_i/m_f)",
+      "ln(m_f/m_i)",
+      "m_i − m_f",
+      "m_f/m_i"
+    ],
+    "answer_blocks": [
+      "ln(m_i/m_f)"
+    ]
   },
   {
     "id": "TA1-0075-F1",
@@ -6711,34 +6695,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0030-F1",
     "topic": "2.3",
-    "subtopic": "Euler: critical load",
-    "stem": "Use the Euler formula Pcr = pi² EI/(KL)². For this column, pi² EI = 20000 N m² and KL = 2 m. What is Pcr?",
-    "type": "choice",
-    "options": [
-      "40 kN",
-      "10 kN",
-      "20 kN",
-      "5 kN"
-    ],
-    "answer": 3,
-    "explanation": "20000/2² = 5000 N.",
-    "difficulty": 1,
+    "subtopic": "Euler buckling",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 33,
+      "pdf_page": 34
     },
-    "option_explanations": {
-      "40 kN": "Incorrect: This multiplies by length instead of dividing by length squared.",
-      "10 kN": "Incorrect: This divides by KL rather than its square.",
-      "20 kN": "Incorrect: This omits the effective-length denominator.",
-      "5 kN": "Correct: 20000/2² = 5000 N."
-    },
-    "legacy_id": "TA1-0030",
-    "section": "Midterm 1"
+    "explanation": "Euler buckling applies to an ideal slender column. Effective length K L is squared. This instability limit must be checked separately from material strength.",
+    "formula_latex": "P_{cr}=\\frac{\\pi^2 E_Y I}{(KL)^2}",
+    "id": "BOOK-V6-05-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the euler buckling formula",
+    "prefix": "P_cr = π² E_Y I /",
+    "blocks": [
+      "K L",
+      "K L³",
+      "(K L)³",
+      "A²",
+      "(K L)²"
+    ],
+    "answer_blocks": [
+      "(K L)²"
+    ]
   },
   {
     "id": "TA1-0189",
@@ -6853,34 +6836,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0026-F1",
     "topic": "2.3",
-    "subtopic": "Hooke’s law: stress",
-    "stem": "Use Hooke’s law sigma = E epsilon. If E = 70000 MPa and epsilon = 0.001, what is axial stress?",
-    "type": "choice",
-    "options": [
-      "7 MPa",
-      "35 MPa",
-      "70 MPa",
-      "700 MPa"
-    ],
-    "answer": 2,
-    "explanation": "70000 × 0.001 = 70.",
-    "difficulty": 1,
+    "subtopic": "Axial extension",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 32,
+      "pdf_page": 33
     },
-    "option_explanations": {
-      "7 MPa": "Incorrect: This loses one power of ten.",
-      "35 MPa": "Incorrect: Hooke’s law has no factor of one half.",
-      "70 MPa": "Correct: 70000 × 0.001 = 70.",
-      "700 MPa": "Incorrect: This adds one power of ten."
-    },
-    "legacy_id": "TA1-0026",
-    "section": "Midterm 1"
+    "explanation": "For a uniform bar under axial force in linear elasticity, extension is F L/(E_Y A). Young modulus E_Y is a material property; A is cross-sectional area, not a second moment of area.",
+    "formula_latex": "\\Delta L=\\frac{FL}{E_Y A}",
+    "id": "BOOK-V6-04-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the axial extension formula",
+    "prefix": "ΔL = F L /",
+    "blocks": [
+      "E_Y A",
+      "E_Y I",
+      "G J",
+      "E_Y A²",
+      "E_Y/A"
+    ],
+    "answer_blocks": [
+      "E_Y A"
+    ]
   },
   {
     "id": "TA1-0311",
@@ -7333,32 +7315,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0082",
-    "topic": "2.4",
-    "subtopic": "Airfoil geometry",
-    "stem": "Which term matches this definition: rearmost point or region of a airfoil?",
+    "id": "BOOK-V6-SYS-07-D1",
     "type": "choice",
-    "options": [
-      "Leading edge",
-      "Chord",
-      "Trailing edge",
-      "Mean camber line"
-    ],
-    "answer": 2,
-    "explanation": "Trailing edge: rearmost point or region of a airfoil.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "How does ADS-B differ from secondary surveillance radar interrogation?",
+    "options": [
+      "ADS-B is the braking command link",
+      "ADS-B broadcasts onboard position and other data",
+      "ADS-B requires a reflected echo from the airframe",
+      "ADS-B measures static pressure at a ground station"
+    ],
+    "answer": 1,
+    "explanation": "Secondary radar interrogates a transponder; ADS-B broadcasts information from the aircraft.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "option_explanations": {
-      "Leading edge": "Incorrect for this definition: most forward point or region of a airfoil. This describes a different concept.",
-      "Chord": "Incorrect for this definition: straight segment that joins leading edge and trailing edge. This describes a different concept.",
-      "Trailing edge": "Correct: rearmost point or region of a airfoil.",
-      "Mean camber line": "Incorrect for this definition: the locus of points midway between the upper and lower airfoil surfaces. This describes a different concept."
-    },
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 72,
+      "pdf_page": 73
+    }
   },
   {
     "id": "TA1-0035",
@@ -7849,62 +7827,57 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0008-F1",
-    "topic": "2.4",
-    "subtopic": "High-lift devices: stall-speed change",
-    "stem": "Stall speed is 120 kt. CLmax increases by a factor of 1.44, with weight, density and reference area fixed. Use Vs2 = Vs1/sqrt(1.44). What is the new stall speed?",
-    "type": "choice",
-    "options": [
-      "83.3 kt",
-      "100 kt",
-      "144 kt",
-      "110 kt"
-    ],
-    "answer": 1,
-    "explanation": "sqrt(1.44) = 1.2, so 120/1.2 = 100.",
-    "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Hydraulic power",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
     },
-    "option_explanations": {
-      "83.3 kt": "Incorrect: This divides by 1.44 rather than its square root.",
-      "100 kt": "Correct: sqrt(1.44) = 1.2, so 120/1.2 = 100.",
-      "144 kt": "Incorrect: This multiplies by the square root instead of dividing.",
-      "110 kt": "Incorrect: 120/1.2 is 100, not 110."
-    },
-    "legacy_id": "TA1-0008",
-    "section": "Midterm 1"
+    "explanation": "Ideal hydraulic power is pressure difference times volume flow rate. With F = Δp A and Q = A v, the same power equals F v. Real losses increase the required input power.",
+    "formula_latex": "P_{hyd}=\\Delta p\\,Q",
+    "id": "BOOK-V6-08-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the hydraulic power formula",
+    "prefix": "P_hyd = Δp",
+    "blocks": [
+      "1/Q",
+      "Q",
+      "A",
+      "v",
+      "Q²"
+    ],
+    "answer_blocks": [
+      "Q"
+    ]
   },
   {
-    "id": "TA1-0056",
-    "topic": "2.4",
-    "subtopic": "Interpretation of NACA 2412 figures",
-    "stem": "Which NACA family contains the designation NACA 2412?",
+    "id": "BOOK-V6-SYS-04-D1",
     "type": "choice",
-    "options": [
-      "16-series family",
-      "Six-series family",
-      "Five-digit series",
-      "Four-digit series"
-    ],
-    "answer": 3,
-    "explanation": "2412 is a four-digit designation.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "Which pressure source does a barometric altimeter principally use?",
+    "options": [
+      "Static pressure",
+      "Pitot total pressure alone",
+      "Dynamic pressure alone",
+      "Cabin pressure alone"
+    ],
+    "answer": 0,
+    "explanation": "A barometric altimeter converts static pressure to altitude using a pressure reference.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "option_explanations": {
-      "16-series family": "A 16-series designation begins with 16 and uses the corresponding series notation.",
-      "Six-series family": "A six-series designation has a different code structure.",
-      "Five-digit series": "The conventional five-digit series uses five digits and a different camber code.",
-      "Four-digit series": "2412 is a four-digit designation."
-    },
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 71,
+      "pdf_page": 72
+    }
   },
   {
     "id": "TA1-0242",
@@ -8167,34 +8140,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0011-F1",
     "topic": "2.4",
-    "subtopic": "Reynolds number",
-    "stem": "Use Re = rho V c/mu. The numerator rho V c is 18 kg/(m s), and mu = 1.8 × 10^-5 kg/(m s). What is Re?",
-    "type": "choice",
-    "options": [
-      "3.24 × 10^6",
-      "1.0 × 10^5",
-      "1.0 × 10^6",
-      "1.0 × 10^7"
-    ],
-    "answer": 2,
-    "explanation": "18/(1.8 × 10^-5) = 10^6.",
-    "difficulty": 1,
+    "subtopic": "Dynamic pressure",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 41,
+      "pdf_page": 42
     },
-    "option_explanations": {
-      "3.24 × 10^6": "Incorrect: The numerator must be divided by viscosity, not combined with its digits by multiplication.",
-      "1.0 × 10^5": "Incorrect: This loses one power of ten.",
-      "1.0 × 10^6": "Correct: 18/(1.8 × 10^-5) = 10^6.",
-      "1.0 × 10^7": "Incorrect: This adds one power of ten."
-    },
-    "legacy_id": "TA1-0011",
-    "section": "Midterm 1"
+    "explanation": "Dynamic pressure depends on the square of airspeed and on density. Wing area and lift coefficient enter L = q S C_L, not q itself.",
+    "formula_latex": "q=\\frac12\\rho V^2",
+    "id": "BOOK-V6-02-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the dynamic pressure formula",
+    "prefix": "q = ½ ρ",
+    "blocks": [
+      "S",
+      "C_L",
+      "V²",
+      "V",
+      "V³"
+    ],
+    "answer_blocks": [
+      "V²"
+    ]
   },
   {
     "id": "TA1-0214",
@@ -8253,34 +8225,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0032-F1",
-    "topic": "2.4",
-    "subtopic": "True stall speed",
-    "stem": "Use Vs = sqrt(2W/(rho S CLmax)). For the stated aircraft condition, 2W/(rho S CLmax) = 1600 m²/s². What is true stall speed?",
+    "id": "BOOK-V6-SYS-02-D1",
     "type": "choice",
-    "options": [
-      "40 m/s",
-      "80 m/s",
-      "20 m/s",
-      "50 m/s"
-    ],
-    "answer": 0,
-    "explanation": "sqrt(1600) = 40.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "What is the primary purpose of a fuel-tank vent?",
+    "options": [
+      "Keep the tank completely sealed from gas entry",
+      "Increase fuel octane rating",
+      "Allow pressure compensation as fuel volume changes",
+      "Meter fuel into each combustion chamber"
+    ],
+    "answer": 2,
+    "explanation": "Withdrawing liquid requires pressure compensation; a blocked vent can impair supply and load the tank structure.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "40 m/s": "Correct: sqrt(1600) = 40.",
-      "80 m/s": "Incorrect: 80² is 6400 rather than 1600.",
-      "20 m/s": "Incorrect: 20² is 400 rather than 1600.",
-      "50 m/s": "Incorrect: 50² is 2500 rather than 1600."
-    },
-    "legacy_id": "TA1-0032",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 68,
+      "pdf_page": 69
+    }
   },
   {
     "id": "TA1-0003",
@@ -8339,32 +8305,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0002",
     "topic": "2.4",
-    "subtopic": "airfoil surfaces and dimensions",
-    "stem": "Which term matches this definition: the lower surface of an airfoil in its conventional orientation?",
-    "type": "choice",
-    "options": [
-      "Maximum camber",
-      "Thickness",
-      "Upper surface",
-      "Lower surface"
-    ],
-    "answer": 3,
-    "explanation": "Lower surface: the lower surface of an airfoil in its conventional orientation.",
-    "difficulty": 1,
+    "subtopic": "Induced drag",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 50,
+      "pdf_page": 51
     },
-    "option_explanations": {
-      "Maximum camber": "Incorrect for this definition: the maximum distance between the mean camber line and the chord. This describes a different concept.",
-      "Thickness": "Incorrect for this definition: separation between the upper and lower surfaces according to the geometric convention adopted. This describes a different concept.",
-      "Upper surface": "Incorrect for this definition: the upper surface of an airfoil in its conventional orientation. This describes a different concept.",
-      "Lower surface": "Correct: the lower surface of an airfoil in its conventional orientation."
-    },
-    "section": "Midterm 1"
+    "explanation": "The finite-wing model gives induced drag proportional to C_L squared and inversely proportional to efficiency factor e and aspect ratio AR. It does not include parasite drag.",
+    "formula_latex": "C_{D,i}=\\frac{C_L^2}{\\pi e AR}",
+    "id": "BOOK-V6-06-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the induced drag formula",
+    "prefix": "C_D,i = C_L² /",
+    "blocks": [
+      "π AR/e",
+      "π e/AR",
+      "2 π e AR",
+      "π e AR",
+      "π e AR²"
+    ],
+    "answer_blocks": [
+      "π e AR"
+    ]
   },
   {
     "id": "TA1-0063-F1",
@@ -8567,34 +8534,33 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0027-F1",
     "topic": "2.5",
-    "subtopic": "Jet-engine fuel flow",
-    "stem": "A jet engine produces 40 kN of thrust. Its thrust-specific fuel consumption is 20 g/(kN s). What is fuel mass flow?",
-    "type": "choice",
-    "options": [
-      "1.60 kg/s",
-      "0.50 kg/s",
-      "0.80 kg/s",
-      "0.40 kg/s"
-    ],
-    "answer": 2,
-    "explanation": "40 × 20 = 800 g/s = 0.80 kg/s.",
-    "difficulty": 1,
+    "subtopic": "Ideal jet thrust",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Propulsive Systems",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 60,
+      "pdf_page": 61
     },
-    "option_explanations": {
-      "1.60 kg/s": "Incorrect: This introduces an extra factor of two.",
-      "0.50 kg/s": "Incorrect: This divides the numerical thrust and consumption values rather than multiplying them.",
-      "0.80 kg/s": "Correct: 40 × 20 = 800 g/s = 0.80 kg/s.",
-      "0.40 kg/s": "Incorrect: This introduces an extra factor of one half."
-    },
-    "legacy_id": "TA1-0027",
-    "section": "Midterm 1"
+    "explanation": "For equal inlet/outlet mass flow and a pressure-matched exit, thrust is mass flow times velocity increase. Otherwise pressure thrust and separate inlet/outlet momentum flows must be retained.",
+    "formula_latex": "T=\\dot m(V_e-V_0)",
+    "id": "BOOK-V6-07-D1",
+    "type": "formula_blocks",
+    "difficulty": 1,
+    "stem": "Complete the ideal jet thrust formula",
+    "prefix": "T = ṁ",
+    "blocks": [
+      "(V_e² − V_0²)",
+      "V_0/V_e",
+      "(V_e − V_0)",
+      "(V_e + V_0)",
+      "V_e"
+    ],
+    "answer_blocks": [
+      "(V_e − V_0)"
+    ]
   },
   {
     "id": "TA1-0110",
@@ -11041,32 +11007,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0052",
-    "topic": "2.5",
-    "subtopic": "Conceptual application",
-    "stem": "What especially limits the use of batteries in large aircraft depending on the subject?",
+    "id": "BOOK-V6-SYS-06-D1",
     "type": "choice",
-    "options": [
-      "Motor mass needed to deliver cruise torque.",
-      "Battery mass needed to store the mission energy.",
-      "Cable mass needed to carry electrical current.",
-      "Inverter losses when converting electrical power."
-    ],
-    "answer": 1,
-    "explanation": "Battery specific energy makes storing large mission energy costly in mass.",
     "difficulty": 1,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "What does an aircraft APU usually provide?",
+    "options": [
+      "An unlimited battery energy store",
+      "A replacement for all flight-control sensors",
+      "Electrical and/or pneumatic power for support functions",
+      "The main cruise propulsive thrust"
+    ],
+    "answer": 2,
+    "explanation": "An auxiliary power unit supports ground operation, starting and selected backup functions; it is not normally the main propulsion engine.",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Propulsive Systems",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
-    },
-    "option_explanations": {
-      "Motor mass needed to deliver cruise torque.": "Incorrect: Motor sizing matters, but it is not the energy-storage limitation asked about.",
-      "Battery mass needed to store the mission energy.": "Correct: Battery specific energy makes storing large mission energy costly in mass.",
-      "Cable mass needed to carry electrical current.": "Incorrect: Cable sizing matters, but it is not the principal storage limitation in the slides.",
-      "Inverter losses when converting electrical power.": "Incorrect: Conversion losses matter, but the cited limitation is storage specific energy."
-    },
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
+    }
   },
   {
     "id": "TA1-0109",
@@ -14345,60 +14307,68 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0001",
     "topic": "2.3",
-    "subtopic": "Conceptual application",
-    "stem": "We want to multiply the Euler critical load by four without changing material, section or supports. What modification is enough?",
-    "type": "choice",
-    "options": [
-      "Double the second moment of area.",
-      "Double the effective length.",
-      "Double Young’s modulus.",
-      "Halve the effective length."
-    ],
-    "answer": 3,
-    "explanation": "Pcr is proportional to 1/L², so halving length gives four times the load.",
-    "difficulty": 2,
+    "subtopic": "Euler buckling",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 33,
+      "pdf_page": 34
     },
-    "option_explanations": {
-      "Double the second moment of area.": "Incorrect: This raises Euler load only by a factor of two.",
-      "Double the effective length.": "Incorrect: This reduces Euler load by a factor of four.",
-      "Double Young’s modulus.": "Incorrect: This raises Euler load only by a factor of two.",
-      "Halve the effective length.": "Correct: Pcr is proportional to 1/L², so halving length gives four times the load."
-    },
-    "section": "Midterm 1"
+    "explanation": "Euler buckling applies to an ideal slender column. Effective length K L is squared. This instability limit must be checked separately from material strength.",
+    "formula_latex": "P_{cr}=\\frac{\\pi^2 E_Y I}{(KL)^2}",
+    "id": "BOOK-V6-05-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for euler buckling",
+    "prefix": "P_cr =",
+    "blocks": [
+      "(K L)²",
+      "K L",
+      "K L³",
+      "(K L)³",
+      "π² E_Y I",
+      "÷"
+    ],
+    "answer_blocks": [
+      "π² E_Y I",
+      "÷",
+      "(K L)²"
+    ]
   },
   {
-    "id": "TA1-0004",
     "topic": "2.4",
-    "subtopic": "Conceptual application",
-    "stem": "A airfoil has positive cl0 and positive slope in a linear regime. Where is its zero lift angle located?",
-    "type": "choice",
-    "options": [
-      "Exactly zero.",
-      "A negative angle.",
-      "A positive angle.",
-      "Its sign cannot be determined from cl0 and the slope."
-    ],
-    "answer": 1,
-    "explanation": "alpha0 = -cl0/a is negative when both inputs are positive.",
-    "difficulty": 2,
+    "subtopic": "Induced drag",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 50,
+      "pdf_page": 51
     },
-    "option_explanations": {
-      "Exactly zero.": "Incorrect: At zero angle the lift is cl0 > 0.",
-      "A negative angle.": "Correct: alpha0 = -cl0/a is negative when both inputs are positive.",
-      "A positive angle.": "Incorrect: A positive alpha increases the already positive lift.",
-      "Its sign cannot be determined from cl0 and the slope.": "Incorrect: The linear relation gives the sign directly."
-    },
-    "section": "Midterm 1"
+    "explanation": "The finite-wing model gives induced drag proportional to C_L squared and inversely proportional to efficiency factor e and aspect ratio AR. It does not include parasite drag.",
+    "formula_latex": "C_{D,i}=\\frac{C_L^2}{\\pi e AR}",
+    "id": "BOOK-V6-06-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for induced drag",
+    "prefix": "C_D,i =",
+    "blocks": [
+      "π e AR",
+      "π e AR²",
+      "π AR/e",
+      "π e/AR",
+      "C_L²",
+      "÷"
+    ],
+    "answer_blocks": [
+      "C_L²",
+      "÷",
+      "π e AR"
+    ]
   },
   {
     "id": "TA1-0047",
@@ -14457,32 +14427,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0112",
     "topic": "2.3",
-    "subtopic": "Conceptual application",
-    "stem": "Two bars have the same material and section. One measures twice as long. How is its axial stiffness?",
-    "type": "choice",
-    "options": [
-      "Half as stiff.",
-      "Equally stiff.",
-      "Four times as stiff.",
-      "Twice as stiff."
-    ],
-    "answer": 0,
-    "explanation": "Axial stiffness EA/L halves when L doubles.",
-    "difficulty": 2,
+    "subtopic": "Axial extension",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 32,
+      "pdf_page": 33
     },
-    "option_explanations": {
-      "Half as stiff.": "Correct: Axial stiffness EA/L halves when L doubles.",
-      "Equally stiff.": "Incorrect: Equal material and area do not cancel the length change.",
-      "Four times as stiff.": "Incorrect: The axial formula uses 1/L, not L².",
-      "Twice as stiff.": "Incorrect: This applies direct rather than inverse length dependence."
-    },
-    "section": "Midterm 1"
+    "explanation": "For a uniform bar under axial force in linear elasticity, extension is F L/(E_Y A). Young modulus E_Y is a material property; A is cross-sectional area, not a second moment of area.",
+    "formula_latex": "\\Delta L=\\frac{FL}{E_Y A}",
+    "id": "BOOK-V6-04-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for axial extension",
+    "prefix": "ΔL =",
+    "blocks": [
+      "E_Y A",
+      "E_Y I",
+      "G J",
+      "E_Y A²",
+      "F L",
+      "÷"
+    ],
+    "answer_blocks": [
+      "F L",
+      "÷",
+      "E_Y A"
+    ]
   },
   {
     "id": "TA1-0129",
@@ -15612,40 +15586,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0127-D2",
-    "topic": "2.1",
-    "subtopic": "Calculate density rho=p/(RT)=0.96489 kg/m³.",
-    "stem": "Static pressure is 72000 Pa, temperature is 260 K and true airspeed is 92 m/s. For ideal air with R=287 J/(kg K), what dynamic pressure acts on the wing? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "4083.4 Pa",
-      "8166.8 Pa",
-      "76083 Pa",
-      "72000 Pa"
-    ],
-    "answer": 0,
-    "explanation": "Calculate density rho=p/(RT)=0.96489 kg/m³. Then dynamic pressure is q=rho V²/2=4083.4 Pa.",
-    "option_explanations": {
-      "4083.4 Pa": "Correct. Calculate density rho=p/(RT)=0.96489 kg/m³. Then dynamic pressure is q=rho V²/2=4083.4 Pa.",
-      "8166.8 Pa": "Omits the factor 1/2 in dynamic pressure.",
-      "76083 Pa": "Adds static pressure to dynamic pressure.",
-      "72000 Pa": "Returns static pressure instead of dynamic pressure."
-    },
-    "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Hydraulic power",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
     },
-    "steps": [
-      "Calculate density rho=p/(RT)=0.96489 kg/m³.",
-      "Then dynamic pressure is q=rho V²/2=4083.4 Pa.."
+    "explanation": "Ideal hydraulic power is pressure difference times volume flow rate. With F = Δp A and Q = A v, the same power equals F v. Real losses increase the required input power.",
+    "formula_latex": "P_{hyd}=\\Delta p\\,Q",
+    "id": "BOOK-V6-08-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for hydraulic power",
+    "prefix": "P_hyd =",
+    "blocks": [
+      "Q",
+      "A",
+      "v",
+      "Q²",
+      "Δp",
+      "×"
     ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0127",
-    "section": "Midterm 1"
+    "answer_blocks": [
+      "Δp",
+      "×",
+      "Q"
+    ]
   },
   {
     "id": "TA1-0397-D2",
@@ -15685,40 +15655,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0126-D2",
     "topic": "2.1",
-    "subtopic": "The ISA offset is -3.05 K.",
-    "stem": "A temperature of 276 K is measured at 1400 m. Assume one ISA-offset day with a constant tropospheric lapse rate of -0.0065 K/m. What temperature is expected at 2900 m? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "263.2 K",
-      "285.75 K",
-      "257.15 K",
-      "266.25 K"
-    ],
-    "answer": 3,
-    "explanation": "The ISA offset is -3.05 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=266.25 K.",
-    "option_explanations": {
-      "263.2 K": "Applies the ISA temperature offset twice.",
-      "285.75 K": "Uses a temperature increase with altitude.",
-      "257.15 K": "Applies the lapse rate from sea level to the measured temperature.",
-      "266.25 K": "Correct. The ISA offset is -3.05 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=266.25 K."
-    },
-    "difficulty": 2,
+    "subtopic": "Ideal gas",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 14,
+      "pdf_page": 15
     },
-    "steps": [
-      "The ISA offset is -3.05 K.",
-      "Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=266.25 K.."
+    "explanation": "Pressure equals density times the specific gas constant times absolute temperature. Use kelvins; at fixed pressure, increasing temperature reduces density.",
+    "formula_latex": "p=\\rho R_aT",
+    "id": "BOOK-V6-01-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for ideal gas",
+    "prefix": "p =",
+    "blocks": [
+      "R_a T",
+      "T²",
+      "1/T",
+      "V",
+      "ρ",
+      "×"
     ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0126",
-    "section": "Midterm 1"
+    "answer_blocks": [
+      "ρ",
+      "×",
+      "R_a T"
+    ]
   },
   {
     "id": "TA1-0092-D2",
@@ -15904,40 +15870,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0037-D2",
     "topic": "2.2",
-    "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18667.",
-    "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.03, E2/E1=0.88, ce2/ce1=0.94; originally ln(mi/mf)=0.18. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "16.473 %",
-      "15.934 %",
-      "18.667 %",
-      "17.028 %"
-    ],
-    "answer": 3,
-    "explanation": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18667. The burned fraction is 1-exp(-ln2); the percentage is 17.028%.",
-    "option_explanations": {
-      "16.473 %": "Keeps the original fuel fraction despite the redesign.",
-      "15.934 %": "Reverses the combined speed, efficiency and consumption correction.",
-      "18.667 %": "Treats the logarithm as the burned fraction.",
-      "17.028 %": "Correct. Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18667. The burned fraction is 1-exp(-ln2); the percentage is 17.028%."
-    },
-    "difficulty": 2,
+    "subtopic": "Jet range",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "breguet.pdf",
-      "url": "https://drive.google.com/file/d/1DOmAhn2AuxfzIxwLhU4BMJ7tD4o7UpJ7/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 25,
+      "pdf_page": 26
     },
-    "steps": [
-      "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18667.",
-      "The burned fraction is 1-exp(-ln2); the percentage is 17.028%.."
+    "explanation": "This jet Breguet model assumes constant speed, aerodynamic efficiency and mass-based thrust-specific fuel consumption c_T in kg/(N s). The logarithm uses total initial and final aircraft masses.",
+    "formula_latex": "R=\\frac{VE}{gc_T}\\ln\\frac{m_i}{m_f}",
+    "id": "BOOK-V6-03-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for jet range",
+    "prefix": "R =",
+    "blocks": [
+      "ln(m_i/m_f)",
+      "ln(m_f/m_i)",
+      "m_i − m_f",
+      "m_f/m_i",
+      "V E/(g c_T)",
+      "×"
     ],
-    "checks": [
-      2.220446049250313e-16
-    ],
-    "legacy_id": "TA1-0037",
-    "section": "Midterm 1"
+    "answer_blocks": [
+      "V E/(g c_T)",
+      "×",
+      "ln(m_i/m_f)"
+    ]
   },
   {
     "id": "TA1-0198-D2",
@@ -16233,41 +16195,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0051-D2",
-    "topic": "2.4",
-    "subtopic": "Calculate equilibrium CL=2mg/(rho V²S)=0.36489.",
-    "stem": "Level flight has m=6100 kg, rho=0.85 kg/m³, V=105 m/s and S=35 m². The wing follows CL=0.16+5.3 alpha, with alpha in radians. With g=9.81 m/s², what angle of attack is needed in degrees within the linear regime? Choose the closest value.",
+    "id": "BOOK-V6-SYS-06-D2",
     "type": "choice",
+    "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 100 kN aircraft has main gear at x = 0, nose gear at 5 m and its CG at 1 m. What is the static nose-gear load?",
     "options": [
-      "3.9447 °",
-      "2.215 °",
-      "0.038659 °",
-      "21.729 °"
+      "5 kN",
+      "20 kN",
+      "80 kN",
+      "100 kN"
     ],
     "answer": 1,
-    "explanation": "Calculate equilibrium CL=2mg/(rho V²S)=0.36489. Invert the lift curve: alpha=(CL-CL0)/a=0.038659 rad. Convert radians to degrees.",
-    "option_explanations": {
-      "3.9447 °": "Ignores the nonzero lift coefficient at zero angle.",
-      "2.215 °": "Correct. Calculate equilibrium CL=2mg/(rho V²S)=0.36489. Invert the lift curve: alpha=(CL-CL0)/a=0.038659 rad. Convert radians to degrees.",
-      "0.038659 °": "Reports radians as degrees.",
-      "21.729 °": "Multiplies the angle by g after weight has already been included."
-    },
-    "difficulty": 2,
+    "explanation": "Taking moments about the main gear gives N_nose × 5 = 100 × 1. The main gear carries the other 80 kN.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Calculate equilibrium CL=2mg/(rho V²S)=0.36489.",
-      "Invert the lift curve: alpha=(CL-CL0)/a=0.038659 rad.",
-      "Convert radians to degrees.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0051",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 67,
+      "pdf_page": 68
+    }
   },
   {
     "id": "TA1-0048-D2",
@@ -16344,40 +16293,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0039-D2",
     "topic": "2.4",
-    "subtopic": "Equal lift requires rr×vr²×CL2/CL1=1.",
-    "stem": "An aircraft maintains mass and wing area in two level flights. Initial CL=0.65; then rho2/rho1=0.88 and V2/V1=1.08. What CL is required in the second condition? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "0.68392",
-      "0.66718",
-      "0.73864",
-      "0.63326"
-    ],
-    "answer": 3,
-    "explanation": "Equal lift requires rr×vr²×CL2/CL1=1. Thus CL2=CL1/(rr×vr²)=0.63326.",
-    "option_explanations": {
-      "0.68392": "Uses speed linearly rather than squared.",
-      "0.66718": "Multiplies CL by the dynamic-pressure ratio rather than dividing.",
-      "0.73864": "Omits the change in speed.",
-      "0.63326": "Correct. Equal lift requires rr×vr²×CL2/CL1=1. Thus CL2=CL1/(rr×vr²)=0.63326."
-    },
-    "difficulty": 2,
+    "subtopic": "Dynamic pressure",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 41,
+      "pdf_page": 42
     },
-    "steps": [
-      "Equal lift requires rr×vr²×CL2/CL1=1.",
-      "Thus CL2=CL1/(rr×vr²)=0.63326.."
+    "explanation": "Dynamic pressure depends on the square of airspeed and on density. Wing area and lift coefficient enter L = q S C_L, not q itself.",
+    "formula_latex": "q=\\frac12\\rho V^2",
+    "id": "BOOK-V6-02-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for dynamic pressure",
+    "prefix": "q = ½",
+    "blocks": [
+      "V²",
+      "V",
+      "V³",
+      "S",
+      "ρ",
+      "×"
     ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0039",
-    "section": "Midterm 1"
+    "answer_blocks": [
+      "ρ",
+      "×",
+      "V²"
+    ]
   },
   {
     "id": "TA1-0062-D2",
@@ -16779,41 +16724,36 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0040-D2",
     "topic": "2.5",
-    "subtopic": "Total thrust equals W/E=25226 N.",
-    "stem": "An aircraft of mass 36000 kg flies level with L/D=14, using 2 identical engines, each with ce=14 g/(kN s). With g=9.81 m/s² and constant conditions, what total fuel mass is burned in 35 min? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "1483.3 kg",
-      "370.82 kg",
-      "12.361 kg",
-      "741.64 kg"
-    ],
-    "answer": 3,
-    "explanation": "Total thrust equals W/E=25226 N. Convert ce to kg/(N s); total fuel flow is ce×T=0.35316 kg/s. Multiply by elapsed seconds to obtain 741.64 kg.",
-    "option_explanations": {
-      "1483.3 kg": "Multiplies by engine count after already using total aircraft thrust.",
-      "370.82 kg": "Divides total thrust by engine count without summing engine fuel flows.",
-      "12.361 kg": "Treats the duration in minutes as seconds.",
-      "741.64 kg": "Correct. Total thrust equals W/E=25226 N. Convert ce to kg/(N s); total fuel flow is ce×T=0.35316 kg/s. Multiply by elapsed seconds to obtain 741.64 kg."
-    },
-    "difficulty": 2,
+    "subtopic": "Ideal jet thrust",
+    "section": "Midterm 1",
     "origin": {
       "kind": "practice",
-      "title": "2.5_Sistemas_propulsivos.pdf",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 60,
+      "pdf_page": 61
     },
-    "steps": [
-      "Total thrust equals W/E=25226 N.",
-      "Convert ce to kg/(N s); total fuel flow is ce×T=0.35316 kg/s.",
-      "Multiply by elapsed seconds to obtain 741.64 kg.."
+    "explanation": "For equal inlet/outlet mass flow and a pressure-matched exit, thrust is mass flow times velocity increase. Otherwise pressure thrust and separate inlet/outlet momentum flows must be retained.",
+    "formula_latex": "T=\\dot m(V_e-V_0)",
+    "id": "BOOK-V6-07-D2",
+    "type": "formula_blocks",
+    "difficulty": 2,
+    "stem": "Build the missing expression for ideal jet thrust",
+    "prefix": "T =",
+    "blocks": [
+      "(V_e − V_0)",
+      "(V_e + V_0)",
+      "V_e",
+      "(V_e² − V_0²)",
+      "ṁ",
+      "×"
     ],
-    "checks": [
-      1.1368683772161603e-13
-    ],
-    "legacy_id": "TA1-0040",
-    "section": "Midterm 1"
+    "answer_blocks": [
+      "ṁ",
+      "×",
+      "(V_e − V_0)"
+    ]
   },
   {
     "id": "TA1-0187-D2",
@@ -18238,41 +18178,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0095-D2",
-    "topic": "2.5",
-    "subtopic": "Total thrust equals W/E=25726 N.",
-    "stem": "An aircraft of mass 37500 kg flies level with L/D=14.3, using 2 identical engines, each with ce=14.3 g/(kN s). With g=9.81 m/s² and constant conditions, what total fuel mass is burned in 37 min? Choose the closest value.",
+    "id": "BOOK-V6-SYS-07-D2",
     "type": "choice",
+    "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 1000 kg effective landing mass has vertical speed 2 m/s. What kinetic energy must be considered?",
     "options": [
-      "816.68 kg",
-      "13.611 kg",
-      "408.34 kg",
-      "1633.4 kg"
+      "2000 J",
+      "1000 J",
+      "4000 J",
+      "9810 J"
     ],
     "answer": 0,
-    "explanation": "Total thrust equals W/E=25726 N. Convert ce to kg/(N s); total fuel flow is ce×T=0.36788 kg/s. Multiply by elapsed seconds to obtain 816.68 kg.",
-    "option_explanations": {
-      "816.68 kg": "Correct. Total thrust equals W/E=25726 N. Convert ce to kg/(N s); total fuel flow is ce×T=0.36788 kg/s. Multiply by elapsed seconds to obtain 816.68 kg.",
-      "13.611 kg": "Treats the duration in minutes as seconds.",
-      "408.34 kg": "Divides total thrust by engine count without summing engine fuel flows.",
-      "1633.4 kg": "Multiplies by engine count after already using total aircraft thrust."
-    },
-    "difficulty": 2,
+    "explanation": "The vertical kinetic energy is ½ m v² = ½ × 1000 × 4 = 2000 J. Weight also does work while the strut compresses.",
     "origin": {
       "kind": "practice",
-      "title": "2.5_Sistemas_propulsivos.pdf",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
-    },
-    "steps": [
-      "Total thrust equals W/E=25726 N.",
-      "Convert ce to kg/(N s); total fuel flow is ce×T=0.36788 kg/s.",
-      "Multiply by elapsed seconds to obtain 816.68 kg.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0095",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 68,
+      "pdf_page": 69
+    }
   },
   {
     "id": "TA1-0233-D2",
@@ -21521,40 +21448,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0266-D2",
-    "topic": "2.1",
-    "subtopic": "The ISA offset is 11.45 K.",
-    "stem": "A temperature of 284 K is measured at 2400 m. Assume one ISA-offset day with a constant tropospheric lapse rate of -0.0065 K/m. What temperature is expected at 4300 m? Choose the closest value.",
+    "id": "BOOK-V6-SYS-01-D2",
     "type": "choice",
-    "options": [
-      "296.35 K",
-      "271.65 K",
-      "283.1 K",
-      "256.05 K"
-    ],
-    "answer": 1,
-    "explanation": "The ISA offset is 11.45 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=271.65 K.",
-    "option_explanations": {
-      "296.35 K": "Uses a temperature increase with altitude.",
-      "271.65 K": "Correct. The ISA offset is 11.45 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=271.65 K.",
-      "283.1 K": "Applies the ISA temperature offset twice.",
-      "256.05 K": "Applies the lapse rate from sea level to the measured temperature."
-    },
     "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 20 MPa pressure difference acts on a 5 cm² piston. What ideal force results?",
+    "options": [
+      "1 kN",
+      "1000 kN",
+      "10 kN",
+      "100 kN"
+    ],
+    "answer": 2,
+    "explanation": "5 cm² = 5 × 10⁻⁴ m²; F = 20 × 10⁶ × 5 × 10⁻⁴ = 10000 N.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "The ISA offset is 11.45 K.",
-      "Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=271.65 K.."
-    ],
-    "checks": [
-      -2.3092638912203256e-14
-    ],
-    "legacy_id": "TA1-0266",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
+    }
   },
   {
     "id": "TA1-0229-D2",
@@ -22980,40 +22895,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0285-D2",
-    "topic": "2.1",
-    "subtopic": "The ISA offset is 15.075 K.",
-    "stem": "A temperature of 286 K is measured at 2650 m. Assume one ISA-offset day with a constant tropospheric lapse rate of -0.0065 K/m. What temperature is expected at 4650 m? Choose the closest value.",
+    "id": "BOOK-V6-SYS-03-D2",
     "type": "choice",
+    "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "An ideal 28 V, 40 Ah battery supplies a constant 560 W load. What is its ideal endurance?",
     "options": [
-      "273 K",
-      "255.78 K",
-      "288.08 K",
-      "299 K"
+      "2 h",
+      "0.5 h",
+      "20 h",
+      "40 h"
     ],
     "answer": 0,
-    "explanation": "The ISA offset is 15.075 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=273 K.",
-    "option_explanations": {
-      "273 K": "Correct. The ISA offset is 15.075 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=273 K.",
-      "255.78 K": "Applies the lapse rate from sea level to the measured temperature.",
-      "288.08 K": "Applies the ISA temperature offset twice.",
-      "299 K": "Uses a temperature increase with altitude."
-    },
-    "difficulty": 2,
+    "explanation": "Energy is 28 × 40 = 1120 Wh, so ideal duration is 1120/560 = 2 h; usable duration can be lower.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "The ISA offset is 15.075 K.",
-      "Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=273 K.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0285",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 70,
+      "pdf_page": 71
+    }
   },
   {
     "id": "TA1-0263-D2",
@@ -24039,39 +23942,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0205-D2",
-    "topic": "2.4",
-    "subtopic": "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=184.62 km/h..",
-    "stem": "Initial true stall speed is 215 km/h. A second condition has m2/m1=1, rho2/rho1=0.875, CLmax2/CLmax1=1.55; wing area is unchanged. What is the new true stall speed? Choose the closest value.",
+    "id": "BOOK-V6-SYS-02-D2",
     "type": "choice",
-    "options": [
-      "161.54 km/h",
-      "158.53 km/h",
-      "184.62 km/h",
-      "172.69 km/h"
-    ],
-    "answer": 2,
-    "explanation": "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=184.62 km/h.",
-    "option_explanations": {
-      "161.54 km/h": "Places density in the numerator of the speed ratio.",
-      "158.53 km/h": "Uses the squared-speed ratio directly as a speed ratio.",
-      "184.62 km/h": "Correct. From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=184.62 km/h.",
-      "172.69 km/h": "Accounts only for the change in maximum lift coefficient."
-    },
     "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 5 cm² piston moves at 0.1 m/s. What volume flow is required?",
+    "options": [
+      "300 L/min",
+      "3 L/min",
+      "0.3 L/min",
+      "30 L/min"
+    ],
+    "answer": 1,
+    "explanation": "Q = A v = 5 × 10⁻⁵ m³/s. Multiply by 1000 L/m³ and 60 s/min.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=184.62 km/h.."
-    ],
-    "checks": [
-      2.220446049250313e-16
-    ],
-    "legacy_id": "TA1-0205",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
+    }
   },
   {
     "id": "TA1-0359-D2",
@@ -24439,40 +24331,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0301-D2",
-    "topic": "2.1",
-    "subtopic": "The ISA offset is 18.7 K.",
-    "stem": "A temperature of 288 K is measured at 2900 m. Assume one ISA-offset day with a constant tropospheric lapse rate of -0.0065 K/m. What temperature is expected at 5000 m? Choose the closest value.",
+    "id": "BOOK-V6-SYS-05-D2",
     "type": "choice",
-    "options": [
-      "274.35 K",
-      "301.65 K",
-      "293.05 K",
-      "255.5 K"
-    ],
-    "answer": 0,
-    "explanation": "The ISA offset is 18.7 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=274.35 K.",
-    "option_explanations": {
-      "274.35 K": "Correct. The ISA offset is 18.7 K. Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=274.35 K.",
-      "301.65 K": "Uses a temperature increase with altitude.",
-      "293.05 K": "Applies the ISA temperature offset twice.",
-      "255.5 K": "Applies the lapse rate from sea level to the measured temperature."
-    },
     "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "In incompressible flow, pitot minus static pressure is 2000 Pa and density is 1.25 kg/m³. What is airspeed?",
+    "options": [
+      "80.0 m/s",
+      "1600 m/s",
+      "56.6 m/s",
+      "40.0 m/s"
+    ],
+    "answer": 2,
+    "explanation": "V = √[2(p_t − p_s)/ρ] = √3200 = 56.57 m/s; the pressure difference is required.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "The ISA offset is 18.7 K.",
-      "Preserve it between the two altitudes: T_B=T_A-0.0065(h_B-h_A)=274.35 K.."
-    ],
-    "checks": [
-      2.1316282072803006e-14
-    ],
-    "legacy_id": "TA1-0301",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 71,
+      "pdf_page": 72
+    }
   },
   {
     "id": "TA1-0268-D2",
@@ -25498,39 +25378,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0271-D2",
-    "topic": "2.4",
-    "subtopic": "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=187.37 km/h..",
-    "stem": "Initial true stall speed is 220 km/h. A second condition has m2/m1=1.02, rho2/rho1=0.89, CLmax2/CLmax1=1.58; wing area is unchanged. What is the new true stall speed? Choose the closest value.",
+    "id": "BOOK-V6-SYS-04-D2",
     "type": "choice",
-    "options": [
-      "175.02 km/h",
-      "187.37 km/h",
-      "159.58 km/h",
-      "166.76 km/h"
-    ],
-    "answer": 1,
-    "explanation": "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=187.37 km/h.",
-    "option_explanations": {
-      "175.02 km/h": "Accounts only for the change in maximum lift coefficient.",
-      "187.37 km/h": "Correct. From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=187.37 km/h.",
-      "159.58 km/h": "Uses the squared-speed ratio directly as a speed ratio.",
-      "166.76 km/h": "Places density in the numerator of the speed ratio."
-    },
     "difficulty": 2,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "Cabin pressure is 75 kPa and exterior pressure falls from 25 to 20 kPa. How does the pressure difference change?",
+    "options": [
+      "It falls from 50 to 45 kPa",
+      "It stays at 75 kPa",
+      "It rises from 25 to 30 kPa",
+      "It rises from 50 to 55 kPa"
+    ],
+    "answer": 3,
+    "explanation": "Subtract exterior pressure from cabin pressure in each case; unchanged cabin pressure does not imply unchanged structural loading.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "From Vs=sqrt(2mg/(rho S CLmax)), Vs2=Vs1 sqrt[massratio/(rhoratio×clratio)]=187.37 km/h.."
-    ],
-    "checks": [
-      -2.220446049250313e-16
-    ],
-    "legacy_id": "TA1-0271",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 71,
+      "pdf_page": 72
+    }
   },
   {
     "id": "TA1-0464-D2",
@@ -26871,42 +26740,44 @@
     }
   },
   {
-    "id": "TA1-0625-D3",
-    "topic": "2.1",
-    "subtopic": "First rho=p/(RT)=0.90433 kg/m³.",
-    "stem": "An aircraft must maintain V>=1.25Vs at p=68000 Pa, T=262 K, S=44 m² and CLmax=1.6. It must also remain below q=6500 Pa and Mach 0.7. With R=287 J/(kg K), gamma=1.4 and g=9.81 m/s², what maximum mass admits at least one speed satisfying all three conditions? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "29854 kg",
-      "1.0712e+05 kg",
-      "46646 kg",
-      "37317 kg"
-    ],
-    "answer": 0,
-    "explanation": "First rho=p/(RT)=0.90433 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=119.9 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=29854 kg.",
-    "option_explanations": {
-      "29854 kg": "Correct. First rho=p/(RT)=0.90433 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=119.9 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=29854 kg.",
-      "1.0712e+05 kg": "Uses the larger speed ceiling, violating the tighter restriction.",
-      "46646 kg": "Omits the stall-speed margin entirely.",
-      "37317 kg": "Applies the margin linearly to mass rather than through speed squared."
-    },
+    "id": "BOOK-V6-01-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.1",
+    "subtopic": "Ideal gas",
+    "section": "Midterm 1",
+    "stem": "Match each atmosphere condition to its correct relation",
+    "pairs": [
+      [
+        "Fixed pressure: density ratio",
+        "ρ₂/ρ₁ = T₁/T₂"
+      ],
+      [
+        "ISA tropospheric temperature",
+        "T = T₀ − L h"
+      ],
+      [
+        "Local sound speed in ideal air",
+        "a = √(γ R_a T)"
+      ],
+      [
+        "Equivalent airspeed",
+        "V_E = V_TAS √(ρ/ρ₀)"
+      ]
+    ],
+    "explanation": "Use absolute temperature. The ISA lapse-rate expression is restricted to its layer; EAS expresses the same dynamic pressure at reference density.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "First rho=p/(RT)=0.90433 kg/m³.",
-      "Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT).",
-      "Choose their minimum Vcap=119.9 m/s.",
-      "At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=29854 kg.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0625",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 14,
+      "pdf_page": 15,
+      "pages": [
+        14,
+        15,
+        17
+      ]
+    }
   },
   {
     "id": "TA1-0776-D3",
@@ -27133,42 +27004,43 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0617-D3",
-    "topic": "2.2",
-    "subtopic": "Original final mass is 44200 kg and range is 6.6974e+06 m.",
-    "stem": "A jet starts cruise at its mass limit 57000 kg, with OEM=27000 kg, payload=15000 kg and final reserve=2200 kg. V=225 m/s, E1=15.5, ce1=1.35e-05 kg/(N s). A new engine adds 1400 kg to OEM and gives E2=16.12. Speed, payload, reserve, initial mass and range remain fixed. What maximum signed percentage change in ce preserves range? Negative means consumption must decrease. Use g=9.81 m/s² and model the whole flight as ideal cruise. Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "4 %",
-      "8.7514 %",
-      "-10.938 %",
-      "-8.7514 %"
-    ],
-    "answer": 3,
-    "explanation": "Original final mass is 44200 kg and range is 6.6974e+06 m. New final mass is 45600 kg, reducing available fuel. Set ce2_max=V E2 ln(mi/mf2)/(g R1)=1.2319e-05 kg/(N s). The allowable change is 100(ce2_max/ce1-1)=-8.7514%.",
-    "option_explanations": {
-      "4 %": "Credits the efficiency gain but omits the engine mass penalty.",
-      "8.7514 %": "Reverses the sign of the allowable consumption change.",
-      "-10.938 %": "Uses lost fuel fraction as the consumption change instead of Breguet logarithms.",
-      "-8.7514 %": "Correct. Original final mass is 44200 kg and range is 6.6974e+06 m. New final mass is 45600 kg, reducing available fuel. Set ce2_max=V E2 ln(mi/mf2)/(g R1)=1.2319e-05 kg/(N s). The allowable change is 100(ce2_max/ce1-1)=-8.7514%."
-    },
+    "id": "BOOK-V6-03-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.2",
+    "subtopic": "Jet range",
+    "section": "Midterm 1",
+    "stem": "Match each constant-parameter Breguet model to its range or endurance",
+    "pairs": [
+      [
+        "Jet range; c_T in kg/(N s)",
+        "[V E/(g c_T)] ln(m_i/m_f)"
+      ],
+      [
+        "Jet endurance; c_T in kg/(N s)",
+        "[E/(g c_T)] ln(m_i/m_f)"
+      ],
+      [
+        "Propeller range; c_P in kg/(W s)",
+        "[η_p E/(g c_P)] ln(m_i/m_f)"
+      ],
+      [
+        "Propeller endurance at constant V",
+        "[η_p E/(g c_P V)] ln(m_i/m_f)"
+      ]
+    ],
+    "explanation": "Mass-based specific consumption requires g in these expressions. Range divided by constant speed gives endurance. The jet and shaft-power definitions of consumption are different.",
     "origin": {
       "kind": "practice",
-      "title": "breguet.pdf",
-      "url": "https://drive.google.com/file/d/1DOmAhn2AuxfzIxwLhU4BMJ7tD4o7UpJ7/view"
-    },
-    "steps": [
-      "Original final mass is 44200 kg and range is 6.6974e+06 m.",
-      "New final mass is 45600 kg, reducing available fuel.",
-      "Set ce2_max=V E2 ln(mi/mf2)/(g R1)=1.2319e-05 kg/(N s).",
-      "The allowable change is 100(ce2_max/ce1-1)=-8.7514%.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0617",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 25,
+      "pdf_page": 26,
+      "pages": [
+        25,
+        26
+      ]
+    }
   },
   {
     "id": "TA1-0871-D3",
@@ -27321,42 +27193,42 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0586-D3",
-    "topic": "2.3",
-    "subtopic": "Size A=F Ltotal/(E delta_lim)=0.000225 m² and I=4.0286e-09 m⁴.",
-    "stem": "A solid circular member of total length 2.8 m carries 9000 N and has E=70 GPa. First size its minimum area for total axial shortening <= 0.0016 m. Then add equally spaced ideal lateral supports, keeping area and total axial shortening unchanged. Each span is pinned-pinned with K=1 and I=A²/(4pi). What minimum number of internal supports ensures Pcrit>=1.7F in every span? The two ends are already supported. Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "5 internal supports",
-      "7 internal supports",
-      "6 internal supports",
-      "8 internal supports"
-    ],
-    "answer": 2,
-    "explanation": "Size A=F Ltotal/(E delta_lim)=0.000225 m² and I=4.0286e-09 m⁴. Maximum span length is pi sqrt[EI/(sf F)]=0.42651 m. Round the span count upward: ceil(Ltotal/lmax)=7. Internal supports=spans-1=6.",
-    "option_explanations": {
-      "5 internal supports": "Uses one fewer internal support than required by the upward-rounded span count.",
-      "7 internal supports": "Reports the number of spans rather than internal supports.",
-      "6 internal supports": "Correct. Size A=F Ltotal/(E delta_lim)=0.000225 m² and I=4.0286e-09 m⁴. Maximum span length is pi sqrt[EI/(sf F)]=0.42651 m. Round the span count upward: ceil(Ltotal/lmax)=7. Internal supports=spans-1=6.",
-      "8 internal supports": "Adds a support instead of subtracting the two already supported ends appropriately."
-    },
+    "id": "BOOK-V6-05-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.3",
+    "subtopic": "Euler buckling",
+    "section": "Midterm 1",
+    "stem": "Match each structural idealization to its governing expression",
+    "pairs": [
+      [
+        "Slender-column critical load",
+        "P_cr = π² E_Y I/(K L)²"
+      ],
+      [
+        "Cantilever tip deflection under tip force",
+        "δ = F L³/(3 E_Y I)"
+      ],
+      [
+        "Cantilever tip stiffness",
+        "k = 3 E_Y I/L³"
+      ],
+      [
+        "Uniform circular shaft twist",
+        "θ = T L/(G J)"
+      ]
+    ],
+    "explanation": "Boundary conditions and load application matter. I is a bending second moment; J is the polar second moment for the circular shaft in this torsion model.",
     "origin": {
       "kind": "practice",
-      "title": "2.3_Estructuras_ligeras.pdf",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view"
-    },
-    "steps": [
-      "Size A=F Ltotal/(E delta_lim)=0.000225 m² and I=4.0286e-09 m⁴.",
-      "Maximum span length is pi sqrt[EI/(sf F)]=0.42651 m.",
-      "Round the span count upward: ceil(Ltotal/lmax)=7.",
-      "Internal supports=spans-1=6.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0586",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 33,
+      "pdf_page": 34,
+      "pages": [
+        33
+      ]
+    }
   },
   {
     "id": "TA1-0647-D3",
@@ -27471,43 +27343,42 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0675-D3",
-    "topic": "2.3",
-    "subtopic": "Calculate I, deflection and stress for each candidate.",
-    "stem": "Compare four rectangular cantilevers under F=230 N, L=1.1 m, E=70 GPa: A 35×45 mm; B 45×50 mm; C 35×60 mm; D 50×55 mm (width×height). Define utilization U=max(y/y_lim,sigma/sigma_lim), where y_lim=0.006 m and sigma_lim=130 MPa. Use I=bh³/12, y=FL³/(3EI), sigma=FLh/(2I). Which option has the largest simultaneous margin, meaning the smallest U?",
-    "type": "choice",
-    "options": [
-      "Option C",
-      "Option D",
-      "Option B",
-      "Option A"
-    ],
-    "answer": 1,
-    "explanation": "Calculate I, deflection and stress for each candidate. Normalize each by its limit and take the worse utilization. The U values for A, B, C and D are 0.91414, 0.51832, 0.38565, 0.35048. The smallest U identifies Option D. Greater area alone does not guarantee the best bending performance.",
-    "option_explanations": {
-      "Option C": "This section offers less simultaneous margin under the prescribed max-utilization criterion.",
-      "Option D": "Correct. Calculate I, deflection and stress for each candidate. Normalize each by its limit and take the worse utilization. The U values for A, B, C and D are 0.91414, 0.51832, 0.38565, 0.35048. The smallest U identifies Option D. Greater area alone does not guarantee the best bending performance.",
-      "Option B": "This section does not minimize the larger of normalized stress and deflection.",
-      "Option A": "This section has a greater worst-constraint utilization than the best candidate."
-    },
+    "id": "BOOK-V6-04-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.3",
+    "subtopic": "Axial extension",
+    "section": "Midterm 1",
+    "stem": "Match each linear-elastic bar quantity to its relation",
+    "pairs": [
+      [
+        "Average axial stress",
+        "σ = F/A"
+      ],
+      [
+        "Axial strain",
+        "ε = ΔL/L"
+      ],
+      [
+        "Axial stiffness",
+        "k = E_Y A/L"
+      ],
+      [
+        "Axial extension",
+        "ΔL = F L/(E_Y A)"
+      ]
+    ],
+    "explanation": "Stress, strain, stiffness and extension are different quantities. The relations assume a uniform bar and linear elasticity.",
     "origin": {
       "kind": "practice",
-      "title": "2.3_Estructuras_ligeras.pdf",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view"
-    },
-    "steps": [
-      "Calculate I, deflection and stress for each candidate.",
-      "Normalize each by its limit and take the worse utilization.",
-      "The U values for A, B, C and D are 0.91414, 0.51832, 0.38565, 0.35048.",
-      "The smallest U identifies Option D.",
-      "Greater area alone does not guarantee the best bending performance.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0675",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 32,
+      "pdf_page": 33,
+      "pages": [
+        32
+      ]
+    }
   },
   {
     "id": "TA1-0702-D3",
@@ -27771,42 +27642,43 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0654-D3",
-    "topic": "2.4",
-    "subtopic": "Apply the approach-speed requirement",
-    "stem": "A wing of clean area 45 m² and clean CLmax=1.4 must support W=110000 N at rho=0.92 kg/m³. Target approach TAS=57 m/s with Vapp>=1.3 Vs. Deploying a Fowler system increases area by a factor 1.08. CLmax in each configuration uses its OWN area. What minimum factor CLmax_deployed/CLmax_clean is needed? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "1.8281",
-      "1.3521",
-      "1.0817",
-      "1.9744"
-    ],
-    "answer": 0,
-    "explanation": "The allowed stall speed is Vapp/1.3=43.846 m/s. With deployed S=48.6 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.5594. Relative to the clean coefficient, the gain must be 1.8281.",
-    "option_explanations": {
-      "1.8281": "Correct. The allowed stall speed is Vapp/1.3=43.846 m/s. With deployed S=48.6 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.5594. Relative to the clean coefficient, the gain must be 1.8281.",
-      "1.9744": "Keeps the clean area while interpreting a coefficient defined on the deployed area.",
-      "1.0817": "Uses approach speed directly as stall speed, losing the squared margin.",
-      "1.3521": "Applies a square root to a coefficient ratio; the square root belongs to the speed law."
-    },
+    "id": "BOOK-V6-06-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.4",
+    "subtopic": "Induced drag",
+    "section": "Midterm 1",
+    "stem": "Match each parabolic-polar result to its correct expression",
+    "pairs": [
+      [
+        "Total drag coefficient",
+        "C_D = C_D0 + k C_L²"
+      ],
+      [
+        "Finite-wing induced-drag factor",
+        "k = 1/(π e AR)"
+      ],
+      [
+        "Lift coefficient at maximum L/D",
+        "C_L,opt = √(C_D0/k)"
+      ],
+      [
+        "Maximum aerodynamic efficiency",
+        "E_max = 1/[2 √(C_D0 k)]"
+      ]
+    ],
+    "explanation": "These optimum expressions follow from the parabolic polar with fixed coefficients. At maximum efficiency, induced and parasite contributions to C_D are equal.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Apply the approach-speed requirement",
-      "Change the reference area consistently",
-      "Solve for required maximum lift coefficient",
-      "Compare to the clean coefficient"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0654",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 50,
+      "pdf_page": 51,
+      "pages": [
+        50,
+        51
+      ]
+    }
   },
   {
     "id": "TA1-0729-D3",
@@ -28033,119 +27905,104 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0585-D3",
+    "id": "BOOK-V6-02-D3",
+    "type": "matching",
+    "difficulty": 3,
     "topic": "2.4",
-    "subtopic": "Distinguish airspeed from groundspeed",
-    "stem": "A runway procedure limits groundspeed on approach to 135 km/h with a steady 16 km/h headwind. Require TAS>=1.3 Vs. At p=72 kPa and T=276 K, the aircraft has S=31 m², CLmax=1.9 and a structural mass limit of 4300 kg. Use R=287 and g=9.81. What is the greatest mass meeting both the aerodynamic and structural limits? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "1764.2 kg",
-      "2840.7 kg",
-      "4300 kg",
-      "3692.9 kg"
+    "subtopic": "Dynamic pressure",
+    "section": "Midterm 1",
+    "stem": "Match each aerodynamic quantity to its defining relation",
+    "pairs": [
+      [
+        "Dynamic pressure",
+        "q = ½ ρ V²"
+      ],
+      [
+        "Aircraft lift",
+        "L = q S C_L"
+      ],
+      [
+        "Aircraft drag",
+        "D = q S C_D"
+      ],
+      [
+        "Pitching moment",
+        "M = q S c̄ C_m"
+      ]
     ],
-    "answer": 1,
-    "explanation": "A headwind means TAS=GS+headwind, so the largest allowed TAS is 41.944 m/s. rho=0.90895; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 2840.7 kg. Intersect it with 4300 kg: 2840.7 kg.",
-    "option_explanations": {
-      "2840.7 kg": "Correct. A headwind means TAS=GS+headwind, so the largest allowed TAS is 41.944 m/s. rho=0.90895; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 2840.7 kg. Intersect it with 4300 kg: 2840.7 kg.",
-      "1764.2 kg": "Subtracts the headwind from the groundspeed limit instead of adding it to recover TAS.",
-      "4300 kg": "Omits the 1.3 margin and permits approach at the stall boundary.",
-      "3692.9 kg": "Applies the speed-margin factor linearly to mass rather than squaring its effect on lift."
-    },
-    "difficulty": 3,
+    "explanation": "Forces need one reference area; a moment also needs a reference length. The symbol M here denotes moment, not Mach number.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Distinguish airspeed from groundspeed",
-      "Evaluate density on the actual day",
-      "Apply approach margin to stall speed",
-      "Intersect with structural mass"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0585",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 41,
+      "pdf_page": 42,
+      "pages": [
+        41
+      ]
+    }
   },
   {
-    "id": "TA1-0689-D3",
-    "topic": "2.5",
-    "subtopic": "Convert each ground distance to distance through the air",
-    "stem": "A mission has two consecutive cruise legs: 1600 km over ground at TAS=210 m/s into a 22 m/s wind, then 1100 km at TAS=220 m/s with the same tailwind. E1=15.5, ce1=14 g/(kN s); E2=16, ce2=13.5 g/(kN s). OEM=26000 kg, payload=12000 kg and final reserve=2500 kg. Use g=9.81, separate ideal Breguet legs and no other fuel use. How much fuel must be loaded at the start? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "7346.6 kg",
-      "4846.6 kg",
-      "7077.8 kg",
-      "7159.4 kg"
-    ],
-    "answer": 0,
-    "explanation": "The air distances are Dground·TAS/GS. The two log mass ratios are 0.07541 and 0.037624, which ADD: mi=mf exp(k1+k2). With mf=40500 kg, mi=45347 kg. Loaded fuel=mi−OEM−payload=7346.6 kg, including reserve.",
-    "option_explanations": {
-      "7346.6 kg": "Correct. The air distances are Dground·TAS/GS. The two log mass ratios are 0.07541 and 0.037624, which ADD: mi=mf exp(k1+k2). With mf=40500 kg, mi=45347 kg. Loaded fuel=mi−OEM−payload=7346.6 kg, including reserve.",
-      "7159.4 kg": "Uses ground distance as the air distance in Breguet and ignores the wind on both legs.",
-      "4846.6 kg": "Reports burned fuel only, omitting the required final reserve.",
-      "7077.8 kg": "Adds the log mass ratios directly to one instead of exponentiating the combined ratio."
-    },
+    "id": "BOOK-V6-07-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.5",
+    "subtopic": "Ideal jet thrust",
+    "section": "Midterm 1",
+    "stem": "Match each propulsion definition to its relation",
+    "pairs": [
+      [
+        "Ideal jet propulsive efficiency",
+        "η_p = 2 V₀/(V_e + V₀)"
+      ],
+      [
+        "Thrust-specific fuel consumption",
+        "c_T = ṁ_f/T"
+      ],
+      [
+        "Shaft-power-specific fuel consumption",
+        "c_P = ṁ_f/P_shaft"
+      ],
+      [
+        "Rocket specific impulse",
+        "I_sp = T/(ṁ_propellant g₀)"
+      ]
+    ],
+    "explanation": "The ideal jet efficiency relation uses equal mass flow and pressure-matched flow. Rocket propellant includes fuel and oxidizer; specific impulse is measured in seconds.",
     "origin": {
       "kind": "practice",
-      "title": "2.5_Sistemas_propulsivos.pdf",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
-    },
-    "steps": [
-      "Convert each ground distance to distance through the air",
-      "Evaluate separate cruise mass-ratio exponents",
-      "Combine consecutive legs multiplicatively",
-      "Include the unburned reserve"
-    ],
-    "checks": [
-      -1.3877787807814457e-17
-    ],
-    "legacy_id": "TA1-0689",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 61,
+      "pdf_page": 62,
+      "pages": [
+        61
+      ]
+    }
   },
   {
-    "id": "TA1-0763-D3",
-    "topic": "2.5",
-    "subtopic": "Separate airspeed and groundspeed",
-    "stem": "In level flight, groundspeed is 105 m/s with a 14 m/s headwind. Ambient p=58 kPa, T=260 K; W=125000 N, S=43 m² and CD=0.026+0.052CL². A motor passes 8 kg/s and exhausts at 350 m/s; exit static pressure is 70 kPa. Use ideal air R=287 and T=m_dot(Ve−V0)+Ae(pe−pamb). What exit area Ae balances drag? Choose the closest value.",
+    "id": "BOOK-V6-SYS-07-D3",
     "type": "choice",
+    "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "An incompressible pitot-static model gives the same pressure difference at two densities. If the second density is half the first, how do the true airspeeds compare?",
     "options": [
-      "644.85 m²",
-      "0.95285 m²",
-      "0.11055 m²",
-      "0.64485 m²"
+      "V₂ = 2 V₁",
+      "V₂ = V₁/√2",
+      "V₂ = V₁",
+      "V₂ = √2 V₁"
     ],
     "answer": 3,
-    "explanation": "TAS=GS+headwind=119 m/s; rho=0.77727. CL=0.52821, drag=9586.2 N. Momentum supplies 1848 N. The remainder requires Ae=[D−m_dot(Ve−V)]/(pe−pamb)=0.64485 m².",
-    "option_explanations": {
-      "0.64485 m²": "Correct. TAS=GS+headwind=119 m/s; rho=0.77727. CL=0.52821, drag=9586.2 N. Momentum supplies 1848 N. The remainder requires Ae=[D−m_dot(Ve−V)]/(pe−pamb)=0.64485 m².",
-      "0.11055 m²": "Uses absolute exit pressure rather than the exit-to-ambient difference.",
-      "0.95285 m²": "Adds the momentum contribution to the demand instead of subtracting the thrust already supplied.",
-      "644.85 m²": "Uses kPa numerically in a formula requiring pascals, creating a factor of 1000."
-    },
-    "difficulty": 3,
+    "explanation": "With fixed p_t − p_s, V = √[2(p_t − p_s)/ρ]. Halving density raises true airspeed by √2; a pressure difference alone does not fix TAS.",
     "origin": {
       "kind": "practice",
-      "title": "2.5_Sistemas_propulsivos.pdf",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
-    },
-    "steps": [
-      "Separate airspeed and groundspeed",
-      "Obtain actual density",
-      "Evaluate complete aircraft drag",
-      "Subtract momentum thrust",
-      "Invert pressure thrust"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0763",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 71,
+      "pdf_page": 72
+    }
   },
   {
     "id": "TA1-0766-D3",
@@ -28376,42 +28233,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0671-D3",
-    "topic": "2.1",
-    "subtopic": "First rho=p/(RT)=0.91067 kg/m³.",
-    "stem": "An aircraft must maintain V>=1.25Vs at p=69000 Pa, T=264 K, S=46 m² and CLmax=1.63. It must also remain below q=6700 Pa and Mach 0.708. With R=287 J/(kg K), gamma=1.4 and g=9.81 m/s², what maximum mass admits at least one speed satisfying all three conditions? Choose the closest value.",
+    "id": "BOOK-V6-SYS-02-D3",
     "type": "choice",
-    "options": [
-      "40968 kg",
-      "32774 kg",
-      "51210 kg",
-      "1.1843e+05 kg"
-    ],
-    "answer": 1,
-    "explanation": "First rho=p/(RT)=0.91067 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=121.3 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=32774 kg.",
-    "option_explanations": {
-      "40968 kg": "Applies the margin linearly to mass rather than through speed squared.",
-      "32774 kg": "Correct. First rho=p/(RT)=0.91067 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=121.3 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=32774 kg.",
-      "51210 kg": "Omits the stall-speed margin entirely.",
-      "1.1843e+05 kg": "Uses the larger speed ceiling, violating the tighter restriction."
-    },
     "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 1000 kg effective mass contacts the ground at 2 m/s and stops over 0.2 m, with no residual lift. What is the mean total vertical reaction in this model?",
+    "options": [
+      "About 19.81 kN",
+      "10.00 kN",
+      "9.81 kN",
+      "29.81 kN"
+    ],
+    "answer": 0,
+    "explanation": "The mean net stopping force is (½ m v²)/s = 10 kN. The total reaction also balances the 9.81 kN weight.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "First rho=p/(RT)=0.91067 kg/m³.",
-      "Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT).",
-      "Choose their minimum Vcap=121.3 m/s.",
-      "At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=32774 kg.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0671",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 68,
+      "pdf_page": 69
+    }
   },
   {
     "id": "TA1-0790-D3",
@@ -29276,42 +29119,42 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0662-D3",
-    "topic": "2.4",
-    "subtopic": "Apply the approach-speed requirement",
-    "stem": "A wing of clean area 46 m² and clean CLmax=1.4 must support W=113500 N at rho=0.93 kg/m³. Target approach TAS=58.2 m/s with Vapp>=1.3 Vs. Deploying a Fowler system increases area by a factor 1.09. CLmax in each configuration uses its OWN area. What minimum factor CLmax_deployed/CLmax_clean is needed? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "1.0266",
-      "1.3172",
-      "1.891",
-      "1.7349"
-    ],
-    "answer": 3,
-    "explanation": "The allowed stall speed is Vapp/1.3=44.769 m/s. With deployed S=50.14 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.4288. Relative to the clean coefficient, the gain must be 1.7349.",
-    "option_explanations": {
-      "1.7349": "Correct. The allowed stall speed is Vapp/1.3=44.769 m/s. With deployed S=50.14 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.4288. Relative to the clean coefficient, the gain must be 1.7349.",
-      "1.891": "Keeps the clean area while interpreting a coefficient defined on the deployed area.",
-      "1.0266": "Uses approach speed directly as stall speed, losing the squared margin.",
-      "1.3172": "Applies a square root to a coefficient ratio; the square root belongs to the speed law."
-    },
+    "id": "BOOK-V6-08-D3",
+    "type": "matching",
     "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Hydraulic power",
+    "section": "Midterm 1",
+    "stem": "Match each ideal actuator quantity to its relation",
+    "pairs": [
+      [
+        "Actuator force",
+        "F = Δp A"
+      ],
+      [
+        "Volume flow rate",
+        "Q = A v"
+      ],
+      [
+        "Hydraulic power",
+        "P_hyd = Δp Q"
+      ],
+      [
+        "Mechanical output power",
+        "P_mech = F v"
+      ]
+    ],
+    "explanation": "In an ideal actuator hydraulic and mechanical power agree. A force increase trades off against speed; it does not create energy.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Apply the approach-speed requirement",
-      "Change the reference area consistently",
-      "Solve for required maximum lift coefficient",
-      "Compare to the clean coefficient"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0662",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70,
+      "pages": [
+        69
+      ]
+    }
   },
   {
     "id": "TA1-0741-D3",
@@ -29538,80 +29381,52 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0673-D3",
-    "topic": "2.4",
-    "subtopic": "Distinguish airspeed from groundspeed",
-    "stem": "A runway procedure limits groundspeed on approach to 137 km/h with a steady 17 km/h headwind. Require TAS>=1.3 Vs. At p=72.7 kPa and T=278 K, the aircraft has S=32 m², CLmax=1.925 and a structural mass limit of 4480 kg. Use R=287 and g=9.81. What is the greatest mass meeting both the aerodynamic and structural limits? Choose the closest value.",
+    "id": "BOOK-V6-SYS-03-D3",
     "type": "choice",
+    "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A 28 V, 40 Ah battery has 70% usable stored energy; its converter is 80% efficient. How long can it supply 560 W?",
     "options": [
-      "4027 kg",
-      "4480 kg",
-      "1880.9 kg",
-      "3097.7 kg"
+      "2.00 h",
+      "1.40 h",
+      "2.50 h",
+      "1.12 h"
     ],
     "answer": 3,
-    "explanation": "A headwind means TAS=GS+headwind, so the largest allowed TAS is 42.778 m/s. rho=0.91119; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 3097.7 kg. Intersect it with 4480 kg: 3097.7 kg.",
-    "option_explanations": {
-      "3097.7 kg": "Correct. A headwind means TAS=GS+headwind, so the largest allowed TAS is 42.778 m/s. rho=0.91119; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 3097.7 kg. Intersect it with 4480 kg: 3097.7 kg.",
-      "1880.9 kg": "Subtracts the headwind from the groundspeed limit instead of adding it to recover TAS.",
-      "4480 kg": "Omits the 1.3 margin and permits approach at the stall boundary.",
-      "4027 kg": "Applies the speed-margin factor linearly to mass rather than squaring its effect on lift."
-    },
-    "difficulty": 3,
+    "explanation": "Useful energy is 28 × 40 × 0.70 × 0.80 = 627.2 Wh. Divide by the useful load power: 627.2/560 = 1.12 h.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Distinguish airspeed from groundspeed",
-      "Evaluate density on the actual day",
-      "Apply approach margin to stall speed",
-      "Intersect with structural mass"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0673",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 70,
+      "pdf_page": 71
+    }
   },
   {
-    "id": "TA1-0747-D3",
-    "topic": "2.5",
-    "subtopic": "Convert each ground distance to distance through the air",
-    "stem": "A mission has two consecutive cruise legs: 1670 km over ground at TAS=212 m/s into a 23 m/s wind, then 1150 km at TAS=222 m/s with the same tailwind. E1=15.65, ce1=14.12 g/(kN s); E2=16.1, ce2=13.6 g/(kN s). OEM=26600 kg, payload=12250 kg and final reserve=2570 kg. Use g=9.81, separate ideal Breguet legs and no other fuel use. How much fuel must be loaded at the start? Choose the closest value.",
+    "id": "BOOK-V6-SYS-05-D3",
     "type": "choice",
-    "options": [
-      "7715.8 kg",
-      "5145.8 kg",
-      "7508.9 kg",
-      "7420.4 kg"
-    ],
-    "answer": 0,
-    "explanation": "The air distances are Dground·TAS/GS. The two log mass ratios are 0.078207 and 0.038897, which ADD: mi=mf exp(k1+k2). With mf=41420 kg, mi=46566 kg. Loaded fuel=mi−OEM−payload=7715.8 kg, including reserve.",
-    "option_explanations": {
-      "7715.8 kg": "Correct. The air distances are Dground·TAS/GS. The two log mass ratios are 0.078207 and 0.038897, which ADD: mi=mf exp(k1+k2). With mf=41420 kg, mi=46566 kg. Loaded fuel=mi−OEM−payload=7715.8 kg, including reserve.",
-      "7508.9 kg": "Uses ground distance as the air distance in Breguet and ignores the wind on both legs.",
-      "5145.8 kg": "Reports burned fuel only, omitting the required final reserve.",
-      "7420.4 kg": "Adds the log mass ratios directly to one instead of exponentiating the combined ratio."
-    },
     "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A CG moves from 1.0 m to 0.5 m ahead of the main gear while weight and 5 m wheelbase are unchanged. How does static nose-gear reaction change?",
+    "options": [
+      "It becomes negative even though the CG remains between supports",
+      "It halves; this alone does not establish safety during braking",
+      "It doubles and proves the design safe during braking",
+      "It is unchanged because total weight is unchanged"
+    ],
+    "answer": 1,
+    "explanation": "N_nose = W a/L halves. Static support reactions omit braking and other dynamic loads.",
     "origin": {
       "kind": "practice",
-      "title": "2.5_Sistemas_propulsivos.pdf",
-      "url": "https://drive.google.com/file/d/1WY0_2lOTalSCiDzoFV33ypXPbD33YPRT/view"
-    },
-    "steps": [
-      "Convert each ground distance to distance through the air",
-      "Evaluate separate cruise mass-ratio exponents",
-      "Combine consecutive legs multiplicatively",
-      "Include the unburned reserve"
-    ],
-    "checks": [
-      -5.551115123125783e-17
-    ],
-    "legacy_id": "TA1-0747",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 67,
+      "pdf_page": 68
+    }
   },
   {
     "id": "TA1-0788-D3",
@@ -29881,42 +29696,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0730-D3",
-    "topic": "2.1",
-    "subtopic": "First rho=p/(RT)=0.91693 kg/m³.",
-    "stem": "An aircraft must maintain V>=1.25Vs at p=70000 Pa, T=266 K, S=48 m² and CLmax=1.66. It must also remain below q=6900 Pa and Mach 0.716. With R=287 J/(kg K), gamma=1.4 and g=9.81 m/s², what maximum mass admits at least one speed satisfying all three conditions? Choose the closest value.",
+    "id": "BOOK-V6-SYS-04-D3",
     "type": "choice",
+    "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "A cabin-pressure differential limit is fixed. Ambient pressure decreases during climb. What happens to the maximum permitted cabin absolute pressure?",
     "options": [
-      "44835 kg",
-      "56044 kg",
-      "35868 kg",
-      "1.3058e+05 kg"
+      "It can remain fixed at any altitude",
+      "It must equal zero regardless of the differential limit",
+      "It must decrease with ambient pressure to respect the same differential limit",
+      "It must increase by the same amount"
     ],
     "answer": 2,
-    "explanation": "First rho=p/(RT)=0.91693 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=122.68 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=35868 kg.",
-    "option_explanations": {
-      "44835 kg": "Applies the margin linearly to mass rather than through speed squared.",
-      "56044 kg": "Omits the stall-speed margin entirely.",
-      "35868 kg": "Correct. First rho=p/(RT)=0.91693 kg/m³. Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT). Choose their minimum Vcap=122.68 m/s. At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=35868 kg.",
-      "1.3058e+05 kg": "Uses the larger speed ceiling, violating the tighter restriction."
-    },
-    "difficulty": 3,
+    "explanation": "p_cabin,max = p_ambient + Δp_max. Holding cabin pressure fixed while ambient pressure falls raises the differential.",
     "origin": {
       "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "First rho=p/(RT)=0.91693 kg/m³.",
-      "Convert both limits to speed: Vq=sqrt(2qmax/rho), VM=Mmax sqrt(gamma RT).",
-      "Choose their minimum Vcap=122.68 m/s.",
-      "At the maximum mass, Vs=Vcap/1.25, giving mmax=rho(Vcap/1.25)²S CLmax/(2g)=35868 kg.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0730",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 70,
+      "pdf_page": 71
+    }
   },
   {
     "id": "TA1-0848-D3",
@@ -30781,42 +30582,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0666-D3",
-    "topic": "2.4",
-    "subtopic": "Apply the approach-speed requirement",
-    "stem": "A wing of clean area 47 m² and clean CLmax=1.4 must support W=117000 N at rho=0.94 kg/m³. Target approach TAS=59.4 m/s with Vapp>=1.3 Vs. Deploying a Fowler system increases area by a factor 1.1. CLmax in each configuration uses its OWN area. What minimum factor CLmax_deployed/CLmax_clean is needed? Choose the closest value.",
+    "id": "BOOK-V6-SYS-01-D3",
     "type": "choice",
-    "options": [
-      "1.6473",
-      "0.97476",
-      "1.8121",
-      "1.2835"
-    ],
-    "answer": 0,
-    "explanation": "The allowed stall speed is Vapp/1.3=45.692 m/s. With deployed S=51.7 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.3063. Relative to the clean coefficient, the gain must be 1.6473.",
-    "option_explanations": {
-      "1.6473": "Correct. The allowed stall speed is Vapp/1.3=45.692 m/s. With deployed S=51.7 m², CLmax_required=2W/[rho (Vapp/1.3)² S_deployed]=2.3063. Relative to the clean coefficient, the gain must be 1.6473.",
-      "1.8121": "Keeps the clean area while interpreting a coefficient defined on the deployed area.",
-      "0.97476": "Uses approach speed directly as stall speed, losing the squared margin.",
-      "1.2835": "Applies a square root to a coefficient ratio; the square root belongs to the speed law."
-    },
     "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "For an ideal hydraulic supply with fixed pressure difference and flow, piston area doubles. Which combination is correct?",
+    "options": [
+      "Force and speed both double, power quadruples",
+      "Force doubles, speed halves, power stays constant",
+      "Force doubles, speed stays constant, power doubles",
+      "Force halves, speed doubles, power stays constant"
+    ],
+    "answer": 1,
+    "explanation": "F = Δp A doubles; v = Q/A halves. Their product remains Δp Q.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Apply the approach-speed requirement",
-      "Change the reference area consistently",
-      "Solve for required maximum lift coefficient",
-      "Compare to the clean coefficient"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0666",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 69,
+      "pdf_page": 70
+    }
   },
   {
     "id": "TA1-0816-D3",
@@ -31043,42 +30830,28 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0691-D3",
-    "topic": "2.4",
-    "subtopic": "Distinguish airspeed from groundspeed",
-    "stem": "A runway procedure limits groundspeed on approach to 139 km/h with a steady 18 km/h headwind. Require TAS>=1.3 Vs. At p=73.4 kPa and T=280 K, the aircraft has S=33 m², CLmax=1.95 and a structural mass limit of 4660 kg. Use R=287 and g=9.81. What is the greatest mass meeting both the aerodynamic and structural limits? Choose the closest value.",
+    "id": "BOOK-V6-SYS-06-D3",
     "type": "choice",
+    "difficulty": 3,
+    "topic": "2.6",
+    "subtopic": "Aircraft systems",
+    "section": "Midterm 1",
+    "stem": "Two redundant flight-control computers share one unprotected power feed. What weakness remains?",
     "options": [
-      "3371.4 kg",
-      "4660 kg",
-      "2002.6 kg",
-      "4382.9 kg"
+      "A common power failure can disable both channels",
+      "Redundancy guarantees operation after any failure",
+      "Only the hydraulic actuators can fail simultaneously",
+      "Adding software channels removes all power dependence"
     ],
     "answer": 0,
-    "explanation": "A headwind means TAS=GS+headwind, so the largest allowed TAS is 43.611 m/s. rho=0.91339; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 3371.4 kg. Intersect it with 4660 kg: 3371.4 kg.",
-    "option_explanations": {
-      "3371.4 kg": "Correct. A headwind means TAS=GS+headwind, so the largest allowed TAS is 43.611 m/s. rho=0.91339; Vs must be <=TAS/1.3. The resulting aerodynamic mass limit is 3371.4 kg. Intersect it with 4660 kg: 3371.4 kg.",
-      "2002.6 kg": "Subtracts the headwind from the groundspeed limit instead of adding it to recover TAS.",
-      "4660 kg": "Omits the 1.3 margin and permits approach at the stall boundary.",
-      "4382.9 kg": "Applies the speed-margin factor linearly to mass rather than squaring its effect on lift."
-    },
-    "difficulty": 3,
+    "explanation": "A common cause can defeat redundant channels. Independence of essential supplies matters as well as the number of computers.",
     "origin": {
       "kind": "practice",
-      "title": "2.4_Fundamentos_del_vuelo_atmosferico.pdf",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view"
-    },
-    "steps": [
-      "Distinguish airspeed from groundspeed",
-      "Evaluate density on the actual day",
-      "Apply approach margin to stall speed",
-      "Intersect with structural mass"
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0691",
-    "section": "Midterm 1"
+      "title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso",
+      "url": "",
+      "page": 89,
+      "pdf_page": 90
+    }
   },
   {
     "id": "TA1-0797-D3",

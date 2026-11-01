@@ -9,8 +9,7 @@ final class SessionInteraction {
   click(test,"com.duolingo:id/oval",null);
   Thread.sleep(1800);
   SessionScreen.capture(test,"path-node-opened","path-node-opened");
-  if(contains(test,"START LESSON"))click(test,null,"START LESSON");
-  else if(contains(test,"START"))click(test,null,"START");
+  click(test,"com.duolingo:id/learnButton",null);
   Thread.sleep(12000);
   SessionScreen.capture(test,"path-session","path-session");
   if(!contains(test,"Low delivery times."))throw new IllegalStateException("First course question not visible after original path node");
@@ -21,7 +20,7 @@ final class SessionInteraction {
   String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
   for(int i=0;i<answers.length;i++){
    SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
-   for(String token:answers[i]){click(test,null,token);Thread.sleep(500);}
+   for(String token:answers[i]){clickLast(test,token);Thread.sleep(500);}
    SessionScreen.capture(test,"formula-selected-"+i,"formula-selected-"+i);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1500);
@@ -159,6 +158,24 @@ final class SessionInteraction {
    if(button==null)return false;
    try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
   }finally{root.recycle();}
+ }
+ // The same label may already be in an answer slot. The bank is the last
+ // matching native control in traversal order; select it rather than removing
+ // a previously selected token. This only performs native accessibility taps.
+ private static void clickLast(Instrumentation test,String text){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No active native window");
+  AccessibilityNodeInfo node;try{node=findLast(root,text,0);}finally{root.recycle();}
+  if(node==null)throw new IllegalStateException("Native bank token not visible: "+text);
+  try{for(int i=0;i<8&&!node.isClickable();i++){AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;}
+   if(!own(node)||!node.isEnabled()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
+  }finally{node.recycle();}
+ }
+ private static AccessibilityNodeInfo findLast(AccessibilityNodeInfo node,String text,int depth){
+  if(depth>50||!own(node))return null;
+  for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=findLast(child,text,depth+1);if(found!=null)return found;}finally{child.recycle();}}
+  if(node.isVisibleToUser()&&(text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
+  return null;
  }
  private static void click(Instrumentation test,String id,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();

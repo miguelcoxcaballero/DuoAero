@@ -1,0 +1,272 @@
+[
+  {
+    "new_id": "BOOK-V6-01-D1",
+    "retired_practice_id": "TA1-0014",
+    "difficulty": 1,
+    "node_id": "2.1-5-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-01-D2",
+    "retired_practice_id": "TA1-0126-D2",
+    "difficulty": 2,
+    "node_id": "2.1-5-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-01-D3",
+    "retired_practice_id": "TA1-0625-D3",
+    "difficulty": 3,
+    "node_id": "2.1-5-point-1"
+  },
+  {
+    "new_id": "BOOK-V6-02-D1",
+    "retired_practice_id": "TA1-0011-F1",
+    "difficulty": 1,
+    "node_id": "2.4-11-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-02-D2",
+    "retired_practice_id": "TA1-0039-D2",
+    "difficulty": 2,
+    "node_id": "2.4-11-point-1"
+  },
+  {
+    "new_id": "BOOK-V6-02-D3",
+    "retired_practice_id": "TA1-0585-D3",
+    "difficulty": 3,
+    "node_id": "2.4-11-point-1"
+  },
+  {
+    "new_id": "BOOK-V6-03-D1",
+    "retired_practice_id": "TA1-0036-F1",
+    "difficulty": 1,
+    "node_id": "2.2-2-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-03-D2",
+    "retired_practice_id": "TA1-0037-D2",
+    "difficulty": 2,
+    "node_id": "2.2-2-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-03-D3",
+    "retired_practice_id": "TA1-0617-D3",
+    "difficulty": 3,
+    "node_id": "2.2-2-point-1"
+  },
+  {
+    "new_id": "BOOK-V6-04-D1",
+    "retired_practice_id": "TA1-0026-F1",
+    "difficulty": 1,
+    "node_id": "2.3-6-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-04-D2",
+    "retired_practice_id": "TA1-0112",
+    "difficulty": 2,
+    "node_id": "2.3-6-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-04-D3",
+    "retired_practice_id": "TA1-0675-D3",
+    "difficulty": 3,
+    "node_id": "2.3-6-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-05-D1",
+    "retired_practice_id": "TA1-0030-F1",
+    "difficulty": 1,
+    "node_id": "2.3-0-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-05-D2",
+    "retired_practice_id": "TA1-0001",
+    "difficulty": 2,
+    "node_id": "2.3-0-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-05-D3",
+    "retired_practice_id": "TA1-0586-D3",
+    "difficulty": 3,
+    "node_id": "2.3-0-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-06-D1",
+    "retired_practice_id": "TA1-0002",
+    "difficulty": 1,
+    "node_id": "2.4-7-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-06-D2",
+    "retired_practice_id": "TA1-0004",
+    "difficulty": 2,
+    "node_id": "2.4-7-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-06-D3",
+    "retired_practice_id": "TA1-0654-D3",
+    "difficulty": 3,
+    "node_id": "2.4-7-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-07-D1",
+    "retired_practice_id": "TA1-0027-F1",
+    "difficulty": 1,
+    "node_id": "2.5-5-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-07-D2",
+    "retired_practice_id": "TA1-0040-D2",
+    "difficulty": 2,
+    "node_id": "2.5-5-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-07-D3",
+    "retired_practice_id": "TA1-0689-D3",
+    "difficulty": 3,
+    "node_id": "2.5-5-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-08-D1",
+    "retired_practice_id": "TA1-0008-F1",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-08-D2",
+    "retired_practice_id": "TA1-0127-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-08-D3",
+    "retired_practice_id": "TA1-0662-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-01-D1",
+    "retired_practice_id": "TA1-0025-F1",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-02-D1",
+    "retired_practice_id": "TA1-0032-F1",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-03-D1",
+    "retired_practice_id": "TA1-0028",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-04-D1",
+    "retired_practice_id": "TA1-0056",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-05-D1",
+    "retired_practice_id": "TA1-0043-F1",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-06-D1",
+    "retired_practice_id": "TA1-0052",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-07-D1",
+    "retired_practice_id": "TA1-0082",
+    "difficulty": 1,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-01-D2",
+    "retired_practice_id": "TA1-0266-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-02-D2",
+    "retired_practice_id": "TA1-0205-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-03-D2",
+    "retired_practice_id": "TA1-0285-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-04-D2",
+    "retired_practice_id": "TA1-0271-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-05-D2",
+    "retired_practice_id": "TA1-0301-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-06-D2",
+    "retired_practice_id": "TA1-0051-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-07-D2",
+    "retired_practice_id": "TA1-0095-D2",
+    "difficulty": 2,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-01-D3",
+    "retired_practice_id": "TA1-0666-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-02-D3",
+    "retired_practice_id": "TA1-0671-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-03-D3",
+    "retired_practice_id": "TA1-0673-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-04-D3",
+    "retired_practice_id": "TA1-0730-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-05-D3",
+    "retired_practice_id": "TA1-0747-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-06-D3",
+    "retired_practice_id": "TA1-0691-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  },
+  {
+    "new_id": "BOOK-V6-SYS-07-D3",
+    "retired_practice_id": "TA1-0763-D3",
+    "difficulty": 3,
+    "node_id": "2.6-systems-point-0"
+  }
+]

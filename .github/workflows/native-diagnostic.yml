@@ -138,7 +138,7 @@ jobs:
                 done
               done
             fi
-            adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
+            adb logcat -d -s DuoAeroProbe:I DuoAeroNative:I AndroidRuntime:E chromium:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
             adb shell dumpsys activity lastanr > "/tmp/duoaero-evidence/anr-$probe_label.txt"
             if [ "$probe_interact" = path-first ]; then

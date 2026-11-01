@@ -147,15 +147,17 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   'challenges':[choice_blob(q) for q in sample]}
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
  catalog={}
+ lesson_total=0
  for node in json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig')):
   from path_adapter import stable_id
+  lesson_total+=len(node['lessons'])
   for position,entry in enumerate(node['lessons']):
    try: adapted=native_session([by_id[i] for i in entry['ids']],entry['id'],stable_id('skill',node['id']))
    except NotImplementedError: continue
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
- print('Local original session catalog:',len(catalog),'of 81 lessons; unsupported gap/order lessons remain unavailable.')
+ print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; unsupported gap/order lessons remain unavailable.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
