@@ -60,7 +60,10 @@ try:
             buttons=[n for n in tree.iter('node') if n.get('text','').strip().upper() in {'OPEN','OPEN CHEST','CLAIM','CONTINUE','CLAIM REWARD'} and n.get('enabled')=='true']
             if buttons:tap(buttons[0])
         result=subprocess.run(['adb','exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/chests.json'],capture_output=True,timeout=30)
-        if result.returncode==0 and chest in json.loads(result.stdout):opened=True;break
+        if result.returncode==0:
+            try: opened=chest in json.loads(result.stdout)
+            except (ValueError,UnicodeDecodeError): pass  # run-as may print a transient missing-file error
+            if opened:break
         time.sleep(2)
     assert opened,'Original chest interaction did not durably award gems'
     # Return through the original reward activity's footer if still present.
