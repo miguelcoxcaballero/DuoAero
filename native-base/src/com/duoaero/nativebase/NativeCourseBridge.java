@@ -150,9 +150,26 @@ public final class NativeCourseBridge {
   if(!hasLocalCourse()||unit==null)return original;
   try{
    Object section=field(unit,"e");
+   if(captureLocalRequests)Log.i("DuoAeroNative","Original inline topic binding: "+field(section,"a")+"; "+field(unit,"d"));
    if(!"DUOAERO_MIDTERM1".equals(field(section,"a")))return original;
    String title=(String)field(unit,"d");return title.isEmpty()?original:title;
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot read original Aerospace unit title",error);}
+ }
+ private static volatile String[] pathTopics;
+ public static String pathTopicTitle(Object index,String section,String original){
+  if(!hasLocalCourse()||!"DUOAERO_MIDTERM1".equals(section)||index==null)return original;
+  try{
+   String[] topics=pathTopics;
+   if(topics==null){
+    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+    JSONArray units=new JSONObject(asset(app,"duoaero/course/section.json")).getJSONArray("units");
+    topics=new String[units.length()];
+    for(int i=0;i<topics.length;i++)topics[i]=units.getJSONObject(i).getString("teachingObjective");
+    pathTopics=topics;
+   }
+   int position=(Integer)field(index,"a");
+   return position>=0&&position<topics.length?topics[position]:original;
+  }catch(Exception error){throw new IllegalStateException("Cannot bind original Aerospace topic header",error);}
  }
  /** Compare actual native slots for explicitly marked Aerospace symbolic tasks.
   * Original numeric expression grading remains the fallback (null result).

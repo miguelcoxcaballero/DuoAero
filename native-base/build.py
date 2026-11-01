@@ -115,7 +115,14 @@ runtime_log_text=runtime_log_original.decode('utf-8').replace('\r\n','\n')
 runtime_log_anchor='.method public final f(Lcom/duolingo/core/log/LogOwner;ILjava/lang/String;Ljava/lang/Throwable;)V\n    .locals 1'
 assert runtime_log_text.count(runtime_log_anchor)==1
 runtime_log_hook=runtime_log_anchor+'\n\n    invoke-static {p1, p2, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportRuntimeFailure(Ljava/lang/Object;ILjava/lang/Throwable;)V'
+persistent_header_source=SMALI/'smali/ob.smali'
+persistent_header_original=persistent_header_source.read_bytes()
+persistent_header_text=persistent_header_original.decode('utf-8').replace('\r\n','\n')
+persistent_header_anchor='    invoke-virtual {v8, v7}, Lcom/duolingo/data/path/common/CoursePathInfo;->m(Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v1'
+assert persistent_header_text.count(persistent_header_anchor)==1
+persistent_header_hook='\n\n    invoke-static {v3, v7, v1}, Lcom/duoaero/nativebase/NativeCourseBridge;->pathTopicTitle(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v1'
 try:
+ persistent_header_source.write_text(persistent_header_text.replace(persistent_header_anchor,persistent_header_anchor+persistent_header_hook),encoding='utf-8')
  # The original secondary-process WebView suffix includes the PID. Recognize
  # our actual main process so OAuth storage survives a process restart.
  web_process_source.write_text(web_process_text.replace(web_process_anchor,web_process_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
@@ -127,6 +134,7 @@ try:
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ persistent_header_source.write_bytes(persistent_header_original)
  web_process_source.write_bytes(web_process_original)
  runtime_log_source.write_bytes(runtime_log_original)
  bootstrap_source.write_bytes(bootstrap_original)

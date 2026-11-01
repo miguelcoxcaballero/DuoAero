@@ -70,7 +70,10 @@
     "native_account_storage_synthetic_checks": 18,
     "original_settings_updates_review_drive_controls_visible": true,
     "night_mode_rich_session_at_130_percent_font": "Run 41275526803: 15 correct answers, original Claim XP and return; dark screenshots and long-prompt scrolling inspected.",
-    "emulator_audio_haptic_service_events": "Run 41275526803: 16 original-app SoundPool start events and at least 15 original-app haptic completions. Physical output quality remains unverified."
+    "emulator_audio_haptic_service_events": "Run 41275526803: 16 original-app SoundPool start events and at least 15 original-app haptic completions. Physical output quality remains unverified.",
+    "native_formula_bank_actual_correct_selections": 18,
+    "google_synthetic_gate_and_encrypted_restart": "Run 41277888648; real OAuth/Drive not established.",
+    "canonical_updater_host_and_provider": "Runs 41277038455, 41277297515 and 41277888648; download/installation not established."
   },
   "not_verified_or_incomplete": [
     "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",
@@ -234,7 +237,7 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,
@@ -253,12 +256,12 @@
     "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
     "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
     "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending.",
-    "google_drive": "Run 41277038455: original Google-only welcome, synthetic account activation, original home and sign-out pass. WebView localStorage restart fails; synchronous Android Keystore persistence is now implemented and device verification is pending. Real OAuth and Drive round-trip remain unverified.",
+    "google_drive": "Run 41277888648: original Google-only welcome, synthetic activation, original home, sign-out and encrypted native storage restored after force-stop PASS. Real OAuth and Drive round-trip remain unverified.",
     "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step.",
     "settings": "Run 41274982620 screenshot shows original Settings with APP UPDATES, REVIEW MISTAKES, GOOGLE DRIVE, SWITCH GOOGLE ACCOUNT. Original native component uppercases text; test selector corrected. Updater opening/provider and review completion remain pending.",
     "review": "Profile still loading in run 41277038455; avatar configuration is the only missing aggregate input. Native configuration cache seeded; normal avatar-builder-config request now answered locally, pending runtime verification.",
     "updater": "Run 41277038455: original settings opens canonical updater, actual installed version and default B policy checked, own FileProvider reads exact bytes. Download/install acceptance remains pending.",
-    "formula_bank": "Device diagnostic expanded from two prototypes to all 16 bank formula exercises plus the two prototypes; result pending.",
-    "path_topics": "Original unit data preserves topic names, but native Math headers selected the section title. Scoped original header data binding now uses the topic; visual verification pending."
+    "formula_bank": "Run 41277888648: all 16 bank formulas plus two prototypes receive original native CORRECT results after actual block selections. Incorrect prototype also verified. Screenshots inspected for long expressions; wider font-scale QA remains.",
+    "path_topics": "Run 41278181258: initial inline-header hook does not change visible section labels. Actual persistent-header mapping is now also scoped to Aerospace unit indices; device validation pending."
   }
 }
