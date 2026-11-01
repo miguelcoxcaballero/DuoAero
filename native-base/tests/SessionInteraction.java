@@ -183,6 +183,11 @@ final class SessionInteraction {
   return "All "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
  }
  static String claimXp(Instrumentation test)throws Exception {
+  for(int attempt=0;attempt<60;attempt++){
+   test.getUiAutomation().clearCache();
+   if(contains(test,"CLAIM XP"))break;
+   Thread.sleep(1000);
+  }
   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Original Claim XP is not visible");
   click(test,"com.duolingo:id/continueButtonView","CLAIM XP");
   Thread.sleep(12000);

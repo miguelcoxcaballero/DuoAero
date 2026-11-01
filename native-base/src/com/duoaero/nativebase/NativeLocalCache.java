@@ -35,6 +35,17 @@ final class NativeLocalCache {
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());
   if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo; got "+info.getClass().getName());
   Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionJson.toString());
+  if(fullPath){
+   int unitIndex=0;
+   for(Object unit:(Iterable<?>)field(section,"c")){
+    String expected=sectionJson.getJSONArray("units").getJSONObject(unitIndex++).getString("teachingObjective");
+    if(!expected.equals(field(unit,"d")))throw new IllegalStateException("Original unit lost its Aerospace topic name");
+    if(unitIndex<=3){
+     Object header=Class.forName("vao",true,loader).getMethod("n",Class.forName("com.duolingo.data.path.common.CoursePathInfo",true,loader),Class.forName("wzh",true,loader),java.util.Locale.class).invoke(null,info,unit,java.util.Locale.ENGLISH);
+     android.util.Log.i("DuoAeroNative","Original path header "+unitIndex+": "+header);
+    }
+   }
+  }
   Object courseRepository=Class.forName("ymw",true,loader).getMethod("get").invoke(field(component,"O2"));
   if(!courseRepository.getClass().getName().equals("bp1"))throw new IllegalStateException("Unexpected native course repository");
   Object cache=field(courseRepository,"m");

@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","standalone","resume","mistakes"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","path","night-large"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}

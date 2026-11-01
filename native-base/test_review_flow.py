@@ -39,18 +39,24 @@ def run(adb, tap, wait_for, capture, out, package, question, first_lesson):
     tap(tree,'com.duolingo:id/submitButton')
     tree=wait_for('review-graded',lambda t:any(n.get('text','').strip()=='CONTINUE' for n in t.iter('node')) and not any(n.get('text','').strip()=='GOT IT' for n in t.iter('node')),30)
     tap(tree,text='CONTINUE')
-    for attempt in range(35):
+    end_seen=False
+    deadline=time.monotonic()+120
+    while time.monotonic()<deadline:
         tree=capture('review-complete')
         if tree is not None:
             if any(n.get('text','').strip().casefold()=='claim xp' for n in tree.iter('node')):
                 node=next(n for n in tree.iter('node') if n.get('text','').strip().casefold()=='claim xp')
                 tap(tree,text=node.get('text'));break
-            if any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node')):
+            end_seen |= any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node'))
+            if any(n.get('text','').strip()=='CONTINUE' for n in tree.iter('node')):
+                tap(tree,text='CONTINUE')
+        if end_seen:
+            activities=adb('shell','dumpsys','activity','activities').decode()
+            active=any(('mResumedActivity' in line or 'topResumedActivity' in line) and package+'/' in line and 'SessionActivity' in line for line in activities.splitlines())
+            if active:
                 point=claim_xp(out/'review-complete.png',out/'review-claim-ocr.png')
                 if point:
                     adb('shell','input','tap',str(point[0]),str(point[1]));break
-            if any(n.get('text','').strip()=='CONTINUE' for n in tree.iter('node')):
-                tap(tree,text='CONTINUE')
         time.sleep(3)
     else:raise AssertionError('Original review Claim XP was not rendered')
     wait_for('review-return',lambda t:any(n.get('resource-id')=='com.duolingo:id/tabProfile' or n.get('text','').casefold()=='review mistakes' for n in t.iter('node')),60)
