@@ -417,3 +417,18 @@ A local-course-only modifier now bounds native text prompts to 30% of screen hei
 Run `41262635825` (`686f5520`) passes diagnostic collection and still grades all 15 answers. The original session-end sequence contains `SessionComplete` and Claim XP; its Rive content is blank. Renderer reports “no interlock mode supports this frame”, then depth/stencil fallback. The before-answer long-formula screenshot fits all options; after grading the feedback footer squeezes the prompt/cards. Startup still opens the native Math Student/Adult learner survey. Original `vza0` independently requests it whenever the current Math course XP is zero. The next scoped enrollment change returns its original empty welcome request only after installing the local course, retaining zero XP.
 
 Run `41262902147` (`e4816751`) visibly renders the original Lesson complete summary: character, 15 XP, 100% and 0:57. ANGLE/SwiftShader emulator graphics resolves the previously blank Rive views; app animation code/assets unchanged. Claim XP action succeeds and LaunchActivity resumes, but the captured screen still shows the summary, so return-to-path and persistence are not established. Native profile cache alone (no replacements of rs1/bxn flow holders) renders the first question. Experiment defaults are still supplied by the diagnostic helper. Next full lesson uses this profile mode and all 42 path units.
+
+Standalone startup diagnostic (not a product release): build with
+`DUOAERO_STANDALONE=1 python native-base/build.py`. The original DuoApp initializes
+its local profile, configuration and full course repositories before returning
+from onCreate; optional goals/social caches initialize on a worker. This uses the
+same original real-cache path as the successful instrumentation setup, without
+replacing the launcher or any screen. It still uses the isolated local test
+identity and does not implement Google authentication or persistent progress.
+
+`python native-base/test_standalone.py` clears only the diagnostic package's data,
+starts its original LaunchActivity through adb and taps the original path node
+and lesson button. It captures home/popup/question and crash/ANR evidence, without
+instrumenting or injecting app state. The standalone matrix build is enabled
+explicitly; other diagnostic variants retain their prior initialization. A local
+build is not evidence that standalone initialization succeeds at runtime.

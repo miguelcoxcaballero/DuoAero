@@ -28,7 +28,7 @@ for component in app:
 tree.write(WORK/'AndroidManifest.xml',encoding='utf-8',xml_declaration=True)
 run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',APK,'--rename-manifest-package',package,'--no-auto-version')
 source=ROOT/'native-base/src/com/duoaero/nativebase/NativeCourseBridge.java';assert source.is_file()
-run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',JAR,'-d',WORK/'classes',source)
+run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',JAR,'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
 p=SMALI/'smali_classes4/okhttp3/OkHttpClient$Builder.smali';old=p.read_bytes();text=old.decode('utf-8').replace('\r\n','\n');needle='.method public final build()Lokhttp3/OkHttpClient;\n    .locals 1';assert needle in text
 patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCourseBridge;->install(Ljava/lang/Object;)V',1)
@@ -61,13 +61,21 @@ latex_hook="""    invoke-static {v0, v1, v2}, Lcom/duoaero/nativebase/NativeCour
     return-object v7
     :duoaero_original_tagged_figure
 """
+bootstrap_source=SMALI/'smali/com/duolingo/core/DuoApp.smali'
+bootstrap_original=bootstrap_source.read_bytes()
+bootstrap_text=bootstrap_original.decode('utf-8').replace('\r\n','\n')
+bootstrap_anchor='    invoke-static {v0}, Lio/sentry/android/core/performance/f;->e(Lcaj;)V\n\n    return-void'
+assert bootstrap_text.count(bootstrap_anchor)==1
+bootstrap_hook='    invoke-static {v0}, Lio/sentry/android/core/performance/f;->e(Lcaj;)V\n\n    invoke-static {v0}, Lcom/duoaero/nativebase/NativeBootstrap;->start(Landroid/app/Application;)V\n\n    return-void'
 try:
+ bootstrap_source.write_text(bootstrap_text.replace(bootstrap_anchor,bootstrap_hook),encoding='utf-8')
  latex_source.write_text(latex_text.replace(latex_anchor,latex_hook+latex_anchor),encoding='utf-8')
  flow_source.write_text(flow_text.replace(flow_anchor,flow_anchor+'\n\n    invoke-static {p1, p2}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordFlow(Ljava/lang/Object;Ljava/lang/String;)V'),encoding='utf-8')
  # Original app-update metadata must query the identity actually installed.
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ bootstrap_source.write_bytes(bootstrap_original)
  latex_source.write_bytes(latex_original)
  flow_source.write_bytes(flow_original)
  package_source.write_bytes(package_original)
@@ -152,6 +160,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   elif n=='classes7.dex':out.writestr(entry,(WORK/'classes7.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')
+ if os.environ.get('DUOAERO_STANDALONE')=='1':out.writestr('assets/duoaero/standalone-bootstrap','1')
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')
  # A separate input for the original hardcoded-session loader. The original
  # math reference asset remains unchanged for baseline comparisons.
