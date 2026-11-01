@@ -87,7 +87,7 @@ jobs:
           python native-base/course_adapter.py
           case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
-          if [ "$DIAGNOSTIC_SCENARIO" = wind-mixed ]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -268,6 +268,10 @@ jobs:
               ;;
             wind-mixed)
               run_probe aerospace-wind-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
+              ;;
+            wind-mixed-hint)
+              run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true
+              grep -q 'PASS: native wind formula practice preceded each calculation' "${{ runner.temp }}/duoaero-evidence/session-aerospace-wind-hint.txt"
               ;;
             mixed-hint)
               run_probe aerospace-mixed-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

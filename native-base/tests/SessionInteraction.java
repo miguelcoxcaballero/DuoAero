@@ -31,12 +31,17 @@ final class SessionInteraction {
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
   }
   org.json.JSONArray questions=new org.json.JSONArray(bytes.toString("UTF-8"));
+  boolean windScenario=false;
+  for(int i=0;i<questions.length();i++)if(questions.getJSONObject(i).getString("id").equals("TA1-0092-D2-S1"))windScenario=true;
+  String hintId=windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
+  org.json.JSONObject hintedQuestion=null;
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
-   boolean hinted=hintRetry&&q.getString("id").equals("TA1-0107-D2-S1");
+   boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    if(hinted){
+    hintedQuestion=q;
     clickTip(test);Thread.sleep(800);
     if(!contains(test,"a tip")||contains(test,"GOT IT")&&contains(test,"Incorrect"))throw new IllegalStateException("Hint sheet failed or graded before Check");
     SessionScreen.capture(test,"mixed-mach-hint","mixed-mach-hint");
@@ -87,20 +92,21 @@ final class SessionInteraction {
    click(test,null,"CONTINUE");
   }
   if(hintRetry){
-   for(int attempt=0;attempt<150&&!contains(test,"17.97");attempt++){
+   String retryNeedle=windScenario?"1.4583":"17.97";
+   for(int attempt=0;attempt<150&&!contains(test,retryNeedle);attempt++){
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(!contains(test,"17.97"))throw new IllegalStateException("Hinted Mach calculation did not retry at lesson end");
+   if(!contains(test,retryNeedle)||hintedQuestion==null)throw new IllegalStateException("Hinted calculation did not retry at lesson end");
    SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
-   click(test,"com.duolingo:id/mathCard","\\text{17.97 K}");Thread.sleep(1500);
+   click(test,"com.duolingo:id/mathCard",hintedQuestion.getString("selection"));Thread.sleep(1500);
    click(test,"com.duolingo:id/submitButton",null);
    for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
-   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct Mach retry did not grade correctly");
+   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct hinted retry did not grade correctly");
    click(test,null,"CONTINUE");
    for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
-   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Mach retry did not reach lesson completion");
-   return "PASS: native Mach formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
+   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Hinted retry did not reach lesson completion");
+   return "PASS: native "+(windScenario?"wind":"Mach")+" formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
   }
   return "All "+questions.length()+" mixed source exercises produced original visible correct feedback through native controls. No course completion or overflow acceptance asserted.\n";
  }
