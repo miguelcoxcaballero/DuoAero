@@ -9,16 +9,25 @@ import java.util.*;
 /** Atomic native submissions and monotonic completion, isolated to local test identity. */
 public final class NativeSessionStore {
  private NativeSessionStore(){}
+ private static JSONObject legacyCatalog;
+ private static JSONObject[] historicalCatalogs;
  private static boolean validStoredProof(Application app,JSONObject proof,JSONObject lesson)throws Exception {
   if(proof==null)return false;
-  JSONObject legacy=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-session-catalog.json"));
+  // Assets cannot change during the life of an installed app. Cache the
+  // immutable catalog objects: rebuilding them for every lesson makes a
+  // full progress refresh increasingly expensive as the course grows.
+  if(legacyCatalog==null)legacyCatalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-session-catalog.json"));
+  if(historicalCatalogs==null){
+   String[] versions={"1.3.5","1.3.6"};JSONObject[] loaded=new JSONObject[versions.length];
+   for(int i=0;i<versions.length;i++)loaded[i]=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/history-"+versions[i]+".json"));
+   historicalCatalogs=loaded;
+  }
   org.json.JSONArray history=new org.json.JSONArray();
-  for(String version:new String[]{"1.3.5","1.3.6"}){
-   JSONObject old=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/history-"+version+".json"));
+  for(JSONObject old:historicalCatalogs){
    JSONObject previous=old.optJSONObject(lesson.getString("id"));
    if(previous!=null)history.put(previous);
   }
-  return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacy.optJSONObject(lesson.getString("id")),history);
+  return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacyCatalog.optJSONObject(lesson.getString("id")),history);
  }
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
   if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");
