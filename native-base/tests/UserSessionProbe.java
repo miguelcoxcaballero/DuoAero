@@ -131,6 +131,11 @@ public final class UserSessionProbe extends Instrumentation {
     report.append("End-state field ").append(field.getName()).append(": ").append(value==null?"null":value.getClass().getName()).append('\n');
    }
   }
+  if(interaction.equals("math-all")){
+   try(SessionDependencies dependencies=SessionDependencies.end(this,current)){
+    Thread.sleep(5000);report.append(dependencies.report());
+   }
+  }
   if(captureHome){
    runOnMainSync(current::finish);
    Thread.sleep(12000);

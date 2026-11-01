@@ -11,6 +11,49 @@ final class SessionDependencies implements AutoCloseable {
  private final List<String> names = new ArrayList<>();
  private final Map<String,String> states = new ConcurrentHashMap<>();
  private SessionDependencies(ClassLoader classLoader){loader=classLoader;}
+ static SessionDependencies end(android.app.Instrumentation test,android.app.Activity activity)throws Exception {
+  SessionDependencies result=new SessionDependencies(activity.getClassLoader());
+  java.util.concurrent.atomic.AtomicReference<Object> found=new java.util.concurrent.atomic.AtomicReference<>();
+  java.util.concurrent.atomic.AtomicReference<Exception> failure=new java.util.concurrent.atomic.AtomicReference<>();
+  test.runOnMainSync(()->{try{found.set(endFragment(activity.getClass().getMethod("getSupportFragmentManager").invoke(activity),0));}catch(Exception e){failure.set(e);}});
+  if(failure.get()!=null)throw failure.get();
+  Object fragment=found.get();
+  if(fragment==null)throw new IllegalStateException("Original SessionEndFragment not found");
+  Method getter=fragment.getClass().getDeclaredMethod("getViewModel");getter.setAccessible(true);
+  Object vm=getter.invoke(fragment),dispatcher=field(vm,"z");
+  try{
+   result.observe("end.configure-args",field(field(vm,"W0"),"a"),dispatcher);
+   Object sequence=field(vm,"Y0");
+   result.observe("end.sequence-state",field(sequence,"h"),dispatcher);
+   result.observe("end.sequence-current",field(sequence,"k"),dispatcher);
+   result.observe("end.ui-ready",field(field(vm,"Z0"),"b"),dispatcher);
+   Object saved=field(vm,"f1");
+   Object args=saved.getClass().getMethod("a",String.class).invoke(saved,"config_args");
+   result.names.add("end.saved-config");result.states.put("end.saved-config",args==null?"null":args.getClass().getName());
+   // Observe existing repository flows only; do not invoke mutations or write readiness.
+   Class<?> flow=Class.forName("qdf",true,result.loader);
+   for(Field repositoryField:vm.getClass().getFields()){
+    if(Modifier.isStatic(repositoryField.getModifiers()))continue;
+    Object repository=repositoryField.get(vm);if(repository==null)continue;
+    for(Field operand:repository.getClass().getFields()){
+     if(Modifier.isStatic(operand.getModifiers())||!flow.isAssignableFrom(operand.getType()))continue;
+     Object value=operand.get(repository);
+     if(value!=null)result.observe("end.repository."+repositoryField.getName()+"."+operand.getName(),value,dispatcher);
+    }
+   }
+   return result;
+  }catch(Exception e){result.close();throw e;}
+ }
+ private static Object endFragment(Object manager,int depth)throws Exception {
+  if(depth>10)return null;
+  Object store=field(manager,"c");
+  for(Object fragment:(List<?>)store.getClass().getMethod("f").invoke(store)){
+   if(fragment.getClass().getName().equals("com.duolingo.sessionend.SessionEndFragment"))return fragment;
+   Object found=endFragment(fragment.getClass().getMethod("getChildFragmentManager").invoke(fragment),depth+1);
+   if(found!=null)return found;
+  }
+  return null;
+ }
  static SessionDependencies home(android.app.Activity activity)throws Exception {
   SessionDependencies result=new SessionDependencies(activity.getClassLoader());
   try{
@@ -24,6 +67,10 @@ final class SessionDependencies implements AutoCloseable {
     for(String name:new String[]{"K","L","N","S","V"})result.observe("home.launch."+name,field(vm,name),dispatcher);
     Object config=field(vm,"i");
     for(String name:new String[]{"q","r","u","v"})result.observe("home.config."+name,field(config,name),dispatcher);
+    Object onboarding=field(field(vm,"x"),"a");
+    result.observe("home.onboarding-completion",Class.forName("qvl",true,result.loader).getMethod("getValue").invoke(field(onboarding,"c")),dispatcher);
+    Object accounts=field(vm,"r");
+    result.observe("home.saved-accounts",accounts.getClass().getMethod("e").invoke(accounts),dispatcher);
     Object user=field(vm,"G");
     result.observe("home.user",user.getClass().getMethod("f").invoke(user),dispatcher);
     Object check=Class.forName("qvl",true,result.loader).getMethod("getValue").invoke(field(fragment,"l"));
