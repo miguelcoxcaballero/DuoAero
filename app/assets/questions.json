@@ -17567,6 +17567,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 54000 kg and must cover 2.3e+06 m at V=214 m/s, L/D=14.25, ce=1.42e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0094-D2-S1",
+        "stem": "For R=2.3e+06 m, V=214 m/s, E=14.25, ce=1.42e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.10506",
+          "0.01051",
+          "1.05065",
+          "0.21013"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.10506.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0094-D2",
+        "stem": "For x=0.10506 the remaining mass fraction is r=0.90027. The initial mass is 54000 kg. How much fuel is burned?",
+        "options": [
+          "48614 kg",
+          "5385.6 kg",
+          "548.99 kg",
+          "5673.5 kg"
+        ],
+        "answer": 1,
+        "explanation": "Fuel burned is 54000 × (1 − 0.90027) ≈ 5385.6 kg; the closest option is 5385.6 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "48614 kg",
       "5385.6 kg",
@@ -19021,6 +19055,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 55000 kg and must cover 2.4e+06 m at V=218 m/s, L/D=14.5, ce=1.44e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0149-D2-S1",
+        "stem": "For R=2.4e+06 m, V=218 m/s, E=14.5, ce=1.44e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.10726",
+          "0.01073",
+          "1.07255",
+          "0.21451"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.10726.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0149-D2",
+        "stem": "For x=0.10726 the remaining mass fraction is r=0.89830. The initial mass is 55000 kg. How much fuel is burned?",
+        "options": [
+          "5899 kg",
+          "570.2 kg",
+          "5593.7 kg",
+          "49406 kg"
+        ],
+        "answer": 2,
+        "explanation": "Fuel burned is 55000 × (1 − 0.89830) ≈ 5593.7 kg; the closest option is 5593.7 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "5899 kg",
       "570.2 kg",
@@ -20488,6 +20556,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 56000 kg and must cover 2.5e+06 m at V=222 m/s, L/D=14.75, ce=1.46e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0169-D2-S1",
+        "stem": "For R=2.5e+06 m, V=222 m/s, E=14.75, ce=1.46e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.10935",
+          "0.01093",
+          "1.09350",
+          "0.21870"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.10935.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0169-D2",
+        "stem": "For x=0.10935 the remaining mass fraction is r=0.89642. The initial mass is 56000 kg. How much fuel is burned?",
+        "options": [
+          "50199 kg",
+          "5800.6 kg",
+          "6123.6 kg",
+          "591.3 kg"
+        ],
+        "answer": 1,
+        "explanation": "Fuel burned is 56000 × (1 − 0.89642) ≈ 5800.6 kg; the closest option is 5800.6 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "50199 kg",
       "5800.6 kg",
@@ -21943,6 +22045,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 57000 kg and must cover 2.6e+06 m at V=226 m/s, L/D=15, ce=1.48e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0305-D2-S1",
+        "stem": "For R=2.6e+06 m, V=226 m/s, E=15, ce=1.48e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.11135",
+          "0.01114",
+          "1.11354",
+          "0.22271"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.11135.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0305-D2",
+        "stem": "For x=0.11135 the remaining mass fraction is r=0.89462. The initial mass is 57000 kg. How much fuel is burned?",
+        "options": [
+          "6006.5 kg",
+          "6347.2 kg",
+          "50993 kg",
+          "612.29 kg"
+        ],
+        "answer": 0,
+        "explanation": "Fuel burned is 57000 × (1 − 0.89462) ≈ 6006.5 kg; the closest option is 6006.5 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "6006.5 kg",
       "6347.2 kg",
@@ -24842,6 +24978,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 59000 kg and must cover 2.8e+06 m at V=234 m/s, L/D=15.5, ce=1.52e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0543-D2-S1",
+        "stem": "For R=2.8e+06 m, V=234 m/s, E=15.5, ce=1.52e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.11511",
+          "0.01151",
+          "1.15113",
+          "0.23023"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.11511.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0543-D2",
+        "stem": "For x=0.11511 the remaining mass fraction is r=0.89127. The initial mass is 59000 kg. How much fuel is burned?",
+        "options": [
+          "6415.3 kg",
+          "52585 kg",
+          "6791.6 kg",
+          "653.96 kg"
+        ],
+        "answer": 0,
+        "explanation": "Fuel burned is 59000 × (1 − 0.89127) ≈ 6415.3 kg; the closest option is 6415.3 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "6415.3 kg",
       "52585 kg",
@@ -26298,6 +26468,40 @@
     "stem": "An ideal jet cruise without wind starts at mass 60000 kg and must cover 2.9e+06 m at V=238 m/s, L/D=15.75, ce=1.54e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0584-D2-S1",
+        "stem": "For R=2.9e+06 m, V=238 m/s, E=15.75, ce=1.54e-05 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": [
+          "0.11688",
+          "0.01169",
+          "1.16877",
+          "0.23375"
+        ],
+        "answer": 0,
+        "explanation": "x = R g ce / (V E) ≈ 0.11688.",
+        "formula_hint": {
+          "latex": "x=\\frac{Rgc_e}{VE}",
+          "prerequisite": "TA1-0078-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0584-D2",
+        "stem": "For x=0.11688 the remaining mass fraction is r=0.88969. The initial mass is 60000 kg. How much fuel is burned?",
+        "options": [
+          "53382 kg",
+          "6618.3 kg",
+          "7012.6 kg",
+          "674.65 kg"
+        ],
+        "answer": 1,
+        "explanation": "Fuel burned is 60000 × (1 − 0.88969) ≈ 6618.3 kg; the closest option is 6618.3 kg.",
+        "formula_hint": {
+          "latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+          "prerequisite": "TA1-0078-D2-F2"
+        }
+      }
+    ],
     "options": [
       "53382 kg",
       "6618.3 kg",
