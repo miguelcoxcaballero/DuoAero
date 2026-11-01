@@ -2,6 +2,7 @@
 
 This does not establish Android rendering or touchscreen behavior.
 """
+import base64
 import json
 from pathlib import Path
 from course_adapter import lesson_questions, session
@@ -15,19 +16,44 @@ for node in plan:
     for lesson in node['lessons']:
         source = [bank[qid] for qid in lesson['ids']]
         expanded = lesson_questions(source, teach_words=True)
-        assert len(expanded) <= 23, (lesson['id'], len(expanded))
+        assert len(expanded) <= 26, (lesson['id'], len(expanded))
         ids = [q['id'] for q in expanded]
         assert len(ids) == len(set(ids))
         for i, q in enumerate(expanded):
             if q['type'] != 'formula_blocks':
                 continue
-            assert i > 0 and expanded[i-1]['id'] == q['id']+'-WORDS'
-            words = expanded[i-1]
+            assert i > 1 and expanded[i-2]['id'] == q['id']+'-WORDS'
+            assert expanded[i-1]['id'] == q['id']+'-NAMED'
+            words = expanded[i-2]
+            named = expanded[i-1]
             assert words['stem'].count('___') == 1
             assert len(set(words['answer']+words['distractors'])) == 4
             assert words['answer'][0] in words['explanation']
+            assert len(named['answer_blocks']) == 1
+            assert len(set(named['blocks'])) == 4
+            left, right = q['formula_latex'].split('=', 1)
+            if named['before_latex']:
+                assert named['before_latex'] + right[-1] == q['formula_latex']
+                assert not named['after_latex']
+            else:
+                assert named['after_latex'] == '='+right
             seen.add(q['id'])
         actual = session(source, lesson['id'], teach_words=True)['challenges']
         assert [q['id'] for q in actual] == ids
+        for q in actual:
+            if q['id'] == 'BOOK-V6-01-D1-NAMED':
+                body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+                marker='duoaero-latex:duoaero-gap:'
+                parts=json.loads(base64.b64decode(body[len(marker):]).decode())
+                assert parts == ['___', r'duoaero-math:formula:\textstyle =\rho R_aT']
+            if q['id'] != 'BOOK-V6-01-D1-WORDS':
+                continue
+            body = q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+            marker = 'duoaero-latex:duoaero-gap:'
+            assert body.startswith(marker)
+            parts = json.loads(base64.b64decode(body[len(marker):]).decode())
+            assert r'duoaero-math:rho:\rho' in parts
+            assert r'duoaero-math:R-air:R_a' in parts
+            assert any(part.startswith('duoaero-math:T:T') for part in parts)
 assert seen == set(KINDS), (sorted(seen-set(KINDS)), sorted(set(KINDS)-seen))
-print(f'PASS: {len(seen)} authored formula introductions precede symbolic exercises; Android UI and touch pending.')
+print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')

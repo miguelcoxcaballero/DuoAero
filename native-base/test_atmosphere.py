@@ -109,7 +109,7 @@ try:
             parts=q.get('rich_text',{}).get('options',[None]*len(q['options']))
             needle=content(parts[answer],q['options'][answer]);resource='com.duolingo:id/mathCard'
         elif kind=='gap':needle=q['answer'][0];resource=None
-        elif kind=='formula_blocks':
+        elif kind in ('formula_blocks','formula_named'):
             assert len(q['answer_blocks'])==1
             needle=q['answer_blocks'][0];resource=None
         else:raise AssertionError('Unsupported atmosphere question '+kind)
@@ -158,7 +158,23 @@ try:
             tap_node(matching(tree,'GOT IT')[-1])
         else:
             assert not matching(tree,'GOT IT'),'Answer graded incorrectly for '+qid
+            recorder=None
+            if index == len(sequence)-1 and os.environ.get('DUOAERO_CAPTURE_COMPLETION')=='1':
+                # Start before the final transition so the recording includes
+                # the native celebration rather than just its final frame.
+                recorder=subprocess.Popen(['adb','shell','screenrecord','--time-limit','10',
+                                           '/sdcard/duoaero-lesson-completion.mp4'],
+                                          stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                time.sleep(.8)
             tap_node(matching(tree,'CONTINUE')[-1])
+            if recorder is not None:
+                try:
+                    recorder.wait(timeout=14)
+                    if recorder.returncode==0:
+                        subprocess.run(['adb','pull','/sdcard/duoaero-lesson-completion.mp4',str(OUT/'lesson-completion.mp4')],
+                                       check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+                except subprocess.TimeoutExpired:
+                    recorder.kill()
     deadline=time.monotonic()+90
     while time.monotonic()<deadline:
         tree=capture('atmosphere-complete')

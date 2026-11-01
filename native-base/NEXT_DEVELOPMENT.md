@@ -7,7 +7,9 @@ Android diagnostic the profile crashed when Compose tried to load an
 unsupported replacement drawable, preventing access to settings. The first
 attempted repair targeted a score count instead of the actual resource and
 failed in run 41355236302. This integration targets the `duo_profile_completion`
-resource at the actual painter call; it requires a new Android result.
+resource at the actual painter call. Run 41356359569 opened the original
+profile and updater settings with a synthetic account and verified the default
+B channel and provider; it did not install an update.
 
 Run 41354968697 shows the original reward screen with a chest and 25 gems,
 and persistence after restart, with earlier lessons seeded. The still frames
@@ -15,13 +17,19 @@ were all captured after opening and therefore do not establish that the
 opening animation played. A later diagnostic records from before the tap.
 
 The 29 authored symbolic formula-block exercises have an authored word-gap
-introduction that names the physical quantities before the symbolic exercise.
-Several lessons expand to as many as 23 native questions; exact old completed
+introduction followed by a named block placed inside the mathematical
+equation, then the symbolic exercise. The equation preserves its reviewed
+LaTeX operators and operands around the hole. These additions need Android
+rendering, grading and touch tests; they do not cover every formula mentioned
+elsewhere in the bank. Several lessons expand to as many as 26 native questions; exact old completed
 lesson proofs are retained in the published-version history. This does not
 cover every formula mentioned elsewhere or prove visual layout, rapid tapping,
 full course traversal or a real-account migration. A diagnostic checks real
-30 ms pointer events instead of only accessibility clicks; it has not yet
-passed. The in-progress test run is 41356359569.
+30 ms pointer events instead of only accessibility clicks. Run 41356359569
+selected the first word but reproduced the reported failure on the first
+symbolic token: Check remained disabled. A scoped touch-passthrough patch for
+the figure inside the original token card is under Android test; it must also
+preserve accessibility and drag behavior.
 
 The zen sprite and a targeted foam transition fix are integrated, along with
 previous Peanuts assets. Host tests validate transparent frames and Rive

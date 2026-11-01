@@ -4,12 +4,13 @@ These are deliberately explicit: a symbol can mean different things in
 different fields, so a general symbol-to-name replacement is unsafe.
 Each introduction uses the existing inline word-bank challenge.
 """
+import hashlib
 
 # A sentence with one missing word, the correct block and three distractors.
 # The other named quantities make the physical relationship explicit before
 # the following exercise asks the learner to build the symbolic formula.
 FORMULAS = {
- 'gas': ('Pressure p equals density rho times gas constant R-air times ___ T.', 'temperature', ['velocity', 'altitude', 'mass']),
+ 'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
  'time': ('Flight time t equals distance d divided by ground ___ Vg.', 'speed', ['mass', 'pressure', 'area']),
  'total_time': ('Total flight time t-total equals outbound time t-out plus ___ time t-back.', 'return', ['takeoff', 'reaction', 'climb']),
@@ -49,6 +50,49 @@ KINDS = {
  'TA1-0078-D2-F1':'breguet_exponent', 'TA1-0078-D2-F2':'fuel_fraction',
 }
 
+# Each item is emitted as mathematical LaTeX inside the surrounding sentence.
+# Do not interpret arbitrary course prose as LaTeX: these names are restricted
+# to the explicitly authored word-first exercises above.
+INLINE_SYMBOLS = {
+ 'p':'p', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
+ 'Vg':r'V_g', 'V':'V', 'w':'w', 't':'t', 'd':'d',
+ 't-total':r't_{\mathrm{total}}', 't-out':r't_{\mathrm{out}}', 't-back':r't_{\mathrm{back}}',
+ 'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
+ 'k':'k', 'A':'A', 'L':'L', 'I':'I', 'Pcr':r'P_{cr}', 'E-Y':r'E_Y', 'K':'K',
+ 'delta-L':r'\Delta L', 'F':'F', 'AR':r'\mathrm{AR}', 'b':'b', 'S':'S',
+ 'lambda':r'\lambda', 'c-tip':r'c_t', 'c-root':r'c_r', 'P-hyd':r'P_{\mathrm{hyd}}',
+ 'delta-p':r'\Delta p', 'Q':'Q', 'q':'q', 'pi':r'\pi', 'CDi':r'C_{D,i}',
+ 'CL':r'C_L', 'e':'e', 'm-dot':r'\dot{m}', 'Ve':r'V_e', 'V0':r'V_0',
+ 'delta-T':r'\Delta T', 'cp':r'c_p', 'Tt':r'T_t', 'a':'a',
+ 'gamma':r'\gamma', 'M':'M', 'x':'x', 'ce':r'c_e', 'm-fuel':r'm_{\mathrm{fuel}}', 'r':'r',
+}
+
+# Name of the quantity occupying the hole in the original equation, plus
+# distractors. The rest of each equation comes from the reviewed LaTeX source.
+EQUATION_NAMES = {
+ 'gas':('pressure',['density','temperature','altitude']),
+ 'tailwind':('ground speed',['airspeed','wind speed','flight time']),
+ 'time':('flight time',['distance','ground speed','fuel mass']),
+ 'total_time':('total time',['outbound time','return time','distance']),
+ 'range':('range',['speed','fuel mass','altitude']),
+ 'axial_stiffness':('axial stiffness',['area','length','force']),
+ 'cantilever':('tip stiffness',['length','force','pressure']),
+ 'buckling':('critical load',['length','mass','temperature']),
+ 'extension':('extension',['force','area','density']),
+ 'aspect':('aspect ratio',['wing area','wingspan','taper ratio']),
+ 'taper':('taper ratio',['aspect ratio','wingspan','area']),
+ 'hydraulic':('hydraulic power',['flow rate','pressure','area']),
+ 'dynamic_pressure':('dynamic pressure',['density','airspeed','wing area']),
+ 'induced_drag':('induced drag',['lift coefficient','aspect ratio','efficiency']),
+ 'thrust':('thrust',['mass flow','airspeed','pressure']),
+ 'kinetic_temperature':('temperature rise',['speed','specific heat','pressure']),
+ 'static_temperature':('static temperature',['total temperature','speed','density']),
+ 'sound':('temperature',['speed','pressure','density']),
+ 'mach':('Mach number',['airspeed','sound speed','pressure']),
+ 'breguet_exponent':('exponent',['range','airspeed','fuel mass']),
+ 'fuel_fraction':('remaining fraction',['fuel fraction','total mass','speed']),
+}
+
 
 def word_introduction(formula):
     """Return a stable, authored word challenge immediately before a formula."""
@@ -56,4 +100,36 @@ def word_introduction(formula):
     assert sentence.count('___') == 1 and len({answer, *distractors}) == 4
     return {'id': formula['id']+'-WORDS', 'type':'gap', 'difficulty':formula['difficulty'],
             'stem':'Complete the formula in words: '+sentence, 'answer':[answer],
-            'distractors':list(distractors), 'explanation':sentence.replace('___', answer)}
+            'distractors':list(distractors), 'explanation':sentence.replace('___', answer),
+            'formula_word_symbols':True}
+
+
+def choices_in_stable_order(identifier, choices):
+    """Vary answer placement without changing saved challenge identities."""
+    return sorted(choices, key=lambda choice: hashlib.sha256((identifier+'\0'+choice).encode()).digest())
+
+
+def named_equation(formula):
+    """Put a named quantity into its original place in the LaTeX equation."""
+    kind = KINDS[formula['id']]
+    answer, distractors = EQUATION_NAMES[kind]
+    equation = formula['formula_latex']
+    left, separator, right = equation.partition('=')
+    if not separator or not left or not right:
+        raise ValueError('Reviewed named formula needs an equality: '+formula['id'])
+    # An exponent and a fraction are operations that must remain visible. For
+    # these formulas the hole therefore replaces a top-level RHS quantity.
+    if kind == 'sound':
+        if equation != r'a^2=\gamma RT':raise ValueError('Unexpected sound formula')
+        before, after = r'a^2=\gamma R', ''
+    elif kind == 'fuel_fraction':
+        if right != '1-r':raise ValueError('Unexpected fuel fraction formula')
+        before, after = left+'=1-', ''
+    else:
+        before, after = '', '='+right
+    assert len({answer,*distractors}) == 4
+    return {'id':formula['id']+'-NAMED', 'type':'formula_named',
+            'difficulty':formula['difficulty'], 'stem':'Complete the formula with a quantity',
+            'before_latex':before, 'after_latex':after, 'formula_latex':equation,
+            'answer_blocks':[answer], 'blocks':choices_in_stable_order(formula['id']+'-NAMED',[answer,*distractors]),
+            'explanation':equation}

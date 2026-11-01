@@ -60,7 +60,7 @@ final class SessionInteraction {
      click(test,null,pair.getString(1));Thread.sleep(700);
     }
    }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
-   else if(kind.equals("formula_blocks")){
+   else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
     for(int j=0;j<tokens.length();j++){clickLast(test,tokens.getString(j));Thread.sleep(500);}
    }else if(kind.equals("choice")){

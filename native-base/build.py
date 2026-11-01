@@ -559,7 +559,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_WORD_TOUCH_DIAGNOSTIC')=='1' and not production:
   # A short real-touch probe of one-word and multiple-symbol formulas.
   mixed=lesson_questions([by_id['BOOK-V6-01-D1']],teach_words=True)
-  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:2])
+  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:3])
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:

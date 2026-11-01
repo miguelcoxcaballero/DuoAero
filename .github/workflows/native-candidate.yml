@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [codex/original-runtime-integration, codex/integration-137]
-    paths: ['.github/workflows/native-candidate.yml', '.github/native-candidate-request.json']
+    paths: ['.github/workflows/native-candidate.yml', '.github/native-candidate-request.json', 'native-base/**', 'app/assets/**']
 permissions:
   contents: read
 jobs:
