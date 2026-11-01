@@ -15956,6 +15956,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=37000 kg.",
     "stem": "A jet ends cruise with OEM=24000 kg, payload=11000 kg and unburned reserve=2000 kg. It must cover 1.8e+06 m at V=220 m/s, E=15, ce=1.35e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "4771.7 kg",
       "46810 kg",
@@ -16136,6 +16137,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=9000 N. Segment 1 has L=0.7 m, E=7e+10 Pa, A=0.00012 m²; segment 2 has L=0.9 m, E=1.1e+11 Pa, A=9e-05 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "3.1364 mm",
       "0.78409 mm",
@@ -16210,6 +16212,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 1.8. Changes give E2/E1=1.05, I2/I1=1.3 and K2/K1=0.9. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "1.0335",
       "0.96758",
@@ -17392,6 +17395,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=37980 kg.",
     "stem": "A jet ends cruise with OEM=24600 kg, payload=11300 kg and unburned reserve=2080 kg. It must cover 1.91e+06 m at V=223 m/s, E=15.2, ce=1.365e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "2976.7 kg",
       "49606 kg",
@@ -17576,6 +17580,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=9700 N. Segment 1 has L=0.73 m, E=7e+10 Pa, A=0.000126 m²; segment 2 has L=0.94 m, E=1.1e+11 Pa, A=9.5e-05 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "0.83769 mm",
       "3.3507 mm",
@@ -17650,6 +17655,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 1.9. Changes give E2/E1=1.07, I2/I1=1.35 and K2/K1=0.92. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.94775",
       "1.3064",
@@ -18841,6 +18847,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=38960 kg.",
     "stem": "A jet ends cruise with OEM=25200 kg, payload=11600 kg and unburned reserve=2160 kg. It must cover 2.02e+06 m at V=226 m/s, E=15.4, ce=1.38e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "7504.7 kg",
       "52431 kg",
@@ -19025,6 +19032,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=10400 N. Segment 1 has L=0.76 m, E=7e+10 Pa, A=0.000132 m²; segment 2 has L=0.98 m, E=1.1e+11 Pa, A=0.0001 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "1.782 mm",
       "3.5639 mm",
@@ -19099,6 +19107,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2. Changes give E2/E1=1.09, I2/I1=1.4 and K2/K1=0.94. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.92925",
       "0.8117",
@@ -20303,6 +20312,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=39940 kg.",
     "stem": "A jet ends cruise with OEM=25800 kg, payload=11900 kg and unburned reserve=2240 kg. It must cover 2.13e+06 m at V=229 m/s, E=15.6, ce=1.395e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "7875.5 kg",
       "55285 kg",
@@ -20487,6 +20497,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=11100 N. Segment 1 has L=0.79 m, E=7e+10 Pa, A=0.000138 m²; segment 2 has L=1.02 m, E=1.1e+11 Pa, A=0.000105 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "0.94401 mm",
       "1.888 mm",
@@ -20561,6 +20572,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2.1. Changes give E2/E1=1.11, I2/I1=1.45 and K2/K1=0.96. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.91194",
       "0.79836",
@@ -21753,6 +21765,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=40920 kg.",
     "stem": "A jet ends cruise with OEM=26400 kg, payload=12200 kg and unburned reserve=2320 kg. It must cover 2.24e+06 m at V=232 m/s, E=15.8, ce=1.41e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "3609.2 kg",
       "5929.2 kg",
@@ -21937,6 +21950,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=11800 N. Segment 1 has L=0.82 m, E=7e+10 Pa, A=0.000144 m²; segment 2 has L=1.06 m, E=1.1e+11 Pa, A=0.00011 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "1.2477 mm",
       "1.9936 mm",
@@ -22011,6 +22025,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2.2. Changes give E2/E1=1.13, I2/I1=1.5 and K2/K1=0.98. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.78618",
       "0.89567",
@@ -23203,6 +23218,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=41900 kg.",
     "stem": "A jet ends cruise with OEM=27000 kg, payload=12500 kg and unburned reserve=2400 kg. It must cover 2.35e+06 m at V=235 m/s, E=16, ce=1.425e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "8625.5 kg",
       "6225.5 kg",
@@ -23387,6 +23403,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=12500 N. Segment 1 has L=0.85 m, E=7e+10 Pa, A=0.00015 m²; segment 2 has L=1.1 m, E=1.1e+11 Pa, A=0.000115 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "1.0494 mm",
       "1.314 mm",
@@ -23461,6 +23478,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2.3. Changes give E2/E1=1.15, I2/I1=1.55 and K2/K1=1. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.88034",
       "0.775",
@@ -24642,6 +24660,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=42880 kg.",
     "stem": "A jet ends cruise with OEM=27600 kg, payload=12800 kg and unburned reserve=2480 kg. It must cover 2.46e+06 m at V=238 m/s, E=16.2, ce=1.44e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "6524.3 kg",
       "9004.3 kg",
@@ -24826,6 +24845,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=13200 N. Segment 1 has L=0.88 m, E=7e+10 Pa, A=0.000156 m²; segment 2 has L=1.14 m, E=1.1e+11 Pa, A=0.00012 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "4.4075 mm",
       "2.2037 mm",
@@ -24900,6 +24920,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2.4. Changes give E2/E1=1.17, I2/I1=1.6 and K2/K1=1.02. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.76471",
       "1.3414",
@@ -26093,6 +26114,7 @@
     "subtopic": "Final mass includes reserve: mf=OEM+payload+reserve=43860 kg.",
     "stem": "A jet ends cruise with OEM=28200 kg, payload=13100 kg and unburned reserve=2560 kg. It must cover 2.57e+06 m at V=241 m/s, E=16.4, ce=1.455e-05 kg/(N s), g=9.81 m/s². In ideal constant-parameter Breguet cruise, what fuel mass must be loaded initially? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "4265.6 kg",
       "9385.6 kg",
@@ -26277,6 +26299,7 @@
     "subtopic": "The same force passes through both segments.",
     "stem": "Two axial segments in series carry F=13900 N. Segment 1 has L=0.91 m, E=7e+10 Pa, A=0.000162 m²; segment 2 has L=1.18 m, E=1.1e+11 Pa, A=0.000125 m². Joints are rigid and both segments are elastic. What is the total extension in mm? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{EA}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "1.446 mm",
       "4.6166 mm",
@@ -26351,6 +26374,7 @@
     "subtopic": "Compare critical loads: gain=er×ir/(kr²×lr²).",
     "stem": "The required critical-load gain of a column is 2.5. Changes give E2/E1=1.19, I2/I1=1.65 and K2/K1=1.04. According to Euler, what is the maximum L2/L1? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.85214",
       "1.1735",
