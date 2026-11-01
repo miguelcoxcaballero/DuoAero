@@ -184,6 +184,14 @@ final class SessionInteraction {
     Thread.sleep(200);
    }
    if(checkRichLayout&&(question.getString("id").matches("TA1-(0148|0397-D2(-S1)?|0182-F1|0232|0753-D3|0832-D3)")||question.getString("id").equals("TH-2026-OTHER-1")))SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
+   if(checkRichLayout&&question.getString("id").equals("TA1-0148")){
+    // This fixture alone carries the experimental native hint. Capture the
+    // opened sheet before Check; the production bank does not enable it yet.
+    clickTip(test);Thread.sleep(1000);
+    SessionScreen.capture(test,"lesson-hint-open","lesson-hint-open");
+    if(contains(test,"INCORRECT"))throw new IllegalStateException("Hint graded before Check");
+    test.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);Thread.sleep(700);
+   }
    if(checkRichLayout&&question.getString("id").equals("TA1-0753-D3")){
     AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
     boolean scrolled=false;
@@ -214,6 +222,37 @@ final class SessionInteraction {
   android.util.Log.i("DuoAeroProbe","Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible);
   SessionScreen.capture(test,"lesson-after-last-answer","lesson-after-last-answer");
   return "Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible+".\nAll "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
+ }
+ private static void clickTip(Instrumentation test){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No active native hint window");
+  try{
+   java.util.List<AccessibilityNodeInfo> containers=root.findAccessibilityNodeInfosByViewId("com.duolingo:id/calculatorAndTipContainer");
+   if(containers.size()!=1)throw new IllegalStateException("No unique native calculator and hint container");
+   AccessibilityNodeInfo best=rightmostClickable(containers.get(0),0);
+   containers.get(0).recycle();
+   if(best==null)throw new IllegalStateException("Native hint button not visible");
+   try{if(!best.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native hint did not open");}
+   finally{best.recycle();}
+  }finally{root.recycle();}
+ }
+ private static AccessibilityNodeInfo rightmostClickable(AccessibilityNodeInfo node,int depth){
+  if(depth>30||!own(node)||!node.isVisibleToUser())return null;
+  AccessibilityNodeInfo best=node.isClickable()?AccessibilityNodeInfo.obtain(node):null;
+  android.graphics.Rect b=new android.graphics.Rect(),r=new android.graphics.Rect();
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);if(child==null)continue;
+   try{
+    AccessibilityNodeInfo candidate=rightmostClickable(child,depth+1);
+    if(candidate!=null){
+     candidate.getBoundsInScreen(r);
+     if(best!=null)best.getBoundsInScreen(b);
+     if(best==null||r.centerX()>b.centerX()){if(best!=null)best.recycle();best=candidate;}
+     else candidate.recycle();
+    }
+   }finally{child.recycle();}
+  }
+  return best;
  }
  static String claimXp(Instrumentation test)throws Exception {
   for(int attempt=0;attempt<60;attempt++){
