@@ -64,7 +64,90 @@ def encode(kind,values,props=PROPS):
             out+=vu(len(b))+b
     return bytes(out)+b'\0'
 
+CHARACTER_CAST={
+    'zari_inlesson_v01_04':'sally',
+    'falstaff_inlesson_v01_08':'charlie',
+    'junior_inlesson_v01_13':'linus',
+}
+
+def expressive_character(data,name):
+    """Use frame-by-frame Peanuts poses in the original character state rig.
+
+    Correct and idle timelines use happy drawings; incorrect timelines use
+    disappointed drawings. The original artboard and state machine still own
+    transitions, events and placement. No frame contains a scene background.
+    """
+    from io import BytesIO
+    from PIL import Image
+    header,objects,props=parse(data)
+    target='character';cast=CHARACTER_CAST[name]
+    folder=Path(__file__).resolve().parents[1]/'app/assets/mascot/characters'/cast
+    frames=[(folder/mood/f'frame-{i:02}.png').read_bytes()
+            for mood in ('happy','sad') for i in range(16)]
+    asset_index=sum(t in ASSET for t,p,b in objects)
+    asset_unique=max([p.get(204,0) for t,p,b in objects if t in ASSET]+[0])+1
+    board=None;component_count=0
+    for kind,values,_ in objects:
+        if kind==1:board=values.get(4)
+        elif board==target and (kind in COMPONENT or 'Interpolator' in SCHEMA['types'].get(str(kind),'')):
+            component_count+=1
+    if not component_count:raise ValueError('Missing original character artboard: '+name)
+    keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
+    output=bytearray(header);board=None;art=None;replace=False;animation=None;changed=[];track_count=0
+    def finish_animation():
+        nonlocal track_count
+        if not animation or not replace:return
+        timeline=animation.get(55,'').strip()
+        if not timeline.startswith(('Idle_00','Correct_','Incorrect_')):return
+        mood=1 if timeline.startswith('Incorrect_') else 0
+        duration=max(1,animation.get(57,60));cycle=90
+        # Fit whole cycles in looping idle timelines to avoid a visible jump.
+        if timeline=='Idle_00' and duration>=180:
+            cycle=max(16,round(duration/max(1,round(duration/90))))
+        track_count+=1
+        for i in range(32):
+            output.extend(encode(25,{51:component_count+1+i}))
+            output.extend(encode(26,{53:18}))
+            for t in range(duration):
+                current=(t*16//cycle)%16;previous=((t-1)*16//cycle)%16
+                if t==0 or (current!=previous and i//16==mood):
+                    output.extend(encode(30,{67:t,70:1. if i==mood*16+current else 0.}))
+    def finish_board():
+        if not replace:return
+        w,h=art.get(7,500.),art.get(8,750.)
+        for i,frame in enumerate(frames):
+            fw,fh=struct.unpack_from('>II',frame,16);scale=min(w/fw,h/fh)*.9
+            with Image.open(BytesIO(frame)) as im:
+                box=im.getchannel('A').point(lambda a:255 if a>64 else 0).getbbox()
+            if box is None:raise ValueError('Empty character animation frame')
+            x=(fw/2-(box[0]+box[2])/2)*scale
+            y=(fh*.82-box[3])*scale
+            output.extend(encode(100,{4:f'DuoAero {cast} frame {i}',5:0,206:asset_index+i,
+                13:x+w*(.5-art.get(11,0.)),14:y+h*(.5-art.get(12,0.)),
+                16:scale,17:scale,18:1. if i==0 else 0.}))
+    for kind,values,raw in objects:
+        if animation is not None and kind not in keyed:
+            finish_animation();animation=None
+        if kind==1:
+            finish_board();art=values;board=values.get(4);replace=board==target
+            if replace:changed.append(board)
+        if replace and kind==31:animation=values
+        update=dict(values)
+        if replace and kind in DRAWABLE:update[129]=values.get(129,0)|1
+        if SCHEMA['types'].get(str(kind))=='TextValueRun':
+            for key,value in values.items():
+                if isinstance(value,str) and PROPS[key][1]=='textPropertyKey':update[key]=display_text(value)
+        output.extend(raw if update==values else encode(kind,update,props))
+    finish_animation();finish_board()
+    if changed!=[target] or track_count<3:raise ValueError('Original character timelines unavailable: '+name)
+    for i,frame in enumerate(frames):
+        fw,fh=struct.unpack_from('>II',frame,16)
+        output.extend(encode(105,{203:f'DuoAero {cast} frame {i}',204:asset_unique+i,207:float(fh),208:float(fw)}))
+        output.extend(encode(106,{212:frame}))
+    return bytes(output),changed
+
 def rive(data,name,png,width,height):
+    if name in CHARACTER_CAST:return expressive_character(data,name)
     header,objects,props=parse(data)
     artboard_names=[p.get(4,'') for t,p,b in objects if t==1]
     asset_index=sum(t in ASSET for t,p,b in objects)
@@ -176,6 +259,34 @@ def rive(data,name,png,width,height):
 def lottie(data,name,png,width,height):
     doc=json.loads(data)
     if not isinstance(doc,dict) or 'layers' not in doc:return data,False
+    if name=='duo_flying_up':
+        # Keep the original heart, sparkles, trail, transforms, timing and
+        # callbacks. Replace only the two character precompositions with a
+        # transparent frame-by-frame plane and a turning propeller.
+        folder=Path(__file__).resolve().parents[1]/'app/assets/mascot/plane'
+        frames=[(folder/f'frame-{i:02}.png').read_bytes() for i in range(16)]
+        for i,frame in enumerate(frames):
+            fw,fh=struct.unpack_from('>II',frame,16)
+            doc['assets'].append({'id':f'duoaero-plane-{i}','w':fw,'h':fh,'u':'',
+                'p':'data:image/png;base64,'+base64.b64encode(frame).decode(),'e':1})
+        replaced=[]
+        for asset in doc['assets']:
+            if asset.get('id') not in ('comp_1','comp_5'):continue
+            end=20 if asset['id']=='comp_1' else 253
+            layers=[]
+            for i,frame in enumerate(frames):
+                fw,fh=struct.unpack_from('>II',frame,16);keys=[]
+                for t in range(end):
+                    current=(t*2//3)%16;previous=((t-1)*2//3)%16
+                    if t==0 or current!=previous:keys.append({'t':t,'s':[100 if current==i else 0],'h':1})
+                layers.append({'ty':2,'ind':i+1,'nm':f'DuoAero flying frame {i}',
+                    'refId':f'duoaero-plane-{i}','ip':0,'op':end,'st':0,
+                    'ks':{'o':{'a':1,'k':keys},'r':{'a':0,'k':0},
+                          'a':{'a':0,'k':[fw/2,fh/2,0]},'s':{'a':0,'k':[260,260,100]},
+                          'p':{'a':0,'k':[1366,1648,0]}}})
+            asset['layers']=layers;replaced.append(asset['id'])
+        if set(replaced)!={'comp_1','comp_5'}:raise ValueError('Original flying scene changed')
+        return json.dumps(doc,separators=(',',':')).encode(),True
     pure=bool(re.search(r'(^|_)duo(?:_|$)|resurrectedduo',name)) and not any(x in name for x in ['audio','sound','waveform'])
     if not pure:return data,False
     w,h=doc['w'],doc['h'];scale=min(w/width,h/height)*90
