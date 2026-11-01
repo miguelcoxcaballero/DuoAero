@@ -24,7 +24,9 @@ def challenge(question):
     result = {'id': question['id']}
     kind = question['type']
     if kind == 'choice':
-        return choice_blob(question)
+        # Only explicitly reviewed questions carry a prerequisite-linked
+        # formula. The authoring validator checks that it appears earlier.
+        return choice_blob(question, include_formula_hint=bool(question.get('formula_hint')))
     if kind == 'formula_blocks':
         return formula_challenge(question)
     if kind == 'gap':

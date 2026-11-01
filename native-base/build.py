@@ -240,9 +240,9 @@ submit_source=SMALI/'smali_classes3/ll.smali'
 submit_original=submit_source.read_bytes();submit_text=submit_original.decode('utf-8').replace('\r\n','\n')
 submit_anchor='    invoke-virtual {v13, v11}, Lcom/duolingo/session/challenges/ElementFragment;->H(Lnha0;)Lcom/duolingo/core/session/FragmentGuess;\n\n    move-result-object v0'
 assert submit_text.count(submit_anchor)==1
-submit_hook=submit_anchor+'\n\n    invoke-static {v13, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->diagnosticHintGuess(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v0\n\n    check-cast v0, Lcom/duolingo/core/session/FragmentGuess;'
+submit_hook=submit_anchor+'\n\n    invoke-static {v13, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaHintGuess(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v0\n\n    check-cast v0, Lcom/duolingo/core/session/FragmentGuess;'
 try:
- tip_source.write_text(tip_text.replace(tip_anchor,'    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->diagnosticTipOpened()V\n\n'+tip_anchor),encoding='utf-8')
+ tip_source.write_text(tip_text.replace(tip_anchor,'    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaTipOpened()V\n\n'+tip_anchor),encoding='utf-8')
  submit_source.write_text(submit_text.replace(submit_anchor,submit_hook),encoding='utf-8')
  unit_header_source.write_text(unit_header_text.replace(unit_header_anchor,unit_header_hook+unit_header_anchor),encoding='utf-8')
  profile_inputs_source.write_text(profile_inputs_text.replace(profile_inputs_anchor,'    invoke-static {v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordProfileInputs([Ljava/lang/Object;)V\n\n'+profile_inputs_anchor),encoding='utf-8')
@@ -530,7 +530,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  rich_session={'id':'duoaero_native_rich_diagnostic','type':'MATH_LESSON','fromLanguage':'en',
   'skillId':'duoaero_aerospace_diagnostic','levelIndex':0,'levelSessionIndex':0,
   'metadata':{'id':'duoaero_native_rich_diagnostic','type':'math_lesson'},
-  'challenges':[choice_blob(q,diagnostic_formula_hint=True) for q in sample]}
+  'challenges':[choice_blob(q,include_formula_hint=True) for q in sample]}
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
  catalog={};legacy_catalog={}
  lesson_total=0

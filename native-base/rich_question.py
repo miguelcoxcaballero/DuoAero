@@ -36,7 +36,7 @@ def difficulty_stars(question):
     return "★" * level
 
 
-def choice_blob(question, *, diagnostic_formula_hint=False):
+def choice_blob(question, *, include_formula_hint=False):
     rich = question.get('rich_text', {})
     options = rich.get('options', [None] * len(question['options']))
     if len(options) != len(question['options']):
@@ -69,9 +69,9 @@ def choice_blob(question, *, diagnostic_formula_hint=False):
                   for i, option in enumerate(question['options'])],
         'onesie': None, 'headband': None, 'grading_function': grading,
     }
-    # Diagnostic only until the original hint control and delayed retry
-    # semantics have been exercised end to end on a real native session.
-    if diagnostic_formula_hint and question.get('formula_hint'):
+    # Only authored hints with a prior formula exercise are enabled in the
+    # local course; the ordering is checked by the question-bank validator.
+    if include_formula_hint and question.get('formula_hint'):
         blob['hint'] = {'explanation': {'type': 'text', 'value': question['formula_hint']['latex']}}
     return {'id': question['id'], 'type': 'mathChallengeBlob',
             'challengeBlob': json.dumps(blob, ensure_ascii=False),

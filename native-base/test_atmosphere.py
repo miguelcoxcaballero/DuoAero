@@ -7,6 +7,7 @@ from rich_question import content
 from visual_controls import claim_xp
 
 OUT=Path(os.environ['DUOAERO_EVIDENCE']); PACKAGE='com.duoaero.nativebase'
+HINT_TEST=os.environ.get('DUOAERO_TEST_FORMULA_HINT')=='1'
 ROOT=Path(__file__).resolve().parents[1]
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=35)
 def capture(name):
@@ -96,8 +97,9 @@ try:
     open_atmosphere('atmosphere-initial')
     # Reproduce a mistake and its native retry: the reported lesson includes
     # formula/gap controllers and the user's screenshot shows wrong feedback.
-    sequence=[(source['ids'][0],True)]+[(qid,False) for qid in source['ids'][1:]]+[(source['ids'][0],False)]
-    for index,(qid,wrong) in enumerate(sequence):
+    sequence=[(source['ids'][0],True,False)]+[(qid,False,HINT_TEST and qid=='TA1-0148') for qid in source['ids'][1:]]+[(source['ids'][0],False,False)]
+    if HINT_TEST:sequence.append(('TA1-0148',False,False))
+    for index,(qid,wrong,hinted) in enumerate(sequence):
         q=bank[qid];kind=q['type']
         if kind=='choice':
             answer=(q['answer']+1)%len(q['options']) if wrong else q['answer']
@@ -109,6 +111,15 @@ try:
             needle=q['answer_blocks'][0];resource=None
         else:raise AssertionError('Unsupported atmosphere question '+kind)
         tree=wait('atmosphere-question-'+str(index),lambda t:bool(matching(t,needle,resource)),60,True)
+        if hinted:
+            containers=[n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/calculatorAndTipContainer']
+            assert len(containers)==1,'Expected native formula-hint button'
+            left,top,right,bottom=map(int,re.findall(r'\d+',containers[0].get('bounds')))
+            adb('shell','input','tap',str((left+3*right)//4),str((top+bottom)//2))
+            hint=wait('atmosphere-hint-open',lambda t:bool(matching(t,'a tip') and matching(t,'GOT IT')),30)
+            tap_node(matching(hint,'GOT IT')[-1])
+            tree=wait('atmosphere-hint-dismissed',lambda t:bool(matching(t,needle,resource)),30)
+            assert not matching(tree,'Oops'),'The hint graded before Check'
         candidates=matching(tree,needle,resource)
         if kind!='choice':
             # Compose often exposes the label on a non-clickable child of the
@@ -139,7 +150,7 @@ try:
         if kind=='choice':time.sleep(1.5)  # Original asynchronous JS grading.
         tap_node(next(n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true'))
         tree=wait('atmosphere-graded-'+str(index),lambda t:bool(matching(t,'CONTINUE') or matching(t,'GOT IT')),45)
-        if wrong:
+        if wrong or hinted:
             assert matching(tree,'GOT IT'),'Expected incorrect feedback for '+qid
             tap_node(matching(tree,'GOT IT')[-1])
         else:
@@ -176,6 +187,6 @@ try:
         routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
         selected=re.findall(r'Local original session selected: ([A-Za-z0-9_.-]+)',routes)
         assert selected and selected[-1]==second,'First Atmosphere node reopened the wrong lesson: '+phase
-    (OUT/'atmosphere-result.txt').write_text('PASS: seeded earlier nodes; completed all 20 real Atmosphere questions, claimed XP, observed durable completion and opened its next lesson before and after restart. Earlier lessons and real Google/Drive are not tested.\n')
+    (OUT/'atmosphere-result.txt').write_text('PASS: seeded earlier nodes; completed all real Atmosphere questions'+(' with a formula hint and end-of-lesson retry' if HINT_TEST else '')+', claimed XP, observed durable completion and opened its next lesson before and after restart. Earlier lessons and real Google/Drive are not tested.\n')
 finally:
     (OUT/'atmosphere-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))

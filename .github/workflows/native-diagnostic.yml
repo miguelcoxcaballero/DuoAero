@@ -85,7 +85,7 @@ jobs:
           python native-base/test_icon_layout.py
           python native-base/test_mascot_animation.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
@@ -113,7 +113,7 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
-          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
           fi
@@ -227,6 +227,10 @@ jobs:
               python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google-restart.txt').read_text()"
               ;;
             atmosphere)
+              python native-base/test_atmosphere.py
+              ;;
+            atmosphere-hint)
+              export DUOAERO_TEST_FORMULA_HINT=1
               python native-base/test_atmosphere.py
               ;;
             sections)
