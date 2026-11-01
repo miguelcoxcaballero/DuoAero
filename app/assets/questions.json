@@ -17540,6 +17540,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18831.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.035, E2/E1=0.895, ce2/ce1=0.948; originally ln(mi/mf)=0.184. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "16.456 %",
       "17.164 %",
@@ -18993,6 +18994,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.18991.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.04, E2/E1=0.91, ce2/ce1=0.956; originally ln(mi/mf)=0.188. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "16.982 %",
       "18.991 %",
@@ -20459,6 +20461,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.19148.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.045, E2/E1=0.925, ce2/ce1=0.964; originally ln(mi/mf)=0.192. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "17.469 %",
       "17.512 %",
@@ -21913,6 +21916,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.19302.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.05, E2/E1=0.94, ce2/ce1=0.972; originally ln(mi/mf)=0.196. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "18.047 %",
       "19.302 %",
@@ -23367,6 +23371,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.19454.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.055, E2/E1=0.955, ce2/ce1=0.98; originally ln(mi/mf)=0.2. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "18.127 %",
       "19.454 %",
@@ -24810,6 +24815,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.19602.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.06, E2/E1=0.97, ce2/ce1=0.988; originally ln(mi/mf)=0.204. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "19.128 %",
       "18.454 %",
@@ -26265,6 +26271,7 @@
     "subtopic": "Constant Breguet range requires ln2=ln1×cr/(vr×er)=0.19749.",
     "stem": "A jet keeps the same range after redesign. The ratios are V2/V1=1.065, E2/E1=0.985, ce2/ce1=0.996; originally ln(mi/mf)=0.208. What percentage of initial mass must be burned in the new ideal cruise? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "19.749 %",
       "17.921 %",
