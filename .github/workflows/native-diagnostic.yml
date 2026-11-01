@@ -140,6 +140,7 @@ jobs:
             probe_service="${11:-false}"
             probe_timeout=180
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then probe_timeout=300; fi
+            if [ "$probe_interact" = mixed ]; then probe_timeout=360; fi
             if [ "$probe_interact" = formula ]; then probe_timeout=600; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
@@ -195,7 +196,7 @@ jobs:
             fi
             if [ "$probe_interact" = mixed ]; then
               for phase in prompt selected graded; do
-                for item in $(seq 0 7); do
+                for item in $(seq 0 15); do
                   for extension in png json; do
                     adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-$phase-$item.$extension" "${{ runner.temp }}/duoaero-evidence/mixed-$phase-$item.$extension" || true
                   done

@@ -510,11 +510,17 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  mixed.extend(next(q for q in bank if q['type']==kind) for kind in ('multi','matching'))
  mixed.extend(q for q in bank if q['type']=='order')
  mixed.append(next(q for q in bank if q['type']=='matching' and q['id'].startswith('BOOK-V6')))
+ # Exercise the actual alternating formula/choice sequence in the original
+ # controller, not just the separately serialized challenge models.
+ mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
   if question['type']=='matching':
    question['pairs']=[[content(None,value) if any('latex' in p for p in notation_parts(value)) else value for value in pair] for pair in question['pairs']]
+  elif question['type']=='choice':
+   option=question['answer'];rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
+   question['selection']=content(rich[option],question['options'][option])
  out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed_driver,ensure_ascii=False))
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
  # Exercise the reported unformatted density fraction on the actual original
