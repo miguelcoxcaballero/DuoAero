@@ -68,6 +68,13 @@ def earned_rewards(tree):
     return (any(n.get('resource-id')=='com.duolingo:id/menuStreak' and n.get('content-desc','').casefold()=='1 day streak' for n in nodes)
             and any(n.get('resource-id')=='com.duolingo:id/itemButton' and n.get('text')=='10' for n in nodes))
 
+def capture_completion_motion():
+    # Multiple frames distinguish static overlapping artwork from the moving
+    # original celebration. A single screenshot cannot establish animation.
+    for frame in range(6):
+        (OUT/('standalone-celebration-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
+        time.sleep(.5)
+
 try:
     adb('shell','am','force-stop',PACKAGE)
     assert b'Success' in adb('shell','pm','clear',PACKAGE)
@@ -145,6 +152,7 @@ try:
         if tree is not None:
             label=next((n.get('text') for n in tree.iter('node') if n.get('text','').strip().casefold()=='claim xp'),None)
             if label:
+                capture_completion_motion()
                 tap(tree,text=label);break
             end_seen |= any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node'))
         # Rive can keep UiAutomator from reaching its idle condition even when
@@ -156,6 +164,7 @@ try:
             if active:
                 point=claim_xp(OUT/'standalone-complete.png',OUT/'standalone-claim-ocr.png')
                 if point is not None:
+                    capture_completion_motion()
                     adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(3)
     else:raise AssertionError('Original Claim XP not visible in accessibility or rendered footer')
@@ -170,6 +179,19 @@ try:
         assert corrected['correct'] is True and corrected['misses']==1, 'Correct retry did not resolve the persistent mistake'
         assert all(ledger['records'][qid]['correct'] is True for qid in question_ids)
         (OUT/'standalone-mistakes-result.txt').write_text('PASS: real wrong answer stored, original end-of-lesson retry, correct retry clears the pending mistake and completion is committed.\n')
+    # A durable file alone is insufficient: the still-running original home
+    # must route the same node to its next lesson without an app restart.
+    second_id=plan[0]['lessons'][1]['id']
+    second=bank[plan[0]['lessons'][1]['ids'][0]]
+    assert second['type']=='choice' and not second.get('rich_text')
+    second_answer=second['options'][second['answer']]
+    tap(tree,'com.duolingo:id/oval')
+    tree=wait_for('standalone-live-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' or second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+    if any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in tree.iter('node')):tap(tree,'com.duolingo:id/learnButton')
+    wait_for('standalone-live-next-lesson',lambda t:any(second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+    routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
+    selected=re.findall(r'Local original session selected: ([A-Za-z0-9_-]+)',routes)
+    assert selected and selected[-1]==second_id, 'Live path did not select its next lesson before restart'
     (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
     adb('shell','am','force-stop',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
@@ -177,10 +199,6 @@ try:
     restored=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
     assert restored['sessionId']==first_id and restored['completedOnce'] is True, 'Completion lost after process restart'
     tap(tree,'com.duolingo:id/oval')
-    second_id=plan[0]['lessons'][1]['id']
-    second=bank[plan[0]['lessons'][1]['ids'][0]]
-    assert second['type']=='choice' and not second.get('rich_text')
-    second_answer=second['options'][second['answer']]
     tree=wait_for('standalone-restored-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' or second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
     if any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in tree.iter('node')):tap(tree,'com.duolingo:id/learnButton')
     wait_for('standalone-next-lesson',lambda t:any(second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)

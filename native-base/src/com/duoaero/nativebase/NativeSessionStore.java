@@ -43,6 +43,10 @@ public final class NativeSessionStore {
   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
   if(completed)NativeSessionResume.completed(app,sessionId);
   android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+NativeCourseProgress.completionIssue(submission,lesson));
+  // The original home may keep its path resource cached when SessionActivity
+  // closes. Publish the committed local progress instead of relying on a
+  // subsequent native network refresh or an app restart.
+  if(completed)NativeRewards.refresh(app,true);
   NativeGoogleHost.changed(app);
  }
  static synchronized Set<String> completedLessons(Application app)throws Exception {
