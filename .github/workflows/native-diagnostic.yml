@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, standalone]
+        scenario: [path, lesson, formula, mixed, standalone]
     timeout-minutes: 30
     env:
       ANDROID_HOME: /tmp/duoaero-sdk
@@ -151,6 +151,15 @@ jobs:
                 done
               done
             fi
+            if [ "$probe_interact" = mixed ]; then
+              for phase in prompt selected graded; do
+                for item in $(seq 0 7); do
+                  for extension in png json; do
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-$phase-$item.$extension" "/tmp/duoaero-evidence/mixed-$phase-$item.$extension" || true
+                  done
+                done
+              done
+            fi
             adb logcat -d -s DuoAeroProbe:I DuoAeroNative:I AndroidRuntime:E chromium:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
             adb shell dumpsys power > "/tmp/duoaero-evidence/power-$probe_label.txt"
@@ -167,6 +176,9 @@ jobs:
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
           case "$DIAGNOSTIC_SCENARIO" in
+            mixed)
+              run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
+              ;;
             standalone)
               python native-base/test_standalone.py
               ;;

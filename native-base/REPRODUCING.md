@@ -556,3 +556,19 @@ not award completion. A bounded diagnostic reason identifies that rejection.
 The standalone driver now requires a real committed completion record, process
 restart without clearing data, and navigation to the second lesson through the
 original path node. None of these assertions is yet claimed as passing.
+
+A separate mixed scenario now drives eight source-bank exercises through the
+original controls: multi-select, SI matching, both word gaps, all three ordered
+sequences, and textbook matching. It requires original positive grading feedback
+and captures prompt/selection/result for each. This is a pending runtime check,
+not evidence inferred from the 1,200 decoded models.
+
+Run 41269671504 verifies all 19 first-path answers, original Claim XP and atomic
+storage of the real catalog lesson PUT. Its return hierarchy contains the home
+path, but the screenshot is black, so visible return remains unverified. Cold
+standalone also reaches 19 correct answers: the last green AMAZING ribbon is
+Rive lettering absent from accessibility text. The driver now requires the
+current answer card and native graded CONTINUE (wrong answers use GOT IT),
+retaining screenshots. This is an observation fix, not a fabricated grade.
+Formula advancement now waits for its native graded footer after the underlying
+fragment result arrives; an early click previously found no Continue control.

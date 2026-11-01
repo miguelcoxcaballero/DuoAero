@@ -228,6 +228,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(ROOT/'native-base/tests/fixtures/aerospace_formula_lesson.json','assets/hardcoded_sessions/duoaero/aerospace_formula_lesson.json')
  bank=json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
  by_id={question['id']:question for question in bank}
+ mixed=[next(q for q in bank if q['type']==kind) for kind in ('multi','matching')]
+ mixed.extend(q for q in bank if q['type'] in ('gap','order'))
+ mixed.append(next(q for q in bank if q['type']=='matching' and q['id'].startswith('BOOK-V6')))
+ out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
+ out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed,ensure_ascii=False))
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
  sample=plain_sample[:1]+[q for q in bank if q.get('rich_text')]
  sample_ids={q['id'] for q in sample}

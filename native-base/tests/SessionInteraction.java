@@ -22,6 +22,47 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
+ static String mixedAnswers(Instrumentation test)throws Exception {
+  java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
+  try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
+   byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
+  }
+  org.json.JSONArray questions=new org.json.JSONArray(bytes.toString("UTF-8"));
+  String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
+  for(int i=0;i<questions.length();i++){
+   org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
+   Thread.sleep(1800);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
+   if(kind.equals("multi")){
+    org.json.JSONArray answer=q.getJSONArray("answer"),options=q.getJSONArray("options");
+    for(int j=0;j<answer.length();j++){click(test,null,options.getString(answer.getInt(j)));Thread.sleep(300);}
+   }else if(kind.equals("matching")){
+    org.json.JSONArray pairs=q.getJSONArray("pairs");
+    for(int j=0;j<pairs.length();j++){
+     org.json.JSONArray pair=pairs.getJSONArray(j);
+     click(test,null,pair.getString(0));Thread.sleep(300);
+     click(test,null,pair.getString(1));Thread.sleep(700);
+    }
+   }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
+   else if(kind.equals("order")){
+    org.json.JSONArray sequence=q.getJSONArray("answer"),items=q.getJSONArray("items");
+    for(int j=0;j<sequence.length();j++){clickLast(test,items.getString(sequence.getInt(j)));Thread.sleep(300);}
+   }else throw new IllegalStateException("No mixed driver for "+kind);
+   SessionScreen.capture(test,"mixed-selected-"+i,"mixed-selected-"+i);
+   // Matching can grade automatically after the final pair. Other native
+   // controllers use their original Check action.
+   boolean correct=false;for(String label:positive)if(contains(test,label))correct=true;
+   if(!correct)click(test,"com.duolingo:id/submitButton",null);
+   for(int attempt=0;attempt<150&&!correct;attempt++){
+    for(String label:positive)if(contains(test,label))correct=true;
+    if(!correct)Thread.sleep(200);
+   }
+   SessionScreen.capture(test,"mixed-graded-"+i,"mixed-graded-"+i);
+   if(!correct)throw new IllegalStateException("No original correct feedback for "+q.getString("id"));
+   android.util.Log.i("DuoAeroProbe","Native mixed feedback CORRECT: "+q.getString("id")+" type="+kind);
+   click(test,null,"CONTINUE");
+  }
+  return "All "+questions.length()+" mixed source exercises produced original visible correct feedback through native controls. No course completion or overflow acceptance asserted.\n";
+ }
  static String formulaAnswers(Instrumentation test,android.app.Activity activity,boolean wrong)throws Exception {
   // Select through the original token controls; no model/grade injection.
   String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
@@ -34,7 +75,9 @@ final class SessionInteraction {
    SessionScreen.capture(test,"formula-graded-"+i,"formula-graded-"+i);
    NativeMathGrade.require(test,activity,wrong?"INCORRECT":"CORRECT");
    android.util.Log.i("DuoAeroProbe","Native formula controller with Aerospace symbolic comparison: "+(wrong?"INCORRECT":"CORRECT")+" at "+i);
-   click(test,null,wrong?"GOT IT":"CONTINUE");Thread.sleep(1200);
+   String action=wrong?"GOT IT":"CONTINUE";
+   for(int attempt=0;attempt<150&&!contains(test,action);attempt++)Thread.sleep(200);
+   click(test,null,action);Thread.sleep(1200);
   }
   return "Formula prototype selections submitted through native controls; Aerospace symbolic comparison checked against visible original fragment result. No full course acceptance.\n";
  }

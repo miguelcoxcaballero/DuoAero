@@ -5,7 +5,7 @@
   "verified": {
     "original_welcome_screen": true,
     "native_question_model_decoding": {
-      "passed": 1195,
+      "passed": 1200,
       "failed": 0
     },
     "bank_count": 1200,
@@ -21,7 +21,7 @@
       "options",
       "explanation"
     ],
-    "original_entries_preserved": 18245,
+    "original_entries_preserved": 18244,
     "native_latex_greek_symbols": [
       "alpha",
       "gamma",
@@ -49,15 +49,20 @@
     "difficulty_stars_visible": true,
     "native_session_end_claim_xp_visible": true,
     "native_session_complete_summary_visible": true,
-    "native_profile_cache_first_question": true
+    "native_profile_cache_first_question": true,
+    "standalone_original_home_and_first_question": true,
+    "standalone_consecutive_correct_answers_observed": 19,
+    "native_first_path_lesson_correct_answers": 19,
+    "native_formula_single_slot_correct_and_incorrect": true,
+    "native_formula_five_slots_correct": true,
+    "native_first_path_lesson_claim_xp_and_submission_stored": true
   },
   "not_verified_or_incomplete": [
-    "15 native CORRECT answers reach original Lesson complete summary with 15 XP, 100% accuracy and time. Claim XP is clicked and LaunchActivity resumes, but screenshot still shows old summary; path return, persistent progress and resume remain unverified.",
-    "Original home/path and named lesson popup render in diagnostic native profile mode. Standalone bootstrap, node-to-session loading and persistent course navigation remain unverified.",
-    "Five gap/order questions still lack native grading adapters.",
-    "Rich stems/options render and grade, but a long lift-coefficient question has fractions extending beyond card borders. Explanation LaTeX, font scaling and text/overflow QA remain incomplete.",
-    "Google/Drive integration is not connected to this native base.",
-    "Updater, mascot replacement, full screen comparison, audio/haptics/night-mode and text-overflow regression checks remain."
+    "Standalone lesson completion, return to path, committed progress after restart and next-lesson navigation remain unverified. Strict progress validation/projection implemented and host-tested; actual native submission acceptance pending.",
+    "Gap/order, multiple selection and matching have native adapters. A mixed native UI probe is now implemented; runtime and overflow acceptance pending.",
+    "Native LaTeX choice/formula rendering is observed. All-field coverage, explanations, text/font scaling and overflow regression remain incomplete.",
+    "Google-only sign-in and account-isolated Drive are not connected to the native base.",
+    "Canonical updater, mascot replacement, full screen comparison, audio/haptics/night-mode, production signing and publication to main remain."
   ],
   "publication": "Development source only. Diagnostic APK must not be published as a completed course.",
   "limitations": [
@@ -78,8 +83,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Resolve remaining original session-end inputs and splash, then establish standalone startup and real persistence.",
-    "scope": "15 correct native answers including 3 rich questions, plus a separate original incorrect result, verified in instrumentation. Final lesson screen stays loading; 42 path units decode/cache but home stays splash. No standalone course or persistence.",
+    "next_required_integration": "Verify visible return to path and strict native completion acceptance, then restart and next lesson.",
+    "scope": "Cold original home and 19 correct answers observed; instrumented path Claim XP and atomic submission verified in run 41269671504. Return screenshot black despite home hierarchy; usable return and restart persistence pending.",
     "completion_dependencies": {
       "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41262902147",
       "fixed": "Original complete summary visibly renders with ANGLE/SwiftShader emulator renderer. Both attached Rive files are active; original Claim XP clicked. No app animation replacement.",
@@ -213,7 +218,7 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,
@@ -222,13 +227,15 @@
     "standalone_latest_observed": "Run 41268267850: clean cold launch reaches original Midterm 1 path and first Aerospace question without instrumentation/profile injection. Screenshots inspected. Test falsely waited for intermediate learnButton after native direct node-to-lesson navigation; driver corrected. Completion and persistence pending.",
     "bank_models_generated": 1200,
     "local_lesson_catalog_generated": 79,
-    "native_decode_latest_observed": "1200 passed, zero failures in run 41267475095.",
+    "native_decode_latest_observed": "1200 original models decode, zero failures; this does not establish UI/grading.",
     "gap_order_adapter": "Native word-bank slots and strict sequence grading implemented; rendering and grading unverified.",
     "formula_latex_rendered": true,
     "formula_latex_semantic_card_labels": "Run 41268267850: native one-slot correct/incorrect and five-slot ideal-gas expression CORRECT; screenshots inspected.",
     "native_first_path_session": "Original path opened lesson; all 19 answers graded CORRECT in run 41267475095. End remains loading; no Claim XP or persisted completion verified.",
     "remaining": "Standalone full course, reliable grading, persistent progress/resume/mistakes, Google/Drive, updater, mascot, full audio/haptics/night/text QA, production signing and publication to main.",
     "original_js_grading": "Intermittent null result; original swallowed exception logging and bounded retries for marked pure choice functions added. No grade injected; runtime verification pending.",
-    "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending."
+    "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
+    "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
+    "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending."
   }
 }

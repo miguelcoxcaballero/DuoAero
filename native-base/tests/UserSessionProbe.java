@@ -33,8 +33,8 @@ public final class UserSessionProbe extends Instrumentation {
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
-  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula","formula-wrong","path-first").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula","formula-wrong","path-first","mixed").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -99,6 +99,7 @@ public final class UserSessionProbe extends Instrumentation {
 
   String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":lesson.equals("aerospace")?"hardcoded_sessions/duoaero/aerospace_lesson.json":"hardcoded_sessions/duoaero/aerospace_rich_lesson.json";
   if(lesson.equals("aerospace-formula"))lessonAsset="hardcoded_sessions/duoaero/aerospace_formula_lesson.json";
+  if(lesson.equals("aerospace-mixed"))lessonAsset="hardcoded_sessions/duoaero/aerospace_mixed_lesson.json";
   report.append("Lesson input: ").append(lessonAsset).append('\n');
   Object params=Class.forName("com.duolingo.data.session.start.SessionStartParams$Hardcoded",true,loader)
    .getConstructor(String.class,boolean.class).newInstance(lessonAsset,false);
@@ -157,6 +158,7 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
+  if(interaction.equals("mixed"))report.append(SessionInteraction.mixedAnswers(this));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
   else if(interaction.startsWith("formula"))report.append(SessionInteraction.formulaAnswers(this,current,interaction.equals("formula-wrong")));
   else if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,current,interaction.equals("math-wrong")));

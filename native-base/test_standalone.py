@@ -79,7 +79,15 @@ try:
         tap(tree,text=answer)
         tree=wait_for('standalone-selected-'+str(i),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
         tap(tree,'com.duolingo:id/submitButton')
-        tree=wait_for('standalone-graded-'+str(i),lambda t:any(n.get('text','').strip() in positive for n in t.iter('node')),30)
+        # The final correct ribbon renders its lettering inside Rive, which
+        # exposes no text node. Its original graded action is CONTINUE; a wrong
+        # answer exposes GOT IT. Require the current answer card as well so a
+        # between-question celebration cannot satisfy this observation.
+        def correct_feedback(t):
+            labels={n.get('text','').strip().casefold() for n in t.iter('node')}
+            current=any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node'))
+            return current and 'continue' in labels and 'got it' not in labels
+        tree=wait_for('standalone-graded-'+str(i),correct_feedback,30)
         tap(tree,text='CONTINUE')
     tree=wait_for('standalone-complete',lambda t:any(n.get('text','').strip()=='CLAIM XP' for n in t.iter('node')),60)
     tap(tree,text='CLAIM XP')
