@@ -495,3 +495,27 @@ DELIVERY CHECKLIST FOR THE NEXT AGENT
 9. Upload signed completed APK with exact source commit and evidence. Clearly
    distinguish verified behavior, static asset preservation and pending work.
 Do not report completion just because source or a diagnostic APK was uploaded.
+
+2026-11-01 FOLLOW-UP: DOTTED LESSON IDENTIFIERS
+Run 41325556810 completed all 20 original first-Atmosphere questions, but the
+test failed to press a visible Claim XP button because that Rive screen did not
+expose the assumed accessibility ID. More importantly, its logs showed repeated
+503 responses for PUT /2017-06-30/sessions/2.1-5-point-0-lesson-0. The local
+session route, storage, resume and mistake import only accepted identifiers
+without dots. 75 of 79 lesson IDs contain dots. Commit a174b850 fixes the shared
+filename validator and route, retaining catalog checks and rejecting traversal;
+the local Java check passed all 79 IDs and unsafe names. The Claim XP test now
+uses OCR on the visible button, without assuming a particular Rive view ID.
+Run 41327606485 (source eb93c423) includes the real Atmosphere scenario, and
+candidate run 41327606501 builds that source. Review their final results and
+the evidence, including whether the next lesson opens before and after restart.
+Do not infer progress acceptance from the earlier model or bank checks.
+The working computer disconnected before the new run completed. The only public
+APK remains 1.3.3; no 1.3.4 signed update has been published. The earlier 1.3.4
+unsigned candidate and signing receipt for 8afaa91 are obsolete after this fix.
+Approval review blocked moving youtube-calma/main to signer workflow commit
+109125462ad66784f9fce9b2cd2235bb14bd2a79 because that workflow accesses the
+permanent keystore. Explicit user approval is needed before re-requesting it.
+A screenshot from 41325556810 also shows an original Duo with Snoopy in its
+eyes on the completion screen, and overflowing summary statistics; these are
+not fixed. Other previously listed acceptance gaps remain.
