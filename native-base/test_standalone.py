@@ -22,7 +22,14 @@ def adb(*args):
 def capture(name):
     (OUT/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
     adb('shell','rm','-f','/sdcard/duoaero-standalone.xml')
-    dump=adb('shell','uiautomator','dump','/sdcard/duoaero-standalone.xml')
+    try:
+        dump=adb('shell','timeout','20','uiautomator','dump','/sdcard/duoaero-standalone.xml')
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as error:
+        # Animated original views can prevent Android's idle condition. Keep
+        # the fresh screenshot for visual inspection; no missing tree passes.
+        with (OUT/'standalone-capture-retries.txt').open('a') as log:
+            log.write(str(error)+'\n')
+        return None
     result=subprocess.run(['adb','exec-out','cat','/sdcard/duoaero-standalone.xml'],capture_output=True,timeout=30)
     xml=result.stdout
     try:
