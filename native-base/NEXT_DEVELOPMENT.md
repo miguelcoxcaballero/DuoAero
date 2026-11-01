@@ -5,7 +5,7 @@
 An experimental branch teaches three wind/time formulas before the first
 tailwind calculation and splits six related round-trip problems into two
 short numerical questions. Host checks cover the arithmetic, lesson sizes,
-formula prerequisites and stable lesson IDs. Run 41352937662 tests the new
+formula prerequisites and stable lesson IDs. Run 41353227644 tests the new
 formula blocks and one split problem through the original Android controller;
 until it succeeds, the screen rendering, block selection and native grading
 remain unverified. The change is not part of the signed 1.3.6 APK. Two
