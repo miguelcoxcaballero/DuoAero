@@ -13,6 +13,7 @@ final class NativeRewards {
  static synchronized void observe(Application app){
   if(observing)return;observing=true;
   app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks(){
+   final java.util.Set<android.app.Activity> displayed=java.util.Collections.newSetFromMap(new java.util.WeakHashMap<android.app.Activity,Boolean>());
    public void onActivityResumed(android.app.Activity activity){
     if(!NativeCourseBridge.hasLocalCourse()||activity.getClass().getName().contains("SessionActivity"))return;
     if(activity.getClass().getName().equals("com.duolingo.home.path.PathChestRewardActivity")){
@@ -20,7 +21,15 @@ final class NativeRewards {
       Object viewModel=activity.getClass().getMethod("v").invoke(activity);
       Object reward=Class.forName("com.duolingo.core.rewards.RewardsServiceReward$CurrencyReward",true,activity.getClassLoader())
        .getConstructor(String.class,int.class,boolean.class).newInstance("duoaero-path-gems",NativeChestRewards.GEMS,false);
-      NativeChestRewards.claim(viewModel,reward);
+      if(displayed.add(activity) && NativeChestRewards.claim(viewModel,reward)){
+       // The original reward activity can render a blank frame even after the
+       // award succeeds. Keep that activity and show a visible confirmation.
+       android.app.AlertDialog dialog=new android.app.AlertDialog.Builder(activity)
+        .setTitle("Chest opened!").setMessage("+25 gems")
+        .setPositiveButton("CONTINUE",(d,which)->activity.finish()).create();
+       dialog.setCancelable(false);
+       dialog.show();
+      }
      }catch(Exception error){android.util.Log.e("DuoAeroNative","Cannot record path chest opening",error);}
     }
     refresh(app,false);

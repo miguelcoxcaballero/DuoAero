@@ -437,6 +437,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    except NotImplementedError: continue
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted
+ # Preserve earned chests from every node in 1.3.3 after regrouping.
+ legacy_chests, prerequisites = {}, []
+ for node in json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig')):
+  prerequisites.extend(lesson['id'] for lesson in node['lessons'])
+  legacy_chests[stable_id('chest', node['id'])] = list(prerequisites)
+ out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; runtime navigation and completion require separate acceptance.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:

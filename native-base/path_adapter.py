@@ -21,7 +21,21 @@ def build_path(plan, bank):
     if len(by_id) != len(bank):
         raise ValueError('Duplicate source question IDs')
     units, lessons, used = [], {}, []
+    topic_names = {'1':'1 · Aerospace industry', '2.1':'2.1 · Atmosphere',
+                   '2.2':'2.2 · Aircraft design', '2.3':'2.3 · Structures',
+                   '2.4':'2.4 · Aerodynamics', '2.5':'2.5 · Propulsion',
+                   '2.6':'2.6 · Aircraft systems'}
+    seen_topics = set()
+    absolute_index = 0
     for index, node in enumerate(plan):
+        topic = node['topic']
+        if not units or units[-1]['topic'] != topic:
+            if topic in seen_topics:
+                raise ValueError('Topic nodes must be contiguous: ' + topic)
+            seen_topics.add(topic)
+            units.append({'unitIndex': len(units), 'topic': topic, 'levels': [],
+                          'teachingObjective': topic_names.get(topic, topic)})
+        unit_index = len(units) - 1
         node_lessons = node['lessons']
         if not 1 <= len(node_lessons) <= 3:
             raise ValueError(f"Invalid lesson count for {node['id']}")
@@ -40,7 +54,7 @@ def build_path(plan, bank):
             lessons[lesson['id']] = {
                 'name': lesson['name'], 'questionIds': list(ids),
                 'nodeId': node['id'], 'nativeLevelId': level_id,
-                'nativeSkillId': skill_id, 'unitIndex': index,
+                'nativeSkillId': skill_id, 'unitIndex': unit_index,
             }
         level = {
             'id': level_id, 'state': 'active' if index == 0 else 'locked',
@@ -50,23 +64,30 @@ def build_path(plan, bank):
                 'sessionMetadatas': metadata,
                 'practiceSessionMetadatas': metadata,
             },
-            'pathLevelMetadata': {'unitIndex': index, 'skillId': skill_id},
+            'pathLevelMetadata': {'unitIndex': unit_index, 'skillId': skill_id},
             'pathLevelSessionMetadata': {}, 'hasLevelReview': True,
             'debugName': node['name'], 'isInProgressSequence': True,
             'type': 'math_skill', 'subtype': 'regular',
-            'absoluteNodeIndex': index * 2,
+            'absoluteNodeIndex': absolute_index,
         }
-        chest = {
-            'id': stable_id('chest', node['id']), 'state': 'locked',
-            'finishedSessions': 0, 'totalSessions': 1,
-            'pathLevelClientData': {},
-            'pathLevelMetadata': {'unitIndex': index, 'anchorSkillId': skill_id, 'indexSinceAnchorSkill': 0},
-            'pathLevelSessionMetadata': {}, 'hasLevelReview': False,
-            'debugName': 'Aerospace gems', 'isInProgressSequence': True,
-            'type': 'chest', 'subtype': 'chest', 'absoluteNodeIndex': index * 2 + 1,
-        }
-        units.append({'unitIndex': index, 'levels': [level, chest],
-                      'teachingObjective': node['name']})
+        units[-1]['levels'].append(level)
+        absolute_index += 1
+        # One chest at the end of each large topic. Reuse the old last-node
+        # chest ID so previously claimed rewards remain claimed.
+        if index + 1 == len(plan) or plan[index + 1]['topic'] != topic:
+            chest = {
+                'id': stable_id('chest', node['id']), 'state': 'locked',
+                'finishedSessions': 0, 'totalSessions': 1,
+                'pathLevelClientData': {},
+                'pathLevelMetadata': {'unitIndex': unit_index, 'anchorSkillId': skill_id, 'indexSinceAnchorSkill': 0},
+                'pathLevelSessionMetadata': {}, 'hasLevelReview': False,
+                'debugName': 'Aerospace gems', 'isInProgressSequence': True,
+                'type': 'chest', 'subtype': 'chest', 'absoluteNodeIndex': absolute_index,
+            }
+            units[-1]['levels'].append(chest)
+            absolute_index += 1
+    for unit in units:
+        del unit['topic']
     if len(used) != len(set(used)) or set(used) != set(by_id):
         raise ValueError('The path must cover every bank question exactly once')
     summary = {

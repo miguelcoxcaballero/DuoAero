@@ -81,10 +81,11 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|chests|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
+          python native-base/test_path_structure.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
@@ -216,6 +217,9 @@ jobs:
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ ${{ runner.temp }}/duoaero-evidence/google-files || true
               adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/google-logcat.txt
               python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google-restart.txt').read_text()"
+              ;;
+            sections)
+              python native-base/test_sections.py
               ;;
             chests)
               python native-base/test_chests.py

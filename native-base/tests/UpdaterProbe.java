@@ -32,7 +32,7 @@ public final class UpdaterProbe extends Instrumentation {
    boolean home=false;
    for(int attempt=0;attempt<90;attempt++){
     AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
-    if(root!=null)try{home=contains(root,"Aerospace activities / Aerospace infrastructure")||contains(root,"Midterm 1");}finally{root.recycle();}
+    if(root!=null)try{home=contains(root,"1 · Aerospace industry")||contains(root,"Midterm 1");}finally{root.recycle();}
     if(home)break;Thread.sleep(1000);
    }
    if(!home)throw new IllegalStateException("Original home did not initialize before settings");

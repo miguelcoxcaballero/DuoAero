@@ -86,12 +86,17 @@ public final class AccountProgressProbe extends Instrumentation {
     section=new JSONObject(bytes.toString("UTF-8"));
    }
    JSONArray levels=section.getJSONArray("units").getJSONObject(0).getJSONArray("levels");
-   String chestId=levels.getJSONObject(1).getString("id");
+   String chestId=levels.getJSONObject(levels.length()-1).getString("id");
    Class<?> chest=Class.forName("com.duoaero.nativebase.NativeChestRewards",true,loader);
    Method mergeChest=chest.getDeclaredMethod("merge",Application.class,JSONObject.class);mergeChest.setAccessible(true);
    JSONObject claim=new JSONObject().put(chestId,100);
    check(Boolean.FALSE.equals(mergeChest.invoke(null,app,claim)));
-   JSONArray metadata=levels.getJSONObject(0).getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas");
+   JSONArray metadata=new JSONArray();
+   for(int k=0;k<levels.length();k++){
+    JSONObject level=levels.getJSONObject(k);if("chest".equals(level.optString("type")))continue;
+    JSONArray entries=level.getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas");
+    for(int j=0;j<entries.length();j++)metadata.put(entries.getJSONObject(j));
+   }
    JSONObject completionSet=new JSONObject();
    for(int i=0;i<metadata.length();i++){
     String id=metadata.getJSONObject(i).getString("id");JSONArray sourceQuestions=catalog.getJSONObject(id).getJSONArray("challenges"),submitted=new JSONArray();

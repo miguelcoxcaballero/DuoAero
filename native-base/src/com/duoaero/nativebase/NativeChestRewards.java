@@ -33,6 +33,14 @@ public final class NativeChestRewards {
     for(int k=0;k<lessons.length();k++)prerequisites&=complete.contains(lessons.getJSONObject(k).getString("id"));
    }
   }
+  // A previous release placed a chest after every node. Existing claims
+  // remain eligible and count toward the balance after regrouping.
+  JSONObject legacy=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-chest-requirements.json"));
+  for(Iterator<String> keys=legacy.keys();keys.hasNext();){
+   String id=keys.next();JSONArray required=legacy.getJSONArray(id);boolean valid=true;
+   for(int k=0;k<required.length();k++)if(!complete.contains(required.getString(k))){valid=false;break;}
+   if(valid)eligible.add(id);
+  }
   return eligible;
  }
  static synchronized boolean merge(Application app,JSONObject incoming)throws Exception {
