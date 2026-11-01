@@ -2,15 +2,24 @@
   "schemaVersion": 1,
   "channel": "A",
   "latest": {
-    "version": "1.2.0",
-    "versionCode": 10200,
-    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.2.0/DuoAero-1.2.0.apk",
-    "apkSha256": "71721ab3471cfa129065fd81d32289c2cf3921afabce9828e54115a6595ad9d6",
-    "apkSizeBytes": 255813862,
-    "changelog": "Original lesson UI, sound and dark mode",
-    "releasedAt": "2026-10-31T20:07:48+00:00"
+    "version": "1.3.0",
+    "versionCode": 10300,
+    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.0/DuoAero-1.3.0.apk",
+    "apkSha256": "c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a",
+    "apkSizeBytes": 181355670,
+    "changelog": "Original runtime; intermittent lesson-end hangs under investigation",
+    "releasedAt": "2026-11-01T07:07:31+00:00"
   },
   "releases": [
+    {
+      "version": "1.3.0",
+      "versionCode": 10300,
+      "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.0/DuoAero-1.3.0.apk",
+      "apkSha256": "c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a",
+      "apkSizeBytes": 181355670,
+      "changelog": "Original runtime; intermittent lesson-end hangs under investigation",
+      "releasedAt": "2026-11-01T07:07:31+00:00"
+    },
     {
       "version": "1.2.0",
       "versionCode": 10200,

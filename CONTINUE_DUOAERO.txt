@@ -1,18 +1,45 @@
-CURRENT CONTINUATION (2026-11-01, newer than historical notes below)
-Work remains on codex/original-runtime-integration. Requested final destination
-is main, with a completed signed APK. No production release is ready.
-Verified in run 41270695058: cold launcher reaches original Aerospace path,
-19 correct native answers, Claim XP, visible return home, completion retained
-after process restart and second lesson opened through original node. Native
-LaTeX one-slot correct/incorrect and five-slot formula grading pass. Multi-select,
-matching and both word gaps pass native UI. 1,200 native models decode.
-All eight mixed exercises pass run 41271559987; long ordered blocks fit the
-original adaptive bank. Run 41272211484 passes full midlesson resume, completion,
-visible return, process restart and lesson two. Run 41271938006 passes actual
-wrong-answer persistence and original end-of-lesson correction. Separate review
-entry, Google/Drive, mascot, full course/device QA and production release remain.
-Canonical updater integration is compiled; host/installer acceptance is pending.
-No production release is ready; main has not been updated.
+CURRENT CONTINUATION (2026-11-01; supersedes historical notes)
+The signed original-runtime APK is published as development prerelease v1.3.0:
+https://github.com/miguelcoxcaballero/DuoAero/releases/tag/v1.3.0
+Direct APK: https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.0/DuoAero-1.3.0.apk
+Package com.duoaero, versionCode10300, source57bc939b7d1bbd1d355bb1aa8b3e8396e76decc9.
+SHA256 c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a.
+Permanent signer run41282164568 (youtube-calma); publication run41283310732.
+This is NOT a finished implementation of every requirement. Keep release_ready
+false. Source/catalog promotion to main accompanies this continuation update.
+
+Latest device evidence: 41282225042 standalone AND resume PASS: actual original
+answers, Claim XP, visible path, persisted completion, force-stop/restart and
+lesson two. No ANR in either repeat. However, prior run41281331062 standalone
+and resume both showed real Android ANRs at Claim XP/return. Unchanged runtime
+passed the repeats; those failures have NOT been diagnosed or declared fixed.
+The failed run lacked full thread traces. Subsequent workflow captures /data/anr,
+but both subsequent runs passed and therefore produced no failing ANR trace.
+The 41281331062 mistakes/review/night-large scenarios pass. Night-large covers
+questions/summary/Claim XP; latest post-Claim screenshot is original splash,
+not independently verified return to the path.
+
+Exact production APK: 41282627153 PASS fresh install and update over1.2.0,
+actual1.3.0/10300, Google-only original welcome before/after process restart.
+No real Google account is used. Google/Drive authenticated acceptance remains.
+Cross-lesson review: 41280541777 and41281331062 PASS actual mistake, restart,
+original profile/settings entry, native correction/completion and restart,
+without falsely completing the course lesson. All18 formulas and8 mixed
+exercises pass. Actual header model hlt displays43topic names;79lessons total.
+
+Remaining: intermittent completion ANR investigation; real Google consent,
+Drive round trip/account switching; complete course/layout/editorial audit;
+full in-app Snoopy replacement (launcher only is done); corresponding web;
+canonical updater download/cancel/retry/install and physical-device audio/
+haptic QA. The original in-app birds remain. Do not call this all finished.
+
+Publication mechanics: authenticated local gh can create tags/releases via API
+but upload-host credentials fail401. Workflow GITHUB_TOKEN can upload exact
+artifacts to existing releases but create-release returns403. Precreate the
+reviewed release with gh, then use native-publish with pinned artifact/source/
+hash. The workflow retains only byte-identical existing assets, never replaces
+binaries or metadata. New publications go to A; B remains unchanged. Signing
+key stays in the authorized signer. Only textbook title/pages may be public.
 
 DUOAERO: PROMPT AND TECHNICAL HANDOFF FOR THE NEXT AGENT
 Snapshot: 2026-10-31, Europe/Madrid

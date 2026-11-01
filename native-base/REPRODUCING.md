@@ -696,3 +696,53 @@ storage restart. Real Google/Drive acceptance remains open. The launcher now
 uses the existing Snoopy artwork, unchanged, with Android adaptive-icon padding.
 Only its resource file reference and adaptive XML change; all existing resource
 IDs remain intact. This is not a replacement of the in-app Rive mascots.
+
+### Current signed candidate and unresolved completion ANR (2026-11-01)
+
+Run `41280541777` passes actual cross-lesson mistake review through the original
+profile gear and SettingsActivity, correct native grading/completion, process
+restart, and durable correction without falsely completing the course lesson.
+The anonymous original gear is selected from the visible upper-right control;
+the driver requires the actual SettingsActivity before it continues.
+
+Run `41281331062` at `ebc5c2f` repeats successful mistakes, review and night-large
+scenarios. **Standalone and resume fail with an actual Android ANR at Claim XP
+and return home.** The resumed original summary renders, but Android reports an
+input dispatch timeout. No crash stack was included in the earlier dumpsys
+snapshot. Run `41282225042` now preserves `/data/anr` to diagnose the blocking
+thread. Earlier passing runs do not resolve this current failure.
+
+The actual inline header model is `hlt`, rendered by `x13`/`ol3`; its original
+text input now receives the Aerospace unit title. Run `41280266240` Google
+screenshots show correct sticky and inline names, including wrapping long names.
+The obsolete experimental header hooks were removed. Layout/controllers remain
+original. The course has 43 named nodes and 79 lessons.
+
+Production candidate build `41281377904`, source `d667cb7`, binds 188 tracked
+inputs. Its unsigned SHA-256 is
+`4e301fa5107aa93980c081e23f81051be5db08b02322a6d3df9db18a7ecf5fa8`.
+The permanent signer run `41282164568` checks receipt commit `57bc939b`, then
+signs `com.duoaero` 1.3.0/10300. Signed SHA-256:
+`c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a`.
+Local apksigner verifies the permanent certificate. This establishes artifact
+identity, not runtime acceptance. `native-release-device.yml` tests exact signed
+bytes for fresh install/upgrade/welcome separately; it does not authenticate a
+real Google account. No signed release/main promotion is accepted yet.
+
+### Published development candidate and later repeat results
+
+Run `41282225042` passes BOTH standalone and resume with unchanged runtime.
+Each result checks actual answers, Claim XP, visible original path, durable
+completion, restart and next lesson. Both ANR snapshots report none. This does
+not establish a fix for the prior run's ANRs; no failing thread trace was
+produced in the repeat. Keep the historical failures visible.
+
+Run `41282627153` passes exact permanently signed production bytes: install over
+1.2.0 and fresh, PackageManager confirms 1.3.0/10300, original Google welcome
+before/after restart in both cases. No crash/ANR occurred in this install check.
+This does not authenticate Google or test Drive. Publication run `41283310732`
+uploads the exact signed APK to development prerelease `v1.3.0`.
+
+The latest night-large post-Claim screenshot is original splash, not the path.
+Its passing grading/layout/effects checks must not be expanded into a claim of
+visible home return. Standalone/resume have their own explicit return assertions.
