@@ -3917,7 +3917,95 @@
       "answer_basis": "Derived from aerospace principles; extracted formatting does not retain an official answer key."
     },
     "difficulty_rubric": "Combine equations, derive an optimum, or integrate a differential relation.",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "rich_text": {
+      "stem": [
+        {
+          "text": "For "
+        },
+        {
+          "latex": "T=T_0e^{-Kh}"
+        },
+        {
+          "text": ", constant gravity "
+        },
+        {
+          "latex": "g"
+        },
+        {
+          "text": " and ideal gas constant "
+        },
+        {
+          "latex": "R"
+        },
+        {
+          "text": ", use "
+        },
+        {
+          "latex": "h"
+        },
+        {
+          "text": " in metres and "
+        },
+        {
+          "latex": "K"
+        },
+        {
+          "text": " in "
+        },
+        {
+          "latex": "\\mathrm{m}^{-1}"
+        },
+        {
+          "text": ". What is "
+        },
+        {
+          "latex": "p(h)"
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "options": [
+        [
+          {
+            "latex": "p_0 e^{-\\frac{g(e^{Kh}-1)}{RT_0K}}"
+          }
+        ],
+        [
+          {
+            "latex": "p_0 e^{-\\frac{gh}{RT_0}}"
+          }
+        ],
+        [
+          {
+            "latex": "p_0 e^{\\frac{g(e^{Kh}-1)}{RT_0K}}"
+          }
+        ],
+        [
+          {
+            "latex": "p_0e^{-Kh}"
+          }
+        ]
+      ],
+      "explanation": [
+        {
+          "text": "Integrating "
+        },
+        {
+          "latex": "\\frac{dp}{p}=-\\frac{g e^{Kh}}{RT_0}\\,dh"
+        },
+        {
+          "text": " gives the stated pressure. Density is "
+        },
+        {
+          "latex": "\\rho=\\rho_0 e^{Kh-\\frac{g(e^{Kh}-1)}{RT_0K}}"
+        },
+        {
+          "text": ". If altitude is in kilometres, convert it to metres."
+        }
+      ]
+    }
   },
   {
     "id": "EX-2021-10-28-3b",

@@ -1,5 +1,6 @@
 """Validate generated grading against every selection, including empty/multiple."""
 import json
+import math
 from pathlib import Path
 import subprocess
 from rich_question import choice_blob, content
@@ -25,6 +26,17 @@ assert 'p_base' not in isa_blob['shirt']['value']
 assert isa['options'][isa['answer']] == '10 kPa'
 assert 20 * 0.50 == 10
 assert content(isa['rich_text']['explanation'], isa['explanation']) == r'p=20\times0.50=10\,\mathrm{kPa}'
+# Independently check the altitude-dependent question against hydrostatic
+# balance and the ideal-gas relation at a non-zero altitude.
+varying = next(q for q in bank if q['id'] == 'EX-2021-10-28-3a')
+assert varying['answer'] == 0
+assert all('exp[' not in content(parts, '') for parts in varying['rich_text']['options'])
+g, gas_constant, temperature0, k, altitude = 9.81, 287.0, 288.0, 2e-5, 2000.0
+pressure = lambda h: math.exp(-g * math.expm1(k*h) / (gas_constant*temperature0*k))
+step = .01
+derivative = (math.log(pressure(altitude+step))-math.log(pressure(altitude-step)))/(2*step)
+assert math.isclose(pressure(0), 1.0)
+assert math.isclose(derivative, -g/(gas_constant*temperature0*math.exp(-k*altitude)), rel_tol=1e-8)
 
 from formula_exercises import formula_challenge, prototypes
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:

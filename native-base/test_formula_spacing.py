@@ -10,10 +10,11 @@ im=Image.open(p/'aerospace-formula-selected-2.png').convert('RGB')
 # Native MathLatexView has no accessibility bounds, so identify visible ink
 # in the slot's row. The slot itself and all labels above/below are excluded.
 ink=[]
+background=im.getpixel((10,(y1+y2)//2))
 for y in range(max(0,y1-25),min(im.height,y2+25)):
  for x in range(10,max(10,x1-3)):
-  r,g,b=im.getpixel((x,y))
-  if max(r,g,b)<170 or (b>130 and b>r*1.35 and g>r*1.15):ink.append(x)
+  pixel=im.getpixel((x,y))
+  if sum(abs(a-b) for a,b in zip(pixel,background))>100:ink.append(x)
 assert ink,'No visible formula found next to the slot'
 gap=x1-max(ink)
 assert gap<=im.width*.09, f'Excessive formula-to-slot gap: {gap}px of {im.width}px'
