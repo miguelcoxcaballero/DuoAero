@@ -4,11 +4,13 @@ import zipfile
 import xml.etree.ElementTree as ET
 import subprocess
 import difflib
+import os
 
 from runtime_config import WORK, APK, tool
 from resource_extension import updater_paths
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex'}
-with zipfile.ZipFile(APK) as original, zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as built:
+target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base-test.apk')))
+with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     checked = 0
     for entry in original.infolist():
         name = entry.filename
@@ -24,6 +26,12 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(WORK/'DuoAero-native-base
     assert built.read('resources.arsc') == table
     assert resource_id == 0x7f160016
     assert 'assets/duoaero/licenses/NotoSansMath-OFL.txt' in built.namelist()
+    badging=subprocess.check_output([str(tool('aapt2')),'dump','badging',str(target)],text=True)
+    if "package: name='com.duoaero' " in badging:
+        assert 'assets/duoaero/google-required' in built.namelist()
+        assert 'assets/duoaero/standalone-bootstrap' in built.namelist()
+        assert 'application-debuggable' not in badging
+        assert built.read('assets/shared/auth/inhouse-auth-functions.js') == (Path(__file__).resolve().parents[1]/'shared/auth/inhouse-auth-functions.js').read_bytes()
 A = '{http://schemas.android.com/apk/res/android}'
 manifest = ET.parse(WORK/'AndroidManifest.xml').getroot()
 assert manifest.find('application').get(A+'name') == 'com.duolingo.core.DuoApp'
@@ -37,7 +45,7 @@ assert provider.find('meta-data').get(A+'resource') == '@xml/inhouse_update_path
 def resources(apk):
     return subprocess.check_output([str(tool('aapt2')), 'dump', 'resources', str(apk)], text=True).splitlines()
 before = resources(APK)
-after = resources(WORK/'DuoAero-native-base-test.apk')
+after = resources(target)
 changes = list(difflib.ndiff(before, after))
 removed = [line[2:] for line in changes if line.startswith('- ')]
 added = [line[2:] for line in changes if line.startswith('+ ')]

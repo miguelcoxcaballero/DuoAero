@@ -23,7 +23,7 @@ public final class UpdaterProbe extends Instrumentation {
    Context context=getTargetContext();ClassLoader loader=context.getClassLoader();
    // LaunchActivity performs original process/home initialization that a
    // direct internal SettingsActivity intent does not perform.
-   context.startActivity(context.getPackageManager().getLaunchIntentForPackage(context.getPackageName()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+   Activity homeActivity=startActivitySync(new Intent().setClassName(context.getPackageName(),"com.duolingo.splash.LaunchActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
    boolean home=false;
    for(int attempt=0;attempt<90;attempt++){
     AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
@@ -31,6 +31,14 @@ public final class UpdaterProbe extends Instrumentation {
     if(home)break;Thread.sleep(1000);
    }
    if(!home)throw new IllegalStateException("Original home did not initialize before settings");
+   runOnMainSync(()->{
+    android.view.View tab=homeActivity.findViewById(homeActivity.getResources().getIdentifier("tabProfile","id","com.duolingo"));
+    if(tab==null||!tab.performClick())throw new IllegalStateException("Original profile tab missing");
+   });
+   Thread.sleep(10000);
+   SessionScreen.capture(this,"profile-observation","profile-observation");
+   try(SessionDependencies dependencies=SessionDependencies.profile(homeActivity)){Thread.sleep(5000);report.append(dependencies.report());}
+   catch(Exception observation){report.append("Profile observation unavailable: ").append(observation.getClass().getSimpleName()).append('\n');}
    Activity settings=startActivitySync(new Intent().setClassName(context.getPackageName(),"com.duolingo.settings.SettingsActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
    boolean found=false;
    for(int attempt=0;attempt<60;attempt++){

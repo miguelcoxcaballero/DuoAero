@@ -11,6 +11,28 @@ final class SessionDependencies implements AutoCloseable {
  private final List<String> names = new ArrayList<>();
  private final Map<String,String> states = new ConcurrentHashMap<>();
  private SessionDependencies(ClassLoader classLoader){loader=classLoader;}
+ static SessionDependencies profile(android.app.Activity activity)throws Exception {
+  SessionDependencies result=new SessionDependencies(activity.getClassLoader());
+  try{
+   Object fragment=findFragment(activity.getClass().getMethod("getSupportFragmentManager").invoke(activity),"com.duolingo.profile.ProfileFragment",0);
+   if(fragment==null)throw new IllegalStateException("Original profile fragment missing");
+   Object holder=field(fragment,"j"),vm=holder.getClass().getMethod("getValue").invoke(holder);
+   Class<?> observable=Class.forName("ohf",true,result.loader);
+   for(Field item:vm.getClass().getFields())if(!Modifier.isStatic(item.getModifiers())&&observable.isAssignableFrom(item.getType())){
+    Object value=item.get(vm);if(value!=null)result.observeRx("profile."+item.getName(),value);
+   }
+   return result;
+  }catch(Exception error){result.close();throw error;}
+ }
+ private static Object findFragment(Object manager,String name,int depth)throws Exception {
+  if(depth>10)return null;
+  Object store=field(manager,"c");
+  for(Object fragment:(List<?>)store.getClass().getMethod("f").invoke(store)){
+   if(fragment.getClass().getName().equals(name))return fragment;
+   Object found=findFragment(fragment.getClass().getMethod("getChildFragmentManager").invoke(fragment),name,depth+1);if(found!=null)return found;
+  }
+  return null;
+ }
  static SessionDependencies named(android.app.Activity activity)throws Exception {
   SessionDependencies result=new SessionDependencies(activity.getClassLoader());
   try{

@@ -251,8 +251,9 @@
     "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
     "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
     "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending.",
-    "google_drive": "Native host compiled; six OAuth/Drive host checks pass. Run 41274982620 passes 15 synthetic Android account-storage checks; job falsely fails because am instrument hides Boolean Bundle results when stream is present, so explicit stream markers added. Real Google/Drive acceptance pending.",
+    "google_drive": "15 synthetic Android storage checks pass in run 41274982620; six JS auth/Drive tests pass. Real Google welcome is inside LaunchActivity, so its actual introFlow buttons are now adapted. Original process-name guard updated to installed package: its PID-based secondary WebView directory otherwise loses OAuth storage on restart. Original routing and persistent WebView probe pending; no real OAuth acceptance.",
     "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step.",
-    "settings": "Run 41274982620 screenshot shows original Settings with APP UPDATES, REVIEW MISTAKES, GOOGLE DRIVE, SWITCH GOOGLE ACCOUNT. Original native component uppercases text; test selector corrected. Updater opening/provider and review completion remain pending."
+    "settings": "Run 41274982620 screenshot shows original Settings with APP UPDATES, REVIEW MISTAKES, GOOGLE DRIVE, SWITCH GOOGLE ACCOUNT. Original native component uppercases text; test selector corrected. Updater opening/provider and review completion remain pending.",
+    "review": "Review data/controller implemented with persistent active-review identity. Actual UI run 41274982620 blocks on original Profile tab loading before settings. New probe observes original profile Rx dependencies; direct Settings controls are visible, not sufficient proof of usable navigation."
   }
 }

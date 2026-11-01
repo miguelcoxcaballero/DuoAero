@@ -198,9 +198,11 @@ jobs:
           case "$DIAGNOSTIC_SCENARIO" in
             google)
               timeout 300 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > ${{ runner.temp }}/duoaero-evidence/google.txt
+              adb shell am force-stop com.duoaero.nativebase
+              timeout 150 adb shell am instrument -w -e restart true com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > ${{ runner.temp }}/duoaero-evidence/google-restart.txt
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ ${{ runner.temp }}/duoaero-evidence/google-files || true
               adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/google-logcat.txt
-              python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text()"
+              python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google-restart.txt').read_text()"
               ;;
             accounts)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt
@@ -208,6 +210,8 @@ jobs:
               ;;
             updater)
               timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UpdaterProbe > ${{ runner.temp }}/duoaero-evidence/updater.txt
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.png ${{ runner.temp }}/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.json ${{ runner.temp }}/duoaero-evidence/ || true
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.png ${{ runner.temp }}/duoaero-evidence/ || true
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.json ${{ runner.temp }}/duoaero-evidence/ || true
               adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/updater-logcat.txt

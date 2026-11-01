@@ -167,7 +167,9 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
   if(web.getParent()!=null)((ViewGroup)web.getParent()).removeView(web);
   View root=activity.findViewById(android.R.id.content);if(root instanceof ViewGroup)((ViewGroup)root).addView(web,new ViewGroup.LayoutParams(1,1));
   web.onResume();
-  if(NativeAccountStore.required(app)&&NativeAccountStore.current(app).isEmpty()&&activity.getClass().getName().equals("com.duolingo.onboarding.WelcomeFlowActivity")){
+  String screen=activity.getClass().getName();
+  if(NativeAccountStore.required(app)&&NativeAccountStore.current(app).isEmpty()
+    &&(screen.equals("com.duolingo.onboarding.WelcomeFlowActivity")||screen.equals("com.duolingo.splash.LaunchActivity"))){
    ViewTreeObserver.OnGlobalLayoutListener listener=()->welcome(activity);
    if(!welcomeObservers.containsKey(activity)){welcomeObservers.put(activity,listener);activity.getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(listener);}
    welcome(activity);
@@ -177,8 +179,10 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
   if(!NativeAccountStore.current(app).isEmpty())return;
   int primaryId=app.getResources().getIdentifier("primaryButton","id","com.duolingo");
   View button=activity.findViewById(primaryId);
+  if(button==null)button=activity.findViewById(app.getResources().getIdentifier("introFlowNewUserButton","id","com.duolingo"));
   if(button instanceof TextView){TextView text=(TextView)button;if(!"CONTINUE WITH GOOGLE".contentEquals(text.getText()))text.setText("CONTINUE WITH GOOGLE");button.setEnabled(true);button.setOnClickListener(view->connect(activity));}
   int secondaryId=app.getResources().getIdentifier("secondaryButton","id","com.duolingo");View secondary=activity.findViewById(secondaryId);
+  if(secondary==null)secondary=activity.findViewById(app.getResources().getIdentifier("introFlowLoginButton","id","com.duolingo"));
   if(secondary!=null&&secondary.getVisibility()!=View.GONE)secondary.setVisibility(View.GONE);
  }
  public void onActivityPaused(Activity activity){if(foreground.get()==activity)web.onPause();}

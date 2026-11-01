@@ -74,6 +74,11 @@ package_original=package_source.read_bytes()
 package_text=package_original.decode('utf-8').replace('\r\n','\n')
 package_anchor='    const-string v2, "com.duolingo"\n\n    invoke-virtual {v1, v2, v12}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;'
 assert package_text.count(package_anchor)==1
+web_process_source=SMALI/'smali/vy.smali'
+web_process_original=web_process_source.read_bytes()
+web_process_text=web_process_original.decode('utf-8').replace('\r\n','\n')
+web_process_anchor='    const-string v0, "com.duolingo"\n\n    invoke-static {p0, v0}, Lszk;->i(Ljava/lang/Object;Ljava/lang/Object;)Z'
+assert web_process_text.count(web_process_anchor)==1
 latex_source=SMALI/'smali/com/duolingo/data/math/challenge/model/domain/c.smali'
 latex_original=latex_source.read_bytes()
 latex_text=latex_original.decode('utf-8').replace('\r\n','\n')
@@ -102,6 +107,9 @@ runtime_log_anchor='.method public final f(Lcom/duolingo/core/log/LogOwner;ILjav
 assert runtime_log_text.count(runtime_log_anchor)==1
 runtime_log_hook=runtime_log_anchor+'\n\n    invoke-static {p1, p2, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportRuntimeFailure(Ljava/lang/Object;ILjava/lang/Throwable;)V'
 try:
+ # The original secondary-process WebView suffix includes the PID. Recognize
+ # our actual main process so OAuth storage survives a process restart.
+ web_process_source.write_text(web_process_text.replace(web_process_anchor,web_process_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  runtime_log_source.write_text(runtime_log_text.replace(runtime_log_anchor,runtime_log_hook),encoding='utf-8')
  bootstrap_source.write_text(bootstrap_text.replace(bootstrap_anchor,bootstrap_hook),encoding='utf-8')
  latex_source.write_text(latex_text.replace(latex_anchor,latex_hook+latex_anchor),encoding='utf-8')
@@ -110,6 +118,7 @@ try:
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ web_process_source.write_bytes(web_process_original)
  runtime_log_source.write_bytes(runtime_log_original)
  bootstrap_source.write_bytes(bootstrap_original)
  latex_source.write_bytes(latex_original)
