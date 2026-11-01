@@ -174,7 +174,7 @@ jobs:
                   done
                 done
               fi
-              for phase in $(seq 0 19) prompt-1 prompt-2 prompt-3 prompt-scrolled after-last-answer after-end-observation after-claim-xp; do
+              for phase in $(seq 0 19) $(printf 'prompt-%s ' $(seq 0 19)) prompt-scrolled after-last-answer after-end-observation after-claim-xp; do
                 case "$phase" in
                   after-*|prompt-*) probe_file="lesson-$phase" ;;
                   *) probe_file="lesson-answer-$phase" ;;

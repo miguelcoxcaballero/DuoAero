@@ -34,7 +34,7 @@ final class SessionInteraction {
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
-   Thread.sleep(1800);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
+   Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
    if(kind.equals("multi")){
     org.json.JSONArray answer=q.getJSONArray("answer"),options=q.getJSONArray("options");
     for(int j=0;j<answer.length();j++){click(test,null,options.getString(answer.getInt(j)));Thread.sleep(300);}
@@ -265,6 +265,7 @@ final class SessionInteraction {
  private static void clickLast(Instrumentation test,String text)throws Exception {
   AccessibilityNodeInfo node=null;
   for(int attempt=0;attempt<18&&node==null;attempt++){
+   dismissPixelLauncherAnr(test);
    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
    if(root!=null)try{
     node=findLast(root,text,0);
@@ -276,6 +277,38 @@ final class SessionInteraction {
   try{for(int i=0;i<8&&!node.isClickable();i++){AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;}
    if(!own(node)||!node.isEnabled()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
   }finally{node.recycle();}
+ }
+ /** The hosted emulator occasionally shows an ANR for its Pixel Launcher
+  * over the test app after a resolution change. Dismiss only that exact
+  * system dialog; never dismiss an ANR belonging to DuoAero. */
+ private static void dismissPixelLauncherAnr(Instrumentation test)throws Exception {
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)return;
+  try{
+   java.util.List<AccessibilityNodeInfo> labels=root.findAccessibilityNodeInfosByText("Pixel Launcher isn't responding");
+   boolean launcher=false;
+   for(AccessibilityNodeInfo label:labels){
+    if("Pixel Launcher isn't responding".contentEquals(label.getText()==null?"":label.getText()))launcher=true;
+    label.recycle();
+   }
+   if(!launcher)return;
+   java.util.List<AccessibilityNodeInfo> buttons=root.findAccessibilityNodeInfosByText("Close app");
+   for(AccessibilityNodeInfo button:buttons){
+    try{
+     if(!"Close app".contentEquals(button.getText()==null?"":button.getText()))continue;
+     AccessibilityNodeInfo current=AccessibilityNodeInfo.obtain(button);
+     try{
+      for(int depth=0;depth<5&&!current.isClickable();depth++){
+       AccessibilityNodeInfo parent=current.getParent();if(parent==null)break;
+       current.recycle();current=parent;
+      }
+      if(current.isClickable()&&current.performAction(AccessibilityNodeInfo.ACTION_CLICK)){
+       android.util.Log.i("DuoAeroProbe","Dismissed emulator Pixel Launcher ANR");Thread.sleep(700);break;
+      }
+     }finally{current.recycle();}
+    }finally{button.recycle();}
+   }
+  }finally{root.recycle();}
  }
  private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
   if(depth>50||!own(node))return false;
