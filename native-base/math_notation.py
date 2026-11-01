@@ -21,7 +21,8 @@ _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
-    r'exp\([A-Za-z0-9+*./-]+\)'
+    r'(?:rho[012]?|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'|exp\([A-Za-z0-9+*./-]+\)'
     r'|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
@@ -33,6 +34,13 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    assignment = re.fullmatch(r'(rho[012]?|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
+    if assignment:
+        rhs = assignment.group(2)
+        scientific = re.fullmatch(r'(.+)[eE]([+-]?\d+)', rhs)
+        if scientific:
+            rhs = scientific.group(1) + r'\times 10^{' + str(int(scientific.group(2))) + '}'
+        return symbol(assignment.group(1)) + '=' + rhs
     numeric = re.fullmatch(r'(rho|p|T|g|V)([012])', value)
     if numeric:
         return GREEK.get(numeric.group(1), numeric.group(1)) + '_{' + numeric.group(2) + '}'

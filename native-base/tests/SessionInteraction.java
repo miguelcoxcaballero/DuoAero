@@ -183,7 +183,7 @@ final class SessionInteraction {
     if(attempt%10==9&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(checkRichLayout&&(question.getString("id").matches("TA1-(0148|0397-D2(-S1)?|0182-F1|0232|0753-D3|0832-D3)")||question.getString("id").equals("TH-2026-OTHER-1")))SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
+   if(checkRichLayout&&(question.getString("id").matches("TA1-(0148|0397-D2(-S1)?|0107-D2|0182-F1|0232|0753-D3|0832-D3)")||question.getString("id").equals("TH-2026-OTHER-1")))SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
    if(checkRichLayout&&question.getString("id").equals("TA1-0148")){
     // This fixture alone carries the experimental native hint. Capture the
     // opened sheet before Check; the production bank does not enable it yet.

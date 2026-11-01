@@ -12,6 +12,12 @@ assert notation_parts('At V0, g0 and rho1') == [
 assert notation_parts('p0 and T0 at RE') == [
     {'latex': r'p_{0}'}, {'text': ' and '}, {'latex': r'T_{0}'},
     {'text': ' at '}, {'latex': r'R_{E}'}]
+assert notation_parts('M=1 at V = 190 m/s') == [
+    {'latex': 'M=1'}, {'text': ' at '}, {'latex': 'V=190'}, {'text': ' m/s'}]
+assert notation_parts('g0=9.80665 and E=7e+10 Pa') == [
+    {'latex': 'g_{0}=9.80665'}, {'text': ' and '}, {'latex': r'E=7\times 10^{10}'}, {'text': ' Pa'}]
+assert not any('latex' in p for p in notation_parts('k=1/(pi e AR)')) or not any(
+    p.get('latex') == 'k=1' for p in notation_parts('k=1/(pi e AR)'))
 
 root = Path(__file__).resolve().parents[1]
 bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
