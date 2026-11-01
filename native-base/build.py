@@ -36,6 +36,17 @@ try:
  run(java('javac'),'-cp',APKTOOL,'-d',WORK,ROOT/'native-base/AssembleDex.java')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes4',WORK/'classes4.dex')
 finally:p.write_bytes(old)
+# Retain original named dependency flows for opt-in synthetic diagnostics.
+# The hook records references only; it never changes an emission or result.
+flow_source=SMALI/'smali/g9q.smali'
+flow_original=flow_source.read_bytes()
+flow_text=flow_original.decode('utf-8').replace('\r\n','\n')
+flow_anchor='    iput-object p1, p0, Lg9q;->b:Lqdf;'
+assert flow_text.count(flow_anchor)==1
+try:
+ flow_source.write_text(flow_text.replace(flow_anchor,flow_anchor+'\n\n    invoke-static {p1, p2}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordFlow(Ljava/lang/Object;Ljava/lang/String;)V'),encoding='utf-8')
+ run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
+finally:flow_source.write_bytes(flow_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
@@ -43,6 +54,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  for entry in base.infolist():
   n=entry.filename
   if n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
+  elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
   elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')

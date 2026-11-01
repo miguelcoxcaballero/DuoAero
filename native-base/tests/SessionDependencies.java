@@ -22,6 +22,8 @@ final class SessionDependencies implements AutoCloseable {
   Method getter=fragment.getClass().getDeclaredMethod("getViewModel");getter.setAccessible(true);
   Object vm=getter.invoke(fragment),dispatcher=field(vm,"z");
   try{
+   Map<?,?> named=(Map<?,?>)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticFlows").invoke(null);
+   for(Map.Entry<?,?> entry:named.entrySet())result.observe("end.named."+entry.getKey(),entry.getValue(),dispatcher);
    result.observe("end.configure-args",field(field(vm,"W0"),"a"),dispatcher);
    Object sequence=field(vm,"Y0");
    result.observe("end.sequence-state",field(sequence,"h"),dispatcher);

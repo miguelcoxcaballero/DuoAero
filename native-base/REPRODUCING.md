@@ -307,3 +307,30 @@ choices, and wraps sessions as MATH_LESSON with a skill ID. Five gap/order items
 remain explicit unsupported errors. CI regenerates 1195 fixtures and checks them
 with the original serializer; that model check remains distinct from UI grading.
 ModelProbe blocks network before original Application.onCreate for isolation.
+
+
+## Config comparison and completion dependency tracing (2026-11-01)
+
+Run 41258147892 (ce5db0207d601c8e33b022c9e311b8356cd96303) passed the
+regenerated 1195 Math-typed model fixtures and the 15 original CORRECT states.
+Default Config was already emitting before the explicit native cache write.
+Writing Config did not unblock the splash or final loading dots. The final
+accessibility tree contains sessionEndViewPager: SessionEndFragment is present,
+but no completed summary is visible. No progress persistence is established.
+
+The next probes observe original SessionEndConfigureArgs, sequence state,
+existing repository flows, onboarding completion and saved accounts. A separate
+comparison also writes the synthetic User through the original FIRST_PERSON
+resource (f990 -> py8 -> native cache), feeding existing cache observers.
+This does not implement real authentication or a standalone app bootstrap.
+
+The opt-in named-flow hook in g9q records bounded references to original qdf
+inputs, only when localOnly and captureNativeFlows are both true. It never
+changes emissions or grades. The added hook intentionally changes classes.dex;
+classes4.dex still contains the original OkHttp bridge hook. All other original
+DEX files and screens remain covered by integrity verification. Observing cold
+flows may activate them; this is diagnostic collection, not a passive trace.
+
+REA (https://github.com/morluto/rea), suggested by the user, is being evaluated
+locally for Android reference tracing. It uses JADX; static reference results
+are not runtime acceptance. No external REA service receives the APK.

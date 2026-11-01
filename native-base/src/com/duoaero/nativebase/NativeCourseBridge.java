@@ -9,6 +9,14 @@ import java.util.*;
 /** Development-only schema probe. Never reads or records authentication headers. */
 public final class NativeCourseBridge {
  public static volatile boolean localOnly = false;
+ public static volatile boolean captureNativeFlows = false;
+ private static final Map<String,Object> namedFlows=new LinkedHashMap<>();
+ public static synchronized void recordFlow(Object flow,String name){
+  if(!localOnly||!captureNativeFlows||flow==null||name==null||!name.matches("[A-Za-z][A-Za-z0-9_.-]{0,100}"))return;
+  if(namedFlows.containsKey(name)||namedFlows.size()<256)namedFlows.put(name,flow);
+ }
+ public static synchronized Map<String,Object> diagnosticFlows(){return new LinkedHashMap<>(namedFlows);}
+
  public static volatile boolean captureLocalRequests = false;
  private static final Map<String,Integer> localRequests = new LinkedHashMap<>();
  public static synchronized String diagnosticRequests(){return localRequests.toString();}
