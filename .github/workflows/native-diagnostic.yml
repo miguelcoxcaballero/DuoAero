@@ -111,8 +111,11 @@ jobs:
               fi
             fi
             if [ "$probe_interact" = math-all ]; then
-              for phase in $(seq 0 14) after-last-answer; do
-                if [ "$phase" = after-last-answer ]; then probe_file=lesson-after-last-answer; else probe_file="lesson-answer-$phase"; fi
+              for phase in $(seq 0 14) after-last-answer after-end-observation; do
+                case "$phase" in
+                  after-*) probe_file="lesson-$phase" ;;
+                  *) probe_file="lesson-answer-$phase" ;;
+                esac
                 for extension in png json; do
                   adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$probe_file.$extension" "/tmp/duoaero-evidence/$probe_file.$extension" || true
                 done

@@ -66,6 +66,9 @@ final class SessionDependencies implements AutoCloseable {
    Object fragment=manager.getClass().getMethod("F",String.class).invoke(manager,"launch_fragment");
    if(fragment!=null){
     Object vm=fragment.getClass().getMethod("w").invoke(fragment);
+    Object navigationStarted=field(vm,"P");
+    result.names.add("home.navigation-started");
+    result.states.put("home.navigation-started",navigationStarted instanceof Boolean?navigationStarted.toString():navigationStarted.getClass().getName());
     for(String name:new String[]{"K","L","N","S","V"})result.observe("home.launch."+name,field(vm,name),dispatcher);
     Object config=field(vm,"i");
     for(String name:new String[]{"q","r","u","v"})result.observe("home.config."+name,field(config,name),dispatcher);
@@ -202,9 +205,9 @@ final class SessionDependencies implements AutoCloseable {
  private Object consumer(Class<?> type,String name,boolean error) {
   return Proxy.newProxyInstance(loader,new Class[]{type},(proxy,method,args)->{
    if(method.getName().equals("accept")) {
-    // Report classes and Boolean values: no account data, payloads, URLs or tokens.
+    // Report classes, Booleans and enum constants, never account data or tokens.
     Object value=args[0];
-    states.put(name,(error?"ERROR ":"EMITTED ")+(value==null?"null":value.getClass().getName())+(value instanceof Boolean?"="+value:""));
+    states.put(name,(error?"ERROR ":"EMITTED ")+(value==null?"null":value.getClass().getName())+(value instanceof Boolean?"="+value:value instanceof Enum?"="+((Enum<?>)value).name():""));
     return null;
    }
    if(method.getName().equals("toString"))return "Session dependency observer: "+name;

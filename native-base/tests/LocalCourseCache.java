@@ -62,6 +62,9 @@ final class LocalCourseCache {
  }
  static void write(ClassLoader loader,Object cache,Object resource,Object model)throws Exception {
   Object operation=Class.forName("nrx",true,loader).getMethod("t",Object.class).invoke(resource,model);
+  apply(loader,cache,operation);
+ }
+ static void apply(ClassLoader loader,Object cache,Object operation)throws Exception {
   Object completion=cache.getClass().getMethod("x0",Class.forName("e490",true,loader)).invoke(cache,operation);
   Class<?> observerType=Class.forName("fp7",true,loader);
   CountDownLatch done=new CountDownLatch(1);

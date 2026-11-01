@@ -56,6 +56,17 @@ final class LocalProfileSetup {
    .invoke(resourceFactory,userId,category.getField("FIRST_PERSON").get(null),null);
   Object cache=repository.getClass().getField("p").get(repository);
   LocalCourseCache.write(loader,cache,resource,user);
+  // Use the original pure login-state reducer and its native cache wrappers.
+  // Existing observers of chc.a must see the same isolated identity as bxn.c.
+  // This is synthetic state input, not authentication with a real account.
+  Class<?> reducerType=Class.forName("qqh",true,loader);
+  Class<?> operationType=Class.forName("e490",true,loader);
+  Object reducer=Class.forName("ygc",true,loader)
+   .getConstructor(Class.forName("vwn",true,loader),int.class).newInstance(loginState,0);
+  Object operation=Class.forName("d490",true,loader).getConstructor(reducerType).newInstance(reducer);
+  Constructor<?> wrap=Class.forName("b490",true,loader).getConstructor(operationType,int.class);
+  operation=wrap.newInstance(wrap.newInstance(operation,0),1);
+  LocalCourseCache.apply(loader,cache,operation);
   // A new account has a known zero-day lifetime streak, not the all-null
   // "unavailable" UserStreak sentinel rejected by original loader c4x.A.
   Class<?> lifetimeType=Class.forName("com.duolingo.data.streak.StreakData$LifetimeStreak",true,loader);

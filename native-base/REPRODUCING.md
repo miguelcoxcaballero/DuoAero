@@ -349,3 +349,11 @@ Choice/multi/matching adapters now carry difficulty stars; missing U+2605/U+2606
 font outlines are added from the existing OFL donor. All previous font mappings
 remain intact. Build/integrity and 48 JS grading cases pass; visible stars and
 end behavior must still be checked on the emulator.
+
+The next startup comparison also feeds synthetic qwn identity through the
+original ygc case-0 pure reducer, wrapped by d490/b490 into the native cache.
+This updates existing observers of chc.a as well as the diagnostic lazy holder;
+it is not real authentication. Source inspection distinguishes this reducer
+from ygc case 1, which performs login/logout side effects. The probe reports
+launch navigation state and enum names, and captures the final screen again
+after observing session-end inputs. Runtime result remains pending.

@@ -135,6 +135,7 @@ public final class UserSessionProbe extends Instrumentation {
    try(SessionDependencies dependencies=SessionDependencies.end(this,current)){
     Thread.sleep(5000);report.append(dependencies.report());
    }
+   SessionScreen.capture(this,"lesson-after-end-observation","lesson-after-end-observation");
   }
   if(captureHome){
    runOnMainSync(current::finish);
