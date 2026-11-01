@@ -536,3 +536,20 @@ The only public SIGNED APK remains 1.3.3. The blocked signer workflow change
 still needs explicit user approval, and real Drive, updater installation,
 physical device feedback, complete mascot replacement, summary clipping and
 all-lesson coverage remain unverified or unfinished.
+
+2026-11-01 FOLLOW-UP: 1.3.4 SIGNED DEVELOPMENT RELEASE
+The user authorized the security-sensitive signer workflow update. Signer run
+41329707404 signed source receipt 9fbb1dd5ac6b74d24edd20e920e24c0c5231400c
+using the permanent certificate. Exact signed SHA-256:
+3c33dd60beda6301dbbe19110640717bbe885edbb7d529d577b24e8051d444a9
+Production smoke run 41329851995 installed this exact APK over 1.3.3 and fresh,
+then checked the welcome screen before and after restarts; this does not prove
+real OAuth, Drive, the in-app updater installation, or physical-device output.
+The first Atmosphere lesson's end-to-end progress check passed in run
+41327606485 with earlier units seeded. The synthetic Google gate/encrypted
+storage check passed on retry. The signed APK is published as development
+prerelease v1.3.4 and channel A points to it; B remains unchanged. The user
+must choose development channel A if the default B is selected.
+Still incomplete: a celebration shows Duo and clipped statistics; emotion-
+specific mascot assets, broader course/layout coverage, actual Drive sync,
+updater download/install, and physical feedback remain unverified.
