@@ -54,8 +54,10 @@ try:
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait_for('standalone-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')) and any('Midterm 1' in n.get('text','') for n in t.iter('node')))
     tap(tree,'com.duolingo:id/oval')
-    tree=wait_for('standalone-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),30)
-    tap(tree,'com.duolingo:id/learnButton')
+    # Original onboarding may start the first lesson directly from the node.
+    # Accept either native navigation route, then require the actual question.
+    tree=wait_for('standalone-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' or 'Low delivery times.' in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+    if any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in tree.iter('node')):tap(tree,'com.duolingo:id/learnButton')
     tree=wait_for('standalone-question',lambda t:any('Low delivery times.' in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
     (OUT/'standalone-first-question-result.txt').write_text('PASS: cold start, original home, named node, first question. No completion or persistence asserted.\n')
     # Use independently authored source answers and real touch input. Never

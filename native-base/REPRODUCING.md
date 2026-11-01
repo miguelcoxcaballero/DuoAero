@@ -489,3 +489,11 @@ original path. It still does not claim restart persistence. An earlier standalon
 CI job failed before running the app because SDK installation exceeded disk
 quota. Hosted runners now remove their unused duplicate Android SDK before
 installing this workflow's pinned toolchain.
+
+Run 41268267850 cold-start screenshots verify original home and first Aerospace
+question from the installed standalone APK, with no instrumentation/profile
+injection by the driver. The original first-node onboarding starts directly,
+skipping the expected learnButton popup. The assertion failed on that absent
+intermediate control even though the question was visible. The driver now
+accepts either native route and still requires the actual question. This does
+not establish answer grading, completion, persistent progress or release readiness.
