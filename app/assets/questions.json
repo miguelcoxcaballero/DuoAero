@@ -16113,7 +16113,7 @@
       },
       {
         "id": "TA1-0078-D2-F2", "type": "formula_blocks",
-        "stem": "Complete the fuel fraction formula",
+        "stem": "If r is the remaining mass fraction, complete the fuel fraction formula",
         "prefix": "\\frac{m_{\\mathrm{fuel}}}{m_i} =", "blocks": ["1-r", "r", "1+r", "r²"], "answer_blocks": ["1-r"],
         "formula_latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
         "explanation": "The burned fuel fraction is one minus the remaining mass fraction r."
