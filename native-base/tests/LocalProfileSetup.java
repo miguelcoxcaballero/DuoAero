@@ -47,6 +47,14 @@ final class LocalProfileSetup {
    throw new UnsupportedOperationException(method.getName());
   });
   Field loginField=loginRepository.getClass().getField("c");loginField.setAccessible(true);loginField.set(loginRepository,loginHolder);
+  // Feed the original first-person cache too. Existing observers may have
+  // captured repository flows before the diagnostic lazy holders were replaced.
+  Object resourceFactory=repository.getClass().getField("r").get(repository);
+  Class<?> category=Class.forName("com.duolingo.core.data.ProfileUserCategory",true,loader);
+  Object resource=resourceFactory.getClass().getMethod("a",userId.getClass(),category,Class.forName("rbb",true,loader))
+   .invoke(resourceFactory,userId,category.getField("FIRST_PERSON").get(null),null);
+  Object cache=repository.getClass().getField("p").get(repository);
+  LocalCourseCache.write(loader,cache,resource,user);
   if(defaultExperiments){
    LocalExperimentProfile.install(component,userId,loader);
   }
