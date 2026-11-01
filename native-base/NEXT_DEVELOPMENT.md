@@ -1,7 +1,7 @@
 # Development after the 1.3.5 preview
 
 This branch is experimental and is not represented by the 1.3.5 release APK.
-Do not publish it as a finished product. It has 67 authored hints, including
+Do not publish it as a finished product. It has 69 authored hints, including
 TA1-0148; the rest of the calculations still need reviewed hints and
 prerequisite formula-block questions. Only the TA1-0148 hint has been verified
 in the actual course on Android. Many long problems and math expressions still
@@ -21,9 +21,15 @@ require review.
   `lesson-answer-7.png` show the individual steps. This is a diagnostic lesson,
   not a full course test.
 * Four formula-block prerequisites and corresponding hints have since been
-  inserted before those Mach calculations. Host validation confirms lesson
-  length and ordering; this new sequence has not yet passed an Android lesson
-  or progress-migration test.
+  inserted before those Mach calculations. Run 41343794820 graded all four
+  blocks correctly, and run 41343977624 graded a diagnostic mixed sequence
+  including the alternating Mach formula/calculation steps. A hint/retry
+  diagnostic reached the repeated question but its locator failed; a corrected
+  driver has been queued. Real-account progress migration remains unverified.
+* TA1-0078-D2 has been split into two short calculations, each preceded by a
+  formula-block exercise. Its arithmetic, prerequisites, stable lesson ID and
+  maximum lesson size pass host checks. Android interaction and the migration
+  of a real account are not yet verified.
 * Device run 41339958992 completed its normal progression test, but its
   `standalone-celebration-00.png` through `-05.png` show the generic doghouse
   Snoopy, despite the new buff-character Rive artboard preview working in
