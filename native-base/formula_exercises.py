@@ -27,7 +27,7 @@ def math_latex(value):
     # Formula components are mathematical terms, never arbitrary HTML/JS.
     symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',
                '½': r'\frac{1}{2}', '²': '^2', '³': '^3', '×': r'\times ',
-               '÷': r'\div ', '−': '-', 'α': r'\alpha ', 'η': r'\eta '}
+               '÷': r'\div ', '−': '-', 'α': r'\alpha ', 'η': r'\eta ', 'γ': r'\gamma '}
     return r'\textstyle ' + ''.join(symbols.get(c, c) for c in value)
 
 
@@ -108,6 +108,12 @@ if __name__ == '__main__':
     questions = prototypes()
     bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
     questions.extend(q for q in bank if q['type'] == 'formula_blocks')
+    for question in bank:
+        for step in question.get('lesson_steps',[]):
+            if step.get('type') == 'formula_blocks':
+                part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text')}
+                part.update(step)
+                questions.append(part)
     session = {'id': 'duoaero_formula_blocks_diagnostic', 'type': 'MATH_LESSON',
                'fromLanguage': 'en', 'skillId': 'duoaero_aerospace_diagnostic',
                'levelIndex': 0, 'levelSessionIndex': 0,

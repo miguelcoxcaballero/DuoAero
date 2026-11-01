@@ -15686,7 +15686,15 @@
     "type": "choice",
     "lesson_steps": [
       {
+        "id": "TA1-0107-D2-F1", "type": "formula_blocks",
+        "stem": "Complete the kinetic temperature rise formula",
+        "prefix": "ΔT = (1 / (2 c_p))", "blocks": ["V²", "V", "T", "V³"], "answer_blocks": ["V²"],
+        "formula_latex": "\\Delta T=\\frac{V^2}{2c_p}",
+        "explanation": "Kinetic temperature rise equals V² divided by twice the specific heat."
+      },
+      {
         "id": "TA1-0107-D2-S1",
+        "formula_hint": {"latex": "\\Delta T=\\frac{V^2}{2c_p}", "prerequisite": "TA1-0107-D2-F1"},
         "stem": "At V=190 m/s and cp=1004.5 J/(kg K), what is the kinetic temperature rise V²/(2cp)?",
         "options": ["17.97 K", "35.94 K", "9.46 K", "190 K"],
         "answer": 0,
@@ -15694,14 +15702,30 @@
         "rich_text": {"stem": [{"text": "At "}, {"latex": "V=190\\,\\mathrm{m/s}"}, {"text": " and "}, {"latex": "c_p=1004.5\\,\\mathrm{J/(kg\\,K)}"}, {"text": ", what is the kinetic temperature rise "}, {"latex": "\\frac{V^2}{2c_p}"}, {"text": "?"}]}
       },
       {
+        "id": "TA1-0107-D2-F2", "type": "formula_blocks",
+        "stem": "Complete the static temperature formula",
+        "prefix": "T = T_t -", "blocks": ["ΔT", "T_t", "V", "R"], "answer_blocks": ["ΔT"],
+        "formula_latex": "T=T_t-\\Delta T",
+        "explanation": "Subtract the kinetic temperature rise from total temperature."
+      },
+      {
         "id": "TA1-0107-D2-S2",
+        "formula_hint": {"latex": "T=T_t-\\Delta T", "prerequisite": "TA1-0107-D2-F2"},
         "stem": "Total temperature is 280 K and the kinetic temperature rise is 17.97 K. What is the static temperature?",
         "options": ["262.03 K", "297.97 K", "280 K", "17.97 K"],
         "answer": 0,
         "explanation": "280 − 17.97 = 262.03 K."
       },
       {
+        "id": "TA1-0107-D2-F3", "type": "formula_blocks",
+        "stem": "Complete the speed of sound formula",
+        "prefix": "a² = γ R", "blocks": ["T", "V", "p", "T²"], "answer_blocks": ["T"],
+        "formula_latex": "a^2=\\gamma RT",
+        "explanation": "Sound speed squared equals gamma times the gas constant times static temperature."
+      },
+      {
         "id": "TA1-0107-D2-S3",
+        "formula_hint": {"latex": "a=\\sqrt{\\gamma RT}", "prerequisite": "TA1-0107-D2-F3"},
         "stem": "For T=262.03 K, γ=1.4 and R=287 J/(kg K), find the speed of sound a=√(γRT).",
         "options": ["324.47 m/s", "340.00 m/s", "190.00 m/s", "649.00 m/s"],
         "answer": 0,
@@ -15709,7 +15733,15 @@
         "rich_text": {"stem": [{"text": "For "}, {"latex": "T=262.03\\,\\mathrm{K}"}, {"text": ", "}, {"latex": "\\gamma=1.4"}, {"text": " and "}, {"latex": "R=287\\,\\mathrm{J/(kg\\,K)}"}, {"text": ", find the speed of sound "}, {"latex": "a=\\sqrt{\\gamma RT}"}, {"text": "."}]}
       },
       {
+        "id": "TA1-0107-D2-F4", "type": "formula_blocks",
+        "stem": "Complete the Mach number formula",
+        "prefix": "M = V /", "blocks": ["a", "T", "R", "V"], "answer_blocks": ["a"],
+        "formula_latex": "M=\\frac{V}{a}",
+        "explanation": "Mach number is airspeed divided by the local speed of sound."
+      },
+      {
         "id": "TA1-0107-D2",
+        "formula_hint": {"latex": "M=\\frac{V}{a}", "prerequisite": "TA1-0107-D2-F4"},
         "stem": "The airspeed is 190 m/s and the speed of sound is 324.47 m/s. What is the Mach number?",
         "options": ["0.58556", "1.70774", "0.55882", "0.34000"],
         "answer": 0,

@@ -1,6 +1,8 @@
 from pathlib import Path
-import json,collections
+import json,collections,sys
 root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root/'native-base'))
+from course_adapter import lesson_questions
 bank=json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 nodes=json.loads((root/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
 assert len(bank)==1200
@@ -21,22 +23,25 @@ for q in bank:
 assert sum(q['topic']=='2.6' for q in bank)==24
 assigned=[]
 by_id={q['id']:q for q in bank}
-seen=set()
+seen={}
 for node in nodes:
  assert 1<=len(node['lessons'])<=3
  for lesson in node['lessons']:
   assert 10<=len(lesson['ids'])<=20
-  expanded=[step['id'] for qid in lesson['ids'] for step in (by_id[qid].get('lesson_steps') or [by_id[qid]])]
-  assert 10<=len(expanded)<=20 and len(expanded)==len(set(expanded))
-  for qid in lesson['ids']:
-   hint=by_id[qid].get('formula_hint')
+  expanded=lesson_questions([by_id[qid] for qid in lesson['ids']])
+  expanded_ids=[q['id'] for q in expanded]
+  assert 10<=len(expanded)<=20 and len(expanded)==len(set(expanded_ids))
+  for question in expanded:
+   qid=question['id']
+   assert qid not in seen, ('duplicate expanded id',qid)
+   hint=question.get('formula_hint')
    if hint:
-    assert by_id[qid]['type']=='choice' and isinstance(hint.get('latex'),str) and hint['latex'].strip()
+    assert question['type']=='choice' and isinstance(hint.get('latex'),str) and hint['latex'].strip()
     prerequisites=[hint.get('prerequisite')]+hint.get('additional_prerequisites',[])
     assert len(prerequisites)==len(set(prerequisites)), (qid,prerequisites)
     for prerequisite in prerequisites:
-     assert prerequisite in seen and by_id[prerequisite]['type']=='formula_blocks', (qid,prerequisite)
-   seen.add(qid)
+     assert seen.get(prerequisite)=='formula_blocks', (qid,prerequisite)
+   seen[qid]=question['type']
   assigned+=lesson['ids']
 assert collections.Counter(assigned)==collections.Counter(ids)
 print('PASS: 1200 questions, 400/level, 106 exams, 21 reflections, all sources and full path coverage')

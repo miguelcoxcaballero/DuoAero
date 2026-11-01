@@ -24,6 +24,8 @@ with zipfile.ZipFile(W/'tests.apk','a') as z:
  from course_adapter import lesson_questions
  expanded_bank={part['id']:part for q in bank.values() for part in lesson_questions([q])}
  formula_questions=prototypes()+[q for q in bank.values() if q['type']=='formula_blocks']
+ formula_questions += [part for q in bank.values() if q.get('lesson_steps')
+                       for part in lesson_questions([q]) if part['type']=='formula_blocks']
  z.writestr('assets/formula-selections.json',json.dumps([{'id':q['id'],'tokens':q['answer_blocks']} for q in formula_questions]))
  selections=[]
  for challenge in lesson['challenges']:
