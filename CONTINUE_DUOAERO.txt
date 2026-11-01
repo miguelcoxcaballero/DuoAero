@@ -11,7 +11,9 @@ The normal completion screenshot from run 41322452477 reproduced two full
 overlapping mascots. The original Rive scene has a moving character layer and
 a separate sparkle-only instance of the same artboard. The build now hides
 only secondary Duo instances in that scene while preserving the moving ones;
-actual Android frames after this change remain unverified.
+run 41323886585 mistakes PASS includes six Android completion frames showing
+one moving Snoopy without the prior double outline. Other mascot emotions and
+actions still use generic replacement art and remain incomplete.
 The inline word-gap implementation composes native figures and token slots in
 a wrapping row. Run 41323278505 mixed PASS graded both gap exercises through
 the native controls; screenshots show the selected word in its sentence.
@@ -33,6 +35,10 @@ metadata and legacy chest eligibility are committed on the working branch.
 The pressure example is 10 kPa because the supplied e^(-X) is already 0.50.
 The more complex varying-temperature pressure is typeset and independently
 checked against hydrostatic balance; its device rendering remains unverified.
+Run 41324078042 mixed PASS covers both gap questions and eight native mixed
+exercise grades; screenshot OCR also confirms the sampled matching labels
+"Mass density" and "Dynamic pressure" no longer clip. This is not a full
+matching-bank, accessibility, night-mode or large-font audit.
 Main and the public APK remain v1.3.3; no new signed APK or release is claimed.
 The automatic approval review rejected moving youtube-calma/main to the
 prepared 1.3.4 signing workflow because it accesses the permanent keystore.
