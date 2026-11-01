@@ -169,15 +169,19 @@ def rive(data,name,png,width,height):
     determined=('determined',('Duo_LFG_Intro_Animation','Duo_LFG_IdleLoop'))
     overjoyed=('overjoyed',('ObsessedDuo_Intro_Animation','ObsessedDuo_IdleLoop'))
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
+    hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
              'duo_perfect_lfg_03':{'lc_character_artboard':determined},
              'duo_obsessed_02':{'lc_character_artboard':overjoyed},
              'duo_perfect_starry_eyed_03':{'lc_character_artboard':starry},
+             'duo_perfect_buff_03':{'lc_character_artboard':hero},
+             'lesson_complete_main_29':{'lc_character_artboard':hero},
              'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
                  '17_duo_perfect_jaw_drop_artboard':surprised,
                  '04_duo_lfg_artboard':determined,
                  '02_duo_obsessed_artboard':overjoyed,
+                 '00_duo_buff_artboard':hero,
                  '22_duo_perfect_starry_eyed_artboard':starry}}.get(name,{})
     all_frames=[];frame_sets={}
     if targets:
@@ -226,14 +230,19 @@ def rive(data,name,png,width,height):
         frames,_,_,timelines=frame_sets[art.get(4)]
         if animation.get(55) not in timelines:return
         duration=animation.get(57,60)
+        start=animation.get(60,0);end=animation.get(61,duration)
+        if animation.get(59)==1 and end>start:
+            # Fit an integral number of cycles into the native work area,
+            # including the 122-frame BuffDuo loop.
+            span=end-start;cycle=max(16,round(span/max(1,round(span/60))));phase=start
+        else:
+            cycle=60;phase=0
         for i in range(len(frames)):
             output.extend(encode(25,{51:counts[art.get(4)]+1+i}))
             output.extend(encode(26,{53:18}))
-            # The original idle timeline loops between frames 70 and 190:
-            # a 60-frame cycle repeats exactly at both ends of that range.
             for t in range(0,max(1,duration)):
-                current=((t-70)*len(frames)//60)%len(frames)
-                previous=((t-71)*len(frames)//60)%len(frames)
+                current=((t-phase)*len(frames)//cycle)%len(frames)
+                previous=((t-1-phase)*len(frames)//cycle)%len(frames)
                 if t==0 or current!=previous:
                     output.extend(encode(30,{67:t,70:1. if current==i else 0.}))
     for kind,values,raw in objects:
