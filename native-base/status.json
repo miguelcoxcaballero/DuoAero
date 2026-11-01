@@ -350,5 +350,26 @@
     "productionInstall": "PASS: exact signed APK installed over 1.3.3 and fresh, Google-only welcome visible before and after force-stop. No real OAuth, Drive, updater install or physical-device acceptance.",
     "google": "Synthetic gate and encrypted restart passed on retry; actual Google and Drive remain unverified.",
     "remaining": "Alternate completion still shows Duo with Snoopy in its eyes and clipped statistics; emotion-specific mascot, broad course/font/night coverage, real Google/Drive, updater installation, physical sound and haptics remain incomplete."
+  },
+  "v1_3_5_development": {
+    "release": "https://github.com/miguelcoxcaballero/DuoAero/releases/tag/v1.3.5",
+    "versionCode": 10305,
+    "source_commit": "68967fa24f435cbe11ce678d9160945ad8057a0f",
+    "apk_sha256": "60028260dcd2bdc697a60913217483e8c6412ace3bc215c04d806e9649bee482",
+    "signer_sha256": "7133a4b3e4b9f9c4d2fbbd38b7dd2d44c7b8d0d7d16568bfe3da74a09e7887b6",
+    "channel": "A",
+    "signed_production_smoke": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41337945305",
+    "runtime_diagnostics": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41336603710",
+    "tested": "Signed APK installed over 1.3.4 and clean, Google welcome before and after restart; separately, native diagnostic completed one lesson, retained progress/rewards after restart, and passed a gap alignment test at S24-like resolution.",
+    "not_yet_verified_or_complete": [
+      "physical Samsung behavior",
+      "all character/mascot animations and poses",
+      "all mathematical notation and long problems",
+      "formula hints, delayed wrong marking and end-of-lesson retry",
+      "real Google sign-in and Drive sync",
+      "in-app update installer on a phone",
+      "physical audio and haptics",
+      "complete course traversal"
+    ]
   }
 }

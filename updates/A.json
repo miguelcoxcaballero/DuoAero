@@ -2,15 +2,24 @@
   "schemaVersion": 1,
   "channel": "A",
   "latest": {
-    "version": "1.3.4",
-    "versionCode": 10304,
-    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.4/DuoAero-1.3.4.apk",
-    "apkSha256": "3c33dd60beda6301dbbe19110640717bbe885edbb7d529d577b24e8051d444a9",
-    "apkSizeBytes": 268118269,
-    "changelog": "Progreso de lecciones, fórmulas y cofres",
-    "releasedAt": "2026-11-01T17:13:17Z"
+    "version": "1.3.5",
+    "versionCode": 10305,
+    "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.5/DuoAero-1.3.5.apk",
+    "apkSha256": "60028260dcd2bdc697a60913217483e8c6412ace3bc215c04d806e9649bee482",
+    "apkSizeBytes": 292571567,
+    "changelog": "Huecos, fórmulas y animaciones",
+    "releasedAt": "2026-11-01T18:48:18+00:00"
   },
   "releases": [
+    {
+      "version": "1.3.5",
+      "versionCode": 10305,
+      "apkUrl": "https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.5/DuoAero-1.3.5.apk",
+      "apkSha256": "60028260dcd2bdc697a60913217483e8c6412ace3bc215c04d806e9649bee482",
+      "apkSizeBytes": 292571567,
+      "changelog": "Huecos, fórmulas y animaciones",
+      "releasedAt": "2026-11-01T18:48:18+00:00"
+    },
     {
       "version": "1.3.4",
       "versionCode": 10304,
