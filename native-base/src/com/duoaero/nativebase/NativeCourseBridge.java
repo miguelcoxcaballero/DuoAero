@@ -201,6 +201,16 @@ public final class NativeCourseBridge {
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=diagnosticProfile;}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT")){code=200;payload=asset(app,"duoaero/course/path-info.json");}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT/sections/DUOAERO_MIDTERM1")){code=200;payload=asset(app,"duoaero/course/section.json");}
+   else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_-]+")){
+    String sessionId=path.substring(path.lastIndexOf('/')+1);
+    JSONObject catalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
+    if(catalog.has(sessionId)){
+     JSONObject submission=requestJson(request);
+     NativeSessionStore.record(app,sessionId,submission);
+     code=200;
+     Log.i("DuoAeroNative","Native session submission durably stored: "+sessionId+"; field names="+submission.names());
+    }else code=404;
+   }
    else if(method.equals("POST")&&path.matches("/(?:[0-9-]+/)?sessions")){
     JSONObject input=requestJson(request);JSONObject index=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
     String selected=null;JSONObject metadata=input.optJSONObject("metadata");

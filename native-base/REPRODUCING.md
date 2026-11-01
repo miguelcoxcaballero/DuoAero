@@ -438,3 +438,14 @@ initializer now seeds only the native identity before DuoApp.onCreate, then seed
 course/configuration after original startup. The first-node instrumentation probe
 now attempts all questions and Claim XP through original controls, rather than
 asserting only that a first question appeared. This is not yet a passing result.
+
+Session submission storage: the local original-session route now acknowledges a
+known catalog lesson's PUT only after an AtomicFile write and read-back of the
+native submission in the diagnostic account namespace. This preserves the actual
+native result. It does not yet interpret course completion, update path responses,
+restore a partially answered session, or provide Google account isolation; none
+of those requirements is claimed by merely saving the request.
+
+Run 41266796994's path probe visibly opens its first Aerospace question through
+the original node and POST loader. The models process crashed in that path job;
+new immediate model/crash logs retain its cause before subsequent app launches.
