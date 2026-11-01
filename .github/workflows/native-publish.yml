@@ -25,7 +25,7 @@ jobs:
           from pathlib import Path
           r=json.loads(Path('.github/native-publish-request.json').read_text())
           assert r['mode'] in ('unsigned','signed')
-          assert r['version']=='1.3.5' and r['versionCode']==10305
+          assert r['version']=='1.3.6' and r['versionCode']==10306
           assert isinstance(r['artifactId'],int) and r['artifactId']>0
           assert re.fullmatch('[0-9a-f]{40}',r['sourceSha'])
           assert re.fullmatch('[0-9a-f]{64}',r['apkSha256'])
@@ -43,7 +43,7 @@ jobs:
           from pathlib import Path
           r=json.loads(Path('.github/native-publish-request.json').read_text())
           unsigned=r['mode']=='unsigned'
-          filename='DuoAero-1.3.5'+('-unsigned' if unsigned else '')+'.apk'
+          filename='DuoAero-1.3.6'+('-unsigned' if unsigned else '')+'.apk'
           allowed={filename,filename+'.idsig','build-info.json','release-input.json','SHA256SUMS.txt'}
           with zipfile.ZipFile('artifact.zip') as archive:
               assert set(archive.namelist())<=allowed,archive.namelist()
@@ -55,15 +55,15 @@ jobs:
           if unsigned:
               receipt=json.loads((folder/'release-input.json').read_text())
               assert receipt['sha256']==r['apkSha256'] and receipt['implementation']=='native-base'
-              tag='build-1.3.5'
-              title='Unsigned original-runtime candidate 1.3.5'
+              tag='build-1.3.6'
+              title='Unsigned original-runtime candidate 1.3.6'
               notes='Unsigned build input for the permanent signer. This is not an installable app or a completed release.\n'
           else:
-              assert info['version']=='1.3.5' and info['versionCode']==10305
+              assert info['version']=='1.3.6' and info['versionCode']==10306
               assert info['apkSha256']==r['apkSha256']
               assert info['signerSha256']=='7133a4b3e4b9f9c4d2fbbd38b7dd2d44c7b8d0d7d16568bfe3da74a09e7887b6'
-              tag='v1.3.5'
-              title='DuoAero 1.3.5 original runtime'
+              tag='v1.3.6'
+              title='DuoAero 1.3.6 original runtime'
               notes=Path('.github/native-release-notes.md').read_text()
           Path('publication-notes.md').write_text(notes)
           with open(os.environ['GITHUB_ENV'],'a') as output:
@@ -74,7 +74,7 @@ jobs:
         run: |
           tools="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
           "$tools/aapt2" dump badging "$APK" > publication-badging.txt
-          grep -q "package: name='com.duoaero' versionCode='10305' versionName='1.3.5'" publication-badging.txt
+          grep -q "package: name='com.duoaero' versionCode='10306' versionName='1.3.6'" publication-badging.txt
           ! grep -q application-debuggable publication-badging.txt
           if [ "$MODE" = signed ]; then
             "$tools/apksigner" verify --print-certs "$APK" > publication-signers.txt
