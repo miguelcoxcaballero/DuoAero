@@ -60,6 +60,13 @@ def mascot_name(name):
 def static_mood(name):
     """Select an authored pose only where the original name is unambiguous."""
     name=name.lower()
+    if name=='duo_radio_host_static_bea':return 'patty'
+    if name.startswith('practice_hub_duo_radio_'):
+        cast={'zari':'sally','falstaff':'charlie','junior':'linus','lily':'lucy',
+              'oscar':'schroeder','bea':'patty','lin':'marcie','vikram':'franklin',
+              'eddy':'pigpen','lucy':'woodstock'}
+        for original,replacement in cast.items():
+            if re.search(r'(^|_)'+original+r'(_|$)',name):return replacement
     if any(word in name for word in ('sad','cry','fail','noooo')):return None
     if any(word in name for word in ('jaw_drop','surprised','shocked','amaze')):return 'surprised'
     if any(word in name for word in ('flying','_fly','flight','plane')):return 'plane'

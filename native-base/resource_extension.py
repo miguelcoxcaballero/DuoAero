@@ -80,6 +80,16 @@ MOOD_SCENES = {
     'lovey': 'lovey/frame-00.png',
     'chef': 'chef/frame-00.png',
     'zen': 'zen/frame-00.png',
+    'sally': 'characters/sally/idle/frame-00.png',
+    'charlie': 'characters/charlie/idle/frame-00.png',
+    'linus': 'characters/linus/idle/frame-00.png',
+    'lucy': 'characters/lucy/idle/frame-00.png',
+    'schroeder': 'characters/schroeder/idle/frame-00.png',
+    'patty': 'characters/patty/idle/frame-00.png',
+    'marcie': 'characters/marcie/idle/frame-00.png',
+    'franklin': 'characters/franklin/idle/frame-00.png',
+    'pigpen': 'characters/pigpen/idle/frame-00.png',
+    'woodstock': 'characters/woodstock/idle/frame-00.png',
 }
 
 

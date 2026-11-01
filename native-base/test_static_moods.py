@@ -8,7 +8,10 @@ import zipfile
 
 for name,expected in {'duo_happy':'celebrate','duo_flying':'plane','duo_thinking':'think',
                       'jaw_drop_duo':'surprised','lovey_dovey_duo':'lovey',
-                      'foam_finger_duo':'foam','duo_breathe':'zen'}.items():
+                      'foam_finger_duo':'foam','duo_breathe':'zen',
+                      'practice_hub_duo_radio_falstaff_1':'charlie',
+                      'practice_hub_duo_radio_chatting_with_zari_01':'sally',
+                      'duo_radio_host_static_bea':'patty'}.items():
     assert mascot_name(name) and static_mood(name)==expected,(name,expected)
 for name in ('duo_radio_play','duo_radio_check_correct','super_duo_fly_glow','super_duo_light_beam'):
     assert not mascot_name(name), name

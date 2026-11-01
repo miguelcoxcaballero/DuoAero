@@ -16,8 +16,9 @@ public final class StaticMascotProbe extends Instrumentation {
  public void onStart(){
   Bundle output=new Bundle();StringBuilder report=new StringBuilder();
   try{
-   Context context=getTargetContext();String[] names={"duo_happy","duo_flying","duo_thinking","jaw_drop_duo","foam_finger_duo","duo_breathe"};
-   Bitmap grid=Bitmap.createBitmap(720,480,Bitmap.Config.ARGB_8888);Canvas canvas=new Canvas(grid);HashSet<Integer> variants=new HashSet<>();
+   Context context=getTargetContext();String[] names={"duo_happy","duo_flying","duo_thinking","jaw_drop_duo","foam_finger_duo","duo_breathe",
+    "practice_hub_duo_radio_falstaff_1","practice_hub_duo_radio_chatting_with_zari_01","practice_hub_duo_radio_junior_s_big_questions_01"};
+   Bitmap grid=Bitmap.createBitmap(720,720,Bitmap.Config.ARGB_8888);Canvas canvas=new Canvas(grid);HashSet<Integer> variants=new HashSet<>();
    for(int i=0;i<names.length;i++){
     int id=context.getResources().getIdentifier(names[i],"drawable","com.duolingo");
     if(id==0)throw new IllegalStateException("Original drawable missing: "+names[i]);
@@ -31,7 +32,7 @@ public final class StaticMascotProbe extends Instrumentation {
     variants.add(hash);canvas.drawBitmap(image,(i%3)*240,(i/3)*240,null);image.recycle();
     report.append(names[i]).append(" original resource resolved and drawn\n");
    }
-   if(variants.size()<5)throw new IllegalStateException("Distinct poses were not rendered");
+   if(variants.size()<8)throw new IllegalStateException("Distinct poses were not rendered");
    try(FileOutputStream stream=new FileOutputStream(new File(context.getExternalFilesDir(null),"static-mascot-poses.png"))){
     if(!grid.compress(Bitmap.CompressFormat.PNG,100,stream))throw new IllegalStateException("Cannot capture poses");
    }finally{grid.recycle();}
