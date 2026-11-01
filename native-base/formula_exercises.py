@@ -44,7 +44,7 @@ def formula_challenge(question):
     if len(tokens) != len(set(tokens)):
         raise ValueError('Duplicate choice labels need explicit identities')
     many = len(answer) > 1
-    expected = {'mathList': {'values': [entity(a) for a in answer]}} if many else entity(answer[0])
+    expected = {'list': {'values': [entity(a) for a in answer]}} if many else entity(answer[0])
     # The legacy factory rejects STRUCTURAL before creating the controller.
     # VALUE preserves its model conversion. The scoped symbolic comparison
     # extension handles only the explicit duoaero: algebraic identifiers.

@@ -150,7 +150,7 @@ public final class NativeCourseBridge {
    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
    if(method.getName().equals("equals"))return proxy==args[0];
    Object chain=args[0],request=call(chain,"request");
-   if(localOnly){try{recordLocal(request);}catch(Exception ignored){}return offlineResponse(request);}
+   if(localOnly){try{recordLocal(request);}catch(Exception ignored){}try{return offlineResponse(request);}catch(Exception error){Log.e("DuoAeroNative","Local course request failed",error);throw new IOException("Cannot serve local course request",error);}}
    Object response;
    try{response=chain.getClass().getMethod("proceed",request.getClass()).invoke(chain,request);}catch(InvocationTargetException e){throw e.getCause();}
    try{
@@ -205,7 +205,12 @@ public final class NativeCourseBridge {
  static JSONObject requestJson(Object request)throws Exception {
   Object body=call(request,"body");if(body==null)throw new IllegalArgumentException("Missing local session request");
   ClassLoader loader=request.getClass().getClassLoader();
-  Object buffer=Class.forName("bo3",true,loader).getConstructor().newInstance();
+  // R8 removed Buffer's constructor and invokes Object.<init> in DEX.
+  // Obtain a real empty Buffer through the original public ResponseBody factory.
+  Class<?> responseBody=Class.forName("okhttp3.ResponseBody",true,loader);
+  Object empty=responseBody.getMethod("create",String.class,Class.forName("okhttp3.MediaType",true,loader)).invoke(null,"",null);
+  Object buffer=call(empty,"source");
+  if(!buffer.getClass().getName().equals("bo3"))throw new IllegalStateException("Unexpected original buffer implementation");
   Class.forName("okhttp3.RequestBody",true,loader).getMethod("writeTo",Class.forName("mo3",true,loader)).invoke(body,buffer);
   byte[] bytes=(byte[])buffer.getClass().getMethod("Q0").invoke(buffer);
   if(bytes.length>1048576)throw new IllegalArgumentException("Local session request too large");

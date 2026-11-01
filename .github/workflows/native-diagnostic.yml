@@ -77,6 +77,9 @@ jobs:
             sleep 2
           done
           if [ "$ready" != true ]; then cat /tmp/duoaero-evidence/emulator.txt; exit 1; fi
+          adb shell svc power stayon true
+          adb shell settings put system screen_off_timeout 3600000
+          adb shell input keyevent KEYCODE_WAKEUP
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
           timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > /tmp/duoaero-evidence/models.txt
@@ -141,6 +144,7 @@ jobs:
             fi
             adb logcat -d -s DuoAeroProbe:I DuoAeroNative:I AndroidRuntime:E chromium:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
+            adb shell dumpsys power > "/tmp/duoaero-evidence/power-$probe_label.txt"
             adb shell dumpsys activity lastanr > "/tmp/duoaero-evidence/anr-$probe_label.txt"
             if [ "$probe_interact" = path-first ]; then
               for phase in node-opened session; do

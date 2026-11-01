@@ -91,3 +91,11 @@ them through the original MathFigure.LatexString renderer, preserving their
 underlying entities for grading. It also logs the original exception before the
 unchanged GRADING_ERROR fallback. Local build/integrity and symbolic comparison
 checks pass; native LaTeX bank rendering and multi-slot grading remain unverified.
+
+Run 41266195614 reaches the original path session request, then crashes because
+R8 removed bo3's reflective constructor. The adapter now obtains the original
+Buffer from the public ResponseBody factory; request failures propagate as IO
+errors rather than uncaught reflective proxy exceptions. The multi-slot UI now
+selects all five intended blocks, but grades them incorrect. Strict model decoding
+finds eight malformed list entities: their serialized key is `list`, not
+`mathList`. That schema is corrected before another native decode/UI check.
