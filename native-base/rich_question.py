@@ -28,6 +28,13 @@ def content(parts, fallback):
     return ''.join(result)
 
 
+def difficulty_stars(question):
+    level = question["difficulty"]
+    if type(level) is not int or level not in (1, 2, 3):
+        raise ValueError("Difficulty must be 1, 2 or 3")
+    return "★" * level
+
+
 def choice_blob(question):
     rich = question.get('rich_text', {})
     options = rich.get('options', [None] * len(question['options']))
@@ -48,7 +55,7 @@ def choice_blob(question):
                ', displayAnswer:' + json.dumps(answer) + '}; }')
     blob = {
         'layout': 'selectOne',
-        'instruction': {'type': 'text', 'value': text_latex('Select the correct answer')},
+        'instruction': {'type': 'text', 'value': text_latex(difficulty_stars(question) + ' Select the correct answer')},
         'shirt': {'type': 'text', 'value': content(rich.get('stem'), question['stem'])},
         'pants': [{'type': 'button', 'id': 'answer_' + str(i), 'width': 'full',
                    'child': {'type': 'text', 'value': content(options[i], option)}}

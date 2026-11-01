@@ -25,7 +25,7 @@ def extend(original, donor_path=DONOR):
     source_map = donor.getBestCmap()
     source_glyphs = donor.getGlyphSet()
     scale = target['head'].unitsPerEm / donor['head'].unitsPerEm
-    candidates = list(range(0x370, 0x400)) + list(range(0x1D6A8, 0x1D7CC))
+    candidates = list(range(0x370, 0x400)) + list(range(0x1D6A8, 0x1D7CC)) + [0x2605, 0x2606]
     additions = [cp for cp in candidates if cp not in before and cp in source_map]
     order = list(target.getGlyphOrder())
     for cp in additions:
@@ -48,7 +48,7 @@ def extend(original, donor_path=DONOR):
     verified = TTFont(io.BytesIO(result.getvalue()))
     after = verified.getBestCmap()
     assert all(after[cp] == glyph for cp, glyph in before.items())
-    assert all(cp in after for cp in [0x3b1, 0x3b3, 0x3c1, 0x3c3, 0x3c0, 0x1d6fc, 0x1d6fe, 0x1d70c])
+    assert all(cp in after for cp in [0x3b1, 0x3b3, 0x3c1, 0x3c3, 0x3c0, 0x1d6fc, 0x1d6fe, 0x1d70c, 0x2605, 0x2606])
     return result.getvalue(), additions
 
 if __name__ == '__main__':

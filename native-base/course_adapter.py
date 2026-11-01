@@ -6,7 +6,7 @@ original grading contract before they can be enabled. Never silently downgrade t
 import html
 import json
 from pathlib import Path
-from rich_question import choice_blob
+from rich_question import choice_blob, difficulty_stars
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -20,7 +20,7 @@ def challenge(question):
         return choice_blob(question)
     if kind == 'multi':
         result.update(type='mathMultiSelect', noHint={}, promptInputChallenge={
-            'prompt': {'instruction': {'text': 'Select all correct answers'},
+            'prompt': {'instruction': {'text': difficulty_stars(question) + ' Select all correct answers'},
                        'body': figure(question['stem']),
                        'gradingFeedbackSpecification': {'staticFeedback': {'gradingFeedback': figure(question['explanation'])}}},
             'input': {'productSelectInput': {
@@ -30,7 +30,7 @@ def challenge(question):
         })
     elif kind == 'matching':
         result.update(type='mathMatch', noHint={}, matchChallenge={
-            'instruction': {'text': html.escape(question['stem'])},
+            'instruction': {'text': difficulty_stars(question) + ' ' + html.escape(question['stem'])},
             'pairs': [{'left': figure(left), 'right': figure(right)} for left, right in question['pairs']]
         })
     else:

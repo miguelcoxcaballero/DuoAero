@@ -334,3 +334,18 @@ flows may activate them; this is diagnostic collection, not a passive trace.
 REA (https://github.com/morluto/rea), suggested by the user, is being evaluated
 locally for Android reference tracing. It uses JADX; static reference results
 are not runtime acceptance. No external REA service receives the APK.
+
+
+Run 41259465021 confirms the final fragment has no SessionEndConfigureArgs,
+sequence state d110, no saved config, and ui-ready=false. Onboarding completion
+and SavedAccounts both emit, so their non-emission is not the splash cause.
+Static source identifies a concrete end guard: c4x.A changes an all-null
+UserStreak to null, and gr10.b exits before configuring the summary when
+eo10.d is null. The new diagnostic seeds an explicit zero-length lifetime
+streak through original ex50/kji cache before launch. It does not set completion
+flags, award XP or invent learned days. Runtime effect is pending.
+
+Choice/multi/matching adapters now carry difficulty stars; missing U+2605/U+2606
+font outlines are added from the existing OFL donor. All previous font mappings
+remain intact. Build/integrity and 48 JS grading cases pass; visible stars and
+end behavior must still be checked on the emulator.

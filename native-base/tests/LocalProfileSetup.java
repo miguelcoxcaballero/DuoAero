@@ -56,6 +56,19 @@ final class LocalProfileSetup {
    .invoke(resourceFactory,userId,category.getField("FIRST_PERSON").get(null),null);
   Object cache=repository.getClass().getField("p").get(repository);
   LocalCourseCache.write(loader,cache,resource,user);
+  // A new account has a known zero-day lifetime streak, not the all-null
+  // "unavailable" UserStreak sentinel rejected by original loader c4x.A.
+  Class<?> lifetimeType=Class.forName("com.duolingo.data.streak.StreakData$LifetimeStreak",true,loader);
+  Object lifetime=lifetimeType.getConstructor(String.class,String.class,int.class,String.class).newInstance(null,null,0,null);
+  Class<?> timelineType=Class.forName("com.duolingo.data.streak.TimelineStreak",true,loader);
+  Class<?> streakType=Class.forName("com.duolingo.data.streak.UserStreak",true,loader);
+  Object streak=streakType.getConstructor(lifetimeType,timelineType,timelineType).newInstance(lifetime,null,null);
+  Object streakProvider=component.getClass().getField("e2").get(component);
+  Method streakGet=streakProvider.getClass().getMethod("get");streakGet.setAccessible(true);
+  Object streakFactory=streakGet.invoke(streakProvider);
+  if(!streakFactory.getClass().getName().equals("ex50"))throw new IllegalStateException("Unexpected streak resource factory");
+  Object streakResource=streakFactory.getClass().getMethod("a",userId.getClass()).invoke(streakFactory,userId);
+  LocalCourseCache.write(loader,cache,streakResource,streak);
   if(defaultExperiments){
    LocalExperimentProfile.install(component,userId,loader);
   }
