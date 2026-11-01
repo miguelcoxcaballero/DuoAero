@@ -1,7 +1,7 @@
 # Development after the 1.3.5 preview
 
 This branch is experimental and is not represented by the 1.3.5 release APK.
-Do not publish it as a finished product. It has 68 active authored hints, including
+Do not publish it as a finished product. It has 74 active authored hints, including
 TA1-0148; the rest of the calculations still need reviewed hints and
 prerequisite formula-block questions. Only the TA1-0148 hint has been verified
 in the actual course on Android. Many long problems and math expressions still
@@ -32,6 +32,9 @@ require review.
   in a mixed native Android session, followed by the successful Mach hint
   retry. Subsequent minor notation edits and migration of a real account still
   need device verification.
+* Six further Breguet questions use the same previously taught formulas and
+  are split into two calculations. Arithmetic and stable lesson identities
+  pass host checks; each of those six still needs Android acceptance testing.
 * Device run 41339958992 completed its normal progression test, but its
   `standalone-celebration-00.png` through `-05.png` show the generic doghouse
   Snoopy, despite the new buff-character Rive artboard preview working in
