@@ -180,14 +180,22 @@ public final class AccountProgressProbe extends Instrumentation {
    hypothetical.getJSONArray("challenges").put(new JSONObject().put("id","future-added-challenge"));
    JSONArray historicalLessons=new JSONArray();for(JSONObject history:histories)historicalLessons.put(history.getJSONObject(evolvedId));
    Method recorded=progress.getDeclaredMethod("isRecordedCompletion",JSONObject.class,JSONObject.class,JSONObject.class,JSONArray.class);
+   Class<?> sessionStore=Class.forName("com.duoaero.nativebase.NativeSessionStore",true,loader);
+   Method storedProof=sessionStore.getDeclaredMethod("validStoredProof",android.app.Application.class,JSONObject.class,JSONObject.class);
+   storedProof.setAccessible(true);
    for(JSONObject history:histories){
     JSONArray ids=new JSONArray(),historicalQuestions=history.getJSONObject(evolvedId).getJSONArray("challenges");
     for(int i=0;i<historicalQuestions.length();i++)ids.put(new JSONObject().put("id",historicalQuestions.getJSONObject(i).getString("id")));
     JSONObject historicalProof=new JSONObject().put("id",evolvedId).put("type","MATH_LESSON").put("failed",false)
      .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",ids);
     check(Boolean.TRUE.equals(recorded.invoke(null,historicalProof,hypothetical,null,historicalLessons)));
+    // Exercise the packaged historical assets and cache used by import/export,
+    // not only the pure comparison helper.
+    check(Boolean.TRUE.equals(storedProof.invoke(null,app,historicalProof,hypothetical)));
+    check(Boolean.TRUE.equals(storedProof.invoke(null,app,historicalProof,hypothetical)));
     JSONObject broken=new JSONObject(historicalProof.toString());broken.getJSONArray("challenges").put(new JSONObject().put("id","foreign"));
     check(Boolean.FALSE.equals(recorded.invoke(null,broken,hypothetical,null,historicalLessons)));
+    check(Boolean.FALSE.equals(storedProof.invoke(null,app,broken,hypothetical)));
    }
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
