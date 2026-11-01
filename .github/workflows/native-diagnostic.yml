@@ -122,6 +122,7 @@ jobs:
           adb shell input keyevent KEYCODE_WAKEUP
           if [ "$DIAGNOSTIC_SCENARIO" = standalone ]; then export DUOAERO_EXPECT_CHARACTER=FORCED_LOVEY_DOVEY_DUO; fi
           if [ "$DIAGNOSTIC_SCENARIO" = standalone-foam ]; then export DUOAERO_EXPECT_CHARACTER=FORCED_FOAM_FINGER_DUO; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = standalone-foam ]; then export DUOAERO_CAPTURE_MOTION=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560

@@ -74,6 +74,13 @@ def capture_completion_motion():
     for frame in range(6):
         (OUT/('standalone-celebration-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
         time.sleep(.5)
+    if os.environ.get('DUOAERO_CAPTURE_MOTION')=='1':
+        try:
+            adb('shell','rm','-f','/sdcard/duoaero-celebration.mp4')
+            adb('shell','screenrecord','--time-limit','4','/sdcard/duoaero-celebration.mp4')
+            (OUT/'standalone-celebration-motion.mp4').write_bytes(adb('exec-out','cat','/sdcard/duoaero-celebration.mp4'))
+        except (subprocess.SubprocessError, OSError) as error:
+            (OUT/'standalone-motion-capture-error.txt').write_text(str(error)+'\n')
     expected_variant=os.environ.get('DUOAERO_EXPECT_CHARACTER')
     if expected_variant:
         selected=adb('logcat','-d','-s','DuoAeroCharacterTrace:I','*:S').decode(errors='replace')
