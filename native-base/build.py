@@ -104,11 +104,29 @@ run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',str(JAR)+os.p
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
 p=SMALI/'smali_classes4/okhttp3/OkHttpClient$Builder.smali';old=p.read_bytes();text=old.decode('utf-8').replace('\r\n','\n');needle='.method public final build()Lokhttp3/OkHttpClient;\n    .locals 1';assert needle in text
 patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCourseBridge;->install(Ljava/lang/Object;)V',1)
+# R8 specialized ContextualFlowRow's vertical alignment to Top and ignored
+# its parameter. Restore the argument when supplied, preserving Top for all
+# original callers that pass null. The inline gap supplies CenterVertically.
+flow_row_source=SMALI/'smali_classes4/iz0.smali'
+flow_row_original=flow_row_source.read_bytes()
+flow_row_text=flow_row_original.decode('utf-8').replace('\r\n','\n')
+flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
+flow_row_end=flow_row_text.index('.end method',flow_row_start)
+flow_row_method=flow_row_text[flow_row_start:flow_row_end]
+flow_row_anchor='    sget-object v15, Lb9z;->k:Ln73;'
+assert flow_row_method.count(flow_row_anchor)==1
+flow_row_hook=flow_row_anchor+'''\n    if-eqz p4, :duoaero_flow_default_alignment
+    move-object/from16 v15, p4
+    :duoaero_flow_default_alignment'''
+flow_row_text=flow_row_text[:flow_row_start]+flow_row_method.replace(flow_row_anchor,flow_row_hook)+flow_row_text[flow_row_end:]
 try:
  p.write_text(patched,encoding='utf-8')
+ flow_row_source.write_text(flow_row_text,encoding='utf-8')
  run(java('javac'),'-cp',APKTOOL,'-d',WORK,ROOT/'native-base/AssembleDex.java')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes4',WORK/'classes4.dex')
-finally:p.write_bytes(old)
+finally:
+ p.write_bytes(old)
+ flow_row_source.write_bytes(flow_row_original)
 # Retain original named dependency flows for opt-in synthetic diagnostics.
 # The hook records references only; it never changes an emission or result.
 flow_source=SMALI/'smali/g9q.smali'

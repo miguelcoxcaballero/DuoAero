@@ -59,9 +59,13 @@ public final class NativeInlineGap {
    Object vertical=spacing.getConstructor(float.class,boolean.class,iv).newInstance(4f,true,Class.forName("gal",true,l).getConstructor(int.class).newInstance(12));
    Object align=Class.forName("b9z",true,l).getField("o").get(null);
    Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(10f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
+   // Align every word and its original answer slot at the centre of its own
+   // wrapped line.  The original optimized implementation hardcodes Top;
+   // build.py restores its alignment argument for this call.
+   Object lineCenter=Class.forName("b9z",true,l).getField("l").get(null);
    Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
-    .invoke(null,words.length(),defaultModifier,horizontal,vertical,null,0,0,null,composable,composer,0x6000d80,0xf0);
+    .invoke(null,words.length(),defaultModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
  }
 }
