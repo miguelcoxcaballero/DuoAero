@@ -6240,7 +6240,8 @@
         "w"
       ],
       "formula_latex": "V_g=V+w",
-      "explanation": "V_g=V+w"
+      "explanation": "V_g=V+w",
+      "literal_operator_blocks": true
     },
     {
       "id": "WIND-TIME-FORMULA",
@@ -6279,7 +6280,8 @@
         "t_{back}"
       ],
       "formula_latex": "t_{total}=t_{out}+t_{back}",
-      "explanation": "t_{total}=t_{out}+t_{back}"
+      "explanation": "t_{total}=t_{out}+t_{back}",
+      "literal_operator_blocks": true
     },
     {
       "id": "TA1-0012-F1",

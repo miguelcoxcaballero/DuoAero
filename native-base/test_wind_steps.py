@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import re
 from course_adapter import lesson_questions
+from formula_exercises import formula_challenge
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
@@ -20,6 +21,14 @@ assert [q['id'] for q in tailwind_steps] == ['WIND-TAILWIND-FORMULA',
     'WIND-TIME-FORMULA', 'WIND-TOTAL-FORMULA', 'TA1-0012-F1']
 assert tailwind_steps[-1]['options'][tailwind_steps[-1]['answer']] == '280 km/h'
 assert 250 + 30 == 280
+for formula in (tailwind_steps[0], tailwind_steps[2]):
+    assert formula['literal_operator_blocks'] is True
+    input_data = formula_challenge(formula)['promptInputChallenge']['input']['expressionBuildInput']
+    plus = next(c for c in input_data['dragChoices']
+                if c['underlyingEntity'].get('entity', {}).get('variable', {}).get('algebraic', {}).get('name') == 'duoaero:+')
+    assert plus['taggedTextElement']['text'] == r'duoaero-latex:\textstyle +'
+    expected = input_data['gradingSpecification']['gradingRules'][0]['exactGrading'][0]['exactAnswer']['list']['values']
+    assert any(v.get('variable', {}).get('algebraic', {}).get('name') == 'duoaero:+' for v in expected)
 for qid in ids:
     original = bank[qid]
     match = pattern.search(original['stem'])

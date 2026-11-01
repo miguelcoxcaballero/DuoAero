@@ -16,9 +16,9 @@ SOURCE = {
 }
 
 
-def entity(value):
+def entity(value, literal_operators=False):
     operators = {'×': 'MULTIPLICATION', '÷': 'DIVISION', '+': 'ADDITION', '=': 'EQUALITY'}
-    if value in operators:
+    if value in operators and not literal_operators:
         return {'symbol': operators[value]}
     return {'variable': {'algebraic': {'name': 'duoaero:' + value}}}
 
@@ -44,7 +44,8 @@ def formula_challenge(question, mathematical=True):
     if len(tokens) != len(set(tokens)):
         raise ValueError('Duplicate choice labels need explicit identities')
     many = len(answer) > 1
-    expected = {'list': {'values': [entity(a) for a in answer]}} if many else entity(answer[0])
+    literal_operators = question.get('literal_operator_blocks', False)
+    expected = {'list': {'values': [entity(a, literal_operators) for a in answer]}} if many else entity(answer[0], literal_operators)
     # The legacy factory rejects STRUCTURAL before creating the controller.
     # VALUE preserves its model conversion. The scoped symbolic comparison
     # extension handles only the explicit duoaero: algebraic identifiers.
@@ -63,6 +64,12 @@ def formula_challenge(question, mathematical=True):
         body = figure(question['prefix'], latex=True)
     inputs = {'gradingSpecification': grading,
               'dragChoices': [figure(t, True, latex=mathematical) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
+    if literal_operators:
+        # Treat operators in these authored symbolic exercises as variables
+        # for both grading and rendering. The original ADDITION symbol card
+        # is blue with an invisible blue plus in the current theme.
+        for choice, token in zip(inputs['dragChoices'], [t for t in tokens for _ in range(max(1, Counter(answer)[t]))]):
+            choice['underlyingEntity'] = {'entity': entity(token, True)}
     inputs['slotCount'] = len(answer)
     if mathematical:
         # Use the authored complete formula, not prose or a reconstruction from
