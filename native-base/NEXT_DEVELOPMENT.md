@@ -7,8 +7,10 @@ tailwind calculation and splits six related round-trip problems into two
 short numerical questions. Host checks cover the arithmetic, lesson sizes,
 formula prerequisites and stable lesson IDs. Run 41353227644 tests the new
 formula blocks and one split problem through the original Android controller;
-until it succeeds, the screen rendering, block selection and native grading
-remain unverified. The change is not part of the signed 1.3.6 APK. Two
+it graded them correctly, but its screenshots show an invisible blue plus
+operator. The branch now changes how these two operator blocks are represented;
+the corrected appearance and grading still need Android verification. The
+change is not part of the signed 1.3.6 APK. Two
 related wind problems and other calculation families still need review.
 The same branch also converts reviewed speed and Mach inequalities such as
 `TAS>=1.3Vs` and `M<=0.75` into mathematical notation. Host checks cover these
