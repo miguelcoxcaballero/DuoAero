@@ -87,8 +87,10 @@ jobs:
           python native-base/course_adapter.py
           case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = wind-mixed ]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
+          python native-base/test_wind_steps.py
           python native-base/test_path_structure.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py
@@ -263,6 +265,9 @@ jobs:
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               if [ "$DIAGNOSTIC_SCENARIO" = mixed ]; then python native-base/test_match_layout.py; fi
               python native-base/test_gap_alignment.py
+              ;;
+            wind-mixed)
+              run_probe aerospace-wind-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               ;;
             mixed-hint)
               run_probe aerospace-mixed-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

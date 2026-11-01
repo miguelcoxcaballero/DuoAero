@@ -6192,35 +6192,104 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0012-F1",
-    "topic": "2.1",
-    "subtopic": "Wind and ground speed",
-    "stem": "An aircraft has an airspeed of 250 km/h and a tailwind of 30 km/h along its flight path. What is its ground speed?",
-    "type": "choice",
-    "options": [
-      "280 km/h",
-      "265 km/h",
-      "250 km/h",
-      "220 km/h"
-    ],
-    "answer": 0,
-    "explanation": "Ground speed = airspeed + tailwind = 280.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "280 km/h": "Correct: Ground speed = airspeed + tailwind = 280.",
-      "265 km/h": "Incorrect: The full 30 km/h wind component must be added.",
-      "250 km/h": "Incorrect: This ignores the wind.",
-      "220 km/h": "Incorrect: Subtracting the wind would describe a headwind."
-    },
-    "legacy_id": "TA1-0012",
-    "section": "Midterm 1"
+  "id": "TA1-0012-F1",
+  "topic": "2.1",
+  "subtopic": "Wind and ground speed",
+  "stem": "An aircraft has an airspeed of 250 km/h and a tailwind of 30 km/h along its flight path. What is its ground speed?",
+  "type": "choice",
+  "options": [
+    "280 km/h",
+    "265 km/h",
+    "250 km/h",
+    "220 km/h"
+  ],
+  "answer": 0,
+  "explanation": "Ground speed = airspeed + tailwind = 280.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Atmospheric Flight and Introduction",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "280 km/h": "Correct: Ground speed = airspeed + tailwind = 280.",
+    "265 km/h": "Incorrect: The full 30 km/h wind component must be added.",
+    "250 km/h": "Incorrect: This ignores the wind.",
+    "220 km/h": "Incorrect: Subtracting the wind would describe a headwind."
+  },
+  "legacy_id": "TA1-0012",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "WIND-TAILWIND-FORMULA",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the ground-speed formula for a tailwind",
+      "prefix": "V_g =",
+      "blocks": [
+        "V",
+        "+",
+        "w",
+        "−",
+        "×"
+      ],
+      "answer_blocks": [
+        "V",
+        "+",
+        "w"
+      ],
+      "formula_latex": "V_g=V+w",
+      "explanation": "V_g=V+w"
+    },
+    {
+      "id": "WIND-TIME-FORMULA",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the flight-time formula",
+      "prefix": "t =",
+      "blocks": [
+        "d / V_g",
+        "d × V_g",
+        "V_g / d",
+        "d + V_g"
+      ],
+      "answer_blocks": [
+        "d / V_g"
+      ],
+      "formula_latex": "t=\\frac{d}{V_g}",
+      "explanation": "t=\\frac{d}{V_g}"
+    },
+    {
+      "id": "WIND-TOTAL-FORMULA",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the total flight-time formula",
+      "prefix": "t_{total} =",
+      "blocks": [
+        "t_{out}",
+        "+",
+        "t_{back}",
+        "−",
+        "×"
+      ],
+      "answer_blocks": [
+        "t_{out}",
+        "+",
+        "t_{back}"
+      ],
+      "formula_latex": "t_{total}=t_{out}+t_{back}",
+      "explanation": "t_{total}=t_{out}+t_{back}"
+    },
+    {
+      "id": "TA1-0012-F1",
+      "formula_hint": {
+        "latex": "V_g=V+w",
+        "prerequisite": "WIND-TAILWIND-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0191",
     "topic": "2.2",
@@ -15942,42 +16011,76 @@
     ]
   },
   {
-    "id": "TA1-0092-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 280 km each. Airspeed is 210 km/h and steady along-track wind is 18 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "2.4561 h",
-      "2.6864 h",
-      "2.6667 h",
-      "2.9167 h"
-    ],
-    "answer": 1,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "2.4561 h": "Applies the tailwind on both legs.",
-      "2.6864 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h. Opposite winds do not cancel travel-time penalties.",
-      "2.6667 h": "Assumes headwind and tailwind times cancel exactly.",
-      "2.9167 h": "Applies the headwind on both legs."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0092",
-    "section": "Midterm 1"
+  "id": "TA1-0092-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 280 km each. Airspeed is 210 km/h and steady along-track wind is 18 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "2.4561 h",
+    "2.6864 h",
+    "2.6667 h",
+    "2.9167 h"
+  ],
+  "answer": 1,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "2.4561 h": "Applies the tailwind on both legs.",
+    "2.6864 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h. Opposite winds do not cancel travel-time penalties.",
+    "2.6667 h": "Assumes headwind and tailwind times cancel exactly.",
+    "2.9167 h": "Applies the headwind on both legs."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=2.6864 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0092",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0092-D2-S1",
+      "stem": "The outbound leg is 280 km at a ground speed of 192 km/h. How long does it take?",
+      "options": [
+        "1.4583 h",
+        "1.2281 h",
+        "1.3333 h",
+        "2.9166 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 280 ÷ 192 = 1.4583 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0092-D2",
+      "stem": "The outbound leg takes 1.4583 h and the return takes 1.2281 h. What is the total flight time?",
+      "options": [
+        "2.6864 h",
+        "1.3432 h",
+        "0.2302 h",
+        "2.9166 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.4583 + 1.2281 = 2.6864 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0083-D2",
     "topic": "2.2",
@@ -17414,42 +17517,76 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0120-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 300 km each. Airspeed is 217 km/h and steady along-track wind is 20 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "2.7887 h",
-      "2.765 h",
-      "3.0457 h",
-      "2.5316 h"
-    ],
-    "answer": 0,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "2.7887 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h. Opposite winds do not cancel travel-time penalties.",
-      "2.765 h": "Assumes headwind and tailwind times cancel exactly.",
-      "3.0457 h": "Applies the headwind on both legs.",
-      "2.5316 h": "Applies the tailwind on both legs."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0120",
-    "section": "Midterm 1"
+  "id": "TA1-0120-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 300 km each. Airspeed is 217 km/h and steady along-track wind is 20 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "2.7887 h",
+    "2.765 h",
+    "3.0457 h",
+    "2.5316 h"
+  ],
+  "answer": 0,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "2.7887 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h. Opposite winds do not cancel travel-time penalties.",
+    "2.765 h": "Assumes headwind and tailwind times cancel exactly.",
+    "3.0457 h": "Applies the headwind on both legs.",
+    "2.5316 h": "Applies the tailwind on both legs."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=2.7887 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0120",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0120-D2-S1",
+      "stem": "The outbound leg is 300 km at a ground speed of 197 km/h. How long does it take?",
+      "options": [
+        "1.5228 h",
+        "1.2658 h",
+        "1.3825 h",
+        "3.0456 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 300 ÷ 197 = 1.5228 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0120-D2",
+      "stem": "The outbound leg takes 1.5228 h and the return takes 1.2658 h. What is the total flight time?",
+      "options": [
+        "2.7886 h",
+        "1.3943 h",
+        "0.2570 h",
+        "3.0456 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.5228 + 1.2658 = 2.7886 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0122-D2",
     "topic": "2.2",
@@ -18902,42 +19039,76 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0130-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 320 km each. Airspeed is 224 km/h and steady along-track wind is 22 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "2.8571 h",
-      "2.885 h",
-      "2.6016 h",
-      "3.1683 h"
-    ],
-    "answer": 1,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.885 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "2.8571 h": "Assumes headwind and tailwind times cancel exactly.",
-      "2.885 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.885 h. Opposite winds do not cancel travel-time penalties.",
-      "2.6016 h": "Applies the tailwind on both legs.",
-      "3.1683 h": "Applies the headwind on both legs."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=2.885 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0130",
-    "section": "Midterm 1"
+  "id": "TA1-0130-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 320 km each. Airspeed is 224 km/h and steady along-track wind is 22 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "2.8571 h",
+    "2.885 h",
+    "2.6016 h",
+    "3.1683 h"
+  ],
+  "answer": 1,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.885 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "2.8571 h": "Assumes headwind and tailwind times cancel exactly.",
+    "2.885 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=2.885 h. Opposite winds do not cancel travel-time penalties.",
+    "2.6016 h": "Applies the tailwind on both legs.",
+    "3.1683 h": "Applies the headwind on both legs."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=2.885 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0130",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0130-D2-S1",
+      "stem": "The outbound leg is 320 km at a ground speed of 202 km/h. How long does it take?",
+      "options": [
+        "1.5842 h",
+        "1.3008 h",
+        "1.4286 h",
+        "3.1684 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 320 ÷ 202 = 1.5842 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0130-D2",
+      "stem": "The outbound leg takes 1.5842 h and the return takes 1.3008 h. What is the total flight time?",
+      "options": [
+        "2.8850 h",
+        "1.4425 h",
+        "0.2834 h",
+        "3.1684 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.5842 + 1.3008 = 2.8850 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0260-D2",
     "topic": "2.2",
@@ -23381,42 +23552,76 @@
     }
   },
   {
-    "id": "TA1-0263-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 380 km each. Airspeed is 245 km/h and steady along-track wind is 28 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "2.7839 h",
-      "3.5023 h",
-      "3.102 h",
-      "3.1431 h"
-    ],
-    "answer": 3,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "2.7839 h": "Applies the tailwind on both legs.",
-      "3.5023 h": "Applies the headwind on both legs.",
-      "3.102 h": "Assumes headwind and tailwind times cancel exactly.",
-      "3.1431 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h. Opposite winds do not cancel travel-time penalties."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0263",
-    "section": "Midterm 1"
+  "id": "TA1-0263-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 380 km each. Airspeed is 245 km/h and steady along-track wind is 28 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "2.7839 h",
+    "3.5023 h",
+    "3.102 h",
+    "3.1431 h"
+  ],
+  "answer": 3,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "2.7839 h": "Applies the tailwind on both legs.",
+    "3.5023 h": "Applies the headwind on both legs.",
+    "3.102 h": "Assumes headwind and tailwind times cancel exactly.",
+    "3.1431 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h. Opposite winds do not cancel travel-time penalties."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=3.1431 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0263",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0263-D2-S1",
+      "stem": "The outbound leg is 380 km at a ground speed of 217 km/h. How long does it take?",
+      "options": [
+        "1.7512 h",
+        "1.3919 h",
+        "1.5510 h",
+        "3.5024 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 380 ÷ 217 = 1.7512 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0263-D2",
+      "stem": "The outbound leg takes 1.7512 h and the return takes 1.3919 h. What is the total flight time?",
+      "options": [
+        "3.1431 h",
+        "1.5716 h",
+        "0.3593 h",
+        "3.5024 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.7512 + 1.3919 = 3.1431 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0395-D2",
     "topic": "2.2",
@@ -24825,42 +25030,76 @@
     }
   },
   {
-    "id": "TA1-0268-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 400 km each. Airspeed is 252 km/h and steady along-track wind is 30 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "3.1746 h",
-      "3.6036 h",
-      "3.2202 h",
-      "2.8369 h"
-    ],
-    "answer": 2,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "3.1746 h": "Assumes headwind and tailwind times cancel exactly.",
-      "3.6036 h": "Applies the headwind on both legs.",
-      "3.2202 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h. Opposite winds do not cancel travel-time penalties.",
-      "2.8369 h": "Applies the tailwind on both legs."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0268",
-    "section": "Midterm 1"
+  "id": "TA1-0268-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 400 km each. Airspeed is 252 km/h and steady along-track wind is 30 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "3.1746 h",
+    "3.6036 h",
+    "3.2202 h",
+    "2.8369 h"
+  ],
+  "answer": 2,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "3.1746 h": "Assumes headwind and tailwind times cancel exactly.",
+    "3.6036 h": "Applies the headwind on both legs.",
+    "3.2202 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h. Opposite winds do not cancel travel-time penalties.",
+    "2.8369 h": "Applies the tailwind on both legs."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=3.2202 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0268",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0268-D2-S1",
+      "stem": "The outbound leg is 400 km at a ground speed of 222 km/h. How long does it take?",
+      "options": [
+        "1.8018 h",
+        "1.4184 h",
+        "1.5873 h",
+        "3.6036 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 400 ÷ 222 = 1.8018 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0268-D2",
+      "stem": "The outbound leg takes 1.8018 h and the return takes 1.4184 h. What is the total flight time?",
+      "options": [
+        "3.2202 h",
+        "1.6101 h",
+        "0.3834 h",
+        "3.6036 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.8018 + 1.4184 = 3.2202 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0401-D2",
     "topic": "2.2",
@@ -26315,42 +26554,76 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0366-D2",
-    "topic": "2.1",
-    "subtopic": "Ground speeds are V-w and V+w.",
-    "stem": "A round trip has two legs of 420 km each. Airspeed is 259 km/h and steady along-track wind is 32 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
-    "type": "choice",
-    "options": [
-      "2.8866 h",
-      "3.7004 h",
-      "3.2432 h",
-      "3.2935 h"
-    ],
-    "answer": 3,
-    "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h. Opposite winds do not cancel travel-time penalties.",
-    "option_explanations": {
-      "2.8866 h": "Applies the tailwind on both legs.",
-      "3.7004 h": "Applies the headwind on both legs.",
-      "3.2432 h": "Assumes headwind and tailwind times cancel exactly.",
-      "3.2935 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h. Opposite winds do not cancel travel-time penalties."
-    },
-    "difficulty": 2,
-    "origin": {
-      "kind": "practice",
-      "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
-      "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
-    },
-    "steps": [
-      "Ground speeds are V-w and V+w.",
-      "Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h.",
-      "Opposite winds do not cancel travel-time penalties.."
-    ],
-    "checks": [
-      0.0
-    ],
-    "legacy_id": "TA1-0366",
-    "section": "Midterm 1"
+  "id": "TA1-0366-D2",
+  "topic": "2.1",
+  "subtopic": "Ground speeds are V-w and V+w.",
+  "stem": "A round trip has two legs of 420 km each. Airspeed is 259 km/h and steady along-track wind is 32 km/h, a headwind outbound and a tailwind inbound. What is the total travel time, excluding stops and manoeuvres? Choose the closest value.",
+  "type": "choice",
+  "options": [
+    "2.8866 h",
+    "3.7004 h",
+    "3.2432 h",
+    "3.2935 h"
+  ],
+  "answer": 3,
+  "explanation": "Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h. Opposite winds do not cancel travel-time penalties.",
+  "option_explanations": {
+    "2.8866 h": "Applies the tailwind on both legs.",
+    "3.7004 h": "Applies the headwind on both legs.",
+    "3.2432 h": "Assumes headwind and tailwind times cancel exactly.",
+    "3.2935 h": "Correct. Ground speeds are V-w and V+w. Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h. Opposite winds do not cancel travel-time penalties."
   },
+  "difficulty": 2,
+  "origin": {
+    "kind": "practice",
+    "title": "2.1_El_Entorno_del_Vuelo_Atmosf_rico.pdf",
+    "url": "https://drive.google.com/file/d/1Yf7lQcwA1doW8HP289Wu0lXlg7pmdTL0/view"
+  },
+  "steps": [
+    "Ground speeds are V-w and V+w.",
+    "Add the two times: t=d/(V-w)+d/(V+w)=3.2935 h.",
+    "Opposite winds do not cancel travel-time penalties.."
+  ],
+  "checks": [
+    0.0
+  ],
+  "legacy_id": "TA1-0366",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "TA1-0366-D2-S1",
+      "stem": "The outbound leg is 420 km at a ground speed of 227 km/h. How long does it take?",
+      "options": [
+        "1.8502 h",
+        "1.4433 h",
+        "1.6216 h",
+        "3.7004 h"
+      ],
+      "answer": 0,
+      "explanation": "Outbound time is distance divided by ground speed: 420 ÷ 227 = 1.8502 h.",
+      "formula_hint": {
+        "latex": "t=\\frac{d}{V_g}",
+        "prerequisite": "WIND-TIME-FORMULA"
+      }
+    },
+    {
+      "id": "TA1-0366-D2",
+      "stem": "The outbound leg takes 1.8502 h and the return takes 1.4433 h. What is the total flight time?",
+      "options": [
+        "3.2935 h",
+        "1.6468 h",
+        "0.4069 h",
+        "3.7004 h"
+      ],
+      "answer": 0,
+      "explanation": "Add the two stated times: 1.8502 + 1.4433 = 3.2935 h.",
+      "formula_hint": {
+        "latex": "t_{total}=t_{out}+t_{back}",
+        "prerequisite": "WIND-TOTAL-FORMULA"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0572-D2",
     "topic": "2.2",
