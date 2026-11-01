@@ -13,7 +13,9 @@ the native token slot in a wrapping row; it requires mixed-question device
 interaction, screenshots, font-size/night checks and full Atmosphere testing.
 Do not claim the word-gap issue is fixed based on serialization or build alone.
 
-Run 41319899762 PASS: first midterm visible in the original section selector.
+Run 41319899762 sections was a FALSE POSITIVE: its screenshot still showed
+the home header, which also says Midterm 1. The corrected test requires the
+original home path to be absent before accepting a section-picker result.
 Run 41319592007 formula and chest scenarios PASS: adjacent one-token formula,
 five-token layout and grading, and visible +25 gems with seeded prerequisites
 persisting through restart. Its s24 scenario saved the first lesson but failed
