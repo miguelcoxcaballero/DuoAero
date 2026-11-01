@@ -1,0 +1,39 @@
+# Development after the 1.3.5 preview
+
+This branch is experimental and is not represented by the 1.3.5 release APK.
+Do not publish it as a finished product. In particular, only TA1-0148 has an
+authored formula hint; the rest of the calculations still need reviewed hints
+and prerequisite formula-block questions. Many long problems and math
+expressions still require review.
+
+## Evidence
+
+* The independent hint prototype passed a native emulator session, including
+  the original retry interstitial and Claim XP (Actions run 41339078448).
+* The first actual Atmosphere lesson passed a hint/retry/completion/restart
+  scenario in run 41340357867. Earlier path nodes were seeded, so this does not
+  demonstrate an uninterrupted course or Google/Drive persistence. Evidence is
+  in `original-runtime-evidence-atmosphere-hint`, including
+  `atmosphere-result.txt` and `atmosphere-hint-open.png`.
+* The four reviewed Mach steps passed actual native answer selection and
+  grading in run 41340936049. The images `lesson-answer-4.png` through
+  `lesson-answer-7.png` show the individual steps. This is a diagnostic lesson,
+  not a full course test.
+* Device run 41339958992 completed its normal progression test, but its
+  `standalone-celebration-00.png` through `-05.png` show the generic doghouse
+  Snoopy, despite the new buff-character Rive artboard preview working in
+  isolation. Therefore the actual completion screen replacement is **not**
+  verified. Do not claim that every scene has a matched animated character.
+* Character sprite tests establish alpha and valid native tracks only. They do
+  not establish visual smoothness or that every character scene uses the new
+  asset on Android.
+
+The separate `codex/peanuts-cast` branch adds capture of the actual installed
+completion Rive file and build reports for investigating the doghouse. Other
+branch experiments may be newer than this integration branch.
+
+The published 1.3.5 was signed with the existing permanent certificate and
+passed a fresh-install and 1.3.4-to-1.3.5 Android upgrade smoke test. The update
+channel A points to it; channel B was not changed. Real Google sign-in, Drive,
+physical S24 Ultra behavior and update installation through the app remain
+unverified.
