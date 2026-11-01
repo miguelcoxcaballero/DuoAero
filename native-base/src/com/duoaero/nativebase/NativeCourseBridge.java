@@ -299,6 +299,8 @@ public final class NativeCourseBridge {
      NativeSessionStore.record(app,sessionId,submission);
      code=200;
      Log.i("DuoAeroNative","Native session submission durably stored: "+sessionId+"; field names="+submission.names());
+    }else if(NativeReviewStore.lookup(app,sessionId)!=null){
+     NativeReviewStore.record(app,sessionId,requestJson(request));code=200;
     }else code=404;
    }
    else if(method.equals("POST")&&path.matches("/(?:[0-9-]+/)?sessions")){
@@ -310,7 +312,9 @@ public final class NativeCourseBridge {
      for(Iterator<String> keys=index.keys();keys.hasNext();){String key=keys.next();JSONObject candidate=index.getJSONObject(key);
       if(candidate.getString("skillId").equals(skill)&&candidate.getInt("levelSessionIndex")==position){selected=key;break;}}
     }
-    if(selected!=null){payload=index.getJSONObject(selected).toString();code=200;Log.i("DuoAeroNative","Local original session selected: "+selected);}
+    JSONObject review=metadata==null?null:NativeReviewStore.lookup(app,metadata.optString("id"));
+    if(review!=null){payload=review.toString();code=200;Log.i("DuoAeroNative","Local original mistake review selected: "+review.getString("id"));}
+    else if(selected!=null){payload=index.getJSONObject(selected).toString();code=200;Log.i("DuoAeroNative","Local original session selected: "+selected);}
     else{code=422;Log.e("DuoAeroNative","No supported local session for original request; field names="+input.names());}
    }
   }

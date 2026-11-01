@@ -26,6 +26,11 @@ public class CourseProgressCheck {
   }
   check(!NativeCourseProgress.isCompleted(copy(good).put("failed",true),lesson));
   check(!NativeCourseProgress.isCompleted(copy(good).put("shouldLearnThings",false),lesson));
+  check(NativeCourseProgress.reviewCompletionIssue(copy(good).put("shouldLearnThings",false),lesson)==null);
+  JSONObject missingReviewFlag=copy(good);missingReviewFlag.remove("shouldLearnThings");
+  check(NativeCourseProgress.reviewCompletionIssue(missingReviewFlag,lesson)!=null);
+  check(NativeCourseProgress.reviewCompletionIssue(copy(good).put("failed",true),lesson)!=null);
+  check(NativeCourseProgress.reviewCompletionIssue(copy(good).put("challenges",new JSONArray("[{id:'q1'}]")),lesson)!=null);
   check(!NativeCourseProgress.isCompleted(copy(good).put("id","other"),lesson));
   check(!NativeCourseProgress.isCompleted(copy(good).put("endTime",0),lesson));
   check(!NativeCourseProgress.isCompleted(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'q1'}]")),lesson));

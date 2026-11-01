@@ -650,3 +650,15 @@ Path/rich probes in b95/fd148 incorrectly rejected the old INCORRECT selection
 value before asynchronous evaluation finished. awaitSelection now polls for the
 expected result before Check; the subsequent actual graded Continue is still
 required. Runtime regression acceptance of this observation change is pending.
+
+Separate mistake review is now implemented using an immutable local review
+catalog, the original MathLesson route and original SessionActivity. It selects
+up to 20 unresolved real outcomes across lessons, persists original grades and
+stores review completion separately from course progression. The original
+settings section exposes Review mistakes. A new cold UI scenario makes an
+actual wrong answer, restarts, opens that entry, corrects the question, claims
+XP and verifies the original course lesson was not completed by the review.
+This scenario is pending runtime acceptance. Four additional boundary checks
+cover review learning flags, failure and incomplete question coverage.
+CI now selects the runner JDK 17 explicitly: Kotlin 2.0 rejected default JDK 25
+before app tests in run 41273151611. Local updater build/integrity checks pass.

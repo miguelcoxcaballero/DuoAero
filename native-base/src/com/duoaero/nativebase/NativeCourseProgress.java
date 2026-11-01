@@ -10,10 +10,16 @@ public final class NativeCourseProgress {
   return completionIssue(submission,lesson)==null;
  }
  public static String completionIssue(JSONObject submission,JSONObject lesson)throws JSONException {
+  return completionIssue(submission,lesson,true);
+ }
+ public static String reviewCompletionIssue(JSONObject submission,JSONObject lesson)throws JSONException {
+  return completionIssue(submission,lesson,false);
+ }
+ private static String completionIssue(JSONObject submission,JSONObject lesson,boolean requireLearning)throws JSONException {
   if(!lesson.getString("id").equals(submission.optString("id")))return "lesson identity mismatch";
   if(!"MATH_LESSON".equals(submission.optString("type")))return "unexpected session type";
   if(!Boolean.FALSE.equals(submission.opt("failed")))return "failed or missing success flag";
-  if(!Boolean.TRUE.equals(submission.opt("shouldLearnThings")))return "missing native learning authorization";
+  if(!(submission.opt("shouldLearnThings") instanceof Boolean)||(requireLearning&&!Boolean.TRUE.equals(submission.opt("shouldLearnThings"))))return "missing native learning authorization";
   double start=submission.optDouble("startTime",Double.NaN),end=submission.optDouble("endTime",Double.NaN);
   if(!Double.isFinite(start)||!Double.isFinite(end)||start<0||end<start||end<=0)return "missing or invalid completion times";
   JSONArray expected=lesson.getJSONArray("challenges"),actual=submission.optJSONArray("challenges");

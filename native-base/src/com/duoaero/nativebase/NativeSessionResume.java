@@ -33,8 +33,11 @@ public final class NativeSessionResume {
    String id=(String)header.getClass().getMethod("C").invoke(header);
    Application app=application();
    if(catalog==null)catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
-   if(!catalog.has(id)||!id.matches("[A-Za-z0-9_-]{1,160}")||finished.contains(id))return state;
-   String revision=Base64.encodeToString(MessageDigest.getInstance("SHA-256").digest(catalog.getJSONObject(id).toString().getBytes("UTF-8")),Base64.NO_WRAP);
+   if(!id.matches("[A-Za-z0-9_-]{1,160}")||finished.contains(id))return state;
+   JSONObject lesson=catalog.optJSONObject(id);
+   if(lesson==null)lesson=NativeReviewStore.lookup(app,id);
+   if(lesson==null)return state;
+   String revision=Base64.encodeToString(MessageDigest.getInstance("SHA-256").digest(lesson.toString().getBytes("UTF-8")),Base64.NO_WRAP);
    AtomicFile file=file(app,id);
    if(!observed.containsKey(session)){
     observed.put(session,Boolean.TRUE);
@@ -58,7 +61,7 @@ public final class NativeSessionResume {
     }
    }
    if(((List<?>)state.getClass().getField("b").get(state)).isEmpty())return state;
-   NativeMistakeStore.observe(app,session,state,catalog.getJSONObject(id));
+   NativeMistakeStore.observe(app,session,state,lesson);
    Parcel parcel=Parcel.obtain();byte[] bytes;
    try{((Parcelable)state).writeToParcel(parcel,0);bytes=parcel.marshall();}finally{parcel.recycle();}
    if(bytes.length>4*1024*1024)throw new IOException("Native session state too large");

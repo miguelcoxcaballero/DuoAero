@@ -73,7 +73,7 @@ try:
     # Exact original grade_correct_* strings, including randomized variants.
     positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great!','Great job!','Nice job!','Nice!','Nicely done!','Wow!'}
     question_ids=list(plan[0]['lessons'][0]['ids'])
-    if os.environ.get('DUOAERO_TEST_MISTAKES')=='1':
+    if os.environ.get('DUOAERO_TEST_MISTAKES')=='1' or os.environ.get('DUOAERO_TEST_REVIEW')=='1':
         first=bank[question_ids[0]]
         wrong=first['options'][(first['answer']+1)%len(first['options'])]
         tap(tree,text=wrong)
@@ -86,6 +86,10 @@ try:
         wait_for('standalone-after-wrong',lambda t:any(next_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30)
         pending=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/question-state.json'))
         assert pending['records'][question_ids[0]]['correct'] is False, 'Original mistake was not persisted'
+        if os.environ.get('DUOAERO_TEST_REVIEW')=='1':
+            from test_review_flow import run
+            run(adb,tap,wait_for,capture,OUT,PACKAGE,first,plan[0]['lessons'][0]['id'])
+            raise SystemExit(0)
         # The original lesson must recycle its actual mistake after the other
         # questions. No test injects or appends a challenge to its engine.
         question_ids=question_ids[1:]+question_ids[:1]
