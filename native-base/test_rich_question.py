@@ -1,6 +1,7 @@
 """Validate generated grading against every selection, including empty/multiple."""
 import json
 import math
+import re
 from pathlib import Path
 import subprocess
 from rich_question import choice_blob, content
@@ -123,6 +124,17 @@ old = session(breguet_bank, breguet_lesson['id'], expand_steps=False)
 new = session(breguet_bank, breguet_lesson['id'])
 assert len(new['challenges']) <= 20 and old['id'] == new['id']
 assert {q['id'] for q in old['challenges']} <= {q['id'] for q in new['challenges']}
+breguet_pattern = re.compile(r'^An ideal jet cruise without wind starts at mass (\d+) kg and must cover ([\deE.+-]+) m at V=([\d.]+) m/s, L/D=([\d.]+), ce=([\deE.+-]+) kg/\(N s\) and g=([\d.]+) m/s²\.')
+reviewed_breguet = [q for q in bank if q.get('lesson_steps') and breguet_pattern.match(q['stem'])]
+assert len(reviewed_breguet) == 7
+for original in reviewed_breguet:
+    mass, distance, speed, efficiency, consumption, gravity = map(float, breguet_pattern.match(original['stem']).groups())
+    x = distance * gravity * consumption / (speed * efficiency)
+    fuel = mass * (1 - math.exp(-x))
+    calculations = [q for q in lesson_questions([original]) if q['type'] == 'choice']
+    assert len(calculations) == 2
+    assert math.isclose(float(calculations[0]['options'][calculations[0]['answer']]), x, abs_tol=.000005)
+    assert math.isclose(float(calculations[1]['options'][calculations[1]['answer']].split()[0]), fuel, abs_tol=.1)
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks'] + mach_expanded[::2] + breguet_steps[::2]:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
