@@ -160,7 +160,17 @@ retry_text=retry_original.decode('utf-8').replace('\r\n','\n')
 retry_anchor='    :goto_1f\n    if-eqz v7, :cond_39'
 assert retry_text.count(retry_anchor)==1
 retry_hook='    :goto_1f\n    invoke-static {v4, v5, v7}, Lcom/duoaero/nativebase/NativeCourseBridge;->retryOriginalEvaluation(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;\n    move-result-object v7\n    if-eqz v7, :cond_39'
+factory_source=SMALI/'smali_classes6/ip1.smali'
+factory_original=factory_source.read_bytes()
+factory_text=factory_original.decode('utf-8').replace('\r\n','\n')
+factory_anchor='    const-wide/16 v11, 0x3\n\n    invoke-virtual {v5, v11, v12, v7}, Lx4;->get(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;'
+assert factory_text.count(factory_anchor)==1
+factory_hook='    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->sandboxStartupTimeoutSeconds()J\n\n    move-result-wide v11\n\n    invoke-virtual {v5, v11, v12, v7}, Lx4;->get(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object;'
+factory_timeout='    :catch_3\n    iget-object v1, v2, Lp5l;->d:Lyto;'
+assert factory_text.count(factory_timeout)==1
+factory_timeout_hook='    :catch_3\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportSandboxStartupTimeout()V\n    iget-object v1, v2, Lp5l;->d:Lyto;'
 try:
+ factory_source.write_text(factory_text.replace(factory_anchor,factory_hook).replace(factory_timeout,factory_timeout_hook),encoding='utf-8')
  retry_source.write_text(retry_text.replace(retry_anchor,retry_hook),encoding='utf-8')
  sandbox_source.write_text(sandbox_text.replace(sandbox_anchor,sandbox_hook),encoding='utf-8')
  accessibility_source.write_text(accessibility_text.replace(accessibility_anchor,accessibility_hook+accessibility_anchor),encoding='utf-8')
@@ -168,6 +178,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ factory_source.write_bytes(factory_original)
  retry_source.write_bytes(retry_original)
  sandbox_source.write_bytes(sandbox_original)
  accessibility_source.write_bytes(accessibility_original)

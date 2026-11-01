@@ -50,6 +50,10 @@ public final class NativeCourseBridge {
  public static void reportGradingFailure(Throwable error){
   if(localOnly&&captureLocalRequests)Log.e("DuoAeroNative","Original Math grader failed",error);
  }
+ public static long sandboxStartupTimeoutSeconds(){return hasLocalCourse()?20L:3L;}
+ public static void reportSandboxStartupTimeout(){
+  if(hasLocalCourse())Log.e("DuoAeroNative","Original JavaScript sandbox startup timed out; no grading context created");
+ }
  private static final Map<android.view.View,Boolean> formulaLabels=new WeakHashMap<>();
  public static synchronized void bindFormulaAccessibility(android.view.View view,Object figure){
   String label=formulaAccessibility(figure);

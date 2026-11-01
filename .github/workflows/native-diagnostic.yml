@@ -30,6 +30,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # This job installs its pinned SDK under /tmp. Remove only the
+          # duplicate hosted-runner Android SDK to leave room for the emulator.
+          if [ "$RUNNER_ENVIRONMENT" = github-hosted ] && [ -d /usr/local/lib/android/sdk ]; then
+            sudo rm -rf /usr/local/lib/android/sdk
+          fi
+          df -h /tmp
           mkdir -p /tmp/duoaero-handoff build /tmp/duoaero-evidence
           gh release download handoff-2026-10-31-native-runtime-1 --repo "$GITHUB_REPOSITORY" --dir /tmp/duoaero-handoff
           python - <<'PY'

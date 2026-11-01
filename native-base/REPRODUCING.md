@@ -476,3 +476,16 @@ and the local service together, matching standalone repository inputs.
 Local checks: original 18,244 unchanged APK entries, 48 generated JS choice
 grading cases and 18 symbolic Java grading cases pass. These are not evidence
 of standalone usability, completion, persistence or production release readiness.
+
+The original sandbox factory waits only three seconds for Android's JavaScript
+service. For an installed local course that startup budget is now 20 seconds;
+other sessions retain three seconds. Original timeout behavior remains a failure
+and is logged. This addresses a concrete cold-start timing limit but has not yet
+been shown to eliminate missing contexts in runtime tests.
+
+The standalone driver now continues through the first 19 source-bank answers,
+requires native positive feedback, taps Claim XP and requires return to the
+original path. It still does not claim restart persistence. An earlier standalone
+CI job failed before running the app because SDK installation exceeded disk
+quota. Hosted runners now remove their unused duplicate Android SDK before
+installing this workflow's pinned toolchain.

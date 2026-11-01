@@ -4,6 +4,7 @@ No profile injection, instrumentation activity, mock grade or backend bypass is
 performed by this driver. The APK itself must initialize its original runtime.
 """
 import os
+import json
 from pathlib import Path
 import re
 import subprocess
@@ -41,9 +42,9 @@ def wait_for(name,predicate,timeout=120):
         time.sleep(3)
     raise AssertionError('Timed out waiting for '+name)
 
-def tap(tree,resource):
-    node=next((n for n in tree.iter('node') if n.get('package')==PACKAGE and n.get('resource-id')==resource and n.get('enabled')=='true'),None)
-    if node is None:raise AssertionError('Native control unavailable: '+resource)
+def tap(tree,resource=None,text=None):
+    node=next((n for n in tree.iter('node') if n.get('package')==PACKAGE and (resource is None or n.get('resource-id')==resource) and (text is None or any(text in v for v in (n.get('text',''),n.get('content-desc','')))) and n.get('enabled')=='true'),None)
+    if node is None:raise AssertionError('Native control unavailable: '+str((resource,text)))
     x1,y1,x2,y2=map(int,re.findall(r'\d+',node.get('bounds')))
     adb('shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
 
@@ -56,7 +57,27 @@ try:
     tree=wait_for('standalone-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),30)
     tap(tree,'com.duolingo:id/learnButton')
     tree=wait_for('standalone-question',lambda t:any('Low delivery times.' in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
-    (OUT/'standalone-result.txt').write_text('PASS: cold start, original home, named node, first question. No completion or persistence asserted.\n')
+    (OUT/'standalone-first-question-result.txt').write_text('PASS: cold start, original home, named node, first question. No completion or persistence asserted.\n')
+    # Use independently authored source answers and real touch input. Never
+    # install an instrumentation profile or replace an app state/grade.
+    root=Path(__file__).resolve().parents[1]
+    bank={q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
+    plan=json.loads((root/'app/assets/lesson_plan.json').read_text())
+    positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great job!','Nice job!','Nice!','Nicely done!'}
+    for i,qid in enumerate(plan[0]['lessons'][0]['ids']):
+        q=bank[qid]
+        assert q['type']=='choice' and not q.get('rich_text'), 'Cold-start driver needs reviewed support for this type'
+        answer=q['options'][q['answer']]
+        tree=wait_for('standalone-answer-'+str(i),lambda t:any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30)
+        tap(tree,text=answer)
+        tree=wait_for('standalone-selected-'+str(i),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
+        tap(tree,'com.duolingo:id/submitButton')
+        tree=wait_for('standalone-graded-'+str(i),lambda t:any(n.get('text','').strip() in positive for n in t.iter('node')),30)
+        tap(tree,text='CONTINUE')
+    tree=wait_for('standalone-complete',lambda t:any(n.get('text','').strip()=='CLAIM XP' for n in t.iter('node')),60)
+    tap(tree,text='CLAIM XP')
+    tree=wait_for('standalone-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),60)
+    (OUT/'standalone-result.txt').write_text('PASS: cold start, original path, 19 correct visible feedback results, Claim XP and return to path. Persistence after restart remains a separate requirement.\n')
 finally:
     (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E','chromium:E'))
     (OUT/'standalone-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))
