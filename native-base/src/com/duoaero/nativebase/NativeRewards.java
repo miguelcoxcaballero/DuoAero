@@ -15,6 +15,14 @@ final class NativeRewards {
   app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks(){
    public void onActivityResumed(android.app.Activity activity){
     if(!NativeCourseBridge.hasLocalCourse()||activity.getClass().getName().contains("SessionActivity"))return;
+    if(activity.getClass().getName().equals("com.duolingo.home.path.PathChestRewardActivity")){
+     try{
+      Object viewModel=activity.getClass().getMethod("v").invoke(activity);
+      Object reward=Class.forName("com.duolingo.core.rewards.RewardsServiceReward$CurrencyReward",true,activity.getClassLoader())
+       .getConstructor(String.class,int.class,boolean.class).newInstance("duoaero-path-gems",NativeChestRewards.GEMS,false);
+      NativeChestRewards.claim(viewModel,reward);
+     }catch(Exception error){android.util.Log.e("DuoAeroNative","Cannot record path chest opening",error);}
+    }
     refresh(app,false);
    }
    public void onActivityCreated(android.app.Activity a,android.os.Bundle b){}
