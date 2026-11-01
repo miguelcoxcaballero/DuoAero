@@ -153,23 +153,32 @@ def rive(data,name,png,width,height):
     asset_index=sum(t in ASSET for t,p,b in objects)
     asset_unique=max([p.get(204,0) for t,p,b in objects if t in ASSET]+[0])+1
     pure=bool(re.search(r'(^|_)duo(?:_|$)|resurrectedduo',name)) and 'waveform' not in name
-    animated_board={'duo_perfect_epic_03':'lc_character_artboard',
-                    'lesson_complete_redesign_v72':'01_duo_epic_arboard'}.get(name)
-    frames=[]
-    anchors=[]
-    if animated_board:
+    epic=('celebrate',('EpicDuo_Intro_Animation','EpicDuo_IdleLoop'))
+    surprised=('surprised',('JawdropDuo_Intro_animation','JawdropDuo_Loop_animation'))
+    determined=('determined',('Duo_LFG_Intro_Animation','Duo_LFG_IdleLoop'))
+    targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
+             'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
+             'duo_perfect_lfg_03':{'lc_character_artboard':determined},
+             'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
+                 '17_duo_perfect_jaw_drop_artboard':surprised,
+                 '04_duo_lfg_artboard':determined}}.get(name,{})
+    all_frames=[];frame_sets={}
+    if targets:
         from io import BytesIO
         from PIL import Image
-        frame_dir=Path(__file__).resolve().parents[1]/'app/assets/mascot/celebrate'
-        frames=[(frame_dir/f'frame-{i:02}.png').read_bytes() for i in range(16)]
-        for frame in frames:
-            with Image.open(BytesIO(frame)) as im:
-                # Ignore almost transparent antialiasing when measuring the
-                # pose. Keep the original pixels and register every frame to
-                # a common centre and baseline inside the native artboard.
-                box=im.getchannel('A').point(lambda a:255 if a>64 else 0).getbbox()
-                if box is None:raise ValueError('Empty animation frame')
-                anchors.append(((box[0]+box[2])/2,box[3]))
+        for board,(mood,timelines) in targets.items():
+            frame_dir=Path(__file__).resolve().parents[1]/'app/assets/mascot'/mood
+            frames=[(frame_dir/f'frame-{i:02}.png').read_bytes() for i in range(16)]
+            anchors=[]
+            for frame in frames:
+                with Image.open(BytesIO(frame)) as im:
+                    # Ignore almost transparent antialiasing when measuring
+                    # poses and register their centres and baselines.
+                    box=im.getchannel('A').point(lambda a:255 if a>64 else 0).getbbox()
+                    if box is None:raise ValueError('Empty animation frame')
+                    anchors.append(((box[0]+box[2])/2,box[3]))
+            frame_sets[board]=(frames,anchors,len(all_frames),timelines)
+            all_frames.extend(frames)
     # Rive's keyed-object IDs count interpolators as well as components.
     # Count the original IDs before appending our images to each artboard.
     counts={};count_board=None
@@ -177,29 +186,31 @@ def rive(data,name,png,width,height):
         if kind==1:count_board=values.get(4,'');counts[count_board]=0
         elif count_board is not None and (kind in COMPONENT or 'Interpolator' in SCHEMA['types'].get(str(kind),'')):
             counts[count_board]+=1
-    static_index=asset_index+len(frames)
+    static_index=asset_index+len(all_frames)
     keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
     animation=None
     first=True;replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0
     def finish():
         if not replace:return
         w,h=art.get(7,600.),art.get(8,600.)
-        if art.get(4)==animated_board:
+        if art.get(4) in frame_sets:
+            frames,anchors,offset,_=frame_sets[art.get(4)]
             for i,frame in enumerate(frames):
                 fw,fh=struct.unpack_from('>II',frame,16);scale=min(w/fw,h/fh)*.90
                 x=(anchors[0][0]-anchors[i][0])*scale
                 y=(anchors[0][1]-anchors[i][1])*scale
-                output.extend(encode(100,{4:f'DuoAero Snoopy frame {i}',5:motion_parent,206:asset_index+i,
+                output.extend(encode(100,{4:f'DuoAero Snoopy frame {i}',5:motion_parent,206:asset_index+offset+i,
                     13:w*(.5-art.get(11,0.))+x,14:h*(.5-art.get(12,0.))+y,16:scale,17:scale,18:1. if i==0 else 0.}))
             return
         scale=min(w/width,h/height)*.90
         output.extend(encode(100,{4:'DuoAero Snoopy',5:motion_parent,206:static_index,13:w*(.5-art.get(11,0.)),14:h*(.5-art.get(12,0.)),16:scale,17:scale}))
     def finish_animation():
-        if not animation or not art or art.get(4)!=animated_board:return
-        if animation.get(55) not in ('EpicDuo_Intro_Animation','EpicDuo_IdleLoop'):return
+        if not animation or not art or art.get(4) not in frame_sets:return
+        frames,_,_,timelines=frame_sets[art.get(4)]
+        if animation.get(55) not in timelines:return
         duration=animation.get(57,60)
         for i in range(len(frames)):
-            output.extend(encode(25,{51:counts[animated_board]+1+i}))
+            output.extend(encode(25,{51:counts[art.get(4)]+1+i}))
             output.extend(encode(26,{53:18}))
             # The original idle timeline loops between frames 70 and 190:
             # a 60-frame cycle repeats exactly at both ends of that range.
@@ -248,11 +259,11 @@ def rive(data,name,png,width,height):
         output.extend(raw if update==values else encode(kind,update,props))
     finish_animation();finish()
     if changed:
-        for i,frame in enumerate(frames):
+        for i,frame in enumerate(all_frames):
             fw,fh=struct.unpack_from('>II',frame,16)
             output.extend(encode(105,{203:f'DuoAero frame {i}',204:asset_unique+i,207:float(fh),208:float(fw)}))
             output.extend(encode(106,{212:frame}))
-        output.extend(encode(105,{203:'DuoAero Snoopy',204:asset_unique+len(frames),207:float(height),208:float(width)}))
+        output.extend(encode(105,{203:'DuoAero Snoopy',204:asset_unique+len(all_frames),207:float(height),208:float(width)}))
         output.extend(encode(106,{212:png}))
     return bytes(output),changed
 

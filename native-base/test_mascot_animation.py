@@ -25,8 +25,13 @@ for frame in frames:
 png = (ROOT / 'app/assets/mascot/welcome.png').read_bytes()
 width, height = struct.unpack_from('>II', png, 16)
 with zipfile.ZipFile(APK) as original:
-    for name, target in [('duo_perfect_epic_03', 'lc_character_artboard'),
-                         ('lesson_complete_redesign_v72', '01_duo_epic_arboard')]:
+    for name, target, idle, start, end in [
+            ('duo_perfect_epic_03', 'lc_character_artboard', 'EpicDuo_IdleLoop', 70, 190),
+            ('duo_perfect_lfg_03', 'lc_character_artboard', 'Duo_LFG_IdleLoop', 60, 180),
+            ('duo_perfect_jaw_drop_04', 'lc_character_artboard', 'JawdropDuo_Loop_animation', 120, 240),
+            ('lesson_complete_redesign_v72', '01_duo_epic_arboard', 'EpicDuo_IdleLoop', 70, 190),
+            ('lesson_complete_redesign_v72', '04_duo_lfg_artboard', 'Duo_LFG_IdleLoop', 60, 180),
+            ('lesson_complete_redesign_v72', '17_duo_perfect_jaw_drop_artboard', 'JawdropDuo_Loop_animation', 120, 240)]:
         source = original.read(f'res/raw/{name}.riv')
         _, before, _ = parse(source)
         board = None
@@ -50,7 +55,7 @@ with zipfile.ZipFile(APK) as original:
                 animation = values.get(55)
             elif board == target and kind == 100 and values.get(4, '').startswith('DuoAero Snoopy frame '):
                 poses.append(values)
-            elif board == target and animation == 'EpicDuo_IdleLoop':
+            elif board == target and animation == idle:
                 if kind == 25:
                     object_id = values.get(51)
                 elif kind == 30 and original_count + 1 <= (object_id or 0) <= original_count + 16:
@@ -58,11 +63,18 @@ with zipfile.ZipFile(APK) as original:
         assert len(poses) == len(tracks) == 16
         assert len({pose[206] for pose in poses}) == 16
         # Exactly one pose is visible throughout the looping native segment.
-        for time in range(70, 191):
+        for time in range(start, end + 1):
             assert sum(next(value for frame, value in reversed(track) if frame <= time)
                        for track in tracks.values()) == 1
-        assert [next(v for t, v in reversed(track) if t <= 70) for track in tracks.values()] == [
-            next(v for t, v in reversed(track) if t <= 190) for track in tracks.values()]
+        assert [next(v for t, v in reversed(track) if t <= start) for track in tracks.values()] == [
+            next(v for t, v in reversed(track) if t <= end) for track in tracks.values()]
+    for mood in ('surprised', 'determined'):
+        for path in (ROOT/'app/assets/mascot'/mood).glob('*.png'):
+            with Image.open(path) as image:
+                alpha=image.convert('RGBA').getchannel('A')
+                assert alpha.getextrema()[0] == 0 and alpha.getextrema()[1] >= 250
+                assert max(alpha.getpixel(p) for p in [(0, 0), (0, image.height-1),
+                           (image.width-1, 0), (image.width-1, image.height-1)]) <= 8
     for name, character in CHARACTER_CAST.items():
         source = original.read(f'res/raw/{name}.riv')
         _, before, _ = parse(source)
