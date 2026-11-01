@@ -393,6 +393,8 @@
       "Prior user data migration on upgrade",
       "In-app updater install and real S24 Ultra",
       "Physical audio and haptics"
-    ]
+    ],
+    "chest_diagnostic": "Run 41353988971: seeded prerequisites; visible +25 gems confirmation and balance after restart, but screenshot shows fallback dialog with no original chest animation. Not a full course or Drive test.",
+    "updater_profile_diagnostic": "Run 41354031335 failed: synthetic profile crashed with an unsupported drawable before reaching updater settings. Real signed app with a Google account has not been tested for this; a profile-resource fix is under test."
   }
 }
