@@ -521,9 +521,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    options=['4','3','5','6'],answer=0,explanation='2 + 2 = 4.')
   inequality.pop('lesson_steps',None);inequality.pop('formula_hint',None)
   mixed.append(inequality)
+  mixed.extend(lesson_questions([by_id['TA1-0041-F1']]))
  else:
   mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
- mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
+  mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:

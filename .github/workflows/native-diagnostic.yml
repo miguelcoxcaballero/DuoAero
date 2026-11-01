@@ -91,6 +91,7 @@ jobs:
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
+          python native-base/test_intro_formulas.py
           python native-base/test_path_structure.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py

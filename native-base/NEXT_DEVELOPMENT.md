@@ -13,6 +13,10 @@ related wind problems and other calculation families still need review.
 The same branch also converts reviewed speed and Mach inequalities such as
 `TAS>=1.3Vs` and `M<=0.75` into mathematical notation. Host checks cover these
 patterns; native Android layout for them is still unverified.
+Four introductory stiffness and wing-geometry questions now also practice
+their exact fraction formulas before a calculation hint. Their arithmetic and
+prerequisite ordering pass host checks, but their token rendering and grading
+have not yet been accepted in the original Android interface.
 
 This branch is experimental and is not represented by the 1.3.5 release APK.
 Do not publish it as a finished product. It has 74 active authored hints, including

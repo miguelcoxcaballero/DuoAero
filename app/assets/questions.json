@@ -6722,35 +6722,62 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0041-F1",
-    "topic": "2.3",
-    "subtopic": "Axial stiffness",
-    "stem": "Use axial stiffness k = EA/L. A bar has EA = 12 MN and L = 3 m. What is k?",
-    "type": "choice",
-    "options": [
-      "6 MN/m",
-      "12 MN/m",
-      "4 MN/m",
-      "36 MN/m"
-    ],
-    "answer": 2,
-    "explanation": "12/3 = 4.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "6 MN/m": "Incorrect: This does not use the stated length correctly.",
-      "12 MN/m": "Incorrect: This omits division by length.",
-      "4 MN/m": "Correct: 12/3 = 4.",
-      "36 MN/m": "Incorrect: This multiplies by length rather than dividing."
-    },
-    "legacy_id": "TA1-0041",
-    "section": "Midterm 1"
+  "id": "TA1-0041-F1",
+  "topic": "2.3",
+  "subtopic": "Axial stiffness",
+  "stem": "Use axial stiffness k = EA/L. A bar has EA = 12 MN and L = 3 m. What is k?",
+  "type": "choice",
+  "options": [
+    "6 MN/m",
+    "12 MN/m",
+    "4 MN/m",
+    "36 MN/m"
+  ],
+  "answer": 2,
+  "explanation": "12/3 = 4.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Lightweight Structures",
+    "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "6 MN/m": "Incorrect: This does not use the stated length correctly.",
+    "12 MN/m": "Incorrect: This omits division by length.",
+    "4 MN/m": "Correct: 12/3 = 4.",
+    "36 MN/m": "Incorrect: This multiplies by length rather than dividing."
+  },
+  "legacy_id": "TA1-0041",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "INTRO-AXIAL-STIFFNESS",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the axial stiffness formula",
+      "prefix": "k =",
+      "blocks": [
+        "\\frac{EA}{L}",
+        "\\frac{L}{EA}",
+        "\\frac{FL}{EA}",
+        "\\frac{3EI}{L^3}"
+      ],
+      "answer_blocks": [
+        "\\frac{EA}{L}"
+      ],
+      "formula_latex": "k=\\frac{EA}{L}",
+      "explanation": "k=\\frac{EA}{L}"
+    },
+    {
+      "id": "TA1-0041-F1",
+      "formula_hint": {
+        "latex": "k=\\frac{EA}{L}",
+        "prerequisite": "INTRO-AXIAL-STIFFNESS"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0010-F1",
     "topic": "2.3",
@@ -6782,35 +6809,62 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0068-F1",
-    "topic": "2.3",
-    "subtopic": "Cantilever stiffness",
-    "stem": "Use tip-loaded cantilever stiffness k = 3EI/L³. Here EI = 80000 N m² and L³ = 8 m³. What is k?",
-    "type": "choice",
-    "options": [
-      "10 kN/m",
-      "20 kN/m",
-      "60 kN/m",
-      "30 kN/m"
-    ],
-    "answer": 3,
-    "explanation": "3 × 80000/8 = 30000 N/m.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Lightweight Structures",
-      "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "10 kN/m": "Incorrect: This omits the factor 3.",
-      "20 kN/m": "Incorrect: The prescribed coefficient is 3, not 2.",
-      "60 kN/m": "Incorrect: This introduces an extra factor of two.",
-      "30 kN/m": "Correct: 3 × 80000/8 = 30000 N/m."
-    },
-    "legacy_id": "TA1-0068",
-    "section": "Midterm 1"
+  "id": "TA1-0068-F1",
+  "topic": "2.3",
+  "subtopic": "Cantilever stiffness",
+  "stem": "Use tip-loaded cantilever stiffness k = 3EI/L³. Here EI = 80000 N m² and L³ = 8 m³. What is k?",
+  "type": "choice",
+  "options": [
+    "10 kN/m",
+    "20 kN/m",
+    "60 kN/m",
+    "30 kN/m"
+  ],
+  "answer": 3,
+  "explanation": "3 × 80000/8 = 30000 N/m.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Lightweight Structures",
+    "url": "https://drive.google.com/file/d/1TuZYXIWrAgqM44dlRFtAj3r4LyIv_HTD/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "10 kN/m": "Incorrect: This omits the factor 3.",
+    "20 kN/m": "Incorrect: The prescribed coefficient is 3, not 2.",
+    "60 kN/m": "Incorrect: This introduces an extra factor of two.",
+    "30 kN/m": "Correct: 3 × 80000/8 = 30000 N/m."
+  },
+  "legacy_id": "TA1-0068",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "INTRO-CANTILEVER-STIFFNESS",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the cantilever tip stiffness formula",
+      "prefix": "k =",
+      "blocks": [
+        "\\frac{3EI}{L^3}",
+        "\\frac{EI}{L}",
+        "\\frac{3EI}{L}",
+        "\\frac{L^3}{3EI}"
+      ],
+      "answer_blocks": [
+        "\\frac{3EI}{L^3}"
+      ],
+      "formula_latex": "k=\\frac{3EI}{L^3}",
+      "explanation": "k=\\frac{3EI}{L^3}"
+    },
+    {
+      "id": "TA1-0068-F1",
+      "formula_hint": {
+        "latex": "k=\\frac{3EI}{L^3}",
+        "prerequisite": "INTRO-CANTILEVER-STIFFNESS"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0153",
     "topic": "2.3",
@@ -7970,35 +8024,62 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0055-F1",
-    "topic": "2.4",
-    "subtopic": "Geometry: aspect ratio",
-    "stem": "A wing has span b = 20 m and area S = 40 m². Use aspect ratio AR = b²/S. What is AR?",
-    "type": "choice",
-    "options": [
-      "5",
-      "2",
-      "20",
-      "10"
-    ],
-    "answer": 3,
-    "explanation": "20²/40 = 10.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "5": "Incorrect: This introduces an unnecessary factor of one half.",
-      "2": "Incorrect: This does not square the span before dividing.",
-      "20": "Incorrect: This confuses the numerical span with aspect ratio.",
-      "10": "Correct: 20²/40 = 10."
-    },
-    "legacy_id": "TA1-0055",
-    "section": "Midterm 1"
+  "id": "TA1-0055-F1",
+  "topic": "2.4",
+  "subtopic": "Geometry: aspect ratio",
+  "stem": "A wing has span b = 20 m and area S = 40 m². Use aspect ratio AR = b²/S. What is AR?",
+  "type": "choice",
+  "options": [
+    "5",
+    "2",
+    "20",
+    "10"
+  ],
+  "answer": 3,
+  "explanation": "20²/40 = 10.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Aerodynamics",
+    "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "5": "Incorrect: This introduces an unnecessary factor of one half.",
+    "2": "Incorrect: This does not square the span before dividing.",
+    "20": "Incorrect: This confuses the numerical span with aspect ratio.",
+    "10": "Correct: 20²/40 = 10."
+  },
+  "legacy_id": "TA1-0055",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "INTRO-ASPECT-RATIO",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the wing aspect-ratio formula",
+      "prefix": "\\mathrm{AR} =",
+      "blocks": [
+        "\\frac{b^2}{S}",
+        "\\frac{S}{b^2}",
+        "\\frac{b}{S}",
+        "b^2S"
+      ],
+      "answer_blocks": [
+        "\\frac{b^2}{S}"
+      ],
+      "formula_latex": "\\mathrm{AR}=\\frac{b^2}{S}",
+      "explanation": "\\mathrm{AR}=\\frac{b^2}{S}"
+    },
+    {
+      "id": "TA1-0055-F1",
+      "formula_hint": {
+        "latex": "\\mathrm{AR}=\\frac{b^2}{S}",
+        "prerequisite": "INTRO-ASPECT-RATIO"
+      }
+    }
+  ]
+},
   {
     "id": "TA1-0031-F1",
     "topic": "2.4",
@@ -8030,35 +8111,62 @@
     "section": "Midterm 1"
   },
   {
-    "id": "TA1-0180-F1",
-    "topic": "2.4",
-    "subtopic": "Geometry: taper ratio",
-    "stem": "A wing has tip chord 1 m and root chord 4 m. What is taper ratio lambda = tip chord/root chord?",
-    "type": "choice",
-    "options": [
-      "4.00",
-      "0.75",
-      "0.50",
-      "0.25"
-    ],
-    "answer": 3,
-    "explanation": "1/4 = 0.25.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "4.00": "Incorrect: This reverses the ratio.",
-      "0.75": "Incorrect: This subtracts the taper ratio from one.",
-      "0.50": "Incorrect: This is the square root of the ratio, which is not required.",
-      "0.25": "Correct: 1/4 = 0.25."
-    },
-    "legacy_id": "TA1-0180",
-    "section": "Midterm 1"
+  "id": "TA1-0180-F1",
+  "topic": "2.4",
+  "subtopic": "Geometry: taper ratio",
+  "stem": "A wing has tip chord 1 m and root chord 4 m. What is taper ratio lambda = tip chord/root chord?",
+  "type": "choice",
+  "options": [
+    "4.00",
+    "0.75",
+    "0.50",
+    "0.25"
+  ],
+  "answer": 3,
+  "explanation": "1/4 = 0.25.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Aerodynamics",
+    "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "4.00": "Incorrect: This reverses the ratio.",
+    "0.75": "Incorrect: This subtracts the taper ratio from one.",
+    "0.50": "Incorrect: This is the square root of the ratio, which is not required.",
+    "0.25": "Correct: 1/4 = 0.25."
+  },
+  "legacy_id": "TA1-0180",
+  "section": "Midterm 1",
+  "lesson_steps": [
+    {
+      "id": "INTRO-TAPER-RATIO",
+      "type": "formula_blocks",
+      "difficulty": 1,
+      "stem": "Complete the wing taper-ratio formula",
+      "prefix": "\\lambda =",
+      "blocks": [
+        "\\frac{c_t}{c_r}",
+        "\\frac{c_r}{c_t}",
+        "c_t+c_r",
+        "c_tc_r"
+      ],
+      "answer_blocks": [
+        "\\frac{c_t}{c_r}"
+      ],
+      "formula_latex": "\\lambda=\\frac{c_t}{c_r}",
+      "explanation": "\\lambda=\\frac{c_t}{c_r}"
+    },
+    {
+      "id": "TA1-0180-F1",
+      "formula_hint": {
+        "latex": "\\lambda=\\frac{c_t}{c_r}",
+        "prerequisite": "INTRO-TAPER-RATIO"
+      }
+    }
+  ]
+},
   {
     "topic": "2.6",
     "subtopic": "Hydraulic power",
