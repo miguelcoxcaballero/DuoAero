@@ -17,6 +17,16 @@ public final class UpdaterProbe extends Instrumentation {
   Bundle result=new Bundle();StringBuilder report=new StringBuilder();
   try{
    Context context=getTargetContext();ClassLoader loader=context.getClassLoader();
+   // LaunchActivity performs original process/home initialization that a
+   // direct internal SettingsActivity intent does not perform.
+   context.startActivity(context.getPackageManager().getLaunchIntentForPackage(context.getPackageName()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+   boolean home=false;
+   for(int attempt=0;attempt<90;attempt++){
+    AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
+    if(root!=null)try{home=contains(root,"Midterm 1");}finally{root.recycle();}
+    if(home)break;Thread.sleep(1000);
+   }
+   if(!home)throw new IllegalStateException("Original home did not initialize before settings");
    Activity settings=startActivitySync(new Intent().setClassName(context.getPackageName(),"com.duolingo.settings.SettingsActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
    boolean found=false;
    for(int attempt=0;attempt<60;attempt++){
@@ -24,7 +34,11 @@ public final class UpdaterProbe extends Instrumentation {
     if(root!=null)try{found=click(root,"App updates");if(!found&&attempt>10)scroll(root);}finally{root.recycle();}
     if(found)break;Thread.sleep(1000);
    }
-   if(!found)throw new IllegalStateException("Original settings did not expose App updates");
+   if(!found){
+    SessionScreen.capture(this,"updater-settings","updater-settings");
+    try(SessionDependencies dependencies=SessionDependencies.named(settings)){Thread.sleep(5000);report.append(dependencies.report());}
+    throw new IllegalStateException("Original settings did not expose App updates");
+   }
    Thread.sleep(6000);
    SessionScreen.capture(this,"updater-settings","updater-settings");
    AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();

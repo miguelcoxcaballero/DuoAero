@@ -11,6 +11,15 @@ final class SessionDependencies implements AutoCloseable {
  private final List<String> names = new ArrayList<>();
  private final Map<String,String> states = new ConcurrentHashMap<>();
  private SessionDependencies(ClassLoader classLoader){loader=classLoader;}
+ static SessionDependencies named(android.app.Activity activity)throws Exception {
+  SessionDependencies result=new SessionDependencies(activity.getClassLoader());
+  try{
+   Object host=activity.getClass().getMethod("v").invoke(activity),dispatcher=field(host,"g");
+   Map<?,?> named=(Map<?,?>)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticFlows").invoke(null);
+   for(Map.Entry<?,?> entry:named.entrySet())result.observe("named."+entry.getKey(),entry.getValue(),dispatcher);
+   return result;
+  }catch(Exception error){result.close();throw error;}
+ }
  static SessionDependencies end(android.app.Instrumentation test,android.app.Activity activity)throws Exception {
   SessionDependencies result=new SessionDependencies(activity.getClassLoader());
   java.util.concurrent.atomic.AtomicReference<Object> found=new java.util.concurrent.atomic.AtomicReference<>();
