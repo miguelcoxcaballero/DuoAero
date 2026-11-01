@@ -97,7 +97,9 @@ try:
         tree=wait('atmosphere-question-'+str(index),lambda t:bool(matching(t,needle,resource)),60,True)
         candidates=matching(tree,needle,resource)
         if kind!='choice':
-            candidates=[n for n in candidates if n.get('clickable')=='true' and (n.get('text','')==needle or n.get('content-desc','')==needle)]
+            # Compose often exposes the label on a non-clickable child of the
+            # actual card. A touch at the label's bounds still hits the card.
+            candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
         assert candidates,'No selectable answer for '+qid
         tap_node(candidates[-1])
         tree=wait('atmosphere-selected-'+str(index),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),30)
