@@ -44,7 +44,7 @@ def run(adb, tap, wait_for, capture, out, package, question, first_lesson):
             if any(n.get('text','').strip().casefold()=='claim xp' for n in tree.iter('node')):
                 node=next(n for n in tree.iter('node') if n.get('text','').strip().casefold()=='claim xp')
                 tap(tree,text=node.get('text'));break
-            if any(n.get('resource-id')=='com.duolingo:id/sessionCompleteAnimationView' for n in tree.iter('node')):
+            if any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node')):
                 point=claim_xp(out/'review-complete.png',out/'review-claim-ocr.png')
                 if point:
                     adb('shell','input','tap',str(point[0]),str(point[1]));break

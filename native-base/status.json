@@ -73,7 +73,7 @@
     "Run 41272211484 passes the full resume scenario: five answers, force-stop, original sixth question restored, full completion, visible return, restart persistence and next lesson. Run 41271938006 passes wrong-answer persistence and original end-of-lesson retry; separate cross-lesson review entry remains incomplete.",
     "All eight mixed exercises pass run 41271559987, repeated in 41271938006 and 41272211484: multi-select, SI matching, two word gaps, three ordered sequences and textbook matching. Wider course/font-scale acceptance remains pending.",
     "Native LaTeX choice/formula rendering is observed. All-field coverage, explanations, text/font scaling and overflow regression remain incomplete.",
-    "Google-only sign-in and account-isolated Drive are not connected to the native base.",
+    "Google-only original welcome control, Notes PKCE host and account-isolated Drive bridge compile; real OAuth, account switching and Drive synchronization are not yet verified.",
     "Canonical updater compiled and packaged with frozen sources unchanged, original settings access and own provider; runtime host/installation acceptance pending. Mascot, full screen comparison, audio/haptics/night-mode, production signing and publication to main remain."
   ],
   "publication": "Development source only. Diagnostic APK must not be published as a completed course.",
@@ -230,7 +230,7 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,
@@ -248,6 +248,8 @@
     "original_js_grading": "Intermittent null result; original swallowed exception logging and bounded retries for marked pure choice functions added. No grade injected; runtime verification pending.",
     "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
     "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
-    "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending."
+    "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending.",
+    "google_drive": "Native host compiled; five OAuth/Drive host tests and 34 native progress checks pass. Synthetic account-storage instrumentation added, not yet run. Real Google/Drive acceptance pending.",
+    "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step."
   }
 }

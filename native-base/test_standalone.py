@@ -127,9 +127,10 @@ try:
     while time.monotonic()<deadline:
         tree=capture('standalone-complete')
         if tree is not None:
-            if any(n.get('text','').strip()=='CLAIM XP' for n in tree.iter('node')):
-                tap(tree,text='CLAIM XP');break
-            if any(n.get('resource-id')=='com.duolingo:id/sessionCompleteAnimationView' for n in tree.iter('node')):
+            label=next((n.get('text') for n in tree.iter('node') if n.get('text','').strip().casefold()=='claim xp'),None)
+            if label:
+                tap(tree,text=label);break
+            if any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node')):
                 # Some original summaries render the entire button inside
                 # Rive. Locate its visible text, then use ordinary touch.
                 point=claim_xp(OUT/'standalone-complete.png',OUT/'standalone-claim-ocr.png')

@@ -12,7 +12,11 @@ import org.json.JSONObject;
 
 /** Exercises the host's original settings control and canonical updater. */
 public final class UpdaterProbe extends Instrumentation {
- public void onCreate(Bundle args){start();}
+ public void onCreate(Bundle args){
+  try{Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,getTargetContext().getClassLoader()).getField("captureNativeFlows").setBoolean(null,true);}
+  catch(Exception error){throw new IllegalStateException(error);}
+  start();
+ }
  public void onStart(){
   Bundle result=new Bundle();StringBuilder report=new StringBuilder();
   try{

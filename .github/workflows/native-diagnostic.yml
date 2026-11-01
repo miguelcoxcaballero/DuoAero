@@ -12,21 +12,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater, review]
+        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater, review, accounts]
     timeout-minutes: 30
     env:
-      ANDROID_HOME: ${{ runner.temp }}/duoaero-sdk
-      ANDROID_USER_HOME: ${{ runner.temp }}/duoaero-android
-      ANDROID_AVD_HOME: ${{ runner.temp }}/duoaero-android/avd
-      DUOAERO_APK: ${{ runner.temp }}/duoaero-handoff/Duolingo_v6.103.5.apk
-      DUOAERO_DECODED: ${{ runner.temp }}/duoaero-decoded
-      DUOAERO_SMALI: ${{ runner.temp }}/duoaero-decoded
-      DUOAERO_APKTOOL: /tmp/apktool.jar
-      DUOAERO_WORK: ${{ runner.temp }}/duoaero-native-base
-      DUOAERO_EVIDENCE: ${{ runner.temp }}/duoaero-evidence
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Select disk-backed build directories
+        run: |
+          echo "ANDROID_HOME=$RUNNER_TEMP/duoaero-sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_USER_HOME=$RUNNER_TEMP/duoaero-android" >> "$GITHUB_ENV"
+          echo "ANDROID_AVD_HOME=$RUNNER_TEMP/duoaero-android/avd" >> "$GITHUB_ENV"
+          echo "DUOAERO_APK=$RUNNER_TEMP/duoaero-handoff/Duolingo_v6.103.5.apk" >> "$GITHUB_ENV"
+          echo "DUOAERO_DECODED=$RUNNER_TEMP/duoaero-decoded" >> "$GITHUB_ENV"
+          echo "DUOAERO_SMALI=$RUNNER_TEMP/duoaero-decoded" >> "$GITHUB_ENV"
+          echo "DUOAERO_APKTOOL=/tmp/apktool.jar" >> "$GITHUB_ENV"
+          echo "DUOAERO_WORK=$RUNNER_TEMP/duoaero-native-base" >> "$GITHUB_ENV"
+          echo "DUOAERO_EVIDENCE=$RUNNER_TEMP/duoaero-evidence" >> "$GITHUB_ENV"
       - name: Prepare original APK and local diagnostic signer
         env:
           GH_TOKEN: ${{ github.token }}
@@ -37,7 +39,7 @@ jobs:
           echo "JAVA_HOME=$JAVA_HOME_17_X64" >> "$GITHUB_ENV"
           export JAVA_HOME="$JAVA_HOME_17_X64"
           export PATH="$JAVA_HOME/bin:$PATH"
-          # This job installs its pinned SDK under /tmp. Remove only the
+          # This job installs its own pinned SDK. Remove only the
           # duplicate hosted-runner Android SDK to leave room for the emulator.
           # Keep task files on disk: some runners mount /tmp as a 7.7 GB tmpfs.
           if [ "$RUNNER_ENVIRONMENT" = github-hosted ] && [ -d /usr/local/lib/android/sdk ]; then
@@ -188,6 +190,10 @@ jobs:
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
           case "$DIAGNOSTIC_SCENARIO" in
+            accounts)
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt
+              python -c "from pathlib import Path; assert 'ACCOUNT_STORAGE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/accounts.txt').read_text()"
+              ;;
             updater)
               timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UpdaterProbe > ${{ runner.temp }}/duoaero-evidence/updater.txt
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.png ${{ runner.temp }}/duoaero-evidence/ || true

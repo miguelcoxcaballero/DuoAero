@@ -22,7 +22,7 @@ public final class NativeSessionResume {
   return (Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
  }
  private static AtomicFile file(Application app,String id)throws IOException {
-  File folder=new File(app.getFilesDir(),"duoaero-course/local-test/resume");
+  File folder=new File(NativeAccountStore.root(app),"resume");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native resume store");
   return new AtomicFile(new File(folder,id+".json"));
  }
@@ -75,4 +75,5 @@ public final class NativeSessionResume {
  static synchronized void completed(Application app,String id)throws Exception {
   finished.add(id);file(app,id).delete();
  }
+ static synchronized void accountChanged(){observed.clear();finished.clear();}
 }

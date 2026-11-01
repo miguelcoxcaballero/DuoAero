@@ -4,6 +4,20 @@ import java.lang.reflect.*;
 
 /** Installs only the isolated diagnostic identity and original default config. */
 final class NativeLocalProfile {
+ static void clearLogin(Context context)throws Exception {
+  ClassLoader loader=context.getClassLoader();Object app=context.getApplicationContext();
+  Object component=app.getClass().getMethod("generatedComponent").invoke(app);
+  Object provider=component.getClass().getField("q2").get(component);
+  Method get=provider.getClass().getMethod("get");get.setAccessible(true);
+  Object repository=get.invoke(provider),cache=repository.getClass().getField("p").get(repository);
+  Class<?> method=Class.forName("com.duolingo.core.signuplogin.LoginState$LogoutMethod",true,loader);
+  Object state=Class.forName("rwn",true,loader).getConstructor(method).newInstance(method.getField("SETTINGS_MENU").get(null));
+  Object reducer=Class.forName("ygc",true,loader).getConstructor(Class.forName("vwn",true,loader),int.class).newInstance(state,0);
+  Class<?> operationType=Class.forName("e490",true,loader);
+  Object operation=Class.forName("d490",true,loader).getConstructor(Class.forName("qqh",true,loader)).newInstance(reducer);
+  Constructor<?> wrap=Class.forName("b490",true,loader).getConstructor(operationType,int.class);
+  NativeLocalCache.apply(loader,cache,wrap.newInstance(wrap.newInstance(operation,0),1));
+ }
  static void install(Context context,String courseId,boolean defaultExperiments)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);

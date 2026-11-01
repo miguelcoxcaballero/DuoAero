@@ -11,7 +11,7 @@ import com.inhouse.services.updater.UpdateActivity;
 public final class NativeUpdateHost implements Application.ActivityLifecycleCallbacks {
  private static NativeUpdateHost instance;
  private static java.lang.ref.WeakReference<Activity> foreground=new java.lang.ref.WeakReference<>(null);
- private static Object updateClick,reviewClick;
+ private static Object updateClick,reviewClick,driveClick,accountClick;
  private static java.lang.reflect.Method originalButton;
  private final NativeUpdates updates;
  private NativeUpdateHost(Application app){updates=new NativeUpdates(app);}
@@ -56,10 +56,27 @@ public final class NativeUpdateHost implements Application.ActivityLifecycleCall
      if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
      return "DuoAero mistake review";
     });
+    driveClick=action(loader,function,false);
+    accountClick=action(loader,function,true);
    }
    originalButton.invoke(null,384,composer,null,"App updates","duoaeroUpdatesButton",updateClick);
    originalButton.invoke(null,384,composer,null,"Review mistakes","duoaeroReviewButton",reviewClick);
+   originalButton.invoke(null,384,composer,null,"Google Drive","duoaeroDriveButton",driveClick);
+   originalButton.invoke(null,384,composer,null,"Switch Google account","duoaeroAccountButton",accountClick);
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot attach original update settings control",error);}
+ }
+ private static Object action(ClassLoader loader,Class<?> function,boolean change){
+  return java.lang.reflect.Proxy.newProxyInstance(loader,new Class<?>[]{function},(proxy,method,args)->{
+   if(method.getName().equals("invoke")){
+    Activity activity=foreground.get();if(activity!=null&&!activity.isFinishing()){
+     if(change)NativeGoogleHost.changeAccount(activity);else NativeGoogleHost.connect(activity);
+    }
+    return Class.forName("xv80",true,loader).getField("a").get(null);
+   }
+   if(method.getName().equals("equals"))return proxy==args[0];
+   if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
+   return "DuoAero Google settings";
+  });
  }
  public void onActivityPaused(Activity activity){updates.onPaused(activity);}
  public void onActivityDestroyed(Activity activity){updates.onDestroyed(activity);}

@@ -10,7 +10,11 @@ public final class NativeBootstrap {
  public static synchronized void prepare(Application app){
   try(java.io.InputStream marker=app.getAssets().open("duoaero/standalone-bootstrap")){}
   catch(java.io.IOException disabled){return;}
-  if(prepared||NativeCourseBridge.localOnly)return;
+  if(prepared)return;
+  if(NativeAccountStore.required(app)&&NativeAccountStore.current(app).isEmpty()){
+   NativeCourseBridge.localOnly=true;return;
+  }
+  if(NativeCourseBridge.localOnly&&!NativeAccountStore.required(app))return;
   try{
    // Seed the real login/user cache before DuoApp captures its startup state.
    // Late input was verified to leave a cold launcher on the welcome screen.
@@ -21,6 +25,10 @@ public final class NativeBootstrap {
  }
  public static synchronized void start(Application app){
   NativeUpdateHost.install(app);
+  if(NativeAccountStore.required(app))NativeGoogleHost.install(app);
+  if(!prepared&&NativeAccountStore.required(app)){
+   try{NativeLocalConfig.install(app);}catch(Exception error){throw new IllegalStateException("Cannot initialize original welcome configuration",error);}
+  }
   if(!prepared||finished)return;
   finished=true;
   long begin=SystemClock.elapsedRealtime();
@@ -47,5 +55,16 @@ public final class NativeBootstrap {
    Log.e("DuoAeroNative","Standalone native initialization failed",error);
    throw new IllegalStateException("Cannot initialize local Aerospace course",error);
   }
+ }
+ static synchronized void accountChanged(Application app,boolean signedIn)throws Exception {
+  prepared=false;finished=false;
+  NativeSessionResume.accountChanged();
+  NativeCourseBridge.localCourseInstalled=false;
+  NativeCourseBridge.serveLocalCourse=false;
+  if(signedIn){
+   // The private Google identity owns the store. The original local course
+   // profile remains an adapter and is never sent to Duolingo's service.
+   NativeLocalProfile.install(app,"MATH_BT",true);prepared=true;start(app);
+  }else NativeLocalProfile.clearLogin(app);
  }
 }

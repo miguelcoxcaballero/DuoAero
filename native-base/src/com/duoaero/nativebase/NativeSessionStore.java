@@ -11,19 +11,26 @@ public final class NativeSessionStore {
  private NativeSessionStore(){}
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
   if(!NativeCourseBridge.hasLocalCourse()||!sessionId.matches("[A-Za-z0-9_-]{1,160}"))throw new IllegalArgumentException("Invalid local course session");
-  File folder=new File(app.getFilesDir(),"duoaero-course/local-test/submissions");
+  File folder=new File(NativeAccountStore.root(app),"submissions");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
   JSONObject lesson=catalog.getJSONObject(sessionId);
   boolean completed=NativeCourseProgress.isCompleted(submission,lesson);
+  JSONObject proof=completed?submission:null;
   try{
    JSONObject previous=read(file);
    if(!sessionId.equals(previous.getString("sessionId")))throw new IOException("Stored lesson identity mismatch");
    completed|=previous.optBoolean("completedOnce")||NativeCourseProgress.isCompleted(previous.getJSONObject("nativeSubmission"),lesson);
+   if(proof==null){
+    JSONObject prior=previous.optJSONObject("completionSubmission");
+    if(prior==null)prior=previous.optJSONObject("nativeSubmission");
+    if(prior!=null&&NativeCourseProgress.isCompleted(prior,lesson))proof=prior;
+   }
   }catch(FileNotFoundException absent){}
   JSONObject record=new JSONObject().put("schema",1).put("sessionId",sessionId)
    .put("savedAt",System.currentTimeMillis()).put("nativeSubmission",submission).put("completedOnce",completed);
+  if(proof!=null)record.put("completionSubmission",proof);
   FileOutputStream output=null;
   try{
    output=file.startWrite();output.write(record.toString().getBytes("UTF-8"));file.finishWrite(output);
@@ -33,10 +40,11 @@ public final class NativeSessionStore {
   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
   if(completed)NativeSessionResume.completed(app,sessionId);
   android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+NativeCourseProgress.completionIssue(submission,lesson));
+  NativeGoogleHost.changed(app);
  }
  static synchronized Set<String> completedLessons(Application app)throws Exception {
   Set<String> completed=new HashSet<>();
-  File folder=new File(app.getFilesDir(),"duoaero-course/local-test/submissions");
+  File folder=new File(NativeAccountStore.root(app),"submissions");
   File[] files=folder.listFiles((dir,name)->name.matches("[A-Za-z0-9_-]{1,160}\\.json(?:\\.bak)?"));
   if(files==null)return completed;
   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
@@ -48,6 +56,42 @@ public final class NativeSessionStore {
    if(record.optBoolean("completedOnce")||NativeCourseProgress.isCompleted(record.getJSONObject("nativeSubmission"),catalog.getJSONObject(id)))completed.add(id);
   }
   return completed;
+ }
+ static synchronized JSONObject exportCompletions(Application app)throws Exception {
+  JSONObject result=new JSONObject(),catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  File folder=new File(NativeAccountStore.root(app),"submissions");
+  for(String id:completedLessons(app)){
+   JSONObject stored=read(new AtomicFile(new File(folder,id+".json")));
+   JSONObject proof=stored.optJSONObject("completionSubmission");if(proof==null)proof=stored.optJSONObject("nativeSubmission");
+   if(proof==null||!NativeCourseProgress.isCompleted(proof,catalog.getJSONObject(id)))continue;
+   JSONObject minimum=new JSONObject();
+   for(String key:new String[]{"id","type","failed","shouldLearnThings","startTime","endTime"})minimum.put(key,proof.get(key));
+   org.json.JSONArray ids=new org.json.JSONArray(),challenges=proof.getJSONArray("challenges");
+   for(int i=0;i<challenges.length();i++)ids.put(new JSONObject().put("id",challenges.getJSONObject(i).getString("id")));
+   minimum.put("challenges",ids);
+   result.put(id,new JSONObject().put("at",stored.getLong("savedAt")).put("nativeCompletion",minimum));
+  }
+  return result;
+ }
+ static synchronized void importCompletions(Application app,JSONObject incoming)throws Exception {
+  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  File folder=new File(NativeAccountStore.root(app),"submissions");
+  if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
+  for(Iterator<String> keys=incoming.keys();keys.hasNext();){
+   String id=keys.next();if(!catalog.has(id))continue;
+   JSONObject remote=incoming.optJSONObject(id);if(remote==null)continue;
+   JSONObject proof=remote.optJSONObject("nativeCompletion");
+   if(proof==null||!NativeCourseProgress.isCompleted(proof,catalog.getJSONObject(id)))continue;
+   AtomicFile file=new AtomicFile(new File(folder,id+".json"));JSONObject stored;
+   try{stored=read(file);if(stored.optBoolean("completedOnce"))continue;}
+   catch(FileNotFoundException absent){stored=new JSONObject().put("schema",1).put("sessionId",id).put("nativeSubmission",proof);}
+   stored.put("completionSubmission",proof).put("completedOnce",true).put("savedAt",Math.max(1,remote.optLong("at",1)));
+   FileOutputStream output=null;
+   try{output=file.startWrite();output.write(stored.toString().getBytes("UTF-8"));file.finishWrite(output);}
+   catch(Exception error){if(output!=null)file.failWrite(output);throw error;}
+   // A remote completion must not stop observation or delete the current
+   // device's in-flight original session. Its local controller owns that.
+  }
  }
  private static JSONObject read(AtomicFile file)throws Exception {
   try(FileInputStream input=file.openRead()){

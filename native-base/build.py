@@ -13,7 +13,13 @@ for d in [WORK/'classes',WORK/'dex']:
 def run(*args):subprocess.run([str(x) for x in args],check=True)
 # Preserve original Application, activities, fragments, themes, services and transitions.
 A='{http://schemas.android.com/apk/res/android}';E.register_namespace('android',A)
-tree=E.parse(BASE/'AndroidManifest.xml');root=tree.getroot();package='com.duoaero.nativebase';root.set('package','com.duolingo')
+tree=E.parse(BASE/'AndroidManifest.xml');root=tree.getroot();package=os.environ.get('DUOAERO_PACKAGE','com.duoaero.nativebase');root.set('package','com.duolingo')
+if package not in ('com.duoaero.nativebase','com.duoaero'):raise ValueError('Unsupported APK identity')
+production=package=='com.duoaero'
+if production:
+ version=os.environ['DUOAERO_VERSION'];version_code=int(os.environ['DUOAERO_VERSION_CODE'])
+ if not __import__('re').fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',version) or version_code<=10200:raise ValueError('Production version must advance the published APK')
+ root.set(A+'versionName',version);root.set(A+'versionCode',str(version_code))
 for el in root.iter():
  for key in ['authorities','permission','readPermission','writePermission','taskAffinity']:
   if A+key in el.attrib:el.set(A+key,el.get(A+key).replace('com.duolingo',package))
@@ -22,13 +28,19 @@ for el in root.iter():
  if A+'authorities' in el.attrib and not el.get(A+'authorities').startswith(package):el.set(A+'authorities',el.get(A+'authorities')+'.duoaero.nativebase')
  if el.get(A+'name','').startswith('.'):el.set(A+'name','com.duolingo'+el.get(A+'name'))
 E.SubElement(root,'uses-sdk',{A+'minSdkVersion':'29',A+'targetSdkVersion':'36'})
-app=root.find('application');app.set(A+'label','DuoAero original base · test');app.set(A+'debuggable','true')
+app=root.find('application');app.set(A+'label','DuoAero' if production else 'DuoAero original base · test');app.set(A+'debuggable','false' if production else 'true')
 assert app.get(A+'name')=='com.duolingo.core.DuoApp'
 # Do not register the reference service's external app links under the test identity.
 for component in app:
  for f in list(component.findall('intent-filter')):
   if any(e.get(A+'name')=='android.intent.category.BROWSABLE' for e in f.findall('category')):component.remove(f)
 E.SubElement(root,'uses-permission',{A+'name':'android.permission.REQUEST_INSTALL_PACKAGES'})
+callback=E.SubElement(app,'activity',{A+'name':'com.duoaero.nativebase.NativeOAuthCallbackActivity',A+'exported':'true' if production else 'false',A+'theme':'@android:style/Theme.Material.Light.NoActionBar'})
+if production:
+ oauth=E.SubElement(callback,'intent-filter')
+ E.SubElement(oauth,'action',{A+'name':'android.intent.action.VIEW'})
+ for category in ('DEFAULT','BROWSABLE'):E.SubElement(oauth,'category',{A+'name':'android.intent.category.'+category})
+ E.SubElement(oauth,'data',{A+'scheme':'com.duoaero'})
 for activity in ('UpdateActivity','InstallActivity'):
  E.SubElement(app,'activity',{A+'name':'com.inhouse.services.updater.'+activity,A+'exported':'false',A+'theme':'@android:style/Theme.Material.Light.NoActionBar'})
 E.SubElement(app,'receiver',{A+'name':'com.inhouse.services.updater.InstallReceiver',A+'exported':'false'})
@@ -239,6 +251,9 @@ settings_anchor='    invoke-static {}, Lt18;->d()Z'
 assert settings_method.count(settings_anchor)==2
 settings_position=settings_start+settings_method.rindex(settings_anchor)
 settings_text=settings_text[:settings_position]+'    invoke-static {v14}, Lcom/duoaero/nativebase/NativeUpdateHost;->settingsRow(Ljava/lang/Object;)V\n\n'+settings_text[settings_position:]
+logout_anchor='    const-string v8, "signOutButton"'
+assert settings_text.count(logout_anchor)==1
+settings_text=settings_text.replace(logout_anchor,logout_anchor+'\n\n    invoke-static {v9}, Lcom/duoaero/nativebase/NativeGoogleHost;->logoutHandler(Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v9\n\n    check-cast v9, Lkotlin/jvm/functions/Function0;')
 try:
  settings_source.write_text(settings_text,encoding='utf-8')
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
@@ -273,7 +288,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  update_config.pop('installedVersion',None)
  update_config.pop('installedVersionCode',None)
  out.writestr('assets/updates/config.json',json.dumps(update_config))
- if os.environ.get('DUOAERO_STANDALONE')=='1':out.writestr('assets/duoaero/standalone-bootstrap','1')
+ if production or os.environ.get('DUOAERO_STANDALONE')=='1':out.writestr('assets/duoaero/standalone-bootstrap','1')
+ if production or os.environ.get('DUOAERO_GOOGLE_GATE')=='1':out.writestr('assets/duoaero/google-required','1')
+ for shared in (ROOT/'shared').rglob('*'):
+  if shared.is_file():out.write(shared,'assets/shared/'+shared.relative_to(ROOT/'shared').as_posix())
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')
  # A separate input for the original hardcoded-session loader. The original
  # math reference asset remains unchanged for baseline comparisons.
@@ -315,5 +333,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
-run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
-print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')
+if production:
+ target=WORK/('DuoAero-'+version+'-unsigned.apk');shutil.copyfile(WORK/'aligned.apk',target)
+ print('Original runtime unsigned production candidate (requires acceptance and permanent signing):',target)
+else:
+ run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
+ print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')

@@ -15,7 +15,7 @@ final class NativeReviewStore {
  private NativeReviewStore(){}
  static boolean isReview(String id){return id!=null&&id.matches("review_[a-f0-9]{32}");}
  private static File directory(Application app)throws IOException {
-  File folder=new File(app.getFilesDir(),"duoaero-course/local-test/reviews");
+  File folder=new File(NativeAccountStore.root(app),"reviews");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create review store");
   return folder;
  }
@@ -26,7 +26,7 @@ final class NativeReviewStore {
  }
  static JSONObject create(Application app)throws Exception {
   JSONObject state;
-  try{state=read(new AtomicFile(new File(app.getFilesDir(),"duoaero-course/local-test/question-state.json")));}
+  try{state=read(new AtomicFile(new File(NativeAccountStore.root(app),"question-state.json")));}
   catch(FileNotFoundException empty){return null;}
   List<String> pending=NativeQuestionLedger.unresolved(state.getJSONObject("records"));
   if(pending.isEmpty())return null;
