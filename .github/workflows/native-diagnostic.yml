@@ -55,7 +55,7 @@ jobs:
           python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
-        timeout-minutes: 12
+        timeout-minutes: 16
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
@@ -122,8 +122,19 @@ jobs:
                 done
               done
             fi
+            if [ "$probe_interact" = formula ]; then
+              for phase in prompt selected graded; do
+                for item in 0 1; do
+                  for extension in png json; do
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "/tmp/duoaero-evidence/formula-$phase-$item.$extension" || true
+                  done
+                done
+              done
+            fi
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
+            adb shell dumpsys activity lastanr > "/tmp/duoaero-evidence/anr-$probe_label.txt"
+            adb logcat -d -b crash > "/tmp/duoaero-evidence/crash-$probe_label.txt"
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
@@ -131,6 +142,7 @@ jobs:
           run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true native-default
           run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
           run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
+          run_probe aerospace-formula MATH_BT native-defaults late native-minimal aerospace-formula formula false native-default native-cache
           python - <<'PYTHON'
           from pathlib import Path
           assert '1195 passed, 0 failed' in Path('/tmp/duoaero-evidence/models.txt').read_text()

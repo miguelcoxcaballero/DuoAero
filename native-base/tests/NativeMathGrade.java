@@ -27,6 +27,10 @@ final class NativeMathGrade {
     Object guess=fragment.getClass().getField("E0").get(fragment);
     return guess==null?null:((Enum<?>)guess.getClass().getField("a").get(guess)).name();
    }
+   if(fragment.getClass().getName().equals("com.duolingo.session.challenges.math.MathTokenDragFragment")||fragment.getClass().getName().equals("com.duolingo.session.challenges.math.MathExpressionBuildFragment")){
+    Object guess=fragment.getClass().getField("E0").get(fragment);
+    return guess==null?null:guess.getClass().getField("a").getBoolean(guess)?"CORRECT":"INCORRECT";
+   }
    String result=find(fragment.getClass().getMethod("getChildFragmentManager").invoke(fragment),depth+1);
    if(result!=null)return result;
   }

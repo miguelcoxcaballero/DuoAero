@@ -92,6 +92,7 @@ try:
 finally:prompt_source.write_bytes(prompt_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
+run(sys.executable,ROOT/'native-base/formula_exercises.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
  out.writestr('AndroidManifest.xml',res.read('AndroidManifest.xml'))
  for entry in base.infolist():
@@ -108,6 +109,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  # math reference asset remains unchanged for baseline comparisons.
  lesson=ROOT/'native-base/tests/fixtures/aerospace_lesson.json'
  out.write(lesson,'assets/hardcoded_sessions/duoaero/aerospace_lesson.json')
+ out.write(ROOT/'native-base/tests/fixtures/aerospace_formula_lesson.json','assets/hardcoded_sessions/duoaero/aerospace_formula_lesson.json')
  bank=json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
  by_id={question['id']:question for question in bank}
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]

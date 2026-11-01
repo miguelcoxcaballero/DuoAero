@@ -31,8 +31,8 @@ public final class UserSessionProbe extends Instrumentation {
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
-  if(!lesson.equals("math")&&!lesson.equals("aerospace")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -69,6 +69,7 @@ public final class UserSessionProbe extends Instrumentation {
   Thread.sleep(6000);
   Class<?> activity=Class.forName("com.duolingo.session.SessionActivity",true,loader);
   String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":lesson.equals("aerospace")?"hardcoded_sessions/duoaero/aerospace_lesson.json":"hardcoded_sessions/duoaero/aerospace_rich_lesson.json";
+  if(lesson.equals("aerospace-formula"))lessonAsset="hardcoded_sessions/duoaero/aerospace_formula_lesson.json";
   report.append("Lesson input: ").append(lessonAsset).append('\n');
   Object params=Class.forName("com.duolingo.data.session.start.SessionStartParams$Hardcoded",true,loader)
    .getConstructor(String.class,boolean.class).newInstance(lessonAsset,false);
@@ -128,6 +129,7 @@ public final class UserSessionProbe extends Instrumentation {
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
+  if(interaction.equals("formula"))report.append(SessionInteraction.formulaAnswers(this,current));
   else if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,current,interaction.equals("math-wrong")));
   if(interaction.equals("math-all")){
    Object engine=observedVm.getClass().getField("t2").get(observedVm);

@@ -5,6 +5,22 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
+ static String formulaAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
+  // Select through the original token controls; no model/grade injection.
+  String[][] answers={{"V²"},{"ρ","×","R_a","×","T"}};
+  for(int i=0;i<answers.length;i++){
+   SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
+   for(String token:answers[i]){click(test,null,token);Thread.sleep(500);}
+   SessionScreen.capture(test,"formula-selected-"+i,"formula-selected-"+i);
+   click(test,"com.duolingo:id/submitButton",null);
+   Thread.sleep(1500);
+   SessionScreen.capture(test,"formula-graded-"+i,"formula-graded-"+i);
+   NativeMathGrade.require(test,activity,"CORRECT");
+   android.util.Log.i("DuoAeroProbe","Original formula controller graded CORRECT: "+i);
+   click(test,null,"CONTINUE");Thread.sleep(1200);
+  }
+  return "Two formula prototypes answered through native token controls and original grades checked. No full course acceptance.\n";
+ }
  static String firstAssistAnswer(Instrumentation test)throws Exception {
   String stem="Which one from the following characteristics does not define the aerospace industry?";
   String next="Regarding the navigation aids:";
