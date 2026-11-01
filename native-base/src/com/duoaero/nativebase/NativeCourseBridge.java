@@ -10,6 +10,47 @@ import java.util.*;
 public final class NativeCourseBridge {
  public static volatile boolean localOnly = false;
  public static volatile boolean captureNativeFlows = false;
+ // Isolated device experiment only. Production hints stay disabled until
+ // the delayed native retry is verified end to end.
+ public static volatile boolean diagnosticHintRetry = false;
+ private static final Map<Object,Boolean> hintedFragments=Collections.synchronizedMap(new WeakHashMap<>());
+ public static void diagnosticTipOpened(){
+  if(!diagnosticHintRetry||!hasLocalCourse())return;
+  try{
+   android.app.Activity activity=NativeFormulaFeedback.currentSession();
+   if(activity==null)return;
+   Object manager=activity.getClass().getMethod("getSupportFragmentManager").invoke(activity);
+   Object fragment=visibleMathFragment(manager,0);
+   if(fragment!=null){hintedFragments.put(fragment,Boolean.TRUE);Log.i("DuoAeroNative","Diagnostic formula hint opened");}
+  }catch(ReflectiveOperationException error){Log.e("DuoAeroNative","Cannot bind diagnostic hint to fragment",error);}
+ }
+ private static Object visibleMathFragment(Object manager,int depth)throws ReflectiveOperationException{
+  if(depth>10)return null;
+  for(Object fragment:(List<?>)manager.getClass().getMethod("getFragments").invoke(manager)){
+   if(!(Boolean)fragment.getClass().getMethod("isVisible").invoke(fragment))continue;
+   if(fragment.getClass().getName().equals("com.duolingo.session.challenges.math.MathBlobSelectOneFragment"))return fragment;
+   Object found=visibleMathFragment(fragment.getClass().getMethod("getChildFragmentManager").invoke(fragment),depth+1);
+   if(found!=null)return found;
+  }
+  return null;
+ }
+ /** Called only by the original Check event, never on hint open or selection. */
+ public static Object diagnosticHintGuess(Object fragment,Object guess){
+  if(!diagnosticHintRetry||!hasLocalCourse()||fragment==null||guess==null||hintedFragments.remove(fragment)==null)return guess;
+  try{
+   Class<?> type=guess.getClass();
+   if(!type.getName().endsWith("FragmentGuess$MathBlobCorrectness"))return guess;
+   Object state=type.getField("a").get(guess);
+   if(!((Enum<?>)state).name().equals("CORRECT"))return guess;
+   Object incorrect=state.getClass().getField("INCORRECT").get(null);
+   for(Constructor<?> constructor:type.getConstructors())if(constructor.getParameterTypes().length==7){
+    Object value=constructor.newInstance(incorrect,type.getField("b").get(guess),type.getField("c").get(guess),
+      type.getField("d").get(guess),type.getField("e").get(guess),type.getField("f").get(guess),type.getField("g").get(guess));
+    Log.i("DuoAeroNative","Diagnostic hinted answer marked for original retry at Check");return value;
+   }
+  }catch(ReflectiveOperationException error){Log.e("DuoAeroNative","Cannot apply diagnostic hint retry",error);}
+  return guess;
+ }
  // A locally enrolled Aerospace learner must be able to open the original
  // home with zero XP. Enrollment is set only after both native path writes.
  public static volatile boolean localCourseInstalled = false;

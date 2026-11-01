@@ -166,7 +166,7 @@ jobs:
                 done
               fi
             fi
-            if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then
+            if [[ "$probe_interact" = math-all || "$probe_interact" = math-hint || "$probe_interact" = path-first ]]; then
               if [ "$probe_interact" = path-first ]; then
                 for phase in topic-headers node-opened session; do
                   for extension in png json; do
@@ -174,7 +174,7 @@ jobs:
                   done
                 done
               fi
-              for phase in $(seq 0 19) $(printf 'prompt-%s ' $(seq 0 19)) prompt-scrolled hint-open after-last-answer after-end-observation after-claim-xp; do
+              for phase in $(seq 0 19) $(printf 'prompt-%s ' $(seq 0 19)) prompt-scrolled hint-open hint-graded hint-retry after-last-answer after-end-observation after-claim-xp; do
                 case "$phase" in
                   after-*|prompt-*|hint-*) probe_file="lesson-$phase" ;;
                   *) probe_file="lesson-answer-$phase" ;;
@@ -277,7 +277,10 @@ jobs:
               adb shell dumpsys uimode > ${{ runner.temp }}/duoaero-evidence/night-observation.txt
               python native-base/test_device_effects.py
               ;;
-            lesson)
+          hint)
+            run_probe aerospace-rich-hint MATH_BT native-defaults late native-full aerospace-rich math-hint false native-default native-cache true
+            ;;
+          lesson)
               run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache true
               run_probe aerospace-rich-wrong MATH_BT native-defaults late native-full aerospace-rich math-wrong false native-default native-cache true
               ;;

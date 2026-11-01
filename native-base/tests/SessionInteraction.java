@@ -161,12 +161,15 @@ final class SessionInteraction {
    +"Next formula question option visible: "+contains(test,nextOption)+". Inspect grading and formula screenshots; no session completion or persistence asserted.\n";
  }
  static String allMathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
-  return allMathAnswers(test,activity,"rich-session-selections.json",true);
+  return allMathAnswers(test,activity,"rich-session-selections.json",true,false);
+ }
+ static String allMathHintRetry(Instrumentation test,android.app.Activity activity)throws Exception {
+  return allMathAnswers(test,activity,"rich-session-selections.json",true,true);
  }
  static String allPathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
-  return allMathAnswers(test,activity,"path-session-selections.json",false);
+  return allMathAnswers(test,activity,"path-session-selections.json",false,false);
  }
- private static String allMathAnswers(Instrumentation test,android.app.Activity activity,String selectionAsset,boolean checkRichLayout)throws Exception {
+ private static String allMathAnswers(Instrumentation test,android.app.Activity activity,String selectionAsset,boolean checkRichLayout,boolean hintRetry)throws Exception {
   String payload;
   try(java.io.InputStream input=test.getContext().getAssets().open(selectionAsset)){
    java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
@@ -208,6 +211,12 @@ final class SessionInteraction {
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1000);
    SessionScreen.capture(test,"lesson-answer-"+i,"lesson-answer-"+i);
+   if(hintRetry&&question.getString("id").equals("TA1-0148")){
+    for(int attempt=0;attempt<100&&!contains(test,"GOT IT");attempt++)Thread.sleep(200);
+    if(!contains(test,"GOT IT"))throw new IllegalStateException("Hint did not mark answer for retry at Check");
+    SessionScreen.capture(test,"lesson-hint-graded","lesson-hint-graded");
+    click(test,null,"GOT IT");Thread.sleep(1000);continue;
+   }
    NativeMathGrade.require(test,activity,"CORRECT");
    android.util.Log.i("DuoAeroProbe","Native correct answer "+(i+1)+"/"+selections.length()+": "+question.getString("id"));
    for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
@@ -216,13 +225,27 @@ final class SessionInteraction {
    click(test,null,"CONTINUE");
    if(i<selections.length()-1)Thread.sleep(1000);
   }
+  if(hintRetry){
+   for(int attempt=0;attempt<150&&!contains(test,"Density");attempt++)Thread.sleep(200);
+   if(!contains(test,"Density"))throw new IllegalStateException("Hinted question did not reappear at the end");
+   SessionScreen.capture(test,"lesson-hint-retry","lesson-hint-retry");
+   click(test,"com.duolingo:id/mathCard","\\textstyle "+contentDensity());
+   NativeMathGrade.awaitSelection(test,activity,"CORRECT");
+   click(test,"com.duolingo:id/submitButton",null);
+   for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
+   if(!hasContinue(test))throw new IllegalStateException("Correct hint retry did not complete");
+   click(test,null,"CONTINUE");
+  }
   for(int attempt=0;attempt<100&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
   boolean summaryVisible=contains(test,"CLAIM XP");
   long summaryWait=android.os.SystemClock.elapsedRealtime()-finalContinueAt;
   android.util.Log.i("DuoAeroProbe","Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible);
   SessionScreen.capture(test,"lesson-after-last-answer","lesson-after-last-answer");
+  if(hintRetry&&!summaryVisible)throw new IllegalStateException("Claim XP did not appear after successful hint retry");
+  if(hintRetry)return "PASS: formula hint stayed ungraded until Check, was marked incorrect on Check, and was retried after the remaining questions. Correct retry reached Claim XP. Persistence is not asserted.\n";
   return "Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible+".\nAll "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
  }
+ private static String contentDensity(){return "\\text{Density}";}
  private static void clickTip(Instrumentation test){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)throw new IllegalStateException("No active native hint window");

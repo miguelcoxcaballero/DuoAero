@@ -11,11 +11,14 @@ import java.util.WeakHashMap;
 final class NativeFormulaFeedback {
  private NativeFormulaFeedback(){}
  private static boolean installed;
+ private static java.lang.ref.WeakReference<Activity> currentSession=new java.lang.ref.WeakReference<>(null);
+ static Activity currentSession(){return currentSession.get();}
  static synchronized void install(Application app){
   if(installed)return;installed=true;
   app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks(){
    final WeakHashMap<Activity,Overlay> overlays=new WeakHashMap<>();
    public void onActivityResumed(Activity activity){
+    if(activity.getClass().getName().endsWith("SessionActivity"))currentSession=new java.lang.ref.WeakReference<>(activity);
     if(!activity.getClass().getName().endsWith("SessionActivity")||overlays.containsKey(activity))return;
     Overlay overlay=new Overlay(activity);overlays.put(activity,overlay);
     activity.getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(overlay);
@@ -24,7 +27,7 @@ final class NativeFormulaFeedback {
     Overlay overlay=overlays.remove(activity);if(overlay!=null)overlay.close();
    }
    public void onActivityCreated(Activity a,Bundle b){} public void onActivityStarted(Activity a){}
-   public void onActivityPaused(Activity a){} public void onActivityStopped(Activity a){}
+   public void onActivityPaused(Activity a){if(currentSession.get()==a)currentSession.clear();} public void onActivityStopped(Activity a){}
    public void onActivitySaveInstanceState(Activity a,Bundle b){}
   });
  }
