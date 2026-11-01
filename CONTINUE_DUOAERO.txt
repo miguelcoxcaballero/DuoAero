@@ -519,3 +519,20 @@ permanent keystore. Explicit user approval is needed before re-requesting it.
 A screenshot from 41325556810 also shows an original Duo with Snoopy in its
 eyes on the completion screen, and overflowing summary statistics; these are
 not fixed. Other previously listed acceptance gaps remain.
+
+2026-11-01 FOLLOW-UP: ACCEPTANCE AND UNSIGNED INPUT
+Run 41327606485 on eb93c423 completed the first Atmosphere lesson with an
+intentional mistake and native retry, claimed XP, verified its durable
+completion, and opened the next original lesson both before and after restart.
+Prior lessons were seeded, so this is not a complete course traversal. Its s24,
+chests, formula, lesson and synthetic-account jobs also passed; the Google
+scenario timed out and has been re-run. Neither scenario proves real OAuth or
+Drive. Candidate 41327606501 succeeded. The explicitly UNSIGNED signing input
+was published at release build-1.3.4 with SHA-256
+cf4a82bf605554bd1d518fcce6a711223e01e6607cf27cdefc10d3afb090f287;
+this is not an installable update. Its bound signing receipt is on
+codex/sign-1.3.4-fixed, made and verified by run 41328702049.
+The only public SIGNED APK remains 1.3.3. The blocked signer workflow change
+still needs explicit user approval, and real Drive, updater installation,
+physical device feedback, complete mascot replacement, summary clipping and
+all-lesson coverage remain unverified or unfinished.
