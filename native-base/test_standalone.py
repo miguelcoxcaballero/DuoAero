@@ -74,6 +74,20 @@ def capture_completion_motion():
     for frame in range(6):
         (OUT/('standalone-celebration-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
         time.sleep(.5)
+    if os.environ.get('DUOAERO_EXPECT_LOVEY')=='1':
+        selected=adb('logcat','-d','-s','DuoAeroCharacterTrace:I','*:S').decode(errors='replace')
+        (OUT/'completion-character-trace.txt').write_text(selected)
+        if 'LOVEY_DOVEY_DUO' in selected:
+            # Regression guard for the old, large red doghouse fallback.
+            # The actual screen still needs frame-by-frame visual review.
+            from PIL import Image
+            with Image.open(OUT/'standalone-celebration-00.png') as im:
+                im=im.convert('RGB');w,h=im.size
+                roi=im.crop((int(.15*w),int(.08*h),int(.85*w),int(.52*h)))
+                pixels=list(roi.getdata())
+                red=sum(r>180 and r>g*1.6 and r>b*1.6 and g<130 for r,g,b in pixels)/len(pixels)
+            assert red<.12, 'Lovey Dovey scene still shows the large red doghouse fallback'
+            (OUT/'lovey-fallback-check.txt').write_text('PASS: selected LOVEY_DOVEY_DUO and did not detect the prior large red doghouse; visual animation smoothness remains to be inspected.\n')
 
 try:
     adb('shell','am','force-stop',PACKAGE)
