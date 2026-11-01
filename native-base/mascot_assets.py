@@ -78,7 +78,11 @@ def rive(data,name,png,width,height):
     for kind,values,raw in objects:
         if kind==1:
             finish();art=values;component_id=0;motion_parent=0;label=values.get(4,'');w,h=values.get(7,0),values.get(8,0)
-            replace=(pure and first) or (name=='lesson_complete_main_29' and label=='lc_character_artboard') or ('duo' in label.lower() and min(w,h)>=100 and not re.search('sparkle|pupil|shine|waveform',label,re.I))
+            # Some large character artboards nest another artboard containing
+            # only eyes. Replacing both draws two full Snoopy images on top
+            # of one another (and can put Snoopy inside Duo's eyes).
+            auxiliary=re.search(r'sparkle|pupil|shine|waveform|(?:^|_)eyes(?:_|$)',label,re.I)
+            replace=(pure and first) or (name=='lesson_complete_main_29' and label=='lc_character_artboard') or ('duo' in label.lower() and min(w,h)>=100 and not auxiliary)
             first=False
             if replace:changed.append(label)
         elif art is not None and kind in COMPONENT:

@@ -14,6 +14,9 @@ target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     approved=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
     overlays, animation_report=animation_overlays(original,approved)
+    completion=animation_report['res/raw/lesson_complete_redesign_v72.riv']['artboards']
+    assert '01_duo_epic_arboard' in completion
+    assert 'EpicDuo_Eyes_artboard' not in completion, 'Do not draw a second mascot in a nested eye artboard'
     checked = 0
     for entry in original.infolist():
         name = entry.filename

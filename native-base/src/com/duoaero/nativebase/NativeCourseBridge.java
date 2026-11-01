@@ -313,7 +313,8 @@ public final class NativeCourseBridge {
   // Original analytics sender oir.b accepts any2xx without reading a body.
   // This local course does not export Duolingo telemetry. Discard explicitly
   // instead of returning503 and triggering its tight event-batch retry loop.
-  if(localOnly&&method.equals("POST")&&path.equals("/api/1/sync/batch"))return jsonResponse(request,204,"");
+  if(localOnly&&method.equals("POST")&&(path.equals("/api/1/sync/batch")
+       ||path.equals("/api/1/sync/challenge_response/batch")))return jsonResponse(request,204,"");
   if(serveLocalCourse&&hasLocalCourse()){
    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
    if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
