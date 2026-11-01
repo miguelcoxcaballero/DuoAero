@@ -16,8 +16,9 @@ def run(adb, tap, wait_for, capture, out, package, question, first_lesson):
     tap(tree,control)
     for attempt in range(35):
         tree=capture('review-settings')
-        if tree is not None and any(n.get('text')=='Review mistakes' for n in tree.iter('node')):
-            tap(tree,text='Review mistakes')
+        if tree is not None and any(n.get('text','').casefold()=='review mistakes' for n in tree.iter('node')):
+            label=next(n.get('text') for n in tree.iter('node') if n.get('text','').casefold()=='review mistakes')
+            tap(tree,text=label)
             break
         if tree is not None:
             scroll=next((n for n in tree.iter('node') if n.get('scrollable')=='true'),None)
@@ -52,7 +53,7 @@ def run(adb, tap, wait_for, capture, out, package, question, first_lesson):
                 tap(tree,text='CONTINUE')
         time.sleep(3)
     else:raise AssertionError('Original review Claim XP was not rendered')
-    wait_for('review-return',lambda t:any(n.get('resource-id')=='com.duolingo:id/tabProfile' or n.get('text')=='Review mistakes' for n in t.iter('node')),60)
+    wait_for('review-return',lambda t:any(n.get('resource-id')=='com.duolingo:id/tabProfile' or n.get('text','').casefold()=='review mistakes' for n in t.iter('node')),60)
     base='files/duoaero-course/local-test/'
     saved=json.loads(adb('exec-out','run-as',package,'cat',base+'reviews/'+review_id+'-submission.json'))
     assert saved['sessionId']==review_id and saved['completed'] is True

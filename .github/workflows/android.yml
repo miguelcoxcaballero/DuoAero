@@ -1,4 +1,4 @@
-name: Build Android
+name: Validate course and shared integration
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -9,9 +9,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate course
         run: python3 tests/validate_bank.py
-      - name: Build native APK
-        run: python3 scripts/build.py
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: duoaero-unsigned
-          path: dist/*-unsigned.apk
+      - name: Check account and Drive boundaries
+        run: node --test tests/auth.test.cjs
+      - name: Verify frozen updater sources
+        run: python3 vendor/inhouse-services-updater/verify.py
+      # Android builds and device tests use native-diagnostic.yml. The retired
+      # custom-controller builder is not the requested original-runtime app.

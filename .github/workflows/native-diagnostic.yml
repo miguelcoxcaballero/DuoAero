@@ -4,6 +4,11 @@ on:
     branches: [codex/original-runtime-integration]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
+    inputs:
+      scenarios:
+        description: JSON array of device scenarios
+        required: true
+        default: '["path","lesson","formula","mixed","standalone","resume","mistakes","updater","review","accounts","google"]'
 permissions:
   contents: read
 jobs:
@@ -12,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater, review, accounts, google]
+        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}

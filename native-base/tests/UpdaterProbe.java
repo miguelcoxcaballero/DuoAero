@@ -72,7 +72,7 @@ public final class UpdaterProbe extends Instrumentation {
   return false;
  }
  private static boolean click(AccessibilityNodeInfo n,String label){
-  if(label.contentEquals(n.getText()==null?"":n.getText())){
+  if(label.equalsIgnoreCase(String.valueOf(n.getText()))){
    if(n.performAction(AccessibilityNodeInfo.ACTION_CLICK))return true;
    AccessibilityNodeInfo p=n.getParent();if(p!=null)try{return p.performAction(AccessibilityNodeInfo.ACTION_CLICK);}finally{p.recycle();}
   }
