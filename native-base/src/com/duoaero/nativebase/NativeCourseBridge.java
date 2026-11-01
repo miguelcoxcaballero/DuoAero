@@ -118,8 +118,18 @@ public final class NativeCourseBridge {
    Class<?> style=Class.forName("com.duolingo.core.math.models.figure.MathTextStyle",true,loader);
    Class<?> entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,loader);
    Class<?> type=figure.getClass();
+   Object originalStyle=type.getField("b").get(figure);
+   int font=label.length()>20?11:14;
+   Method sp=Class.forName("u6z",true,loader).getMethod("p",int.class);
+   long fontSize=(Long)sp.invoke(null,font),lineHeight=(Long)sp.invoke(null,font+3);
+   Object fittedStyle=style.getConstructor(long.class,long.class,
+      Class.forName("com.duolingo.core.math.models.figure.MathTextStyle$MathFontWeight",true,loader),
+      Class.forName("com.duolingo.core.math.models.figure.MathTextStyle$MathFontFamily",true,loader),
+      Class.forName("com.duolingo.core.math.models.figure.MathTextStyle$MathTextAlignment",true,loader))
+    .newInstance(fontSize,lineHeight,style.getField("c").get(originalStyle),style.getField("d").get(originalStyle),style.getField("e").get(originalStyle));
+   if(captureLocalRequests)Log.i("DuoAeroNative","Fitted native matching label, characters="+label.length());
    return type.getConstructor(java.util.List.class,style,scale,boolean.class,String.class,entity)
-    .newInstance(type.getField("a").get(figure),type.getField("b").get(figure),info,
+    .newInstance(type.getField("a").get(figure),fittedStyle,info,
        type.getField("d").getBoolean(figure),type.getField("e").get(figure),type.getField("f").get(figure));
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot fit native matching label",error);}
  }
