@@ -38,7 +38,9 @@ public final class ModelProbe extends Instrumentation {
     try {
      Object session=decode.invoke(json,serializer,input.toString());
      Object challenges=session.getClass().getField("b").get(session);
-     if(((java.util.Collection<?>)challenges).size()!=1)throw new AssertionError("Question was dropped");
+     int expected=input.getJSONArray("challenges").length();
+     if(expected<1||((java.util.Collection<?>)challenges).size()!=expected)
+      throw new AssertionError("A question step was dropped");
      passed++;
     }catch(Throwable error) {
      failed++;Throwable cause=error instanceof InvocationTargetException?error.getCause():error;
