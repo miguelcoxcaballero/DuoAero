@@ -18,7 +18,7 @@ SOURCE = {
 
 
 def entity(value):
-    operators = {'×': 'MULTIPLICATION', '+': 'ADDITION', '=': 'EQUALITY'}
+    operators = {'×': 'MULTIPLICATION', '÷': 'DIVISION', '+': 'ADDITION', '=': 'EQUALITY'}
     if value in operators:
         return {'symbol': operators[value]}
     return {'variable': {'algebraic': {'name': value}}}

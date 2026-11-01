@@ -5,6 +5,17 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
+ static String firstPathNode(Instrumentation test)throws Exception {
+  click(test,"com.duolingo:id/oval",null);
+  Thread.sleep(1800);
+  SessionScreen.capture(test,"path-node-opened","path-node-opened");
+  if(contains(test,"START LESSON"))click(test,null,"START LESSON");
+  else if(contains(test,"START"))click(test,null,"START");
+  Thread.sleep(12000);
+  SessionScreen.capture(test,"path-session","path-session");
+  if(!contains(test,"Low delivery times."))throw new IllegalStateException("First course question not visible after original path node");
+  return "Original home node opened its first Aerospace question through the original remote-session loader.\n";
+ }
  static String formulaAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
   // Select through the original token controls; no model/grade injection.
   String[][] answers={{"V²"},{"ρ","×","R_a","×","T"}};

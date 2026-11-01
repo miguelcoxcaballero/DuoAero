@@ -14,6 +14,7 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean captureHome=false;
  private boolean seedConfig=false;
  private boolean nativeProfileCache=false;
+ private boolean localService=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
@@ -24,6 +25,7 @@ public final class UserSessionProbe extends Instrumentation {
   captureHome=args!=null&&"true".equals(args.getString("capture_home"));
   seedConfig=args!=null&&"native-default".equals(args.getString("config_cache"));
   nativeProfileCache=args!=null&&"native-cache".equals(args.getString("profile_mode"));
+  localService=args!=null&&"true".equals(args.getString("local_service"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);}catch(Throwable error){setupError=error;}
@@ -32,7 +34,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","formula","path-first").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -43,6 +45,7 @@ public final class UserSessionProbe extends Instrumentation {
   if(nativeCourseCache){
    report.append(LocalCourseCache.install(getTargetContext(),fullCoursePath));
    Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("localCourseInstalled").setBoolean(null,true);
+   Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("serveLocalCourse").setBoolean(null,localService);
    report.append(LocalFeatureInputs.goals(getTargetContext()));
    LocalFeatureInputs.social(getTargetContext());
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
@@ -162,6 +165,7 @@ public final class UserSessionProbe extends Instrumentation {
     }
    }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
+   if(interaction.equals("path-first"))report.append(SessionInteraction.firstPathNode(this));
   }
   completed=true;
   report.append("Isolated request counts (no query, headers or body): ")

@@ -13,6 +13,13 @@ public final class NativeCourseBridge {
  // A locally enrolled Aerospace learner must be able to open the original
  // home with zero XP. Enrollment is set only after both native path writes.
  public static volatile boolean localCourseInstalled = false;
+ public static volatile boolean serveLocalCourse = false;
+ private static volatile String diagnosticProfile = null;
+ public static void setDiagnosticProfile(String value)throws JSONException {
+  JSONObject user=new JSONObject(value);
+  if(user.getLong("id")!=1||!"aerospace-local-test".equals(user.getString("username")))throw new IllegalArgumentException("Only the isolated test identity is supported");
+  diagnosticProfile=value;
+ }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
  /** Keep the native figure and cards, bounding only the prompt's scroll area. */
  public static Object scrollPrompt(Object figure,Object modifier,Object composer){
@@ -91,6 +98,45 @@ public final class NativeCourseBridge {
   }
  }
  static Object offlineResponse(Object request)throws Exception {
+  int code=503;String payload="{}";
+  if(serveLocalCourse&&hasLocalCourse()){
+   Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method");
+   Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+   if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=diagnosticProfile;}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT")){code=200;payload=asset(app,"duoaero/course/path-info.json");}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT/sections/DUOAERO_MIDTERM1")){code=200;payload=asset(app,"duoaero/course/section.json");}
+   else if(method.equals("POST")&&path.matches("/(?:[0-9-]+/)?sessions")){
+    JSONObject input=requestJson(request);JSONObject index=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
+    String selected=null;JSONObject metadata=input.optJSONObject("metadata");
+    if(metadata!=null&&index.has(metadata.optString("id")))selected=metadata.getString("id");
+    if(selected==null){
+     String skill=input.optString("skillId");int position=input.optInt("levelSessionIndex",0);
+     for(Iterator<String> keys=index.keys();keys.hasNext();){String key=keys.next();JSONObject candidate=index.getJSONObject(key);
+      if(candidate.getString("skillId").equals(skill)&&candidate.getInt("levelSessionIndex")==position){selected=key;break;}}
+    }
+    if(selected!=null){payload=index.getJSONObject(selected).toString();code=200;Log.i("DuoAeroNative","Local original session selected: "+selected);}
+    else{code=422;Log.e("DuoAeroNative","No supported local session for original request; field names="+input.names());}
+   }
+  }
+  return jsonResponse(request,code,payload);
+ }
+ static String asset(Application app,String path)throws IOException {
+  ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+  try(InputStream stream=app.getAssets().open(path)){byte[] buffer=new byte[8192];int n;while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);}
+  return bytes.toString("UTF-8");
+ }
+ static JSONObject requestJson(Object request)throws Exception {
+  Object body=call(request,"body");if(body==null)throw new IllegalArgumentException("Missing local session request");
+  ClassLoader loader=request.getClass().getClassLoader();
+  Object buffer=Class.forName("bo3",true,loader).getConstructor().newInstance();
+  Class.forName("okhttp3.RequestBody",true,loader).getMethod("writeTo",Class.forName("mo3",true,loader)).invoke(body,buffer);
+  byte[] bytes=(byte[])buffer.getClass().getMethod("Q0").invoke(buffer);
+  if(bytes.length>1048576)throw new IllegalArgumentException("Local session request too large");
+  // Parsed only for isolated session routing; never logged or exported.
+  return new JSONObject(new String(bytes,"UTF-8"));
+ }
+ static Object jsonResponse(Object request,int code,String payload)throws Exception {
   ClassLoader loader=request.getClass().getClassLoader();
   Class<?> builderClass=Class.forName("okhttp3.Response$Builder",true,loader);
   Class<?> protocolClass=Class.forName("okhttp3.Protocol",true,loader);
@@ -99,9 +145,9 @@ public final class NativeCourseBridge {
   Object builder=builderClass.getConstructor().newInstance();
   builderClass.getMethod("request",request.getClass()).invoke(builder,request);
   builderClass.getMethod("protocol",protocolClass).invoke(builder,protocolClass.getField("HTTP_1_1").get(null));
-  builderClass.getMethod("code",int.class).invoke(builder,503);
+  builderClass.getMethod("code",int.class).invoke(builder,code);
   builderClass.getMethod("message",String.class).invoke(builder,"Offline native-course diagnostic");
-  Object body=bodyClass.getMethod("create",String.class,mediaClass).invoke(null,"{}",null);
+  Object body=bodyClass.getMethod("create",String.class,mediaClass).invoke(null,payload,null);
   builderClass.getMethod("body",bodyClass).invoke(builder,body);
   return builderClass.getMethod("build").invoke(builder);
  }

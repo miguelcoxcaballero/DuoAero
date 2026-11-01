@@ -84,6 +84,7 @@ jobs:
             probe_home="${8:-false}"
             probe_config="${9:-none}"
             probe_profile="${10:-diagnostic-flows}"
+            probe_service="${11:-false}"
             probe_timeout=180
             if [ "$probe_interact" = math-all ]; then probe_timeout=300; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
@@ -91,7 +92,7 @@ jobs:
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
             probe_status=0
-            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
             echo "Instrumentation command exit: $probe_status" >> "/tmp/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "/tmp/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "/tmp/duoaero-evidence/views-$probe_label.json" || true
@@ -134,6 +135,13 @@ jobs:
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
             adb shell dumpsys activity lastanr > "/tmp/duoaero-evidence/anr-$probe_label.txt"
+            if [ "$probe_interact" = path-first ]; then
+              for phase in node-opened session; do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "/tmp/duoaero-evidence/path-$phase.$extension" || true
+                done
+              done
+            fi
             adb logcat -d -b crash > "/tmp/duoaero-evidence/crash-$probe_label.txt"
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
@@ -143,6 +151,7 @@ jobs:
           run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
           run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
           run_probe aerospace-formula MATH_BT native-defaults late native-minimal aerospace-formula formula false native-default native-cache
+          run_probe aerospace-path-session MATH_BT native-defaults late native-full aerospace-rich path-first true native-default native-cache true
           python - <<'PYTHON'
           from pathlib import Path
           assert '1195 passed, 0 failed' in Path('/tmp/duoaero-evidence/models.txt').read_text()

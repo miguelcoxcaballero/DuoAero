@@ -28,3 +28,15 @@ bank/path and are not runtime acceptance. Their native rendering, token selectio
 wrong/correct grading, repeated-block behavior, LaTeX, and completion need checks.
 The requested matching, multiple-hole exercises, and wider textbook coverage
 remain required; a model decode alone cannot close those requirements.
+
+`textbook_content.py` now authors 45 staged practice records, exactly 15 at each
+difficulty: 16 formula block exercises, eight matching exercises, and 21 systems
+questions. Together with the three hydraulic records, these supply 24 questions
+for the previously missing topic 2.6. They are not yet in the live bank/path.
+
+Run 41263532474 visibly opens the original home/path with Midterm 1 and native
+nodes using the native profile cache. All 15 choice answers grade correctly, but
+capturing the completion screen fails; release readiness remains false.
+The local route adapter packages 76 of the 81 existing lessons for original POST
+session requests. Five gap/order lessons remain explicitly unavailable. The next
+probe clicks the actual home node and checks its resulting first question.

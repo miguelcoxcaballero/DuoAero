@@ -40,6 +40,7 @@ public final class UserModelProbe extends Instrumentation {
   else profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId",courseId);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object user=decode.invoke(json,serializer,profile.toString());
+  Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("setDiagnosticProfile",String.class).invoke(null,profile.toString());
   return user;
 
  }
