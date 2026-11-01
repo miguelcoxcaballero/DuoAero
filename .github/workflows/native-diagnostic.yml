@@ -174,7 +174,7 @@ jobs:
                   done
                 done
               fi
-              for phase in $(seq 0 19) $(printf 'prompt-%s ' $(seq 0 19)) prompt-scrolled hint-open hint-graded hint-retry after-last-answer after-end-observation after-claim-xp; do
+              for phase in $(seq 0 19) $(printf 'prompt-%s ' $(seq 0 19)) prompt-scrolled hint-open hint-graded hint-retry hint-TA1-0078-D2 hint-TA1-0132-D2 hint-TA1-0154-D2 after-last-answer after-end-observation after-claim-xp; do
                 case "$phase" in
                   after-*|prompt-*|hint-*) probe_file="lesson-$phase" ;;
                   *) probe_file="lesson-answer-$phase" ;;
