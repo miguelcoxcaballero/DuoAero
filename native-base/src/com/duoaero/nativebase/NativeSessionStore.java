@@ -18,7 +18,7 @@ public final class NativeSessionStore {
   // full progress refresh increasingly expensive as the course grows.
   if(legacyCatalog==null)legacyCatalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-session-catalog.json"));
   if(historicalCatalogs==null){
-   String[] versions={"1.3.5","1.3.6"};JSONObject[] loaded=new JSONObject[versions.length];
+   String[] versions={"1.3.0","1.3.5","1.3.6"};JSONObject[] loaded=new JSONObject[versions.length];
    for(int i=0;i<versions.length;i++)loaded[i]=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/history-"+versions[i]+".json"));
    historicalCatalogs=loaded;
   }

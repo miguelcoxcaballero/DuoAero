@@ -164,10 +164,10 @@ public final class AccountProgressProbe extends Instrumentation {
     .put(revisedId,new JSONObject().put("at",20).put("nativeCompletion",oldProof)));
    check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-legacy",legacyPayload.toString())));
    check(new JSONObject((String)read.invoke(null,app,"synthetic-legacy")).getJSONObject("completedLessons").has(revisedId));
-   // Check both published snapshots against a hypothetical later lesson. A
+   // Check published snapshots against a hypothetical later lesson. A
    // future split must not break a complete historical proof or accept a
    // partial/foreign proof. These are synthetic records, not a Drive roundtrip.
-   JSONObject[] histories=new JSONObject[2];String[] versions={"1.3.5","1.3.6"};
+   String[] versions={"1.3.0","1.3.5","1.3.6"};JSONObject[] histories=new JSONObject[versions.length];
    for(int i=0;i<versions.length;i++){
     try(InputStream input=app.getAssets().open("duoaero/course/history-"+versions[i]+".json")){
      ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;
@@ -197,6 +197,17 @@ public final class AccountProgressProbe extends Instrumentation {
     check(Boolean.FALSE.equals(recorded.invoke(null,broken,hypothetical,null,historicalLessons)));
     check(Boolean.FALSE.equals(storedProof.invoke(null,app,broken,hypothetical)));
    }
+   // The 1.3.0 second Atmosphere lesson predates a split challenge and has a
+   // genuinely different set from 1.3.5. Require its exact historical proof.
+   String oldId="2.1-5-point-0-lesson-1";
+   JSONArray published130Questions=histories[0].getJSONObject(oldId).getJSONArray("challenges");
+   check(published130Questions.length()+1==histories[1].getJSONObject(oldId).getJSONArray("challenges").length());
+   JSONObject published130Proof=new JSONObject().put("id",oldId).put("type","MATH_LESSON").put("failed",false)
+    .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",new JSONArray(published130Questions.toString()));
+   JSONObject currentLesson=catalog.getJSONObject(oldId);
+   check(Boolean.FALSE.equals(recorded.invoke(null,published130Proof,currentLesson,null,new JSONArray())));
+   check(Boolean.TRUE.equals(recorded.invoke(null,published130Proof,currentLesson,null,new JSONArray().put(histories[0].getJSONObject(oldId)))));
+   check(Boolean.TRUE.equals(storedProof.invoke(null,app,published130Proof,currentLesson)));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
