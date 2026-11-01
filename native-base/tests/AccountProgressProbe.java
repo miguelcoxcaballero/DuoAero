@@ -109,12 +109,23 @@ public final class AccountProgressProbe extends Instrumentation {
    check(Boolean.FALSE.equals(mergeChest.invoke(null,app,claim)));
    check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put("unknown",200))));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+25);
+   JSONObject legacy;
+   try(InputStream input=app.getAssets().open("duoaero/course/legacy-chest-requirements.json")){
+    ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[4096];int n;while((n=input.read(block))!=-1)bytes.write(block,0,n);
+    legacy=new JSONObject(bytes.toString("UTF-8"));
+   }
+   String oldChest=null;int firstCount=levels.getJSONObject(0).getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas").length();
+   for(java.util.Iterator<String> ids=legacy.keys();ids.hasNext();){String id=ids.next();if(!id.equals(chestId)&&legacy.getJSONArray(id).length()==firstCount){oldChest=id;break;}}
+   check(oldChest!=null);
+   check(Boolean.TRUE.equals(mergeChest.invoke(null,app,new JSONObject().put(oldChest,80))));
+   check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put(oldChest,80))));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+50);
    String chestExport=(String)read.invoke(null,app,"synthetic-chests");
    check(new JSONObject(chestExport).getJSONObject("chests").has(chestId));
    check(prefs.edit().putString("account","synthetic-chests-restored").commit());
    apply.invoke(null,app,"synthetic-chests-restored",chestExport);
    check(Boolean.FALSE.equals(apply.invoke(null,app,"synthetic-chests-restored",chestExport)));
-   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+25);
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+50);
    Class<?> userFactory=Class.forName("com.duoaero.nativebase.NativeLocalUser",true,loader);
    Method make=userFactory.getDeclaredMethod("makeLocalUser",Context.class,String.class);make.setAccessible(true);
    Object nativeUser=make.invoke(null,app,"MATH_BT");

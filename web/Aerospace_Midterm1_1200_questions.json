@@ -5780,19 +5780,19 @@
           "text": "In an isothermal ISA layer, "
         },
         {
-          "latex": "p=p_{\\mathrm{base}}\\exp(-X)"
+          "latex": "p=p_be^{-X}"
         },
         {
           "text": ". At the point of interest, "
         },
         {
-          "latex": "p_{\\mathrm{base}}=20\\,\\mathrm{kPa}"
+          "latex": "p_b=20\\,\\mathrm{kPa}"
         },
         {
           "text": " and "
         },
         {
-          "latex": "\\exp(-X)=0.50"
+          "latex": "e^{-X}=0.50"
         },
         {
           "text": ". What is pressure?"

@@ -16,8 +16,9 @@ for question in bank:
 assert len(fixtures) >= 4
 isa = next(q for q in bank if q['id'] == 'TA1-0182-F1')
 isa_blob = json.loads(choice_blob(isa)['challengeBlob'])
-assert r'p_{\mathrm{base}}' in isa_blob['shirt']['value']
-assert r'\exp(-X)' in isa_blob['shirt']['value']
+assert r'p_b' in isa_blob['shirt']['value']
+assert r'e^{-X}' in isa_blob['shirt']['value']
+assert r'\exp' not in isa_blob['shirt']['value']
 assert 'p_base' not in isa_blob['shirt']['value']
 
 from formula_exercises import formula_challenge, prototypes
@@ -59,6 +60,9 @@ assert symbol('m_dot') == r'\dot{m}'
 assert symbol('sigma_max') == r'\sigma_{\mathrm{max}}'
 assert symbol('m^-1') == r'm^{-1}'
 assert symbol('m²') == r'm^{2}'
+assert symbol('exp(-Kh)') == r'e^{-Kh}'
+assert symbol('exp(-ln2)') == r'e^{-\ln 2}'
+assert parts('Use exp(-Kh).')[1] == {'latex': r'e^{-Kh}'}
 assert parts('The mass generally increases.') == [{'text': 'The mass generally increases.'}]
 assert parts('Fill ___ with one word.') == [{'text': 'Fill ___ with one word.'}]
 assert content(None, 'Use eta_p and m_dot in kg/s².') == r'\text{Use }\eta_{p}\text{ and }\dot{m}\text{ in kg/}s^{2}\text{.}'

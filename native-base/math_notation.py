@@ -13,7 +13,8 @@ SUPERSCRIPTS = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', '0123456789-+'
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
-    r'[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
+    r'exp\([A-Za-z0-9+*./-]+\)'
+    r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
     r'|(?:rho|eta|alpha|beta|gamma|sigma|lambda|pi|delta)'
     r'|[A-Za-z]+\^(?:[+-]?\d+(?:\.\d+)?)'
     r'|(?:\d+(?:\.\d+)?|[A-Za-z]+)[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+'
@@ -22,6 +23,9 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    if value.startswith('exp(') and value.endswith(')'):
+        exponent = re.sub(r'\bln(?=\d)', r'\\ln ', value[4:-1])
+        return 'e^{' + exponent + '}'
     if value == 'm_dot':
         return r'\dot{m}'
     if value == 'delta_alpha':

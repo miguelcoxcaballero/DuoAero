@@ -270,6 +270,7 @@ jobs:
               ;;
             formula)
               run_probe aerospace-formula MATH_BT native-defaults late native-full aerospace-formula formula false native-default native-cache true
+              python native-base/test_formula_spacing.py
               run_probe aerospace-formula-wrong MATH_BT native-defaults late native-full aerospace-formula formula-wrong false native-default native-cache true
               ;;
           esac
