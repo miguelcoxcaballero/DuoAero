@@ -16,6 +16,9 @@ assert notation_parts('M=1 at V = 190 m/s') == [
     {'latex': 'M=1'}, {'text': ' at '}, {'latex': 'V=190'}, {'text': ' m/s'}]
 assert notation_parts('g0=9.80665 and E=7e+10 Pa') == [
     {'latex': 'g_{0}=9.80665'}, {'text': ' and '}, {'latex': r'E=7\times 10^{10}'}, {'text': ' Pa'}]
+assert notation_parts('Tt=280 K, cp=1004.5 J/(kg K), gamma=1.4') == [
+    {'latex': 'T_{t}=280'}, {'text': ' K, '}, {'latex': 'c_{p}=1004.5'},
+    {'text': ' J/(kg K), '}, {'latex': r'\gamma=1.4'}]
 assert not any('latex' in p for p in notation_parts('k=1/(pi e AR)')) or not any(
     p.get('latex') == 'k=1' for p in notation_parts('k=1/(pi e AR)'))
 
