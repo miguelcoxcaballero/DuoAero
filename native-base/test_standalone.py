@@ -57,7 +57,7 @@ try:
     adb('shell','am','force-stop',PACKAGE)
     assert b'Success' in adb('shell','pm','clear',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
-    tree=wait_for('standalone-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')) and any('Aerospace activities / Aerospace infrastructure' in n.get('text','') for n in t.iter('node')))
+    tree=wait_for('standalone-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')) and any('aerospace activities / aerospace infrastructure' in n.get('text','').casefold() for n in t.iter('node')))
     tap(tree,'com.duolingo:id/oval')
     # Original onboarding may start the first lesson directly from the node.
     # Accept either native navigation route, then require the actual question.

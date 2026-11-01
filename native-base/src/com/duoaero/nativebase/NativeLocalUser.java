@@ -21,7 +21,15 @@ final class NativeLocalUser {
   Object descriptor=serializer.getClass().getMethod("getDescriptor").invoke(serializer);
   Class<?> dc=Class.forName("kotlinx.serialization.descriptors.SerialDescriptor",true,loader);
   JSONObject profile=(JSONObject)defaults(descriptor,dc,0);
-  profile.put("id",1).put("username","aerospace-local-test").put("learningLanguage","en").put("fromLanguage","en");
+  android.content.SharedPreferences account=context.getSharedPreferences("duoaero-google",0);
+  String accountId=NativeAccountStore.current(context);
+  String profileKey=accountId.isEmpty()?"local":NativeAccountStore.key(accountId);
+  android.content.SharedPreferences dates=context.getSharedPreferences("duoaero-profile-dates",0);
+  long created=dates.getLong(profileKey,0);
+  if(created<=0){created=System.currentTimeMillis()/1000;if(!dates.edit().putLong(profileKey,created).commit())throw new java.io.IOException("Cannot preserve course enrollment date");}
+  String name=account.getString("label","");if(name.isEmpty())name="Aerospace learner";
+  profile.put("id",1).put("username","aerospace-learner").put("name",name).put("creationDate",created)
+   .put("learningLanguage","en").put("fromLanguage","en");
   Object courseCompanion=Class.forName("com.duolingo.data.course.CourseProgressSummary",true,loader).getField("Companion").get(null);
   Object courseSerializer=courseCompanion.getClass().getMethod("serializer").invoke(courseCompanion);
   Object courseDescriptor=courseSerializer.getClass().getMethod("getDescriptor").invoke(courseSerializer);

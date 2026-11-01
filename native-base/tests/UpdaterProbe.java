@@ -21,6 +21,11 @@ public final class UpdaterProbe extends Instrumentation {
   Bundle result=new Bundle();StringBuilder report=new StringBuilder();
   try{
    Context context=getTargetContext();ClassLoader loader=context.getClassLoader();
+   android.graphics.drawable.Drawable icon=context.getPackageManager().getApplicationIcon(context.getPackageName());
+   android.graphics.Bitmap iconImage=android.graphics.Bitmap.createBitmap(432,432,android.graphics.Bitmap.Config.ARGB_8888);
+   icon.setBounds(0,0,432,432);icon.draw(new android.graphics.Canvas(iconImage));
+   try(FileOutputStream output=new FileOutputStream(new File(context.getExternalFilesDir(null),"launcher-icon.png"))){iconImage.compress(android.graphics.Bitmap.CompressFormat.PNG,100,output);}
+   finally{iconImage.recycle();}
    // LaunchActivity performs original process/home initialization that a
    // direct internal SettingsActivity intent does not perform.
    Activity homeActivity=startActivitySync(new Intent().setClassName(context.getPackageName(),"com.duolingo.splash.LaunchActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

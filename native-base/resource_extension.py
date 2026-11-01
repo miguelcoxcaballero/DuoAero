@@ -5,6 +5,42 @@ configuration values and compiled XML are not rebuilt or renumbered.
 """
 import struct
 
+MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
+
+
+def launcher_mascot(table):
+    """Point only the original launcher foreground ID at the approved artwork."""
+    top = list(chunks(table, 12, len(table)))
+    offset, _, _, size = top[0]
+    pool, path_index = append_string(table[offset:offset+size], MASCOT_PATH)
+    offset, kind, header, size = top[1]
+    if kind != 0x200:
+        raise ValueError('Expected original application package')
+    package = bytearray(table[offset:offset+size])
+    changed = 0
+    for start, kind, chunk_header, chunk_size in chunks(package, header, len(package)):
+        if kind != 0x201 or package[start+8] != 0x08:
+            continue
+        if package[start+9] != 0:
+            raise ValueError('Unexpected drawable entry encoding')
+        count = struct.unpack_from('<I', package, start+12)[0]
+        if count <= 0x293e:
+            continue
+        entry_offset = struct.unpack_from('<I', package, start+chunk_header+4*0x293e)[0]
+        if entry_offset == 0xffffffff:
+            continue
+        entry = start + struct.unpack_from('<I', package, start+16)[0] + entry_offset
+        entry_size, flags = struct.unpack_from('<HH', package, entry)
+        if entry_size != 8 or flags or package[entry+11] != 3:
+            raise ValueError('Unexpected original launcher foreground value')
+        struct.pack_into('<I', package, entry+12, path_index)
+        changed += 1
+    if changed != 1:
+        raise ValueError('Original launcher foreground must have one configuration')
+    result = bytearray(table[:12]) + pool + package
+    struct.pack_into('<I', result, 4, len(result))
+    return bytes(result)
+
 
 def chunks(data, start, end):
     while start < end:

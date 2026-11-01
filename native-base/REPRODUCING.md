@@ -680,3 +680,19 @@ the section title. Its existing title binding now receives the named unit for
 DUOAERO_MIDTERM1 only. Original layout/control implementation remains unchanged.
 The formula diagnostic now covers every one of the 16 textbook formula exercises,
 plus both earlier prototypes. These changes are not a completed release.
+
+## Profile and topic verification (run 41278961109)
+
+The original avatar-builder-config endpoint now returns the local configuration
+through its original serializer/cache. Profile visibly renders with its settings
+button; all 15 original aggregate inputs emit. The canonical updater passes.
+The persistent course header shows the full first topic without clipping. Inline
+separators still repeat Midterm 1. The separate review driver stopped at its
+case-sensitive home assertion because the original header renders uppercase;
+that selector is now corrected. No complete separate review is claimed yet.
+
+All 18 formula selections pass, as do the synthetic Google gate and encrypted
+storage restart. Real Google/Drive acceptance remains open. The launcher now
+uses the existing Snoopy artwork, unchanged, with Android adaptive-icon padding.
+Only its resource file reference and adaptive XML change; all existing resource
+IDs remain intact. This is not a replacement of the in-app Rive mascots.

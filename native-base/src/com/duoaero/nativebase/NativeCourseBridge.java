@@ -17,7 +17,8 @@ public final class NativeCourseBridge {
  private static volatile String diagnosticProfile = null;
  public static String setDiagnosticProfile(String value)throws JSONException {
   JSONObject user=new JSONObject(value);
-  if(user.getLong("id")!=1||!"aerospace-local-test".equals(user.getString("username")))throw new IllegalArgumentException("Only the isolated test identity is supported");
+  String username=user.getString("username");
+  if(user.getLong("id")!=1||!("aerospace-local-test".equals(username)||"aerospace-learner".equals(username)))throw new IllegalArgumentException("Only the local Aerospace profile is supported");
   // Both original profile readers share /users/1: the legacy User model and
   // the nested UserStreak resource. A missing longestStreak becomes the
   // all-null 'unavailable' sentinel on refresh, erasing the seeded zero streak.

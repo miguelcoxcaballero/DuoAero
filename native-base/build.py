@@ -5,7 +5,7 @@ from rich_question import choice_blob
 from course_adapter import session as native_session
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
-from resource_extension import updater_paths
+from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -33,12 +33,14 @@ for el in root.iter():
  if el.get(A+'name','').startswith('.'):el.set(A+'name','com.duolingo'+el.get(A+'name'))
 E.SubElement(root,'uses-sdk',{A+'minSdkVersion':'29',A+'targetSdkVersion':'36'})
 app=root.find('application');app_label='DuoAero' if production else 'DuoAero original base · test';app.set(A+'label',app_label);app.set(A+'debuggable','false' if production else 'true')
+app.set(A+'icon','@mipmap/ic_launcher')
 assert app.get(A+'name')=='com.duolingo.core.DuoApp'
 for component in app:
  if any(any(category.get(A+'name')=='android.intent.category.LAUNCHER' for category in intent.findall('category')) for intent in component.findall('intent-filter')):
   # Activity aliases override the application label, including the original
   # alternate launcher identities. Keep their routing and show the course name.
   component.set(A+'label',app_label)
+  component.set(A+'icon','@mipmap/ic_launcher')
 # Do not register the reference service's external app links under the test identity.
 for component in app:
  for f in list(component.findall('intent-filter')):
@@ -61,6 +63,15 @@ with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk',
   reference.writestr(entry,updater_paths(base.read(entry))[0] if entry.filename=='resources.arsc' else base.read(entry))
  reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
 run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--rename-manifest-package',package,'--no-auto-version')
+# Use the existing approved artwork unchanged. Padding belongs to Android's
+# adaptive-icon drawable so the entire doghouse fits circular launcher masks.
+launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
+launcher_res.parent.mkdir(parents=True,exist_ok=True)
+launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="22%"/></foreground></adaptive-icon>')
+run(tool('aapt2'),'compile',launcher_res,'-o',WORK/'launcher-res.zip')
+run(tool('aapt2'),'link','-o',WORK/'launcher.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'launcher-res.zip')
+with zipfile.ZipFile(WORK/'launcher.apk') as launcher:
+ launcher_xml=launcher.read(next(n for n in launcher.namelist() if n.endswith('/duoaero_launcher.xml')))
 source=ROOT/'native-base/src/com/duoaero/nativebase/NativeCourseBridge.java';assert source.is_file()
 run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',str(JAR)+os.pathsep+str(updater/'updater-shaded.jar'),'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
@@ -312,7 +323,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
    assert resource_id==0x7f160016
-   out.writestr(entry,table)
+   out.writestr(entry,launcher_mascot(table))
+  elif n=='res/mipmap-anydpi-v21/ic_launcher.xml':out.writestr(entry,launcher_xml)
   elif n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
   elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
   elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
@@ -323,6 +335,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(updater/'dex/classes.dex','classes13.dex')
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
+ out.write(ROOT/'app/assets/mascot/welcome.png',MASCOT_PATH)
  for asset in (ROOT/'app/assets/updates').iterdir():
   if asset.is_file() and asset.name!='config.json':out.write(asset,'assets/updates/'+asset.name)
  update_config=json.loads((ROOT/'app/assets/updates/config.json').read_text())
