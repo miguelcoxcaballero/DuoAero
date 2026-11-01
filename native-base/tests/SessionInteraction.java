@@ -20,7 +20,7 @@ final class SessionInteraction {
   String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
   for(int i=0;i<answers.length;i++){
    SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
-   for(String token:answers[i]){clickLast(test,token);Thread.sleep(500);}
+   for(String token:answers[i]){clickLast(test,formulaLabel(token));Thread.sleep(500);}
    SessionScreen.capture(test,"formula-selected-"+i,"formula-selected-"+i);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1500);
@@ -158,6 +158,9 @@ final class SessionInteraction {
    if(button==null)return false;
    try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
   }finally{root.recycle();}
+ }
+ private static String formulaLabel(String token){
+  return "\\textstyle "+token.replace("ρ","\\rho ").replace("²","^2").replace("×","\\times ");
  }
  // The same label may already be in an answer slot. The bank is the last
  // matching native control in traversal order; select it rather than removing

@@ -23,9 +23,17 @@ def entity(value):
     return {'variable': {'algebraic': {'name': 'duoaero:' + value}}}
 
 
-def figure(value, symbolic=False):
+def math_latex(value):
+    # Formula components are mathematical terms, never arbitrary HTML/JS.
+    symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',
+               '½': r'\frac{1}{2}', '²': '^2', '³': '^3', '×': r'\times ',
+               '÷': r'\div ', '−': '-', 'α': r'\alpha ', 'η': r'\eta '}
+    return r'\textstyle ' + ''.join(symbols.get(c, c) for c in value)
+
+
+def figure(value, symbolic=False, latex=False):
     return {'underlyingEntity': {'entity': entity(value)} if symbolic else {'noEntity': {}},
-            'taggedTextElement': {'text': html.escape(value)}}
+            'taggedTextElement': {'text': 'duoaero-latex:' + math_latex(value) if latex else html.escape(value)}}
 
 
 def formula_challenge(question):
@@ -46,12 +54,12 @@ def formula_challenge(question):
                'numCorrectAnswersRequired': 1, 'answersMustBeDistinct': False,
                'answersMustBeOrdered': True}
     body = {'underlyingEntity': {'noEntity': {}}, 'mathSequenceElement': {
-        'orientation': 'HORIZONTAL', 'elements': [figure(question['prefix']),
+        'orientation': 'HORIZONTAL', 'elements': [figure(question['prefix'], latex=True),
             {'underlyingEntity': {'noEntity': {}}, 'blankElement': {
                 'size': len(answer), 'text': {'text': ''},
                 'accessibilityLabel': 'Missing formula components'}}]}}
     inputs = {'gradingSpecification': grading,
-              'dragChoices': [figure(t, True) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
+              'dragChoices': [figure(t, True, latex=True) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
     inputs['slotCount'] = len(answer)
     return {'id': question['id'], 'type': 'mathExpressionBuild',
             'noHint': {}, 'promptInputChallenge': {'prompt': {

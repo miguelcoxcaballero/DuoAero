@@ -49,12 +49,26 @@ package_original=package_source.read_bytes()
 package_text=package_original.decode('utf-8').replace('\r\n','\n')
 package_anchor='    const-string v2, "com.duolingo"\n\n    invoke-virtual {v1, v2, v12}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;'
 assert package_text.count(package_anchor)==1
+latex_source=SMALI/'smali/com/duolingo/data/math/challenge/model/domain/c.smali'
+latex_original=latex_source.read_bytes()
+latex_text=latex_original.decode('utf-8').replace('\r\n','\n')
+latex_anchor='    invoke-virtual {v0, v1, v2}, Lcom/duolingo/data/math/challenge/model/domain/c;->r(Lcom/duolingo/core/math/models/network/OptionalMathEntity;Lcom/duolingo/core/math/models/network/TaggedText;)Lcom/duolingo/core/math/models/network/challenge/MathFigure$AttributedText;'
+assert latex_text.count(latex_anchor)==1
+latex_hook="""    invoke-static {v0, v1, v2}, Lcom/duoaero/nativebase/NativeCourseBridge;->latexFigure(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v7
+    if-eqz v7, :duoaero_original_tagged_figure
+    check-cast v7, Lcom/duolingo/core/math/models/network/challenge/MathFigure;
+    return-object v7
+    :duoaero_original_tagged_figure
+"""
 try:
+ latex_source.write_text(latex_text.replace(latex_anchor,latex_hook+latex_anchor),encoding='utf-8')
  flow_source.write_text(flow_text.replace(flow_anchor,flow_anchor+'\n\n    invoke-static {p1, p2}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordFlow(Ljava/lang/Object;Ljava/lang/String;)V'),encoding='utf-8')
  # Original app-update metadata must query the identity actually installed.
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ latex_source.write_bytes(latex_original)
  flow_source.write_bytes(flow_original)
  package_source.write_bytes(package_original)
 # The original zero-XP branch starts language onboarding even with an enrolled
@@ -111,6 +125,18 @@ try:
 finally:
  prompt_source.write_bytes(prompt_original)
  symbol_source.write_bytes(symbol_original)
+# Observe the exception before the original grader maps it to GRADING_ERROR.
+# Preserve its error state; never convert an error into a correct answer.
+grade_source=SMALI/'smali_classes7/ban.smali'
+grade_original=grade_source.read_bytes()
+grade_text=grade_original.decode('utf-8').replace('\r\n','\n')
+grade_anchor='    :catch_2\n    invoke-interface {v1}, Lao8;->getCoroutineContext()Lpn8;'
+assert grade_text.count(grade_anchor)==1
+grade_hook='    :catch_2\n    move-exception v2\n    invoke-static {v2}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportGradingFailure(Ljava/lang/Throwable;)V\n    invoke-interface {v1}, Lao8;->getCoroutineContext()Lpn8;'
+try:
+ grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
+ run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
+finally:grade_source.write_bytes(grade_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')
@@ -123,6 +149,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
   elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
   elif n=='classes6.dex':out.writestr(entry,(WORK/'classes6.dex').read_bytes())
+  elif n=='classes7.dex':out.writestr(entry,(WORK/'classes7.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')

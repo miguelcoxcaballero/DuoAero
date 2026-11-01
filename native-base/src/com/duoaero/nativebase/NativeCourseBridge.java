@@ -21,6 +21,25 @@ public final class NativeCourseBridge {
   diagnosticProfile=value;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ public static void reportGradingFailure(Throwable error){
+  if(localOnly&&captureLocalRequests)Log.e("DuoAeroNative","Original Math grader failed",error);
+ }
+ /** Decode explicitly marked formula figures using the original LaTeX renderer.
+  * The original optional MathEntity is retained for native slot grading.
+  */
+ public static Object latexFigure(Object factory,Object optionalEntity,Object taggedText){
+  if(!hasLocalCourse())return null;
+  try{
+   String value=(String)field(taggedText,"a");
+   String marker="duoaero-latex:";
+   if(!value.startsWith(marker))return null;
+   ClassLoader loader=factory.getClass().getClassLoader();
+   Object entity=factory.getClass().getMethod("l",Class.forName("com.duolingo.core.math.models.network.OptionalMathEntity",true,loader)).invoke(factory,optionalEntity);
+   return Class.forName("com.duolingo.core.math.models.network.challenge.MathFigure$LatexString",true,loader)
+    .getConstructor(String.class,boolean.class,Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,loader))
+    .newInstance(value.substring(marker.length()),false,entity);
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot convert Aerospace formula figure",error);}
+ }
  /** Compare actual native slots for explicitly marked Aerospace symbolic tasks.
   * Original numeric expression grading remains the fallback (null result).
   */
@@ -43,7 +62,7 @@ public final class NativeCourseBridge {
    for(Object slot:(List<?>)field(pair,"a")){
     if(!slot.getClass().getName().equals("qp3")){selected.add(null);continue;}
     Object figure=field(slot,"b");
-    if(!figure.getClass().getName().endsWith("MathFigureUiState$AttributedText")){selected.add(null);continue;}
+    if(!figure.getClass().getName().endsWith("MathFigureUiState$AttributedText")&&!figure.getClass().getName().endsWith("MathFigureUiState$LatexString")){selected.add(null);continue;}
     Object term=field(figure,"f");
     if(term==null){selected.add(null);continue;}
     String name=term.getClass().getName();

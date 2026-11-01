@@ -85,3 +85,9 @@ LaTeX and the remaining product requirements are not finished.
 Publication privacy: automated approval rejected disclosure of the private Drive
 URL and file metadata. The user explicitly authorized title and cited pages only.
 The public changes comply with that narrower approval.
+
+The next diagnostic adds explicit LaTeX markers to formula figures and converts
+them through the original MathFigure.LatexString renderer, preserving their
+underlying entities for grading. It also logs the original exception before the
+unchanged GRADING_ERROR fallback. Local build/integrity and symbolic comparison
+checks pass; native LaTeX bank rendering and multi-slot grading remain unverified.
