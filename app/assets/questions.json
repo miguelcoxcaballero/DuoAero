@@ -6288,6 +6288,13 @@
       "formula_hint": {
         "latex": "V_g=V+w",
         "prerequisite": "WIND-TAILWIND-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "V_g=250+30=280\\,\\mathrm{km/h}"
+          }
+        ]
       }
     }
   ]
@@ -16175,6 +16182,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{280}{192}=1.4583\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -16191,6 +16205,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.4583+1.2281=2.6864\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]
@@ -17681,6 +17702,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{300}{197}=1.5228\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -17697,6 +17725,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.5228+1.2658=2.7886\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]
@@ -19203,6 +19238,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{320}{202}=1.5842\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -19219,6 +19261,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.5842+1.3008=2.8850\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]
@@ -23716,6 +23765,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{380}{217}=1.7512\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -23732,6 +23788,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.7512+1.3919=3.1431\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]
@@ -25194,6 +25257,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{400}{222}=1.8018\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -25210,6 +25280,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.8018+1.4184=3.2202\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]
@@ -26718,6 +26795,13 @@
       "formula_hint": {
         "latex": "t=\\frac{d}{V_g}",
         "prerequisite": "WIND-TIME-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{out}=\\frac{420}{227}=1.8502\\,\\mathrm{h}"
+          }
+        ]
       }
     },
     {
@@ -26734,6 +26818,13 @@
       "formula_hint": {
         "latex": "t_{total}=t_{out}+t_{back}",
         "prerequisite": "WIND-TOTAL-FORMULA"
+      },
+      "rich_text": {
+        "explanation": [
+          {
+            "latex": "t_{total}=1.8502+1.4433=3.2935\\,\\mathrm{h}"
+          }
+        ]
       }
     }
   ]

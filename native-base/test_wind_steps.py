@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 from course_adapter import lesson_questions
 from formula_exercises import formula_challenge
+from rich_question import choice_blob, content
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
@@ -43,6 +44,11 @@ for qid in ids:
     assert steps[0]['formula_hint']['prerequisite'] == 'WIND-TIME-FORMULA'
     assert steps[1]['formula_hint']['prerequisite'] == 'WIND-TOTAL-FORMULA'
     assert all(len(set(q['options'])) == len(q['options']) and len(q['stem']) < 160 for q in steps)
+    for q in steps:
+        solution = content(q['rich_text']['explanation'], q['explanation'])
+        assert r'\mathrm{h}' in solution
+        blob = json.loads(choice_blob(q, include_formula_hint=True)['challengeBlob'])
+        assert json.dumps({'type': 'text', 'value': solution}) in blob['grading_function']
 
 seen = set()
 for node in plan:
