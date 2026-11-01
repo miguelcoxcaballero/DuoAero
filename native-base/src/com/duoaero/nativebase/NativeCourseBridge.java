@@ -10,6 +10,10 @@ import java.util.*;
 public final class NativeCourseBridge {
  public static volatile boolean localOnly = false;
  public static volatile boolean captureNativeFlows = false;
+ // A locally enrolled Aerospace learner must be able to open the original
+ // home with zero XP. Enrollment is set only after both native path writes.
+ public static volatile boolean localCourseInstalled = false;
+ public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
  private static final Map<String,Object> namedFlows=new LinkedHashMap<>();
  public static synchronized void recordFlow(Object flow,String name){
   if(!localOnly||!captureNativeFlows||flow==null||name==null||!name.matches("[A-Za-z][A-Za-z0-9_.-]{0,100}"))return;

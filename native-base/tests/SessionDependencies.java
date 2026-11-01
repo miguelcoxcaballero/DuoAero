@@ -25,13 +25,33 @@ final class SessionDependencies implements AutoCloseable {
    Map<?,?> named=(Map<?,?>)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticFlows").invoke(null);
    for(Map.Entry<?,?> entry:named.entrySet())result.observe("end.named."+entry.getKey(),entry.getValue(),dispatcher);
    result.observe("end.configure-args",field(field(vm,"W0"),"a"),dispatcher);
+   Object snapshot=field(field(vm,"D0"),"b");
+   for(String name:new String[]{"l","m","n","o","p","q"}){
+    Object input=Class.forName("qvl",true,result.loader).getMethod("getValue").invoke(field(snapshot,name));
+    result.observe("end.pre-session-source."+name,input,dispatcher);
+   }
    Object sequence=field(vm,"Y0");
    result.observe("end.sequence-state",field(sequence,"h"),dispatcher);
    result.observe("end.sequence-current",field(sequence,"k"),dispatcher);
+   Object sequenceState=field(sequence,"h").getClass().getMethod("getValue").invoke(field(sequence,"h"));
+   if(sequenceState!=null&&sequenceState.getClass().getName().equals("c110")){
+    List<?> screens=(List<?>)field(sequenceState,"f");
+    result.names.add("end.screens");
+    List<String> screenTypes=new ArrayList<>();for(Object screen:screens)screenTypes.add(screen.getClass().getName());
+    result.states.put("end.screens",screenTypes.toString());
+    Object pager=field(sequenceState,"g");
+    result.names.add("end.pager");result.states.put("end.pager",pager.getClass().getName());
+   }
    result.observe("end.ui-ready",field(field(vm,"Z0"),"b"),dispatcher);
    Object saved=field(vm,"f1");
    Object args=saved.getClass().getMethod("a",String.class).invoke(saved,"config_args");
    result.names.add("end.saved-config");result.states.put("end.saved-config",args==null?"null":args.getClass().getName());
+   if(args!=null)for(Field argument:args.getClass().getFields()){
+    if(Modifier.isStatic(argument.getModifiers()))continue;
+    Object value=argument.get(args);
+    String name="end.config."+argument.getName();result.names.add(name);
+    result.states.put(name,value==null?"null":value instanceof Number||value instanceof Boolean?value.toString():value instanceof Collection?"count="+((Collection<?>)value).size():value.getClass().getName());
+   }
    // Observe existing repository flows only; do not invoke mutations or write readiness.
    Class<?> flow=Class.forName("qdf",true,result.loader);
    for(Field repositoryField:vm.getClass().getFields()){

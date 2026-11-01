@@ -36,9 +36,10 @@ public final class UserSessionProbe extends Instrumentation {
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
-  if(seedConfig&&!captureHome)report.append(LocalConfigCache.install(getTargetContext()));
+  if(seedConfig)report.append(LocalConfigCache.install(getTargetContext()));
   if(nativeCourseCache){
    report.append(LocalCourseCache.install(getTargetContext(),fullCoursePath));
+   Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("localCourseInstalled").setBoolean(null,true);
    report.append(LocalFeatureInputs.goals(getTargetContext()));
    LocalFeatureInputs.social(getTargetContext());
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
@@ -150,12 +151,6 @@ public final class UserSessionProbe extends Instrumentation {
    if(home!=null&&home.getClass().getName().equals("com.duolingo.splash.LaunchActivity")){
     try(SessionDependencies dependencies=SessionDependencies.home(home)){
      Thread.sleep(5000);report.append(dependencies.report());
-     if(seedConfig){
-      SessionScreen.capture(this,"home-before-config","home-before-config");
-      report.append(LocalConfigCache.install(getTargetContext()));
-      Thread.sleep(12000);
-      report.append("After native Config input:\n").append(dependencies.report());
-     }
     }
    }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
@@ -164,6 +159,6 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Isolated request counts (no query, headers or body): ")
    .append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("diagnosticRequests").invoke(null)).append('\n');
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
- }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
+ }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));try{SessionScreen.capture(this);}catch(Throwable captureError){report.append("Failure screenshot unavailable\n");}}
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }

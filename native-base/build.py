@@ -56,6 +56,19 @@ try:
 finally:
  flow_source.write_bytes(flow_original)
  package_source.write_bytes(package_original)
+# The original zero-XP branch starts language onboarding even with an enrolled
+# local course. Route that enrollment through the existing home initialization;
+# leave XP, completion, grading and view-readiness states untouched.
+launch_source=SMALI/'smali_classes3/com/duolingo/splash/LaunchViewModel.smali'
+launch_original=launch_source.read_bytes()
+launch_text=launch_original.decode('utf-8').replace('\r\n','\n')
+launch_anchor='    cmp-long p1, v7, v9\n\n    if-lez p1, :cond_7\n\n    new-instance p1, Lihh;'
+assert launch_text.count(launch_anchor)==1
+launch_replacement='    cmp-long p1, v7, v9\n\n    if-gtz p1, :duoaero_enrolled\n\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z\n\n    move-result p1\n\n    if-eqz p1, :cond_7\n\n    :duoaero_enrolled\n    new-instance p1, Lihh;'
+try:
+ launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
+ run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
+finally:launch_source.write_bytes(launch_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
@@ -64,6 +77,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   n=entry.filename
   if n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
   elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
+  elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
   elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')

@@ -111,9 +111,9 @@ jobs:
               fi
             fi
             if [ "$probe_interact" = math-all ]; then
-              for phase in $(seq 0 14) after-last-answer after-end-observation; do
+              for phase in $(seq 0 14) prompt-1 prompt-2 prompt-3 after-last-answer after-end-observation; do
                 case "$phase" in
-                  after-*) probe_file="lesson-$phase" ;;
+                  after-*|prompt-*) probe_file="lesson-$phase" ;;
                   *) probe_file="lesson-answer-$phase" ;;
                 esac
                 for extension in png json; do
@@ -122,6 +122,7 @@ jobs:
               done
             fi
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
+            adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "/tmp/duoaero-evidence/render-$probe_label.txt"
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }

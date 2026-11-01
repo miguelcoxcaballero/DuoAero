@@ -70,6 +70,7 @@ final class SessionInteraction {
     if(attempt%10==9&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
+   if(i>=1&&i<=3)SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
    click(test,"com.duolingo:id/mathCard",answer);
    Thread.sleep(250);
    click(test,"com.duolingo:id/submitButton",null);

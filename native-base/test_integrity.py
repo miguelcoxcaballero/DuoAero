@@ -4,7 +4,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 
 from runtime_config import WORK, APK
-allowed = {'AndroidManifest.xml', 'classes.dex', 'classes4.dex'}
+allowed = {'AndroidManifest.xml', 'classes.dex', 'classes3.dex', 'classes4.dex'}
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as built:
     checked = 0
     for entry in original.infolist():
