@@ -40,3 +40,17 @@ capturing the completion screen fails; release readiness remains false.
 The local route adapter packages 76 of the 81 existing lessons for original POST
 session requests. Five gap/order lessons remain explicitly unavailable. The next
 probe clicks the actual home node and checks its resulting first question.
+
+Run 41264065545 rejects the first token prototype with `Invalid answer bank
+element: AttributedText(... V ...)`. Static inspection also shows that the legacy
+factory rejects STRUCTURAL and the expression controller evaluates only numeric
+results. The next implementation uses the original expression-build control for
+one or several slots and adds a scoped symbolic comparison at its grading callback.
+Only explicitly marked `duoaero:` variables opt in. Numeric tasks retain their
+original callback. Scalar multiplication/addition can commute; division cannot.
+This extension is new Aerospace grading logic, not proof of unmodified native
+symbolic grading. Both correct and incorrect touch-driven tests remain required.
+
+The same run's completion probe had a test dispatch bug: after all answers it
+also ran the first-question action. That is fixed separately; it cannot be used
+as evidence that the app failed at that point. Earlier ANR evidence is retained.

@@ -87,10 +87,30 @@ prompt_text=prompt_original.decode('utf-8').replace('\r\n','\n')
 prompt_anchor='    invoke-static/range {v0 .. v12}, Ljvo;->a(Lcom/duolingo/core/math/models/figure/MathFigureUiState;Lz5q;Lcvo;Lkotlin/jvm/functions/Function0;Lqqh;Lqqh;Lkotlin/jvm/functions/Function0;Ljava/lang/Integer;Ls6p;Lcom/duolingo/feature/math/ui/figure/WebViewInteractionState;Lo18;II)V'
 assert prompt_text.count(prompt_anchor)==1
 prompt_hook='    invoke-static {v0, v1, v10}, Lcom/duoaero/nativebase/NativeCourseBridge;->scrollPrompt(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v1\n\n    check-cast v1, Lz5q;\n\n'
+symbol_source=SMALI/'smali_classes6/com/duolingo/feature/math/challenge/c.smali'
+symbol_original=symbol_source.read_bytes()
+symbol_text=symbol_original.decode('utf-8').replace('\r\n','\n')
+symbol_anchor='    invoke-virtual {p1}, Ljava/lang/Boolean;->booleanValue()Z\n\n    move-result p1'
+assert symbol_text.count(symbol_anchor)==1
+symbol_hook='''
+    iget-object v0, p0, Lcom/duolingo/feature/math/challenge/c;->a:Lcom/duolingo/feature/math/challenge/MathExpressionBuildViewModel;
+    invoke-virtual {p1}, Ljava/lang/Boolean;->booleanValue()Z
+    move-result v1
+    invoke-static {v0, p2, v1}, Lcom/duoaero/nativebase/NativeCourseBridge;->gradeSymbolicExpression(Ljava/lang/Object;Ljava/lang/Object;Z)Ljava/lang/Object;
+    move-result-object v0
+    if-eqz v0, :duoaero_original_numeric_grade
+    return-object v0
+    :duoaero_original_numeric_grade
+    const/4 v0, 0x6
+    const/4 v1, 0x0
+'''
 try:
  prompt_source.write_text(prompt_text.replace(prompt_anchor,prompt_hook+prompt_anchor),encoding='utf-8')
+ symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
-finally:prompt_source.write_bytes(prompt_original)
+finally:
+ prompt_source.write_bytes(prompt_original)
+ symbol_source.write_bytes(symbol_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')

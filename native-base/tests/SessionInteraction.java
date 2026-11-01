@@ -16,9 +16,9 @@ final class SessionInteraction {
   if(!contains(test,"Low delivery times."))throw new IllegalStateException("First course question not visible after original path node");
   return "Original home node opened its first Aerospace question through the original remote-session loader.\n";
  }
- static String formulaAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
+ static String formulaAnswers(Instrumentation test,android.app.Activity activity,boolean wrong)throws Exception {
   // Select through the original token controls; no model/grade injection.
-  String[][] answers={{"V²"},{"ρ","×","R_a","×","T"}};
+  String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
   for(int i=0;i<answers.length;i++){
    SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
    for(String token:answers[i]){click(test,null,token);Thread.sleep(500);}
@@ -26,11 +26,11 @@ final class SessionInteraction {
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1500);
    SessionScreen.capture(test,"formula-graded-"+i,"formula-graded-"+i);
-   NativeMathGrade.require(test,activity,"CORRECT");
-   android.util.Log.i("DuoAeroProbe","Original formula controller graded CORRECT: "+i);
-   click(test,null,"CONTINUE");Thread.sleep(1200);
+   NativeMathGrade.require(test,activity,wrong?"INCORRECT":"CORRECT");
+   android.util.Log.i("DuoAeroProbe","Native formula controller with Aerospace symbolic comparison: "+(wrong?"INCORRECT":"CORRECT")+" at "+i);
+   click(test,null,wrong?"GOT IT":"CONTINUE");Thread.sleep(1200);
   }
-  return "Two formula prototypes answered through native token controls and original grades checked. No full course acceptance.\n";
+  return "Formula prototype selections submitted through native controls; Aerospace symbolic comparison checked against visible original fragment result. No full course acceptance.\n";
  }
  static String firstAssistAnswer(Instrumentation test)throws Exception {
   String stem="Which one from the following characteristics does not define the aerospace industry?";

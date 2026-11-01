@@ -21,6 +21,63 @@ public final class NativeCourseBridge {
   diagnosticProfile=value;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ /** Compare actual native slots for explicitly marked Aerospace symbolic tasks.
+  * Original numeric expression grading remains the fallback (null result).
+  */
+ public static Object gradeSymbolicExpression(Object viewModel,Object pair,boolean ready){
+  if(!hasLocalCourse())return null;
+  try{
+   Object prompt=field(viewModel,"b"),input=field(prompt,"b"),content=field(input,"a"),spec=field(content,"a");
+   List<?> rules=(List<?>)field(spec,"a");
+   if(rules.size()!=1)return null;
+   List<?> exact=(List<?>)field(rules.get(0),"b");
+   if(exact.size()!=1)return null;
+   Object expected=field(exact.get(0),"a");
+   List<String> required=new ArrayList<>();
+   if(expected.getClass().getName().endsWith("Entity$MathList")){
+    for(Object term:(List<?>)field(field(expected,"a"),"a"))required.add(networkTerm(term));
+   }else required.add(networkTerm(expected));
+   boolean scoped=false;for(String term:required)if(term!=null&&term.startsWith("duoaero:"))scoped=true;
+   if(!scoped)return null;
+   List<String> selected=new ArrayList<>();
+   for(Object slot:(List<?>)field(pair,"a")){
+    if(!slot.getClass().getName().equals("qp3")){selected.add(null);continue;}
+    Object figure=field(slot,"b");
+    if(!figure.getClass().getName().endsWith("MathFigureUiState$AttributedText")){selected.add(null);continue;}
+    Object term=field(figure,"f");
+    if(term==null){selected.add(null);continue;}
+    String name=term.getClass().getName();
+    if(name.endsWith("MathEntity$Algebraic"))selected.add((String)field(term,"a"));
+    else if(name.endsWith("MathEntity$Symbol"))selected.add("symbol:"+((Enum<?>)field(term,"a")).name());
+    else selected.add(null);
+   }
+   boolean correct=ready&&matchesFormulaTerms(required,selected);
+   return Class.forName("com.duolingo.core.session.FragmentGuess$Correctness",true,viewModel.getClass().getClassLoader())
+    .getConstructor(boolean.class,String.class,String.class).newInstance(correct,null,null);
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot grade native Aerospace expression",error);}
+ }
+ public static boolean matchesFormulaTerms(List<String> required,List<String> selected){
+  if(required.isEmpty()||required.size()!=selected.size()||required.contains(null)||selected.contains(null))return false;
+  if(required.equals(selected))return true;
+  // Multiplication and addition of these scalar components commute. Division
+  // and mixed operators must keep their positions; missing/extra terms fail.
+  if(required.size()<3||required.size()%2==0)return false;
+  String op=required.get(1);
+  if(!op.equals("symbol:MULTIPLICATION")&&!op.equals("symbol:ADDITION"))return false;
+  List<String> left=new ArrayList<>(),right=new ArrayList<>();
+  for(int i=0;i<required.size();i++){
+   if(i%2==1){if(!op.equals(required.get(i))||!op.equals(selected.get(i)))return false;}
+   else{left.add(required.get(i));right.add(selected.get(i));}
+  }
+  Collections.sort(left);Collections.sort(right);return left.equals(right);
+ }
+ private static String networkTerm(Object term)throws ReflectiveOperationException {
+  String name=term.getClass().getName();
+  if(name.endsWith("Entity$Variable"))return (String)field(field(field(term,"a"),"a"),"a");
+  if(name.endsWith("Entity$Symbol"))return "symbol:"+((Enum<?>)field(term,"a")).name();
+  return null;
+ }
+ private static Object field(Object value,String name)throws ReflectiveOperationException{return value.getClass().getField(name).get(value);}
  /** Keep the native figure and cards, bounding only the prompt's scroll area. */
  public static Object scrollPrompt(Object figure,Object modifier,Object composer){
   if(!hasLocalCourse()||figure==null||!figure.getClass().getName().equals("com.duolingo.core.math.models.figure.MathFigureUiState$LatexString"))return modifier;

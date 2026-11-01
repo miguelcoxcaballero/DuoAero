@@ -21,7 +21,7 @@ def entity(value):
     operators = {'×': 'MULTIPLICATION', '÷': 'DIVISION', '+': 'ADDITION', '=': 'EQUALITY'}
     if value in operators:
         return {'symbol': operators[value]}
-    return {'variable': {'algebraic': {'name': value}}}
+    return {'variable': {'algebraic': {'name': 'duoaero:' + value}}}
 
 
 def figure(value, symbolic=False):
@@ -38,7 +38,10 @@ def formula_challenge(question):
         raise ValueError('Duplicate choice labels need explicit identities')
     many = len(answer) > 1
     expected = {'mathList': {'values': [entity(a) for a in answer]}} if many else entity(answer[0])
-    grading = {'gradingRules': [{'gradingMethod': 'STRUCTURAL',
+    # The legacy factory rejects STRUCTURAL before creating the controller.
+    # VALUE preserves its model conversion. The scoped symbolic comparison
+    # extension handles only the explicit duoaero: algebraic identifiers.
+    grading = {'gradingRules': [{'gradingMethod': 'VALUE',
                                 'exactGrading': [{'exactAnswer': expected}],
                                 'intervalGrading': []}],
                'numCorrectAnswersRequired': 1, 'answersMustBeDistinct': False,
@@ -50,18 +53,14 @@ def formula_challenge(question):
                 'accessibilityLabel': 'Missing formula components'}}]}}
     inputs = {'gradingSpecification': grading,
               'dragChoices': [figure(t, True) for t in tokens]}
-    if many:
-        inputs['slotCount'] = len(answer)
-    else:
-        inputs.update(placeholderText={'text': 'Drag the missing term here'},
-                      alignment='ALIGNMENT_CENTER')
-    return {'id': question['id'], 'type': 'mathExpressionBuild' if many else 'mathWordProblemTokenDrag',
+    inputs['slotCount'] = len(answer)
+    return {'id': question['id'], 'type': 'mathExpressionBuild',
             'noHint': {}, 'promptInputChallenge': {'prompt': {
                 'instruction': {'text': '★' * question['difficulty'] + ' ' + question['stem']},
                 'body': body,
                 'gradingFeedbackSpecification': {'staticFeedback': {
                     'gradingFeedback': figure(question['explanation'])}}},
-                'input': {'expressionBuildInput' if many else 'tokenDragInput': inputs}}}
+                'input': {'expressionBuildInput': inputs}}}
 
 
 def prototypes():

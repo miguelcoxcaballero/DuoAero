@@ -9,6 +9,10 @@ permissions:
 jobs:
   diagnostic:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario: [path, lesson, formula]
     timeout-minutes: 30
     env:
       ANDROID_HOME: /tmp/duoaero-sdk
@@ -19,6 +23,7 @@ jobs:
       DUOAERO_SMALI: /tmp/duoaero-decoded
       DUOAERO_APKTOOL: /tmp/apktool.jar
       DUOAERO_WORK: /tmp/duoaero-native-base
+      DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Prepare original APK and local diagnostic signer
@@ -52,6 +57,7 @@ jobs:
         run: |
           python native-base/course_adapter.py
           python native-base/build.py
+          python native-base/test_symbolic_grading.py
           python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
@@ -123,11 +129,11 @@ jobs:
                 done
               done
             fi
-            if [ "$probe_interact" = formula ]; then
+            if [[ "$probe_interact" = formula* ]]; then
               for phase in prompt selected graded; do
                 for item in 0 1; do
                   for extension in png json; do
-                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "/tmp/duoaero-evidence/formula-$phase-$item.$extension" || true
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "/tmp/duoaero-evidence/$probe_label-$phase-$item.$extension" || true
                   done
                 done
               done
@@ -146,12 +152,19 @@ jobs:
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
-          run_probe aerospace-native-cache MATH_BT native-defaults late native-full aerospace-rich none true native-default native-cache
-          run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true native-default
-          run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
-          run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
-          run_probe aerospace-formula MATH_BT native-defaults late native-minimal aerospace-formula formula false native-default native-cache
-          run_probe aerospace-path-session MATH_BT native-defaults late native-full aerospace-rich path-first true native-default native-cache true
+          case "$DIAGNOSTIC_SCENARIO" in
+            path)
+              run_probe aerospace-path-session MATH_BT native-defaults late native-full aerospace-rich path-first true native-default native-cache true
+              ;;
+            lesson)
+              run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
+              run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
+              ;;
+            formula)
+              run_probe aerospace-formula MATH_BT native-defaults late native-minimal aerospace-formula formula false native-default native-cache
+              run_probe aerospace-formula-wrong MATH_BT native-defaults late native-minimal aerospace-formula formula-wrong false native-default native-cache
+              ;;
+          esac
           python - <<'PYTHON'
           from pathlib import Path
           assert '1195 passed, 0 failed' in Path('/tmp/duoaero-evidence/models.txt').read_text()
@@ -162,7 +175,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: original-runtime-diagnostic
+          name: original-runtime-diagnostic-${{ matrix.scenario }}
           path: |
             /tmp/duoaero-evidence/
             /tmp/duoaero-native-base/*-test.apk
@@ -171,6 +184,6 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: original-runtime-evidence
+          name: original-runtime-evidence-${{ matrix.scenario }}
           path: /tmp/duoaero-evidence/
           retention-days: 7
