@@ -93,7 +93,7 @@ final class SessionInteraction {
    }
    if(!contains(test,"17.97"))throw new IllegalStateException("Hinted Mach calculation did not retry at lesson end");
    SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
-   click(test,"com.duolingo:id/mathCard","17.97");Thread.sleep(1500);
+   click(test,"com.duolingo:id/mathCard","\\text{17.97 K}");Thread.sleep(1500);
    click(test,"com.duolingo:id/submitButton",null);
    for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
    if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct Mach retry did not grade correctly");
