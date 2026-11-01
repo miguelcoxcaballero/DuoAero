@@ -84,7 +84,28 @@ try:
     tree=wait_for('standalone-complete',lambda t:any(n.get('text','').strip()=='CLAIM XP' for n in t.iter('node')),60)
     tap(tree,text='CLAIM XP')
     tree=wait_for('standalone-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),60)
-    (OUT/'standalone-result.txt').write_text('PASS: cold start, original path, 19 correct visible feedback results, Claim XP and return to path. Persistence after restart remains a separate requirement.\n')
+    first_id=plan[0]['lessons'][0]['id']
+    store='files/duoaero-course/local-test/submissions/'+first_id+'.json'
+    saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
+    assert saved['sessionId']==first_id and saved['completedOnce'] is True, 'Native submission did not establish durable completion'
+    (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
+    adb('shell','am','force-stop',PACKAGE)
+    adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
+    tree=wait_for('standalone-restored-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
+    restored=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
+    assert restored['sessionId']==first_id and restored['completedOnce'] is True, 'Completion lost after process restart'
+    tap(tree,'com.duolingo:id/oval')
+    second_id=plan[0]['lessons'][1]['id']
+    second=bank[plan[0]['lessons'][1]['ids'][0]]
+    assert second['type']=='choice' and not second.get('rich_text')
+    second_answer=second['options'][second['answer']]
+    tree=wait_for('standalone-restored-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' or second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+    if any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in tree.iter('node')):tap(tree,'com.duolingo:id/learnButton')
+    wait_for('standalone-next-lesson',lambda t:any(second_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+    routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
+    selected=re.findall(r'Local original session selected: ([A-Za-z0-9_-]+)',routes)
+    assert selected and selected[-1]==second_id, 'Restored path did not select its next lesson'
+    (OUT/'standalone-result.txt').write_text('PASS: cold start, 19 correct native answers, Claim XP, return to path, committed completion after process restart, and next lesson selected through the original node. This does not establish the entire course or account/Drive behavior.\n')
 finally:
     (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E','chromium:E'))
     (OUT/'standalone-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))

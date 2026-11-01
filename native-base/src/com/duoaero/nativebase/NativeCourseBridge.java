@@ -264,8 +264,11 @@ public final class NativeCourseBridge {
    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
    if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=diagnosticProfile;}
-   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT")){code=200;payload=asset(app,"duoaero/course/path-info.json");}
-   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT/sections/DUOAERO_MIDTERM1")){code=200;payload=asset(app,"duoaero/course/section.json");}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM1)?")){
+    JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,"duoaero/course/section.json"));
+    NativeCourseProgress.project(info,section,NativeSessionStore.completedLessons(app));
+    code=200;payload=(path.endsWith("MATH_BT")?info:section).toString();
+   }
    else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_-]+")){
     String sessionId=path.substring(path.lastIndexOf('/')+1);
     JSONObject catalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));

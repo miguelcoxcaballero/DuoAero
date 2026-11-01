@@ -540,3 +540,19 @@ whitelist. All 11 original grade_correct_* resource strings are now recognized.
 The same run exposed a goals-context startup timeout: social initialization now
 runs independently, and goals initialization retries the original context
 observation at most three times. It does not manufacture a goals scope.
+
+NativeCourseProgress now validates real submitted lesson identity, type, failure
+flag, learning flag, completion timestamps and complete question-ID coverage
+before marking a lesson complete. An AtomicFile record preserves completion
+once earned, including when a later replay fails. Original course/section GET
+responses and standalone native cache startup project those committed records
+onto finishedSessions, passed/active/locked levels and section completion counts.
+The local-test namespace remains separate from any future Google account store.
+
+Seven profile checks and 23 completion/projection boundary checks pass on the
+packaged Java source. Runtime wire-schema acceptance is deliberately strict and
+unverified; a missing expected field leaves the raw submission saved but does
+not award completion. A bounded diagnostic reason identifies that rejection.
+The standalone driver now requires a real committed completion record, process
+restart without clearing data, and navigation to the second lesson through the
+original path node. None of these assertions is yet claimed as passing.
