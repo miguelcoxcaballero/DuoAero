@@ -181,12 +181,12 @@ public final class AccountProgressProbe extends Instrumentation {
    JSONArray historicalLessons=new JSONArray();for(JSONObject history:histories)historicalLessons.put(history.getJSONObject(evolvedId));
    Method recorded=progress.getDeclaredMethod("isRecordedCompletion",JSONObject.class,JSONObject.class,JSONObject.class,JSONArray.class);
    for(JSONObject history:histories){
-    JSONArray ids=new JSONArray(),questions=history.getJSONObject(evolvedId).getJSONArray("challenges");
-    for(int i=0;i<questions.length();i++)ids.put(new JSONObject().put("id",questions.getJSONObject(i).getString("id")));
-    JSONObject proof=new JSONObject().put("id",evolvedId).put("type","MATH_LESSON").put("failed",false)
+    JSONArray ids=new JSONArray(),historicalQuestions=history.getJSONObject(evolvedId).getJSONArray("challenges");
+    for(int i=0;i<historicalQuestions.length();i++)ids.put(new JSONObject().put("id",historicalQuestions.getJSONObject(i).getString("id")));
+    JSONObject historicalProof=new JSONObject().put("id",evolvedId).put("type","MATH_LESSON").put("failed",false)
      .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",ids);
-    check(Boolean.TRUE.equals(recorded.invoke(null,proof,hypothetical,null,historicalLessons)));
-    JSONObject broken=new JSONObject(proof.toString());broken.getJSONArray("challenges").put(new JSONObject().put("id","foreign"));
+    check(Boolean.TRUE.equals(recorded.invoke(null,historicalProof,hypothetical,null,historicalLessons)));
+    JSONObject broken=new JSONObject(historicalProof.toString());broken.getJSONArray("challenges").put(new JSONObject().put("id","foreign"));
     check(Boolean.FALSE.equals(recorded.invoke(null,broken,hypothetical,null,historicalLessons)));
    }
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
