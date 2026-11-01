@@ -1,4 +1,12 @@
 CURRENT CONTINUATION (2026-11-01; supersedes historical notes)
+Main follow-up: production install/upgrade/restart run41283572840 PASS.
+Diagnostic run41284050657: standalone PASS actual19answers, Claim XP, visible
+path, restart and next lesson; no app ANR. Resume FAIL before its first lesson:
+after tapping the first oval, the screenshot still shows the original path and
+START bubble. This is not a completed resume test. Its two /data/anr traces are
+Google system services during boot, not DuoAero. The prior completion ANRs
+remain unresolved; no runtime fix was made or demonstrated by these repeats.
+
 The signed original-runtime APK is published as development prerelease v1.3.0:
 https://github.com/miguelcoxcaballero/DuoAero/releases/tag/v1.3.0
 Direct APK: https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.0/DuoAero-1.3.0.apk

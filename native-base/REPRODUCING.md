@@ -1,8 +1,25 @@
 # Original-runtime diagnostics
 
-These commands build diagnostic APKs, not a playable course or a production release.
+The default build produces diagnostic APKs; the signed development release and
+production build procedure are documented below. Full acceptance remains open.
 Read `CONTINUE_DUOAERO.txt` before continuing. The original application and session
 controllers remain in use; the installer vendor is unchanged.
+
+## Latest main verification (2026-11-01)
+
+Run `41283572840` passes installation of the exact signed 1.3.0 APK both over
+1.2.0 and fresh, with its original Google-only welcome surviving restart.
+This does not test real Google consent or Drive.
+
+Run `41284050657` standalone passes 19 original answers, Claim XP, visible path,
+durable completion after restart, and the next lesson. Its ANR snapshot reports
+none. The resume job fails before reaching the first lesson: after the first
+oval tap, the final screenshot still shows the original path and START bubble.
+It therefore does not test restoration. The collected `/data/anr` records name
+`com.google.android.gms.persistent` and `com.google.android.as` during emulator
+boot, not DuoAero. Do not conflate this timeout with the previous real app ANRs
+at lesson completion. Those remain unresolved; no app code changed in this run.
+Evidence artifacts: `13073694491` standalone and `13074563792` resume.
 
 ## Portable build
 
