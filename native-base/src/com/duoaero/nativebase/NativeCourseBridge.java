@@ -146,6 +146,14 @@ public final class NativeCourseBridge {
     .newInstance(value.substring(marker.length()),false,entity);
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot convert Aerospace formula figure",error);}
  }
+ public static String pathUnitTitle(Object unit,String original){
+  if(!hasLocalCourse()||unit==null)return original;
+  try{
+   Object section=field(unit,"e");
+   if(!"DUOAERO_MIDTERM1".equals(field(section,"a")))return original;
+   String title=(String)field(unit,"d");return title.isEmpty()?original:title;
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot read original Aerospace unit title",error);}
+ }
  /** Compare actual native slots for explicitly marked Aerospace symbolic tasks.
   * Original numeric expression grading remains the fallback (null result).
   */
@@ -291,6 +299,12 @@ public final class NativeCourseBridge {
    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
    if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=diagnosticProfile;}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/avatar-builder-config")){
+    // The original resource may reload when Profile starts observing it.
+    // Answer its normal request as well as seeding its native cache.
+    code=200;payload=NativeLocalFeatures.avatarResponse();
+    Log.i("DuoAeroNative","Original avatar configuration request served locally");
+   }
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM1)?")){
     JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,"duoaero/course/section.json"));
     NativeCourseProgress.project(info,section,NativeSessionStore.completedLessons(app));

@@ -155,6 +155,12 @@ figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/model
 assert figure_view_text.count(figure_view_anchor)==1
 figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
 resume_source=SMALI/'smali_classes3/eo10.smali'
+unit_header_source=SMALI/'smali_classes3/ivr.smali'
+unit_header_original=unit_header_source.read_bytes()
+unit_header_text=unit_header_original.decode('utf-8').replace('\r\n','\n')
+unit_header_anchor='    invoke-direct {v2, v8}, Lnur;-><init>(Ljava/lang/String;)V'
+assert unit_header_text.count(unit_header_anchor)==1
+unit_header_hook='    invoke-static {v14, v8}, Lcom/duoaero/nativebase/NativeCourseBridge;->pathUnitTitle(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v8\n\n'
 profile_inputs_source=SMALI/'smali_classes3/g6w.smali'
 profile_inputs_original=profile_inputs_source.read_bytes()
 profile_inputs_text=profile_inputs_original.decode('utf-8').replace('\r\n','\n')
@@ -166,6 +172,7 @@ resume_anchor='    iput-object p1, p0, Leo10;->a:Lcom/duolingo/data/session/stat
 assert resume_text.count(resume_anchor)==1
 resume_hook='    invoke-static {p1, p5}, Lcom/duoaero/nativebase/NativeSessionResume;->stateForSession(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object p1\n\n    check-cast p1, Lcom/duolingo/data/session/state/PersistedState;\n\n'
 try:
+ unit_header_source.write_text(unit_header_text.replace(unit_header_anchor,unit_header_hook+unit_header_anchor),encoding='utf-8')
  profile_inputs_source.write_text(profile_inputs_text.replace(profile_inputs_anchor,'    invoke-static {v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordProfileInputs([Ljava/lang/Object;)V\n\n'+profile_inputs_anchor),encoding='utf-8')
  resume_source.write_text(resume_text.replace(resume_anchor,resume_hook+resume_anchor),encoding='utf-8')
  figure_view_source.write_text(figure_view_text.replace(figure_view_anchor,figure_view_anchor+figure_view_hook),encoding='utf-8')
@@ -175,6 +182,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ unit_header_source.write_bytes(unit_header_original)
  profile_inputs_source.write_bytes(profile_inputs_original)
  resume_source.write_bytes(resume_original)
  figure_view_source.write_bytes(figure_view_original)

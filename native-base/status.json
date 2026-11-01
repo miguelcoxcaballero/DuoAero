@@ -67,7 +67,7 @@
     "standalone_resumed_lesson_return_restart_and_next_lesson": true,
     "original_wrong_answer_retry_and_persistent_resolution": true,
     "original_resource_ids_and_values_preserved_with_updater_xml": true,
-    "native_account_storage_synthetic_checks": 15,
+    "native_account_storage_synthetic_checks": 18,
     "original_settings_updates_review_drive_controls_visible": true,
     "night_mode_rich_session_at_130_percent_font": "Run 41275526803: 15 correct answers, original Claim XP and return; dark screenshots and long-prompt scrolling inspected.",
     "emulator_audio_haptic_service_events": "Run 41275526803: 16 original-app SoundPool start events and at least 15 original-app haptic completions. Physical output quality remains unverified."
@@ -234,13 +234,13 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,
     "branch": "codex/original-runtime-integration",
     "requested_final_destination": "main",
-    "standalone_latest_observed": "Run 41268267850: clean cold launch reaches original Midterm 1 path and first Aerospace question without instrumentation/profile injection. Screenshots inspected. Test falsely waited for intermediate learnButton after native direct node-to-lesson navigation; driver corrected. Completion and persistence pending.",
+    "standalone_latest_observed": "Runs 41276575222 and 41277038455: standalone/resume/mistake scenarios pass real answers, Claim XP, original home, process restart and next lesson.",
     "bank_models_generated": 1200,
     "local_lesson_catalog_generated": 79,
     "native_decode_latest_observed": "1200 original models decode, zero failures; this does not establish UI/grading.",
@@ -253,9 +253,12 @@
     "profile_refresh_streak": "Known zero lifetime streak now included in shared local User/UserStreak response; both original deserializers checked before use. Runtime lesson-end effect pending.",
     "progress": "Strict native submission validation, monotonic AtomicFile completion and original path projection implemented; 23 host checks pass. Actual submission schema, return, restart and next-lesson acceptance pending.",
     "mixed_exercises": "New native control probe covers multi, matching, both gaps, all three orders and textbook matching. UI results pending.",
-    "google_drive": "15 synthetic Android storage checks pass in run 41274982620; six JS auth/Drive tests pass. Real Google welcome is inside LaunchActivity, so its actual introFlow buttons are now adapted. Original process-name guard updated to installed package: its PID-based secondary WebView directory otherwise loses OAuth storage on restart. Original routing and persistent WebView probe pending; no real OAuth acceptance.",
+    "google_drive": "Run 41277038455: original Google-only welcome, synthetic account activation, original home and sign-out pass. WebView localStorage restart fails; synchronous Android Keystore persistence is now implemented and device verification is pending. Real OAuth and Drive round-trip remain unverified.",
     "latest_ci_issue": "64f24 diagnostic did not start: runner context is unavailable in job-level env. Paths now initialized through GITHUB_ENV in a runner step.",
     "settings": "Run 41274982620 screenshot shows original Settings with APP UPDATES, REVIEW MISTAKES, GOOGLE DRIVE, SWITCH GOOGLE ACCOUNT. Original native component uppercases text; test selector corrected. Updater opening/provider and review completion remain pending.",
-    "review": "Review data/controller implemented with persistent active-review identity. Actual UI run 41274982620 blocks on original Profile tab loading before settings. New probe observes original profile Rx dependencies; direct Settings controls are visible, not sufficient proof of usable navigation."
+    "review": "Profile still loading in run 41277038455; avatar configuration is the only missing aggregate input. Native configuration cache seeded; normal avatar-builder-config request now answered locally, pending runtime verification.",
+    "updater": "Run 41277038455: original settings opens canonical updater, actual installed version and default B policy checked, own FileProvider reads exact bytes. Download/install acceptance remains pending.",
+    "formula_bank": "Device diagnostic expanded from two prototypes to all 16 bank formula exercises plus the two prototypes; result pending.",
+    "path_topics": "Original unit data preserves topic names, but native Math headers selected the section title. Scoped original header data binding now uses the topic; visual verification pending."
   }
 }

@@ -5,6 +5,7 @@ import java.lang.reflect.*;
 
 /** Known empty optional features of the isolated account, via native resources. */
 final class NativeLocalFeatures {
+ static String avatarResponse(){return "{\"avatarBuilderConfig\":{\"stateChooserTabs\":[],\"defaultBuiltAvatarState\":{},\"riveFileUrl\":\"\",\"riveFileVersion\":\"\",\"avatarOnProfileDisplayOptions\":{},\"skinProperties\":{}}}";}
  static void avatar(Context context)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Object repository=repository(context,"E4","mg2"),factory=field(repository,"i");

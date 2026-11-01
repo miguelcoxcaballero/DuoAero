@@ -31,7 +31,7 @@ public final class GoogleGateProbe extends Instrumentation {
     result.putString("stream",report.toString());finish(-1,result);return;
    }
    type.getMethod("onAccount",String.class,String.class).invoke(host,"synthetic-routing-account","Synthetic routing probe");
-   await("Midterm 1");SessionScreen.capture(this,"google-account-home","google-account-home");
+   await("Aerospace activities / Aerospace infrastructure");SessionScreen.capture(this,"google-account-home","google-account-home");
    type.getMethod("onSignedOut").invoke(host);
    await("CONTINUE WITH GOOGLE");SessionScreen.capture(this,"google-signed-out","google-signed-out");
    if(!context.getSharedPreferences("duoaero-google",0).getString("account","").isEmpty())throw new IllegalStateException("Account retained after sign out");

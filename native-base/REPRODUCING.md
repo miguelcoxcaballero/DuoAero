@@ -662,3 +662,21 @@ This scenario is pending runtime acceptance. Four additional boundary checks
 cover review learning flags, failure and incomplete question coverage.
 CI now selects the runner JDK 17 explicitly: Kotlin 2.0 rejected default JDK 25
 before app tests in run 41273151611. Local updater build/integrity checks pass.
+
+2026-11-01 continuation: runs 41276575222 and 41277038455 repeat standalone,
+resume and mistake completion through original controls, including process
+restart and next lesson. Run 41277038455 verifies canonical updater host/version/
+B policy and own file provider; it does not test installation. Google-only
+welcome, synthetic account activation and sign-out pass, but WebView storage
+does not survive immediate process termination. Android Keystore encrypted,
+synchronous storage now backs the unchanged Notes functions; restart acceptance
+is pending. Three host storage tests pass; no real OAuth/Drive acceptance.
+
+The original profile still lacks avatar configuration after native cache seeding.
+Its normal GET /users/1/avatar-builder-config is now served by the local course
+backend too; the profile and cross-lesson review require fresh device evidence.
+Original path unit names survive decoding, but the Math persistent header chose
+the section title. Its existing title binding now receives the named unit for
+DUOAERO_MIDTERM1 only. Original layout/control implementation remains unchanged.
+The formula diagnostic now covers every one of the 16 textbook formula exercises,
+plus both earlier prototypes. These changes are not a completed release.

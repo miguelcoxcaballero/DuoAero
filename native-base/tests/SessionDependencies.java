@@ -23,6 +23,9 @@ final class SessionDependencies implements AutoCloseable {
    }
    Object[] inputs=(Object[])Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticProfileInputs").invoke(null);
    for(int i=0;i<inputs.length;i++)if(observable.isInstance(inputs[i]))result.observeRx("profile.combine."+i,inputs[i]);
+   Object avatar=field(vm,"q");
+   result.observeRx("profile.avatar.cache",field(avatar,"k"));
+   result.observe("profile.avatar.config",field(avatar,"s"),field(avatar,"n"));
    return result;
   }catch(Exception error){result.close();throw error;}
  }
@@ -261,6 +264,10 @@ final class SessionDependencies implements AutoCloseable {
     // Report classes, Booleans and enum constants, never account data or tokens.
     Object value=args[0];
     states.put(name,(error?"ERROR ":"EMITTED ")+(value==null?"null":value.getClass().getName())+(value instanceof Boolean?"="+value:value instanceof Enum?"="+((Enum<?>)value).name():""));
+    if(!error&&name.equals("profile.avatar.cache")&&value!=null){
+     Object data=field(value,"a");Map<?,?> configs=(Map<?,?>)field(data,"a");
+     states.put(name,"EMITTED "+data.getClass().getName()+"; configuration count="+configs.size());
+    }
     return null;
    }
    if(method.getName().equals("toString"))return "Session dependency observer: "+name;
