@@ -153,15 +153,28 @@ def rive(data,name,png,width,height):
     asset_index=sum(t in ASSET for t,p,b in objects)
     asset_unique=max([p.get(204,0) for t,p,b in objects if t in ASSET]+[0])+1
     pure=bool(re.search(r'(^|_)duo(?:_|$)|resurrectedduo',name)) and 'waveform' not in name
+    # Some source files put an eye or sparkle artboard before the character.
+    # Selecting the first artboard would put the entire replacement in an
+    # eye while leaving the original Duo visible in the main scene.
+    boards=[p for t,p,b in objects if t==1]
+    def auxiliary(label):
+        return re.search(r'sparkle|pupil|shine|waveform|(?:^|_)eyes(?:_|$)',label,re.I)
+    primary=next((p.get(4,'') for p in boards if p.get(4)=='lc_character_artboard'),None)
+    if primary is None:
+        primary=next((p.get(4,'') for p in boards if min(p.get(7,0),p.get(8,0))>=100
+                      and not auxiliary(p.get(4,''))),None)
     epic=('celebrate',('EpicDuo_Intro_Animation','EpicDuo_IdleLoop'))
     surprised=('surprised',('JawdropDuo_Intro_animation','JawdropDuo_Loop_animation'))
     determined=('determined',('Duo_LFG_Intro_Animation','Duo_LFG_IdleLoop'))
+    overjoyed=('overjoyed',('ObsessedDuo_Intro_Animation','ObsessedDuo_IdleLoop'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
              'duo_perfect_lfg_03':{'lc_character_artboard':determined},
+             'duo_obsessed_02':{'lc_character_artboard':overjoyed},
              'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
                  '17_duo_perfect_jaw_drop_artboard':surprised,
-                 '04_duo_lfg_artboard':determined}}.get(name,{})
+                 '04_duo_lfg_artboard':determined,
+                 '02_duo_obsessed_artboard':overjoyed}}.get(name,{})
     all_frames=[];frame_sets={}
     if targets:
         from io import BytesIO
@@ -189,7 +202,7 @@ def rive(data,name,png,width,height):
     static_index=asset_index+len(all_frames)
     keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
     animation=None
-    first=True;replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0
+    replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0
     def finish():
         if not replace:return
         w,h=art.get(7,600.),art.get(8,600.)
@@ -227,9 +240,7 @@ def rive(data,name,png,width,height):
             # Some large character artboards nest another artboard containing
             # only eyes. Replacing both draws two full Snoopy images on top
             # of one another (and can put Snoopy inside Duo's eyes).
-            auxiliary=re.search(r'sparkle|pupil|shine|waveform|(?:^|_)eyes(?:_|$)',label,re.I)
-            replace=(pure and first) or (name=='lesson_complete_main_29' and label=='lc_character_artboard') or ('duo' in label.lower() and min(w,h)>=100 and not auxiliary)
-            first=False
+            replace=(pure and label==primary) or (name=='lesson_complete_main_29' and label=='lc_character_artboard') or ('duo' in label.lower() and min(w,h)>=100 and not auxiliary(label))
             if replace:changed.append(label)
         elif art is not None and kind in COMPONENT:
             component_id+=1

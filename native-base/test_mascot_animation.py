@@ -25,12 +25,19 @@ for frame in frames:
 png = (ROOT / 'app/assets/mascot/welcome.png').read_bytes()
 width, height = struct.unpack_from('>II', png, 16)
 with zipfile.ZipFile(APK) as original:
+    # In this original scene an auxiliary pupil precedes the 600px character.
+    # The old first-artboard rule rendered Snoopy inside Duo's eye.
+    _, obsessed = rive(original.read('res/raw/duo_obsessed_02.riv'), 'duo_obsessed_02', png, width, height)
+    assert 'lc_character_artboard' in obsessed
+    assert 'ObsessedDuo_LPupilGlisten_artboard' not in obsessed
     for name, target, idle, start, end in [
             ('duo_perfect_epic_03', 'lc_character_artboard', 'EpicDuo_IdleLoop', 70, 190),
             ('duo_perfect_lfg_03', 'lc_character_artboard', 'Duo_LFG_IdleLoop', 60, 180),
             ('duo_perfect_jaw_drop_04', 'lc_character_artboard', 'JawdropDuo_Loop_animation', 120, 240),
+            ('duo_obsessed_02', 'lc_character_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
             ('lesson_complete_redesign_v72', '01_duo_epic_arboard', 'EpicDuo_IdleLoop', 70, 190),
             ('lesson_complete_redesign_v72', '04_duo_lfg_artboard', 'Duo_LFG_IdleLoop', 60, 180),
+            ('lesson_complete_redesign_v72', '02_duo_obsessed_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
             ('lesson_complete_redesign_v72', '17_duo_perfect_jaw_drop_artboard', 'JawdropDuo_Loop_animation', 120, 240)]:
         source = original.read(f'res/raw/{name}.riv')
         _, before, _ = parse(source)
@@ -68,7 +75,7 @@ with zipfile.ZipFile(APK) as original:
                        for track in tracks.values()) == 1
         assert [next(v for t, v in reversed(track) if t <= start) for track in tracks.values()] == [
             next(v for t, v in reversed(track) if t <= end) for track in tracks.values()]
-    for mood in ('surprised', 'determined'):
+    for mood in ('surprised', 'determined', 'overjoyed'):
         for path in (ROOT/'app/assets/mascot'/mood).glob('*.png'):
             with Image.open(path) as image:
                 alpha=image.convert('RGBA').getchannel('A')
