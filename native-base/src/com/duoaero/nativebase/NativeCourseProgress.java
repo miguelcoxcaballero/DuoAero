@@ -62,6 +62,14 @@ public final class NativeCourseProgress {
    completedPerUnit.put(passed);
    if(levels.length()>0&&passed==levels.length())completedUnits++;
   }
+  JSONArray tabs=course.optJSONArray("pathTabsSummary");
+  if(tabs!=null)for(int i=0;i<tabs.length();i++){
+   JSONArray groups=tabs.getJSONObject(i).getJSONArray("pathSectionGroups");
+   for(int j=0;j<groups.length();j++){
+    JSONObject group=groups.getJSONObject(j);JSONArray ids=group.getJSONArray("sectionIds");
+    if(ids.length()==1&&section.getString("id").equals(ids.getString(0)))group.put("completedUnits",completedUnits);
+   }
+  }
   JSONArray summaries=course.getJSONArray("pathSectionsSummary");
   for(int i=0;i<summaries.length();i++){
    JSONObject summary=summaries.getJSONObject(i);

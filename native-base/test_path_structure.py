@@ -14,6 +14,7 @@ for unit in units:
     assert sum(level['type']=='chest' for level in levels)==1
     assert all(level['pathLevelMetadata']['unitIndex']==unit['unitIndex'] for level in levels)
 assert [level['id'] for unit in units for level in unit['levels'] if level['type']=='math_skill']==[stable_id('level',node['id']) for node in plan]
+assert course['pathTabsSummary'][0]['pathSectionGroups'][0]['sectionIds']==[section['id']]
 assert len(course['pathSectionsSummary'])==1 and course['pathSectionsSummary'][0]['title']=='Midterm 1'
 assert course['pathSectionsSummary'][0]['totalLevelsPerUnit']==[len(u['levels']) for u in units]
 assert [l['absoluteNodeIndex'] for u in units for l in u['levels']]==list(range(50))

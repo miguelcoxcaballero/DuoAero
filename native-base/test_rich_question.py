@@ -20,6 +20,11 @@ assert r'p_b' in isa_blob['shirt']['value']
 assert r'e^{-X}' in isa_blob['shirt']['value']
 assert r'\exp' not in isa_blob['shirt']['value']
 assert 'p_base' not in isa_blob['shirt']['value']
+# The supplied exponential factor is already e^(-X)=0.50; do not
+# exponentiate 0.50 again. 20 kPa * 0.50 is 10 kPa.
+assert isa['options'][isa['answer']] == '10 kPa'
+assert 20 * 0.50 == 10
+assert content(isa['rich_text']['explanation'], isa['explanation']) == r'p=20\times0.50=10\,\mathrm{kPa}'
 
 from formula_exercises import formula_challenge, prototypes
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:

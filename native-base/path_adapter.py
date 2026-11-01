@@ -102,6 +102,15 @@ def build_path(plan, bank):
         'id': COURSE_ID, 'subject': 'math', 'topic': 'math',
         'fromLanguage': 'en', 'xp': 0, 'activePathSectionId': SECTION_ID,
         'pathSectionsSummary': [summary],
+        # The original Math section picker renders path tabs/groups. Without
+        # these, the course has a section but the picker receives no rows.
+        'pathTabsSummary': [{'id': 'DUOAERO_MIDTERMS',
+            'debugName': 'Aerospace Technology', 'title': 'Aerospace Technology',
+            'pathSectionGroups': [{'id': 'DUOAERO_FIRST_MIDTERM',
+                'debugName': 'Midterm 1', 'title': 'Midterm 1',
+                'subtitle': 'Aerospace Technology', 'state': 'unlocked',
+                'completedUnits': 0, 'totalUnits': len(units),
+                'sectionIds': [SECTION_ID], 'type': 'learning'}]}],
         'globalPracticeMetadata': {'id': 'duoaero_review', 'type': 'global_practice'},
     }
     section = {'id': SECTION_ID, 'index': 0, 'units': units}
