@@ -22,6 +22,8 @@ _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'exp\([A-Za-z0-9+*./-]+\)'
+    r'|(?:p|T|g|V|rho)[012]'
+    r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
     r'|[A-Za-z]+\^(?:[+-]?\d+(?:\.\d+)?)'
     r'|(?:\d+(?:\.\d+)?|[A-Za-z]+)[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+'
@@ -31,6 +33,11 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    numeric = re.fullmatch(r'(rho|p|T|g|V)([012])', value)
+    if numeric:
+        return GREEK.get(numeric.group(1), numeric.group(1)) + '_{' + numeric.group(2) + '}'
+    if value == 'RE':
+        return r'R_{E}'
     if value.startswith('exp(') and value.endswith(')'):
         exponent = re.sub(r'\bln(?=\d)', r'\\ln ', value[4:-1])
         return 'e^{' + exponent + '}'

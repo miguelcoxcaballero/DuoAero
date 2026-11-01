@@ -4,6 +4,14 @@ import math
 from pathlib import Path
 import subprocess
 from rich_question import choice_blob, content
+from math_notation import parts as notation_parts
+
+assert notation_parts('At V0, g0 and rho1') == [
+    {'text': 'At '}, {'latex': r'V_{0}'}, {'text': ', '}, {'latex': r'g_{0}'},
+    {'text': ' and '}, {'latex': r'\rho_{1}'}]
+assert notation_parts('p0 and T0 at RE') == [
+    {'latex': r'p_{0}'}, {'text': ' and '}, {'latex': r'T_{0}'},
+    {'text': ' at '}, {'latex': r'R_{E}'}]
 
 root = Path(__file__).resolve().parents[1]
 bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
