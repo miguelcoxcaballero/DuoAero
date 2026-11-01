@@ -164,6 +164,31 @@ public final class AccountProgressProbe extends Instrumentation {
     .put(revisedId,new JSONObject().put("at",20).put("nativeCompletion",oldProof)));
    check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-legacy",legacyPayload.toString())));
    check(new JSONObject((String)read.invoke(null,app,"synthetic-legacy")).getJSONObject("completedLessons").has(revisedId));
+   // Check both published snapshots against a hypothetical later lesson. A
+   // future split must not break a complete historical proof or accept a
+   // partial/foreign proof. These are synthetic records, not a Drive roundtrip.
+   JSONObject[] histories=new JSONObject[2];String[] versions={"1.3.5","1.3.6"};
+   for(int i=0;i<versions.length;i++){
+    try(InputStream input=app.getAssets().open("duoaero/course/history-"+versions[i]+".json")){
+     ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;
+     while((n=input.read(block))!=-1)bytes.write(block,0,n);
+     histories[i]=new JSONObject(bytes.toString("UTF-8"));
+    }
+   }
+   String evolvedId="2.1-0-point-0-lesson-0";
+   JSONObject hypothetical=new JSONObject(catalog.getJSONObject(evolvedId).toString());
+   hypothetical.getJSONArray("challenges").put(new JSONObject().put("id","future-added-challenge"));
+   JSONArray historicalLessons=new JSONArray();for(JSONObject history:histories)historicalLessons.put(history.getJSONObject(evolvedId));
+   Method recorded=progress.getDeclaredMethod("isRecordedCompletion",JSONObject.class,JSONObject.class,JSONObject.class,JSONArray.class);
+   for(JSONObject history:histories){
+    JSONArray ids=new JSONArray(),questions=history.getJSONObject(evolvedId).getJSONArray("challenges");
+    for(int i=0;i<questions.length();i++)ids.put(new JSONObject().put("id",questions.getJSONObject(i).getString("id")));
+    JSONObject proof=new JSONObject().put("id",evolvedId).put("type","MATH_LESSON").put("failed",false)
+     .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",ids);
+    check(Boolean.TRUE.equals(recorded.invoke(null,proof,hypothetical,null,historicalLessons)));
+    JSONObject broken=new JSONObject(proof.toString());broken.getJSONArray("challenges").put(new JSONObject().put("id","foreign"));
+    check(Boolean.FALSE.equals(recorded.invoke(null,broken,hypothetical,null,historicalLessons)));
+   }
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
