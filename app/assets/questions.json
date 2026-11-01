@@ -6758,10 +6758,10 @@
       "stem": "Complete the axial stiffness formula",
       "prefix": "k =",
       "blocks": [
-        "\\frac{EA}{L}",
-        "\\frac{L}{EA}",
         "\\frac{FL}{EA}",
-        "\\frac{3EI}{L^3}"
+        "\\frac{EA}{L}",
+        "\\frac{3EI}{L^3}",
+        "\\frac{L}{EA}"
       ],
       "answer_blocks": [
         "\\frac{EA}{L}"
@@ -6845,10 +6845,10 @@
       "stem": "Complete the cantilever tip stiffness formula",
       "prefix": "k =",
       "blocks": [
-        "\\frac{3EI}{L^3}",
+        "\\frac{L^3}{3EI}",
         "\\frac{EI}{L}",
-        "\\frac{3EI}{L}",
-        "\\frac{L^3}{3EI}"
+        "\\frac{3EI}{L^3}",
+        "\\frac{3EI}{L}"
       ],
       "answer_blocks": [
         "\\frac{3EI}{L^3}"
@@ -8060,10 +8060,10 @@
       "stem": "Complete the wing aspect-ratio formula",
       "prefix": "\\mathrm{AR} =",
       "blocks": [
-        "\\frac{b^2}{S}",
         "\\frac{S}{b^2}",
         "\\frac{b}{S}",
-        "b^2S"
+        "b^2S",
+        "\\frac{b^2}{S}"
       ],
       "answer_blocks": [
         "\\frac{b^2}{S}"
@@ -8147,10 +8147,10 @@
       "stem": "Complete the wing taper-ratio formula",
       "prefix": "\\lambda =",
       "blocks": [
-        "\\frac{c_t}{c_r}",
         "\\frac{c_r}{c_t}",
-        "c_t+c_r",
-        "c_tc_r"
+        "c_tc_r",
+        "\\frac{c_t}{c_r}",
+        "c_t+c_r"
       ],
       "answer_blocks": [
         "\\frac{c_t}{c_r}"
