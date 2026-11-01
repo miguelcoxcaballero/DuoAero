@@ -572,3 +572,19 @@ current answer card and native graded CONTINUE (wrong answers use GOT IT),
 retaining screenshots. This is an observation fix, not a fabricated grade.
 Formula advancement now waits for its native graded footer after the underlying
 fragment result arrives; an early click previously found no Continue control.
+
+Run 41270041126 accepts the actual first-path native submission under the strict
+validator: Durable lesson completion ... true; latest submission issue=null.
+This is a real saved completion, but does not establish process-restart behavior.
+
+NativeSessionResume now snapshots the original PersistedState Parcelable as the
+original engine constructs its states. It restores that same object once for an
+initial state with the same catalog lesson and content digest. It never edits
+answers, grades, engine readiness or navigation fields. Atomic records are local
+to the synthetic learner; a mismatched or unreadable record starts that lesson
+again without altering completed-lesson records. A committed completion removes
+its in-progress snapshot. This implementation is compiled, not yet device-verified.
+The new resume scenario force-stops after five real answers, reopens the original
+node, requires question six and completes the remaining lesson/restart checks.
+Rich-choice probes now also wait for the asynchronous graded footer after the
+original fragment result, matching the formula observation correction.

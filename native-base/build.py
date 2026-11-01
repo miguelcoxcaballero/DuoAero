@@ -111,7 +111,14 @@ figure_view_text=figure_view_original.decode('utf-8').replace('\r\n','\n')
 figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/models/figure/MathFigureUiState;)V\n    .locals 0'
 assert figure_view_text.count(figure_view_anchor)==1
 figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
+resume_source=SMALI/'smali_classes3/eo10.smali'
+resume_original=resume_source.read_bytes()
+resume_text=resume_original.decode('utf-8').replace('\r\n','\n')
+resume_anchor='    iput-object p1, p0, Leo10;->a:Lcom/duolingo/data/session/state/PersistedState;'
+assert resume_text.count(resume_anchor)==1
+resume_hook='    invoke-static {p1, p5}, Lcom/duoaero/nativebase/NativeSessionResume;->stateForSession(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object p1\n\n    check-cast p1, Lcom/duolingo/data/session/state/PersistedState;\n\n'
 try:
+ resume_source.write_text(resume_text.replace(resume_anchor,resume_hook+resume_anchor),encoding='utf-8')
  figure_view_source.write_text(figure_view_text.replace(figure_view_anchor,figure_view_anchor+figure_view_hook),encoding='utf-8')
  launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
  # The original home independently requests Math onboarding at zero course XP.
@@ -119,6 +126,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ resume_source.write_bytes(resume_original)
  figure_view_source.write_bytes(figure_view_original)
  launch_source.write_bytes(launch_original)
  welcome_source.write_bytes(welcome_original)

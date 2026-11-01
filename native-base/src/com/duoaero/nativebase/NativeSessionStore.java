@@ -31,6 +31,7 @@ public final class NativeSessionStore {
   // Read back the committed bytes before acknowledging the original request.
   JSONObject saved=read(file);
   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
+  if(completed)NativeSessionResume.completed(app,sessionId);
   android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+NativeCourseProgress.completionIssue(submission,lesson));
  }
  static synchronized Set<String> completedLessons(Application app)throws Exception {

@@ -76,6 +76,18 @@ try:
         assert q['type']=='choice' and not q.get('rich_text'), 'Cold-start driver needs reviewed support for this type'
         answer=q['options'][q['answer']]
         tree=wait_for('standalone-answer-'+str(i),lambda t:any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30,advance_continue=True)
+        if i==5 and os.environ.get('DUOAERO_TEST_RESUME')=='1':
+            # Stop only after the original controller displays question six.
+            # The test never supplies or edits the persisted app state.
+            adb('shell','am','force-stop',PACKAGE)
+            adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
+            tree=wait_for('standalone-midlesson-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
+            tap(tree,'com.duolingo:id/oval')
+            tree=wait_for('standalone-midlesson-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' or answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+            if any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in tree.iter('node')):tap(tree,'com.duolingo:id/learnButton')
+            tree=wait_for('standalone-midlesson-resumed',lambda t:any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
+            assert b'Original session state restored:' in adb('logcat','-d','-s','DuoAeroNative:I'), 'No original state restoration observed'
+            (OUT/'standalone-midlesson-result.txt').write_text('PASS: five original answers, process force-stop, relaunch through original path and question six restored. No state injected by test.\n')
         tap(tree,text=answer)
         tree=wait_for('standalone-selected-'+str(i),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
         tap(tree,'com.duolingo:id/submitButton')

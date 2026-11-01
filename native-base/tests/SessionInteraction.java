@@ -168,6 +168,7 @@ final class SessionInteraction {
    SessionScreen.capture(test,"lesson-answer-"+i,"lesson-answer-"+i);
    NativeMathGrade.require(test,activity,"CORRECT");
    android.util.Log.i("DuoAeroProbe","Native correct answer "+(i+1)+"/"+selections.length()+": "+question.getString("id"));
+   for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
    if(!hasContinue(test))throw new IllegalStateException("Missing graded Continue at "+question.getString("id"));
    click(test,null,"CONTINUE");
    Thread.sleep(1000);
