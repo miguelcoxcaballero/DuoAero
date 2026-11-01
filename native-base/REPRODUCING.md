@@ -191,3 +191,25 @@ original Hardcoded SessionStartParams. The original math asset is unchanged.
 Local compilation and original-entry integrity passed; no Aerospace question
 has yet been shown or answered. The next CI compares the corrected math profile
 with/without native cache input, then the Aerospace asset with that same input.
+
+[Corrected cache run 41254218442](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41254218442)
+completed original native cache writes and **rendered actual native questions**.
+Without cache input the screen remains blank. With it, `bp1.j` emits `mt8`,
+`p6d.h` emits true, preparation completion emits `xv80`, `q3` emits `vql`, and
+`x2` emits `eo10`. Readiness a/b become true through original code; c..i remain
+false, demonstrating that all nine flags being true is not a rendering criterion.
+
+The original reference shows its first math matching question. The Aerospace
+asset shows its first exam question and four answer options; the inspected
+screenshot and 68-node accessibility tree confirm rendering. However the original
+AssistFragment prefixes the exam stem with “How do you say ...”, which is wrong
+for this course. No answer or session completion has yet been tested. Course
+cache data contains an empty section, and profile setup still requires test
+instrumentation: this is not a standalone playable app or release acceptance.
+
+The next diagnostic clicks the first assist answer and original submission
+button, capturing each visible stage. A second asset uses the original
+mathChallengeBlob `selectOne` layout for 12 plain-choice questions plus the bank's
+rich-text choices, preserving question text and the original renderer. Both
+variants remain diagnostic inputs; grading, LaTeX layout and text overflow need
+runtime evidence. Original APK entry integrity and local compilation pass.

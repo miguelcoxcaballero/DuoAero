@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess,zipfile,xml.etree.ElementTree as E,hashlib,json,sys
 import os, shutil
+from rich_question import choice_blob
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -49,6 +50,14 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  # math reference asset remains unchanged for baseline comparisons.
  lesson=ROOT/'native-base/tests/fixtures/aerospace_lesson.json'
  out.write(lesson,'assets/hardcoded_sessions/duoaero/aerospace_lesson.json')
+ bank=json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
+ by_id={question['id']:question for question in bank}
+ sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
+ sample_ids={q['id'] for q in sample}
+ sample.extend(q for q in bank if q.get('rich_text') and q['id'] not in sample_ids)
+ assert all(q['type']=='choice' for q in sample) and 10<=len(sample)<=20
+ rich_session={'id':'duoaero_native_rich_diagnostic','type':'GLOBAL_PRACTICE','fromLanguage':'en','learningLanguage':'en','challenges':[choice_blob(q) for q in sample]}
+ out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
 run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
 print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')

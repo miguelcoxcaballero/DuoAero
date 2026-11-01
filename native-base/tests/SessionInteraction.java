@@ -1,0 +1,78 @@
+package com.duoaero.nativebase;
+
+import android.app.Instrumentation;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+/** Drives actual native controls. No answer, grading or engine state injection. */
+final class SessionInteraction {
+ static String firstAssistAnswer(Instrumentation test)throws Exception {
+  String stem="Which one from the following characteristics does not define the aerospace industry?";
+  String next="Regarding the navigation aids:";
+  if(!contains(test,stem))throw new IllegalStateException("Expected first Aerospace question is not visible");
+  click(test,"com.duolingo:id/optionText","Low delivery times.");
+  Thread.sleep(1000);
+  SessionScreen.capture(test,"interaction-selected","interaction-selected");
+  click(test,"com.duolingo:id/submitButton",null);
+  Thread.sleep(1500);
+  SessionScreen.capture(test,"interaction-submitted","interaction-submitted");
+  // Some native challenge types separate Check and Continue. Only click
+  // Continue if the same question is still present; never skip a new question.
+  if(contains(test,stem)&&hasContinue(test)){
+   click(test,"com.duolingo:id/submitButton",null);
+   Thread.sleep(1500);
+   SessionScreen.capture(test,"interaction-continued","interaction-continued");
+  }
+  boolean advanced=contains(test,next);
+  return "UI interaction: selected the first question's correct option through native accessibility controls; submitted through original button.\n"
+   +"Second Aerospace question visible: "+advanced+". Grading feedback must be checked in screenshots; this does not verify session completion or persistence.\n";
+ }
+ private static boolean contains(Instrumentation test,String text){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)return false;
+  try{return contains(root,text,0);}finally{root.recycle();}
+ }
+ private static boolean contains(AccessibilityNodeInfo node,String text,int depth){
+  if(depth>50||!own(node))return false;
+  if(node.isVisibleToUser()&&node.getText()!=null&&node.getText().toString().contains(text))return true;
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{if(contains(child,text,depth+1))return true;}finally{child.recycle();}
+  }
+  return false;
+ }
+ private static boolean hasContinue(Instrumentation test){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)return false;
+  try{
+   AccessibilityNodeInfo button=find(root,"com.duolingo:id/submitButton",null,0);
+   if(button==null)return false;
+   try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
+  }finally{root.recycle();}
+ }
+ private static void click(Instrumentation test,String id,String text){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No active native window");
+  AccessibilityNodeInfo node;
+  try{node=find(root,id,text,0);}finally{root.recycle();}
+  if(node==null)throw new IllegalStateException("Native control not visible: "+id);
+  try{
+   for(int parents=0;parents<8&&!node.isClickable();parents++){
+    AccessibilityNodeInfo parent=node.getParent();
+    if(parent==null)break;
+    node.recycle();node=parent;
+   }
+   if(!own(node)||!node.isEnabled()||!node.isClickable()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+    throw new IllegalStateException("Native control did not accept click: "+id);
+  }finally{node.recycle();}
+ }
+ private static boolean own(AccessibilityNodeInfo node){return "com.duoaero.nativebase".contentEquals(node.getPackageName()==null?"":node.getPackageName());}
+ private static AccessibilityNodeInfo find(AccessibilityNodeInfo node,String id,String text,int depth){
+  if(depth>50||!own(node))return null;
+  if(node.isVisibleToUser()&&id.equals(node.getViewIdResourceName())&&(text==null||text.contentEquals(node.getText()==null?"":node.getText())))return AccessibilityNodeInfo.obtain(node);
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{AccessibilityNodeInfo found=find(child,id,text,depth+1);if(found!=null)return found;}finally{child.recycle();}
+  }
+  return null;
+ }
+}

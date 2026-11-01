@@ -33,10 +33,11 @@
     "native_rich_choice_models": 3,
     "rich_choice_grading_selection_cases": 48,
     "synthetic_user_with_course_decoded": true,
-    "session_activity_created_and_resumed": true
+    "session_activity_created_and_resumed": true,
+    "first_aerospace_question_rendered_in_isolated_probe": true
   },
   "not_verified_or_incomplete": [
-    "Original SessionActivity still displays a blank screen with the isolated synthetic profile and course, including when LaunchActivity runs first.",
+    "First Aerospace question now renders through the original SessionActivity in isolated instrumentation with native course cache input. Answering, completion and normal app startup remain unverified.",
     "Original learning path not yet connected to Aerospace data.",
     "Five gap/order questions still lack native grading adapters.",
     "Three rich-text choice questions now use the original mathChallengeBlob selectOne model; end-to-end rendering remains unverified because SessionActivity is blank.",
@@ -50,8 +51,8 @@
   "diagnostic_findings": {
     "session_engine_state": "eo10 with original default experiment entries; do10 without them",
     "initialization_flags": {
-      "a": false,
-      "b": false,
+      "a": true,
+      "b": true,
       "c": false,
       "d": false,
       "e": false,
@@ -62,8 +63,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Provide original course-path model data to the pre-lesson energy check; latest isolated engine eo10 still renders no question.",
-    "scope": "Isolated synthetic-profile diagnostic loading the original 15-question math reference asset. No playable Aerospace lesson verified."
+    "next_required_integration": "Exercise original answer/continue controls, replace language-specific assist instruction with suitable native question model, then move isolated profile/course setup into actual app bootstrap.",
+    "scope": "Corrected native Math profile and native course cache input: first original math question and first Aerospace assist question visibly rendered. No normal app startup, grading or course completion verified."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -135,6 +136,14 @@
       "result": "Diagnostic failed its explicit Math CoursePathInfo type guard before any cache write. The synthetic MATH_BT course had omitted subject, so the native serializer used the language-course default.",
       "correction": "Set subject=math and required topic=math for the MATH_BT diagnostic profile and course cache model. Earlier MATH_BT-only comparisons used a mismatched subject and must not be treated as a valid math profile.",
       "next_test": "Repeat corrected original math baseline/cache comparison, then load the separate 19-question Aerospace fixture through the original hardcoded-session loader. All UI outcomes pending."
+    },
+    "corrected_native_cache_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41254218442",
+      "result": "Original cache writes completed. CoursePathInfo emits mt8, energy check emits true, pre-render completion emits xv80, q3 emits vql, x2 emits eo10. Readiness a/b become true through original code.",
+      "original_reference": "First original math matching question visibly rendered, 15 challenges loaded.",
+      "aerospace": "First of 19 Aerospace assist questions visibly rendered, 68 accessibility nodes with expected stem and all four answers. Screenshot inspected.",
+      "known_ui_problem": "AssistFragment wraps the exam stem in How do you say ...; unsuitable for this course. Native math selectOne comparison is pending.",
+      "limits": "Only an empty course section was seeded. No working path, answer grading, session end, persistence, standalone app bootstrap or production APK acceptance."
     }
   }
 }

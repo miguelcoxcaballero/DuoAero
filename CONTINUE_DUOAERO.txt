@@ -15,6 +15,14 @@ reached eo10, containing a Session model. The screenshot still remained blank.
 Next: loading/view readiness, not forcing flags. s2/l4 are auxiliary fields, not
 the Session model. No playable lesson or production APK exists.
 
+LATEST VISIBLE RESULT (2026-11-01)
+Run 41254218442 rendered the first original math question and first Aerospace
+question after supplying correctly typed Math course data through original
+cache descriptors. No readiness flags were forced. The Aerospace assist UI
+adds an unsuitable How do you say prefix. Answering, completion, normal app
+bootstrap, the full path and production APK remain unverified. See status.json
+and REPRODUCING.md for the exact input, evidence and next interaction test.
+
 START HERE
 Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
 native-base/status.json and the actual code before editing. Work from branch
