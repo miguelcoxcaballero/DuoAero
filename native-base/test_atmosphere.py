@@ -33,7 +33,10 @@ def wait(name,predicate,timeout=90,continue_interstitial=False):
 
 def tap_node(node):
     left,top,right,bottom=map(int,re.findall(r'\d+',node.get('bounds')))
-    adb('shell','input','tap',str((left+right)//2),str((top+bottom)//2))
+    x,y=str((left+right)//2),str((top+bottom)//2)
+    # A short real press gives the original draggable-token controller time to
+    # observe its pointer-down before pointer-up; immediate tap can be lost.
+    adb('shell','input','swipe',x,y,x,y,'100')
 def matching(tree,needle,resource=None):
     return [n for n in tree.iter('node') if n.get('enabled')=='true'
             and (resource is None or n.get('resource-id')==resource)
@@ -103,6 +106,8 @@ try:
             # Compose often exposes the label on a non-clickable child of the
             # actual card. A touch at the label's bounds still hits the card.
             candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
+            clickable=[n for n in candidates if n.get('clickable')=='true']
+            if clickable:candidates=clickable
         assert candidates,'No selectable answer for '+qid
         # The card can become visible during the native page transition before
         # it accepts input. Let the transition settle, then retry the actual
@@ -117,7 +122,10 @@ try:
                 if retry==2:raise
                 tree=wait('atmosphere-retry-'+str(index),lambda t:bool(matching(t,needle,resource)),10)
                 candidates=matching(tree,needle,resource)
-                if kind!='choice':candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
+                if kind!='choice':
+                    candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
+                    clickable=[n for n in candidates if n.get('clickable')=='true']
+                    if clickable:candidates=clickable
                 assert candidates,'Answer disappeared while waiting: '+qid
                 tap_node(candidates[-1])
         if kind=='choice':time.sleep(1.5)  # Original asynchronous JS grading.
