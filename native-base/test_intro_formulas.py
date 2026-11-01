@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 from course_adapter import lesson_questions
+from formula_exercises import formula_challenge
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
@@ -22,6 +23,10 @@ for qid, (formula_id, answer) in expected.items():
     assert question['options'][question['answer']] == answer
     assert formula['answer_blocks'][0] in formula['blocks']
     assert r'\frac' in formula['answer_blocks'][0]
+    native = formula_challenge(formula)['promptInputChallenge']
+    feedback = native['prompt']['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
+    assert feedback['taggedTextElement']['text'] == 'duoaero-latex:' + r'\textstyle ' + formula['formula_latex']
+    assert native['input']['expressionBuildInput']['slotCount'] == 1
 for node in plan:
     for lesson in node['lessons']:
         assert len(lesson_questions([bank[qid] for qid in lesson['ids']])) <= 20, lesson['id']
