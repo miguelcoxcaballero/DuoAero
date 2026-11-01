@@ -87,6 +87,7 @@ jobs:
           python native-base/course_adapter.py
           case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = standalone ]; then export DUOAERO_TRACE_COMPLETION=1; fi
           python native-base/build.py
           if [ "$DIAGNOSTIC_SCENARIO" = standalone ]; then
             unzip -p "$DUOAERO_WORK/DuoAero-native-base-test.apk" res/raw/lesson_complete_main_29.riv > "$DUOAERO_EVIDENCE/installed-lesson-complete.riv"
