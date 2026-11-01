@@ -516,6 +516,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   # Exercise the new wind formula blocks and their two one-calculation steps
   # in the original controller; model conversion alone is not UI acceptance.
   mixed.extend(lesson_questions([by_id['TA1-0012-F1'],by_id['TA1-0092-D2']]))
+  inequality=dict(by_id['TA1-0012-F1'],id='diagnostic_inequality',
+   stem='For TAS>=1.3Vs and M<=0.75, what is 2 + 2?',
+   options=['4','3','5','6'],answer=0,explanation='2 + 2 = 4.')
+  inequality.pop('lesson_steps',None);inequality.pop('formula_hint',None)
+  mixed.append(inequality)
  else:
   mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
  mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
