@@ -1,9 +1,7 @@
-DuoAero 1.3.3 uses the original Duolingo 6.103.5 runtime with the Aerospace Technology course. This is an A-channel development release; it is not a completed implementation of every requested feature.
+DuoAero 1.3.4 is an A-channel development update based on the original Duolingo 6.103.5 runtime. It is not a finished implementation of all requested features.
 
-The app adapts the original portrait window to taller screens, updates DuoAero branding and introduces Snoopy artwork. Formula slots now appear next to the formula, and incorrect feedback uses the native mathematical renderer. Local lesson completion updates gems and the streak; path chest rewards are included.
+This candidate groups the first midterm's path by major topic, places a chest at the end of each topic and preserves identifiers for earlier lessons and chest awards. It adds native section-picker data, a visible 25-gem chest confirmation, closer formula slots and corrected exponential notation. It requests a path refresh after a validated lesson completion and avoids inserting a second mascot image into a nested eyes artboard.
 
-Android emulator run 41310946566 verified one full lesson, the visible 10-gem and one-day streak counters, restart and the next lesson at 1440 × 3120. It also verified 18 formula selections, an incorrect formula rendered in LaTeX, synthetic account isolation and the original Google welcome. These checks are not a physical Samsung test or real Google/Drive authentication. Android run 41315745895 also opened an original path chest with seeded prerequisites, verified the 25-gem award and the visible balance after restart. This was not full lesson traversal.
+Tests and remaining limitations are recorded against the exact release source and build before publication. Real Google/Drive and on-device updater installation require separate acceptance; physical sound and vibration and emotion-specific Snoopy animations remain unverified. The interactive word-gap sentence still needs its slot placed in the sentence. Prior lesson-end responsiveness failures have not been fully diagnosed.
 
-Still incomplete: emotion- and action-specific Snoopy animation replacements, full course and text-layout audit, real Google/Drive round trip, updater download/install verification, physical sound and vibration, and the matching web interface. Earlier intermittent lesson-end ANRs have not been fully diagnosed.
-
-`build-info.json` identifies the source and signing run; `SHA256SUMS.txt` identifies the signed APK. The `build-1.3.3` unsigned artifact is signing input and cannot be installed.
+`build-info.json` identifies the signing source and `SHA256SUMS.txt` identifies the signed APK. `build-1.3.4` is unsigned signing input and cannot be installed.

@@ -1,3 +1,29 @@
+LATEST WORKING BRANCH (2026-11-01; not a new APK release):
+The user reports the first Atmosphere lesson reopens after completion, and two
+Snoopy images overlap on the lesson-complete screen. After a validated local
+session submission the app now requests an asynchronous path-cache refresh;
+whether this fixes that user's case requires the targeted Android scenario.
+native-base/test_atmosphere.py seeds prior nodes only, answers the actual first
+Atmosphere lesson including a wrong/retried answer, and checks the next lesson
+before and after restart. Android run 41320924521 is in progress on 7131467.
+The mascot build no longer replaces the nested EpicDuo_Eyes artboard with an
+additional full image; motion and the reported overlap remain unverified.
+There is still no inline word-gap fix: do not claim it is complete.
+
+Run 41319899762 PASS: first midterm visible in the original section selector.
+Run 41319592007 formula and chest scenarios PASS: adjacent one-token formula,
+five-token layout and grading, and visible +25 gems with seeded prerequisites
+persisting through restart. Its s24 scenario saved the first lesson but failed
+on an adb screenshot timeout before demonstrating return home; no ANR in that
+run's last-ANR dump. The lesson scenario also failed on a native control click.
+These are partial diagnostic results, not end-to-end product acceptance.
+The seven-topic/one-chest-per-topic path, stable lesson IDs, section-group
+metadata and legacy chest eligibility are committed on the working branch.
+The pressure example is 10 kPa because the supplied e^(-X) is already 0.50.
+The more complex varying-temperature pressure is typeset and independently
+checked against hydrostatic balance; its device rendering remains unverified.
+Main and the public APK remain v1.3.3; no new signed APK or release is claimed.
+
 LATEST 1.3.3 (2026-11-01): signed development prerelease v1.3.3 uploaded.
 Exact APK SHA256 8e29ae119a4752bbacb4549109dccf13a1bb25f4626fac6bbdaf3b89ff5a8283.
 Signed production install/upgrade/restart PASS run41316319254; original chest
