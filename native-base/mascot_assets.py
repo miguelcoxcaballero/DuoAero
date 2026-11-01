@@ -70,6 +70,10 @@ CHARACTER_CAST={
     'junior_inlesson_v01_13':'linus',
     'lily_inlesson_v02_19':'lucy',
     'oscar_inlesson_v01_02':'schroeder',
+    'bea_inlesson_v01_03':'patty',
+    'lin_inlesson_v01_02':'marcie',
+    'vikram_inlesson_v01_03':'franklin',
+    'eddy_inlesson_v01_02':'pigpen',
 }
 
 def expressive_character(data,name):
