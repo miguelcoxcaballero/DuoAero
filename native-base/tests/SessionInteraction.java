@@ -12,19 +12,44 @@ final class SessionInteraction {
   click(test,"com.duolingo:id/optionText","Low delivery times.");
   Thread.sleep(1000);
   SessionScreen.capture(test,"interaction-selected","interaction-selected");
-  click(test,"com.duolingo:id/submitButton",null);
+  if(hasContinue(test))click(test,null,"CONTINUE");
+  else click(test,"com.duolingo:id/submitButton",null);
   Thread.sleep(1500);
   SessionScreen.capture(test,"interaction-submitted","interaction-submitted");
   // Some native challenge types separate Check and Continue. Only click
   // Continue if the same question is still present; never skip a new question.
   if(contains(test,stem)&&hasContinue(test)){
-   click(test,"com.duolingo:id/submitButton",null);
+   click(test,null,"CONTINUE");
    Thread.sleep(1500);
    SessionScreen.capture(test,"interaction-continued","interaction-continued");
   }
   boolean advanced=contains(test,next);
   return "UI interaction: selected the first question's correct option through native accessibility controls; submitted through original button.\n"
    +"Second Aerospace question visible: "+advanced+". Grading feedback must be checked in screenshots; this does not verify session completion or persistence.\n";
+ }
+ static String firstMathAnswer(Instrumentation test,boolean wrong)throws Exception {
+  String answer=wrong?"\\text{Difficult automation.}":"\\text{Low delivery times.}";
+  click(test,"com.duolingo:id/mathCard",answer);
+  Thread.sleep(800);
+  SessionScreen.capture(test,"interaction-selected","interaction-selected");
+  click(test,"com.duolingo:id/submitButton",null);
+  Thread.sleep(1200);
+  SessionScreen.capture(test,"interaction-submitted","interaction-submitted");
+  if(!hasContinue(test))throw new IllegalStateException("Native grading did not expose Continue");
+  click(test,null,"CONTINUE");
+  Thread.sleep(1500);
+  SessionScreen.capture(test,"interaction-continued","interaction-continued");
+  String payload;
+  try(java.io.InputStream stream=test.getTargetContext().getAssets().open("hardcoded_sessions/duoaero/aerospace_rich_lesson.json")){
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[8192];int n;
+   while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);
+   payload=new String(bytes.toByteArray(),"UTF-8");
+  }
+  org.json.JSONObject session=new org.json.JSONObject(payload);
+  org.json.JSONObject next=new org.json.JSONObject(session.getJSONArray("challenges").getJSONObject(1).getString("challengeBlob"));
+  String nextOption=next.getJSONArray("pants").getJSONObject(0).getJSONObject("child").getString("value");
+  return "UI interaction: original Math card selected with a "+(wrong?"wrong":"correct")+" answer; original Check and Continue clicked.\n"
+   +"Next formula question option visible: "+contains(test,nextOption)+". Inspect grading and formula screenshots; no session completion or persistence asserted.\n";
  }
  private static boolean contains(Instrumentation test,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
@@ -33,7 +58,7 @@ final class SessionInteraction {
  }
  private static boolean contains(AccessibilityNodeInfo node,String text,int depth){
   if(depth>50||!own(node))return false;
-  if(node.isVisibleToUser()&&node.getText()!=null&&node.getText().toString().contains(text))return true;
+  if(node.isVisibleToUser()&&((node.getText()!=null&&node.getText().toString().contains(text))||(node.getContentDescription()!=null&&node.getContentDescription().toString().contains(text))))return true;
   for(int i=0;i<node.getChildCount();i++){
    AccessibilityNodeInfo child=node.getChild(i);
    if(child!=null)try{if(contains(child,text,depth+1))return true;}finally{child.recycle();}
@@ -44,7 +69,7 @@ final class SessionInteraction {
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)return false;
   try{
-   AccessibilityNodeInfo button=find(root,"com.duolingo:id/submitButton",null,0);
+   AccessibilityNodeInfo button=find(root,null,"CONTINUE",0);
    if(button==null)return false;
    try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
   }finally{root.recycle();}
@@ -68,7 +93,7 @@ final class SessionInteraction {
  private static boolean own(AccessibilityNodeInfo node){return "com.duoaero.nativebase".contentEquals(node.getPackageName()==null?"":node.getPackageName());}
  private static AccessibilityNodeInfo find(AccessibilityNodeInfo node,String id,String text,int depth){
   if(depth>50||!own(node))return null;
-  if(node.isVisibleToUser()&&id.equals(node.getViewIdResourceName())&&(text==null||text.contentEquals(node.getText()==null?"":node.getText())))return AccessibilityNodeInfo.obtain(node);
+  if(node.isVisibleToUser()&&(id==null||id.equals(node.getViewIdResourceName()))&&(text==null||text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
   for(int i=0;i<node.getChildCount();i++){
    AccessibilityNodeInfo child=node.getChild(i);
    if(child!=null)try{AccessibilityNodeInfo found=find(child,id,text,depth+1);if(found!=null)return found;}finally{child.recycle();}

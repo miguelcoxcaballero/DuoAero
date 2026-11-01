@@ -34,7 +34,9 @@
     "rich_choice_grading_selection_cases": 48,
     "synthetic_user_with_course_decoded": true,
     "session_activity_created_and_resumed": true,
-    "first_aerospace_question_rendered_in_isolated_probe": true
+    "first_aerospace_question_rendered_in_isolated_probe": true,
+    "first_native_assist_correct_feedback": true,
+    "native_selectone_plain_question_rendered_in_isolated_probe": true
   },
   "not_verified_or_incomplete": [
     "First Aerospace question now renders through the original SessionActivity in isolated instrumentation with native course cache input. Answering, completion and normal app startup remain unverified.",
@@ -144,6 +146,14 @@
       "aerospace": "First of 19 Aerospace assist questions visibly rendered, 68 accessibility nodes with expected stem and all four answers. Screenshot inspected.",
       "known_ui_problem": "AssistFragment wraps the exam stem in How do you say ...; unsuitable for this course. Native math selectOne comparison is pending.",
       "limits": "Only an empty course section was seeded. No working path, answer grading, session end, persistence, standalone app bootstrap or production APK acceptance."
+    },
+    "first_interaction_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41254902679",
+      "assist_result": "Clicking Low delivery times. invokes native grading: selected option turns green; native feedback and Continue appear. Screenshot inspected.",
+      "test_failure": "The automation then failed to find submitButton, because the graded footer uses an anonymous Compose Continue control. Advancing was not tested successfully. This is a locator failure, not proof of an app crash.",
+      "native_selectone_result": "Original mathChallengeBlob selectOne renders the same question cleanly, without the language prefix. Entire first stem and four options are visible. Screenshot inspected.",
+      "limits": "No native Math grading, formula question rendering, full lesson completion, persistence or normal app bootstrap verified.",
+      "next_test": "Locate the native graded Continue by its visible text, exercise correct/wrong native Math answers, then capture the following formula question."
     }
   }
 }

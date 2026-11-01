@@ -213,3 +213,19 @@ mathChallengeBlob `selectOne` layout for 12 plain-choice questions plus the bank
 rich-text choices, preserving question text and the original renderer. Both
 variants remain diagnostic inputs; grading, LaTeX layout and text overflow need
 runtime evidence. Original APK entry integrity and local compilation pass.
+
+[Interaction run 41254902679](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41254902679)
+shows actual native correct-answer feedback after tapping “Low delivery times.”:
+the option becomes green and the graded Continue button appears. The automation
+then failed its old `submitButton` locator: the graded footer is Compose and its
+Continue node has no resource ID. No successful advancement is claimed from this
+run. The revised locator uses the native button's exact visible text, restricted
+to the isolated target package.
+
+The original Math `selectOne` renderer also displays the first exam question
+without the language translation prefix, with the complete stem and all four
+choices visible. This validates that initial layout, not native Math grading or
+formula rendering. The next probe selects correct and wrong answers through
+native Math cards, clicks Check/Continue, and captures the next formula question.
+Screenshots and accessibility evidence are retained alongside these reports:
+`first-aerospace-native.png`, `first-native-correct-answer.png`, `native-selectone.png`.

@@ -95,7 +95,8 @@ jobs:
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
           }
           run_probe aerospace-interaction MATH_BT native-defaults late native-minimal aerospace first-assist
-          run_probe aerospace-rich MATH_BT native-defaults late native-minimal aerospace-rich
+          run_probe aerospace-rich-correct MATH_BT native-defaults late native-minimal aerospace-rich math-correct
+          run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
           python - <<'PYTHON'
           from pathlib import Path
           for path in Path('/tmp/duoaero-evidence').glob('session-*.txt'):

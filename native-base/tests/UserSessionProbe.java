@@ -11,20 +11,22 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean earlySetup=false;
  private boolean nativeCourseCache=false;
  private String lesson="math";
- private boolean interact=false;
+ private String interaction="none";
  private Throwable setupError;
  public void onCreate(Bundle args){
   if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));earlySetup="early".equals(args.getString("bootstrap"));}
   nativeCourseCache=args!=null&&"native-minimal".equals(args.getString("course_cache"));
   if(args!=null)lesson=args.getString("lesson",lesson);
-  interact=args!=null&&"first-assist".equals(args.getString("interact"));
+  if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
   start();
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!lesson.equals("math")&&!lesson.equals("aerospace")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(interact&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
+  if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
@@ -102,7 +104,8 @@ public final class UserSessionProbe extends Instrumentation {
   if(snapshotError.get()!=null)throw new IllegalStateException("Cannot inspect original session state",snapshotError.get());
   android.util.Log.i("DuoAeroProbe",report.toString());
   SessionScreen.capture(this);
-  if(interact)report.append(SessionInteraction.firstAssistAnswer(this));
+  if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
+  if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,interaction.equals("math-wrong")));
   completed=true;
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
