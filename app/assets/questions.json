@@ -16095,6 +16095,37 @@
     "stem": "An ideal jet cruise without wind starts at mass 53000 kg and must cover 2.2e+06 m at V=210 m/s, L/D=14, ce=1.4e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
     "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
+    "lesson_steps": [
+      {
+        "id": "TA1-0078-D2-F1", "type": "formula_blocks",
+        "stem": "Complete the Breguet exponent formula",
+        "prefix": "\\frac{R g c_e}{V E} =", "blocks": ["x", "T", "r", "M"], "answer_blocks": ["x"],
+        "formula_latex": "x=\\frac{Rgc_e}{VE}",
+        "explanation": "For constant Breguet parameters, x = R g c_e / (V E)."
+      },
+      {
+        "id": "TA1-0078-D2-S1",
+        "stem": "For R=2.2e6 m, V=210 m/s, E=14, ce=1.4e-5 kg/(N s) and g=9.81 m/s², calculate x.",
+        "options": ["0.10277", "0.01028", "1.02771", "0.20554"], "answer": 0,
+        "explanation": "x = (2.2 × 10⁶ × 9.81 × 1.4 × 10⁻⁵)/(210 × 14) ≈ 0.10277.",
+        "formula_hint": {"latex": "x=\\frac{Rgc_e}{VE}", "prerequisite": "TA1-0078-D2-F1"},
+        "rich_text": {"stem": [{"text": "For "}, {"latex": "R=2.2\\times10^6\\,\\mathrm{m}"}, {"text": ", "}, {"latex": "V=210\\,\\mathrm{m/s}"}, {"text": ", "}, {"latex": "E=14"}, {"text": ", "}, {"latex": "c_e=1.4\\times10^{-5}\\,\\mathrm{kg/(N\\,s)}"}, {"text": " and "}, {"latex": "g=9.81\\,\\mathrm{m/s^2}"}, {"text": ", calculate "}, {"latex": "x"}, {"text": "."}]}
+      },
+      {
+        "id": "TA1-0078-D2-F2", "type": "formula_blocks",
+        "stem": "Complete the fuel fraction formula",
+        "prefix": "\\frac{m_{fuel}}{m_i} =", "blocks": ["1-r", "r", "1+r", "r²"], "answer_blocks": ["1-r"],
+        "formula_latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
+        "explanation": "The burned fuel fraction is one minus the remaining mass fraction r."
+      },
+      {
+        "id": "TA1-0078-D2",
+        "stem": "For x=0.10277 the remaining mass fraction r is 0.90233. The initial mass is 53000 kg. How much fuel is burned?",
+        "options": ["47824 kg", "5446.9 kg", "5176.3 kg", "527.66 kg"], "answer": 2,
+        "explanation": "Fuel burned is 53000 × (1 − 0.90233) ≈ 5176.5 kg; 5176.3 kg is closest.",
+        "formula_hint": {"latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r", "prerequisite": "TA1-0078-D2-F2"}
+      }
+    ],
     "options": [
       "47824 kg",
       "5446.9 kg",

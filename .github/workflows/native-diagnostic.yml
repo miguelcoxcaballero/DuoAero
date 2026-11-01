@@ -187,7 +187,7 @@ jobs:
             fi
             if [[ "$probe_interact" = formula* ]]; then
               for phase in prompt selected graded; do
-                for item in $(seq 0 21); do
+                for item in $(seq 0 23); do
                   for extension in png json; do
                     adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "${{ runner.temp }}/duoaero-evidence/$probe_label-$phase-$item.$extension" || true
                   done
@@ -196,7 +196,7 @@ jobs:
             fi
             if [[ "$probe_interact" = mixed* ]]; then
               for phase in prompt selected graded; do
-                for item in $(seq 0 15); do
+                for item in $(seq 0 19); do
                   for extension in png json; do
                     adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-$phase-$item.$extension" "${{ runner.temp }}/duoaero-evidence/mixed-$phase-$item.$extension" || true
                   done

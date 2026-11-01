@@ -98,7 +98,24 @@ updated = session(lesson_bank, mach_lesson['id'])
 assert len(updated['challenges']) <= 20
 assert {q['id'] for q in legacy['challenges']} <= {q['id'] for q in updated['challenges']}
 assert mach_lesson['id'] == legacy['id'] == updated['id']
-for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks'] + mach_expanded[::2]:
+breguet_problem = next(q for q in bank if q['id'] == 'TA1-0078-D2')
+breguet_steps = lesson_questions([breguet_problem])
+assert [q['type'] for q in breguet_steps] == ['formula_blocks', 'choice'] * 2
+for formula, exercise in zip(breguet_steps[::2], breguet_steps[1::2]):
+    assert exercise['formula_hint']['prerequisite'] == formula['id']
+    assert 'formula_hint' not in formula
+exponent = 2.2e6 * 9.81 * 1.4e-5 / (210 * 14)
+remaining = math.exp(-exponent)
+assert math.isclose(exponent, .10277, abs_tol=.000005)
+assert math.isclose(remaining, .90233, abs_tol=.000005)
+assert math.isclose(53000 * (1-remaining), 5176.3, abs_tol=.1)
+breguet_lesson = next(lesson for node in plan for lesson in node['lessons'] if breguet_problem['id'] in lesson['ids'])
+breguet_bank = [bank_by_id[qid] for qid in breguet_lesson['ids']]
+old = session(breguet_bank, breguet_lesson['id'], expand_steps=False)
+new = session(breguet_bank, breguet_lesson['id'])
+assert len(new['challenges']) <= 20 and old['id'] == new['id']
+assert {q['id'] for q in old['challenges']} <= {q['id'] for q in new['challenges']}
+for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks'] + mach_expanded[::2] + breguet_steps[::2]:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
     assert feedback['taggedTextElement']['text'] == 'duoaero-latex:' + r'\textstyle ' + question['formula_latex']

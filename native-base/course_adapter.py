@@ -89,7 +89,9 @@ def lesson_questions(questions, expand_steps=True):
         if question['type'] != 'choice' or len(steps) < 2 or steps[-1]['id'] != question['id']:
             raise ValueError('Invalid reviewed lesson steps: ' + question['id'])
         for step in steps:
-            part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text')}
+            # Each expanded question teaches or uses its own formula. A hint
+            # on the unsplit source is not automatically valid for every step.
+            part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text', 'formula_hint')}
             part.update(step)
             expanded.append(part)
     ids = [q['id'] for q in expanded]

@@ -513,6 +513,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  # Exercise the actual alternating formula/choice sequence in the original
  # controller, not just the separately serialized challenge models.
  mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
+ mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:

@@ -111,7 +111,7 @@ if __name__ == '__main__':
     for question in bank:
         for step in question.get('lesson_steps',[]):
             if step.get('type') == 'formula_blocks':
-                part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text')}
+                part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text', 'formula_hint')}
                 part.update(step)
                 questions.append(part)
     session = {'id': 'duoaero_formula_blocks_diagnostic', 'type': 'MATH_LESSON',
