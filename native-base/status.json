@@ -56,12 +56,16 @@
     "native_formula_single_slot_correct_and_incorrect": true,
     "native_formula_five_slots_correct": true,
     "native_first_path_lesson_claim_xp_and_submission_stored": true,
-    "actual_first_path_submission_validated_and_committed": true
+    "actual_first_path_submission_validated_and_committed": true,
+    "standalone_first_lesson_complete_and_visible_return": true,
+    "standalone_completion_survives_process_restart": true,
+    "standalone_original_path_selects_second_lesson": true,
+    "native_mixed_multi_matching_and_two_word_gaps": true
   },
   "not_verified_or_incomplete": [
-    "Standalone lesson completion, return to path, committed progress after restart and next-lesson navigation remain unverified. Strict progress validation/projection implemented and host-tested; actual native submission acceptance pending.",
+    "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",
     "Original Parcelable midlesson resume implemented; cold force-stop at question six acceptance added and pending. Persistent mistake review remains incomplete.",
-    "Gap/order, multiple selection and matching have native adapters. A mixed native UI probe is now implemented; runtime and overflow acceptance pending.",
+    "Multi-select, matching and both word gaps pass native UI in run 41270695058. Ordering exposed four-column bank overflow; adaptive original bank rows added, pending runtime verification.",
     "Native LaTeX choice/formula rendering is observed. All-field coverage, explanations, text/font scaling and overflow regression remain incomplete.",
     "Google-only sign-in and account-isolated Drive are not connected to the native base.",
     "Canonical updater, mascot replacement, full screen comparison, audio/haptics/night-mode, production signing and publication to main remain."

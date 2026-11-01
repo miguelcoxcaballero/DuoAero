@@ -31,6 +31,28 @@ public final class NativeCourseBridge {
   return diagnosticProfile;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ /** Keep the original bank's rows/cards, but fit long Aerospace word blocks. */
+ public static int bankColumns(java.util.List<?> tokens,float measuredWidth,int original){
+  if(!hasLocalCourse())return original;
+  try{
+   Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+   android.util.DisplayMetrics metrics=app.getResources().getDisplayMetrics();
+   android.text.TextPaint paint=new android.text.TextPaint();
+   paint.setTypeface(android.graphics.Typeface.create("sans-serif",android.graphics.Typeface.BOLD));
+   paint.setTextSize(20*metrics.scaledDensity);
+   float width=Math.max(56,measuredWidth)*metrics.density;
+   for(Object token:tokens){
+    if(!token.getClass().getName().equals("qp3"))continue;
+    Object figure=field(token,"b");
+    if(figure==null)continue;
+    String label=formulaAccessibility(figure);
+    if(label==null)label=(String)figure.getClass().getMethod("r1").invoke(figure);
+    if(label!=null)width=Math.max(width,paint.measureText(label)+32*metrics.density);
+   }
+   float available=metrics.widthPixels-28*metrics.density,gap=8*metrics.density;
+   return Math.max(1,Math.min(original,(int)((available+gap)/(width+gap))));
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot measure original Aerospace bank",error);}
+ }
  /** Retry only this course's explicitly marked pure function on the original
   * JS engine. Preserve its result; a missing result remains a grading error.
   */

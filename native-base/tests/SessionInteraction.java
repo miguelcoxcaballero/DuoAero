@@ -50,9 +50,11 @@ final class SessionInteraction {
    SessionScreen.capture(test,"mixed-selected-"+i,"mixed-selected-"+i);
    // Matching can grade automatically after the final pair. Other native
    // controllers use their original Check action.
-   boolean correct=false;for(String label:positive)if(contains(test,label))correct=true;
+   boolean correct=hasContinue(test)&&!contains(test,"GOT IT");
+   for(String label:positive)if(contains(test,label))correct=true;
    if(!correct)click(test,"com.duolingo:id/submitButton",null);
    for(int attempt=0;attempt<150&&!correct;attempt++){
+    correct=hasContinue(test)&&!contains(test,"GOT IT");
     for(String label:positive)if(contains(test,label))correct=true;
     if(!correct)Thread.sleep(200);
    }
@@ -219,14 +221,26 @@ final class SessionInteraction {
  // The same label may already be in an answer slot. The bank is the last
  // matching native control in traversal order; select it rather than removing
  // a previously selected token. This only performs native accessibility taps.
- private static void clickLast(Instrumentation test,String text){
-  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
-  if(root==null)throw new IllegalStateException("No active native window");
-  AccessibilityNodeInfo node;try{node=findLast(root,text,0);}finally{root.recycle();}
+ private static void clickLast(Instrumentation test,String text)throws Exception {
+  AccessibilityNodeInfo node=null;
+  for(int attempt=0;attempt<18&&node==null;attempt++){
+   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+   if(root!=null)try{
+    node=findLast(root,text,0);
+    if(node==null)scrollBank(root,attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD,0);
+   }finally{root.recycle();}
+   if(node==null)Thread.sleep(300);
+  }
   if(node==null)throw new IllegalStateException("Native bank token not visible: "+text);
   try{for(int i=0;i<8&&!node.isClickable();i++){AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;}
    if(!own(node)||!node.isEnabled()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
   }finally{node.recycle();}
+ }
+ private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
+  if(depth>50||!own(node))return false;
+  // The bank is the last scrollable native region, below the prompt/slots.
+  for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{if(scrollBank(child,action,depth+1))return true;}finally{child.recycle();}}
+  return node.isVisibleToUser()&&node.isScrollable()&&node.performAction(action);
  }
  private static AccessibilityNodeInfo findLast(AccessibilityNodeInfo node,String text,int depth){
   if(depth>50||!own(node))return null;

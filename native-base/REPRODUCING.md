@@ -588,3 +588,16 @@ The new resume scenario force-stops after five real answers, reopens the origina
 node, requires question six and completes the remaining lesson/restart checks.
 Rich-choice probes now also wait for the asynchronous graded footer after the
 original fragment result, matching the formula observation correction.
+
+Run 41270695058 (21465ec) PASSES cold standalone first lesson: 19 correct
+answers, Claim XP, original home, durable completion, force-stop/relaunch without
+clearing data and second catalog lesson opened through the original node. The
+next-lesson screenshot and matching local session route were inspected. This
+is limited to that flow; Google/Drive and complete-course acceptance remain open.
+Formula single correct/incorrect and five-block correct cases also pass.
+Mixed UI verifies multi-select, SI matching and both word gaps. Ordering fails
+because original BuildBank chunks exactly four cards per row regardless of
+word width; Turbine is offscreen. A scoped row-count adapter now measures labels
+and available screen width while retaining the original lazy bank, cards and
+handlers. The driver scrolls that native bank to find lower rows. Runtime bounds
+and grading acceptance of this layout correction are pending.

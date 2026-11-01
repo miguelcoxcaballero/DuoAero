@@ -185,7 +185,14 @@ factory_hook='    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;-
 factory_timeout='    :catch_3\n    iget-object v1, v2, Lp5l;->d:Lyto;'
 assert factory_text.count(factory_timeout)==1
 factory_timeout_hook='    :catch_3\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportSandboxStartupTimeout()V\n    iget-object v1, v2, Lp5l;->d:Lyto;'
+bank_source=SMALI/'smali_classes6/n71.smali'
+bank_original=bank_source.read_bytes()
+bank_text=bank_original.decode('utf-8').replace('\r\n','\n')
+bank_anchor='    invoke-static {v14, v3, v3, v9}, Loe7;->p1(Ljava/lang/Iterable;IIZ)Ljava/util/ArrayList;'
+assert bank_text.count(bank_anchor)==1
+bank_hook='    invoke-static {v1, v10, v3}, Lcom/duoaero/nativebase/NativeCourseBridge;->bankColumns(Ljava/util/List;FI)I\n\n    move-result v3\n\n'
 try:
+ bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
  factory_source.write_text(factory_text.replace(factory_anchor,factory_hook).replace(factory_timeout,factory_timeout_hook),encoding='utf-8')
  retry_source.write_text(retry_text.replace(retry_anchor,retry_hook),encoding='utf-8')
  sandbox_source.write_text(sandbox_text.replace(sandbox_anchor,sandbox_hook),encoding='utf-8')
@@ -194,6 +201,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ bank_source.write_bytes(bank_original)
  factory_source.write_bytes(factory_original)
  retry_source.write_bytes(retry_original)
  sandbox_source.write_bytes(sandbox_original)
