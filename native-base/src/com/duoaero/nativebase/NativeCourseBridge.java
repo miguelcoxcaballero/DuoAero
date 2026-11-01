@@ -309,11 +309,22 @@ public final class NativeCourseBridge {
  }
  static Object offlineResponse(Object request)throws Exception {
   int code=503;String payload="{}";
+  Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method");
+  // Original analytics sender oir.b accepts any2xx without reading a body.
+  // This local course does not export Duolingo telemetry. Discard explicitly
+  // instead of returning503 and triggering its tight event-batch retry loop.
+  if(localOnly&&method.equals("POST")&&path.equals("/api/1/sync/batch"))return jsonResponse(request,204,"");
   if(serveLocalCourse&&hasLocalCourse()){
-   Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method");
    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
    if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=NativeRewards.profile(app,new JSONObject(diagnosticProfile)).toString();}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/available-features")){
+    code=200;payload="{\"subscriptionFeatures\":[]}";
+   }
+   else if(method.equals("GET")&&path.equals("/users/1/progress")){
+    // GoalsProgressResponse's original empty/default state: no assigned quests.
+    code=200;
+   }
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/avatar-builder-config")){
     // The original resource may reload when Profile starts observing it.
     // Answer its normal request as well as seeding its native cache.

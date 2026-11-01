@@ -45,6 +45,14 @@ public final class ModelProbe extends Instrumentation {
      if(failed<=12)report.append(input.getString("id")).append(": ").append(cause).append('\n');
     }
    }
+   String[] types={"com.duolingo.data.subscription.max.SubscriptionFeatureGroup","com.duolingo.data.goals.models.GoalsProgressResponse"};
+   String[] responses={"{\"subscriptionFeatures\":[]}","{}"};
+   for(int i=0;i<types.length;i++){
+    Object c=Class.forName(types[i],true,loader).getField("Companion").get(null);
+    Object model=decode.invoke(json,c.getClass().getMethod("serializer").invoke(c),responses[i]);
+    if(!model.getClass().getName().equals(types[i]))throw new AssertionError("Invalid local optional-feature response");
+   }
+   report.append("Original optional-feature response models decoded.\n");
   }catch(Throwable error){failed++;report.append(android.util.Log.getStackTraceString(error));}
   report.append("Native model decoding: ").append(passed).append(" passed, ").append(failed).append(" failed.\n");
   report.append("Does not verify rendering, grading, progression, or layout of gap/order questions.\n");

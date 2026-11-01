@@ -164,8 +164,8 @@ final class SessionInteraction {
     if(attempt%10==9&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(checkRichLayout&&i>=1&&i<=3)SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
-   if(checkRichLayout&&i==2){
+   if(checkRichLayout&&question.getString("id").matches("TA1-(0182-F1|0232|0753-D3|0832-D3)"))SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
+   if(checkRichLayout&&question.getString("id").equals("TA1-0753-D3")){
     AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
     boolean scrolled=false;
     if(root!=null)try{scrolled=scrollForward(root,0);}finally{root.recycle();}

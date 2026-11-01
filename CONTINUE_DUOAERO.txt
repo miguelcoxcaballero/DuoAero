@@ -1,3 +1,14 @@
+LATEST FOLLOW-UP: explicit symbolic notation formatter covers legacy subscripts,
+Greek names and powers without mutating original exam records. Drive JS merge
+now unions chest claims and per-lesson study days. Ten auth/storage JS tests pass.
+The bd45d03 lesson failure was a test-index regression: new rich question shifted
+the long lift prompt from index2 to3; screenshot atindex2 is complete Breguet
+text, so no scroll was possible. Test now selects TA1-0753-D3 byID.
+Found304original telemetry503responses in7c16 lesson log. Local analytics sink
+now returns204 (originaloir.b accepts2xx without parsing); no telemetry upload.
+Added actual empty SubscriptionFeatureGroup and GoalsProgressResponse endpoints
+with native decoder checks. Latency improvement remains unmeasured.
+
 INTEGRATION UPDATE (2026-11-01; supersedes implementation notes below)
 Base remains6.103.5 by explicit user decision. Added43original chest nodes,
 25gems/claim, account-scoped atomic claims, eligibility and idempotent Drive

@@ -7,13 +7,16 @@ grading. Their runtime acceptance is separate from successful decoding.
 import html
 import json
 from pathlib import Path
-from rich_question import choice_blob, difficulty_stars
+from rich_question import choice_blob, difficulty_stars, content
+from math_notation import parts as notation_parts
 from formula_exercises import formula_challenge
 
 ROOT = Path(__file__).resolve().parents[1]
 
 def figure(text):
-    return {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {'text': html.escape(text)}}
+    symbolic = any('latex' in part for part in notation_parts(text))
+    value = 'duoaero-latex:' + content(None, text) if symbolic else html.escape(text)
+    return {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {'text': value}}
 
 def challenge(question):
     result = {'id': question['id']}

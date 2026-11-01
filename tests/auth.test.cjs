@@ -58,3 +58,14 @@ test('Drive retries identity verification when the native account switch was rej
  reject=false;await ctx.DuoSync.sync();assert.equal(identified,2);assert.equal(uploaded,1);
  assert.ok(reads.length>0);assert.ok(reads.every(id=>id==='account-b'));assert.deepEqual(applies,['account-b']);
 });
+
+test('Drive unions chest claims and repeat study days without losing completion proofs',()=>{
+ const a={completedLessons:{lesson:{at:30,nativeCompletion:{id:'lesson'},studyDays:['2026-10-31']}},chests:{first:10}};
+ const b={completedLessons:{lesson:{at:20,nativeCompletion:{id:'lesson'},studyDays:['2026-11-01']}},chests:{first:10,second:20}};
+ const merged=merge(a,b);
+ assert.deepEqual(merged.completedLessons.lesson.studyDays,['2026-10-31','2026-11-01']);
+ assert.equal(merged.completedLessons.lesson.at,30);
+ assert.deepEqual(merged.chests,{first:10,second:20});
+ assert.deepEqual(merge(merged,b),merged);
+ assert.deepEqual(a.completedLessons.lesson.studyDays,['2026-10-31']);
+});

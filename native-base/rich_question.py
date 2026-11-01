@@ -5,6 +5,7 @@ present in the reference APK's math_l0_lessons.json. End-to-end rendering remain
 subject to the native session integration check.
 """
 import json
+from math_notation import parts as notation_parts
 
 
 def text_latex(value):
@@ -16,7 +17,7 @@ def text_latex(value):
 
 def content(parts, fallback):
     if parts is None:
-        return text_latex(fallback)
+        parts = notation_parts(fallback)
     result = []
     for part in parts:
         if set(part) == {'latex'}:

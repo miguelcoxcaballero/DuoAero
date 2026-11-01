@@ -11,10 +11,12 @@ final class NativeProgressSync {
   synchronized(NativeAccountStore.LOCK){
    NativeAccountStore.require(app,account);
    JSONObject records=NativeMistakeStore.snapshot(app),lessons=NativeSessionStore.exportCompletions(app);
+   JSONObject chests=NativeChestRewards.snapshot(app);
    long updated=0;
+   for(Iterator<String> keys=chests.keys();keys.hasNext();)updated=Math.max(updated,chests.optLong(keys.next()));
    for(Iterator<String> keys=records.keys();keys.hasNext();)updated=Math.max(updated,records.getJSONObject(keys.next()).optLong("at"));
    for(Iterator<String> keys=lessons.keys();keys.hasNext();)updated=Math.max(updated,lessons.getJSONObject(keys.next()).optLong("at"));
-   return new JSONObject().put("nativeSchema",1).put("records",records).put("completedLessons",lessons).put("chests",NativeChestRewards.snapshot(app)).put("updatedAt",updated).toString();
+   return new JSONObject().put("nativeSchema",1).put("records",records).put("completedLessons",lessons).put("chests",chests).put("updatedAt",updated).toString();
   }
  }
  static boolean apply(Application app,String account,String raw)throws Exception {

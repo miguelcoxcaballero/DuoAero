@@ -1,6 +1,19 @@
 (function(global){
 'use strict';
-function merge(a={},b={}){const out=JSON.parse(JSON.stringify(a));out.records={...(a.records||{})};for(const [id,r] of Object.entries(b.records||{})){const l=out.records[id];if(!l||Number(r.at)>Number(l.at))out.records[id]=r;}out.completedLessons={...(a.completedLessons||{})};for(const [id,l] of Object.entries(b.completedLessons||{})){if(!out.completedLessons[id]||l.at>out.completedLessons[id].at)out.completedLessons[id]=l;}out.xp=Math.max(a.xp||0,b.xp||0);out.updatedAt=Math.max(a.updatedAt||0,b.updatedAt||0);return out;}
+function merge(a={},b={}){
+ const out=JSON.parse(JSON.stringify(a));out.records={...(a.records||{})};
+ for(const [id,r] of Object.entries(b.records||{})){const l=out.records[id];if(!l||Number(r.at)>Number(l.at))out.records[id]=r;}
+ out.completedLessons={...(a.completedLessons||{})};
+ for(const [id,remote] of Object.entries(b.completedLessons||{})){
+  const local=out.completedLessons[id];
+  const selected=!local||remote.at>local.at?remote:local;
+  out.completedLessons[id]={...selected};
+  if(local?.studyDays||remote.studyDays)out.completedLessons[id].studyDays=[...new Set([...(local?.studyDays||[]),...(remote.studyDays||[])])].sort();
+ }
+ out.chests={...(a.chests||{})};
+ for(const [id,at] of Object.entries(b.chests||{}))if(Number.isFinite(at)&&at>0)out.chests[id]=Math.max(Number(out.chests[id])||0,at);
+ out.xp=Math.max(a.xp||0,b.xp||0);out.updatedAt=Math.max(a.updatedAt||0,b.updatedAt||0);return out;
+}
 if(typeof module!=='undefined')module.exports={merge};
 if(!global.document)return;
 let busy=false,again=false,account=null,timer=null,generation=0;

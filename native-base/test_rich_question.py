@@ -51,3 +51,15 @@ except ValueError:
 else:
     raise AssertionError('Ambiguous rich content accepted')
 print('LaTeX preserved; ambiguous content rejected. Rendering still requires device QA.')
+
+from math_notation import parts, symbol
+assert symbol('p_base') == r'p_{\mathrm{base}}'
+assert symbol('eta_p') == r'\eta_{p}'
+assert symbol('m_dot') == r'\dot{m}'
+assert symbol('sigma_max') == r'\sigma_{\mathrm{max}}'
+assert symbol('m^-1') == r'm^{-1}'
+assert symbol('m²') == r'm^{2}'
+assert parts('The mass generally increases.') == [{'text': 'The mass generally increases.'}]
+assert parts('Fill ___ with one word.') == [{'text': 'Fill ___ with one word.'}]
+assert content(None, 'Use eta_p and m_dot in kg/s².') == r'\text{Use }\eta_{p}\text{ and }\dot{m}\text{ in kg/}s^{2}\text{.}'
+print('PASS: explicit subscripts, Greek symbols and powers render as math; prose and word gaps stay literal.')
