@@ -254,7 +254,7 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,
@@ -303,5 +303,20 @@
         "resume": 13074563792
       }
     }
+  },
+  "release_1_3_3": {
+    "version": "1.3.3",
+    "versionCode": 10303,
+    "sha256": "8e29ae119a4752bbacb4549109dccf13a1bb25f4626fac6bbdaf3b89ff5a8283",
+    "signerSha256": "7133a4b3e4b9f9c4d2fbbd38b7dd2d44c7b8d0d7d16568bfe3da74a09e7887b6",
+    "sourceReceipt": "2dc6f0b3a0425d3a00413684592ba90aafd48d1d",
+    "productionInstallRun": 41316319254,
+    "diagnosticRun": 41315745895,
+    "chest": "PASS: seeded prerequisites, original chest interaction, 25-gem award, balance survives restart",
+    "formula": "PASS: 18 original native grades and incorrect LaTeX displayed",
+    "account": "PASS synthetic account isolation and original reward model decoding; real Google/Drive remains unverified",
+    "s24": "FAIL: real SessionActivity input ANR at Claim XP, persisted lesson but return to path not verified. Trace in Actions evidence 41315745895; main thread in RenderThread sync. Earlier b2ecef8 run passed but does not establish this failure fixed.",
+    "mascot": "Generic replacement does not match each required action/emotion; some original Duo artwork remains, including a combo screen with Snoopy in its eyes.",
+    "publication": "Development prerelease signed; no claim of complete product."
   }
 }
