@@ -1,4 +1,4 @@
-DuoAero 1.3.1 uses the original Duolingo 6.103.5 runtime with the Aerospace Technology course. This is an A-channel development release; it is not a completed implementation of every requested feature.
+DuoAero 1.3.2 uses the original Duolingo 6.103.5 runtime with the Aerospace Technology course. This is an A-channel development release; it is not a completed implementation of every requested feature.
 
 The app adapts the original portrait window to taller screens, updates DuoAero branding and introduces Snoopy artwork. Formula slots now appear next to the formula, and incorrect feedback uses the native mathematical renderer. Local lesson completion updates gems and the streak; path chest rewards are included.
 
@@ -6,4 +6,4 @@ Android emulator run 41310946566 verified one full lesson, the visible 10-gem an
 
 Still incomplete: emotion- and action-specific Snoopy animation replacements, full course and text-layout audit, real Google/Drive round trip, updater download/install verification, physical sound and vibration, and the matching web interface. Earlier intermittent lesson-end ANRs have not been fully diagnosed.
 
-`build-info.json` identifies the source and signing run; `SHA256SUMS.txt` identifies the signed APK. The `build-1.3.1` unsigned artifact is signing input and cannot be installed.
+`build-info.json` identifies the source and signing run; `SHA256SUMS.txt` identifies the signed APK. The `build-1.3.2` unsigned artifact is signing input and cannot be installed.
