@@ -104,8 +104,22 @@ try:
             # actual card. A touch at the label's bounds still hits the card.
             candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
         assert candidates,'No selectable answer for '+qid
+        # The card can become visible during the native page transition before
+        # it accepts input. Let the transition settle, then retry the actual
+        # touch only while the Check action remains disabled.
+        time.sleep(1)
         tap_node(candidates[-1])
-        tree=wait('atmosphere-selected-'+str(index),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),30)
+        for retry in range(3):
+            try:
+                tree=wait('atmosphere-selected-'+str(index),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),10)
+                break
+            except AssertionError:
+                if retry==2:raise
+                tree=wait('atmosphere-retry-'+str(index),lambda t:bool(matching(t,needle,resource)),10)
+                candidates=matching(tree,needle,resource)
+                if kind!='choice':candidates=[n for n in candidates if n.get('text','')==needle or n.get('content-desc','')==needle]
+                assert candidates,'Answer disappeared while waiting: '+qid
+                tap_node(candidates[-1])
         if kind=='choice':time.sleep(1.5)  # Original asynchronous JS grading.
         tap_node(next(n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true'))
         tree=wait('atmosphere-graded-'+str(index),lambda t:bool(matching(t,'CONTINUE') or matching(t,'GOT IT')),45)

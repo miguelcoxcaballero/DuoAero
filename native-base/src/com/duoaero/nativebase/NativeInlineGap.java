@@ -43,7 +43,7 @@ public final class NativeInlineGap {
       Object term=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,
           Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),
           Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),boolean.class)
-       .newInstance(part,cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),
+       .newInstance(part,Math.max(16f,Math.min(26f,cls.getField("b").getFloat(figure)*.65f)),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),
           cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
       prompt.invoke(null,term,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
@@ -58,7 +58,7 @@ public final class NativeInlineGap {
    Class<?> iv=Class.forName("iv1",true,l),spacing=Class.forName("hv1",true,l);
    Object vertical=spacing.getConstructor(float.class,boolean.class,iv).newInstance(4f,true,Class.forName("gal",true,l).getConstructor(int.class).newInstance(12));
    Object align=Class.forName("b9z",true,l).getField("o").get(null);
-   Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(4f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
+   Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(10f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
    Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
     .invoke(null,words.length(),defaultModifier,horizontal,vertical,null,0,0,null,composable,composer,0x6000d80,0xf0);
