@@ -32,8 +32,10 @@ for node in nodes:
    hint=by_id[qid].get('formula_hint')
    if hint:
     assert by_id[qid]['type']=='choice' and isinstance(hint.get('latex'),str) and hint['latex'].strip()
-    prerequisite=hint.get('prerequisite')
-    assert prerequisite in seen and by_id[prerequisite]['type']=='formula_blocks', (qid,prerequisite)
+    prerequisites=[hint.get('prerequisite')]+hint.get('additional_prerequisites',[])
+    assert len(prerequisites)==len(set(prerequisites)), (qid,prerequisites)
+    for prerequisite in prerequisites:
+     assert prerequisite in seen and by_id[prerequisite]['type']=='formula_blocks', (qid,prerequisite)
    seen.add(qid)
   assigned+=lesson['ids']
 assert collections.Counter(assigned)==collections.Counter(ids)

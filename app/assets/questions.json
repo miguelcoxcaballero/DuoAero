@@ -16818,6 +16818,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.88816 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=3400 Pa at static pressure p=65000 Pa and T=255 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "87.5 km/h",
       "24.306 km/h",
@@ -18278,6 +18279,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.90158 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=3600 Pa at static pressure p=66500 Pa and T=257 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "227.48 km/h",
       "89.364 km/h",
@@ -19730,6 +19732,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.9148 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=3800 Pa at static pressure p=68000 Pa and T=259 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "232.02 km/h",
       "328.13 km/h",
@@ -21195,6 +21198,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.92782 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=4000 Pa at static pressure p=69500 Pa and T=261 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "236.37 km/h",
       "25.794 km/h",
@@ -22648,6 +22652,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.94063 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=4200 Pa at static pressure p=71000 Pa and T=263 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "94.499 km/h",
       "340.2 km/h",
@@ -24101,6 +24106,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.95326 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=4400 Pa at static pressure p=72500 Pa and T=265 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "26.689 km/h",
       "244.58 km/h",
@@ -25543,6 +25549,7 @@
     "subtopic": "Calculate rho=p/(RT)=0.96569 kg/m³.",
     "stem": "A sensor must maintain dynamic pressure q=4600 Pa at static pressure p=74000 Pa and T=267 K. With ideal air R=287 J/(kg K), what true airspeed is required in km/h? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\rho=\\frac{p}{RT},\\quad q=\\frac12\\rho V^2", "prerequisite": "BOOK-V6-02-D1", "additional_prerequisites": ["BOOK-V6-01-D1"]},
     "options": [
       "351.38 km/h",
       "248.46 km/h",

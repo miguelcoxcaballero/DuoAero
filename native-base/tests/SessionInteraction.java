@@ -195,7 +195,7 @@ final class SessionInteraction {
     if(contains(test,"INCORRECT"))throw new IllegalStateException("Hint graded before Check");
     test.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);Thread.sleep(700);
    }
-   if(checkRichLayout&&!hintRetry&&question.getString("id").matches("TA1-(0078|0132|0154)-D2")){
+   if(checkRichLayout&&!hintRetry&&question.getString("id").matches("TA1-(0078|0132|0154|0081)-D2")){
     clickTip(test);Thread.sleep(1000);
     if(!contains(test,"a tip"))throw new IllegalStateException("Native formula hint did not open: "+question.getString("id"));
     SessionScreen.capture(test,"lesson-hint-"+question.getString("id"),"lesson-hint-"+question.getString("id"));
