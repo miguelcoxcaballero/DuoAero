@@ -16029,6 +16029,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=47824 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 53000 kg and must cover 2.2e+06 m at V=210 m/s, L/D=14, ce=1.4e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "47824 kg",
       "5446.9 kg",
@@ -16172,6 +16173,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=1.8e-08 m⁴ and effective-length factor K=0.7 carries F=7000 N. Require Euler critical load to be at least 1.4 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.78853 m",
       "1.9041 m",
@@ -16317,6 +16319,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=6.8e+10 Pa and length 1.1 m carries tensile load 19000 N. Maximum extension is 0.00075 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "372.55 mm²",
       "0.4098 mm²",
@@ -17462,6 +17465,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=48614 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 54000 kg and must cover 2.3e+06 m at V=214 m/s, L/D=14.25, ce=1.42e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "48614 kg",
       "5385.6 kg",
@@ -17609,6 +17613,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=1.95e-08 m⁴ and effective-length factor K=0.725 carries F=7500 N. Require Euler critical load to be at least 1.43 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.81256 m",
       "1.8486 m",
@@ -17754,6 +17759,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=6.9e+10 Pa and length 1.18 m carries tensile load 20000 N. Maximum extension is 0.00078 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "0.4385 mm²",
       "517.43 mm²",
@@ -18908,6 +18914,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=49406 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 55000 kg and must cover 2.4e+06 m at V=218 m/s, L/D=14.5, ce=1.44e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "5899 kg",
       "570.2 kg",
@@ -19055,6 +19062,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.1e-08 m⁴ and effective-length factor K=0.75 carries F=8000 N. Require Euler critical load to be at least 1.46 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.83589 m",
       "1.1145 m",
@@ -19200,6 +19208,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7e+10 Pa and length 1.26 m carries tensile load 21000 N. Maximum extension is 0.00081 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "588 mm²",
       "370.37 mm²",
@@ -20367,6 +20376,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=50199 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 56000 kg and must cover 2.5e+06 m at V=222 m/s, L/D=14.75, ce=1.46e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "50199 kg",
       "5800.6 kg",
@@ -20514,6 +20524,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.25e-08 m⁴ and effective-length factor K=0.775 carries F=8500 N. Require Euler critical load to be at least 1.49 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "1.7449 m",
       "0.8586 m",
@@ -20659,6 +20670,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7.1e+10 Pa and length 1.34 m carries tensile load 22000 N. Maximum extension is 0.00084 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "494.3 mm²",
       "368.88 mm²",
@@ -21814,6 +21826,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=50993 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 57000 kg and must cover 2.6e+06 m at V=226 m/s, L/D=15, ce=1.48e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "6006.5 kg",
       "6347.2 kg",
@@ -21961,6 +21974,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.4e-08 m⁴ and effective-length factor K=0.8 carries F=9000 N. Require Euler critical load to be at least 1.52 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "1.6967 m",
       "1.1009 m",
@@ -22106,6 +22120,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7.2e+10 Pa and length 1.42 m carries tensile load 23000 N. Maximum extension is 0.00087 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "0.52139 mm²",
       "367.18 mm²",
@@ -23261,6 +23276,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=51789 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 58000 kg and must cover 2.7e+06 m at V=230 m/s, L/D=15.25, ce=1.5e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "633.17 kg",
       "51789 kg",
@@ -23408,6 +23424,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.55e-08 m⁴ and effective-length factor K=0.825 carries F=9500 N. Require Euler critical load to be at least 1.55 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "1.6506 m",
       "1.3258 m",
@@ -23553,6 +23570,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7.3e+10 Pa and length 1.5 m carries tensile load 24000 N. Maximum extension is 0.0009 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "365.3 mm²",
       "0.54795 mm²",
@@ -24697,6 +24715,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=52585 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 59000 kg and must cover 2.8e+06 m at V=234 m/s, L/D=15.5, ce=1.52e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "6415.3 kg",
       "52585 kg",
@@ -24844,6 +24863,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.7e-08 m⁴ and effective-length factor K=0.85 carries F=10000 N. Require Euler critical load to be at least 1.58 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "1.6068 m",
       "1.0866 m",
@@ -24989,6 +25009,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7.4e+10 Pa and length 1.58 m carries tensile load 25000 N. Maximum extension is 0.00093 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "906.86 mm²",
       "573.96 mm²",
@@ -26145,6 +26166,7 @@
     "subtopic": "Invert Breguet: mf=mi exp[-Rgce/(VE)]=53382 kg.",
     "stem": "An ideal jet cruise without wind starts at mass 60000 kg and must cover 2.9e+06 m at V=238 m/s, L/D=15.75, ce=1.54e-05 kg/(N s) and g=9.81 m/s². Parameters are constant and there is no reserve. Using R=VE ln(mi/mf)/(g ce), how much fuel is burned? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "R=\\frac{VE}{gc_e}\\ln\\frac{m_i}{m_f}", "prerequisite": "BOOK-V6-03-D1"},
     "options": [
       "53382 kg",
       "6618.3 kg",
@@ -26292,6 +26314,7 @@
     "subtopic": "Euler gives Pcrit=pi²EI/(KL)².",
     "stem": "An ideal column with E=7e+10 Pa, I=2.85e-08 m⁴ and effective-length factor K=0.875 carries F=10500 N. Require Euler critical load to be at least 1.61 times F. What maximum physical length L is permitted? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "P_{cr}=\\frac{\\pi^2 E I}{(KL)^2}", "prerequisite": "BOOK-V6-05-D1"},
     "options": [
       "0.94433 m",
       "1.2334 m",
@@ -26437,6 +26460,7 @@
     "subtopic": "Use delta=FL/(EA).",
     "stem": "A bar with E=7.5e+10 Pa and length 1.66 m carries tensile load 26000 N. Maximum extension is 0.00096 m. In linear axial elasticity, what minimum area is needed in mm²? Choose the closest value.",
     "type": "choice",
+    "formula_hint": {"latex": "\\Delta L=\\frac{FL}{E A}", "prerequisite": "BOOK-V6-04-D1"},
     "options": [
       "361.11 mm²",
       "599.44 mm²",
