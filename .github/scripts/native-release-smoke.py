@@ -29,7 +29,7 @@ try:
     assert b'Success' in adb('install','--no-incremental','old.apk',timeout=180)
     assert b'Success' in adb('install','--no-incremental','-r','new.apk',timeout=180)
     package=adb('shell','dumpsys','package','com.duoaero').decode()
-    assert 'versionCode=10300' in package and 'versionName=1.3.0' in package
+    assert 'versionCode=10301' in package and 'versionName=1.3.1' in package
     welcome('upgrade-welcome')
     adb('shell','am','force-stop','com.duoaero')
     welcome('upgrade-restarted')
@@ -38,7 +38,7 @@ try:
     welcome('fresh-welcome')
     adb('shell','am','force-stop','com.duoaero')
     welcome('fresh-restarted')
-    (out/'result.txt').write_text('PASS: exact permanently signed production APK installed over 1.2.0 and fresh; PackageManager confirms 1.3.0/10300; original Google-only welcome visible before and after force-stop in both cases. No real OAuth, Drive or in-app installer acceptance asserted.\n')
+    (out/'result.txt').write_text('PASS: exact permanently signed production APK installed over 1.3.0 and fresh; PackageManager confirms 1.3.1/10301; original Google-only welcome visible before and after force-stop in both cases. No real OAuth, Drive or in-app installer acceptance asserted.\n')
 finally:
     (out/'crashes.txt').write_bytes(adb('logcat','-d','-b','crash'))
     (out/'last-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))
