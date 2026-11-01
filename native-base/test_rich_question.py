@@ -35,6 +35,10 @@ assert not any('latex' in p for p in notation_parts('k=1/(pi e AR)')) or not any
 
 root = Path(__file__).resolve().parents[1]
 bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
+dynamic_pressure = next(q for q in bank if q['id'] == 'TA1-0063-F1')
+assert dynamic_pressure['formula_hint'] == {
+    'latex': r'q=\frac12\rho V^2', 'prerequisite': 'BOOK-V6-02-D1'}
+assert dynamic_pressure['options'][dynamic_pressure['answer']] == '5 kPa'
 fixtures = []
 for question in bank:
     if question['type'] != 'choice' or not question.get('rich_text'):

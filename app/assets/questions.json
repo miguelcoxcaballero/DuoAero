@@ -8567,35 +8567,39 @@
     ]
   },
   {
-    "id": "TA1-0063-F1",
-    "topic": "2.4",
-    "subtopic": "dynamic pressure",
-    "stem": "Use q = rho V²/2. With rho = 1 kg/m³ and V = 100 m/s, what is dynamic pressure?",
-    "type": "choice",
-    "options": [
-      "10 kPa",
-      "1 kPa",
-      "5 kPa",
-      "2.5 kPa"
-    ],
-    "answer": 2,
-    "explanation": "1 × 100²/2 = 5000 Pa.",
-    "difficulty": 1,
-    "origin": {
-      "kind": "practice",
-      "title": "Technology of Aerospace Vehicles — Aerodynamics",
-      "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
-      "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
-    },
-    "option_explanations": {
-      "10 kPa": "Incorrect: This omits the factor of one half.",
-      "1 kPa": "Incorrect: The square of velocity is required.",
-      "5 kPa": "Correct: 1 × 100²/2 = 5000 Pa.",
-      "2.5 kPa": "Incorrect: This applies the factor of one half twice."
-    },
-    "legacy_id": "TA1-0063",
-    "section": "Midterm 1"
+  "id": "TA1-0063-F1",
+  "topic": "2.4",
+  "subtopic": "dynamic pressure",
+  "stem": "Use q = rho V²/2. With rho = 1 kg/m³ and V = 100 m/s, what is dynamic pressure?",
+  "type": "choice",
+  "options": [
+    "10 kPa",
+    "1 kPa",
+    "5 kPa",
+    "2.5 kPa"
+  ],
+  "answer": 2,
+  "explanation": "1 × 100²/2 = 5000 Pa.",
+  "difficulty": 1,
+  "origin": {
+    "kind": "practice",
+    "title": "Technology of Aerospace Vehicles — Aerodynamics",
+    "url": "https://drive.google.com/file/d/1EkVpf57gc2BaBIAFXc2XGjxJF1yA6iLA/view",
+    "adaptation": "Simplified numerical practice from the original family; values and wording rewritten for one-step difficulty."
   },
+  "option_explanations": {
+    "10 kPa": "Incorrect: This omits the factor of one half.",
+    "1 kPa": "Incorrect: The square of velocity is required.",
+    "5 kPa": "Correct: 1 × 100²/2 = 5000 Pa.",
+    "2.5 kPa": "Incorrect: This applies the factor of one half twice."
+  },
+  "legacy_id": "TA1-0063",
+  "section": "Midterm 1",
+  "formula_hint": {
+    "latex": "q=\\frac12\\rho V^2",
+    "prerequisite": "BOOK-V6-02-D1"
+  }
+},
   {
     "id": "TA1-0013",
     "topic": "2.5",
