@@ -15,6 +15,11 @@ ids = ['TA1-0092-D2', 'TA1-0120-D2', 'TA1-0130-D2',
        'TA1-0263-D2', 'TA1-0268-D2', 'TA1-0366-D2']
 round4 = lambda n: n.quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
 pattern = re.compile(r'two legs of (\d+) km each\. Airspeed is (\d+) km/h and steady along-track wind is (\d+)')
+tailwind_steps = lesson_questions([bank['TA1-0012-F1']])
+assert [q['id'] for q in tailwind_steps] == ['WIND-TAILWIND-FORMULA',
+    'WIND-TIME-FORMULA', 'WIND-TOTAL-FORMULA', 'TA1-0012-F1']
+assert tailwind_steps[-1]['options'][tailwind_steps[-1]['answer']] == '280 km/h'
+assert 250 + 30 == 280
 for qid in ids:
     original = bank[qid]
     match = pattern.search(original['stem'])
