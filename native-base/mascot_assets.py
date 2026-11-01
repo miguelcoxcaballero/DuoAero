@@ -175,6 +175,7 @@ def rive(data,name,png,width,height):
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
+    chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
              'duo_perfect_lfg_03':{'lc_character_artboard':determined},
@@ -182,6 +183,7 @@ def rive(data,name,png,width,height):
              'duo_perfect_starry_eyed_03':{'lc_character_artboard':starry},
              'duo_perfect_buff_03':{'lc_character_artboard':hero},
              'duo_normal_lovey_dovey_03':{'lc_character_artboard':lovey},
+             'duo_perfect_chefs_kiss_03':{'lc_character_artboard':chef},
              'lesson_complete_main_29':{'lc_character_artboard':hero},
              'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
                  '17_duo_perfect_jaw_drop_artboard':surprised,
@@ -189,6 +191,7 @@ def rive(data,name,png,width,height):
                  '02_duo_obsessed_artboard':overjoyed,
                  '00_duo_buff_artboard':hero,
                  '20_duo_normal_lovey_dovey_artboard':lovey,
+                 '26_duo_perfect_chefs_kiss_artboard':chef,
                  '22_duo_perfect_starry_eyed_artboard':starry}}.get(name,{})
     all_frames=[];frame_sets={}
     if targets:
