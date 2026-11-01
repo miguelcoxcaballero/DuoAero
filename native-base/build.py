@@ -4,6 +4,9 @@ import os, shutil
 from rich_question import choice_blob
 from course_adapter import session as native_session
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
+from build_updater import build as build_updater
+from resource_extension import updater_paths
+updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
  d.mkdir(parents=True,exist_ok=True)
@@ -25,10 +28,20 @@ assert app.get(A+'name')=='com.duolingo.core.DuoApp'
 for component in app:
  for f in list(component.findall('intent-filter')):
   if any(e.get(A+'name')=='android.intent.category.BROWSABLE' for e in f.findall('category')):component.remove(f)
+E.SubElement(root,'uses-permission',{A+'name':'android.permission.REQUEST_INSTALL_PACKAGES'})
+for activity in ('UpdateActivity','InstallActivity'):
+ E.SubElement(app,'activity',{A+'name':'com.inhouse.services.updater.'+activity,A+'exported':'false',A+'theme':'@android:style/Theme.Material.Light.NoActionBar'})
+E.SubElement(app,'receiver',{A+'name':'com.inhouse.services.updater.InstallReceiver',A+'exported':'false'})
+provider=E.SubElement(app,'provider',{A+'name':'com.inhouse.services.updater.UpdateFileProvider',A+'authorities':package+'.update-provider',A+'exported':'false',A+'grantUriPermissions':'true'})
+E.SubElement(provider,'meta-data',{A+'name':'android.support.FILE_PROVIDER_PATHS',A+'resource':'@xml/inhouse_update_paths'})
 tree.write(WORK/'AndroidManifest.xml',encoding='utf-8',xml_declaration=True)
-run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',APK,'--rename-manifest-package',package,'--no-auto-version')
+with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk','w') as reference:
+ for entry in base.infolist():
+  reference.writestr(entry,updater_paths(base.read(entry))[0] if entry.filename=='resources.arsc' else base.read(entry))
+ reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
+run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--rename-manifest-package',package,'--no-auto-version')
 source=ROOT/'native-base/src/com/duoaero/nativebase/NativeCourseBridge.java';assert source.is_file()
-run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',JAR,'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
+run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',str(JAR)+os.pathsep+str(updater/'updater-shaded.jar'),'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
 p=SMALI/'smali_classes4/okhttp3/OkHttpClient$Builder.smali';old=p.read_bytes();text=old.decode('utf-8').replace('\r\n','\n');needle='.method public final build()Lokhttp3/OkHttpClient;\n    .locals 1';assert needle in text
 patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCourseBridge;->install(Ljava/lang/Object;)V',1)
@@ -216,10 +229,23 @@ grade_text=grade_original.decode('utf-8').replace('\r\n','\n')
 grade_anchor='    :catch_2\n    invoke-interface {v1}, Lao8;->getCoroutineContext()Lpn8;'
 assert grade_text.count(grade_anchor)==1
 grade_hook='    :catch_2\n    move-exception v2\n    invoke-static {v2}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportGradingFailure(Ljava/lang/Throwable;)V\n    invoke-interface {v1}, Lao8;->getCoroutineContext()Lpn8;'
+settings_source=SMALI/'smali_classes7/com/duolingo/settings/main/c.smali'
+settings_original=settings_source.read_bytes()
+settings_text=settings_original.decode('utf-8').replace('\r\n','\n')
+settings_start=settings_text.index('.method public static final j(Lc020;Lqqh;Lo18;I)V')
+settings_end=settings_text.index('.end method',settings_start)
+settings_method=settings_text[settings_start:settings_end]
+settings_anchor='    invoke-static {}, Lt18;->d()Z'
+assert settings_method.count(settings_anchor)==2
+settings_position=settings_start+settings_method.rindex(settings_anchor)
+settings_text=settings_text[:settings_position]+'    invoke-static {v14}, Lcom/duoaero/nativebase/NativeUpdateHost;->settingsRow(Ljava/lang/Object;)V\n\n'+settings_text[settings_position:]
 try:
+ settings_source.write_text(settings_text,encoding='utf-8')
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
-finally:grade_source.write_bytes(grade_original)
+finally:
+ grade_source.write_bytes(grade_original)
+ settings_source.write_bytes(settings_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')
@@ -227,7 +253,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('AndroidManifest.xml',res.read('AndroidManifest.xml'))
  for entry in base.infolist():
   n=entry.filename
-  if n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
+  if n=='resources.arsc':
+   table,resource_id=updater_paths(base.read(entry))
+   assert resource_id==0x7f160016
+   out.writestr(entry,table)
+  elif n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
   elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
   elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
   elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
@@ -235,6 +265,14 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   elif n=='classes7.dex':out.writestr(entry,(WORK/'classes7.dex').read_bytes())
   elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
  out.write(WORK/'dex/classes.dex','classes12.dex')
+ out.write(updater/'dex/classes.dex','classes13.dex')
+ out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
+ for asset in (ROOT/'app/assets/updates').iterdir():
+  if asset.is_file() and asset.name!='config.json':out.write(asset,'assets/updates/'+asset.name)
+ update_config=json.loads((ROOT/'app/assets/updates/config.json').read_text())
+ update_config.pop('installedVersion',None)
+ update_config.pop('installedVersionCode',None)
+ out.writestr('assets/updates/config.json',json.dumps(update_config))
  if os.environ.get('DUOAERO_STANDALONE')=='1':out.writestr('assets/duoaero/standalone-bootstrap','1')
  out.write(ROOT/'native-base/vendor/notosansmath/OFL.txt','assets/duoaero/licenses/NotoSansMath-OFL.txt')
  # A separate input for the original hardcoded-session loader. The original

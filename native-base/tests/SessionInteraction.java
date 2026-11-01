@@ -166,7 +166,7 @@ final class SessionInteraction {
    click(test,"com.duolingo:id/mathCard",answer);
    // Blob selection evaluates asynchronously. Observe that original result
    // before pressing Check; checking during evaluation can be ignored.
-   NativeMathGrade.require(test,activity,"CORRECT");
+   NativeMathGrade.awaitSelection(test,activity,"CORRECT");
    test.waitForIdleSync();Thread.sleep(600);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1000);

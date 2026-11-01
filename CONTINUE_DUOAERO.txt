@@ -6,11 +6,13 @@ Verified in run 41270695058: cold launcher reaches original Aerospace path,
 after process restart and second lesson opened through original node. Native
 LaTeX one-slot correct/incorrect and five-slot formula grading pass. Multi-select,
 matching and both word gaps pass native UI. 1,200 native models decode.
-Ordering exposed original four-card rows clipping long tokens; adaptive bank
-rows are implemented with runtime acceptance pending. Original Parcelable
-midlesson resume is implemented and its force-stop test is running.
-Google/Drive, updater, persistent mistake review, mascot, full course/device QA
-and production signing/publication remain. No production release is ready.
+All eight mixed exercises pass run 41271559987; long ordered blocks fit the
+original adaptive bank. Run 41272211484 passes full midlesson resume, completion,
+visible return, process restart and lesson two. Run 41271938006 passes actual
+wrong-answer persistence and original end-of-lesson correction. Separate review
+entry, Google/Drive, mascot, full course/device QA and production release remain.
+Canonical updater integration is compiled; host/installer acceptance is pending.
+No production release is ready; main has not been updated.
 
 DUOAERO: PROMPT AND TECHNICAL HANDOFF FOR THE NEXT AGENT
 Snapshot: 2026-10-31, Europe/Madrid

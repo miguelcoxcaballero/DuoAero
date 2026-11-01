@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes]
+        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes, updater]
     timeout-minutes: 30
     env:
       ANDROID_HOME: /tmp/duoaero-sdk
@@ -66,7 +66,7 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes|updater) export DUOAERO_STANDALONE=1;; esac
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_course_progress.py
@@ -180,6 +180,13 @@ jobs:
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
           case "$DIAGNOSTIC_SCENARIO" in
+            updater)
+              timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UpdaterProbe > /tmp/duoaero-evidence/updater.txt
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.png /tmp/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.json /tmp/duoaero-evidence/ || true
+              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > /tmp/duoaero-evidence/updater-logcat.txt
+              python -c "from pathlib import Path; assert 'UPDATER_HOST_VERIFIED=true' in Path('/tmp/duoaero-evidence/updater.txt').read_text()"
+              ;;
             mixed)
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               ;;

@@ -20,6 +20,7 @@ public final class NativeBootstrap {
   }catch(Exception error){throw new IllegalStateException("Cannot prepare local course identity",error);}
  }
  public static synchronized void start(Application app){
+  NativeUpdateHost.install(app);
   if(!prepared||finished)return;
   finished=true;
   long begin=SystemClock.elapsedRealtime();

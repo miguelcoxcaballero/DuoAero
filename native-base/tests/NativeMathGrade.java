@@ -45,4 +45,13 @@ final class NativeMathGrade {
   }
   if(!expected.equals(actual))throw new IllegalStateException("Original Math grade: expected "+expected+", got "+actual);
  }
+ static void awaitSelection(Instrumentation test,Activity activity,String expected)throws Exception {
+  String actual=null;
+  for(int attempt=0;attempt<300;attempt++){
+   actual=read(test,activity);
+   if(expected.equals(actual))return;
+   Thread.sleep(100);
+  }
+  throw new IllegalStateException("Original selection did not finish evaluating: expected "+expected+", got "+actual);
+ }
 }

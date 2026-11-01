@@ -21,7 +21,7 @@
       "options",
       "explanation"
     ],
-    "original_entries_preserved": 18244,
+    "original_entries_preserved": 18243,
     "native_latex_greek_symbols": [
       "alpha",
       "gamma",
@@ -62,15 +62,19 @@
     "standalone_original_path_selects_second_lesson": true,
     "native_mixed_multi_matching_and_two_word_gaps": true,
     "original_state_restored_after_five_answers": true,
-    "resumed_lesson_all_answers_and_commit": true
+    "resumed_lesson_all_answers_and_commit": true,
+    "native_mixed_eight_exercises": true,
+    "standalone_resumed_lesson_return_restart_and_next_lesson": true,
+    "original_wrong_answer_retry_and_persistent_resolution": true,
+    "original_resource_ids_and_values_preserved_with_updater_xml": true
   },
   "not_verified_or_incomplete": [
     "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",
-    "Run 41271143185 restores the original state after five answers, opens question six, completes remaining answers and commits completion. Final Claim XP is visibly rendered within Rive but absent from accessibility; OCR-based real-touch observation added. Persistent mistake ledger and end-retry acceptance pending; separate review entry remains incomplete.",
-    "Multi-select, matching and both word gaps pass native UI in run 41270695058. Ordering exposed four-column bank overflow; adaptive original bank rows added, pending runtime verification.",
+    "Run 41272211484 passes the full resume scenario: five answers, force-stop, original sixth question restored, full completion, visible return, restart persistence and next lesson. Run 41271938006 passes wrong-answer persistence and original end-of-lesson retry; separate cross-lesson review entry remains incomplete.",
+    "All eight mixed exercises pass run 41271559987, repeated in 41271938006 and 41272211484: multi-select, SI matching, two word gaps, three ordered sequences and textbook matching. Wider course/font-scale acceptance remains pending.",
     "Native LaTeX choice/formula rendering is observed. All-field coverage, explanations, text/font scaling and overflow regression remain incomplete.",
     "Google-only sign-in and account-isolated Drive are not connected to the native base.",
-    "Canonical updater, mascot replacement, full screen comparison, audio/haptics/night-mode, production signing and publication to main remain."
+    "Canonical updater compiled and packaged with frozen sources unchanged, original settings access and own provider; runtime host/installation acceptance pending. Mascot, full screen comparison, audio/haptics/night-mode, production signing and publication to main remain."
   ],
   "publication": "Development source only. Diagnostic APK must not be published as a completed course.",
   "limitations": [
@@ -91,8 +95,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Verify visible return to path and strict native completion acceptance, then restart and next lesson.",
-    "scope": "Cold original home and 19 correct answers observed; instrumented path Claim XP and atomic submission verified in run 41269671504. Return screenshot black despite home hierarchy; usable return and restart persistence pending.",
+    "next_required_integration": "Canonical updater host acceptance, separate mistake review and account-isolated Google/Drive.",
+    "scope": "First lesson return/restart/next lesson, original midlesson resume and original mistake retry verified in separate cold-start UI scenarios. Full course acceptance remains open.",
     "completion_dependencies": {
       "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41262902147",
       "fixed": "Original complete summary visibly renders with ANGLE/SwiftShader emulator renderer. Both attached Rive files are active; original Claim XP clicked. No app animation replacement.",
@@ -226,7 +230,7 @@
     "native_path_session_verified": false,
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
-    "source_title": "Tecnolog\u00eda Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+    "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
   },
   "current_integration_attempt": {
     "release_ready": false,

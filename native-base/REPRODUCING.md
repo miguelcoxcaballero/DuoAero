@@ -624,3 +624,29 @@ with >=80 confidence per word, then taps the measured position. It preserves the
 full screenshot and OCR crop/TSV; no button text, state or grade is injected.
 The fallback locates the inspected failing-run image at (540,1743). Return home
 and restart after this resumed lesson remain for runtime acceptance.
+
+Run 41271559987 passes all eight mixed exercises, repeated in 41271938006 and
+41272211484. The original adaptive bank shows all five long engine sequence
+labels within its two-column rows, with correct original grading.
+Run 41271938006 passes the actual wrong-answer scenario: persisted false outcome,
+original retry at lesson end, persisted correct resolution with misses=1,
+committed completion, process restart and next original lesson. The separate
+cross-lesson review entry is not yet implemented.
+Run 41272211484 passes the complete resume scenario, including OCR-observed real
+Claim XP tap, visible original return, durable completion and next lesson after
+restart. Screenshot of the second lesson was inspected.
+
+Canonical updater integration compiles the locked sources without editing them.
+Pinned Maven dependencies are shaded to avoid collisions with the original R8
+runtime. The original resource table gains exactly one XML entry; independent
+aapt2 dumps verify every old resource ID/configuration/value unchanged. Original
+compiled layouts and 18,243 original entries remain byte-identical. Host wiring
+adds the original text-button component to original Settings support section,
+starts the canonical updater and registers its own UpdateFileProvider with the
+canonical cache paths. Diagnostic packages suppress automatic production offers.
+A separate UI/provider probe is pending. This does not verify an APK installation.
+
+Path/rich probes in b95/fd148 incorrectly rejected the old INCORRECT selection
+value before asynchronous evaluation finished. awaitSelection now polls for the
+expected result before Check; the subsequent actual graded Continue is still
+required. Runtime regression acceptance of this observation change is pending.
