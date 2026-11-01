@@ -100,6 +100,29 @@ public final class NativeCourseBridge {
   if(hasLocalCourse())Log.e("DuoAeroNative","Original JavaScript sandbox startup timed out; no grading context created");
  }
  private static final Map<android.view.View,Boolean> formulaLabels=new WeakHashMap<>();
+ /** Fit longer labels in the original square matching cards. */
+ public static Object fitMatchFigure(android.view.View view,Object figure){
+  if(!hasLocalCourse()||figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$AttributedText"))return figure;
+  boolean match=false;
+  for(android.view.ViewParent parent=view.getParent();parent instanceof android.view.View;parent=parent.getParent())
+   if(parent.getClass().getName().equals("com.duolingo.session.challenges.match.MatchButtonView")){match=true;break;}
+  if(!match)return figure;
+  try{
+   String label=(String)figure.getClass().getMethod("r1").invoke(figure);
+   if(label==null||label.length()<11)return figure;
+   ClassLoader loader=figure.getClass().getClassLoader();
+   Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,loader);
+   Class<?> scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,loader);
+   Object smaller=state.getField(label.length()>20?"CONTENT_X_SMALL":"CONTENT_SMALL").get(null);
+   Object info=scale.getConstructor(state,boolean.class).newInstance(smaller,false);
+   Class<?> style=Class.forName("com.duolingo.core.math.models.figure.MathTextStyle",true,loader);
+   Class<?> entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,loader);
+   Class<?> type=figure.getClass();
+   return type.getConstructor(java.util.List.class,style,scale,boolean.class,String.class,entity)
+    .newInstance(type.getField("a").get(figure),type.getField("b").get(figure),info,
+       type.getField("d").getBoolean(figure),type.getField("e").get(figure),type.getField("f").get(figure));
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot fit native matching label",error);}
+ }
  public static synchronized void bindFormulaAccessibility(android.view.View view,Object figure){
   String label=formulaAccessibility(figure);
   for(int depth=0;view!=null&&depth<12;depth++){

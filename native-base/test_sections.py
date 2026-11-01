@@ -28,7 +28,11 @@ try:
  tap(next(n for n in home.iter('node') if n.get('resource-id')=='com.duolingo:id/primaryCardView'))
  # The home header already says Midterm 1. Require the home path to be gone,
  # otherwise a transition frame falsely passes without opening the selector.
- wait('sections-picker',lambda t:has(t,'Midterm 1') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
- (OUT/'sections-result.txt').write_text('PASS: first midterm is visible in the original section picker; no unprovided partials asserted.\n')
+ picker=wait('sections-picker',lambda t:has(t,'Midterm 1') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
+ labels=[n for n in picker.iter('node') if 'midterm 1' in n.get('text','').casefold()]
+ assert len(labels)>=2,'Missing original midterm navigation row'
+ tap(labels[-1])
+ wait('sections-returned',lambda t:has(t,'1 · Aerospace industry') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
+ (OUT/'sections-result.txt').write_text('PASS: first midterm appears in the original section picker and its row returns to the original path; no unprovided partials asserted.\n')
 finally:
  (OUT/'sections-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))

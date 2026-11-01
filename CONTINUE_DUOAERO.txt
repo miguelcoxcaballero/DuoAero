@@ -5,7 +5,8 @@ session submission the app now requests an asynchronous path-cache refresh;
 whether this fixes that user's case requires the targeted Android scenario.
 native-base/test_atmosphere.py seeds prior nodes only, answers the actual first
 Atmosphere lesson including a wrong/retried answer, and checks the next lesson
-before and after restart. Android run 41320924521 is in progress on 7131467.
+before and after restart. Run 41320924521 reached the word-gap question but
+the driver failed to tap a non-clickable text child; the driver was adjusted.
 The mascot build no longer replaces the nested EpicDuo_Eyes artboard with an
 additional full image; motion and the reported overlap remain unverified.
 An experimental inline word-gap implementation composes native figures and
@@ -14,8 +15,10 @@ interaction, screenshots, font-size/night checks and full Atmosphere testing.
 Do not claim the word-gap issue is fixed based on serialization or build alone.
 
 Run 41319899762 sections was a FALSE POSITIVE: its screenshot still showed
-the home header, which also says Midterm 1. The corrected test requires the
-original home path to be absent before accepting a section-picker result.
+the home header. Run 41320627280 then reproduced a real crash: the original
+tab component rejects a single tab. The build now scopes a one-tab allowance
+to the local course. Run 41322254301 shows the real native selector and its
+Midterm 1 card; selecting that row back to the path still needs a device run.
 Run 41319592007 formula and chest scenarios PASS: adjacent one-token formula,
 five-token layout and grading, and visible +25 gems with seeded prerequisites
 persisting through restart. Its s24 scenario saved the first lesson but failed

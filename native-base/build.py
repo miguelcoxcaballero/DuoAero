@@ -1,7 +1,8 @@
 from pathlib import Path
-import subprocess,zipfile,xml.etree.ElementTree as E,hashlib,json,sys
+import subprocess,zipfile,xml.etree.ElementTree as E,hashlib,json,sys,copy
 import os, shutil
-from rich_question import choice_blob
+from rich_question import choice_blob,content
+from math_notation import parts as notation_parts
 from course_adapter import session as native_session
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
@@ -190,7 +191,12 @@ figure_view_original=figure_view_source.read_bytes()
 figure_view_text=figure_view_original.decode('utf-8').replace('\r\n','\n')
 figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/models/figure/MathFigureUiState;)V\n    .locals 0'
 assert figure_view_text.count(figure_view_anchor)==1
-figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
+figure_view_hook='''
+
+    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->fitMatchFigure(Landroid/view/View;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object p1
+    check-cast p1, Lcom/duolingo/core/math/models/figure/MathFigureUiState;
+    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'''
 resume_source=SMALI/'smali_classes3/eo10.smali'
 unit_header_source=SMALI/'smali_classes3/hlt.smali'
 unit_header_original=unit_header_source.read_bytes()
@@ -451,11 +457,18 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(ROOT/'native-base/tests/fixtures/aerospace_formula_lesson.json','assets/hardcoded_sessions/duoaero/aerospace_formula_lesson.json')
  bank=json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
  by_id={question['id']:question for question in bank}
- mixed=[next(q for q in bank if q['type']==kind) for kind in ('multi','matching')]
- mixed.extend(q for q in bank if q['type'] in ('gap','order'))
+ # Exercise word gaps first, so their native interaction and screenshots are
+ # observed even if an unrelated matching-card regression aborts the probe.
+ mixed=[q for q in bank if q['type']=='gap']
+ mixed.extend(next(q for q in bank if q['type']==kind) for kind in ('multi','matching'))
+ mixed.extend(q for q in bank if q['type']=='order')
  mixed.append(next(q for q in bank if q['type']=='matching' and q['id'].startswith('BOOK-V6')))
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
- out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed,ensure_ascii=False))
+ mixed_driver=copy.deepcopy(mixed)
+ for question in mixed_driver:
+  if question['type']=='matching':
+   question['pairs']=[[content(None,value) if any('latex' in p for p in notation_parts(value)) else value for value in pair] for pair in question['pairs']]
+ out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed_driver,ensure_ascii=False))
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
  sample=plain_sample[:1]+[q for q in bank if q.get('rich_text')]
  sample_ids={q['id'] for q in sample}

@@ -14,7 +14,10 @@ def capture(name):
     try:
         adb('shell','timeout','15','uiautomator','dump','/sdcard/atmosphere-test.xml')
         raw=adb('exec-out','cat','/sdcard/atmosphere-test.xml');tree=ET.fromstring(raw)
-        (OUT/(name+'.xml')).write_bytes(raw);return tree
+        (OUT/(name+'.xml')).write_bytes(raw)
+        # The UI may advance during the dump; capture the same observed state.
+        (OUT/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
+        return tree
     except (ET.ParseError,subprocess.SubprocessError):return None
 
 def wait(name,predicate,timeout=90,continue_interstitial=False):
