@@ -114,6 +114,12 @@ public final class AccountProgressProbe extends Instrumentation {
    Method make=userFactory.getDeclaredMethod("makeLocalUser",Context.class,String.class);make.setAccessible(true);
    Object nativeUser=make.invoke(null,app,"MATH_BT");
    check(nativeUser.getClass().getName().equals("com.duolingo.data.user.User"));
+   java.util.List<?> bundles=(java.util.List<?>)nativeUser.getClass().getField("g0").get(nativeUser);
+   check(bundles.size()==1);
+   Object bundle=bundles.get(0);
+   check(bundle.getClass().getField("b").get(bundle).toString().equals("PATH_CHEST"));
+   java.util.List<?> rewardsList=(java.util.List<?>)bundle.getClass().getField("c").get(bundle);
+   check(rewardsList.size()==1 && rewardsList.get(0).getClass().getName().endsWith("CurrencyReward"));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

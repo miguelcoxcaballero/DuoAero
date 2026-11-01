@@ -66,7 +66,7 @@ public final class NativeChestRewards {
   }catch(Exception error){throw new IllegalStateException("Cannot claim local path chest",error);}
  }
  static JSONArray bundles(){
-  try{return new JSONArray().put(new JSONObject().put("id","duoaero-path-chest").put("bundleType","PATH_CHEST")
+  try{return new JSONArray().put(new JSONObject().put("id","duoaero-path-chest").put("rewardBundleType","PATH_CHEST")
    .put("rewards",new JSONArray().put(new JSONObject().put("id","duoaero-path-gems").put("currency","GEMS").put("amount",GEMS).put("consumed",false))));}
   catch(JSONException error){throw new IllegalStateException(error);}
  }
