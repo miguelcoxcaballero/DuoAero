@@ -89,6 +89,15 @@ assert math.isclose(static_temperature, 262.03, abs_tol=.005)
 assert math.isclose(sound_speed, 324.47, abs_tol=.005)
 assert math.isclose(190 / sound_speed, .58556, abs_tol=.000005)
 assert [q['options'][q['answer']] for q in mach_steps] == ['17.97 K', '262.03 K', '324.47 m/s', '0.58556']
+plan = json.loads((Path(__file__).resolve().parents[1]/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
+mach_lesson = next(lesson for node in plan for lesson in node['lessons'] if mach_problem['id'] in lesson['ids'])
+bank_by_id = {q['id']: q for q in bank}
+lesson_bank = [bank_by_id[qid] for qid in mach_lesson['ids']]
+legacy = session(lesson_bank, mach_lesson['id'], expand_steps=False)
+updated = session(lesson_bank, mach_lesson['id'])
+assert len(updated['challenges']) <= 20
+assert {q['id'] for q in legacy['challenges']} <= {q['id'] for q in updated['challenges']}
+assert mach_lesson['id'] == legacy['id'] == updated['id']
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks'] + mach_expanded[::2]:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
