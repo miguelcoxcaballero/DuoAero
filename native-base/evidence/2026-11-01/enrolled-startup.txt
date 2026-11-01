@@ -1,0 +1,92 @@
+Original default Config decoded from {} and written through native w58 cache descriptor. No launch or readiness flags replaced.
+Native cache input: original Math CoursePathInfo and CoursePathSection with 42 units. This does not prove home/path rendering or lesson navigation.
+Original goals schema cache: no assigned goals or rewards for the isolated account.
+Native empty social profile and follower lists supplied before activity launch.
+Diagnostic course variant: MATH_BT
+Diagnostic setup phase: instrumentation onStart
+Experiment input: original empty/default entries for synthetic user.
+Lesson input: hardcoded_sessions/duoaero/aerospace_rich_lesson.json
+Original SessionActivity requested with isolated local profile. Network blocked.
+Resumed: com.duolingo.session.SessionActivity
+Dependency course: EMITTED bz8
+Dependency user: EMITTED wd90
+Dependency streak: EMITTED com.duolingo.data.streak.UserStreak
+Dependency loader-combined: EMITTED jn7
+Dependency vm.V: EMITTED fxd
+Dependency vm.l2: EMITTED kk00
+Dependency vm.G3: EMITTED java.lang.Boolean=true
+Dependency vm.n0.a: EMITTED t4d
+Dependency vm.T1.b: EMITTED ob80
+Dependency vm.S1.a: NO_EMISSION
+Dependency vm.Z0.a: EMITTED jws
+Dependency vm.M0.a: EMITTED i3o
+Dependency vm.X0.getNetworkStatus: EMITTED com.duolingo.core.networking.offline.NetworkStatus
+Dependency vm.C.v: EMITTED lge
+Dependency vm.g1.d: EMITTED com.duolingo.core.session.DailySessionCount
+Dependency vm.S1.d: EMITTED java.lang.Boolean=false
+Dependency vm.z1.d: EMITTED gh10
+Dependency user-pd10-26: EMITTED com.duolingo.data.user.User
+Dependency user-w9o.h: EMITTED java.lang.Boolean=false
+Dependency session-experiments: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecords
+Dependency experiments-implementation-selector: EMITTED java.lang.Boolean=false
+Dependency user-id: EMITTED com.duolingo.core.data.model.UserId
+Dependency experiments-entries-a: EMITTED gsd
+Dependency experiments-entries-b: EMITTED vir
+Dependency view.w2: EMITTED eo10
+Dependency view.x2: EMITTED eo10
+Dependency view.i3: EMITTED sql
+Dependency view.j3: EMITTED java.lang.Boolean=false
+Dependency view.o3: EMITTED java.lang.Boolean=false
+Dependency view.q3: EMITTED vql
+Dependency view.m3: NO_EMISSION
+Dependency view.n3: NO_EMISSION
+Dependency view.preload-completion: EMITTED xv80
+Dependency view.loading-indicator: EMITTED java.lang.Boolean=false
+Dependency view.course: EMITTED bz8
+Dependency view.loading-experiment: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecord
+Dependency preload.f.d: EMITTED w6m
+Dependency preload.c.b: EMITTED com.duolingo.data.lapsedinfo.LapsedInfo
+Dependency preload.h.c: EMITTED java.lang.Boolean=false
+Dependency preload.user15: EMITTED b8t
+Dependency preload.login: EMITTED qwn
+Dependency preload.a.c: EMITTED java.lang.Boolean=false
+Dependency preload.l.a: EMITTED java.lang.Boolean=false
+Dependency before.e.h: EMITTED java.lang.Boolean=true
+Dependency before.h.a: EMITTED jws
+Dependency before.g.b: EMITTED null
+Dependency before.d.c: EMITTED java.lang.Integer
+Dependency before.f.e.h: EMITTED za9
+Dependency before.user21: EMITTED com.duolingo.data.user.User
+Dependency before.sponsor: EMITTED java.lang.Boolean=false
+Dependency before.j.i: EMITTED i940
+Dependency before.a.d: EMITTED com.duolingo.data.debug.ads.SponsoredOfferEligibilityBypasses
+Dependency before.c.b: EMITTED java.lang.Boolean=false
+Dependency energy.course-info: EMITTED mt8
+Dependency energy.preferences: EMITTED t4d
+Dependency preload.m.a.n: EMITTED java.lang.Boolean=false
+Dependency preload.m.b.b: EMITTED null
+Dependency preload.e.a: EMITTED com.duolingo.data.leagues.LeaderboardState
+Dependency preload.experiment: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecords
+s2=null
+t2=tp10
+u2=bm00
+v2=ik10
+l4=null
+Engine state: eo10
+Loaded original Session model: com.duolingo.core.session.Session
+Loaded challenge count: 15
+Initialization a=true
+Initialization b=true
+Initialization c=false
+Initialization d=false
+Initialization e=false
+Initialization f=false
+Initialization g=false
+Initialization h=false
+Initialization i=false
+Native JavaScript sandbox present: true; execution contexts: [SESSION]
+After finishing diagnostic session activity, resumed: com.duolingo.onboarding.WelcomeFlowActivity
+Isolated request counts (no query, headers or body): {GET /2017-06-30/users/{synthetic}=24, GET /2023-05-23/users/{synthetic}=6, GET /2017-06-30/config=12, GET /2023-05-23/users/{synthetic}/courses/MATH_BT=8, GET /2023-05-23/users/{synthetic}/courses/MATH_BT/sections/DUOAERO_MIDTERM1=6}
+DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.
+
+Instrumentation command exit: 0

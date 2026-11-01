@@ -1,0 +1,2 @@
+--------- beginning of main
+11-01 01:55:28.611  4891  5055 W Rive    : rive: no interlock mode supports this frame, drawing it in depthStencil with 4x MSAA

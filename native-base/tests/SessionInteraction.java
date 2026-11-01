@@ -97,7 +97,7 @@ final class SessionInteraction {
  static String claimXp(Instrumentation test)throws Exception {
   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Original Claim XP is not visible");
   click(test,"com.duolingo:id/continueButtonView","CLAIM XP");
-  Thread.sleep(6000);
+  Thread.sleep(12000);
   SessionScreen.capture(test,"lesson-after-claim-xp","lesson-after-claim-xp");
   return "Clicked original Claim XP through accessibility; captured the resulting screen. Persistence is not asserted.\n";
  }

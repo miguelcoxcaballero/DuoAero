@@ -129,7 +129,7 @@ jobs:
           }
           run_probe aerospace-native-cache MATH_BT native-defaults late native-full aerospace-rich none true native-default native-cache
           run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true native-default
-          run_probe aerospace-rich-all MATH_BT native-defaults late native-minimal aerospace-rich math-all false native-default
+          run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
           run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
           python - <<'PYTHON'
           from pathlib import Path

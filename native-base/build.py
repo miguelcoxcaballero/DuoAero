@@ -65,10 +65,21 @@ launch_text=launch_original.decode('utf-8').replace('\r\n','\n')
 launch_anchor='    cmp-long p1, v7, v9\n\n    if-lez p1, :cond_7\n\n    new-instance p1, Lihh;'
 assert launch_text.count(launch_anchor)==1
 launch_replacement='    cmp-long p1, v7, v9\n\n    if-gtz p1, :duoaero_enrolled\n\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z\n\n    move-result p1\n\n    if-eqz p1, :cond_7\n\n    :duoaero_enrolled\n    new-instance p1, Lihh;'
+welcome_source=SMALI/'smali_classes3/vza0.smali'
+welcome_original=welcome_source.read_bytes()
+welcome_text=welcome_original.decode('utf-8').replace('\r\n','\n')
+welcome_anchor='    invoke-static {p1}, Lw9o;->p(Ljava/lang/Object;)V'
+assert welcome_text.count(welcome_anchor)==1
+welcome_hook='\n\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z\n\n    move-result p1\n\n    if-eqz p1, :duoaero_standard_welcome\n\n    sget-object p1, Lsza0;->f:Lsza0;\n\n    return-object p1\n\n    :duoaero_standard_welcome'
 try:
  launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
+ # The original home independently requests Math onboarding at zero course XP.
+ # Aerospace enrollment already supplies its path; no math placement survey is needed.
+ welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
-finally:launch_source.write_bytes(launch_original)
+finally:
+ launch_source.write_bytes(launch_original)
+ welcome_source.write_bytes(welcome_original)
 prompt_source=SMALI/'smali_classes6/qyv.smali'
 prompt_original=prompt_source.read_bytes()
 prompt_text=prompt_original.decode('utf-8').replace('\r\n','\n')

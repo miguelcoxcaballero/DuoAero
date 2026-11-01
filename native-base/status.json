@@ -47,10 +47,12 @@
     "native_math_incorrect_state_and_got_it_advancement": true,
     "native_session_end_configure_args_emitted": true,
     "difficulty_stars_visible": true,
-    "native_session_end_claim_xp_visible": true
+    "native_session_end_claim_xp_visible": true,
+    "native_session_complete_summary_visible": true,
+    "native_profile_cache_first_question": true
   },
   "not_verified_or_incomplete": [
-    "15 answers still grade CORRECT; original session-end Claim XP now appears, but animation/stats area is blank. Completion, saved progress, resume and standalone startup remain incomplete.",
+    "15 native CORRECT answers reach original Lesson complete summary with 15 XP, 100% accuracy and time. Claim XP is clicked and LaunchActivity resumes, but screenshot still shows old summary; path return, persistent progress and resume remain unverified.",
     "42 native units decode/cache. Startup now opens WelcomeFlowActivity above SessionActivity: original zero-XP onboarding branch. Local enrolled-course routing change pending UI verification.",
     "Five gap/order questions still lack native grading adapters.",
     "Rich stems/options render and grade, but a long lift-coefficient question has fractions extending beyond card borders. Explanation LaTeX, font scaling and text/overflow QA remain incomplete.",
@@ -79,9 +81,9 @@
     "next_required_integration": "Resolve remaining original session-end inputs and splash, then establish standalone startup and real persistence.",
     "scope": "15 correct native answers including 3 rich questions, plus a separate original incorrect result, verified in instrumentation. Final lesson screen stays loading; 42 path units decode/cache but home stays splash. No standalone course or persistence.",
     "completion_dependencies": {
-      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41261900086",
-      "fixed": "Goals/social cache inputs before launch resolve all measured named end dependencies. Native end sequence is c110, UI ready true, Claim XP visible.",
-      "remaining": "SessionComplete animation/stat content remains blank; Claim XP not clicked, progress/resume unverified. Full-path startup opens WelcomeFlowActivity above session.",
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41262902147",
+      "fixed": "Original complete summary visibly renders with ANGLE/SwiftShader emulator renderer. Both attached Rive files are active; original Claim XP clicked. No app animation replacement.",
+      "remaining": "Return to path, real persistence/resume and standalone startup. Native-cache-only profile first question passes; full lesson with this profile mode pending.",
       "stars": "Native star macro visibly renders one and three difficulty stars. Inline fractions are smaller; long stem overlaps first option after grading. Before-answer layout evidence pending."
     }
   },
