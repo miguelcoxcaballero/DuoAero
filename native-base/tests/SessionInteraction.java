@@ -51,7 +51,7 @@ final class SessionInteraction {
   org.json.JSONObject session=new org.json.JSONObject(payload);
   org.json.JSONObject next=new org.json.JSONObject(session.getJSONArray("challenges").getJSONObject(1).getString("challengeBlob"));
   String nextOption=next.getJSONArray("pants").getJSONObject(0).getJSONObject("child").getString("value");
-  return "UI interaction: original Math card selected; native FragmentGuess confirmed "+(wrong?"INCORRECT":"CORRECT")+"; original Check and Continue clicked.\n"
+  return "UI interaction: original Math card selected; native FragmentGuess confirmed "+(wrong?"INCORRECT":"CORRECT")+"; original Check and "+footer+" clicked.\n"
    +"Next formula question option visible: "+contains(test,nextOption)+". Inspect grading and formula screenshots; no session completion or persistence asserted.\n";
  }
  static String allMathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {

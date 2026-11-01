@@ -41,13 +41,16 @@
     "first_native_formula_question_rendered_after_error_skip": true,
     "native_math_first_correct_and_incorrect_feedback": true,
     "native_math_correct_answer_advanced_to_formula": true,
-    "native_course_path_42_units_decoded_and_cached": true
+    "native_course_path_42_units_decoded_and_cached": true,
+    "native_math_answers_graded_correct_in_one_diagnostic_sequence": 15,
+    "native_rich_questions_graded_correct": 3,
+    "native_math_incorrect_state_and_got_it_advancement": true
   },
   "not_verified_or_incomplete": [
-    "Original Aerospace first Math question now grades correct and wrong answers with original green/red feedback in isolated instrumentation; correct Continue advances to the formula question. Full lesson completion, persistence and normal app startup remain unverified.",
+    "15 consecutive diagnostic answers grade CORRECT through original visible Math fragments, including all 3 rich questions; separate wrong answer grades INCORRECT and GOT IT advances. After the final correct answer the screen remains on loading dots. Completion, saved progress, resume and standalone startup remain incomplete.",
     "Original serializers accept 42 path units and native cache writes succeed, but original LaunchActivity remains on splash; path UI and node navigation are not working yet.",
     "Five gap/order questions still lack native grading adapters.",
-    "First formula question renders; all rich-question grading, explanation LaTeX, font scaling and overflow checks remain incomplete.",
+    "Rich stems/options render and grade, but a long lift-coefficient question has fractions extending beyond card borders. Explanation LaTeX, font scaling and text/overflow QA remain incomplete.",
     "Google/Drive integration is not connected to this native base.",
     "Updater, mascot replacement, full screen comparison, audio/haptics/night-mode and text-overflow regression checks remain."
   ],
@@ -70,8 +73,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Run all 15 diagnostic choices with original FragmentGuess correctness assertions. For wrong answers use the native GOT IT footer. Observe splash/home routing dependencies; no path UI yet.",
-    "scope": "Isolated instrumentation: first native Math correct/incorrect feedback and correct advancement verified. 42-unit original course models decode/cache. Splash still blocked; no standalone app, full lesson or persistence."
+    "next_required_integration": "Inspect original engine state and isolated endpoint counts after final answer; compare original default Config cache input for splash and session end. Revalidate 1195 regenerated Math-typed fixtures with original serializer.",
+    "scope": "15 correct native answers including 3 rich questions, plus a separate original incorrect result, verified in instrumentation. Final lesson screen stays loading; 42 path units decode/cache but home stays splash. No standalone course or persistence."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -174,6 +177,14 @@
       "automation_failure": "Wrong-answer probe expected CONTINUE but native incorrect footer is GOT IT. No wrong-answer advancement asserted from this run. Native diagnostic CI failed this locator assertion.",
       "path": "All 42 unit models decoded and cache writes completed. Returning to original LaunchActivity remains on green Duolingo splash. This is NOT path acceptance.",
       "next_test": "Read original visible Math fragment result (CORRECT/INCORRECT); drive all 15 choices and capture after final Continue; observe original launch/check flows."
+    },
+    "full_answer_sequence_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41257088819",
+      "grading": "All 15 source-bank correct selections graded CORRECT by original MathBlobSelectOneFragment E0 states, including TA1-0232, TA1-0753-D3 and TA1-0832-D3. A separate wrong answer returned native INCORRECT and GOT IT advanced.",
+      "end": "Eight seconds after final Continue, screenshot shows only original loading dots; no completion summary, persistence or resume established.",
+      "layout": "Rich screenshots inspected. Long lift-coefficient stem plus fraction answers exceeds card boundaries; grading success is not layout acceptance.",
+      "home": "Still splash. Bridge d/f/j and launch K/L/S emit, user wd90 emits; launch N/V and LaunchCheckViewModel.g do not emit. The latter check implementation is an empty observable, so its non-emission alone is not a blocker.",
+      "next": "Launch startup xsl awaits fm1.u Config before login routing. Compare native Config {} via real w58 cache, observe q/r/u/v, and retry full sequence with same Config. Main diagnostic bridge records only bounded synthetic session/config/path endpoint counts, no query/headers/body. Regenerated bank uses native selectOne + MATH_LESSON, pending runtime decoding."
     }
   }
 }

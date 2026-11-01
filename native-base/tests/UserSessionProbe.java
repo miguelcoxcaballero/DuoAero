@@ -12,6 +12,7 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean nativeCourseCache=false;
  private boolean fullCoursePath=false;
  private boolean captureHome=false;
+ private boolean seedConfig=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
@@ -20,6 +21,7 @@ public final class UserSessionProbe extends Instrumentation {
   fullCoursePath=args!=null&&"native-full".equals(args.getString("course_cache"));
   nativeCourseCache=fullCoursePath||(args!=null&&"native-minimal".equals(args.getString("course_cache")));
   captureHome=args!=null&&"true".equals(args.getString("capture_home"));
+  seedConfig=args!=null&&"native-default".equals(args.getString("config_cache"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
@@ -34,6 +36,7 @@ public final class UserSessionProbe extends Instrumentation {
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
   if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
+  if(seedConfig&&!captureHome)report.append(LocalConfigCache.install(getTargetContext()));
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
   report.append("Diagnostic setup phase: ").append(earlySetup?"before Application.onCreate":"instrumentation onStart").append('\n');
   if(defaultExperiments)report.append("Experiment input: original empty/default entries for synthetic user.\n");
@@ -117,6 +120,17 @@ public final class UserSessionProbe extends Instrumentation {
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
   else if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,current,interaction.equals("math-wrong")));
+  if(interaction.equals("math-all")){
+   Object engine=observedVm.getClass().getField("t2").get(observedVm);
+   Object flow=engine.getClass().getField("k").get(engine);
+   Object state=flow.getClass().getMethod("getValue").invoke(flow);
+   report.append("Engine after all answers: ").append(state==null?"null":state.getClass().getName()).append('\n');
+   if(state!=null)for(Field field:state.getClass().getFields()){
+    if(Modifier.isStatic(field.getModifiers()))continue;
+    Object value=field.get(state);
+    report.append("End-state field ").append(field.getName()).append(": ").append(value==null?"null":value.getClass().getName()).append('\n');
+   }
+  }
   if(captureHome){
    runOnMainSync(current::finish);
    Thread.sleep(12000);
@@ -125,11 +139,19 @@ public final class UserSessionProbe extends Instrumentation {
    if(home!=null&&home.getClass().getName().equals("com.duolingo.splash.LaunchActivity")){
     try(SessionDependencies dependencies=SessionDependencies.home(home)){
      Thread.sleep(5000);report.append(dependencies.report());
+     if(seedConfig){
+      SessionScreen.capture(this,"home-before-config","home-before-config");
+      report.append(LocalConfigCache.install(getTargetContext()));
+      Thread.sleep(12000);
+      report.append("After native Config input:\n").append(dependencies.report());
+     }
     }
    }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
   }
   completed=true;
+  report.append("Isolated request counts (no query, headers or body): ")
+   .append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("diagnosticRequests").invoke(null)).append('\n');
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}

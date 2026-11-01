@@ -16,12 +16,9 @@ def figure(text):
 def challenge(question):
     result = {'id': question['id']}
     kind = question['type']
-    if kind == 'choice' and question.get('rich_text'):
-        return choice_blob(question)
     if kind == 'choice':
-        result.update(type='assist', prompt=question['stem'], correctIndex=question['answer'],
-                      options=[{'text': value} for value in question['options']])
-    elif kind == 'multi':
+        return choice_blob(question)
+    if kind == 'multi':
         result.update(type='mathMultiSelect', noHint={}, promptInputChallenge={
             'prompt': {'instruction': {'text': 'Select all correct answers'},
                        'body': figure(question['stem']),
@@ -40,9 +37,13 @@ def challenge(question):
         raise NotImplementedError(f"{question['id']}: native grading adapter for {kind} is not implemented")
     return result
 
-def session(questions, identifier):
-    return {'id': identifier, 'type': 'GLOBAL_PRACTICE', 'fromLanguage': 'en',
-            'learningLanguage': 'en', 'challenges': [challenge(q) for q in questions]}
+def session(questions, identifier, skill_id='duoaero_aerospace_diagnostic'):
+    # Original MathSessionCoordinator requires a Math skill ID to start the
+    # original JS grader. GLOBAL_PRACTICE can display blobs but cannot grade them.
+    return {'id': identifier, 'type': 'MATH_LESSON', 'fromLanguage': 'en',
+            'skillId': skill_id, 'levelIndex': 0, 'levelSessionIndex': 0,
+            'metadata': {'id': identifier, 'type': 'math_lesson'},
+            'challenges': [challenge(q) for q in questions]}
 
 if __name__ == '__main__':
     bank = json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))

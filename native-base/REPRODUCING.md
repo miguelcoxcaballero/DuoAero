@@ -276,3 +276,34 @@ all 15 original controls, and captures each graded state plus the screen after
 last Continue. Passing all answers alone is not session completion or persistence.
 Separate subscriptions observe original launch/check dependencies without forcing
 routing or readiness. Expected selections are packaged in instrumentation only.
+
+
+[Full-answer run 41257088819](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41257088819)
+asserts **15 consecutive CORRECT results from the original visible fragments**,
+including all three rich questions. A separate wrong answer asserts INCORRECT,
+and the native GOT IT control advances. Screenshots and original-state assertions
+support these grading results; the diagnostic CI passed.
+
+After final Continue and eight seconds, the screen shows loading dots only.
+**This is not a completed lesson**, saved progress or restart/resume acceptance.
+Rich screenshots also reveal fractions extending beyond answer card borders in
+the long lift-coefficient question. Preserve this as an unresolved layout defect.
+Evidence is stored as `full-*`, including after-last-answer and rich-question PNGs.
+
+The home remains on splash. Its bridge d/f/j, launch K/L/S and synthetic user emit;
+N/V do not. LaunchCheckViewModel.g deliberately returns an empty observable, so
+its missing emission is not sufficient evidence of a dependency failure.
+Source tracing identifies `xsl` waiting on `fm1.u` (Config) before login routing.
+Next comparison writes original default Config (`{}`, using its original defaults)
+through `fm1.j.a()` / `w58`, using the native cache. Provider is original mm9.w0.
+No readiness or routing flags are forced. The full-answer probe also seeds that
+Config before launch, then reports the original final engine class/field types
+and bounded whitelisted synthetic endpoint counts (no query strings, headers,
+bodies or credentials). The baseline splash variant runs first to preserve its
+before/after comparison. Timed-out probes retain evidence and still fail markers.
+
+The bank adapter now uses native selectOne for ordinary choices as well as rich
+choices, and wraps sessions as MATH_LESSON with a skill ID. Five gap/order items
+remain explicit unsupported errors. CI regenerates 1195 fixtures and checks them
+with the original serializer; that model check remains distinct from UI grading.
+ModelProbe blocks network before original Application.onCreate for isolation.

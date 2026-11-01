@@ -1,0 +1,103 @@
+--------- beginning of main
+11-01 00:35:28.992  3223  3223 I DuoAeroProbe: created com.duolingo.splash.LaunchActivity
+11-01 00:35:30.444  3223  3223 I DuoAeroProbe: resumed com.duolingo.splash.LaunchActivity
+11-01 00:35:32.357  3223  3223 I DuoAeroProbe: created com.duolingo.session.SessionActivity
+11-01 00:35:33.571  3223  3223 I DuoAeroProbe: resumed com.duolingo.session.SessionActivity
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Diagnostic course variant: MATH_BT
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Diagnostic setup phase: instrumentation onStart
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Experiment input: original empty/default entries for synthetic user.
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Lesson input: hardcoded_sessions/duoaero/aerospace_rich_lesson.json
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Original SessionActivity requested with isolated local profile. Network blocked.
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Resumed: com.duolingo.session.SessionActivity
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Native cache input: original Math CoursePathInfo and CoursePathSection with 0 units. This does not prove home/path rendering or lesson navigation.
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency course: EMITTED bz8
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency user: EMITTED wd90
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency streak: EMITTED com.duolingo.data.streak.UserStreak
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency loader-combined: EMITTED jn7
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.V: EMITTED fxd
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.l2: EMITTED kk00
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.G3: EMITTED java.lang.Boolean=true
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.n0.a: EMITTED t4d
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.T1.b: EMITTED ob80
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.S1.a: NO_EMISSION
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.Z0.a: EMITTED jws
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.M0.a: EMITTED i3o
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.X0.getNetworkStatus: EMITTED com.duolingo.core.networking.offline.NetworkStatus
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.C.v: EMITTED lge
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.g1.d: EMITTED com.duolingo.core.session.DailySessionCount
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.S1.d: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency vm.z1.d: EMITTED gh10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency user-pd10-26: EMITTED com.duolingo.data.user.User
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency user-w9o.h: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency session-experiments: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecords
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency experiments-implementation-selector: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency user-id: EMITTED com.duolingo.core.data.model.UserId
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency experiments-entries-a: EMITTED gsd
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency experiments-entries-b: EMITTED vir
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.w2: EMITTED eo10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.x2: EMITTED eo10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.i3: EMITTED sql
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.j3: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.o3: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.q3: EMITTED vql
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.m3: NO_EMISSION
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.n3: NO_EMISSION
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.preload-completion: EMITTED xv80
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.loading-indicator: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.course: EMITTED bz8
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency view.loading-experiment: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecord
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.f.d: EMITTED w6m
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.c.b: EMITTED com.duolingo.data.lapsedinfo.LapsedInfo
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.h.c: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.user15: EMITTED b8t
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.login: EMITTED qwn
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.a.c: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.l.a: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.e.h: EMITTED java.lang.Boolean=true
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.h.a: EMITTED jws
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.g.b: EMITTED null
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.d.c: EMITTED java.lang.Integer
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.f.e.h: EMITTED za9
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.user21: EMITTED com.duolingo.data.user.User
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.sponsor: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.j.i: EMITTED i940
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.a.d: EMITTED com.duolingo.data.debug.ads.SponsoredOfferEligibilityBypasses
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency before.c.b: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency energy.course-info: EMITTED mt8
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency energy.preferences: EMITTED t4d
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.m.a.n: EMITTED java.lang.Boolean=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.m.b.b: EMITTED null
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.e.a: EMITTED com.duolingo.data.leagues.LeaderboardState
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Dependency preload.experiment: EMITTED com.duolingo.core.experiments.ExperimentsRepository$TreatmentRecords
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: s2=null
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: t2=tp10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: u2=bm00
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: v2=ik10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: l4=null
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Engine state: eo10
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Loaded original Session model: com.duolingo.core.session.Session
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Loaded challenge count: 15
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization a=true
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization b=true
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization c=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization d=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization e=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization f=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization g=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization h=false
+11-01 00:36:00.560  3223  3619 I DuoAeroProbe: Initialization i=false
+11-01 00:36:04.637  3223  3619 I DuoAeroProbe: Native correct answer 1/15: EX-2019-10-23-1
+11-01 00:36:08.793  3223  3619 I DuoAeroProbe: Native correct answer 2/15: TA1-0232
+11-01 00:36:13.324  3223  3619 I DuoAeroProbe: Native correct answer 3/15: TA1-0753-D3
+11-01 00:36:19.118  3223  3619 I DuoAeroProbe: Native correct answer 4/15: TA1-0832-D3
+11-01 00:36:24.915  3223  3619 I DuoAeroProbe: Native correct answer 5/15: EX-2019-10-23-2
+11-01 00:36:29.084  3223  3619 I DuoAeroProbe: Native correct answer 6/15: EX-2022-11-08-1
+11-01 00:36:31.667  3223  3619 I DuoAeroProbe: Native correct answer 7/15: EX-2022-11-08-3
+11-01 00:36:34.214  3223  3619 I DuoAeroProbe: Native correct answer 8/15: TA1-0086
+11-01 00:36:36.741  3223  3619 I DuoAeroProbe: Native correct answer 9/15: TA1-0141
+11-01 00:36:40.860  3223  3619 I DuoAeroProbe: Native correct answer 10/15: TA1-0176
+11-01 00:36:43.509  3223  3619 I DuoAeroProbe: Native correct answer 11/15: TA1-0157
+11-01 00:36:46.046  3223  3619 I DuoAeroProbe: Native correct answer 12/15: TA1-0019
+11-01 00:36:48.591  3223  3619 I DuoAeroProbe: Native correct answer 13/15: TA1-0136
+11-01 00:36:51.112  3223  3619 I DuoAeroProbe: Native correct answer 14/15: TA1-0607
+11-01 00:36:54.599  3223  3619 I DuoAeroProbe: Native correct answer 15/15: TA1-0517

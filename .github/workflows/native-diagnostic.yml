@@ -50,6 +50,7 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platform-tools'  'platforms;android-36' 'build-tools;35.0.0' 'emulator' 'system-images;android-36;google_apis;x86_64'
       - name: Build diagnostic APKs, preserving original runtime
         run: |
+          python native-base/course_adapter.py
           python native-base/build.py
           python native-base/test_integrity.py | tee /tmp/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
@@ -71,6 +72,7 @@ jobs:
           if [ "$ready" != true ]; then cat /tmp/duoaero-evidence/emulator.txt; exit 1; fi
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
+          timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > /tmp/duoaero-evidence/models.txt
           run_probe() {
             probe_label="$1"
             probe_course="$2"
@@ -80,13 +82,16 @@ jobs:
             probe_lesson="${6:-math}"
             probe_interact="${7:-none}"
             probe_home="${8:-false}"
+            probe_config="${9:-none}"
             probe_timeout=180
             if [ "$probe_interact" = math-all ]; then probe_timeout=300; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
-            adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json
+            adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
-            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt"
+            probe_status=0
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
+            echo "Instrumentation command exit: $probe_status" >> "/tmp/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "/tmp/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "/tmp/duoaero-evidence/views-$probe_label.json" || true
             if [ "$probe_interact" != none ]; then
@@ -99,6 +104,11 @@ jobs:
             if [ "$probe_home" = true ]; then
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png "/tmp/duoaero-evidence/home-$probe_label.png" || true
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json "/tmp/duoaero-evidence/home-$probe_label.json" || true
+              if [ "$probe_config" = native-default ]; then
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.$extension" "/tmp/duoaero-evidence/home-before-config.$extension" || true
+                done
+              fi
             fi
             if [ "$probe_interact" = math-all ]; then
               for phase in $(seq 0 14) after-last-answer; do
@@ -110,12 +120,14 @@ jobs:
             fi
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
+            if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
-          run_probe aerospace-rich-all MATH_BT native-defaults late native-minimal aerospace-rich math-all
+          run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true native-default
+          run_probe aerospace-rich-all MATH_BT native-defaults late native-minimal aerospace-rich math-all false native-default
           run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
-          run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true
           python - <<'PYTHON'
           from pathlib import Path
+          assert '1195 passed, 0 failed' in Path('/tmp/duoaero-evidence/models.txt').read_text()
           for path in Path('/tmp/duoaero-evidence').glob('session-*.txt'):
               assert 'DIAGNOSTIC_COLLECTION_COMPLETED=true' in path.read_text(), path.name
           PYTHON

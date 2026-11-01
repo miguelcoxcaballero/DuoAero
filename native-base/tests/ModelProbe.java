@@ -7,7 +7,11 @@ import org.json.*;
 
 /** Verifies actual original deserialization, not a mock implementation. */
 public final class ModelProbe extends Instrumentation {
- public void onCreate(Bundle args) { start(); }
+ public void onCreate(Bundle args) {
+  try{Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,getTargetContext().getClassLoader()).getField("localOnly").setBoolean(null,true);}
+  catch(Exception error){throw new IllegalStateException("Cannot isolate model diagnostic",error);}
+  start();
+ }
  public void onStart() {
   Bundle output=new Bundle(); StringBuilder report=new StringBuilder(); int passed=0,failed=0;
   try {

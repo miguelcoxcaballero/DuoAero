@@ -22,6 +22,8 @@ final class SessionDependencies implements AutoCloseable {
    if(fragment!=null){
     Object vm=fragment.getClass().getMethod("w").invoke(fragment);
     for(String name:new String[]{"K","L","N","S","V"})result.observe("home.launch."+name,field(vm,name),dispatcher);
+    Object config=field(vm,"i");
+    for(String name:new String[]{"q","r","u","v"})result.observe("home.config."+name,field(config,name),dispatcher);
     Object user=field(vm,"G");
     result.observe("home.user",user.getClass().getMethod("f").invoke(user),dispatcher);
     Object check=Class.forName("qvl",true,result.loader).getMethod("getValue").invoke(field(fragment,"l"));

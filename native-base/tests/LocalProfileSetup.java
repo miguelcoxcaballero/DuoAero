@@ -8,6 +8,7 @@ final class LocalProfileSetup {
   ClassLoader loader=context.getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
   bridge.getField("localOnly").setBoolean(null,true);
+  bridge.getField("captureLocalRequests").setBoolean(null,true);
   Object user=UserModelProbe.makeLocalUser(context,courseId);
   Object app=context.getApplicationContext();
   Object component=app.getClass().getMethod("generatedComponent").invoke(app);

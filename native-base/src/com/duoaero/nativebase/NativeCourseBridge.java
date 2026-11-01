@@ -9,6 +9,19 @@ import java.util.*;
 /** Development-only schema probe. Never reads or records authentication headers. */
 public final class NativeCourseBridge {
  public static volatile boolean localOnly = false;
+ public static volatile boolean captureLocalRequests = false;
+ private static final Map<String,Integer> localRequests = new LinkedHashMap<>();
+ public static synchronized String diagnosticRequests(){return localRequests.toString();}
+ private static synchronized void recordLocal(Object request)throws Exception {
+  if(!captureLocalRequests)return;
+  Object url=call(request,"url");String path=(String)call(url,"encodedPath");
+  // Synthetic-user diagnostics only. Never collect query strings, headers,
+  // bodies, auth endpoints or arbitrary external-service URLs.
+  if(!path.matches("^/(?:[0-9-]+/)?(?:sessions(?:/.*)?|users/1(?:/(?:courses|sessions|path)(?:/.*)?)?|config)$"))return;
+  String key=call(request,"method")+" "+path.replace("/users/1","/users/{synthetic}");
+  if(localRequests.containsKey(key))localRequests.put(key,localRequests.get(key)+1);
+  else if(localRequests.size()<64)localRequests.put(key,1);
+ }
  public static void install(Object builder) {
   try {
    ClassLoader loader=builder.getClass().getClassLoader();
@@ -24,7 +37,7 @@ public final class NativeCourseBridge {
    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
    if(method.getName().equals("equals"))return proxy==args[0];
    Object chain=args[0],request=call(chain,"request");
-   if(localOnly)return offlineResponse(request);
+   if(localOnly){try{recordLocal(request);}catch(Exception ignored){}return offlineResponse(request);}
    Object response;
    try{response=chain.getClass().getMethod("proceed",request.getClass()).invoke(chain,request);}catch(InvocationTargetException e){throw e.getCause();}
    try{

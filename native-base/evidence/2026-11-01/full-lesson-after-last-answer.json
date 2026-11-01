@@ -1,0 +1,233 @@
+[
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/action_bar_root",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "android:id\/content",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/sessionRoot",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "com.duolingo.core.common.compose.DuoComposeView2",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/rootComposeView",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/tempoTransitionView",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "com.duolingo.core.common.compose.DuoComposeView2",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "com.duolingo.core.common.compose.DuoComposeView2",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/sessionLoadingComposeView",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 63 63",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/fullscreenFragmentContainer",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "androidx.viewpager.widget.ViewPager",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/sessionEndViewPager",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/loadingIndicator",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/indicatorContainer",
+    "bounds": "0 0 1080 1920",
+    "clickable": true,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/indicatorView",
+    "bounds": "430 934 651 987",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 745 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  }
+]

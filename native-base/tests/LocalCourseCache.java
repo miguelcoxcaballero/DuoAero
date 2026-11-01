@@ -56,11 +56,11 @@ final class LocalCourseCache {
   }
  }
  private static Object field(Object owner,String name)throws Exception{return owner.getClass().getField(name).get(owner);}
- private static Object serializer(ClassLoader loader,String name)throws Exception {
+ static Object serializer(ClassLoader loader,String name)throws Exception {
   Object companion=Class.forName(name,true,loader).getField("Companion").get(null);
   return companion.getClass().getMethod("serializer").invoke(companion);
  }
- private static void write(ClassLoader loader,Object cache,Object resource,Object model)throws Exception {
+ static void write(ClassLoader loader,Object cache,Object resource,Object model)throws Exception {
   Object operation=Class.forName("nrx",true,loader).getMethod("t",Object.class).invoke(resource,model);
   Object completion=cache.getClass().getMethod("x0",Class.forName("e490",true,loader)).invoke(cache,operation);
   Class<?> observerType=Class.forName("fp7",true,loader);

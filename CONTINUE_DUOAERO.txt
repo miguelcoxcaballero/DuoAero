@@ -16,14 +16,15 @@ Next: loading/view readiness, not forcing flags. s2/l4 are auxiliary fields, not
 the Session model. No playable lesson or production APK exists.
 
 LATEST VISIBLE RESULT (2026-11-01)
-Run 41256513404 fixes native Math grading initialization with MATH_LESSON + skillId.
-Original green correct feedback and red wrong feedback with Aerospace explanation
-are visible. Correct Continue advances to the formula question. The wrong-answer
-probe fails because its footer is GOT IT, not CONTINUE. This is a locator failure.
-42 native path units decode/cache successfully; returning to LaunchActivity still
-shows the green splash, not the path. Next tests: all 15 answers with original
-FragmentGuess assertions and splash/home dependency observation. No full lesson,
-persistence, standalone app or production APK acceptance.
+Run 41257088819 confirms 15 consecutive original CORRECT results, including all
+three rich formula questions. A separate wrong answer returns INCORRECT and the
+native GOT IT button advances. After the final answer, original loading dots
+remain: lesson completion and saved progress are NOT verified. Long fraction
+answers also overflow their card borders in one rich question.
+42 native path units decode/cache, but LaunchActivity remains on splash. Next:
+compare original default Config via native cache, inspect end state and isolated
+endpoint counts, and revalidate the regenerated Math-typed bank fixtures.
+No standalone app, persistence, production APK or complete-course acceptance.
 See native-base/status.json and REPRODUCING.md for exact evidence and limits.
 
 START HERE
