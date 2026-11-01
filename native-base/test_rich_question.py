@@ -24,6 +24,7 @@ assert notation_parts('2.2e+06 m at ce=1.4e-05') == [
     {'latex': r'2.2\times 10^{6}'}, {'text': ' m at '}, {'latex': r'c_{e}=1.4\times 10^{-5}'}]
 assert notation_parts('409.8 mm²') == [{'text': '409.8 '}, {'latex': r'\mathrm{mm}^{2}'}]
 assert notation_parts('mi/mf') == [{'latex': r'\textstyle \frac{m_{i}}{m_{f}}'}]
+assert notation_parts('4 MN/m and 30 kN/m') == [{'text': '4 MN/m and 30 kN/m'}]
 assert notation_parts('Require TAS>=1.3Vs and M<=0.75.') == [
     {'text': 'Require '}, {'latex': r'\mathrm{TAS}\geq 1.3V_s'},
     {'text': ' and '}, {'latex': r'M\leq 0.75'}, {'text': '.'}]

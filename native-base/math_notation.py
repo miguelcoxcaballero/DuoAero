@@ -14,7 +14,7 @@ SUPERSCRIPTS = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', '0123456789-+'
 _NAME = r'[A-Za-z][A-Za-z0-9_]*'
 _POWER = r'(?:\^[+-]?\d+(?:\.\d+)?|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)'
 FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])(' + _NAME + r')\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
-_UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
+_UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','MN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
 _SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp','mi','mf'}
 _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # Avoid treating English words as products of individual letters. These
