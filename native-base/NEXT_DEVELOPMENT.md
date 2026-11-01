@@ -10,6 +10,9 @@ formula blocks and one split problem through the original Android controller;
 until it succeeds, the screen rendering, block selection and native grading
 remain unverified. The change is not part of the signed 1.3.6 APK. Two
 related wind problems and other calculation families still need review.
+The same branch also converts reviewed speed and Mach inequalities such as
+`TAS>=1.3Vs` and `M<=0.75` into mathematical notation. Host checks cover these
+patterns; native Android layout for them is still unverified.
 
 This branch is experimental and is not represented by the 1.3.5 release APK.
 Do not publish it as a finished product. It has 74 active authored hints, including
