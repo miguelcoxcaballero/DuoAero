@@ -40,6 +40,7 @@ with zipfile.ZipFile(APK) as original:
             ('duo_normal_lovey_dovey_03', 'lc_character_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
             ('duo_perfect_chefs_kiss_03', 'lc_character_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
             ('duo_normal_foam_finger_02', 'lc_character_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
+            ('duo_zen_04', '36_zen_duo', 'duo_meditate_loop', 69, 171),
             ('lesson_complete_main_29', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('lesson_complete_redesign_v72', '01_duo_epic_arboard', 'EpicDuo_IdleLoop', 70, 190),
             ('lesson_complete_redesign_v72', '04_duo_lfg_artboard', 'Duo_LFG_IdleLoop', 60, 180),
