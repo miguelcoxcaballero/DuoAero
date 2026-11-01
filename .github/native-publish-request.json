@@ -1,6 +1,8 @@
 {
-  "mode": "pending",
+  "mode": "unsigned",
   "version": "1.3.6",
   "versionCode": 10306,
-  "reason": "Waiting for a new candidate build and device checks."
+  "artifactId": 13099468996,
+  "sourceSha": "c05b3f8ad96a013d77fce07d5dfc5a1ae0c29b01",
+  "apkSha256": "40192edfa63baf753460913496d75cfa768bc9af99cddd2d5380856d5022217a"
 }
