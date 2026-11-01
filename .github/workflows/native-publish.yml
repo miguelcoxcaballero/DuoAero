@@ -84,12 +84,25 @@ jobs:
       - name: Publish exact bytes without replacing an existing release
         run: |
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            # The authenticated publisher may create the empty release first
-            # when the workflow token cannot create releases. Never overwrite
-            # an asset, retarget a tag or change existing release metadata.
+            # The authenticated publisher creates the release when this token
+            # cannot. Retries accept only identical immutable assets.
             test "$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" --jq '.object.sha')" = "$SOURCE_SHA"
-            test "$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets|length')" = 0
-            gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" publication/*
+            python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          repo=os.environ['GITHUB_REPOSITORY'];tag=os.environ['TAG']
+          release=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/{tag}']))
+          assets={item['name']:item for item in release['assets']}
+          files={path.name:path for path in Path('publication').iterdir() if path.is_file()}
+          assert set(assets)<=set(files),'Unexpected published asset; refusing to change release'
+          for name,path in files.items():
+              digest='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+              if name in assets:
+                  assert assets[name].get('digest')==digest and assets[name]['size']==path.stat().st_size,name
+                  print('Identical published asset retained:',name)
+              else:
+                  subprocess.run(['gh','release','upload',tag,'--repo',repo,str(path)],check=True)
+          PY
           else
             gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" --prerelease --title "$TITLE" --notes-file publication-notes.md publication/*
           fi
