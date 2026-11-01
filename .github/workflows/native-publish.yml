@@ -84,7 +84,12 @@ jobs:
       - name: Publish exact bytes without replacing an existing release
         run: |
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo 'Release already exists. No artifact will be replaced.'
-            exit 1
+            # The authenticated publisher may create the empty release first
+            # when the workflow token cannot create releases. Never overwrite
+            # an asset, retarget a tag or change existing release metadata.
+            test "$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" --jq '.object.sha')" = "$SOURCE_SHA"
+            test "$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets|length')" = 0
+            gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" publication/*
+          else
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" --prerelease --title "$TITLE" --notes-file publication-notes.md publication/*
           fi
-          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" --prerelease --title "$TITLE" --notes-file publication-notes.md publication/*
