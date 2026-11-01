@@ -126,14 +126,7 @@ runtime_log_text=runtime_log_original.decode('utf-8').replace('\r\n','\n')
 runtime_log_anchor='.method public final f(Lcom/duolingo/core/log/LogOwner;ILjava/lang/String;Ljava/lang/Throwable;)V\n    .locals 1'
 assert runtime_log_text.count(runtime_log_anchor)==1
 runtime_log_hook=runtime_log_anchor+'\n\n    invoke-static {p1, p2, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportRuntimeFailure(Ljava/lang/Object;ILjava/lang/Throwable;)V'
-persistent_header_source=SMALI/'smali/ob.smali'
-persistent_header_original=persistent_header_source.read_bytes()
-persistent_header_text=persistent_header_original.decode('utf-8').replace('\r\n','\n')
-persistent_header_anchor='    invoke-virtual {v8, v7}, Lcom/duolingo/data/path/common/CoursePathInfo;->m(Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v1'
-assert persistent_header_text.count(persistent_header_anchor)==1
-persistent_header_hook='\n\n    invoke-static {v3, v7, v1}, Lcom/duoaero/nativebase/NativeCourseBridge;->pathTopicTitle(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v1'
 try:
- persistent_header_source.write_text(persistent_header_text.replace(persistent_header_anchor,persistent_header_anchor+persistent_header_hook),encoding='utf-8')
  # The original secondary-process WebView suffix includes the PID. Recognize
  # our actual main process so OAuth storage survives a process restart.
  web_process_source.write_text(web_process_text.replace(web_process_anchor,web_process_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
@@ -145,7 +138,6 @@ try:
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
- persistent_header_source.write_bytes(persistent_header_original)
  web_process_source.write_bytes(web_process_original)
  runtime_log_source.write_bytes(runtime_log_original)
  bootstrap_source.write_bytes(bootstrap_original)
@@ -174,12 +166,12 @@ figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/model
 assert figure_view_text.count(figure_view_anchor)==1
 figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
 resume_source=SMALI/'smali_classes3/eo10.smali'
-unit_header_source=SMALI/'smali_classes3/ivr.smali'
+unit_header_source=SMALI/'smali_classes3/hlt.smali'
 unit_header_original=unit_header_source.read_bytes()
 unit_header_text=unit_header_original.decode('utf-8').replace('\r\n','\n')
-unit_header_anchor='    invoke-direct {v2, v8}, Lnur;-><init>(Ljava/lang/String;)V'
+unit_header_anchor='    iput-object p4, p0, Lhlt;->d:Ltt80;'
 assert unit_header_text.count(unit_header_anchor)==1
-unit_header_hook='    invoke-static {v14, v8}, Lcom/duoaero/nativebase/NativeCourseBridge;->pathUnitTitle(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;\n\n    move-result-object v8\n\n'
+unit_header_hook='    invoke-static {p2, p3, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->pathHeaderText(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object p4\n\n    check-cast p4, Ltt80;\n\n'
 profile_inputs_source=SMALI/'smali_classes3/g6w.smali'
 profile_inputs_original=profile_inputs_source.read_bytes()
 profile_inputs_text=profile_inputs_original.decode('utf-8').replace('\r\n','\n')

@@ -7,6 +7,9 @@ import android.view.accessibility.AccessibilityNodeInfo;
 final class SessionInteraction {
  static String firstPathNode(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/oval");i++)Thread.sleep(200);
+  for(int i=0;i<150&&!contains(test,"Aeronautical organizations");i++){test.getUiAutomation().clearCache();Thread.sleep(200);}
+  SessionScreen.capture(test,"path-topic-headers","path-topic-headers");
+  if(!contains(test,"Aeronautical organizations"))throw new IllegalStateException("Original inline path header did not expose its Aerospace topic");
   click(test,"com.duolingo:id/oval",null);
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/learnButton")&&!contains(test,"Low delivery times.");i++)Thread.sleep(200);
   SessionScreen.capture(test,"path-node-opened","path-node-opened");

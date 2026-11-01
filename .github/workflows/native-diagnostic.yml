@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","formula"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["updater","review","google","path","standalone"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -153,6 +153,13 @@ jobs:
               fi
             fi
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then
+              if [ "$probe_interact" = path-first ]; then
+                for phase in topic-headers node-opened session; do
+                  for extension in png json; do
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "${{ runner.temp }}/duoaero-evidence/path-$phase.$extension" || true
+                  done
+                done
+              fi
               for phase in $(seq 0 19) prompt-1 prompt-2 prompt-3 prompt-scrolled after-last-answer after-end-observation after-claim-xp; do
                 case "$phase" in
                   after-*|prompt-*) probe_file="lesson-$phase" ;;

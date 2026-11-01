@@ -147,17 +147,11 @@ public final class NativeCourseBridge {
     .newInstance(value.substring(marker.length()),false,entity);
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot convert Aerospace formula figure",error);}
  }
- public static String pathUnitTitle(Object unit,String original){
-  // The original path can map its first emission synchronously during the
-  // cache write, before bootstrap publishes localCourseInstalled. Scope by
-  // its course section, which is already present in that emission.
-  if(!localOnly||unit==null)return original;
-  try{
-   Object section=field(unit,"e");
-   if(captureLocalRequests)Log.i("DuoAeroNative","Original inline topic binding: "+field(section,"a")+"; "+field(unit,"d"));
-   if(!"DUOAERO_MIDTERM1".equals(field(section,"a")))return original;
-   String title=(String)field(unit,"d");return title.isEmpty()?original:title;
-  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot read original Aerospace unit title",error);}
+ public static Object pathHeaderText(Object index,String section,Object original){
+  String title=pathTopicTitle(index,section,null);
+  if(title==null)return original;
+  try{return Class.forName("wg90",true,index.getClass().getClassLoader()).getConstructor(String.class).newInstance(title);}
+  catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind original Aerospace header text",error);}
  }
  private static volatile String[] pathTopics;
  public static String pathTopicTitle(Object index,String section,String original){
