@@ -147,7 +147,10 @@ public final class NativeCourseBridge {
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot convert Aerospace formula figure",error);}
  }
  public static String pathUnitTitle(Object unit,String original){
-  if(!hasLocalCourse()||unit==null)return original;
+  // The original path can map its first emission synchronously during the
+  // cache write, before bootstrap publishes localCourseInstalled. Scope by
+  // its course section, which is already present in that emission.
+  if(!localOnly||unit==null)return original;
   try{
    Object section=field(unit,"e");
    if(captureLocalRequests)Log.i("DuoAeroNative","Original inline topic binding: "+field(section,"a")+"; "+field(unit,"d"));
@@ -157,7 +160,7 @@ public final class NativeCourseBridge {
  }
  private static volatile String[] pathTopics;
  public static String pathTopicTitle(Object index,String section,String original){
-  if(!hasLocalCourse()||!"DUOAERO_MIDTERM1".equals(section)||index==null)return original;
+  if(!localOnly||!"DUOAERO_MIDTERM1".equals(section)||index==null)return original;
   try{
    String[] topics=pathTopics;
    if(topics==null){
