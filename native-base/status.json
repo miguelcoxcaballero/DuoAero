@@ -219,14 +219,15 @@
     "release_ready": false,
     "branch": "codex/original-runtime-integration",
     "requested_final_destination": "main",
-    "standalone_latest_observed": "Original welcome screen despite successful cache initialization; early identity preparation pending UI verification.",
+    "standalone_latest_observed": "Early bootstrap reaches original splash. Prior test aborted on transient null accessibility root; robust bounded wait implemented, rerun pending.",
     "bank_models_generated": 1200,
     "local_lesson_catalog_generated": 79,
-    "native_decode_latest_observed": "1187 passed, 8 malformed list entities; list key corrected, new decode pending.",
+    "native_decode_latest_observed": "1200 passed, zero failures in run 41267475095.",
     "gap_order_adapter": "Native word-bank slots and strict sequence grading implemented; rendering and grading unverified.",
     "formula_latex_rendered": true,
-    "formula_latex_semantic_card_labels": "Added; runtime selection pending.",
-    "native_first_path_session": "Original POST reached; R8-stripped buffer constructor corrected. Awaiting question and full completion evidence.",
-    "remaining": "Standalone full course, reliable grading, persistent progress/resume/mistakes, Google/Drive, updater, mascot, full audio/haptics/night/text QA, production signing and publication to main."
+    "formula_latex_semantic_card_labels": "Bound labels to actual native figure view and parent mathCard; runtime verification pending.",
+    "native_first_path_session": "Original path opened lesson; all 19 answers graded CORRECT in run 41267475095. End remains loading; no Claim XP or persisted completion verified.",
+    "remaining": "Standalone full course, reliable grading, persistent progress/resume/mistakes, Google/Drive, updater, mascot, full audio/haptics/night/text QA, production signing and publication to main.",
+    "original_js_grading": "Intermittent null result; original swallowed exception logging and bounded retries for marked pure choice functions added. No grade injected; runtime verification pending."
   }
 }

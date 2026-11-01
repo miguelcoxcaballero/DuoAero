@@ -167,12 +167,12 @@ jobs:
               run_probe aerospace-path-session MATH_BT native-defaults late native-full aerospace-rich path-first true native-default native-cache true
               ;;
             lesson)
-              run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache
-              run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
+              run_probe aerospace-rich-all MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache true
+              run_probe aerospace-rich-wrong MATH_BT native-defaults late native-full aerospace-rich math-wrong false native-default native-cache true
               ;;
             formula)
-              run_probe aerospace-formula MATH_BT native-defaults late native-minimal aerospace-formula formula false native-default native-cache
-              run_probe aerospace-formula-wrong MATH_BT native-defaults late native-minimal aerospace-formula formula-wrong false native-default native-cache
+              run_probe aerospace-formula MATH_BT native-defaults late native-full aerospace-formula formula false native-default native-cache true
+              run_probe aerospace-formula-wrong MATH_BT native-defaults late native-full aerospace-formula formula-wrong false native-default native-cache true
               ;;
           esac
           python - <<'PYTHON'

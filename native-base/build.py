@@ -97,13 +97,21 @@ welcome_text=welcome_original.decode('utf-8').replace('\r\n','\n')
 welcome_anchor='    invoke-static {p1}, Lw9o;->p(Ljava/lang/Object;)V'
 assert welcome_text.count(welcome_anchor)==1
 welcome_hook='\n\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z\n\n    move-result p1\n\n    if-eqz p1, :duoaero_standard_welcome\n\n    sget-object p1, Lsza0;->f:Lsza0;\n\n    return-object p1\n\n    :duoaero_standard_welcome'
+figure_view_source=SMALI/'smali_classes3/com/duolingo/feature/math/ui/figure/MathFigureView.smali'
+figure_view_original=figure_view_source.read_bytes()
+figure_view_text=figure_view_original.decode('utf-8').replace('\r\n','\n')
+figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/models/figure/MathFigureUiState;)V\n    .locals 0'
+assert figure_view_text.count(figure_view_anchor)==1
+figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
 try:
+ figure_view_source.write_text(figure_view_text.replace(figure_view_anchor,figure_view_anchor+figure_view_hook),encoding='utf-8')
  launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
  # The original home independently requests Math onboarding at zero course XP.
  # Aerospace enrollment already supplies its path; no math placement survey is needed.
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ figure_view_source.write_bytes(figure_view_original)
  launch_source.write_bytes(launch_original)
  welcome_source.write_bytes(welcome_original)
 prompt_source=SMALI/'smali_classes6/qyv.smali'
@@ -140,12 +148,28 @@ accessibility_hook="""    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCour
     return-object v0
     :duoaero_original_figure_description
 """
+sandbox_source=SMALI/'smali_classes6/e5l.smali'
+sandbox_original=sandbox_source.read_bytes()
+sandbox_text=sandbox_original.decode('utf-8').replace('\r\n','\n')
+sandbox_anchor='    :catch_0\n    move-exception p1'
+assert sandbox_text.count(sandbox_anchor)==1
+sandbox_hook=sandbox_anchor+'\n\n    invoke-static {p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportGradingFailure(Ljava/lang/Throwable;)V'
+retry_source=SMALI/'smali_classes6/ky6.smali'
+retry_original=retry_source.read_bytes()
+retry_text=retry_original.decode('utf-8').replace('\r\n','\n')
+retry_anchor='    :goto_1f\n    if-eqz v7, :cond_39'
+assert retry_text.count(retry_anchor)==1
+retry_hook='    :goto_1f\n    invoke-static {v4, v5, v7}, Lcom/duoaero/nativebase/NativeCourseBridge;->retryOriginalEvaluation(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;\n    move-result-object v7\n    if-eqz v7, :cond_39'
 try:
+ retry_source.write_text(retry_text.replace(retry_anchor,retry_hook),encoding='utf-8')
+ sandbox_source.write_text(sandbox_text.replace(sandbox_anchor,sandbox_hook),encoding='utf-8')
  accessibility_source.write_text(accessibility_text.replace(accessibility_anchor,accessibility_hook+accessibility_anchor),encoding='utf-8')
  prompt_source.write_text(prompt_text.replace(prompt_anchor,prompt_hook+prompt_anchor),encoding='utf-8')
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ retry_source.write_bytes(retry_original)
+ sandbox_source.write_bytes(sandbox_original)
  accessibility_source.write_bytes(accessibility_original)
  prompt_source.write_bytes(prompt_original)
  symbol_source.write_bytes(symbol_original)

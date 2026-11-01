@@ -50,7 +50,7 @@ def choice_blob(question):
     answer = {'type': 'text', 'value': option_values[correct]}
     feedback = {'type': 'text', 'value': content(rich.get('explanation'), question['explanation'])}
     # All content is encoded as JSON literals, never interpolated as JS source.
-    grading = ('function grade(variables) { const expected = ' + str(correct) + '; '
+    grading = ('/*duoaero-pure-choice*/ function grade(variables) { const expected = ' + str(correct) + '; '
                'const count = ' + str(len(options)) + '; let isCorrect = true; '
                'for (let i=0;i<count;i++) { '
                'const selected = !!(variables["answer_"+i] && variables["answer_"+i].selected); '

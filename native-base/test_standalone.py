@@ -19,10 +19,27 @@ def adb(*args):
 
 def capture(name):
     (OUT/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
-    adb('shell','uiautomator','dump','/sdcard/duoaero-standalone.xml')
-    xml=adb('exec-out','cat','/sdcard/duoaero-standalone.xml')
+    adb('shell','rm','-f','/sdcard/duoaero-standalone.xml')
+    dump=adb('shell','uiautomator','dump','/sdcard/duoaero-standalone.xml')
+    result=subprocess.run(['adb','exec-out','cat','/sdcard/duoaero-standalone.xml'],capture_output=True,timeout=30)
+    xml=result.stdout
+    try:
+        tree=ET.fromstring(xml)
+    except ET.ParseError:
+        # Android can temporarily expose no root during a real screen change.
+        # Preserve that observation and keep waiting; never treat it as a pass.
+        with (OUT/'standalone-capture-retries.txt').open('ab') as log:log.write(dump+b'\n'+xml+b'\n')
+        return None
     (OUT/(name+'.xml')).write_bytes(xml)
-    return ET.fromstring(xml)
+    return tree
+
+def wait_for(name,predicate,timeout=120):
+    deadline=time.monotonic()+timeout
+    while time.monotonic()<deadline:
+        tree=capture(name)
+        if tree is not None and predicate(tree):return tree
+        time.sleep(3)
+    raise AssertionError('Timed out waiting for '+name)
 
 def tap(tree,resource):
     node=next((n for n in tree.iter('node') if n.get('package')==PACKAGE and n.get('resource-id')==resource and n.get('enabled')=='true'),None)
@@ -34,19 +51,11 @@ try:
     adb('shell','am','force-stop',PACKAGE)
     assert b'Success' in adb('shell','pm','clear',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
-    tree=None
-    for attempt in range(12):
-        time.sleep(3)
-        tree=capture('standalone-home')
-        if any(n.get('resource-id')=='com.duolingo:id/oval' for n in tree.iter('node')):break
-    assert any('Midterm 1' in n.get('text','') for n in tree.iter('node')), 'Original Aerospace home missing'
+    tree=wait_for('standalone-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')) and any('Midterm 1' in n.get('text','') for n in t.iter('node')))
     tap(tree,'com.duolingo:id/oval')
-    time.sleep(2)
-    tree=capture('standalone-node')
+    tree=wait_for('standalone-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),30)
     tap(tree,'com.duolingo:id/learnButton')
-    time.sleep(15)
-    tree=capture('standalone-question')
-    assert any('Low delivery times.' in (n.get('text','')+n.get('content-desc','')) for n in tree.iter('node')), 'Original first course question missing'
+    tree=wait_for('standalone-question',lambda t:any('Low delivery times.' in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),60)
     (OUT/'standalone-result.txt').write_text('PASS: cold start, original home, named node, first question. No completion or persistence asserted.\n')
 finally:
     (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E','chromium:E'))

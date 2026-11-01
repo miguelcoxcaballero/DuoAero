@@ -449,3 +449,30 @@ of those requirements is claimed by merely saving the request.
 Run 41266796994's path probe visibly opens its first Aerospace question through
 the original node and POST loader. The models process crashed in that path job;
 new immediate model/crash logs retain its cause before subsequent app launches.
+
+### Native path completion and rendering follow-up (2026-11-01)
+
+Run 41267475095 decodes all 1,200 native question models. Its path probe opens
+the first real node through the original session POST and grades all 19
+questions CORRECT. After the final Continue the original loading dots remain;
+Claim XP is absent. No PUT submission or saved completion is established.
+The next probe observes original SessionEnd dependencies for this path session
+and preserves bounded endpoint counts even on assertion failure.
+
+Original JS grading occasionally returns null. The bridge now logs the original
+swallowed exception and retries only explicitly marked pure choice functions
+against the original SESSION JavaScript context, at most six times. A missing
+result still fails normally; no answer, grade or readiness state is fabricated.
+Native LaTeX figures now bind semantic labels to their actual MathFigureView
+and mathCard parent. Both changes compile; their runtime acceptance is pending.
+
+Cold-start evidence previously stopped at a transient null UiAutomator root
+before the home timeout. The driver now preserves that observation and keeps
+waiting within its deadline, including when the dump file does not exist.
+Screenshot collection likewise retries null bitmap capture without treating it
+as a pass. Lesson/formula probes now use native profile caches, the full course
+and the local service together, matching standalone repository inputs.
+
+Local checks: original 18,244 unchanged APK entries, 48 generated JS choice
+grading cases and 18 symbolic Java grading cases pass. These are not evidence
+of standalone usability, completion, persistence or production release readiness.

@@ -15,6 +15,10 @@ final class SessionScreen {
  static void capture(Instrumentation test,String screenshotName,String treeName)throws Exception {
   File directory=test.getTargetContext().getExternalFilesDir(null);
   Bitmap screenshot=test.getUiAutomation().takeScreenshot();
+  for(int attempt=0;screenshot==null&&attempt<10;attempt++){
+   android.util.Log.i("DuoAeroProbe","Screen capture temporarily unavailable; retry "+attempt);
+   Thread.sleep(200);screenshot=test.getUiAutomation().takeScreenshot();
+  }
   if(screenshot==null)throw new IllegalStateException("Cannot capture session screen");
   try(FileOutputStream file=new FileOutputStream(new File(directory,screenshotName+".png"))){
    if(!screenshot.compress(Bitmap.CompressFormat.PNG,100,file))throw new IOException("PNG compression failed");

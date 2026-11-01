@@ -170,6 +170,10 @@ public final class UserSessionProbe extends Instrumentation {
     android.app.Activity pathSession=resumed.get();
     if(pathSession==null||!activity.isInstance(pathSession))throw new IllegalStateException("Original path session did not resume");
     report.append(SessionInteraction.allPathAnswers(this,pathSession));
+    try(SessionDependencies dependencies=SessionDependencies.end(this,pathSession)){
+     Thread.sleep(5000);report.append(dependencies.report());
+    }
+    SessionScreen.capture(this,"path-after-end-observation","path-after-end-observation");
     report.append(SessionInteraction.claimXp(this));
    }
   }
@@ -178,5 +182,6 @@ public final class UserSessionProbe extends Instrumentation {
    .append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("diagnosticRequests").invoke(null)).append('\n');
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));try{SessionScreen.capture(this);}catch(Throwable captureError){report.append("Failure screenshot unavailable\n");}}
+ try{report.append("Final isolated endpoint counts: ").append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,getTargetContext().getClassLoader()).getMethod("diagnosticRequests").invoke(null)).append('\n');}catch(Exception ignored){}
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }

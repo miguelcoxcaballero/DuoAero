@@ -21,8 +21,47 @@ public final class NativeCourseBridge {
   diagnosticProfile=value;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ /** Retry only this course's explicitly marked pure function on the original
+  * JS engine. Preserve its result; a missing result remains a grading error.
+  */
+ public static String retryOriginalEvaluation(Object evaluator,Object coroutine,String previous){
+  if(previous!=null||!hasLocalCourse()||android.os.Looper.myLooper()==android.os.Looper.getMainLooper())return previous;
+  try{
+   String function=(String)field(coroutine,"l"),variables=(String)field(coroutine,"m");
+   if(function==null||!function.startsWith("/*duoaero-pure-choice*/"))return null;
+   String script="JSON.stringify((\n"+function+"\n)("+variables+"));";
+   ClassLoader loader=evaluator.getClass().getClassLoader();
+   Object type=Class.forName("com.duolingo.feature.math.javascript.ExecutionContextType",true,loader).getField("SESSION").get(null);
+   for(int attempt=1;attempt<=6;attempt++){
+    Thread.sleep(250L*attempt);
+    Object context=((Map<?,?>)field(evaluator,"f")).get(type);
+    if(context==null)continue;
+    context.getClass().getField("b").set(context,field(coroutine,"h"));
+    try{
+     String result=(String)context.getClass().getMethod("b",String.class).invoke(context,script);
+     if(result!=null){Log.i("DuoAeroNative","Original pure grading returned a result after retry "+attempt);return result;}
+    }catch(InvocationTargetException failure){reportGradingFailure(failure.getCause());}
+   }
+   Log.e("DuoAeroNative","Original pure grading still has no result after bounded retries");
+   return null;
+  }catch(InterruptedException interrupted){Thread.currentThread().interrupt();return null;}
+  catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot retry original grading engine",error);}
+ }
  public static void reportGradingFailure(Throwable error){
   if(localOnly&&captureLocalRequests)Log.e("DuoAeroNative","Original Math grader failed",error);
+ }
+ private static final Map<android.view.View,Boolean> formulaLabels=new WeakHashMap<>();
+ public static synchronized void bindFormulaAccessibility(android.view.View view,Object figure){
+  String label=formulaAccessibility(figure);
+  for(int depth=0;view!=null&&depth<12;depth++){
+   boolean target=depth==0;
+   if(view.getId()!=android.view.View.NO_ID)try{target|="mathCard".equals(view.getResources().getResourceEntryName(view.getId()));}catch(android.content.res.Resources.NotFoundException ignored){}
+   if(target){
+    if(label!=null){view.setContentDescription(label);formulaLabels.put(view,Boolean.TRUE);}
+    else if(formulaLabels.remove(view)!=null)view.setContentDescription(null);
+   }
+   android.view.ViewParent parent=view.getParent();view=parent instanceof android.view.View?(android.view.View)parent:null;
+  }
  }
  /** Give original native cards a semantic label for marked LaTeX blocks. */
  public static String formulaAccessibility(Object figure){
