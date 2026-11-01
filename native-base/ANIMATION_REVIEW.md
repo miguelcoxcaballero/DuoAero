@@ -17,3 +17,9 @@ playback after manually firing the trigger no longer showed the same overlapping
 poses in the sampled frames. This has not been verified through the completion
 screen on Android, and the samples do not establish smoothness. The original
 screen may choose a static state, which is a separate issue.
+
+In an isolated Rive runtime, setting the original outer state machine's
+`char_num` to 25 and firing `Start_Trig` shows different foam poses through the
+outer scene. The short Android capture still showed the same pose repeatedly;
+the device-side inputs and long-term movement require investigation. The
+isolated state-machine replay is not proof that normal app navigation animates.
