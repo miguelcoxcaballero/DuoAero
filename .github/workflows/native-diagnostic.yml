@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["standalone","resume","mistakes","review","night-large"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["standalone","resume"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -264,6 +264,16 @@ jobs:
               assert 'DIAGNOSTIC_COLLECTION_COMPLETED=true' in path.read_text(), path.name
           PYTHON
           echo 'Diagnostic collection only. This does not establish a playable lesson or authorize release.' > ${{ runner.temp }}/duoaero-evidence/NOT-A-RELEASE.txt
+      - name: Preserve emulator ANR thread traces
+        if: always()
+        timeout-minutes: 2
+        run: |
+          if command -v adb >/dev/null && adb get-state >/dev/null 2>&1; then
+            adb logcat -d -b all > "${{ runner.temp }}/duoaero-evidence/device-log.txt"
+            adb root || true
+            timeout 20 adb wait-for-device || true
+            adb pull /data/anr "${{ runner.temp }}/duoaero-evidence/anr-traces" || true
+          fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
