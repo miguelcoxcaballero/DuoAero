@@ -613,3 +613,14 @@ review entry point remain pending. This is not yet a finished review feature.
 Rich-choice probes now wait for the original asynchronous selection result before
 pressing Check, and still require its graded Continue afterward. The earlier
 first-card probe pressed during evaluation and remained on Check.
+
+Run 41271143185 resumes the original Parcelable after five real answers. It
+visibly restores question six, grades the remaining answers and commits the full
+19-question submission. Its summary visibly shows Claim XP, but the entire
+summary/button is inside the original Rive TextureView with no accessible text.
+The driver timed out looking for a text node. A bounded OCR fallback now requires
+the original sessionCompleteAnimationView, reads CLAIM XP from its actual footer
+with >=80 confidence per word, then taps the measured position. It preserves the
+full screenshot and OCR crop/TSV; no button text, state or grade is injected.
+The fallback locates the inspected failing-run image at (540,1743). Return home
+and restart after this resumed lesson remain for runtime acceptance.

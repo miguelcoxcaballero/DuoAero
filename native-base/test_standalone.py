@@ -10,6 +10,7 @@ import re
 import subprocess
 import time
 import xml.etree.ElementTree as ET
+from visual_controls import claim_xp
 
 OUT=Path(os.environ.get('DUOAERO_EVIDENCE','/tmp/duoaero-evidence'))
 OUT.mkdir(parents=True,exist_ok=True)
@@ -118,8 +119,20 @@ try:
             return current and 'continue' in labels and 'got it' not in labels
         tree=wait_for('standalone-graded-'+str(i),correct_feedback,30)
         tap(tree,text='CONTINUE')
-    tree=wait_for('standalone-complete',lambda t:any(n.get('text','').strip()=='CLAIM XP' for n in t.iter('node')),60)
-    tap(tree,text='CLAIM XP')
+    deadline=time.monotonic()+60
+    while time.monotonic()<deadline:
+        tree=capture('standalone-complete')
+        if tree is not None:
+            if any(n.get('text','').strip()=='CLAIM XP' for n in tree.iter('node')):
+                tap(tree,text='CLAIM XP');break
+            if any(n.get('resource-id')=='com.duolingo:id/sessionCompleteAnimationView' for n in tree.iter('node')):
+                # Some original summaries render the entire button inside
+                # Rive. Locate its visible text, then use ordinary touch.
+                point=claim_xp(OUT/'standalone-complete.png',OUT/'standalone-claim-ocr.png')
+                if point is not None:
+                    adb('shell','input','tap',str(point[0]),str(point[1]));break
+        time.sleep(3)
+    else:raise AssertionError('Original Claim XP not visible in accessibility or rendered footer')
     tree=wait_for('standalone-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),60)
     first_id=plan[0]['lessons'][0]['id']
     store='files/duoaero-course/local-test/submissions/'+first_id+'.json'

@@ -60,11 +60,13 @@
     "standalone_first_lesson_complete_and_visible_return": true,
     "standalone_completion_survives_process_restart": true,
     "standalone_original_path_selects_second_lesson": true,
-    "native_mixed_multi_matching_and_two_word_gaps": true
+    "native_mixed_multi_matching_and_two_word_gaps": true,
+    "original_state_restored_after_five_answers": true,
+    "resumed_lesson_all_answers_and_commit": true
   },
   "not_verified_or_incomplete": [
     "Full course traversal remains unverified. Run 41270695058 passes standalone first lesson, visible return, committed completion after process restart and navigation to lesson two.",
-    "Original Parcelable midlesson resume implemented; cold force-stop at question six acceptance added and pending. Persistent mistake review remains incomplete.",
+    "Run 41271143185 restores the original state after five answers, opens question six, completes remaining answers and commits completion. Final Claim XP is visibly rendered within Rive but absent from accessibility; OCR-based real-touch observation added. Persistent mistake ledger and end-retry acceptance pending; separate review entry remains incomplete.",
     "Multi-select, matching and both word gaps pass native UI in run 41270695058. Ordering exposed four-column bank overflow; adaptive original bank rows added, pending runtime verification.",
     "Native LaTeX choice/formula rendering is observed. All-field coverage, explanations, text/font scaling and overflow regression remain incomplete.",
     "Google-only sign-in and account-isolated Drive are not connected to the native base.",

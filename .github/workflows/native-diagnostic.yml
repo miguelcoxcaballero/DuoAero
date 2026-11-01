@@ -50,7 +50,11 @@ jobs:
           PY
           curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.12.1/apktool_2.12.1.jar -o "$DUOAERO_APKTOOL"
           java -jar "$DUOAERO_APKTOOL" d "$DUOAERO_APK" -o "$DUOAERO_SMALI"
-          python -m pip install fonttools==4.61.1
+          python -m pip install fonttools==4.61.1 Pillow==11.3.0
+          if ! command -v tesseract >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y tesseract-ocr
+          fi
           keytool -genkeypair -keystore build/debug.p12 -storetype PKCS12 -storepass android -keypass android -alias androiddebugkey -dname 'CN=DuoAero CI Diagnostic' -keyalg RSA -validity 365
           mkdir -p "$ANDROID_HOME/cmdline-tools"
           curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip -o /tmp/android-cli.zip
