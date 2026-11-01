@@ -227,6 +227,11 @@ public final class NativeCourseBridge {
   if(namedFlows.containsKey(name)||namedFlows.size()<256)namedFlows.put(name,flow);
  }
  public static synchronized Map<String,Object> diagnosticFlows(){return new LinkedHashMap<>(namedFlows);}
+ private static Object[] profileInputs;
+ public static synchronized void recordProfileInputs(Object[] inputs){
+  if(localOnly&&captureNativeFlows&&inputs!=null&&inputs.length==15)profileInputs=inputs.clone();
+ }
+ public static synchronized Object[] diagnosticProfileInputs(){return profileInputs==null?new Object[0]:profileInputs.clone();}
 
  public static volatile boolean captureLocalRequests = false;
  private static final Map<String,Integer> localRequests = new LinkedHashMap<>();

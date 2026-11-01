@@ -40,6 +40,7 @@ public final class UpdaterProbe extends Instrumentation {
    try(SessionDependencies dependencies=SessionDependencies.profile(homeActivity)){Thread.sleep(5000);report.append(dependencies.report());}
    catch(Exception observation){report.append("Profile observation unavailable: ").append(observation.getClass().getSimpleName()).append('\n');}
    Activity settings=startActivitySync(new Intent().setClassName(context.getPackageName(),"com.duolingo.settings.SettingsActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+   ActivityMonitor updaterMonitor=addMonitor("com.inhouse.services.updater.UpdateActivity",null,false);
    boolean found=false;
    for(int attempt=0;attempt<60;attempt++){
     AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
@@ -56,8 +57,19 @@ public final class UpdaterProbe extends Instrumentation {
    SessionScreen.capture(this,"updater-settings","updater-settings");
    AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
    boolean visible=false;
-   if(root!=null)try{visible=contains(root,"App updates")||contains(root,"Update channel");}finally{root.recycle();}
+   if(root!=null)try{visible=contains(root,"Updates")&&contains(root,"Version B")&&contains(root,"Check for updates");}finally{root.recycle();}
    if(!visible)throw new IllegalStateException("Canonical updater settings did not render");
+   Activity canonical=waitForMonitorWithTimeout(updaterMonitor,10000);removeMonitor(updaterMonitor);
+   if(canonical==null)throw new IllegalStateException("Canonical updater activity not observed");
+   Field webField=canonical.getClass().getDeclaredField("web");webField.setAccessible(true);
+   android.webkit.WebView web=(android.webkit.WebView)webField.get(canonical);
+   java.util.concurrent.CountDownLatch bridgeDone=new java.util.concurrent.CountDownLatch(1);
+   java.util.concurrent.atomic.AtomicReference<String> bridgeValue=new java.util.concurrent.atomic.AtomicReference<>();
+   runOnMainSync(()->web.evaluateJavascript("JSON.stringify({version:InhouseNative.getAppVersion(),code:InhouseNative.getAppVersionCode(),state:JSON.parse(InhouseNative.getUpdateState())})",value->{bridgeValue.set(value);bridgeDone.countDown();}));
+   if(!bridgeDone.await(10,java.util.concurrent.TimeUnit.SECONDS))throw new IllegalStateException("Canonical JavaScript bridge timed out");
+   String decoded=(String)new org.json.JSONTokener(bridgeValue.get()).nextValue();JSONObject bridgeState=new JSONObject(decoded);
+   android.content.pm.PackageInfo installed=context.getPackageManager().getPackageInfo(context.getPackageName(),0);
+   if(!installed.versionName.equals(bridgeState.getString("version"))||installed.getLongVersionCode()!=bridgeState.getLong("code")||!"B".equals(bridgeState.getJSONObject("state").getString("channel")))throw new IllegalStateException("Canonical bridge did not expose actual installed identity/policy");
    Class<?> state=Class.forName("com.inhouse.services.updater.UpdateState",true,loader);
    JSONObject policy=new JSONObject((String)state.getMethod("read",Context.class).invoke(null,context));
    if(!"B".equals(policy.getString("channel"))||policy.getInt("developmentConsent")!=0)throw new IllegalStateException("Unexpected initial channel policy");

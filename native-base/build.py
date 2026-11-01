@@ -20,6 +20,10 @@ if production:
  version=os.environ['DUOAERO_VERSION'];version_code=int(os.environ['DUOAERO_VERSION_CODE'])
  if not __import__('re').fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',version) or version_code<=10200:raise ValueError('Production version must advance the published APK')
  root.set(A+'versionName',version);root.set(A+'versionCode',str(version_code))
+else:
+ # apktool stores original versions in apktool.yml, not its decoded manifest.
+ # Give the isolated test identity explicit metadata for updater host checks.
+ root.set(A+'versionName','0.0.0-native-test');root.set(A+'versionCode','1')
 for el in root.iter():
  for key in ['authorities','permission','readPermission','writePermission','taskAffinity']:
   if A+key in el.attrib:el.set(A+key,el.get(A+key).replace('com.duolingo',package))
@@ -146,12 +150,18 @@ figure_view_anchor='.method public final setFigure(Lcom/duolingo/core/math/model
 assert figure_view_text.count(figure_view_anchor)==1
 figure_view_hook='\n\n    invoke-static {p0, p1}, Lcom/duoaero/nativebase/NativeCourseBridge;->bindFormulaAccessibility(Landroid/view/View;Ljava/lang/Object;)V'
 resume_source=SMALI/'smali_classes3/eo10.smali'
+profile_inputs_source=SMALI/'smali_classes3/g6w.smali'
+profile_inputs_original=profile_inputs_source.read_bytes()
+profile_inputs_text=profile_inputs_original.decode('utf-8').replace('\r\n','\n')
+profile_inputs_anchor='    invoke-static {v0, v1, v2}, Lohf;->n([Lsnw;Lfrh;I)Lohf;'
+assert profile_inputs_text.count(profile_inputs_anchor)==1
 resume_original=resume_source.read_bytes()
 resume_text=resume_original.decode('utf-8').replace('\r\n','\n')
 resume_anchor='    iput-object p1, p0, Leo10;->a:Lcom/duolingo/data/session/state/PersistedState;'
 assert resume_text.count(resume_anchor)==1
 resume_hook='    invoke-static {p1, p5}, Lcom/duoaero/nativebase/NativeSessionResume;->stateForSession(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object p1\n\n    check-cast p1, Lcom/duolingo/data/session/state/PersistedState;\n\n'
 try:
+ profile_inputs_source.write_text(profile_inputs_text.replace(profile_inputs_anchor,'    invoke-static {v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordProfileInputs([Ljava/lang/Object;)V\n\n'+profile_inputs_anchor),encoding='utf-8')
  resume_source.write_text(resume_text.replace(resume_anchor,resume_hook+resume_anchor),encoding='utf-8')
  figure_view_source.write_text(figure_view_text.replace(figure_view_anchor,figure_view_anchor+figure_view_hook),encoding='utf-8')
  launch_source.write_text(launch_text.replace(launch_anchor,launch_replacement),encoding='utf-8')
@@ -160,6 +170,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ profile_inputs_source.write_bytes(profile_inputs_original)
  resume_source.write_bytes(resume_original)
  figure_view_source.write_bytes(figure_view_original)
  launch_source.write_bytes(launch_original)

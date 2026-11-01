@@ -21,6 +21,8 @@ final class SessionDependencies implements AutoCloseable {
    for(Field item:vm.getClass().getFields())if(!Modifier.isStatic(item.getModifiers())&&observable.isAssignableFrom(item.getType())){
     Object value=item.get(vm);if(value!=null)result.observeRx("profile."+item.getName(),value);
    }
+   Object[] inputs=(Object[])Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,result.loader).getMethod("diagnosticProfileInputs").invoke(null);
+   for(int i=0;i<inputs.length;i++)if(observable.isInstance(inputs[i]))result.observeRx("profile.combine."+i,inputs[i]);
    return result;
   }catch(Exception error){result.close();throw error;}
  }
