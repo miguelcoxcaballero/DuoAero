@@ -70,10 +70,10 @@ INLINE_SYMBOLS = {
 # Name of the quantity occupying the hole in the original equation, plus
 # distractors. The rest of each equation comes from the reviewed LaTeX source.
 EQUATION_NAMES = {
- 'gas':('pressure',['density','temperature','altitude']),
- 'tailwind':('ground speed',['airspeed','wind speed','flight time']),
+ 'gas':('temperature',['density','pressure','altitude']),
+ 'tailwind':('wind speed',['airspeed','ground speed','flight time']),
  'time':('flight time',['distance','ground speed','fuel mass']),
- 'total_time':('total time',['outbound time','return time','distance']),
+ 'total_time':('return time',['outbound time','total time','distance']),
  'range':('range',['speed','fuel mass','altitude']),
  'axial_stiffness':('axial stiffness',['area','length','force']),
  'cantilever':('tip stiffness',['length','force','pressure']),
@@ -81,16 +81,32 @@ EQUATION_NAMES = {
  'extension':('extension',['force','area','density']),
  'aspect':('aspect ratio',['wing area','wingspan','taper ratio']),
  'taper':('taper ratio',['aspect ratio','wingspan','area']),
- 'hydraulic':('hydraulic power',['flow rate','pressure','area']),
- 'dynamic_pressure':('dynamic pressure',['density','airspeed','wing area']),
+ 'hydraulic':('flow rate',['hydraulic power','pressure','area']),
+ 'dynamic_pressure':('density',['dynamic pressure','airspeed','wing area']),
  'induced_drag':('induced drag',['lift coefficient','aspect ratio','efficiency']),
- 'thrust':('thrust',['mass flow','airspeed','pressure']),
+ 'thrust':('flight speed',['mass flow','exhaust speed','pressure']),
  'kinetic_temperature':('temperature rise',['speed','specific heat','pressure']),
- 'static_temperature':('static temperature',['total temperature','speed','density']),
+ 'static_temperature':('temperature rise',['total temperature','speed','density']),
  'sound':('temperature',['speed','pressure','density']),
  'mach':('Mach number',['airspeed','sound speed','pressure']),
  'breguet_exponent':('exponent',['range','airspeed','fuel mass']),
  'fuel_fraction':('remaining fraction',['fuel fraction','total mass','speed']),
+}
+
+# Where the quantity is an operand at the top level, keep the hole precisely
+# at that operand. The expression on each side remains unchanged. For a nested
+# fraction we instead put the hole on the left of the equality so the fraction
+# and its bar are preserved as one rendered mathematical object.
+IN_PLACE = {
+ 'gas':(r'p=\rho R_a','T',''),
+ 'tailwind':(r'V_g=V+','w',''),
+ 'total_time':(r't_{total}=t_{out}+',r't_{back}',''),
+ 'hydraulic':(r'P_{hyd}=\Delta p\,','Q',''),
+ 'dynamic_pressure':(r'q=\frac12',r'\rho',r' V^2'),
+ 'thrust':(r'T=\dot m(V_e-','V_0',')'),
+ 'static_temperature':(r'T=T_t-',r'\Delta T',''),
+ 'sound':(r'a^2=\gamma R','T',''),
+ 'fuel_fraction':(r'\frac{m_{\mathrm{fuel}}}{m_i}=1-','r',''),
 }
 
 
@@ -119,17 +135,12 @@ def named_equation(formula):
         raise ValueError('Reviewed named formula needs an equality: '+formula['id'])
     # An exponent and a fraction are operations that must remain visible. For
     # these formulas the hole therefore replaces a top-level RHS quantity.
-    if kind == 'sound':
-        if equation != r'a^2=\gamma RT':raise ValueError('Unexpected sound formula')
-        before, after = r'a^2=\gamma R', ''
-    elif kind == 'fuel_fraction':
-        if right != '1-r':raise ValueError('Unexpected fuel fraction formula')
-        before, after = left+'=1-', ''
-    else:
-        before, after = '', '='+right
+    before, missing, after = IN_PLACE.get(kind, ('',left,'='+right))
+    if before+missing+after != equation:
+        raise ValueError('Named formula no longer matches reviewed equation: '+formula['id'])
     assert len({answer,*distractors}) == 4
     return {'id':formula['id']+'-NAMED', 'type':'formula_named',
             'difficulty':formula['difficulty'], 'stem':'Complete the formula with a quantity',
-            'before_latex':before, 'after_latex':after, 'formula_latex':equation,
+            'before_latex':before, 'after_latex':after, 'missing_latex':missing, 'formula_latex':equation,
             'answer_blocks':[answer], 'blocks':choices_in_stable_order(formula['id']+'-NAMED',[answer,*distractors]),
             'explanation':equation}

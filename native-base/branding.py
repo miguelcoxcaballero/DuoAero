@@ -49,6 +49,10 @@ def pool_bytes(pool, values):
 
 def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
+    # "Duo Radio" also names playback and answer controls. They are not
+    # pictures of the character and replacing them corrupts the interface.
+    if name.startswith('duo_radio_') and name != 'duo_radio_host_static_bea':
+        return False
     return not name.startswith('$') and bool(re.search(r'(^|_)duo($|_)',name))
 
 def rebrand_table(table,drawable_paths=None):

@@ -31,12 +31,7 @@ for node in plan:
             assert words['answer'][0] in words['explanation']
             assert len(named['answer_blocks']) == 1
             assert len(set(named['blocks'])) == 4
-            left, right = q['formula_latex'].split('=', 1)
-            if named['before_latex']:
-                assert named['before_latex'] + right[-1] == q['formula_latex']
-                assert not named['after_latex']
-            else:
-                assert named['after_latex'] == '='+right
+            assert named['before_latex']+named['missing_latex']+named['after_latex'] == q['formula_latex']
             seen.add(q['id'])
         actual = session(source, lesson['id'], teach_words=True)['challenges']
         assert [q['id'] for q in actual] == ids
@@ -45,7 +40,7 @@ for node in plan:
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
                 marker='duoaero-latex:duoaero-gap:'
                 parts=json.loads(base64.b64decode(body[len(marker):]).decode())
-                assert parts == ['___', r'duoaero-math:formula:\textstyle =\rho R_aT']
+                assert parts == [r'duoaero-math:formula:\textstyle p=\rho R_a', '___']
             if q['id'] != 'BOOK-V6-01-D1-WORDS':
                 continue
             body = q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
