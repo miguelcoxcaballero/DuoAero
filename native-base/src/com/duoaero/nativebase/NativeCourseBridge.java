@@ -26,7 +26,8 @@ public final class NativeCourseBridge {
  }
  private static Object visibleMathFragment(Object manager,int depth)throws ReflectiveOperationException{
   if(depth>10)return null;
-  for(Object fragment:(List<?>)manager.getClass().getMethod("getFragments").invoke(manager)){
+  Object store=manager.getClass().getField("c").get(manager);
+  for(Object fragment:(List<?>)store.getClass().getMethod("f").invoke(store)){
    if(!(Boolean)fragment.getClass().getMethod("isVisible").invoke(fragment))continue;
    if(fragment.getClass().getName().equals("com.duolingo.session.challenges.math.MathBlobSelectOneFragment"))return fragment;
    Object found=visibleMathFragment(fragment.getClass().getMethod("getChildFragmentManager").invoke(fragment),depth+1);
