@@ -26,10 +26,13 @@ public class RewardsCheck {
   JSONObject profile=NativeRewards.project(lessons,new JSONObject(),zone,today);
   check(profile.getJSONObject("gemsConfig").getInt("gems")==20);
   check(profile.getJSONObject("streakData").getInt("length")==2);
+  check(profile.getJSONObject("streakData").getJSONObject("currentStreak").getInt("length")==2);
   check(profile.getJSONObject("streakData").getJSONObject("longestStreak").getInt("length")==2);
   check(NativeRewards.project(lessons,new JSONObject(),zone,today).toString().equals(profile.toString()));
   JSONObject expired=NativeRewards.project(lessons,new JSONObject(),zone,today.plusDays(2));
   check(expired.getJSONObject("streakData").getInt("length")==0);
+  check(!expired.getJSONObject("streakData").has("currentStreak"));
+  check(expired.getJSONObject("streakData").getJSONObject("previousStreak").getInt("length")==2);
   check(expired.getJSONObject("streakData").getJSONObject("longestStreak").getInt("length")==2);
   // Replay the same lesson on another day: streak grows but gems do not.
   lessons.getJSONObject("b").put("studyDays",new JSONArray().put("2026-11-02"));

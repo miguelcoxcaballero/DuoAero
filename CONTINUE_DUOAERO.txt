@@ -1,3 +1,15 @@
+LATEST: Android run41309312655 accounts PASS (35 synthetic checks including
+chest eligibility, duplicate rejection, Drive merge and native User decode).
+Formula PASS:18original selections and wrong answer, but screenshot revealed
+formula feedback contained raw LaTeX. Added original MathLatexView in the
+original incorrect footer plus a device assertion; rendering still unverified.
+Run41308624308 s24 traversed one lesson and restarted; original home showed
+10gems but0streak. Corrected native currentStreak timeline and now require
+visible10gems and1day both before and after restart. These fixes are unverified.
+Added chest UI scenario with explicitly seeded prerequisites. It must observe
+original chest/reward and persisted25gems; this is not full lesson traversal.
+No signed candidate or new release exists for these changes.
+
 LATEST FOLLOW-UP: explicit symbolic notation formatter covers legacy subscripts,
 Greek names and powers without mutating original exam records. Drive JS merge
 now unions chest claims and per-lesson study days. Ten auth/storage JS tests pass.

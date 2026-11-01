@@ -39,6 +39,9 @@ def capture(name):
         # Preserve that observation and keep waiting; never treat it as a pass.
         with (OUT/'standalone-capture-retries.txt').open('ab') as log:log.write(dump+b'\n'+xml+b'\n')
         return None
+    # Capture after the hierarchy query; the previous pre-query image could
+    # still show splash while the later XML already described the home.
+    (OUT/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
     (OUT/(name+'.xml')).write_bytes(xml)
     return tree
 
@@ -59,6 +62,11 @@ def tap(tree,resource=None,text=None):
     if node is None:raise AssertionError('Native control unavailable: '+str((resource,text)))
     x1,y1,x2,y2=map(int,re.findall(r'\d+',node.get('bounds')))
     adb('shell','input','tap',str((x1+x2)//2),str((y1+y2)//2))
+
+def earned_rewards(tree):
+    nodes=list(tree.iter('node'))
+    return (any(n.get('resource-id')=='com.duolingo:id/menuStreak' and n.get('content-desc','').casefold()=='1 day streak' for n in nodes)
+            and any(n.get('resource-id')=='com.duolingo:id/itemButton' and n.get('text')=='10' for n in nodes))
 
 try:
     adb('shell','am','force-stop',PACKAGE)
@@ -151,7 +159,7 @@ try:
                     adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(3)
     else:raise AssertionError('Original Claim XP not visible in accessibility or rendered footer')
-    tree=wait_for('standalone-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),60)
+    tree=wait_for('standalone-returned-home',lambda t:earned_rewards(t) and any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),60)
     first_id=plan[0]['lessons'][0]['id']
     store='files/duoaero-course/local-test/submissions/'+first_id+'.json'
     saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
@@ -165,7 +173,7 @@ try:
     (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
     adb('shell','am','force-stop',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
-    tree=wait_for('standalone-restored-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
+    tree=wait_for('standalone-restored-home',lambda t:earned_rewards(t) and any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
     restored=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
     assert restored['sessionId']==first_id and restored['completedOnce'] is True, 'Completion lost after process restart'
     tap(tree,'com.duolingo:id/oval')
@@ -179,7 +187,7 @@ try:
     routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
     selected=re.findall(r'Local original session selected: ([A-Za-z0-9_-]+)',routes)
     assert selected and selected[-1]==second_id, 'Restored path did not select its next lesson'
-    (OUT/'standalone-result.txt').write_text('PASS: cold start, 19 correct native answers, Claim XP, return to path, committed completion after process restart, and next lesson selected through the original node. This does not establish the entire course or account/Drive behavior.\n')
+    (OUT/'standalone-result.txt').write_text('PASS: cold start, 19 correct native answers, Claim XP, return to path, committed completion plus visible10gems/1day streak after process restart, and next lesson selected through the original node. This does not establish the entire course or account/Drive behavior.\n')
 finally:
     (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E','chromium:E'))
     (OUT/'standalone-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))

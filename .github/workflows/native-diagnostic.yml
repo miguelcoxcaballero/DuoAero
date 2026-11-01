@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["s24","google","lesson","accounts","formula"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["s24","google","lesson","accounts","formula","chests"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -81,7 +81,7 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|chests|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
@@ -216,6 +216,9 @@ jobs:
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ ${{ runner.temp }}/duoaero-evidence/google-files || true
               adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/google-logcat.txt
               python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google-restart.txt').read_text()"
+              ;;
+            chests)
+              python native-base/test_chests.py
               ;;
             accounts)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt

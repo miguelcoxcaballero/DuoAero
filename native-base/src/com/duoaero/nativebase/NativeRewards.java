@@ -66,6 +66,13 @@ final class NativeRewards {
   if(bestEnd!=null)lifetime.put("startDate",bestStart.toString()).put("endDate",bestEnd.toString()).put("achieveDate",bestEnd.toString());
   JSONObject streak=new JSONObject().put("length",current).put("updatedTimeZone",zone.getId())
    .put("updatedTimestamp",previous==null?0:previous.atStartOfDay(zone).toEpochSecond()).put("longestStreak",lifetime);
+  if(previous!=null){
+   JSONObject timeline=new JSONObject().put("length",current>0?current:run)
+    .put("startDate",previous.minusDays((current>0?current:run)-1).toString())
+    .put("endDate",previous.toString()).put("lastExtendedDate",previous.toString());
+   // Original header observes UserStreak.currentStreak, not legacy length.
+   streak.put(current>0?"currentStreak":"previousStreak",timeline);
+  }
   if(current>0)streak.put("startTimestamp",previous.minusDays(current-1).atStartOfDay(zone).toEpochSecond());
   profile.put("streakData",streak).put("streak",current)
    .put("gemsConfig",new JSONObject().put("gems",lessons.length()*10).put("gemsPerSkill",10).put("useGems",true))

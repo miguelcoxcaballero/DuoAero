@@ -85,12 +85,31 @@ final class SessionInteraction {
    Thread.sleep(1500);
    SessionScreen.capture(test,"formula-graded-"+i,"formula-graded-"+i);
    NativeMathGrade.require(test,activity,wrong?"INCORRECT":"CORRECT");
+   if(wrong){
+    boolean rendered=false;
+    for(int attempt=0;attempt<30&&!rendered;attempt++){
+     final boolean[] result={false};
+     test.runOnMainSync(()->result[0]=hasFormulaFeedback(activity.getWindow().getDecorView()));
+     rendered=result[0];if(!rendered)Thread.sleep(200);
+    }
+    if(!rendered)throw new IllegalStateException("Incorrect feedback did not render the native LaTeX view");
+    SessionScreen.capture(test,"formula-feedback-rendered","formula-feedback-rendered");
+   }
    android.util.Log.i("DuoAeroProbe","Native formula controller with Aerospace symbolic comparison: "+(wrong?"INCORRECT":"CORRECT")+" at "+i+" source="+answers.getJSONObject(i).getString("id"));
    String action=wrong?"GOT IT":"CONTINUE";
    for(int attempt=0;attempt<150&&!contains(test,action);attempt++)Thread.sleep(200);
    click(test,null,action);Thread.sleep(1200);
   }
   return (wrong?1:answers.length())+" formula selections submitted through native controls; Aerospace symbolic comparison checked against visible original fragment result. No full course acceptance.\n";
+ }
+ private static boolean hasFormulaFeedback(android.view.View view){
+  if(view.getClass().getName().equals("com.duolingo.feature.math.ui.figure.MathLatexView"))try{
+   Object latex=view.getClass().getMethod("getLatexString").invoke(view);
+   if(latex!=null&&latex.toString().contains("q=\\frac{1}{2}"))return view.isShown();
+  }catch(Exception ignored){}
+  if(view instanceof android.view.ViewGroup){android.view.ViewGroup group=(android.view.ViewGroup)view;
+   for(int i=0;i<group.getChildCount();i++)if(hasFormulaFeedback(group.getChildAt(i)))return true;}
+  return false;
  }
  static String firstAssistAnswer(Instrumentation test)throws Exception {
   String stem="Which one from the following characteristics does not define the aerospace industry?";
