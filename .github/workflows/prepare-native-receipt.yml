@@ -1,0 +1,44 @@
+name: Prepare unsigned native signing receipt
+on:
+  push:
+    branches: [codex/prepare-sign-1.3.4-native]
+    paths: ['.github/workflows/prepare-native-receipt.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify the exact unsigned candidate
+        run: |
+          gh run download 41327606501 --repo "$GITHUB_REPOSITORY" --name native-production-candidate --dir "$RUNNER_TEMP/candidate"
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          d=pathlib.Path(os.environ['RUNNER_TEMP'])/'candidate'
+          i=json.loads((d/'build-info.json').read_text())
+          r=json.loads((d/'release-input.json').read_text())
+          a=d/'DuoAero-1.3.4-unsigned.apk'
+          assert i['sourceSha']=='eb93c423a60bf74efe85d52c63c978c91efcafd4' and not i['signed']
+          assert r['version']=='1.3.4' and r['versionCode']==10304 and r['implementation']=='native-base'
+          assert hashlib.sha256(a.read_bytes()).hexdigest()==r['sha256']
+          for name,digest in r['sources'].items():
+              assert hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()==digest,name
+          print('Unsigned APK SHA-256:',r['sha256'])
+          print('Verified source inventory entries:',len(r['sources']))
+          PY
+      - name: Publish source-bound receipt on an isolated branch
+        run: |
+          git checkout -b codex/sign-1.3.4-fixed eb93c423a60bf74efe85d52c63c978c91efcafd4
+          cp "$RUNNER_TEMP/candidate/release-input.json" release-input.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add release-input.json
+          git commit -m 'Bind 1.3.4 unsigned candidate to corrected source'
+          git push origin codex/sign-1.3.4-fixed
