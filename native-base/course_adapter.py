@@ -6,8 +6,10 @@ grading. Their runtime acceptance is separate from successful decoding.
 """
 import html
 import json
+import base64
+import re
 from pathlib import Path
-from rich_question import choice_blob, difficulty_stars, content
+from rich_question import choice_blob, difficulty_stars, content, text_latex
 from math_notation import parts as notation_parts
 from formula_exercises import formula_challenge
 
@@ -32,10 +34,21 @@ def challenge(question):
         }
         if question['id'] not in distractors:
             raise ValueError('Gap word bank needs reviewed distractors: ' + question['id'])
-        adapter = dict(question, prefix='Missing word:',
+        adapter = dict(question, prefix='',
                        blocks=[question['answer'][0], *distractors[question['id']]],
                        answer_blocks=[question['answer'][0]])
-        return formula_challenge(adapter, mathematical=False)
+        result = formula_challenge(adapter, mathematical=False)
+        instruction, separator, sentence = question['stem'].partition(':')
+        if not separator or sentence.count('___') != 1:
+            raise ValueError('Gap sentence needs exactly one reviewed placeholder: ' + question['id'])
+        words = [s for s in re.split(r'(\s+|___)', sentence.strip()) if s and not s.isspace()]
+        parts = [s if s == '___' else text_latex(s) for s in words]
+        payload = base64.b64encode(json.dumps(parts, ensure_ascii=False).encode('utf-8')).decode('ascii')
+        prompt = result['promptInputChallenge']['prompt']
+        prompt['instruction']['text'] = difficulty_stars(question) + ' ' + instruction
+        prompt['body'] = {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {
+            'text': 'duoaero-latex:duoaero-gap:' + payload}}
+        return result
     if kind == 'order':
         adapter = dict(question, prefix='Sequence:', blocks=question['items'],
                        answer_blocks=[question['items'][i] for i in question['answer']])

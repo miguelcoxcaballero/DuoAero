@@ -8,7 +8,10 @@ Atmosphere lesson including a wrong/retried answer, and checks the next lesson
 before and after restart. Android run 41320924521 is in progress on 7131467.
 The mascot build no longer replaces the nested EpicDuo_Eyes artboard with an
 additional full image; motion and the reported overlap remain unverified.
-There is still no inline word-gap fix: do not claim it is complete.
+An experimental inline word-gap implementation composes native figures and
+the native token slot in a wrapping row; it requires mixed-question device
+interaction, screenshots, font-size/night checks and full Atmosphere testing.
+Do not claim the word-gap issue is fixed based on serialization or build alone.
 
 Run 41319899762 PASS: first midterm visible in the original section selector.
 Run 41319592007 formula and chest scenarios PASS: adjacent one-token formula,

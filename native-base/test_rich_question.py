@@ -39,6 +39,15 @@ assert math.isclose(pressure(0), 1.0)
 assert math.isclose(derivative, -g/(gas_constant*temperature0*math.exp(-k*altitude)), rel_tol=1e-8)
 
 from formula_exercises import formula_challenge, prototypes
+from course_adapter import challenge
+import base64
+for gap in (q for q in bank if q['type'] == 'gap'):
+    prompt = challenge(gap)['promptInputChallenge']['prompt']
+    assert 'Missing word:' not in json.dumps(prompt)
+    marker = prompt['body']['taggedTextElement']['text']
+    assert marker.startswith('duoaero-latex:duoaero-gap:')
+    pieces = json.loads(base64.b64decode(marker.split('duoaero-gap:', 1)[1]))
+    assert pieces.count('___') == 1 and pieces.index('___') > 0
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']

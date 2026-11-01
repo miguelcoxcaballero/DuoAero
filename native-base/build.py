@@ -331,15 +331,35 @@ inline_prompt='    invoke-static/range {v8 .. v20}, Ljvo;->a(Lcom/duolingo/core/
 inline_slots='    invoke-static/range {v16 .. v26}, Lfz0;->d(Ljava/util/List;Lqqh;Lqqh;ZZLz5q;FZLs6p;Lo18;I)V'
 assert inline_text.count(inline_prompt)==inline_text.count(inline_slots)==1
 assert inline_text.count('    .locals 32')==1
-inline_text=inline_text.replace('    .locals 32','    .locals 33')
-inline_text=inline_text.replace(inline_prompt,"    move-object/from16 v9, v18\n    invoke-static {v8, v9}, Lcom/duoaero/nativebase/NativeInlineFormula;->begin(Ljava/lang/Object;Ljava/lang/Object;)Z\n    move-result v32\n    const/4 v9, 0x0\n"+inline_prompt)
+inline_text=inline_text.replace('    .locals 32','    .locals 34')
+inline_begin="""    move-object/from16 v33, v8
+    invoke-static {v8}, Lcom/duoaero/nativebase/NativeInlineGap;->isGap(Ljava/lang/Object;)Z
+    move-result v9
+    if-eqz v9, :duoaero_not_gap
+    const/16 v32, 0x2
+    goto :duoaero_gap_figure_done
+    :duoaero_not_gap
+    move-object/from16 v9, v18
+    invoke-static {v8, v9}, Lcom/duoaero/nativebase/NativeInlineFormula;->begin(Ljava/lang/Object;Ljava/lang/Object;)Z
+    move-result v32
+    const/4 v9, 0x0
+"""
+inline_text=inline_text.replace(inline_prompt,inline_begin+inline_prompt+"\n    :duoaero_gap_figure_done\n")
 inline_slot_modifier="""    move/from16 v0, v32
     if-eqz v0, :duoaero_original_slot_width
     sget-object v0, Lw5q;->a:Lw5q;
     move-object/from16 v21, v0
     :duoaero_original_slot_width
 """
-inline_text=inline_text.replace(inline_slots,inline_slot_modifier+inline_slots+"\n    move/from16 v0, v32\n    invoke-static {v0, v11}, Lcom/duoaero/nativebase/NativeInlineFormula;->end(ZLjava/lang/Object;)V\n")
+inline_gap="""    move/from16 v0, v32
+    const/4 v1, 0x2
+    if-ne v0, v1, :duoaero_regular_slots
+    move-object/from16 v15, v33
+    invoke-static/range {v15 .. v26}, Lcom/duoaero/nativebase/NativeInlineGap;->render(Ljava/lang/Object;Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;ZZLjava/lang/Object;FZLjava/lang/Object;Ljava/lang/Object;I)V
+    goto :duoaero_slots_done
+    :duoaero_regular_slots
+"""
+inline_text=inline_text.replace(inline_slots,inline_gap+inline_slot_modifier+inline_slots+"\n    move/from16 v0, v32\n    invoke-static {v0, v11}, Lcom/duoaero/nativebase/NativeInlineFormula;->end(ZLjava/lang/Object;)V\n    :duoaero_slots_done\n")
 chest_source=SMALI/'smali_classes7/zit.smali'
 chest_original=chest_source.read_bytes()
 chest_text=chest_original.decode('utf-8').replace('\r\n','\n')
