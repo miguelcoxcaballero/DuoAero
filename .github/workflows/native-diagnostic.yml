@@ -243,6 +243,7 @@ jobs:
               ;;
             mixed)
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
+              python native-base/test_match_layout.py
               ;;
             standalone|s24|resume|mistakes|review)
               if [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_TEST_RESUME=1; fi

@@ -12,16 +12,16 @@ overlapping mascots. The original Rive scene has a moving character layer and
 a separate sparkle-only instance of the same artboard. The build now hides
 only secondary Duo instances in that scene while preserving the moving ones;
 actual Android frames after this change remain unverified.
-An experimental inline word-gap implementation composes native figures and
-the native token slot in a wrapping row; it requires mixed-question device
-interaction, screenshots, font-size/night checks and full Atmosphere testing.
-Do not claim the word-gap issue is fixed based on serialization or build alone.
+The inline word-gap implementation composes native figures and token slots in
+a wrapping row. Run 41323278505 mixed PASS graded both gap exercises through
+the native controls; screenshots show the selected word in its sentence.
+Night mode and large-font layout still need checking.
 
 Run 41319899762 sections was a FALSE POSITIVE: its screenshot still showed
-the home header. Run 41320627280 then reproduced a real crash: the original
-tab component rejects a single tab. The build now scopes a one-tab allowance
-to the local course. Run 41322254301 shows the real native selector and its
-Midterm 1 card; selecting that row back to the path still needs a device run.
+the home header. Run 41320627280 reproduced a real single-tab crash. The build
+now scopes a one-tab allowance to the local course. Run 41323886585 sections
+PASS: real native picker shows DuoAero, first-midterm icon 1, and tapping the
+midterm row returns to the path.
 Run 41319592007 formula and chest scenarios PASS: adjacent one-token formula,
 five-token layout and grading, and visible +25 gems with seeded prerequisites
 persisting through restart. Its s24 scenario saved the first lesson but failed
@@ -34,6 +34,12 @@ The pressure example is 10 kPa because the supplied e^(-X) is already 0.50.
 The more complex varying-temperature pressure is typeset and independently
 checked against hydrostatic balance; its device rendering remains unverified.
 Main and the public APK remain v1.3.3; no new signed APK or release is claimed.
+The automatic approval review rejected moving youtube-calma/main to the
+prepared 1.3.4 signing workflow because it accesses the permanent keystore.
+The reviewable detached signing commit is 109125462ad66784f9fce9b2cd2235bb14bd2a79
+(parent 9ce8fbc1b694fcdbeae167e8a42bad09ac1b7fc7). Explicit user approval is
+required before requesting that security-sensitive ref update again; do not
+work around the rejection. A successful unsigned build is not an APK release.
 
 LATEST 1.3.3 (2026-11-01): signed development prerelease v1.3.3 uploaded.
 Exact APK SHA256 8e29ae119a4752bbacb4549109dccf13a1bb25f4626fac6bbdaf3b89ff5a8283.
