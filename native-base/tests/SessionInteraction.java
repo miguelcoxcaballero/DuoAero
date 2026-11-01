@@ -226,7 +226,10 @@ final class SessionInteraction {
    if(i<selections.length()-1)Thread.sleep(1000);
   }
   if(hintRetry){
-   for(int attempt=0;attempt<150&&!contains(test,"Density");attempt++)Thread.sleep(200);
+   for(int attempt=0;attempt<150&&!contains(test,"Density");attempt++){
+    if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
+    Thread.sleep(200);
+   }
    if(!contains(test,"Density"))throw new IllegalStateException("Hinted question did not reappear at the end");
    SessionScreen.capture(test,"lesson-hint-retry","lesson-hint-retry");
    click(test,"com.duolingo:id/mathCard","\\textstyle "+contentDensity());
