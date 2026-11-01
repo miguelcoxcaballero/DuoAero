@@ -8743,6 +8743,13 @@
   "formula_hint": {
     "latex": "q=\\frac12\\rho V^2",
     "prerequisite": "BOOK-V6-02-D1"
+  },
+  "rich_text": {
+    "explanation": [
+      {
+        "latex": "q=\\frac12(1)(100)^2=5000\\,\\mathrm{Pa}=5\\,\\mathrm{kPa}"
+      }
+    ]
   }
 },
   {
