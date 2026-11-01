@@ -10,12 +10,16 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean defaultExperiments=false;
  private boolean earlySetup=false;
  private boolean nativeCourseCache=false;
+ private boolean fullCoursePath=false;
+ private boolean captureHome=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
  public void onCreate(Bundle args){
   if(args!=null){courseId=args.getString("course_id",courseId);defaultExperiments="native-defaults".equals(args.getString("experiments"));earlySetup="early".equals(args.getString("bootstrap"));}
-  nativeCourseCache=args!=null&&"native-minimal".equals(args.getString("course_cache"));
+  fullCoursePath=args!=null&&"native-full".equals(args.getString("course_cache"));
+  nativeCourseCache=fullCoursePath||(args!=null&&"native-minimal".equals(args.getString("course_cache")));
+  captureHome=args!=null&&"true".equals(args.getString("capture_home"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
@@ -67,7 +71,7 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
   if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
   Object observedVm=activity.getMethod("J").invoke(current);
-  if(nativeCourseCache){report.append(LocalCourseCache.install(getTargetContext(),observedVm));Thread.sleep(12000);}
+  if(nativeCourseCache){report.append(LocalCourseCache.install(getTargetContext(),observedVm,fullCoursePath));Thread.sleep(12000);}
   try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
    Thread.sleep(5000);
    report.append(dependencies.report());
@@ -103,9 +107,22 @@ public final class UserSessionProbe extends Instrumentation {
   });
   if(snapshotError.get()!=null)throw new IllegalStateException("Cannot inspect original session state",snapshotError.get());
   android.util.Log.i("DuoAeroProbe",report.toString());
+  Object sessionLoader=observedVm.getClass().getField("j").get(observedVm);
+  Object javascript=sessionLoader.getClass().getField("k").get(sessionLoader);
+  Object sandboxFactory=javascript.getClass().getField("c").get(javascript);
+  Object sandbox=sandboxFactory.getClass().getField("f").get(sandboxFactory);
+  java.util.Map<?,?> executionContexts=(java.util.Map<?,?>)javascript.getClass().getField("f").get(javascript);
+  report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,interaction.equals("math-wrong")));
+  if(captureHome){
+   runOnMainSync(current::finish);
+   Thread.sleep(12000);
+   android.app.Activity home=resumed.get();
+   report.append("After finishing diagnostic session activity, resumed: ").append(home==null?"none":home.getClass().getName()).append('\n');
+   SessionScreen.capture(this,"home-diagnostic","home-view-tree");
+  }
   completed=true;
   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert lesson rendering or grading.\n");
  }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}

@@ -36,13 +36,15 @@
     "session_activity_created_and_resumed": true,
     "first_aerospace_question_rendered_in_isolated_probe": true,
     "first_native_assist_correct_feedback": true,
-    "native_selectone_plain_question_rendered_in_isolated_probe": true
+    "native_selectone_plain_question_rendered_in_isolated_probe": true,
+    "native_assist_advanced_to_second_question": true,
+    "first_native_formula_question_rendered_after_error_skip": true
   },
   "not_verified_or_incomplete": [
-    "First Aerospace question now renders through the original SessionActivity in isolated instrumentation with native course cache input. Answering, completion and normal app startup remain unverified.",
+    "Original Aerospace questions render in isolated instrumentation; Assist grades its first correct answer and advances. Native Math blob grading currently displays an error and skips the question. No full lesson completion or normal app startup verified.",
     "Original learning path not yet connected to Aerospace data.",
     "Five gap/order questions still lack native grading adapters.",
-    "Three rich-text choice questions now use the original mathChallengeBlob selectOne model; end-to-end rendering remains unverified because SessionActivity is blank.",
+    "First rich formula question visibly rendered after error-and-skip. Math grading, all rich questions, explanation layout, font scaling and overflow remain incomplete.",
     "Google/Drive integration is not connected to this native base.",
     "Updater, mascot replacement, full screen comparison, audio/haptics/night-mode and text-overflow regression checks remain."
   ],
@@ -65,8 +67,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Exercise original answer/continue controls, replace language-specific assist instruction with suitable native question model, then move isolated profile/course setup into actual app bootstrap.",
-    "scope": "Corrected native Math profile and native course cache input: first original math question and first Aerospace assist question visibly rendered. No normal app startup, grading or course completion verified."
+    "next_required_integration": "Use original Math lesson type and skillId to initialize MathSessionCoordinator JavaScript sandbox; test actual correct/incorrect feedback before claiming grading. Connect full path and standalone bootstrap afterwards.",
+    "scope": "Original questions render in isolated instrumentation. Assist first correct answer and advancement verified; native Math grading error observed. No complete lesson or standalone app."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -154,6 +156,14 @@
       "native_selectone_result": "Original mathChallengeBlob selectOne renders the same question cleanly, without the language prefix. Entire first stem and four options are visible. Screenshot inspected.",
       "limits": "No native Math grading, formula question rendering, full lesson completion, persistence or normal app bootstrap verified.",
       "next_test": "Locate the native graded Continue by its visible text, exercise correct/wrong native Math answers, then capture the following formula question."
+    },
+    "math_grading_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41255504181",
+      "assist": "Original correct feedback followed by second Aerospace question.",
+      "math": "Both correct and wrong selections show Oops! Something went wrong / Lets skip this exercise for now. Clicking Continue skips to next question; it is NOT successful grading.",
+      "formula": "First Breguet question rendered with fractions, subscripts and all four answers after skip. Screenshot inspected; no grading or full layout acceptance.",
+      "source_finding": "MathSessionCoordinator s4p.a initializes native JS context only for Session.Type.F1() skillId. Diagnostic blob asset incorrectly used GLOBAL_PRACTICE (F1=null). Next test supplies MATH_LESSON and skillId; no forced grader or readiness state.",
+      "pending_path": "42 units/nodes, 81 lessons, all 1200 source IDs mapped once. Native model decode, path UI and navigation not yet verified."
     }
   }
 }

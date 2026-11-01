@@ -35,6 +35,8 @@ final class SessionInteraction {
   click(test,"com.duolingo:id/submitButton",null);
   Thread.sleep(1200);
   SessionScreen.capture(test,"interaction-submitted","interaction-submitted");
+  if(contains(test,"Something went wrong")||contains(test,"skip this exercise"))
+   throw new IllegalStateException("Native Math grading failed; error-and-skip must not count as answer acceptance");
   if(!hasContinue(test))throw new IllegalStateException("Native grading did not expose Continue");
   click(test,null,"CONTINUE");
   Thread.sleep(1500);

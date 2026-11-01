@@ -6,9 +6,9 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 import org.json.*;
 
-/** Diagnostic native cache input. Empty path, not an Aerospace course or UI. */
+/** Diagnostic native cache input. Model decoding is not path/UI acceptance. */
 final class LocalCourseCache {
- static String install(Context context,Object viewModel)throws Exception {
+ static String install(Context context,Object viewModel,boolean fullPath)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Object app=context.getApplicationContext();
   Object component=app.getClass().getMethod("generatedComponent").invoke(app);
@@ -24,10 +24,15 @@ final class LocalCourseCache {
    .put("subject","math").put("topic","math")
    .put("learningLanguage","en").put("fromLanguage","en")
    .put("activePathSectionId",sectionId).put("pathSectionsSummary",new JSONArray());
+  JSONObject sectionJson=new JSONObject().put("id",sectionId).put("index",0).put("units",new JSONArray());
+  if(fullPath){
+   course=assetJson(context,"duoaero/course/path-info.json");
+   sectionJson=assetJson(context,"duoaero/course/section.json");
+   sectionId=sectionJson.getString("id");
+  }
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());
   if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo; got "+info.getClass().getName());
-  JSONObject sectionJson=new JSONObject().put("id",sectionId).put("index",0).put("units",new JSONArray());
   Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionJson.toString());
   Object courseRepository=field(field(viewModel,"j"),"f");
   Object cache=field(courseRepository,"m");
@@ -41,7 +46,14 @@ final class LocalCourseCache {
   // Publish the section first so the original course observer can resolve it.
   write(loader,cache,sectionResource,section);
   write(loader,cache,infoResource,info);
-  return "Native cache input: original Math CoursePathInfo and empty CoursePathSection. No learning-path units supplied.\n";
+  return "Native cache input: original Math CoursePathInfo and CoursePathSection with "+sectionJson.getJSONArray("units").length()+" units. This does not prove home/path rendering or lesson navigation.\n";
+ }
+ private static JSONObject assetJson(Context context,String name)throws Exception {
+  try(java.io.InputStream stream=context.getAssets().open(name)){
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[8192];int n;
+   while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);
+   return new JSONObject(new String(bytes.toByteArray(),"UTF-8"));
+  }
  }
  private static Object field(Object owner,String name)throws Exception{return owner.getClass().getField(name).get(owner);}
  private static Object serializer(ClassLoader loader,String name)throws Exception {

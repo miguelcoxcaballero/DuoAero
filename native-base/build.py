@@ -37,6 +37,7 @@ try:
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes4',WORK/'classes4.dex')
 finally:p.write_bytes(old)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
+run(sys.executable,ROOT/'native-base/path_adapter.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
  out.writestr('AndroidManifest.xml',res.read('AndroidManifest.xml'))
  for entry in base.infolist():
@@ -57,8 +58,16 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  sample_ids={q['id'] for q in sample}
  sample.extend(q for q in plain_sample[1:] if q['id'] not in sample_ids)
  assert all(q['type']=='choice' for q in sample) and 10<=len(sample)<=20
- rich_session={'id':'duoaero_native_rich_diagnostic','type':'GLOBAL_PRACTICE','fromLanguage':'en','learningLanguage':'en','challenges':[choice_blob(q) for q in sample]}
+ # MathSessionCoordinator starts the original JS sandbox only when the
+ # original session type supplies a skill ID (Session.Type.F1). A language
+ # GLOBAL_PRACTICE session can render blobs but skips their grader startup.
+ rich_session={'id':'duoaero_native_rich_diagnostic','type':'MATH_LESSON','fromLanguage':'en',
+  'skillId':'duoaero_aerospace_diagnostic','levelIndex':0,'levelSessionIndex':0,
+  'metadata':{'id':'duoaero_native_rich_diagnostic','type':'math_lesson'},
+  'challenges':[choice_blob(q) for q in sample]}
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
+ for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
+  out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
 run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
 print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')

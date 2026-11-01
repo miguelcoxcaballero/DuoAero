@@ -229,3 +229,26 @@ formula rendering. The next probe selects correct and wrong answers through
 native Math cards, clicks Check/Continue, and captures the next formula question.
 Screenshots and accessibility evidence are retained alongside these reports:
 `first-aerospace-native.png`, `first-native-correct-answer.png`, `native-selectone.png`.
+
+
+[Grading diagnostic 41255504181](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41255504181)
+advanced the Assist fixture to its second question. However **both Math answer
+attempts failed native grading**: screenshots show “Oops! Something went wrong”
+and “Let’s skip this exercise for now”. Continue skips to the next formula;
+the collection marker and next-option presence do not establish successful grading.
+The Breguet stem and four fractional answer choices visibly render, with layout
+and font-scale QA still pending. The interaction probe now rejects this error UI.
+
+Source trace: `s4p.a` (MathSessionCoordinator) waits for the original loaded Session
+and initializes `g5l.b` for the SESSION execution context only if `Session.Type.F1()`
+returns a skill ID. `GLOBAL_PRACTICE` returns null. The next fixture uses the
+original `MATH_LESSON` type, metadata and skillId, matching the original reference.
+The probe also reports native sandbox presence and registered execution contexts.
+This is an input correction, not an injected grader or forced readiness state.
+
+`path_adapter.py` maps the existing 42 topic nodes and 81 lessons into native Math
+path data, validates that all 1200 IDs appear exactly once, and preserves source
+lesson grouping. `course_cache=native-full` writes those original decoded models
+through the same cache descriptors. `capture_home=true` finishes the diagnostic
+SessionActivity and captures the resumed original activity. Native path decoding,
+home rendering and node navigation are separate outcomes, all pending this test.

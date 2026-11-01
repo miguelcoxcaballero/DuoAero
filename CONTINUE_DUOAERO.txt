@@ -16,12 +16,14 @@ Next: loading/view readiness, not forcing flags. s2/l4 are auxiliary fields, not
 the Session model. No playable lesson or production APK exists.
 
 LATEST VISIBLE RESULT (2026-11-01)
-Run 41254218442 rendered the first original math question and first Aerospace
-question after supplying correctly typed Math course data through original
-cache descriptors. No readiness flags were forced. The Aerospace assist UI
-adds an unsuitable How do you say prefix. Answering, completion, normal app
-bootstrap, the full path and production APK remain unverified. See status.json
-and REPRODUCING.md for the exact input, evidence and next interaction test.
+Run 41255504181 confirms first Assist correct feedback and advancement. The native
+Math blob renders ordinary and formula questions, but BOTH answer attempts show
+Something went wrong and skip. Advancing does NOT prove grading. The diagnostic
+asset used GLOBAL_PRACTICE, which omits the skill ID needed by the original
+MathSessionCoordinator JS sandbox. Next test uses MATH_LESSON and skillId.
+Full path data is prepared (42 nodes/81 lessons/1200 IDs), not runtime-verified.
+No full lesson completion, normal bootstrap, persistence or production APK.
+See native-base/status.json and REPRODUCING.md for exact evidence and limits.
 
 START HERE
 Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
