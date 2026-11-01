@@ -50,6 +50,7 @@ jobs:
           python tests/validate_bank.py
           python native-base/test_session_ids.py
           python native-base/test_mascot_animation.py
+          python native-base/test_static_moods.py
           node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
           python native-base/course_adapter.py
           python native-base/build.py

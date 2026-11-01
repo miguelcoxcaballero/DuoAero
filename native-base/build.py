@@ -6,7 +6,7 @@ from math_notation import parts as notation_parts
 from course_adapter import session as native_session, lesson_questions
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
-from resource_extension import updater_paths, launcher_mascot, scene_mascot, MASCOT_PATH, SCENE_MASCOT_PATH
+from resource_extension import updater_paths, launcher_mascot, scene_mascot, mood_scenes, MOOD_SCENES, MASCOT_PATH, SCENE_MASCOT_PATH
 from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
@@ -70,11 +70,16 @@ E.SubElement(app,'receiver',{A+'name':'com.inhouse.services.updater.InstallRecei
 provider=E.SubElement(app,'provider',{A+'name':'com.inhouse.services.updater.UpdateFileProvider',A+'authorities':package+'.update-provider',A+'exported':'false',A+'grantUriPermissions':'true'})
 E.SubElement(provider,'meta-data',{A+'name':'android.support.FILE_PROVIDER_PATHS',A+'resource':'@xml/inhouse_update_paths'})
 tree.write(WORK/'AndroidManifest.xml',encoding='utf-8',xml_declaration=True)
+def extended_scene_table(table):
+ table,_=updater_paths(table)
+ table,_=scene_mascot(table)
+ return mood_scenes(table)[0]
 with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk','w') as reference:
  for entry in base.infolist():
-  reference.writestr(entry,scene_mascot(updater_paths(base.read(entry))[0])[0] if entry.filename=='resources.arsc' else base.read(entry))
+  reference.writestr(entry,extended_scene_table(base.read(entry)) if entry.filename=='resources.arsc' else base.read(entry))
  reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  reference.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
+ for mood,source in MOOD_SCENES.items():reference.write(ROOT/'app/assets/mascot'/source,'res/drawable/duoaero_scene_'+mood+'.png')
 run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--rename-manifest-package',package,'--no-auto-version')
 # Keep Snoopy's close-up inside Android's adaptive circular safe zone.
 launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
@@ -497,6 +502,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
    table,scene_id=scene_mascot(table)
+   table,mood_ids=mood_scenes(table)
    assert resource_id==0x7f160016
    branded,branding_report=rebrand_table(launcher_mascot(table),mascot_paths)
    (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
@@ -515,6 +521,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  out.write(ROOT/'app/assets/mascot/launcher.png',MASCOT_PATH)
  out.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
+ for mood,source in MOOD_SCENES.items():out.write(ROOT/'app/assets/mascot'/source,'res/drawable/duoaero_scene_'+mood+'.png')
  out.writestr(LOGO_PATH,wordmark_xml_bytes)
  for path,xml in mascot_xml_bytes.items():out.writestr(path,xml)
  for asset in (ROOT/'app/assets/updates').iterdir():
