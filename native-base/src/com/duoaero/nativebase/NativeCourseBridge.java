@@ -24,6 +24,25 @@ public final class NativeCourseBridge {
  public static void reportGradingFailure(Throwable error){
   if(localOnly&&captureLocalRequests)Log.e("DuoAeroNative","Original Math grader failed",error);
  }
+ /** Give original native cards a semantic label for marked LaTeX blocks. */
+ public static String formulaAccessibility(Object figure){
+  if(!hasLocalCourse()||figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$LatexString"))return null;
+  try{
+   Object entity=field(figure,"f");if(entity==null)return null;
+   String kind=entity.getClass().getName();
+   if(kind.endsWith("MathEntity$Algebraic")){
+    String name=(String)field(entity,"a");return name.startsWith("duoaero:")?name.substring(8):null;
+   }
+   if(kind.endsWith("MathEntity$Symbol")){
+    String name=((Enum<?>)field(entity,"a")).name();
+    if(name.equals("MULTIPLICATION"))return "×";
+    if(name.equals("DIVISION"))return "÷";
+    if(name.equals("ADDITION"))return "+";
+    if(name.equals("EQUALITY"))return "=";
+   }
+   return null;
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot describe Aerospace formula block",error);}
+ }
  /** Decode explicitly marked formula figures using the original LaTeX renderer.
   * The original optional MathEntity is retained for native slot grading.
   */

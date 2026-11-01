@@ -6,17 +6,24 @@ import android.util.Log;
 
 /** Standalone integration of the native repositories. No replacement screens. */
 public final class NativeBootstrap {
- private static boolean started;
- public static synchronized void start(Application app){
-  // Enabled only in an explicitly built standalone diagnostic until cold-start
-  // and persistent-account acceptance passes. Ordinary probes stay isolated.
+ private static boolean prepared,finished;
+ public static synchronized void prepare(Application app){
   try(java.io.InputStream marker=app.getAssets().open("duoaero/standalone-bootstrap")){}
   catch(java.io.IOException disabled){return;}
-  if(started||NativeCourseBridge.localOnly)return;
-  started=true;
+  if(prepared||NativeCourseBridge.localOnly)return;
+  try{
+   // Seed the real login/user cache before DuoApp captures its startup state.
+   // Late input was verified to leave a cold launcher on the welcome screen.
+   NativeLocalProfile.install(app,"MATH_BT",true);
+   prepared=true;
+   Log.i("DuoAeroNative","Standalone profile prepared before original application startup");
+  }catch(Exception error){throw new IllegalStateException("Cannot prepare local course identity",error);}
+ }
+ public static synchronized void start(Application app){
+  if(!prepared||finished)return;
+  finished=true;
   long begin=SystemClock.elapsedRealtime();
   try{
-   NativeLocalProfile.install(app,"MATH_BT",true);
    NativeLocalConfig.install(app);
    NativeLocalCache.install(app,true);
    NativeCourseBridge.localCourseInstalled=true;

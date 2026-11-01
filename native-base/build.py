@@ -67,6 +67,9 @@ bootstrap_text=bootstrap_original.decode('utf-8').replace('\r\n','\n')
 bootstrap_anchor='    invoke-static {v0}, Lio/sentry/android/core/performance/f;->e(Lcaj;)V\n\n    return-void'
 assert bootstrap_text.count(bootstrap_anchor)==1
 bootstrap_hook='    invoke-static {v0}, Lio/sentry/android/core/performance/f;->e(Lcaj;)V\n\n    invoke-static {v0}, Lcom/duoaero/nativebase/NativeBootstrap;->start(Landroid/app/Application;)V\n\n    return-void'
+bootstrap_entry='.method public final onCreate()V\n    .locals 26\n\n    move-object/from16 v0, p0'
+assert bootstrap_text.count(bootstrap_entry)==1
+bootstrap_text=bootstrap_text.replace(bootstrap_entry,bootstrap_entry+'\n\n    invoke-static {v0}, Lcom/duoaero/nativebase/NativeBootstrap;->prepare(Landroid/app/Application;)V')
 try:
  bootstrap_source.write_text(bootstrap_text.replace(bootstrap_anchor,bootstrap_hook),encoding='utf-8')
  latex_source.write_text(latex_text.replace(latex_anchor,latex_hook+latex_anchor),encoding='utf-8')
@@ -126,11 +129,24 @@ symbol_hook='''
     const/4 v0, 0x6
     const/4 v1, 0x0
 '''
+accessibility_source=SMALI/'smali_classes6/gvo.smali'
+accessibility_original=accessibility_source.read_bytes()
+accessibility_text=accessibility_original.decode('utf-8').replace('\r\n','\n')
+accessibility_anchor='    invoke-interface {p0}, Lcom/duolingo/core/math/models/figure/MathFigureUiState;->r1()Ljava/lang/String;'
+assert accessibility_text.count(accessibility_anchor)==1
+accessibility_hook="""    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaAccessibility(Ljava/lang/Object;)Ljava/lang/String;
+    move-result-object v0
+    if-eqz v0, :duoaero_original_figure_description
+    return-object v0
+    :duoaero_original_figure_description
+"""
 try:
+ accessibility_source.write_text(accessibility_text.replace(accessibility_anchor,accessibility_hook+accessibility_anchor),encoding='utf-8')
  prompt_source.write_text(prompt_text.replace(prompt_anchor,prompt_hook+prompt_anchor),encoding='utf-8')
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ accessibility_source.write_bytes(accessibility_original)
  prompt_source.write_bytes(prompt_original)
  symbol_source.write_bytes(symbol_original)
 # Observe the exception before the original grader maps it to GRADING_ERROR.
@@ -193,7 +209,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
- print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; unsupported gap/order lessons remain unavailable.')
+ print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; runtime navigation and completion require separate acceptance.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')

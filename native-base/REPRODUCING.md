@@ -432,3 +432,9 @@ and lesson button. It captures home/popup/question and crash/ANR evidence, witho
 instrumenting or injecting app state. The standalone matrix build is enabled
 explicitly; other diagnostic variants retain their prior initialization. A local
 build is not evidence that standalone initialization succeeds at runtime.
+
+Cold-start finding: run 41266619470 initialized caches but showed Welcome. The
+initializer now seeds only the native identity before DuoApp.onCreate, then seeds
+course/configuration after original startup. The first-node instrumentation probe
+now attempts all questions and Claim XP through original controls, rather than
+asserting only that a first question appeared. This is not yet a passing result.

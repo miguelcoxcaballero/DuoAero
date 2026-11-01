@@ -20,7 +20,7 @@ final class SessionInteraction {
   String[][] answers=wrong?new String[][]{{"V"}}:new String[][]{{"V²"},{"ρ","×","R_a","×","T"}};
   for(int i=0;i<answers.length;i++){
    SessionScreen.capture(test,"formula-prompt-"+i,"formula-prompt-"+i);
-   for(String token:answers[i]){clickLast(test,formulaLabel(token));Thread.sleep(500);}
+   for(String token:answers[i]){clickLast(test,token);Thread.sleep(500);}
    SessionScreen.capture(test,"formula-selected-"+i,"formula-selected-"+i);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1500);
@@ -81,8 +81,14 @@ final class SessionInteraction {
    +"Next formula question option visible: "+contains(test,nextOption)+". Inspect grading and formula screenshots; no session completion or persistence asserted.\n";
  }
  static String allMathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
+  return allMathAnswers(test,activity,"rich-session-selections.json",true);
+ }
+ static String allPathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
+  return allMathAnswers(test,activity,"path-session-selections.json",false);
+ }
+ private static String allMathAnswers(Instrumentation test,android.app.Activity activity,String selectionAsset,boolean checkRichLayout)throws Exception {
   String payload;
-  try(java.io.InputStream input=test.getContext().getAssets().open("rich-session-selections.json")){
+  try(java.io.InputStream input=test.getContext().getAssets().open(selectionAsset)){
    java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
    while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
    payload=new String(bytes.toByteArray(),"UTF-8");
@@ -96,8 +102,8 @@ final class SessionInteraction {
     if(attempt%10==9&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(i>=1&&i<=3)SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
-   if(i==2){
+   if(checkRichLayout&&i>=1&&i<=3)SessionScreen.capture(test,"lesson-prompt-"+i,"lesson-prompt-"+i);
+   if(checkRichLayout&&i==2){
     AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
     boolean scrolled=false;
     if(root!=null)try{scrolled=scrollForward(root,0);}finally{root.recycle();}
@@ -158,9 +164,6 @@ final class SessionInteraction {
    if(button==null)return false;
    try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
   }finally{root.recycle();}
- }
- private static String formulaLabel(String token){
-  return "\\textstyle "+token.replace("ρ","\\rho ").replace("²","^2").replace("×","\\times ");
  }
  // The same label may already be in an answer slot. The bank is the last
  // matching native control in traversal order; select it rather than removing

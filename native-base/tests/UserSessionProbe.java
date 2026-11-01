@@ -165,7 +165,13 @@ public final class UserSessionProbe extends Instrumentation {
     }
    }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
-   if(interaction.equals("path-first"))report.append(SessionInteraction.firstPathNode(this));
+   if(interaction.equals("path-first")){
+    report.append(SessionInteraction.firstPathNode(this));
+    android.app.Activity pathSession=resumed.get();
+    if(pathSession==null||!activity.isInstance(pathSession))throw new IllegalStateException("Original path session did not resume");
+    report.append(SessionInteraction.allPathAnswers(this,pathSession));
+    report.append(SessionInteraction.claimXp(this));
+   }
   }
   completed=true;
   report.append("Isolated request counts (no query, headers or body): ")

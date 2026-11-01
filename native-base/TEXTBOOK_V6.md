@@ -99,3 +99,18 @@ errors rather than uncaught reflective proxy exceptions. The multi-slot UI now
 selects all five intended blocks, but grades them incorrect. Strict model decoding
 finds eight malformed list entities: their serialized key is `list`, not
 `mathList`. That schema is corrected before another native decode/UI check.
+
+Run 41266446032 visibly renders the formula fraction, Greek rho, superscripts and
+subscripts using the original LaTeX renderer. Its original cards have no semantic
+labels, so the test cannot select them by content. A scoped gvo description hook
+now supplies labels from the original underlying entities; no answer injection.
+
+Run 41266619470 cold-starts the APK and initializes profile/course in 600 ms, but
+remains at the original welcome screen. This is NOT standalone acceptance. The
+profile seed now runs before original DuoApp startup captures its identity; the
+course/configuration caches finish after original onCreate. Pending cold-start UI.
+
+Gap exercises now use original one-slot word banks with reviewed distractors;
+ordering exercises use original expression-build slots with strict sequence
+comparison. All 1,200 models and all 79 sessions are generated, but native decoding,
+gap/order layout and mixed-question completion must pass before acceptance.

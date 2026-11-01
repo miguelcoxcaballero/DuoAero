@@ -32,7 +32,7 @@ public final class ModelProbe extends Instrumentation {
     byte[] buffer=new byte[8192];int n;while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);
    }
    JSONArray sessions=new JSONArray(bytes.toString("UTF-8"));
-   if(sessions.length()!=1195)throw new AssertionError("Expected 1195 supported question fixtures");
+   if(sessions.length()!=1200)throw new AssertionError("Expected 1200 supported question fixtures");
    for(int i=0;i<sessions.length();i++) {
     JSONObject input=sessions.getJSONObject(i);
     try {
@@ -47,7 +47,7 @@ public final class ModelProbe extends Instrumentation {
    }
   }catch(Throwable error){failed++;report.append(android.util.Log.getStackTraceString(error));}
   report.append("Native model decoding: ").append(passed).append(" passed, ").append(failed).append(" failed.\n");
-  report.append("Does not verify rendering, grading, progression, or the five unsupported gap/order questions.\n");
+  report.append("Does not verify rendering, grading, progression, or layout of gap/order questions.\n");
   output.putString("stream",report.toString());output.putInt("passed",passed);output.putInt("failed",failed);
   finish(failed==0?-1:0,output);
  }

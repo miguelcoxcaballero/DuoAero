@@ -26,5 +26,13 @@ with zipfile.ZipFile(W/'tests.apk','a') as z:
   rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
   selections.append({'id':question['id'],'answer':content(rich[index],question['options'][index])})
  z.writestr('assets/rich-session-selections.json',json.dumps(selections))
+ plan=json.loads((R/'app/assets/lesson_plan.json').read_text())
+ path_selections=[]
+ for question_id in plan[0]['lessons'][0]['ids']:
+  question=bank[question_id]
+  assert question['type']=='choice', 'Path completion probe needs a reviewed driver for this question type'
+  index=question['answer'];rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
+  path_selections.append({'id':question_id,'answer':content(rich[index],question['options'][index])})
+ z.writestr('assets/path-session-selections.json',json.dumps(path_selections))
 run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',W/'tests-signed.apk',W/'tests.apk')
 if '--build-only' not in sys.argv:run(ADB,'install','-r',W/'tests-signed.apk')

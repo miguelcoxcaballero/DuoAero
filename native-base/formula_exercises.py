@@ -36,7 +36,7 @@ def figure(value, symbolic=False, latex=False):
             'taggedTextElement': {'text': 'duoaero-latex:' + math_latex(value) if latex else html.escape(value)}}
 
 
-def formula_challenge(question):
+def formula_challenge(question, mathematical=True):
     tokens = question['blocks']
     answer = question['answer_blocks']
     if not answer or any(a not in tokens for a in answer):
@@ -54,12 +54,12 @@ def formula_challenge(question):
                'numCorrectAnswersRequired': 1, 'answersMustBeDistinct': False,
                'answersMustBeOrdered': True}
     body = {'underlyingEntity': {'noEntity': {}}, 'mathSequenceElement': {
-        'orientation': 'HORIZONTAL', 'elements': [figure(question['prefix'], latex=True),
+        'orientation': 'HORIZONTAL', 'elements': [figure(question['prefix'], latex=mathematical),
             {'underlyingEntity': {'noEntity': {}}, 'blankElement': {
                 'size': len(answer), 'text': {'text': ''},
                 'accessibilityLabel': 'Missing formula components'}}]}}
     inputs = {'gradingSpecification': grading,
-              'dragChoices': [figure(t, True, latex=True) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
+              'dragChoices': [figure(t, True, latex=mathematical) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
     inputs['slotCount'] = len(answer)
     return {'id': question['id'], 'type': 'mathExpressionBuild',
             'noHint': {}, 'promptInputChallenge': {'prompt': {

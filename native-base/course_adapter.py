@@ -1,7 +1,8 @@
 """Translate supported question data into the original APK's native session models.
 
-This is a model adapter, not a replacement UI. Text-entry and ordering need the
-original grading contract before they can be enabled. Never silently downgrade them.
+This is a model adapter, not a replacement UI. Gap exercises use a native word
+bank; ordering uses the original expression-build slots with strict sequence
+grading. Their runtime acceptance is separate from successful decoding.
 """
 import html
 import json
@@ -21,6 +22,21 @@ def challenge(question):
         return choice_blob(question)
     if kind == 'formula_blocks':
         return formula_challenge(question)
+    if kind == 'gap':
+        distractors = {
+            'INTERACTIVE-1': ['increases', 'stabilizes', 'doubles'],
+            'INTERACTIVE-2': ['density', 'material', 'temperature'],
+        }
+        if question['id'] not in distractors:
+            raise ValueError('Gap word bank needs reviewed distractors: ' + question['id'])
+        adapter = dict(question, prefix='Missing word:',
+                       blocks=[question['answer'][0], *distractors[question['id']]],
+                       answer_blocks=[question['answer'][0]])
+        return formula_challenge(adapter, mathematical=False)
+    if kind == 'order':
+        adapter = dict(question, prefix='Sequence:', blocks=question['items'],
+                       answer_blocks=[question['items'][i] for i in question['answer']])
+        return formula_challenge(adapter, mathematical=False)
     if kind == 'multi':
         result.update(type='mathMultiSelect', noHint={}, promptInputChallenge={
             'prompt': {'instruction': {'text': difficulty_stars(question) + ' Select all correct answers'},

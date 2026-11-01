@@ -214,5 +214,19 @@
     "new_bank_native_decoding_verified": false,
     "first_choice_grading_error_in_latest_run": true,
     "source_title": "Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso"
+  },
+  "current_integration_attempt": {
+    "release_ready": false,
+    "branch": "codex/original-runtime-integration",
+    "requested_final_destination": "main",
+    "standalone_latest_observed": "Original welcome screen despite successful cache initialization; early identity preparation pending UI verification.",
+    "bank_models_generated": 1200,
+    "local_lesson_catalog_generated": 79,
+    "native_decode_latest_observed": "1187 passed, 8 malformed list entities; list key corrected, new decode pending.",
+    "gap_order_adapter": "Native word-bank slots and strict sequence grading implemented; rendering and grading unverified.",
+    "formula_latex_rendered": true,
+    "formula_latex_semantic_card_labels": "Added; runtime selection pending.",
+    "native_first_path_session": "Original POST reached; R8-stripped buffer constructor corrected. Awaiting question and full completion evidence.",
+    "remaining": "Standalone full course, reliable grading, persistent progress/resume/mistakes, Google/Drive, updater, mascot, full audio/haptics/night/text QA, production signing and publication to main."
   }
 }
