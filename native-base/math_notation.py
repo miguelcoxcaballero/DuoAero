@@ -15,13 +15,14 @@ _NAME = r'[A-Za-z][A-Za-z0-9_]*'
 _POWER = r'(?:\^[+-]?\d+(?:\.\d+)?|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)'
 FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])(' + _NAME + r')\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
 _UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
-_SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp'}
+_SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp','mi','mf'}
 _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # Avoid treating English words as products of individual letters. These
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
-    r'(?:rho[012]?|gamma|cp|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'(?:rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
     r'|(?:p|T|g|V|rho)[012]'
     r'|RE'
@@ -34,7 +35,7 @@ TOKEN = re.compile(
 
 
 def symbol(value):
-    assignment = re.fullmatch(r'(rho[012]?|gamma|cp|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
+    assignment = re.fullmatch(r'(rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
     if assignment:
         rhs = assignment.group(2)
         scientific = re.fullmatch(r'(.+)[eE]([+-]?\d+)', rhs)
@@ -46,8 +47,11 @@ def symbol(value):
         return GREEK.get(numeric.group(1), numeric.group(1)) + '_{' + numeric.group(2) + '}'
     if value == 'RE':
         return r'R_{E}'
-    if value in ('cp', 'Tt'):
+    if value in ('cp', 'ce', 'CL', 'CD', 'mi', 'mf', 'Tt'):
         return value[0] + '_{' + value[1] + '}'
+    scientific = re.fullmatch(r'((?:\d+(?:\.\d+)?|\.\d+))[eE]([+-]?\d+)', value)
+    if scientific:
+        return scientific.group(1) + r'\times 10^{' + str(int(scientific.group(2))) + '}'
     if value.startswith('exp(') and value.endswith(')'):
         exponent = re.sub(r'\bln(?=\d)', r'\\ln ', value[4:-1])
         return 'e^{' + exponent + '}'
@@ -67,7 +71,8 @@ def symbol(value):
         return base + '^{' + exponent + '}'
     match = re.fullmatch(r'(.+?)([⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)', value)
     if match:
-        return GREEK.get(match[1], match[1]) + '^{' + match[2].translate(SUPERSCRIPTS) + '}'
+        base = (r'\mathrm{' + match[1] + '}') if len(match[1]) > 1 and match[1] in _UNITS else GREEK.get(match[1], match[1])
+        return base + '^{' + match[2].translate(SUPERSCRIPTS) + '}'
     return GREEK.get(value, value)
 
 
