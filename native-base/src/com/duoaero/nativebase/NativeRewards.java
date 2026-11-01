@@ -15,12 +15,7 @@ final class NativeRewards {
   app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks(){
    public void onActivityResumed(android.app.Activity activity){
     if(!NativeCourseBridge.hasLocalCourse()||activity.getClass().getName().contains("SessionActivity"))return;
-    String account=NativeAccountStore.current(app);
-    refresh.execute(()->{synchronized(NativeAccountStore.LOCK){
-     if(!account.equals(NativeAccountStore.current(app))||!NativeCourseBridge.hasLocalCourse())return;
-     try{NativeLocalProfile.refreshRewards(app);}
-     catch(Exception error){android.util.Log.e("DuoAeroNative","Cannot refresh earned rewards",error);}
-    }});
+    refresh(app,false);
    }
    public void onActivityCreated(android.app.Activity a,android.os.Bundle b){}
    public void onActivityStarted(android.app.Activity a){}
@@ -30,9 +25,23 @@ final class NativeRewards {
    public void onActivityDestroyed(android.app.Activity a){}
   });
  }
+ static void refresh(Application app,boolean path){
+  String account=NativeAccountStore.current(app);
+  refresh.execute(()->{synchronized(NativeAccountStore.LOCK){
+   if(!account.equals(NativeAccountStore.current(app))||!NativeCourseBridge.hasLocalCourse())return;
+   try{NativeLocalProfile.refreshRewards(app);if(path)NativeLocalCache.install(app,true);}
+   catch(Exception error){android.util.Log.e("DuoAeroNative","Cannot refresh earned rewards",error);}
+  }});
+ }
  static JSONObject profile(Application app,JSONObject profile)throws Exception {
   ZoneId zone=ZoneId.systemDefault();
-  return project(NativeSessionStore.exportCompletions(app),profile,zone,LocalDate.now(zone));
+  project(NativeSessionStore.exportCompletions(app),profile,zone,LocalDate.now(zone));
+  JSONObject gems=profile.getJSONObject("gemsConfig");
+  Set<String> claimed=NativeChestRewards.ids(NativeChestRewards.snapshot(app));
+  claimed.retainAll(NativeChestRewards.eligible(app));
+  gems.put("gems",gems.getInt("gems")+claimed.size()*NativeChestRewards.GEMS);
+  profile.put("rewardBundles",NativeChestRewards.bundles());
+  return profile;
  }
  static JSONObject project(JSONObject lessons,JSONObject profile,ZoneId zone,LocalDate today)throws Exception {
   SortedSet<LocalDate> days=new TreeSet<>();

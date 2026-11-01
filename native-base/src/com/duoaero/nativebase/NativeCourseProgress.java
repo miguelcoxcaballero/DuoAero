@@ -34,6 +34,9 @@ public final class NativeCourseProgress {
   return wanted.equals(seen)?null:"incomplete lesson question coverage";
  }
  public static void project(JSONObject course,JSONObject section,Set<String> completed)throws JSONException {
+  project(course,section,completed,Collections.emptySet());
+ }
+ public static void project(JSONObject course,JSONObject section,Set<String> completed,Set<String> chests)throws JSONException {
   JSONArray units=section.getJSONArray("units"),completedPerUnit=new JSONArray();
   boolean activeAssigned=false;
   int completedUnits=0;
@@ -41,6 +44,14 @@ public final class NativeCourseProgress {
    JSONArray levels=units.getJSONObject(i).getJSONArray("levels");int passed=0;
    for(int j=0;j<levels.length();j++){
     JSONObject level=levels.getJSONObject(j);
+    if("chest".equals(level.optString("type"))){
+     boolean claimed=chests.contains(level.getString("id"));
+     level.put("finishedSessions",claimed?1:0);
+     if(claimed){level.put("state","passed");passed++;}
+     else if(!activeAssigned){level.put("state","active");activeAssigned=true;}
+     else level.put("state","locked");
+     continue;
+    }
     JSONArray lessons=level.getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas");
     int count=0;for(int k=0;k<lessons.length();k++)if(completed.contains(lessons.getJSONObject(k).getString("id")))count++;
     level.put("finishedSessions",count);

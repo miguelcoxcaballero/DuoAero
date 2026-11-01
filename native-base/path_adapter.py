@@ -54,9 +54,18 @@ def build_path(plan, bank):
             'pathLevelSessionMetadata': {}, 'hasLevelReview': True,
             'debugName': node['name'], 'isInProgressSequence': True,
             'type': 'math_skill', 'subtype': 'regular',
-            'absoluteNodeIndex': index,
+            'absoluteNodeIndex': index * 2,
         }
-        units.append({'unitIndex': index, 'levels': [level],
+        chest = {
+            'id': stable_id('chest', node['id']), 'state': 'locked',
+            'finishedSessions': 0, 'totalSessions': 1,
+            'pathLevelClientData': {},
+            'pathLevelMetadata': {'unitIndex': index, 'anchorSkillId': skill_id, 'indexSinceAnchorSkill': 0},
+            'pathLevelSessionMetadata': {}, 'hasLevelReview': False,
+            'debugName': 'Aerospace gems', 'isInProgressSequence': True,
+            'type': 'chest', 'subtype': 'chest', 'absoluteNodeIndex': index * 2 + 1,
+        }
+        units.append({'unitIndex': index, 'levels': [level, chest],
                       'teachingObjective': node['name']})
     if len(used) != len(set(used)) or set(used) != set(by_id):
         raise ValueError('The path must cover every bank question exactly once')
@@ -65,7 +74,7 @@ def build_path(plan, bank):
         'title': 'Midterm 1', 'subtitle': 'Aerospace Technology',
         'debugName': 'Aerospace Technology - Midterm 1',
         'completedUnits': 0, 'totalUnits': len(units),
-        'totalLevelsPerUnit': [1] * len(units),
+        'totalLevelsPerUnit': [len(unit['levels']) for unit in units],
         'completedLevelsPerUnit': [0] * len(units),
     }
     course = {

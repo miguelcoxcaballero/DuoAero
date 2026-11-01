@@ -1,3 +1,17 @@
+INTEGRATION UPDATE (2026-11-01; supersedes implementation notes below)
+Base remains6.103.5 by explicit user decision. Added43original chest nodes,
+25gems/claim, account-scoped atomic claims, eligibility and idempotent Drive
+merge. Original PathChestRewardActivity's claim delegates to the local durable
+store; original reward screen/controller retained. Android chest UI unverified.
+Formula prompt and real original token slots now compose in one native Row;
+decorative duplicate blank removed for mathematical exercises only. Native
+interaction/grading preserved. Inline rendering/fit/5slots remain unverified.
+Build succeeds;40completion/path projection,16reward/date and64rich-choice
+checks pass. New account probe covers locked/unknown/duplicate chest rejection,
+Drive restore and actual original User reward-bundle decoding (runtime pending).
+CI41308624308 onbd45d03 accounts PASS; other scenarios running. This older run
+does not include new chests or inline slots. No new production release yet.
+
 CURRENT USER DECISION (supersedes APK migration blocker): continue with6.103.5.
 Local reward implementation now projects10gems/unique validated lesson and
 current/longest calendar-day streak; per-lesson study days merge across Drive.

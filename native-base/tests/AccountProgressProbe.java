@@ -78,6 +78,42 @@ public final class AccountProgressProbe extends Instrumentation {
    check(restored.getJSONObject("records").getJSONObject(qid).getInt("misses")==1);
    check(restored.getJSONObject("completedLessons").has(lessonId));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==10);
+   // Isolated synthetic prerequisites verify claim durability and Drive union.
+   check(prefs.edit().putString("account","synthetic-chests").commit());
+   JSONObject section;
+   try(InputStream input=app.getAssets().open("duoaero/course/section.json")){
+    ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;while((n=input.read(block))!=-1)bytes.write(block,0,n);
+    section=new JSONObject(bytes.toString("UTF-8"));
+   }
+   JSONArray levels=section.getJSONArray("units").getJSONObject(0).getJSONArray("levels");
+   String chestId=levels.getJSONObject(1).getString("id");
+   Class<?> chest=Class.forName("com.duoaero.nativebase.NativeChestRewards",true,loader);
+   Method mergeChest=chest.getDeclaredMethod("merge",Application.class,JSONObject.class);mergeChest.setAccessible(true);
+   JSONObject claim=new JSONObject().put(chestId,100);
+   check(Boolean.FALSE.equals(mergeChest.invoke(null,app,claim)));
+   JSONArray metadata=levels.getJSONObject(0).getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas");
+   JSONObject completionSet=new JSONObject();
+   for(int i=0;i<metadata.length();i++){
+    String id=metadata.getJSONObject(i).getString("id");JSONArray sourceQuestions=catalog.getJSONObject(id).getJSONArray("challenges"),submitted=new JSONArray();
+    for(int j=0;j<sourceQuestions.length();j++)submitted.put(new JSONObject().put("id",sourceQuestions.getJSONObject(j).getString("id")));
+    completionSet.put(id,new JSONObject().put("at",20).put("nativeCompletion",new JSONObject().put("id",id).put("type","MATH_LESSON")
+     .put("failed",false).put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",submitted)));
+   }
+   apply.invoke(null,app,"synthetic-chests",new JSONObject().put("nativeSchema",1).put("completedLessons",completionSet).toString());
+   check(Boolean.TRUE.equals(mergeChest.invoke(null,app,claim)));
+   check(Boolean.FALSE.equals(mergeChest.invoke(null,app,claim)));
+   check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put("unknown",200))));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+25);
+   String chestExport=(String)read.invoke(null,app,"synthetic-chests");
+   check(new JSONObject(chestExport).getJSONObject("chests").has(chestId));
+   check(prefs.edit().putString("account","synthetic-chests-restored").commit());
+   apply.invoke(null,app,"synthetic-chests-restored",chestExport);
+   check(Boolean.FALSE.equals(apply.invoke(null,app,"synthetic-chests-restored",chestExport)));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==metadata.length()*10+25);
+   Class<?> userFactory=Class.forName("com.duoaero.nativebase.NativeLocalUser",true,loader);
+   Method make=userFactory.getDeclaredMethod("makeLocalUser",Context.class,String.class);make.setAccessible(true);
+   Object nativeUser=make.invoke(null,app,"MATH_BT");
+   check(nativeUser.getClass().getName().equals("com.duolingo.data.user.User"));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

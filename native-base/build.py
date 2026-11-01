@@ -324,11 +324,41 @@ settings_text=settings_text[:settings_position]+'    invoke-static {v14}, Lcom/d
 logout_anchor='    const-string v8, "signOutButton"'
 assert settings_text.count(logout_anchor)==1
 settings_text=settings_text.replace(logout_anchor,logout_anchor+'\n\n    invoke-static {v9}, Lcom/duoaero/nativebase/NativeGoogleHost;->logoutHandler(Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v9\n\n    check-cast v9, Lkotlin/jvm/functions/Function0;')
+inline_source=SMALI/'smali_classes7/fyd.smali'
+inline_original=inline_source.read_bytes()
+inline_text=inline_original.decode('utf-8').replace('\r\n','\n')
+inline_prompt='    invoke-static/range {v8 .. v20}, Ljvo;->a(Lcom/duolingo/core/math/models/figure/MathFigureUiState;Lz5q;Lcvo;Lkotlin/jvm/functions/Function0;Lqqh;Lqqh;Lkotlin/jvm/functions/Function0;Ljava/lang/Integer;Ls6p;Lcom/duolingo/feature/math/ui/figure/WebViewInteractionState;Lo18;II)V'
+inline_slots='    invoke-static/range {v16 .. v26}, Lfz0;->d(Ljava/util/List;Lqqh;Lqqh;ZZLz5q;FZLs6p;Lo18;I)V'
+assert inline_text.count(inline_prompt)==inline_text.count(inline_slots)==1
+assert inline_text.count('    .locals 32')==1
+inline_text=inline_text.replace('    .locals 32','    .locals 33')
+inline_text=inline_text.replace(inline_prompt,"    move-object/from16 v9, v18\n    invoke-static {v8, v9}, Lcom/duoaero/nativebase/NativeInlineFormula;->begin(Ljava/lang/Object;Ljava/lang/Object;)Z\n    move-result v32\n    const/4 v9, 0x0\n"+inline_prompt)
+inline_text=inline_text.replace(inline_slots,inline_slots+"\n    move/from16 v0, v32\n    invoke-static {v0, v11}, Lcom/duoaero/nativebase/NativeInlineFormula;->end(ZLjava/lang/Object;)V\n")
+chest_source=SMALI/'smali_classes7/zit.smali'
+chest_original=chest_source.read_bytes()
+chest_text=chest_original.decode('utf-8').replace('\r\n','\n')
+chest_anchor='.method public final G0(Lcom/duolingo/core/rewards/RewardsServiceReward;ZLtl8;)Ljava/lang/Object;\n    .locals 25'
+assert chest_text.count(chest_anchor)==1
+chest_hook="""
+    move-object/from16 v0, p0
+    move-object/from16 v1, p1
+    invoke-static {v0, v1}, Lcom/duoaero/nativebase/NativeChestRewards;->claim(Ljava/lang/Object;Ljava/lang/Object;)Z
+    move-result v0
+    if-eqz v0, :duoaero_original_chest_claim
+    sget-object v0, Lxv80;->a:Lxv80;
+    return-object v0
+    :duoaero_original_chest_claim
+"""
+chest_text=chest_text.replace(chest_anchor,chest_anchor+'\n'+chest_hook)
 try:
+ chest_source.write_text(chest_text,encoding='utf-8')
+ inline_source.write_text(inline_text,encoding='utf-8')
  settings_source.write_text(settings_text,encoding='utf-8')
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
 finally:
+ chest_source.write_bytes(chest_original)
+ inline_source.write_bytes(inline_original)
  grade_source.write_bytes(grade_original)
  settings_source.write_bytes(settings_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')

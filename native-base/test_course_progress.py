@@ -51,6 +51,17 @@ public class CourseProgressCheck {
   check(course.getJSONArray("pathSectionsSummary").getJSONObject(0).getJSONArray("completedLevelsPerUnit").toString().equals("[1,1]"));
   String snapshot=section.toString();NativeCourseProgress.project(course,section,new HashSet<>(Arrays.asList("a","b","c")));
   check(snapshot.equals(section.toString()));
+  JSONObject chest=new JSONObject("{id:'chest1',type:'chest',pathLevelClientData:{}}");
+  section.getJSONArray("units").getJSONObject(0).getJSONArray("levels").put(chest);
+  NativeCourseProgress.project(course,section,Collections.emptySet(),Collections.emptySet());
+  check(chest.getString("state").equals("locked"));
+  NativeCourseProgress.project(course,section,new HashSet<>(Arrays.asList("a","b")),Collections.emptySet());
+  check(chest.getString("state").equals("active")&&chest.getInt("finishedSessions")==0);
+  check(level(section,1).getString("state").equals("locked"));
+  NativeCourseProgress.project(course,section,new HashSet<>(Arrays.asList("a","b")),Collections.singleton("chest1"));
+  check(chest.getString("state").equals("passed")&&chest.getInt("finishedSessions")==1);
+  check(level(section,1).getString("state").equals("active"));
+  check(course.getJSONArray("pathSectionsSummary").getJSONObject(0).getInt("completedUnits")==1);
   JSONObject records=new JSONObject();
   NativeQuestionLedger.record(records,"q1",false,100,"lesson1");
   NativeQuestionLedger.record(records,"q2",false,200,"lesson2");

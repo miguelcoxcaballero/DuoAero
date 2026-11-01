@@ -149,7 +149,7 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
   pathRefresh.execute(()->{
    synchronized(NativeAccountStore.LOCK){
     if(!id.equals(NativeAccountStore.current(app)))return;
-    try{NativeLocalCache.install(app,true);}catch(Exception error){android.util.Log.e("DuoAeroNative","Could not refresh original path after Drive merge",error);}
+    try{NativeLocalProfile.refreshRewards(app);NativeLocalCache.install(app,true);}catch(Exception error){android.util.Log.e("DuoAeroNative","Could not refresh original path after Drive merge",error);}
    }
   });
  }

@@ -58,6 +58,9 @@ def formula_challenge(question, mathematical=True):
             {'underlyingEntity': {'noEntity': {}}, 'blankElement': {
                 'size': len(answer), 'text': {'text': ''},
                 'accessibilityLabel': 'Missing formula components'}}]}}
+    if mathematical:
+        # The original interactive slot row supplies the actual blanks.
+        body = figure(question['prefix'], latex=True)
     inputs = {'gradingSpecification': grading,
               'dragChoices': [figure(t, True, latex=mathematical) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
     inputs['slotCount'] = len(answer)

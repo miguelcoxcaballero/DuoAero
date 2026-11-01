@@ -29,7 +29,7 @@ final class NativeLocalCache {
    course=assetJson(context,"duoaero/course/path-info.json");
    sectionJson=assetJson(context,"duoaero/course/section.json");
    sectionId=sectionJson.getString("id");
-   NativeCourseProgress.project(course,sectionJson,NativeSessionStore.completedLessons((android.app.Application)app));
+   NativeCourseProgress.project(course,sectionJson,NativeSessionStore.completedLessons((android.app.Application)app),NativeChestRewards.ids(NativeChestRewards.snapshot((android.app.Application)app)));
   }
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());

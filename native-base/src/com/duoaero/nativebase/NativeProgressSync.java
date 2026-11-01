@@ -14,7 +14,7 @@ final class NativeProgressSync {
    long updated=0;
    for(Iterator<String> keys=records.keys();keys.hasNext();)updated=Math.max(updated,records.getJSONObject(keys.next()).optLong("at"));
    for(Iterator<String> keys=lessons.keys();keys.hasNext();)updated=Math.max(updated,lessons.getJSONObject(keys.next()).optLong("at"));
-   return new JSONObject().put("nativeSchema",1).put("records",records).put("completedLessons",lessons).put("updatedAt",updated).toString();
+   return new JSONObject().put("nativeSchema",1).put("records",records).put("completedLessons",lessons).put("chests",NativeChestRewards.snapshot(app)).put("updatedAt",updated).toString();
   }
  }
  static boolean apply(Application app,String account,String raw)throws Exception {
@@ -30,7 +30,9 @@ final class NativeProgressSync {
    JSONObject records=incoming.optJSONObject("records"),lessons=incoming.optJSONObject("completedLessons");
    if(records!=null)NativeMistakeStore.merge(app,records,known);
    if(lessons!=null)NativeSessionStore.importCompletions(app,lessons);
-   return !before.equals(NativeSessionStore.exportCompletions(app).toString());
+   JSONObject chests=incoming.optJSONObject("chests");
+   boolean claimed=chests!=null&&NativeChestRewards.merge(app,chests);
+   return claimed||!before.equals(NativeSessionStore.exportCompletions(app).toString());
   }
  }
 }
