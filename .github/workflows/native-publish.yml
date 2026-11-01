@@ -70,6 +70,8 @@ jobs:
               for key,value in {'APK':str(apk),'MODE':r['mode'],'TAG':tag,'TITLE':title,'SOURCE_SHA':r['sourceSha']}.items():
                   output.write(key+'='+value+'\n')
           PY
+      - name: Verify Android package and permanent certificate
+        run: |
           tools="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
           "$tools/aapt2" dump badging "$APK" > publication-badging.txt
           grep -q "package: name='com.duoaero' versionCode='10300' versionName='1.3.0'" publication-badging.txt
