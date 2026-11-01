@@ -150,9 +150,10 @@ try:
         tree=capture('atmosphere-complete')
         if tree is not None and matching(tree,'CLAIM XP'):
             tap_node(matching(tree,'CLAIM XP')[-1]);break
-        if tree is not None and any(n.get('resource-id') in {'com.duolingo:id/sessionCompleteAnimationView','com.duolingo:id/sessionEndViewPager'} for n in tree.iter('node')):
-            point=claim_xp(OUT/'atmosphere-complete.png',OUT/'atmosphere-claim-ocr.png')
-            if point:adb('shell','input','tap',str(point[0]),str(point[1]));break
+        # Some original Rive summaries expose neither text nor a special ID.
+        # OCR verifies the visible button before tapping it.
+        point=claim_xp(OUT/'atmosphere-complete.png',OUT/'atmosphere-claim-ocr.png')
+        if point:adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(2)
     else:raise AssertionError('Claim XP missing')
     tree=wait('atmosphere-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),90)
@@ -173,7 +174,7 @@ try:
         open_atmosphere('atmosphere-'+phase)
         wait('atmosphere-next-'+phase,lambda t:bool(matching(t,next_answer,'com.duolingo:id/mathCard')),60)
         routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
-        selected=re.findall(r'Local original session selected: ([A-Za-z0-9_-]+)',routes)
+        selected=re.findall(r'Local original session selected: ([A-Za-z0-9_.-]+)',routes)
         assert selected and selected[-1]==second,'First Atmosphere node reopened the wrong lesson: '+phase
     (OUT/'atmosphere-result.txt').write_text('PASS: seeded earlier nodes; completed all 20 real Atmosphere questions, claimed XP, observed durable completion and opened its next lesson before and after restart. Earlier lessons and real Google/Drive are not tested.\n')
 finally:

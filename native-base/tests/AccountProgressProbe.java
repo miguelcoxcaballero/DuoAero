@@ -25,7 +25,14 @@ public final class AccountProgressProbe extends Instrumentation {
     ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;while((n=input.read(block))!=-1)bytes.write(block,0,n);
     catalog=new JSONObject(bytes.toString("UTF-8"));
    }
-   String lessonId=catalog.keys().next();JSONObject lesson=catalog.getJSONObject(lessonId);
+   // Exercise dotted Atmosphere IDs through completion and mistake export.
+   String lessonId="2.1-5-point-0-lesson-0";JSONObject lesson=catalog.getJSONObject(lessonId);
+   Class<?> idValidator=Class.forName("com.duoaero.nativebase.NativeSessionId",true,loader);
+   Method validId=idValidator.getDeclaredMethod("valid",String.class);validId.setAccessible(true);
+   check(Boolean.TRUE.equals(validId.invoke(null,lessonId)));
+   check(Boolean.FALSE.equals(validId.invoke(null,"../escape")));
+   check(Boolean.FALSE.equals(validId.invoke(null,"a..b")));
+   check(Boolean.FALSE.equals(validId.invoke(null,".hidden")));
    JSONArray source=lesson.getJSONArray("challenges"),questions=new JSONArray();
    for(int i=0;i<source.length();i++)questions.put(new JSONObject().put("id",source.getJSONObject(i).getString("id")));
    String qid=source.getJSONObject(0).getString("id");

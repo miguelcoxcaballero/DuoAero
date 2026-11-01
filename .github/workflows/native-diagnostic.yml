@@ -80,6 +80,7 @@ jobs:
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platform-tools'  'platforms;android-36' 'build-tools;35.0.0' 'emulator' 'system-images;android-36;google_apis;x86_64'
       - name: Build diagnostic APKs, preserving original runtime
         run: |
+          python native-base/test_session_ids.py
           python native-base/course_adapter.py
           case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi

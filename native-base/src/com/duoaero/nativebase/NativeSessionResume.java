@@ -33,7 +33,7 @@ public final class NativeSessionResume {
    String id=(String)header.getClass().getMethod("C").invoke(header);
    Application app=application();
    if(catalog==null)catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
-   if(!id.matches("[A-Za-z0-9_-]{1,160}")||finished.contains(id))return state;
+   if(!NativeSessionId.valid(id)||finished.contains(id))return state;
    JSONObject lesson=catalog.optJSONObject(id);
    if(lesson==null)lesson=NativeReviewStore.lookup(app,id);
    if(lesson==null)return state;

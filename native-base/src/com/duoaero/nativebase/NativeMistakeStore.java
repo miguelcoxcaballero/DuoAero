@@ -20,7 +20,7 @@ final class NativeMistakeStore {
    JSONObject value=incoming.optJSONObject(id);if(value==null||!(value.opt("correct") instanceof Boolean)||value.optLong("at")<=0)continue;
    JSONObject prior=records.optJSONObject(id);
    if(prior!=null&&prior.optLong("at")>=value.getLong("at"))continue;
-   String session=value.optString("session","");if(!session.matches("[A-Za-z0-9_-]{1,160}"))continue;
+   String session=value.optString("session","");if(!NativeSessionId.valid(session))continue;
    int misses=Math.max(prior==null?0:prior.optInt("misses"),Math.max(0,value.optInt("misses")));
    records.put(id,new JSONObject().put("correct",value.getBoolean("correct")).put("at",value.getLong("at")).put("misses",misses).put("session",session));changed=true;
   }

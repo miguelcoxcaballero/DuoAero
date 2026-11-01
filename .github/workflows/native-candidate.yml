@@ -47,6 +47,7 @@ jobs:
       - name: Build unsigned candidate and bind its source inventory
         run: |
           python tests/validate_bank.py
+          python native-base/test_session_ids.py
           node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
           python native-base/course_adapter.py
           python native-base/build.py

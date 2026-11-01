@@ -370,10 +370,10 @@ public final class NativeCourseBridge {
     NativeCourseProgress.project(info,section,NativeSessionStore.completedLessons(app),NativeChestRewards.ids(NativeChestRewards.snapshot(app)));
     code=200;payload=(path.endsWith("MATH_BT")?info:section).toString();
    }
-   else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_-]+")){
+   else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_.-]+")){
     String sessionId=path.substring(path.lastIndexOf('/')+1);
     JSONObject catalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
-    if(catalog.has(sessionId)){
+    if(NativeSessionId.valid(sessionId)&&catalog.has(sessionId)){
      JSONObject submission=requestJson(request);
      NativeSessionStore.record(app,sessionId,submission);
      code=200;

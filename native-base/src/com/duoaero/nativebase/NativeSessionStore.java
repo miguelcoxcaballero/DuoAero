@@ -10,7 +10,7 @@ import java.util.*;
 public final class NativeSessionStore {
  private NativeSessionStore(){}
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
-  if(!NativeCourseBridge.hasLocalCourse()||!sessionId.matches("[A-Za-z0-9_-]{1,160}"))throw new IllegalArgumentException("Invalid local course session");
+  if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");
   File folder=new File(NativeAccountStore.root(app),"submissions");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
@@ -52,7 +52,10 @@ public final class NativeSessionStore {
  static synchronized Set<String> completedLessons(Application app)throws Exception {
   Set<String> completed=new HashSet<>();
   File folder=new File(NativeAccountStore.root(app),"submissions");
-  File[] files=folder.listFiles((dir,name)->name.matches("[A-Za-z0-9_-]{1,160}\\.json(?:\\.bak)?"));
+  File[] files=folder.listFiles((dir,name)->{
+   String base=name.endsWith(".bak")?name.substring(0,name.length()-4):name;
+   return base.endsWith(".json")&&NativeSessionId.valid(base.substring(0,base.length()-5));
+  });
   if(files==null)return completed;
   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
   Set<String> bases=new HashSet<>();for(File path:files)bases.add(path.getName().replaceFirst("\\.bak$",""));
