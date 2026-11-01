@@ -44,7 +44,7 @@ jobs:
           r=json.loads(Path('.github/native-publish-request.json').read_text())
           unsigned=r['mode']=='unsigned'
           filename='DuoAero-1.3.0'+('-unsigned' if unsigned else '')+'.apk'
-          allowed={filename,'build-info.json','release-input.json','SHA256SUMS.txt'}
+          allowed={filename,filename+'.idsig','build-info.json','release-input.json','SHA256SUMS.txt'}
           with zipfile.ZipFile('artifact.zip') as archive:
               assert set(archive.namelist())<=allowed,archive.namelist()
               archive.extractall('publication')

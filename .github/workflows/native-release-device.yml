@@ -26,7 +26,8 @@ jobs:
           with open('signed-artifact.zip','wb') as output:
               subprocess.run(['gh','api',f"repos/miguelcoxcaballero/youtube-calma/actions/artifacts/{r['artifactId']}/zip"],stdout=output,check=True)
           with zipfile.ZipFile('signed-artifact.zip') as archive:
-              assert set(archive.namelist())=={'DuoAero-1.3.0.apk','build-info.json','SHA256SUMS.txt'}
+              required={'DuoAero-1.3.0.apk','build-info.json','SHA256SUMS.txt'}
+              assert required<=set(archive.namelist())<=required|{'DuoAero-1.3.0.apk.idsig'},archive.namelist()
               info=json.loads(archive.read('build-info.json'))
               assert info['sha']==r['sourceSha'] and info['apkSha256']==r['apkSha256']
               Path('new.apk').write_bytes(archive.read('DuoAero-1.3.0.apk'))
