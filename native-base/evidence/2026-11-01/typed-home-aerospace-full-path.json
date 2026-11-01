@@ -1,0 +1,152 @@
+[
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/action_bar_root",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "android:id\/content",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/homeContainer",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/launchContainer",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/loginRoot",
+    "bounds": "0 0 1080 1920",
+    "clickable": true,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/launchContentView",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/splash",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/systemBarHelper",
+    "bounds": "0 0 0 0",
+    "clickable": false,
+    "visible": false,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.view.View",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/skyBackground",
+    "bounds": "0 0 1080 1920",
+    "clickable": false,
+    "visible": false,
+    "enabled": true,
+    "selected": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "text": "null",
+    "description": "null",
+    "resource": "com.duolingo:id\/duolingoLogo",
+    "bounds": "311 902 770 1018",
+    "clickable": false,
+    "visible": true,
+    "enabled": true,
+    "selected": false
+  }
+]

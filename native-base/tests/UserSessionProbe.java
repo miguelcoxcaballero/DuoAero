@@ -28,7 +28,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!lesson.equals("math")&&!lesson.equals("aerospace")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -115,12 +115,18 @@ public final class UserSessionProbe extends Instrumentation {
   report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
-  if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,interaction.equals("math-wrong")));
+  if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
+  else if(interaction.startsWith("math-"))report.append(SessionInteraction.firstMathAnswer(this,current,interaction.equals("math-wrong")));
   if(captureHome){
    runOnMainSync(current::finish);
    Thread.sleep(12000);
    android.app.Activity home=resumed.get();
    report.append("After finishing diagnostic session activity, resumed: ").append(home==null?"none":home.getClass().getName()).append('\n');
+   if(home!=null&&home.getClass().getName().equals("com.duolingo.splash.LaunchActivity")){
+    try(SessionDependencies dependencies=SessionDependencies.home(home)){
+     Thread.sleep(5000);report.append(dependencies.report());
+    }
+   }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
   }
   completed=true;

@@ -27,7 +27,7 @@ final class SessionInteraction {
   return "UI interaction: selected the first question's correct option through native accessibility controls; submitted through original button.\n"
    +"Second Aerospace question visible: "+advanced+". Grading feedback must be checked in screenshots; this does not verify session completion or persistence.\n";
  }
- static String firstMathAnswer(Instrumentation test,boolean wrong)throws Exception {
+ static String firstMathAnswer(Instrumentation test,android.app.Activity activity,boolean wrong)throws Exception {
   String answer=wrong?"\\text{Difficult automation.}":"\\text{Low delivery times.}";
   click(test,"com.duolingo:id/mathCard",answer);
   Thread.sleep(800);
@@ -37,8 +37,9 @@ final class SessionInteraction {
   SessionScreen.capture(test,"interaction-submitted","interaction-submitted");
   if(contains(test,"Something went wrong")||contains(test,"skip this exercise"))
    throw new IllegalStateException("Native Math grading failed; error-and-skip must not count as answer acceptance");
-  if(!hasContinue(test))throw new IllegalStateException("Native grading did not expose Continue");
-  click(test,null,"CONTINUE");
+  NativeMathGrade.require(test,activity,wrong?"INCORRECT":"CORRECT");
+  String footer=wrong?"GOT IT":"CONTINUE";
+  click(test,null,footer);
   Thread.sleep(1500);
   SessionScreen.capture(test,"interaction-continued","interaction-continued");
   String payload;
@@ -50,8 +51,39 @@ final class SessionInteraction {
   org.json.JSONObject session=new org.json.JSONObject(payload);
   org.json.JSONObject next=new org.json.JSONObject(session.getJSONArray("challenges").getJSONObject(1).getString("challengeBlob"));
   String nextOption=next.getJSONArray("pants").getJSONObject(0).getJSONObject("child").getString("value");
-  return "UI interaction: original Math card selected with a "+(wrong?"wrong":"correct")+" answer; original Check and Continue clicked.\n"
+  return "UI interaction: original Math card selected; native FragmentGuess confirmed "+(wrong?"INCORRECT":"CORRECT")+"; original Check and Continue clicked.\n"
    +"Next formula question option visible: "+contains(test,nextOption)+". Inspect grading and formula screenshots; no session completion or persistence asserted.\n";
+ }
+ static String allMathAnswers(Instrumentation test,android.app.Activity activity)throws Exception {
+  String payload;
+  try(java.io.InputStream input=test.getContext().getAssets().open("rich-session-selections.json")){
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
+   while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
+   payload=new String(bytes.toByteArray(),"UTF-8");
+  }
+  org.json.JSONArray selections=new org.json.JSONArray(payload);
+  for(int i=0;i<selections.length();i++){
+   org.json.JSONObject question=selections.getJSONObject(i);
+   String answer=question.getString("answer");
+   // Native streak animations may expose an extra Continue between questions.
+   for(int attempt=0;attempt<30&&!contains(test,answer);attempt++){
+    if(attempt%10==9&&hasContinue(test))click(test,null,"CONTINUE");
+    Thread.sleep(200);
+   }
+   click(test,"com.duolingo:id/mathCard",answer);
+   Thread.sleep(250);
+   click(test,"com.duolingo:id/submitButton",null);
+   Thread.sleep(1000);
+   SessionScreen.capture(test,"lesson-answer-"+i,"lesson-answer-"+i);
+   NativeMathGrade.require(test,activity,"CORRECT");
+   android.util.Log.i("DuoAeroProbe","Native correct answer "+(i+1)+"/"+selections.length()+": "+question.getString("id"));
+   if(!hasContinue(test))throw new IllegalStateException("Missing graded Continue at "+question.getString("id"));
+   click(test,null,"CONTINUE");
+   Thread.sleep(1000);
+  }
+  Thread.sleep(8000);
+  SessionScreen.capture(test,"lesson-after-last-answer","lesson-after-last-answer");
+  return "All "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
  }
  private static boolean contains(Instrumentation test,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();

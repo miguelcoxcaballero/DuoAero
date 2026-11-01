@@ -252,3 +252,27 @@ lesson grouping. `course_cache=native-full` writes those original decoded models
 through the same cache descriptors. `capture_home=true` finishes the diagnostic
 SessionActivity and captures the resumed original activity. Native path decoding,
 home rendering and node navigation are separate outcomes, all pending this test.
+
+
+[Typed Math run 41256513404](https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41256513404)
+initializes the original JavaScript sandbox and SESSION context. Native correct
+feedback is green (“Excellent!”), and Continue advances to the Breguet question.
+A wrong answer shows red incorrect feedback and the complete Aerospace explanation.
+The wrong-answer automation fails only at the next locator: that native footer
+says **GOT IT**, not CONTINUE. Screenshots were inspected; CI's failed diagnostic
+must not be reported as a passing suite or a successful wrong-answer advancement.
+
+The original serializers also accept the full 42-unit course section, and both
+native cache writes complete. Finishing the test SessionActivity returns to the
+original LaunchActivity, which remains on its green splash (14 accessibility
+nodes). No path UI, node navigation, progress or standalone bootstrap is verified.
+Evidence: `typed-math-correct.png`, `typed-math-wrong.png`, `typed-home-splash.png`
+and the corresponding `typed-*.txt`/JSON files.
+
+The next probe reads the visible original MathBlobSelectOneFragment's E0 result
+and its original CorrectnessState, asserting CORRECT or INCORRECT without writing
+it. The all-answer sequence uses expected answers from the source bank, exercises
+all 15 original controls, and captures each graded state plus the screen after
+last Continue. Passing all answers alone is not session completion or persistence.
+Separate subscriptions observe original launch/check dependencies without forcing
+routing or readiness. Expected selections are packaged in instrumentation only.

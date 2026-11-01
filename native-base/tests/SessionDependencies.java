@@ -10,6 +10,26 @@ final class SessionDependencies implements AutoCloseable {
  private final List<Object> subscriptions = new ArrayList<>();
  private final List<String> names = new ArrayList<>();
  private final Map<String,String> states = new ConcurrentHashMap<>();
+ private SessionDependencies(ClassLoader classLoader){loader=classLoader;}
+ static SessionDependencies home(android.app.Activity activity)throws Exception {
+  SessionDependencies result=new SessionDependencies(activity.getClassLoader());
+  try{
+   Object host=activity.getClass().getMethod("v").invoke(activity);
+   Object dispatcher=field(host,"g"),bridge=field(host,"e");
+   for(String name:new String[]{"d","f","j"})result.observe("home.bridge."+name,field(bridge,name),dispatcher);
+   Object manager=activity.getClass().getMethod("getSupportFragmentManager").invoke(activity);
+   Object fragment=manager.getClass().getMethod("F",String.class).invoke(manager,"launch_fragment");
+   if(fragment!=null){
+    Object vm=fragment.getClass().getMethod("w").invoke(fragment);
+    for(String name:new String[]{"K","L","N","S","V"})result.observe("home.launch."+name,field(vm,name),dispatcher);
+    Object user=field(vm,"G");
+    result.observe("home.user",user.getClass().getMethod("f").invoke(user),dispatcher);
+    Object check=Class.forName("qvl",true,result.loader).getMethod("getValue").invoke(field(fragment,"l"));
+    result.observeRx("home.check."+check.getClass().getName(),Class.forName("com.duolingo.splash.LaunchCheckViewModel",true,result.loader).getMethod("G0").invoke(check));
+   }
+   return result;
+  }catch(Exception error){result.close();throw error;}
+ }
  SessionDependencies(Object viewModel) throws Exception {
   loader = viewModel.getClass().getClassLoader();
   Object sessionLoader = viewModel.getClass().getField("j").get(viewModel);

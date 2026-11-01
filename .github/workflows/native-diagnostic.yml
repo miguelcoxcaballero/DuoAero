@@ -80,10 +80,13 @@ jobs:
             probe_lesson="${6:-math}"
             probe_interact="${7:-none}"
             probe_home="${8:-false}"
+            probe_timeout=180
+            if [ "$probe_interact" = math-all ]; then probe_timeout=300; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json
-            timeout 180 adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt"
+            adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "/tmp/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "/tmp/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "/tmp/duoaero-evidence/views-$probe_label.json" || true
             if [ "$probe_interact" != none ]; then
@@ -97,10 +100,18 @@ jobs:
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png "/tmp/duoaero-evidence/home-$probe_label.png" || true
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json "/tmp/duoaero-evidence/home-$probe_label.json" || true
             fi
+            if [ "$probe_interact" = math-all ]; then
+              for phase in $(seq 0 14) after-last-answer; do
+                if [ "$phase" = after-last-answer ]; then probe_file=lesson-after-last-answer; else probe_file="lesson-answer-$phase"; fi
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$probe_file.$extension" "/tmp/duoaero-evidence/$probe_file.$extension" || true
+                done
+              done
+            fi
             adb logcat -d -s DuoAeroProbe:I AndroidRuntime:E > "/tmp/duoaero-evidence/probe-$probe_label.txt"
             cat "/tmp/duoaero-evidence/session-$probe_label.txt"
           }
-          run_probe aerospace-rich-correct MATH_BT native-defaults late native-minimal aerospace-rich math-correct
+          run_probe aerospace-rich-all MATH_BT native-defaults late native-minimal aerospace-rich math-all
           run_probe aerospace-rich-wrong MATH_BT native-defaults late native-minimal aerospace-rich math-wrong
           run_probe aerospace-full-path MATH_BT native-defaults late native-full aerospace-rich none true
           python - <<'PYTHON'

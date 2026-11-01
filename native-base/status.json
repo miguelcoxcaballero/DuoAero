@@ -38,13 +38,16 @@
     "first_native_assist_correct_feedback": true,
     "native_selectone_plain_question_rendered_in_isolated_probe": true,
     "native_assist_advanced_to_second_question": true,
-    "first_native_formula_question_rendered_after_error_skip": true
+    "first_native_formula_question_rendered_after_error_skip": true,
+    "native_math_first_correct_and_incorrect_feedback": true,
+    "native_math_correct_answer_advanced_to_formula": true,
+    "native_course_path_42_units_decoded_and_cached": true
   },
   "not_verified_or_incomplete": [
-    "Original Aerospace questions render in isolated instrumentation; Assist grades its first correct answer and advances. Native Math blob grading currently displays an error and skips the question. No full lesson completion or normal app startup verified.",
-    "Original learning path not yet connected to Aerospace data.",
+    "Original Aerospace first Math question now grades correct and wrong answers with original green/red feedback in isolated instrumentation; correct Continue advances to the formula question. Full lesson completion, persistence and normal app startup remain unverified.",
+    "Original serializers accept 42 path units and native cache writes succeed, but original LaunchActivity remains on splash; path UI and node navigation are not working yet.",
     "Five gap/order questions still lack native grading adapters.",
-    "First rich formula question visibly rendered after error-and-skip. Math grading, all rich questions, explanation layout, font scaling and overflow remain incomplete.",
+    "First formula question renders; all rich-question grading, explanation LaTeX, font scaling and overflow checks remain incomplete.",
     "Google/Drive integration is not connected to this native base.",
     "Updater, mascot replacement, full screen comparison, audio/haptics/night-mode and text-overflow regression checks remain."
   ],
@@ -67,8 +70,8 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Use original Math lesson type and skillId to initialize MathSessionCoordinator JavaScript sandbox; test actual correct/incorrect feedback before claiming grading. Connect full path and standalone bootstrap afterwards.",
-    "scope": "Original questions render in isolated instrumentation. Assist first correct answer and advancement verified; native Math grading error observed. No complete lesson or standalone app."
+    "next_required_integration": "Run all 15 diagnostic choices with original FragmentGuess correctness assertions. For wrong answers use the native GOT IT footer. Observe splash/home routing dependencies; no path UI yet.",
+    "scope": "Isolated instrumentation: first native Math correct/incorrect feedback and correct advancement verified. 42-unit original course models decode/cache. Splash still blocked; no standalone app, full lesson or persistence."
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
@@ -164,6 +167,13 @@
       "formula": "First Breguet question rendered with fractions, subscripts and all four answers after skip. Screenshot inspected; no grading or full layout acceptance.",
       "source_finding": "MathSessionCoordinator s4p.a initializes native JS context only for Session.Type.F1() skillId. Diagnostic blob asset incorrectly used GLOBAL_PRACTICE (F1=null). Next test supplies MATH_LESSON and skillId; no forced grader or readiness state.",
       "pending_path": "42 units/nodes, 81 lessons, all 1200 source IDs mapped once. Native model decode, path UI and navigation not yet verified."
+    },
+    "typed_math_and_path_observation": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41256513404",
+      "math": "MATH_LESSON + skillId initializes original JS sandbox with SESSION context. Correct answer shows green Excellent and advances. Wrong answer shows red Oops thats not correct and full Aerospace explanation. Screenshots inspected.",
+      "automation_failure": "Wrong-answer probe expected CONTINUE but native incorrect footer is GOT IT. No wrong-answer advancement asserted from this run. Native diagnostic CI failed this locator assertion.",
+      "path": "All 42 unit models decoded and cache writes completed. Returning to original LaunchActivity remains on green Duolingo splash. This is NOT path acceptance.",
+      "next_test": "Read original visible Math fragment result (CORRECT/INCORRECT); drive all 15 choices and capture after final Continue; observe original launch/check flows."
     }
   }
 }

@@ -16,13 +16,14 @@ Next: loading/view readiness, not forcing flags. s2/l4 are auxiliary fields, not
 the Session model. No playable lesson or production APK exists.
 
 LATEST VISIBLE RESULT (2026-11-01)
-Run 41255504181 confirms first Assist correct feedback and advancement. The native
-Math blob renders ordinary and formula questions, but BOTH answer attempts show
-Something went wrong and skip. Advancing does NOT prove grading. The diagnostic
-asset used GLOBAL_PRACTICE, which omits the skill ID needed by the original
-MathSessionCoordinator JS sandbox. Next test uses MATH_LESSON and skillId.
-Full path data is prepared (42 nodes/81 lessons/1200 IDs), not runtime-verified.
-No full lesson completion, normal bootstrap, persistence or production APK.
+Run 41256513404 fixes native Math grading initialization with MATH_LESSON + skillId.
+Original green correct feedback and red wrong feedback with Aerospace explanation
+are visible. Correct Continue advances to the formula question. The wrong-answer
+probe fails because its footer is GOT IT, not CONTINUE. This is a locator failure.
+42 native path units decode/cache successfully; returning to LaunchActivity still
+shows the green splash, not the path. Next tests: all 15 answers with original
+FragmentGuess assertions and splash/home dependency observation. No full lesson,
+persistence, standalone app or production APK acceptance.
 See native-base/status.json and REPRODUCING.md for exact evidence and limits.
 
 START HERE
