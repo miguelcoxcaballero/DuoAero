@@ -21,9 +21,14 @@ require review.
   `lesson-answer-7.png` show the individual steps. This is a diagnostic lesson,
   not a full course test.
 * Four formula-block prerequisites and corresponding hints have since been
-  inserted before those Mach calculations. Host validation confirms lesson
-  length and ordering; this new sequence has not yet passed an Android lesson
-  or progress-migration test.
+  inserted before those Mach calculations. Run 41343794820 graded all four
+  blocks correctly in the native formula controller, and run 41343977624
+  graded a diagnostic sequence of 16 mixed questions including the alternating
+  Mach formula/calculation steps. Neither test proves saved course progress.
+  Run 41344132125 reached the hinted Mach question's native retry, but its
+  test driver then failed to locate the correct answer; a corrected driver has
+  been queued. Host validation confirms stable lesson IDs and legacy question
+  IDs, but migration of a real account has not been tested.
 * Device run 41339958992 completed its normal progression test, but its
   `standalone-celebration-00.png` through `-05.png` show the generic doghouse
   Snoopy, despite the new buff-character Rive artboard preview working in
