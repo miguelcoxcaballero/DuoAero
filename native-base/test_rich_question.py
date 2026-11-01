@@ -13,7 +13,19 @@ for question in bank:
     blob = json.loads(choice_blob(question)['challengeBlob'])
     fixtures.append({'id': question['id'], 'code': blob['grading_function'],
                      'answer': question['answer'], 'count': len(question['options'])})
-assert len(fixtures) == 3
+assert len(fixtures) >= 4
+isa = next(q for q in bank if q['id'] == 'TA1-0182-F1')
+isa_blob = json.loads(choice_blob(isa)['challengeBlob'])
+assert r'p_{\mathrm{base}}' in isa_blob['shirt']['value']
+assert r'\exp(-X)' in isa_blob['shirt']['value']
+assert 'p_base' not in isa_blob['shirt']['value']
+
+from formula_exercises import formula_challenge, prototypes
+for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:
+    prompt = formula_challenge(question)['promptInputChallenge']['prompt']
+    feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
+    assert feedback['taggedTextElement']['text'] == 'duoaero-latex:' + r'\textstyle ' + question['formula_latex']
+    assert question['explanation'] not in feedback['taggedTextElement']['text']
 script = r'''
 const fixtures=JSON.parse(require('fs').readFileSync(0,'utf8'));
 let checked=0;

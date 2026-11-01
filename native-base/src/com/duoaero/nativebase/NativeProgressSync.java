@@ -21,7 +21,7 @@ final class NativeProgressSync {
   if(raw==null||raw.length()>4*1024*1024)throw new IllegalArgumentException("Invalid Drive progress size");
   synchronized(NativeAccountStore.LOCK){
    NativeAccountStore.require(app,account);
-   Set<String> before=NativeSessionStore.completedLessons(app);
+   String before=NativeSessionStore.exportCompletions(app).toString();
    JSONObject incoming=new JSONObject(raw);
    if(incoming.optInt("nativeSchema")!=1)throw new IllegalArgumentException("Unsupported native Drive progress schema");
    JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
@@ -30,7 +30,7 @@ final class NativeProgressSync {
    JSONObject records=incoming.optJSONObject("records"),lessons=incoming.optJSONObject("completedLessons");
    if(records!=null)NativeMistakeStore.merge(app,records,known);
    if(lessons!=null)NativeSessionStore.importCompletions(app,lessons);
-   return !before.equals(NativeSessionStore.completedLessons(app));
+   return !before.equals(NativeSessionStore.exportCompletions(app).toString());
   }
  }
 }

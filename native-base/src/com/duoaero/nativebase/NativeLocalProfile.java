@@ -18,6 +18,34 @@ final class NativeLocalProfile {
   Constructor<?> wrap=Class.forName("b490",true,loader).getConstructor(operationType,int.class);
   NativeLocalCache.apply(loader,cache,wrap.newInstance(wrap.newInstance(operation,0),1));
  }
+ static Object decodeStreak(Context context)throws Exception {
+  ClassLoader loader=context.getClassLoader();
+  Object component=context.getApplicationContext().getClass().getMethod("generatedComponent").invoke(context.getApplicationContext());
+  Object provider=component.getClass().getField("a0").get(component);
+  Method get=provider.getClass().getMethod("get");get.setAccessible(true);
+  Object factory=get.invoke(provider);Field field=factory.getClass().getDeclaredField("json");field.setAccessible(true);
+  Object json=field.get(factory);
+  String data=NativeRewards.profile((android.app.Application)context.getApplicationContext(),new org.json.JSONObject()).toString();
+  return Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class)
+   .invoke(json,NativeLocalCache.serializer(loader,"com.duolingo.data.streak.UserStreak"),data);
+ }
+ static void refreshRewards(Context context)throws Exception {
+  ClassLoader loader=context.getClassLoader();Object app=context.getApplicationContext();
+  Object component=app.getClass().getMethod("generatedComponent").invoke(app);
+  Object provider=component.getClass().getField("q2").get(component);
+  Method get=provider.getClass().getMethod("get");get.setAccessible(true);
+  Object repository=get.invoke(provider),cache=repository.getClass().getField("p").get(repository);
+  Object user=NativeLocalUser.makeLocalUser(context,"MATH_BT"),userId=user.getClass().getField("b").get(user);
+  Object factory=repository.getClass().getField("r").get(repository);
+  Class<?> category=Class.forName("com.duolingo.core.data.ProfileUserCategory",true,loader);
+  Object resource=factory.getClass().getMethod("a",userId.getClass(),category,Class.forName("rbb",true,loader))
+   .invoke(factory,userId,category.getField("FIRST_PERSON").get(null),null);
+  NativeLocalCache.write(loader,cache,resource,user);
+  provider=component.getClass().getField("e2").get(component);
+  get=provider.getClass().getMethod("get");get.setAccessible(true);factory=get.invoke(provider);
+  resource=factory.getClass().getMethod("a",userId.getClass()).invoke(factory,userId);
+  NativeLocalCache.write(loader,cache,resource,decodeStreak(context));
+ }
  static void install(Context context,String courseId,boolean defaultExperiments)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
@@ -59,13 +87,8 @@ final class NativeLocalProfile {
   Constructor<?> wrap=Class.forName("b490",true,loader).getConstructor(operationType,int.class);
   operation=wrap.newInstance(wrap.newInstance(operation,0),1);
   NativeLocalCache.apply(loader,cache,operation);
-  // A new account has a known zero-day lifetime streak, not the all-null
-  // "unavailable" UserStreak sentinel rejected by original loader c4x.A.
-  Class<?> lifetimeType=Class.forName("com.duolingo.data.streak.StreakData$LifetimeStreak",true,loader);
-  Object lifetime=lifetimeType.getConstructor(String.class,String.class,int.class,String.class).newInstance(null,null,0,null);
-  Class<?> timelineType=Class.forName("com.duolingo.data.streak.TimelineStreak",true,loader);
-  Class<?> streakType=Class.forName("com.duolingo.data.streak.UserStreak",true,loader);
-  Object streak=streakType.getConstructor(lifetimeType,timelineType,timelineType).newInstance(lifetime,null,null);
+  // Decode the same durable reward projection used by the original User.
+  Object streak=decodeStreak(context);
   Object streakProvider=component.getClass().getField("e2").get(component);
   Method streakGet=streakProvider.getClass().getMethod("get");streakGet.setAccessible(true);
   Object streakFactory=streakGet.invoke(streakProvider);

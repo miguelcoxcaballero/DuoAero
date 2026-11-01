@@ -5773,7 +5773,59 @@
       "20 kPa": "Incorrect: This ignores the exponential pressure reduction."
     },
     "legacy_id": "TA1-0182",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "rich_text": {
+      "stem": [
+        {
+          "text": "In an isothermal ISA layer, "
+        },
+        {
+          "latex": "p=p_{\\mathrm{base}}\\exp(-X)"
+        },
+        {
+          "text": ". At the point of interest, "
+        },
+        {
+          "latex": "p_{\\mathrm{base}}=20\\,\\mathrm{kPa}"
+        },
+        {
+          "text": " and "
+        },
+        {
+          "latex": "\\exp(-X)=0.50"
+        },
+        {
+          "text": ". What is pressure?"
+        }
+      ],
+      "options": [
+        [
+          {
+            "latex": "5\\,\\mathrm{kPa}"
+          }
+        ],
+        [
+          {
+            "latex": "40\\,\\mathrm{kPa}"
+          }
+        ],
+        [
+          {
+            "latex": "10\\,\\mathrm{kPa}"
+          }
+        ],
+        [
+          {
+            "latex": "20\\,\\mathrm{kPa}"
+          }
+        ]
+      ],
+      "explanation": [
+        {
+          "latex": "p=20\\times0.50=10\\,\\mathrm{kPa}"
+        }
+      ]
+    }
   },
   {
     "id": "TA1-0049-F1",

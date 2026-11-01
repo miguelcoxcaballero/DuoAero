@@ -25,6 +25,7 @@ public final class NativeBootstrap {
  }
  public static synchronized void start(Application app){
   NativeUpdateHost.install(app);
+  NativeRewards.observe(app);
   if(NativeAccountStore.required(app))NativeGoogleHost.install(app);
   if(!prepared&&NativeAccountStore.required(app)){
    try{NativeLocalConfig.install(app);}catch(Exception error){throw new IllegalStateException("Cannot initialize original welcome configuration",error);}

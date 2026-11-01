@@ -7,10 +7,11 @@ MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
 LOGO_PATH = 'res/drawable/duoaero_wordmark.xml'
 
 def display_text(text):
+    if text.startswith(('res/','com.duolingo')):return text
     # URLs, email addresses, resource paths and package names keep their routing.
     protected = re.compile(r'https?://[^\s<>"\']+|[\w.+-]+@[\w.-]+|(?:[\w-]+\.)*duolingo\.[\w./?=&%+-]+', re.I)
     def words(value):
-        return re.sub(r'\bduolingo\b', 'DuoAero', value, flags=re.I)
+        return re.sub(r'(?<![A-Za-z0-9_])duolingo(?![A-Za-z0-9_])', 'DuoAero', value, flags=re.I)
     parts=[]; start=0
     for match in protected.finditer(text):
         parts.extend((words(text[start:match.start()]),match.group()))
@@ -49,14 +50,14 @@ def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
     return not name.startswith('$') and bool(re.search(r'(^|_)duo($|_)',name))
 
-def rebrand_table(table):
+def rebrand_table(table,drawable_paths=None):
     top=list(chunks(table,12,len(table))); off,_,_,size=top[0]
     pool=table[off:off+size]; values=strings(pool)
     off,_,header,size=top[1]; package=bytearray(table[off:off+size])
     key_off=struct.unpack_from('<I',package,276)[0]
     key_size=struct.unpack_from('<I',package,key_off+4)[0]
     keys=strings(package[key_off:key_off+key_size])
-    replacements={}; text_indices=set(); affected={}
+    replacements={}; text_indices=set(); affected={};original_paths={}
     def index(value):
         if value not in values:values.append(value)
         return values.index(value)
@@ -75,14 +76,16 @@ def rebrand_table(table):
             old=struct.unpack_from('<I',package,at+12)[0]; name=keys[key]
             if tid==19:text_indices.add(old)
             elif mascot_name(name) or name in ('duolingo_logo_350','duolingo_max_wordmark','duolingo_max_wordmark_onboarding'):
-                path=LOGO_PATH if 'duolingo' in name else MASCOT_PATH
+                original_paths[values[old]]=name
+                if 'duolingo' not in name and drawable_paths is not None and values[old] not in drawable_paths:continue
+                path=LOGO_PATH if 'duolingo' in name else (drawable_paths or {}).get(values[old],MASCOT_PATH)
                 struct.pack_into('<I',package,at+12,index(path));affected[name]=path
     for i in text_indices:
         updated=display_text(values[i])
         if updated!=values[i]:replacements[i]=(values[i],updated); values[i]=updated
     out=bytearray(table[:12])+pool_bytes(pool,values)+package
     struct.pack_into('<I',out,4,len(out))
-    return bytes(out), {'text_values':len(replacements),'drawable_resources':affected}
+    return bytes(out), {'text_values':len(replacements),'drawable_resources':affected,'original_paths':original_paths}
 
 def wordmark_xml(font_path):
     from fontTools.ttLib import TTFont
@@ -115,3 +118,52 @@ def animation_overlays(original,png):
             except (ValueError,KeyError,TypeError):continue
             if changed:overlays[path]=result;report[path]={'lottie':True}
     return overlays,report
+
+def mascot_drawables(decoded,table):
+    """Keep original intrinsic bounds while fitting the unchanged PNG inside."""
+    import hashlib,xml.etree.ElementTree as E
+    from PIL import Image
+    from pathlib import Path
+    decoded=Path(decoded);A='{http://schemas.android.com/apk/res/android}'
+    dimensions={e.get('name'):e.text for p in (decoded/'res').glob('values/dimens.xml') for e in E.parse(p).getroot()}
+    def number(value):
+        if value.startswith('@dimen/'):value=dimensions[value.split('/',1)[1]]
+        return float(re.sub(r'(dp|dip|px)$','',value))
+    def size(path,seen=()):
+        if path in seen:raise ValueError('Circular drawable '+path)
+        file=decoded/path
+        if not file.exists():
+            folder=re.sub(r'-v\d+$','',file.parent.name)
+            choices=list((decoded/'res').glob(folder+'/'+file.name))+list((decoded/'res').glob(folder+'-v*/'+file.name))
+            if not choices:raise FileNotFoundError(path)
+            file=choices[0]
+        if file.suffix!='.xml':
+            with Image.open(file) as im:w,h=im.size
+            folder=file.parent.name;density=next((v for k,v in [('xxxhdpi',640),('xxhdpi',480),('xhdpi',320),('hdpi',240),('mdpi',160),('ldpi',120)] if k in folder),160)
+            return w*160/density,h*160/density
+        root=E.parse(file).getroot()
+        if root.tag=='vector' and root.get(A+'width') and root.get(A+'height'):return number(root.get(A+'width')),number(root.get(A+'height'))
+        for e in root.iter():
+            if e.tag=='vector' and e.get(A+'width') and e.get(A+'height'):return number(e.get(A+'width')),number(e.get(A+'height'))
+        for e in root.iter():
+            ref=e.get(A+'drawable') or e.get(A+'src')
+            if ref and ref.startswith('@drawable/'):
+                target=ref.split('/',1)[1]
+                candidates=list((decoded/'res/drawable').glob(target+'.*'))
+                if not candidates:candidates=list((decoded/'res').glob('drawable*/'+target+'.*'))
+                if candidates:return size(str(candidates[0].relative_to(decoded)),seen+(path,))
+        return None  # A border/solid/gradient is not mascot artwork.
+    paths={};files={};sizes={}
+    for path,name in rebrand_table(table)[1]['original_paths'].items():
+        if 'duolingo' in name:continue
+        intrinsic=size(path)
+        if intrinsic is None:continue
+        w,h=intrinsic
+        if w<=0 or h<=0:raise ValueError('Invalid original mascot size: '+path)
+        target='res/drawable/duoaero_mascot_'+hashlib.sha256(path.encode()).hexdigest()[:16]+'.xml'
+        # Approved PNG is 1200x1300. Read dimensions from its IHDR at build time.
+        png=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
+        iw,ih=struct.unpack_from('>II',png,16);scale=min(w/iw,h/ih)
+        files[target]=f'<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item><shape><size android:width="{w:g}dp" android:height="{h:g}dp"/><solid android:color="#00000000"/></shape></item><item android:width="{iw*scale:g}dp" android:height="{ih*scale:g}dp" android:gravity="center"><bitmap android:src="@drawable/ic_launcher_foreground" android:gravity="fill" android:filter="true"/></item></layer-list>'
+        paths[path]=target;sizes[path]=[w,h]
+    return paths,files,sizes

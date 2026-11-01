@@ -42,7 +42,7 @@ jobs:
           PY
           curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.12.1/apktool_2.12.1.jar -o "$DUOAERO_APKTOOL"
           java -Xmx3g -jar "$DUOAERO_APKTOOL" d "$DUOAERO_APK" -o "$DUOAERO_SMALI"
-          python -m pip install fonttools==4.61.1
+          python -m pip install fonttools==4.61.1 Pillow==11.3.0
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-36' 'build-tools;35.0.0'
       - name: Build unsigned candidate and bind its source inventory
         run: |

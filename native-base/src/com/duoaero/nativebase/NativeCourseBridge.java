@@ -313,7 +313,7 @@ public final class NativeCourseBridge {
    Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method");
    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
    if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?config")){code=200;}
-   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=diagnosticProfile;}
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1")&&diagnosticProfile!=null){code=200;payload=NativeRewards.profile(app,new JSONObject(diagnosticProfile)).toString();}
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/avatar-builder-config")){
     // The original resource may reload when Profile starts observing it.
     // Answer its normal request as well as seeding its native cache.

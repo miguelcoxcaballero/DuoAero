@@ -120,8 +120,10 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  }
  @JavascriptInterface public void onAccount(String id,String label){
   NativeAccountStore.key(id);
-  ui(()->{
-   synchronized(NativeAccountStore.LOCK){
+  // JavascriptInterface calls arrive on the bridge thread. Wait for a path
+  // refresh there, before posting the account transition to the UI thread.
+  synchronized(NativeAccountStore.LOCK){
+   ui(()->{
     String previous=NativeAccountStore.current(app);
     if(previous.equals(id)){NativeAccountStore.select(app,id,label);return null;}
     if(hasSession())throw new IllegalStateException("Finish the current lesson before changing accounts");
@@ -130,8 +132,8 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
     try{NativeBootstrap.accountChanged(app,true);}
     catch(Exception error){NativeAccountStore.select(app,previous,oldLabel);NativeBootstrap.accountChanged(app,!previous.isEmpty());throw error;}
     manualSignIn=false;launch();return null;
-   }
-  });
+   });
+  }
  }
  @JavascriptInterface public String readProgressForAccount(String id){try{return NativeProgressSync.read(app,id);}catch(Exception error){throw new IllegalStateException("Cannot read this account's progress",error);}}
  @JavascriptInterface public String readAuthStorage(){try{return NativeAuthStorage.read(app);}catch(Exception error){throw new IllegalStateException("Cannot restore Google authentication storage",error);}}
@@ -164,12 +166,12 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
   });
  }
  @JavascriptInterface public void onSignedOut(){
-  ui(()->{
-   synchronized(NativeAccountStore.LOCK){
+  synchronized(NativeAccountStore.LOCK){
+   ui(()->{
     if(hasSession())throw new IllegalStateException("Finish the current lesson before signing out");
     NativeAccountStore.select(app,"","");NativeBootstrap.accountChanged(app,false);launch();return null;
-   }
-  });
+   });
+  }
  }
  public void onActivityCreated(Activity activity,Bundle state){if(activity.getClass().getName().equals("com.duolingo.session.SessionActivity"))sessions.add(activity);}
  public void onActivityResumed(Activity activity){

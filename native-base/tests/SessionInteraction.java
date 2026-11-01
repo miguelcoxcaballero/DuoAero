@@ -187,7 +187,7 @@ final class SessionInteraction {
    if(!hasContinue(test))throw new IllegalStateException("Missing graded Continue at "+question.getString("id"));
    if(i==selections.length()-1)finalContinueAt=android.os.SystemClock.elapsedRealtime();
    click(test,null,"CONTINUE");
-   Thread.sleep(1000);
+   if(i<selections.length()-1)Thread.sleep(1000);
   }
   for(int attempt=0;attempt<100&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
   boolean summaryVisible=contains(test,"CLAIM XP");

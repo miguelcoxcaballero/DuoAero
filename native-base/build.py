@@ -6,7 +6,7 @@ from course_adapter import session as native_session
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
 from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
-from branding import rebrand_table, wordmark_xml, animation_overlays, LOGO_PATH
+from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -84,12 +84,20 @@ wordmark_res=WORK/'launcher-res/drawable/duoaero_wordmark.xml'
 wordmark_res.parent.mkdir(parents=True,exist_ok=True)
 wordmark_res.write_text(wordmark_xml(BASE/'res/font/duolingosans_bold.otf'))
 run(tool('aapt2'),'compile',wordmark_res,'-o',WORK/'wordmark-res.zip')
+with zipfile.ZipFile(APK) as original:
+ mascot_paths,mascot_xml,mascot_sizes=mascot_drawables(BASE,original.read('resources.arsc'))
+mascot_res=WORK/'mascot-res'
+if mascot_res.exists():shutil.rmtree(mascot_res)
+for path,xml in mascot_xml.items():
+ destination=mascot_res/path.removeprefix('res/');destination.parent.mkdir(parents=True,exist_ok=True);destination.write_text(xml)
+run(tool('aapt2'),'compile','--dir',mascot_res,'-o',WORK/'mascot-res.zip')
 run(tool('aapt2'),'link','-o',WORK/'launcher.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'launcher-res.zip')
 with zipfile.ZipFile(WORK/'launcher.apk') as launcher:
  launcher_xml=launcher.read(next(n for n in launcher.namelist() if n.endswith('/duoaero_launcher.xml')))
-run(tool('aapt2'),'link','-o',WORK/'wordmark.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'wordmark-res.zip')
+run(tool('aapt2'),'link','-o',WORK/'wordmark.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'wordmark-res.zip','-R',WORK/'mascot-res.zip')
 with zipfile.ZipFile(WORK/'wordmark.apk') as wordmark:
  wordmark_xml_bytes=wordmark.read(LOGO_PATH)
+ mascot_xml_bytes={path:wordmark.read(path) for path in mascot_xml}
 source=ROOT/'native-base/src/com/duoaero/nativebase/NativeCourseBridge.java';assert source.is_file()
 run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',str(JAR)+os.pathsep+str(updater/'updater-shaded.jar'),'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
@@ -335,7 +343,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
    assert resource_id==0x7f160016
-   branded,branding_report=rebrand_table(launcher_mascot(table))
+   branded,branding_report=rebrand_table(launcher_mascot(table),mascot_paths)
    (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
    out.writestr(entry,branded)
   elif n in animation_files:out.writestr(entry,animation_files[n])
@@ -352,6 +360,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  out.write(ROOT/'app/assets/mascot/welcome.png',MASCOT_PATH)
  out.writestr(LOGO_PATH,wordmark_xml_bytes)
+ for path,xml in mascot_xml_bytes.items():out.writestr(path,xml)
  for asset in (ROOT/'app/assets/updates').iterdir():
   if asset.is_file() and asset.name!='config.json':out.write(asset,'assets/updates/'+asset.name)
  update_config=json.loads((ROOT/'app/assets/updates/config.json').read_text())

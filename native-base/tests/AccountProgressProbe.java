@@ -39,6 +39,11 @@ public final class AccountProgressProbe extends Instrumentation {
    check(new JSONObject((String)read.invoke(null,app,"synthetic-account-a")).getJSONObject("records").length()==0);
    check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-account-a",payload.toString())));
    check(Boolean.FALSE.equals(apply.invoke(null,app,"synthetic-account-a",payload.toString())));
+   Class<?> rewards=Class.forName("com.duoaero.nativebase.NativeRewards",true,loader);
+   Method rewardProfile=rewards.getDeclaredMethod("profile",Application.class,JSONObject.class);rewardProfile.setAccessible(true);
+   JSONObject earned=(JSONObject)rewardProfile.invoke(null,app,new JSONObject());
+   check(earned.getJSONObject("gemsConfig").getInt("gems")==10);
+   check(earned.getJSONObject("streakData").getInt("length")==0);
    JSONObject first=new JSONObject((String)read.invoke(null,app,"synthetic-account-a"));
    check(first.getJSONObject("completedLessons").has(lessonId));
    check(!first.getJSONObject("records").getJSONObject(qid).getBoolean("correct"));
@@ -53,6 +58,7 @@ public final class AccountProgressProbe extends Instrumentation {
    JSONObject other=new JSONObject((String)read.invoke(null,app,"synthetic-account-b"));
    check(other.getJSONObject("records").length()==0&&other.getJSONObject("completedLessons").length()==0);
    check(create.invoke(null,app)==null);
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==0);
    boolean denied=false;
    try{read.invoke(null,app,"synthetic-account-a");}catch(InvocationTargetException error){denied=error.getCause() instanceof SecurityException;}
    check(denied);
@@ -71,6 +77,7 @@ public final class AccountProgressProbe extends Instrumentation {
    check(restored.getJSONObject("records").getJSONObject(qid).getBoolean("correct"));
    check(restored.getJSONObject("records").getJSONObject(qid).getInt("misses")==1);
    check(restored.getJSONObject("completedLessons").has(lessonId));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==10);
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

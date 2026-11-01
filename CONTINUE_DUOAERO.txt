@@ -1,3 +1,32 @@
+CURRENT USER DECISION (supersedes APK migration blocker): continue with6.103.5.
+Local reward implementation now projects10gems/unique validated lesson and
+current/longest calendar-day streak; per-lesson study days merge across Drive.
+Original User and UserStreak caches refresh asynchronously on home resume.
+Host tests:16reward/date checks pass; actual Android counter/restart pending.
+Chests and inline token positioning are NOT implemented yet. Generic Snoopy
+replacement still fails the requested emotion/action-specific artwork scope.
+
+LATEST USER STEERING / LOCAL WORK (2026-11-01)
+User requests migration of ALL patches to original Duolingo 6.103.6.
+APKMirror supplied download returned HTTP403 in this environment; web fetch
+also failed. Requested user attach the downloaded APK. Do not claim migration
+or release until exact new APK is obtained and hooks/runtime revalidated.
+User requires Snoopy imagery/animations matching each replaced emotion/action;
+the current generic mascot substitution does NOT satisfy this requirement.
+Formula tokens must occupy the actual inline blank, not a second box below.
+Incorrect formula feedback must show only the authored LaTeX solution.
+Local change implements formula feedback for all18 fixture exercises and rich
+notation for screenshot question TA1-0182-F1 in app/web banks. Data validation,
+64 choice grading combinations and preservation of106 original exam records
+pass. Generated1200 session fixtures. No Android rendering acceptance yet.
+Inline token layout and remaining unformatted stems are still pending.
+Cofres/chests, durable gems and local-day streak remain pending.
+Latest diagnostic artifact brand-lesson/session-aerospace-rich-all.txt reports
+15712ms final Continue to observed Claim XP, visible=true. This measurement
+includes the earlier1s probe delay; current uncommitted probe removes it.
+No new signed APK published; main/public release remains1.3.0. Local edits from
+the prior continuation remain present; do not discard them.
+
 CURRENT CONTINUATION (2026-11-01; supersedes historical notes)
 Main follow-up: production install/upgrade/restart run41283572840 PASS.
 Diagnostic run41284050657: standalone PASS actual19answers, Claim XP, visible

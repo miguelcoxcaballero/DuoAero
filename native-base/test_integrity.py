@@ -6,9 +6,9 @@ import subprocess
 import difflib
 import os
 
-from runtime_config import WORK, APK, tool
+from runtime_config import WORK, APK, BASE, tool
 from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
-from branding import rebrand_table, animation_overlays, LOGO_PATH
+from branding import rebrand_table, animation_overlays, mascot_drawables, LOGO_PATH
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex', 'res/mipmap-anydpi-v21/ic_launcher.xml'}
 target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base-test.apk')))
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
@@ -29,7 +29,9 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     assert 'classes12.dex' in built.namelist()
     assert 'classes13.dex' in built.namelist()
     table, resource_id = updater_paths(original.read('resources.arsc'))
-    assert built.read('resources.arsc') == rebrand_table(launcher_mascot(table))[0]
+    mascot_paths,wrappers,_=mascot_drawables(BASE,original.read('resources.arsc'))
+    assert built.read('resources.arsc') == rebrand_table(launcher_mascot(table),mascot_paths)[0]
+    assert set(wrappers)<=set(built.namelist())
     assert LOGO_PATH in built.namelist()
     assert built.read(MASCOT_PATH) == (Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
     assert built.read('res/mipmap-anydpi-v21/ic_launcher.xml') != original.read('res/mipmap-anydpi-v21/ic_launcher.xml')

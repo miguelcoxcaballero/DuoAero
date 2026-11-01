@@ -18,8 +18,11 @@ public final class NativeSessionStore {
   JSONObject lesson=catalog.getJSONObject(sessionId);
   boolean completed=NativeCourseProgress.isCompleted(submission,lesson);
   JSONObject proof=completed?submission:null;
+  org.json.JSONArray days=new org.json.JSONArray();
+  if(completed)days.put(java.time.LocalDate.now().toString());
   try{
    JSONObject previous=read(file);
+   days=NativeRewards.mergeDays(days,previous.optJSONArray("studyDays"));
    if(!sessionId.equals(previous.getString("sessionId")))throw new IOException("Stored lesson identity mismatch");
    completed|=previous.optBoolean("completedOnce")||NativeCourseProgress.isCompleted(previous.getJSONObject("nativeSubmission"),lesson);
    if(proof==null){
@@ -29,7 +32,7 @@ public final class NativeSessionStore {
    }
   }catch(FileNotFoundException absent){}
   JSONObject record=new JSONObject().put("schema",1).put("sessionId",sessionId)
-   .put("savedAt",System.currentTimeMillis()).put("nativeSubmission",submission).put("completedOnce",completed);
+   .put("savedAt",System.currentTimeMillis()).put("nativeSubmission",submission).put("completedOnce",completed).put("studyDays",days);
   if(proof!=null)record.put("completionSubmission",proof);
   FileOutputStream output=null;
   try{
@@ -69,7 +72,7 @@ public final class NativeSessionStore {
    org.json.JSONArray ids=new org.json.JSONArray(),challenges=proof.getJSONArray("challenges");
    for(int i=0;i<challenges.length();i++)ids.put(new JSONObject().put("id",challenges.getJSONObject(i).getString("id")));
    minimum.put("challenges",ids);
-   result.put(id,new JSONObject().put("at",stored.getLong("savedAt")).put("nativeCompletion",minimum));
+   result.put(id,new JSONObject().put("at",stored.getLong("savedAt")).put("nativeCompletion",minimum).put("studyDays",stored.optJSONArray("studyDays")));
   }
   return result;
  }
@@ -83,9 +86,14 @@ public final class NativeSessionStore {
    JSONObject proof=remote.optJSONObject("nativeCompletion");
    if(proof==null||!NativeCourseProgress.isCompleted(proof,catalog.getJSONObject(id)))continue;
    AtomicFile file=new AtomicFile(new File(folder,id+".json"));JSONObject stored;
-   try{stored=read(file);if(stored.optBoolean("completedOnce"))continue;}
+   try{stored=read(file);}
    catch(FileNotFoundException absent){stored=new JSONObject().put("schema",1).put("sessionId",id).put("nativeSubmission",proof);}
-   stored.put("completionSubmission",proof).put("completedOnce",true).put("savedAt",Math.max(1,remote.optLong("at",1)));
+   stored.put("studyDays",NativeRewards.mergeDays(stored.optJSONArray("studyDays"),remote.optJSONArray("studyDays")));
+   if(stored.optBoolean("completedOnce")){
+    JSONObject localProof=stored.optJSONObject("completionSubmission");
+    if(localProof!=null)proof=localProof;
+   }
+   stored.put("completionSubmission",proof).put("completedOnce",true).put("savedAt",Math.max(stored.optLong("savedAt",1),remote.optLong("at",1)));
    FileOutputStream output=null;
    try{output=file.startWrite();output.write(stored.toString().getBytes("UTF-8"));file.finishWrite(output);}
    catch(Exception error){if(output!=null)file.failWrite(output);throw error;}

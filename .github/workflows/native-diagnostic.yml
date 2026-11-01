@@ -86,6 +86,7 @@ jobs:
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_course_progress.py
+          python native-base/test_rewards.py
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies

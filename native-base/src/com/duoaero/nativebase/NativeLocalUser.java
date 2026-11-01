@@ -38,6 +38,7 @@ final class NativeLocalUser {
   if(courseId.equals("MATH_BT"))course.put("subject","math").put("topic","math");
   if(courseId.equals("none")){profile.put("allCourses",new JSONArray());profile.put("currentCourseId",JSONObject.NULL);}
   else profile.put("allCourses",new JSONArray().put(course)).put("currentCourseId",courseId);
+  NativeRewards.profile((android.app.Application)app,profile);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   String response=(String)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("setDiagnosticProfile",String.class).invoke(null,profile.toString());
   Object user=decode.invoke(json,serializer,response);

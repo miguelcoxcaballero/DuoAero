@@ -61,12 +61,22 @@ def formula_challenge(question, mathematical=True):
     inputs = {'gradingSpecification': grading,
               'dragChoices': [figure(t, True, latex=mathematical) for t in tokens for _ in range(max(1, Counter(answer)[t]))]}
     inputs['slotCount'] = len(answer)
+    if mathematical:
+        # Use the authored complete formula, not prose or a reconstruction from
+        # choice labels. Keep TeX intact for the original LatexString renderer.
+        solution = question.get('formula_latex')
+        if not isinstance(solution, str) or not solution.strip():
+            raise ValueError('Formula exercise requires a complete LaTeX solution: ' + question['id'])
+        feedback = {'underlyingEntity': {'noEntity': {}},
+                    'taggedTextElement': {'text': 'duoaero-latex:' + r'\textstyle ' + solution}}
+    else:
+        feedback = figure(question['explanation'])
     return {'id': question['id'], 'type': 'mathExpressionBuild',
             'noHint': {}, 'promptInputChallenge': {'prompt': {
                 'instruction': {'text': '★' * question['difficulty'] + ' ' + question['stem']},
                 'body': body,
                 'gradingFeedbackSpecification': {'staticFeedback': {
-                    'gradingFeedback': figure(question['explanation'])}}},
+                    'gradingFeedback': feedback}}},
                 'input': {'expressionBuildInput': inputs}}}
 
 
