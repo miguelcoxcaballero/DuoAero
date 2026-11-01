@@ -5,6 +5,27 @@ import java.lang.reflect.*;
 
 /** Known empty optional features of the isolated account, via native resources. */
 final class NativeLocalFeatures {
+ static void avatar(Context context)throws Exception {
+  ClassLoader loader=context.getClassLoader();
+  Object repository=repository(context,"E4","mg2"),factory=field(repository,"i");
+  Class<?> userType=Class.forName("com.duolingo.core.data.model.UserId",true,loader);
+  Class<?> languageType=Class.forName("com.duolingo.core.language.Language",true,loader);
+  String[] types={"ij2","ya7","com.duolingo.core.serialization.kotlinx.KotlinxConverter$Factory","dc1","prx","whr","java.io.File","com.duolingo.core.data.model.UserId","com.duolingo.core.language.Language"};
+  Class<?>[] signature=new Class<?>[types.length];
+  for(int i=0;i<types.length;i++)signature[i]=Class.forName(types[i],true,loader);
+  Object resource=Class.forName("ld2",true,loader).getConstructor(signature).newInstance(
+   field(factory,"a"),field(factory,"b"),field(factory,"c"),field(factory,"d"),field(repository,"k"),field(factory,"e"),field(factory,"f"),
+   userType.getConstructor(long.class).newInstance(1L),languageType.getField("ENGLISH").get(null));
+  Object vector=Class.forName("v2z",true,loader).getMethod("h").invoke(null);
+  Object map=Class.forName("com.duolingo.core.pcollections.migration.PersistentMapBackedMap",true,loader)
+   .getConstructor(Class.forName("cdu",true,loader)).newInstance(Class.forName("gdu",true,loader).getField("d").get(null));
+  Class<?> vectorType=Class.forName("com.duolingo.core.pcollections.migration.PVector",true,loader),mapType=Class.forName("com.duolingo.core.pcollections.migration.PMap",true,loader);
+  // No avatar customization catalog is assigned to the local course. The
+  // original profile mapper uses its built-in display options for empty maps.
+  Object config=Class.forName("com.duolingo.data.avatar.builder.AvatarBuilderConfig",true,loader)
+   .getConstructor(vectorType,mapType,String.class,String.class,mapType,mapType).newInstance(vector,map,"","",map,map);
+  NativeLocalCache.write(loader,field(repository,"k"),resource,config);
+ }
  static String goals(Context context)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Object repository=repository(context,"v6","hji");

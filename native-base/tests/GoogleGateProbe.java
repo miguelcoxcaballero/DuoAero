@@ -54,6 +54,7 @@ public final class GoogleGateProbe extends Instrumentation {
  }
  private void await(String text)throws Exception {
   for(int i=0;i<90;i++){
+   getUiAutomation().clearCache();
    AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
    if(root!=null)try{if(contains(root,text))return;}finally{root.recycle();}
    Thread.sleep(1000);

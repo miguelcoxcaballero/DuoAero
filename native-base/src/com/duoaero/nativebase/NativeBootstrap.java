@@ -43,6 +43,8 @@ public final class NativeBootstrap {
     // may take longer than one observation window to publish that scope.
     try{NativeLocalFeatures.social(app);}
     catch(Exception error){Log.e("DuoAeroNative","Standalone social initialization failed",error);}
+    try{NativeLocalFeatures.avatar(app);}
+    catch(Exception error){Log.e("DuoAeroNative","Standalone avatar configuration failed",error);}
     for(int attempt=1;attempt<=3;attempt++){
      try{NativeLocalFeatures.goals(app);Log.i("DuoAeroNative","Standalone goals cache ready on attempt "+attempt);break;}
      catch(Exception error){

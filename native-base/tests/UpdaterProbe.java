@@ -55,19 +55,17 @@ public final class UpdaterProbe extends Instrumentation {
    }
    Thread.sleep(6000);
    SessionScreen.capture(this,"updater-settings","updater-settings");
-   AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
-   boolean visible=false;
-   if(root!=null)try{visible=contains(root,"Updates")&&contains(root,"Version B")&&contains(root,"Check for updates");}finally{root.recycle();}
-   if(!visible)throw new IllegalStateException("Canonical updater settings did not render");
    Activity canonical=waitForMonitorWithTimeout(updaterMonitor,10000);removeMonitor(updaterMonitor);
    if(canonical==null)throw new IllegalStateException("Canonical updater activity not observed");
    Field webField=canonical.getClass().getDeclaredField("web");webField.setAccessible(true);
    android.webkit.WebView web=(android.webkit.WebView)webField.get(canonical);
    java.util.concurrent.CountDownLatch bridgeDone=new java.util.concurrent.CountDownLatch(1);
    java.util.concurrent.atomic.AtomicReference<String> bridgeValue=new java.util.concurrent.atomic.AtomicReference<>();
-   runOnMainSync(()->web.evaluateJavascript("JSON.stringify({version:InhouseNative.getAppVersion(),code:InhouseNative.getAppVersionCode(),state:JSON.parse(InhouseNative.getUpdateState())})",value->{bridgeValue.set(value);bridgeDone.countDown();}));
+   runOnMainSync(()->web.evaluateJavascript("JSON.stringify({visible:document.body.innerText,version:InhouseNative.getAppVersion(),code:InhouseNative.getAppVersionCode(),state:JSON.parse(InhouseNative.getUpdateState())})",value->{bridgeValue.set(value);bridgeDone.countDown();}));
    if(!bridgeDone.await(10,java.util.concurrent.TimeUnit.SECONDS))throw new IllegalStateException("Canonical JavaScript bridge timed out");
    String decoded=(String)new org.json.JSONTokener(bridgeValue.get()).nextValue();JSONObject bridgeState=new JSONObject(decoded);
+   String visible=bridgeState.getString("visible");
+   if(!visible.contains("Updates")||!visible.contains("Version B")||!visible.contains("Check for updates"))throw new IllegalStateException("Canonical updater visible DOM missing settings");
    android.content.pm.PackageInfo installed=context.getPackageManager().getPackageInfo(context.getPackageName(),0);
    if(!installed.versionName.equals(bridgeState.getString("version"))||installed.getLongVersionCode()!=bridgeState.getLong("code")||!"B".equals(bridgeState.getJSONObject("state").getString("channel")))throw new IllegalStateException("Canonical bridge did not expose actual installed identity/policy");
    Class<?> state=Class.forName("com.inhouse.services.updater.UpdateState",true,loader);
