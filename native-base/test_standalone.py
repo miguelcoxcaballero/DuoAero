@@ -71,7 +71,24 @@ try:
     plan=json.loads((root/'app/assets/lesson_plan.json').read_text())
     # Exact original grade_correct_* strings, including randomized variants.
     positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great!','Great job!','Nice job!','Nice!','Nicely done!','Wow!'}
-    for i,qid in enumerate(plan[0]['lessons'][0]['ids']):
+    question_ids=list(plan[0]['lessons'][0]['ids'])
+    if os.environ.get('DUOAERO_TEST_MISTAKES')=='1':
+        first=bank[question_ids[0]]
+        wrong=first['options'][(first['answer']+1)%len(first['options'])]
+        tap(tree,text=wrong)
+        tree=wait_for('standalone-wrong-selected',lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
+        tap(tree,'com.duolingo:id/submitButton')
+        tree=wait_for('standalone-wrong-feedback',lambda t:any(n.get('text','').strip()=='GOT IT' for n in t.iter('node')),30)
+        tap(tree,text='GOT IT')
+        second=bank[question_ids[1]]
+        next_answer=second['options'][second['answer']]
+        wait_for('standalone-after-wrong',lambda t:any(next_answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30)
+        pending=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/question-state.json'))
+        assert pending['records'][question_ids[0]]['correct'] is False, 'Original mistake was not persisted'
+        # The original lesson must recycle its actual mistake after the other
+        # questions. No test injects or appends a challenge to its engine.
+        question_ids=question_ids[1:]+question_ids[:1]
+    for i,qid in enumerate(question_ids):
         q=bank[qid]
         assert q['type']=='choice' and not q.get('rich_text'), 'Cold-start driver needs reviewed support for this type'
         answer=q['options'][q['answer']]
@@ -108,6 +125,12 @@ try:
     store='files/duoaero-course/local-test/submissions/'+first_id+'.json'
     saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat',store))
     assert saved['sessionId']==first_id and saved['completedOnce'] is True, 'Native submission did not establish durable completion'
+    if os.environ.get('DUOAERO_TEST_MISTAKES')=='1':
+        ledger=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/question-state.json'))
+        corrected=ledger['records'][plan[0]['lessons'][0]['ids'][0]]
+        assert corrected['correct'] is True and corrected['misses']==1, 'Correct retry did not resolve the persistent mistake'
+        assert all(ledger['records'][qid]['correct'] is True for qid in question_ids)
+        (OUT/'standalone-mistakes-result.txt').write_text('PASS: real wrong answer stored, original end-of-lesson retry, correct retry clears the pending mistake and completion is committed.\n')
     (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
     adb('shell','am','force-stop',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')

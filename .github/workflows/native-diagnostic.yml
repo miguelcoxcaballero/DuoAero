@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: [path, lesson, formula, mixed, standalone, resume]
+        scenario: [path, lesson, formula, mixed, standalone, resume, mistakes]
     timeout-minutes: 30
     env:
       ANDROID_HOME: /tmp/duoaero-sdk
@@ -62,7 +62,7 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          if [ "$DIAGNOSTIC_SCENARIO" = standalone ] || [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_STANDALONE=1; fi
+          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes) export DUOAERO_STANDALONE=1;; esac
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_course_progress.py
@@ -179,8 +179,9 @@ jobs:
             mixed)
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               ;;
-            standalone|resume)
+            standalone|resume|mistakes)
               if [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_TEST_RESUME=1; fi
+              if [ "$DIAGNOSTIC_SCENARIO" = mistakes ]; then export DUOAERO_TEST_MISTAKES=1; fi
               python native-base/test_standalone.py
               ;;
             path)

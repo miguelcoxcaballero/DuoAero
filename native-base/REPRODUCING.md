@@ -601,3 +601,15 @@ word width; Turbine is offscreen. A scoped row-count adapter now measures labels
 and available screen width while retaining the original lazy bank, cards and
 handlers. The driver scrolls that native bank to find lower rows. Runtime bounds
 and grading acceptance of this layout correction are pending.
+
+NativeMistakeStore now reads completed challenge indices and graded guesses from
+the original PersistedState, resolves each through the original Session resolver
+and atomically records outcomes across lessons. Per-run cursors prevent repeated
+engine emissions from duplicating attempts. Later correct attempts resolve a
+pending mistake; older timestamps cannot overwrite a newer outcome. Seven pure
+ledger cases pass with the existing 23 progress cases. A real wrong-answer /
+original end-of-lesson retry scenario is added; Android acceptance and a separate
+review entry point remain pending. This is not yet a finished review feature.
+Rich-choice probes now wait for the original asynchronous selection result before
+pressing Check, and still require its graded Continue afterward. The earlier
+first-card probe pressed during evaluation and remained on Check.

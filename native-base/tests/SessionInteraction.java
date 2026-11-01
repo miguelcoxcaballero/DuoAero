@@ -164,7 +164,10 @@ final class SessionInteraction {
     SessionScreen.capture(test,"lesson-prompt-scrolled","lesson-prompt-scrolled");
    }
    click(test,"com.duolingo:id/mathCard",answer);
-   Thread.sleep(250);
+   // Blob selection evaluates asynchronously. Observe that original result
+   // before pressing Check; checking during evaluation can be ignored.
+   NativeMathGrade.require(test,activity,"CORRECT");
+   test.waitForIdleSync();Thread.sleep(600);
    click(test,"com.duolingo:id/submitButton",null);
    Thread.sleep(1000);
    SessionScreen.capture(test,"lesson-answer-"+i,"lesson-answer-"+i);

@@ -58,6 +58,7 @@ public final class NativeSessionResume {
     }
    }
    if(((List<?>)state.getClass().getField("b").get(state)).isEmpty())return state;
+   NativeMistakeStore.observe(app,session,state,catalog.getJSONObject(id));
    Parcel parcel=Parcel.obtain();byte[] bytes;
    try{((Parcelable)state).writeToParcel(parcel,0);bytes=parcel.marshall();}finally{parcel.recycle();}
    if(bytes.length>4*1024*1024)throw new IOException("Native session state too large");

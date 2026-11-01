@@ -11,6 +11,7 @@ source.write_text('''
 import org.json.*;
 import java.util.*;
 import com.duoaero.nativebase.NativeCourseProgress;
+import com.duoaero.nativebase.NativeQuestionLedger;
 public class CourseProgressCheck {
  static int checks;
  static void check(boolean value){if(!value)throw new AssertionError("case "+checks);checks++;}
@@ -45,6 +46,21 @@ public class CourseProgressCheck {
   check(course.getJSONArray("pathSectionsSummary").getJSONObject(0).getJSONArray("completedLevelsPerUnit").toString().equals("[1,1]"));
   String snapshot=section.toString();NativeCourseProgress.project(course,section,new HashSet<>(Arrays.asList("a","b","c")));
   check(snapshot.equals(section.toString()));
+  JSONObject records=new JSONObject();
+  NativeQuestionLedger.record(records,"q1",false,100,"lesson1");
+  NativeQuestionLedger.record(records,"q2",false,200,"lesson2");
+  check(NativeQuestionLedger.unresolved(records).equals(Arrays.asList("q1","q2")));
+  NativeQuestionLedger.record(records,"q1",true,300,"review1");
+  check(NativeQuestionLedger.unresolved(records).equals(Arrays.asList("q2")));
+  check(records.getJSONObject("q1").getInt("misses")==1);
+  NativeQuestionLedger.record(records,"q1",false,150,"older-device");
+  check(records.getJSONObject("q1").getBoolean("correct"));
+  NativeQuestionLedger.record(records,"q1",false,400,"lesson3");
+  check(NativeQuestionLedger.unresolved(records).equals(Arrays.asList("q2","q1")));
+  check(records.getJSONObject("q1").getInt("misses")==2);
+  NativeQuestionLedger.record(records,"q2",true,500,"review2");
+  NativeQuestionLedger.record(records,"q1",true,600,"review2");
+  check(NativeQuestionLedger.unresolved(records).isEmpty());
   System.out.println("PASS: "+checks+" native completion/projection boundary checks; actual submission schema and restart persistence require device acceptance");
  }
 }
