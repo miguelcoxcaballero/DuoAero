@@ -16114,7 +16114,7 @@
       {
         "id": "TA1-0078-D2-F2", "type": "formula_blocks",
         "stem": "Complete the fuel fraction formula",
-        "prefix": "\\frac{m_{fuel}}{m_i} =", "blocks": ["1-r", "r", "1+r", "r²"], "answer_blocks": ["1-r"],
+        "prefix": "\\frac{m_{\\mathrm{fuel}}}{m_i} =", "blocks": ["1-r", "r", "1+r", "r²"], "answer_blocks": ["1-r"],
         "formula_latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r",
         "explanation": "The burned fuel fraction is one minus the remaining mass fraction r."
       },
@@ -16123,7 +16123,8 @@
         "stem": "For x=0.10277 the remaining mass fraction r is 0.90233. The initial mass is 53000 kg. How much fuel is burned?",
         "options": ["47824 kg", "5446.9 kg", "5176.3 kg", "527.66 kg"], "answer": 2,
         "explanation": "Fuel burned is 53000 × (1 − 0.90233) ≈ 5176.5 kg; 5176.3 kg is closest.",
-        "formula_hint": {"latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r", "prerequisite": "TA1-0078-D2-F2"}
+        "formula_hint": {"latex": "\\frac{m_{\\mathrm{fuel}}}{m_i}=1-r", "prerequisite": "TA1-0078-D2-F2"},
+        "rich_text": {"stem": [{"text": "For "}, {"latex": "x=0.10277"}, {"text": " the remaining mass fraction is "}, {"latex": "r=0.90233"}, {"text": ". The initial mass is "}, {"latex": "m_i=53000\\,\\mathrm{kg}"}, {"text": ". How much fuel is burned?"}]}
       }
     ],
     "options": [

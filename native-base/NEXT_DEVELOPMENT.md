@@ -23,13 +23,15 @@ require review.
 * Four formula-block prerequisites and corresponding hints have since been
   inserted before those Mach calculations. Run 41343794820 graded all four
   blocks correctly, and run 41343977624 graded a diagnostic mixed sequence
-  including the alternating Mach formula/calculation steps. A hint/retry
-  diagnostic reached the repeated question but its locator failed; a corrected
-  driver has been queued. Real-account progress migration remains unverified.
+  including the alternating Mach formula/calculation steps. Run 41345099260
+  additionally passed the hint-at-Check and retry-at-end flow through Claim XP.
+  Real-account progress migration remains unverified.
 * TA1-0078-D2 has been split into two short calculations, each preceded by a
   formula-block exercise. Its arithmetic, prerequisites, stable lesson ID and
-  maximum lesson size pass host checks. Android interaction and the migration
-  of a real account are not yet verified.
+  maximum lesson size pass host checks. Run 41345221516 graded all four steps
+  in a mixed native Android session, followed by the successful Mach hint
+  retry. Subsequent minor notation edits and migration of a real account still
+  need device verification.
 * Device run 41339958992 completed its normal progression test, but its
   `standalone-celebration-00.png` through `-05.png` show the generic doghouse
   Snoopy, despite the new buff-character Rive artboard preview working in
