@@ -90,4 +90,31 @@ final class LocalCourseCache {
    if(disposable!=null)Class.forName("arb",true,loader).getMethod("dispose").invoke(disposable);
   }
  }
+ static Object first(ClassLoader loader,Object flow,Object dispatcher)throws Exception {
+  Object observable=Class.forName("mao",true,loader).getMethod("b",Class.forName("qdf",true,loader),Class.forName("rn8",true,loader)).invoke(null,flow,dispatcher);
+  Class<?> consumerType=Class.forName("qb8",true,loader);
+  CountDownLatch done=new CountDownLatch(1);
+  AtomicReference<Object> value=new AtomicReference<>();
+  AtomicReference<Throwable> failure=new AtomicReference<>();
+  Object[] consumers=new Object[2];
+  for(int i=0;i<2;i++){
+   final boolean error=i==1;
+   consumers[i]=Proxy.newProxyInstance(loader,new Class[]{consumerType},(proxy,method,args)->{
+    if(method.getName().equals("accept")){
+     if(error)failure.set((Throwable)args[0]);else value.set(args[0]);
+     done.countDown();return null;
+    }
+    if(method.getName().equals("toString"))return "Synthetic cache input observer";
+    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
+    if(method.getName().equals("equals"))return proxy==args[0];
+    throw new UnsupportedOperationException(method.getName());
+   });
+  }
+  Object subscription=Class.forName("ohf",true,loader).getMethod("l0",consumerType,consumerType).invoke(observable,consumers);
+  try{
+   if(!done.await(10,TimeUnit.SECONDS))throw new IllegalStateException("Native cache context did not emit");
+   if(failure.get()!=null)throw new IllegalStateException("Native cache context failed",failure.get());
+   return value.get();
+  }finally{Class.forName("arb",true,loader).getMethod("dispose").invoke(subscription);}
+ }
 }

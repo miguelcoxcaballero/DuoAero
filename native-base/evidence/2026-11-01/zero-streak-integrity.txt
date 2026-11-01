@@ -1,0 +1,1 @@
+PASS: 18247 original APK entries preserved byte-for-byte, original application/session activity retained

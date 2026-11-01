@@ -357,3 +357,27 @@ it is not real authentication. Source inspection distinguishes this reducer
 from ygc case 1, which performs login/logout side effects. The probe reports
 launch navigation state and enum names, and captures the final screen again
 after observing session-end inputs. Runtime result remains pending.
+
+
+Run 41260263363 verifies the zero-day UserStreak fix: engine.d is non-null,
+SessionEndConfigureArgs emits and is saved. The 15 original CORRECT results
+still pass. The final summary remains blocked: named inputs goalsSchema,
+dailyQuests, preSessionState, userFollowState and resurrectedLoginRewardsState
+(and their derived composites) do not emit. The native source shows goalsSchema
+is also an input to the pre-session snapshot. No completion or persistence is
+claimed. The first-question screenshot still does not show difficulty stars.
+
+The next comparison supplies the original empty GoalsSchemaResponse through
+hji/mji/lji before answers, using the actual emitted uhi scope. At session end
+it supplies an original UserSocialProfile with zero followers/following and an
+empty list through sb90/ga90/u12. These represent unconfigured optional features
+of the isolated account. They do not award progress or replace readiness.
+The social write is an explicit diagnostic input before end-flow observation;
+it is not passive instrumentation. Runtime effect is pending.
+
+Run 41260735970 failed with a real process crash after native login cache input:
+PackageManager.NameNotFoundException: com.duolingo, from h4t -> gnv. This
+original update-time lookup had retained the old installed package name. The
+build now changes only that exact getPackageInfo constant to its manifest
+package, with a single-anchor assertion and restoration of original smali.
+It does not suppress the exception or falsify PackageInfo. Revalidation pending.

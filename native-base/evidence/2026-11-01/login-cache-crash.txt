@@ -1,0 +1,23 @@
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: FATAL EXCEPTION: DefaultDispatcher-worker-48
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: Process: com.duoaero.nativebase, PID: 4053
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: android.content.pm.PackageManager$NameNotFoundException: com.duolingo
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at android.app.ApplicationPackageManager.getPackageInfoAsUser(ApplicationPackageManager.java:280)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at android.app.ApplicationPackageManager.getPackageInfo(ApplicationPackageManager.java:240)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at android.app.ApplicationPackageManager.getPackageInfo(ApplicationPackageManager.java:234)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at h4t.invoke(Unknown Source:1067)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at kotlin.SynchronizedLazyImpl.getValue(Unknown Source:20)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at gnv.a(Unknown Source:2)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at k1.invoke(Unknown Source:2395)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at ds1.emit(Unknown Source:188)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at if40.collect(Unknown Source:179)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at kv.collect(Unknown Source:1431)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at nrb.collect(Unknown Source:18)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at kv.collect(Unknown Source:209)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at qef.collect(Unknown Source:180)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at tef.invokeSuspend(Unknown Source:12)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at xv2.resumeWith(Unknown Source:7)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at v5z.invokeSuspend(Unknown Source:21)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at xv2.resumeWith(Unknown Source:7)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at bqb.run(Unknown Source:113)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	at yn8.run(Unknown Source:117)
+11-01 01:26:49.758  4053  4792 E AndroidRuntime: 	Suppressed: bgb: [CoroutineName(ApplicationCoroutineScope), cd40{Cancelling}@7d2dcbd, Dispatchers.Default]

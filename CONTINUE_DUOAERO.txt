@@ -27,6 +27,13 @@ endpoint counts, and revalidate the regenerated Math-typed bank fixtures.
 No standalone app, persistence, production APK or complete-course acceptance.
 See native-base/status.json and REPRODUCING.md for exact evidence and limits.
 
+NEWER COMPLETION FINDING (2026-11-01)
+Run 41260263363: zero-day lifetime UserStreak fixes the original end guard;
+SessionEndConfigureArgs now emits and is saved. Summary still does not render.
+Missing named inputs include goalsSchema, preSessionState and userFollowState.
+Current probes feed original native empty optional-feature resources and central
+login state. Read REPRODUCING.md for results; no production APK exists.
+
 START HERE
 Continue Miguel's existing DuoAero project. Read this entire file, AGENTS.md,
 native-base/status.json and the actual code before editing. Work from branch

@@ -43,10 +43,19 @@ flow_original=flow_source.read_bytes()
 flow_text=flow_original.decode('utf-8').replace('\r\n','\n')
 flow_anchor='    iput-object p1, p0, Lg9q;->b:Lqdf;'
 assert flow_text.count(flow_anchor)==1
+package_source=SMALI/'smali/h4t.smali'
+package_original=package_source.read_bytes()
+package_text=package_original.decode('utf-8').replace('\r\n','\n')
+package_anchor='    const-string v2, "com.duolingo"\n\n    invoke-virtual {v1, v2, v12}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;'
+assert package_text.count(package_anchor)==1
 try:
  flow_source.write_text(flow_text.replace(flow_anchor,flow_anchor+'\n\n    invoke-static {p1, p2}, Lcom/duoaero/nativebase/NativeCourseBridge;->recordFlow(Ljava/lang/Object;Ljava/lang/String;)V'),encoding='utf-8')
+ # Original app-update metadata must query the identity actually installed.
+ package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
-finally:flow_source.write_bytes(flow_original)
+finally:
+ flow_source.write_bytes(flow_original)
+ package_source.write_bytes(package_original)
 run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:

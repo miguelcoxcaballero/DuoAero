@@ -21,7 +21,7 @@
       "options",
       "explanation"
     ],
-    "original_entries_preserved": 18248,
+    "original_entries_preserved": 18247,
     "native_latex_greek_symbols": [
       "alpha",
       "gamma",
@@ -44,7 +44,9 @@
     "native_course_path_42_units_decoded_and_cached": true,
     "native_math_answers_graded_correct_in_one_diagnostic_sequence": 15,
     "native_rich_questions_graded_correct": 3,
-    "native_math_incorrect_state_and_got_it_advancement": true
+    "native_math_incorrect_state_and_got_it_advancement": true,
+    "native_session_end_configure_args_emitted": true,
+    "difficulty_stars_visible": false
   },
   "not_verified_or_incomplete": [
     "15 consecutive diagnostic answers grade CORRECT through original visible Math fragments, including all 3 rich questions; separate wrong answer grades INCORRECT and GOT IT advances. After the final correct answer the screen remains on loading dots. Completion, saved progress, resume and standalone startup remain incomplete.",
@@ -73,8 +75,15 @@
     },
     "offline_profile_mode_test": "No change to blank session after supplying local repository mode.",
     "hardcoded_session_loading": "Original loader nnk.a combines course flow bp1.h, user flow rs1.f and streak flow xa90.a before constructing the session. A CourseProgressSummary in User.allCourses does not initialize these repositories.",
-    "next_required_integration": "Inspect original engine state and isolated endpoint counts after final answer; compare original default Config cache input for splash and session end. Revalidate 1195 regenerated Math-typed fixtures with original serializer.",
-    "scope": "15 correct native answers including 3 rich questions, plus a separate original incorrect result, verified in instrumentation. Final lesson screen stays loading; 42 path units decode/cache but home stays splash. No standalone course or persistence."
+    "next_required_integration": "Resolve remaining original session-end inputs and splash, then establish standalone startup and real persistence.",
+    "scope": "15 correct native answers including 3 rich questions, plus a separate original incorrect result, verified in instrumentation. Final lesson screen stays loading; 42 path units decode/cache but home stays splash. No standalone course or persistence.",
+    "completion_dependencies": {
+      "run": "https://github.com/miguelcoxcaballero/DuoAero/actions/runs/41260263363",
+      "fixed": "Known zero-day UserStreak passes original c4x/gr10 guard; SessionEndConfigureArgs emits and is saved.",
+      "remaining": "No summary: goalsSchema, dailyQuests, preSessionState, userFollowState, resurrectedLoginRewardsState and derived end states do not emit.",
+      "next": "Feed actual native empty goals/social resources; compare central login cache input.",
+      "stars": "Added font glyphs/data are not visible in inspected first-question screenshot; display requirement remains open."
+    }
   },
   "continuation_2026_10_31_cloud": {
     "release_ready": false,
