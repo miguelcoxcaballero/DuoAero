@@ -73,6 +73,18 @@ assert steps[0]['options'][steps[0]['answer']] == '19.33 kPa'
 assert steps[1]['options'][steps[1]['answer']] == '0.584'
 assert math.isclose(22.63 * .854, 19.33, abs_tol=.005)
 assert math.isclose(19.33 / 33.09, .584, abs_tol=.001)
+mach_problem = next(q for q in bank if q['id'] == 'TA1-0107-D2')
+mach_steps = lesson_questions([mach_problem])
+assert [q['id'] for q in mach_steps] == ['TA1-0107-D2-S1', 'TA1-0107-D2-S2', 'TA1-0107-D2-S3', 'TA1-0107-D2']
+assert all(len(q['stem']) < 160 for q in mach_steps)
+rise = 190**2 / (2 * 1004.5)
+static_temperature = 280 - rise
+sound_speed = math.sqrt(1.4 * 287 * static_temperature)
+assert math.isclose(rise, 17.97, abs_tol=.005)
+assert math.isclose(static_temperature, 262.03, abs_tol=.005)
+assert math.isclose(sound_speed, 324.47, abs_tol=.005)
+assert math.isclose(190 / sound_speed, .58556, abs_tol=.000005)
+assert [q['options'][q['answer']] for q in mach_steps] == ['17.97 K', '262.03 K', '324.47 m/s', '0.58556']
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
