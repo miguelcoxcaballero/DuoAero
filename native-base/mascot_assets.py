@@ -226,7 +226,7 @@ def rive(data,name,png,width,height):
     static_index=asset_index+len(all_frames)
     keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
     animation=None
-    replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0
+    replace=False;art=None;output=bytearray(header);changed=[];component_id=0;motion_parent=0;state_layer=None
     def finish():
         if not replace:return
         w,h=art.get(7,600.),art.get(8,600.)
@@ -267,7 +267,7 @@ def rive(data,name,png,width,height):
         if animation is not None and kind not in keyed:
             finish_animation();animation=None
         if kind==1:
-            finish();art=values;component_id=0;motion_parent=0;label=values.get(4,'');w,h=values.get(7,0),values.get(8,0)
+            finish();art=values;component_id=0;motion_parent=0;state_layer=None;label=values.get(4,'');w,h=values.get(7,0),values.get(8,0)
             # Some large character artboards nest another artboard containing
             # only eyes. Replacing both draws two full Snoopy images on top
             # of one another (and can put Snoopy inside Duo's eyes).
@@ -283,8 +283,17 @@ def rive(data,name,png,width,height):
             if replace and not motion_parent and kind==2 and values.get(5)==0 and abs(values.get(13,0))<1 and abs(values.get(14,0))<1:
                 motion_parent=component_id
         if replace and kind==31:animation=values
+        if replace and kind==57:state_layer=values.get(138,'')
         update=dict(values)
         if replace and kind in DRAWABLE:update[129]=values.get(129,0)|1
+        # The original foam rig cross-fades its intro into the loop. That
+        # blends several opaque sprite poses at once. The two tracks meet at
+        # the same registered pose, so switch at the boundary instead.
+        if (art is not None and kind==65 and state_layer=='idleLoop'
+            and values.get(158)==800 and (name,art.get(4)) in (
+                ('duo_normal_foam_finger_02','lc_character_artboard'),
+                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))):
+            update[158]=0
         # The completion scene instantiates each character twice: the first
         # group (parent 371) is the moving character and the second (parent
         # 632) plays its sparkle-only state. Our full-image replacements also

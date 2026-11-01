@@ -10,3 +10,10 @@ state machine using `duo_start_trig` can display overlapping poses during a
 transition. Do not claim smooth animation or enable that trigger globally
 until the original transitions and rendering are fixed and verified on Android.
 The forced-selection build is diagnostic, not the signed release.
+
+An experimental patch changes the foam sprite rig's 800 ms intro-to-loop
+cross-fade to a direct transition at its matching pose boundary. Isolated Rive
+playback after manually firing the trigger no longer showed the same overlapping
+poses in the sampled frames. This has not been verified through the completion
+screen on Android, and the samples do not establish smoothness. The original
+screen may choose a static state, which is a separate issue.

@@ -64,12 +64,23 @@ with zipfile.ZipFile(APK) as original:
         assert target in changed
         _, objects, _ = parse(output)
         board = animation = None
+        layer = None
         object_id = None
         tracks = {}
         poses = []
+        foam_switches = 0
         for kind, values, _ in objects:
             if kind == 1:
                 board, animation = values.get(4), None
+                layer = None
+            elif board == target and kind == 57:
+                layer = values.get(138)
+            elif (board == target and layer == 'idleLoop' and kind == 65
+                  and (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
+                                         ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))
+                  and 158 in values):
+                assert values[158] == 0
+                foam_switches += 1
             elif board == target and kind == 31:
                 animation = values.get(55)
             elif board == target and kind == 100 and values.get(4, '').startswith('DuoAero Snoopy frame '):
@@ -80,6 +91,9 @@ with zipfile.ZipFile(APK) as original:
                 elif kind == 30 and original_count + 1 <= (object_id or 0) <= original_count + 16:
                     tracks.setdefault(object_id, []).append((values[67], values[70]))
         assert len(poses) == len(tracks) == 16
+        if (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
+                              ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard')):
+            assert foam_switches == 1
         assert len({pose[206] for pose in poses}) == 16
         # Exactly one pose is visible throughout the looping native segment.
         for time in range(start, end + 1):
