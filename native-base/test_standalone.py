@@ -34,11 +34,15 @@ def capture(name):
     (OUT/(name+'.xml')).write_bytes(xml)
     return tree
 
-def wait_for(name,predicate,timeout=120):
+def wait_for(name,predicate,timeout=120,advance_continue=False):
     deadline=time.monotonic()+timeout
     while time.monotonic()<deadline:
         tree=capture(name)
         if tree is not None and predicate(tree):return tree
+        if tree is not None and advance_continue and any(n.get('text','').strip()=='CONTINUE' for n in tree.iter('node')):
+            # The original streak celebration can add a Continue between
+            # questions. Only advance while waiting for the next known answer.
+            tap(tree,text='CONTINUE')
         time.sleep(3)
     raise AssertionError('Timed out waiting for '+name)
 
@@ -70,7 +74,7 @@ try:
         q=bank[qid]
         assert q['type']=='choice' and not q.get('rich_text'), 'Cold-start driver needs reviewed support for this type'
         answer=q['options'][q['answer']]
-        tree=wait_for('standalone-answer-'+str(i),lambda t:any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30)
+        tree=wait_for('standalone-answer-'+str(i),lambda t:any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node')),30,advance_continue=True)
         tap(tree,text=answer)
         tree=wait_for('standalone-selected-'+str(i),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
         tap(tree,'com.duolingo:id/submitButton')

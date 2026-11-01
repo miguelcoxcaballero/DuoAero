@@ -38,7 +38,7 @@ final class NativeMathGrade {
  }
  static void require(Instrumentation test,Activity activity,String expected)throws Exception {
   String actual=null;
-  for(int attempt=0;attempt<30;attempt++){
+  for(int attempt=0;attempt<300;attempt++){
    actual=read(test,activity);
    if(actual!=null)break;
    Thread.sleep(100);

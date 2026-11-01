@@ -71,6 +71,32 @@ public final class UserSessionProbe extends Instrumentation {
   getTargetContext().startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
   Thread.sleep(6000);
   Class<?> activity=Class.forName("com.duolingo.session.SessionActivity",true,loader);
+  if(interaction.equals("path-first")){
+   SessionScreen.capture(this,"home-diagnostic","home-view-tree");
+    report.append(SessionInteraction.firstPathNode(this));
+    android.app.Activity pathSession=resumed.get();
+    if(pathSession==null||!pathSession.getClass().getName().equals("com.duolingo.session.SessionActivity"))throw new IllegalStateException("Original path session did not resume");
+    report.append(SessionInteraction.allPathAnswers(this,pathSession));
+    Object pathVm=pathSession.getClass().getMethod("J").invoke(pathSession);
+    Object pathEngine=pathVm.getClass().getField("t2").get(pathVm);
+    Object pathStateFlow=pathEngine.getClass().getField("k").get(pathEngine);
+    Object pathState=pathStateFlow.getClass().getMethod("getValue").invoke(pathStateFlow);
+    report.append("Path engine after all answers: ").append(pathState.getClass().getName()).append('\n');
+    if(pathState.getClass().getName().equals("eo10")){
+     Object streak=pathState.getClass().getField("d").get(pathState);
+     report.append("Path engine streak: ").append(streak==null?"null":streak.getClass().getName()).append('\n');
+     if(streak!=null)report.append("Path engine lifetime streak present: ").append(streak.getClass().getField("a").get(streak)!=null).append('\n');
+    }
+    try(SessionDependencies dependencies=SessionDependencies.end(this,pathSession)){
+     Thread.sleep(5000);report.append(dependencies.report());
+    }
+    SessionScreen.capture(this,"path-after-end-observation","path-after-end-observation");
+    report.append(SessionInteraction.claimXp(this));
+   report.append("Isolated request counts (no query, headers or body): ").append(Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("diagnosticRequests").invoke(null)).append('\n');
+   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. This does not assert saved progress or restart persistence.\n");
+   output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",true);finish(-1,output);return;
+  }
+
   String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":lesson.equals("aerospace")?"hardcoded_sessions/duoaero/aerospace_lesson.json":"hardcoded_sessions/duoaero/aerospace_rich_lesson.json";
   if(lesson.equals("aerospace-formula"))lessonAsset="hardcoded_sessions/duoaero/aerospace_formula_lesson.json";
   report.append("Lesson input: ").append(lessonAsset).append('\n');
@@ -165,27 +191,7 @@ public final class UserSessionProbe extends Instrumentation {
     }
    }
    SessionScreen.capture(this,"home-diagnostic","home-view-tree");
-   if(interaction.equals("path-first")){
-    report.append(SessionInteraction.firstPathNode(this));
-    android.app.Activity pathSession=resumed.get();
-    if(pathSession==null||!activity.isInstance(pathSession))throw new IllegalStateException("Original path session did not resume");
-    report.append(SessionInteraction.allPathAnswers(this,pathSession));
-    Object pathVm=pathSession.getClass().getMethod("J").invoke(pathSession);
-    Object pathEngine=pathVm.getClass().getField("t2").get(pathVm);
-    Object pathStateFlow=pathEngine.getClass().getField("k").get(pathEngine);
-    Object pathState=pathStateFlow.getClass().getMethod("getValue").invoke(pathStateFlow);
-    report.append("Path engine after all answers: ").append(pathState.getClass().getName()).append('\n');
-    if(pathState.getClass().getName().equals("eo10")){
-     Object streak=pathState.getClass().getField("d").get(pathState);
-     report.append("Path engine streak: ").append(streak==null?"null":streak.getClass().getName()).append('\n');
-     if(streak!=null)report.append("Path engine lifetime streak present: ").append(streak.getClass().getField("a").get(streak)!=null).append('\n');
-    }
-    try(SessionDependencies dependencies=SessionDependencies.end(this,pathSession)){
-     Thread.sleep(5000);report.append(dependencies.report());
-    }
-    SessionScreen.capture(this,"path-after-end-observation","path-after-end-observation");
-    report.append(SessionInteraction.claimXp(this));
-   }
+
   }
   completed=true;
   report.append("Isolated request counts (no query, headers or body): ")

@@ -6,14 +6,21 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  static String firstPathNode(Instrumentation test)throws Exception {
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/oval");i++)Thread.sleep(200);
   click(test,"com.duolingo:id/oval",null);
-  Thread.sleep(1800);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/learnButton")&&!contains(test,"Low delivery times.");i++)Thread.sleep(200);
   SessionScreen.capture(test,"path-node-opened","path-node-opened");
-  click(test,"com.duolingo:id/learnButton",null);
-  Thread.sleep(12000);
+  if(hasControl(test,"com.duolingo:id/learnButton"))click(test,"com.duolingo:id/learnButton",null);
+  for(int i=0;i<225&&!contains(test,"Low delivery times.");i++)Thread.sleep(200);
   SessionScreen.capture(test,"path-session","path-session");
   if(!contains(test,"Low delivery times."))throw new IllegalStateException("First course question not visible after original path node");
   return "Original home node opened its first Aerospace question through the original remote-session loader.\n";
+ }
+ private static boolean hasControl(Instrumentation test,String id){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)return false;
+  try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
+  finally{root.recycle();}
  }
  static String formulaAnswers(Instrumentation test,android.app.Activity activity,boolean wrong)throws Exception {
   // Select through the original token controls; no model/grade injection.

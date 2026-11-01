@@ -517,3 +517,11 @@ Opt-in synthetic diagnostics now log original warning/error exception types and
 stack frames, omitting exception messages and request data. The path probe also
 reports whether the actual ending engine retains a lifetime streak. No original
 error, readiness state or completion flag is suppressed or forced.
+
+The path acceptance probe now opens the original path node directly after
+launch. It no longer starts and cancels an unrelated Hardcoded diagnostic
+session first. It accepts the original first-node direct navigation or the
+named popup, then requires all real answers, end screen and Claim XP. Grade
+observation allows 30 seconds for the original asynchronous sandbox; an actual
+GRADING_ERROR still fails immediately. The cold-start driver also handles the
+original between-question streak Continue control. Runtime checks pending.
