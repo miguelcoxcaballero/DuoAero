@@ -9,6 +9,11 @@ import java.util.*;
 /** Atomic native submissions and monotonic completion, isolated to local test identity. */
 public final class NativeSessionStore {
  private NativeSessionStore(){}
+ private static boolean validStoredProof(Application app,JSONObject proof,JSONObject lesson)throws Exception {
+  if(proof==null)return false;
+  JSONObject legacy=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/legacy-session-catalog.json"));
+  return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacy.optJSONObject(lesson.getString("id")));
+ }
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
   if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");
   File folder=new File(NativeAccountStore.root(app),"submissions");
@@ -24,11 +29,11 @@ public final class NativeSessionStore {
    JSONObject previous=read(file);
    days=NativeRewards.mergeDays(days,previous.optJSONArray("studyDays"));
    if(!sessionId.equals(previous.getString("sessionId")))throw new IOException("Stored lesson identity mismatch");
-   completed|=previous.optBoolean("completedOnce")||NativeCourseProgress.isCompleted(previous.getJSONObject("nativeSubmission"),lesson);
+   completed|=previous.optBoolean("completedOnce")||validStoredProof(app,previous.getJSONObject("nativeSubmission"),lesson);
    if(proof==null){
     JSONObject prior=previous.optJSONObject("completionSubmission");
     if(prior==null)prior=previous.optJSONObject("nativeSubmission");
-    if(prior!=null&&NativeCourseProgress.isCompleted(prior,lesson))proof=prior;
+    if(validStoredProof(app,prior,lesson))proof=prior;
    }
   }catch(FileNotFoundException absent){}
   JSONObject record=new JSONObject().put("schema",1).put("sessionId",sessionId)
@@ -63,7 +68,7 @@ public final class NativeSessionStore {
    JSONObject record=read(new AtomicFile(new File(folder,name)));
    String id=record.getString("sessionId");
    if(!name.equals(id+".json")||!catalog.has(id))throw new IOException("Invalid saved lesson identity");
-   if(record.optBoolean("completedOnce")||NativeCourseProgress.isCompleted(record.getJSONObject("nativeSubmission"),catalog.getJSONObject(id)))completed.add(id);
+   if(record.optBoolean("completedOnce")||validStoredProof(app,record.getJSONObject("nativeSubmission"),catalog.getJSONObject(id)))completed.add(id);
   }
   return completed;
  }
@@ -73,7 +78,7 @@ public final class NativeSessionStore {
   for(String id:completedLessons(app)){
    JSONObject stored=read(new AtomicFile(new File(folder,id+".json")));
    JSONObject proof=stored.optJSONObject("completionSubmission");if(proof==null)proof=stored.optJSONObject("nativeSubmission");
-   if(proof==null||!NativeCourseProgress.isCompleted(proof,catalog.getJSONObject(id)))continue;
+   if(!validStoredProof(app,proof,catalog.getJSONObject(id)))continue;
    JSONObject minimum=new JSONObject();
    for(String key:new String[]{"id","type","failed","shouldLearnThings","startTime","endTime"})minimum.put(key,proof.get(key));
    org.json.JSONArray ids=new org.json.JSONArray(),challenges=proof.getJSONArray("challenges");
@@ -91,7 +96,7 @@ public final class NativeSessionStore {
    String id=keys.next();if(!catalog.has(id))continue;
    JSONObject remote=incoming.optJSONObject(id);if(remote==null)continue;
    JSONObject proof=remote.optJSONObject("nativeCompletion");
-   if(proof==null||!NativeCourseProgress.isCompleted(proof,catalog.getJSONObject(id)))continue;
+   if(!validStoredProof(app,proof,catalog.getJSONObject(id)))continue;
    AtomicFile file=new AtomicFile(new File(folder,id+".json"));JSONObject stored;
    try{stored=read(file);}
    catch(FileNotFoundException absent){stored=new JSONObject().put("schema",1).put("sessionId",id).put("nativeSubmission",proof);}

@@ -40,6 +40,7 @@ assert math.isclose(derivative, -g/(gas_constant*temperature0*math.exp(-k*altitu
 
 from formula_exercises import formula_challenge, prototypes
 from course_adapter import challenge
+from course_adapter import lesson_questions, session
 import base64
 for gap in (q for q in bank if q['type'] == 'gap'):
     prompt = challenge(gap)['promptInputChallenge']['prompt']
@@ -48,6 +49,16 @@ for gap in (q for q in bank if q['type'] == 'gap'):
     assert marker.startswith('duoaero-latex:duoaero-gap:')
     pieces = json.loads(base64.b64decode(marker.split('duoaero-gap:', 1)[1]))
     assert pieces.count('___') == 1 and pieces.index('___') > 0
+pressure_problem = next(q for q in bank if q['id'] == 'TA1-0397-D2')
+steps = lesson_questions([pressure_problem])
+assert [q['id'] for q in steps] == ['TA1-0397-D2-S1', 'TA1-0397-D2']
+assert [q['id'] for q in lesson_questions([pressure_problem], expand_steps=False)] == ['TA1-0397-D2']
+assert [c['id'] for c in session([pressure_problem], 'lesson')['challenges']] == [q['id'] for q in steps]
+assert all(len(q['stem']) < 160 for q in steps)
+assert steps[0]['options'][steps[0]['answer']] == '19.33 kPa'
+assert steps[1]['options'][steps[1]['answer']] == '0.584'
+assert math.isclose(22.63 * .854, 19.33, abs_tol=.005)
+assert math.isclose(19.33 / 33.09, .584, abs_tol=.001)
 for question in prototypes() + [q for q in bank if q['type'] == 'formula_blocks']:
     prompt = formula_challenge(question)['promptInputChallenge']['prompt']
     feedback = prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback']
@@ -92,4 +103,38 @@ assert parts('Use exp(-Kh).')[1] == {'latex': r'e^{-Kh}'}
 assert parts('The mass generally increases.') == [{'text': 'The mass generally increases.'}]
 assert parts('Fill ___ with one word.') == [{'text': 'Fill ___ with one word.'}]
 assert content(None, 'Use eta_p and m_dot in kg/s².') == r'\text{Use }\eta_{p}\text{ and }\dot{m}\text{ in kg/}s^{2}\text{.}'
+for source, expected in [
+    ('p/(R T)', r'\textstyle \frac{p}{R\,T}'),
+    ('p/(RT)', r'\textstyle \frac{p}{RT}'),
+    ('rho2/rho1', r'\textstyle \frac{\rho_{2}}{\rho_{1}}'),
+    ('m_dot/(rho V)', r'\textstyle \frac{\dot{m}}{\rho\,V}'),
+    ('L/D', r'\textstyle \frac{L}{D}'),
+    ('EI/(KL)²', r'\textstyle \frac{EI}{(KL)^{2}}'),
+    ('B/V²', r'\textstyle \frac{B}{V^{2}}'),
+]:
+    assert parts(source) == [{'latex': expected}], (source, parts(source))
+for units in ('m/s', 'kg/s', 'J/(kg K)', 'km/h'):
+    assert parts(units) == [{'text': units}], (units, parts(units))
+assert parts('Use lift/drag comparisons.') == [{'text': 'Use lift/drag comparisons.'}]
+assert symbol('pi²') == r'\pi^{2}'
+reported = next(q for q in bank if q['id'] == 'TA1-0148')
+shirt = json.loads(choice_blob(reported)['challengeBlob'])['shirt']['value']
+assert r'\frac{p}{R\,T}' in shirt and 'p/(R T)' not in shirt
+assert reported['options'][reported['answer']] == 'Density'
+assert 'hint' not in json.loads(choice_blob(reported)['challengeBlob'])
+hint = json.loads(choice_blob(reported, diagnostic_formula_hint=True)['challengeBlob'])['hint']
+assert hint['explanation']['value'] == r'p=\rho R_aT'
+plan = json.loads((root / 'app/assets/lesson_plan.json').read_text())
+course_order = [qid for node in plan for lesson in node['lessons'] for qid in lesson['ids']]
+assert course_order.index(reported['formula_hint']['prerequisite']) < course_order.index(reported['id'])
+gravity = next(q for q in bank if q['id'] == 'TH-2026-OTHER-1')
+gravity_blob = json.loads(choice_blob(gravity)['challengeBlob'])
+assert gravity['answer'] == 0
+assert all(r'\frac' in choice['child']['value'] for choice in gravity_blob['pants'])
+assert gravity['rich_text']['options'][0][0]['latex'] == r'g=g_0\left(\frac{R_E}{R_E+h}\right)^2'
+# At positive altitude, the inverse-square law decreases; each displayed
+# distractor gives a different value and must remain incorrect.
+earth, altitude = 6371.0, 100.0
+ratio = earth / (earth + altitude)
+assert 0 < ratio ** 3 < ratio ** 2 < ratio < 1 < (1 / ratio) ** 2
 print('PASS: explicit subscripts, Greek symbols and powers render as math; prose and word gaps stay literal.')

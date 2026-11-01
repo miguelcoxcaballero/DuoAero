@@ -36,7 +36,7 @@ def difficulty_stars(question):
     return "★" * level
 
 
-def choice_blob(question):
+def choice_blob(question, *, diagnostic_formula_hint=False):
     rich = question.get('rich_text', {})
     options = rich.get('options', [None] * len(question['options']))
     if len(options) != len(question['options']):
@@ -69,6 +69,10 @@ def choice_blob(question):
                   for i, option in enumerate(question['options'])],
         'onesie': None, 'headband': None, 'grading_function': grading,
     }
+    # Diagnostic only until the original hint control and delayed retry
+    # semantics have been exercised end to end on a real native session.
+    if diagnostic_formula_hint and question.get('formula_hint'):
+        blob['hint'] = {'explanation': {'type': 'text', 'value': question['formula_hint']['latex']}}
     return {'id': question['id'], 'type': 'mathChallengeBlob',
             'challengeBlob': json.dumps(blob, ensure_ascii=False),
             'challengeSchemaVersion': {'major': 0, 'minor': 1, 'patch': 9},

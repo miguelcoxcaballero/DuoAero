@@ -143,6 +143,27 @@ public final class AccountProgressProbe extends Instrumentation {
    check(bundle.getClass().getField("b").get(bundle).toString().equals("PATH_CHEST"));
    java.util.List<?> rewardsList=(java.util.List<?>)bundle.getClass().getField("c").get(bundle);
    check(rewardsList.size()==1 && rewardsList.get(0).getClass().getName().endsWith("CurrencyReward"));
+   // A previously completed lesson remains exportable/importable after one
+   // source question is split into two new native challenges.
+   JSONObject legacyCatalog;
+   try(InputStream input=app.getAssets().open("duoaero/course/legacy-session-catalog.json")){
+    ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;
+    while((n=input.read(block))!=-1)bytes.write(block,0,n);
+    legacyCatalog=new JSONObject(bytes.toString("UTF-8"));
+   }
+   String revisedId="2.1-5-point-0-lesson-1";
+   JSONArray oldQuestions=legacyCatalog.getJSONObject(revisedId).getJSONArray("challenges"),oldIds=new JSONArray();
+   for(int i=0;i<oldQuestions.length();i++)oldIds.put(new JSONObject().put("id",oldQuestions.getJSONObject(i).getString("id")));
+   JSONObject oldProof=new JSONObject().put("id",revisedId).put("type","MATH_LESSON").put("failed",false)
+    .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",oldIds);
+   Class<?> progress=Class.forName("com.duoaero.nativebase.NativeCourseProgress",true,loader);
+   Method completed=progress.getDeclaredMethod("isCompleted",JSONObject.class,JSONObject.class);
+   check(Boolean.FALSE.equals(completed.invoke(null,oldProof,catalog.getJSONObject(revisedId))));
+   check(prefs.edit().putString("account","synthetic-legacy").commit());
+   JSONObject legacyPayload=new JSONObject().put("nativeSchema",1).put("completedLessons",new JSONObject()
+    .put(revisedId,new JSONObject().put("at",20).put("nativeCompletion",oldProof)));
+   check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-legacy",legacyPayload.toString())));
+   check(new JSONObject((String)read.invoke(null,app,"synthetic-legacy")).getJSONObject("completedLessons").has(revisedId));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

@@ -7,17 +7,25 @@ import re
 
 GREEK = {'rho': r'\rho', 'eta': r'\eta', 'alpha': r'\alpha',
          'beta': r'\beta', 'gamma': r'\gamma', 'sigma': r'\sigma',
-         'lambda': r'\lambda', 'pi': r'\pi', 'delta': r'\Delta'}
+         'lambda': r'\lambda', 'pi': r'\pi', 'delta': r'\Delta', 'mu': r'\mu'}
 SUPERSCRIPTS = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', '0123456789-+')
+# Recognise simple symbolic ratios as a unit, before the individual symbols.
+# Keep physical unit expressions such as m/s and J/(kg K) as ordinary text.
+_NAME = r'[A-Za-z][A-Za-z0-9_]*'
+_POWER = r'(?:\^[+-]?\d+(?:\.\d+)?|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)'
+FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])(' + _NAME + r')\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
+_UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
+_SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp'}
+_BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # Avoid treating English words as products of individual letters. These
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'exp\([A-Za-z0-9+*./-]+\)'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
-    r'|(?:rho|eta|alpha|beta|gamma|sigma|lambda|pi|delta)'
     r'|[A-Za-z]+\^(?:[+-]?\d+(?:\.\d+)?)'
     r'|(?:\d+(?:\.\d+)?|[A-Za-z]+)[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+'
+    r'|(?:rho|eta|alpha|beta|gamma|sigma|lambda|pi|delta|mu)'
     r')(?![A-Za-z0-9_])'
 )
 
@@ -42,11 +50,11 @@ def symbol(value):
         return base + '^{' + exponent + '}'
     match = re.fullmatch(r'(.+?)([⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)', value)
     if match:
-        return match[1] + '^{' + match[2].translate(SUPERSCRIPTS) + '}'
+        return GREEK.get(match[1], match[1]) + '^{' + match[2].translate(SUPERSCRIPTS) + '}'
     return GREEK.get(value, value)
 
 
-def parts(value):
+def _ordinary_parts(value):
     result, offset = [], 0
     for match in TOKEN.finditer(value):
         if match.start() > offset:
@@ -55,4 +63,41 @@ def parts(value):
         offset = match.end()
     if offset < len(value):
         result.append({'text': value[offset:]})
+    return result or [{'text': value}]
+
+
+def _symbolic(name):
+    return len(name) == 1 or any(c.isupper() or c.isdigit() or c == '_' for c in name) or name.casefold() in _SYMBOL_NAMES
+
+
+def _math_body(value):
+    result = []
+    for match in _BODY.finditer(value):
+        token = match.group()
+        if token.isspace(): result.append(r'\,')
+        elif token[0].isalpha():
+            indexed = re.fullmatch(r'([A-Za-z]+)(\d+)', token)
+            result.append(symbol(indexed.group(1)) + '_{' + indexed.group(2) + '}' if indexed else symbol(token))
+        else: result.append(token.replace('×', r'\times ').replace('−', '-').replace('*', r'\cdot '))
+    return ''.join(result)
+
+
+def parts(value):
+    result, offset = [], 0
+    for match in FRACTION.finditer(value):
+        numerator, denominator, exponent = match.group(1), match.group(2), match.group(3)
+        inner = denominator[1:-1] if denominator.startswith('(') else denominator
+        names = re.findall(_NAME, inner)
+        if not names or not _symbolic(numerator) or not all(_symbolic(name) for name in names):
+            continue
+        if numerator in _UNITS and all(name in _UNITS for name in names):
+            continue
+        if match.start() > offset: result.extend(_ordinary_parts(value[offset:match.start()]))
+        rendered = _math_body(inner)
+        if exponent:
+            power = exponent[1:] if exponent.startswith('^') else exponent.translate(SUPERSCRIPTS)
+            rendered = ('(' + rendered + ')' if denominator.startswith('(') else rendered) + '^{' + power + '}'
+        result.append({'latex': r'\textstyle \frac{' + _math_body(numerator) + '}{' + rendered + '}'})
+        offset = match.end()
+    if offset < len(value): result.extend(_ordinary_parts(value[offset:]))
     return result or [{'text': value}]

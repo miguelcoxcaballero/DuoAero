@@ -11,7 +11,8 @@ def display_text(text):
     # URLs, email addresses, resource paths and package names keep their routing.
     protected = re.compile(r'https?://[^\s<>"\']+|[\w.+-]+@[\w.-]+|(?:[\w-]+\.)*duolingo\.[\w./?=&%+-]+', re.I)
     def words(value):
-        return re.sub(r'(?<![A-Za-z0-9_])duolingo(?![A-Za-z0-9_])', 'DuoAero', value, flags=re.I)
+        value = re.sub(r'(?<![A-Za-z0-9_])duolingo(?![A-Za-z0-9_])', 'DuoAero', value, flags=re.I)
+        return re.sub(r'(?<![A-Za-z0-9_])#duolingo(?=\d)', '#DuoAero', value, flags=re.I)
     parts=[]; start=0
     for match in protected.finditer(text):
         parts.extend((words(text[start:match.start()]),match.group()))
@@ -64,7 +65,9 @@ def rebrand_table(table,drawable_paths=None):
     for start,kind,ch,cs in chunks(package,header,len(package)):
         if kind!=0x201:continue
         tid=package[start+8]
-        if tid not in (8,19):continue
+        # Both strings and plurals can carry user-facing text. Plural entries
+        # are complex resource bags, which cannot be read like simple values.
+        if tid not in (8,17,19):continue
         assert package[start+9]==0, 'Unexpected resource offsets'
         count=struct.unpack_from('<I',package,start+12)[0]
         entries=start+struct.unpack_from('<I',package,start+16)[0]
@@ -72,9 +75,18 @@ def rebrand_table(table,drawable_paths=None):
             relative=struct.unpack_from('<I',package,start+ch+4*i)[0]
             if relative==0xffffffff:continue
             at=entries+relative; es,flags,key=struct.unpack_from('<HHI',package,at)
+            if tid in (17,19) and flags&1:
+                if es<16:raise ValueError('Unexpected complex text resource entry')
+                count_values=struct.unpack_from('<I',package,at+12)[0]
+                for n in range(count_values):
+                    value_at=at+es+12*n
+                    if value_at+12>start+cs:raise ValueError('Invalid text resource map')
+                    if package[value_at+7]==3:
+                        text_indices.add(struct.unpack_from('<I',package,value_at+8)[0])
+                continue
             if flags or es!=8 or package[at+11]!=3:continue
             old=struct.unpack_from('<I',package,at+12)[0]; name=keys[key]
-            if tid==19:text_indices.add(old)
+            if tid in (17,19):text_indices.add(old)
             elif mascot_name(name) or name in ('duolingo_logo_350','duolingo_max_wordmark','duolingo_max_wordmark_onboarding'):
                 original_paths[values[old]]=name
                 if 'duolingo' not in name and drawable_paths is not None and values[old] not in drawable_paths:continue
@@ -164,6 +176,14 @@ def mascot_drawables(decoded,table):
         # Approved PNG is 1200x1300. Read dimensions from its IHDR at build time.
         png=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
         iw,ih=struct.unpack_from('>II',png,16);scale=min(w/iw,h/ih)
-        files[target]=f'<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item><shape><size android:width="{w:g}dp" android:height="{h:g}dp"/><solid android:color="#00000000"/></shape></item><item android:width="{iw*scale:g}dp" android:height="{ih*scale:g}dp" android:gravity="center"><bitmap android:src="@drawable/ic_launcher_foreground" android:gravity="fill" android:filter="true"/></item></layer-list>'
+        if name == 'duo_eyes':
+            # Android applies a circular splash mask; keep the complete face
+            # within it instead of enlarging the old doghouse to 288dp.
+            image_w, image_h = w*.59, h*.59
+            drawable = '@drawable/ic_launcher_foreground'
+        else:
+            image_w, image_h = iw*scale, ih*scale
+            drawable = '@drawable/duoaero_scene_mascot'
+        files[target]=f'<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item><shape><size android:width="{w:g}dp" android:height="{h:g}dp"/><solid android:color="#00000000"/></shape></item><item android:width="{image_w:g}dp" android:height="{image_h:g}dp" android:gravity="center"><bitmap android:src="{drawable}" android:gravity="fill" android:filter="true"/></item></layer-list>'
         paths[path]=target;sizes[path]=[w,h]
     return paths,files,sizes

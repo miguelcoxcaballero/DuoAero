@@ -81,6 +81,8 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/test_session_ids.py
+          python native-base/test_branding_text.py
+          python native-base/test_icon_layout.py
           python native-base/course_adapter.py
           case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi

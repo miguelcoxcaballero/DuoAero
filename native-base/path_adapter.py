@@ -46,6 +46,8 @@ def build_path(plan, bank):
             ids = lesson['ids']
             if not 10 <= len(ids) <= 20 or any(qid not in by_id for qid in ids):
                 raise ValueError(f"Invalid lesson questions: {lesson['id']}")
+            if sum(len(by_id[qid].get('lesson_steps') or [None]) for qid in ids)>20:
+                raise ValueError(f"Expanded lesson exceeds 20 questions: {lesson['id']}")
             if lesson['id'] in lessons:
                 raise ValueError('Duplicate lesson ID')
             used.extend(ids)

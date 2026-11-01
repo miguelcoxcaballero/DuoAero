@@ -9,6 +9,11 @@ public final class NativeCourseProgress {
  public static boolean isCompleted(JSONObject submission,JSONObject lesson)throws JSONException {
   return completionIssue(submission,lesson)==null;
  }
+ /** Accept an already-recorded proof against its explicitly preserved old lesson. */
+ public static boolean isRecordedCompletion(JSONObject submission,JSONObject lesson,JSONObject legacy)throws JSONException {
+  return submission!=null&&(isCompleted(submission,lesson)
+      ||(legacy!=null&&lesson.getString("id").equals(legacy.optString("id"))&&isCompleted(submission,legacy)));
+ }
  public static String completionIssue(JSONObject submission,JSONObject lesson)throws JSONException {
   return completionIssue(submission,lesson,true);
  }

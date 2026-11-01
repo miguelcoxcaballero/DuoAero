@@ -20,10 +20,13 @@ for q in bank:
   assert q['formula_latex']
 assert sum(q['topic']=='2.6' for q in bank)==24
 assigned=[]
+by_id={q['id']:q for q in bank}
 for node in nodes:
  assert 1<=len(node['lessons'])<=3
  for lesson in node['lessons']:
   assert 10<=len(lesson['ids'])<=20
+  expanded=[step['id'] for qid in lesson['ids'] for step in (by_id[qid].get('lesson_steps') or [by_id[qid]])]
+  assert 10<=len(expanded)<=20 and len(expanded)==len(set(expanded))
   assigned+=lesson['ids']
 assert collections.Counter(assigned)==collections.Counter(ids)
 print('PASS: 1200 questions, 400/level, 106 exams, 21 reflections, all sources and full path coverage')

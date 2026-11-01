@@ -6,6 +6,62 @@ configuration values and compiled XML are not rebuilt or renumbered.
 import struct
 
 MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
+SCENE_MASCOT_PATH = 'res/drawable/duoaero_scene_mascot.png'
+
+
+def scene_mascot(table):
+    """Append a distinct scene drawable without changing existing IDs/configs."""
+    top = list(chunks(table, 12, len(table)))
+    offset, _, _, size = top[0]
+    pool, path_index = append_string(table[offset:offset+size], SCENE_MASCOT_PATH)
+    offset, kind, header, size = top[1]
+    if kind != 0x200 or header != 288:
+        raise ValueError('Unexpected original application package')
+    package = table[offset:offset+size]
+    key_offset = struct.unpack_from('<I', package, 276)[0]
+    type_offset = struct.unpack_from('<I', package, 268)[0]
+    output = bytearray(package[:header])
+    entry_id = None
+    defaults = 0
+    for start, kind, chunk_header, chunk_size in chunks(package, header, len(package)):
+        chunk = bytearray(package[start:start+chunk_size])
+        if start == type_offset:
+            struct.pack_into('<I', output, 268, len(output))
+        if start == key_offset:
+            struct.pack_into('<I', output, 276, len(output))
+            chunk, key_index = append_string(chunk, 'duoaero_scene_mascot')
+        elif kind in (0x201, 0x202) and chunk[8] == 0x08:
+            count = struct.unpack_from('<I', chunk, 12)[0]
+            if chunk[9] != 0 or (entry_id is not None and count != entry_id):
+                raise ValueError('Unexpected original drawable entries')
+            entry_id = count
+            if kind == 0x202:
+                chunk += struct.pack('<I', 0)
+            else:
+                entries_start = struct.unpack_from('<I', chunk, 16)[0]
+                if entries_start != chunk_header + count * 4:
+                    raise ValueError('Unexpected drawable offset table')
+                config_size = struct.unpack_from('<I', chunk, 20)[0]
+                default = not any(chunk[24:20+config_size])
+                values = chunk[entries_start:]
+                if default:
+                    defaults += 1
+                    entry = struct.pack('<HHIHBBI', 8, 0, key_index, 8, 0, 3, path_index)
+                    offset_value = len(values)
+                else:
+                    entry = b''
+                    offset_value = 0xffffffff
+                chunk = chunk[:entries_start] + struct.pack('<I', offset_value) + values + entry
+                struct.pack_into('<I', chunk, 16, entries_start + 4)
+            struct.pack_into('<I', chunk, 12, count + 1)
+            struct.pack_into('<I', chunk, 4, len(chunk))
+        output += chunk
+    if defaults != 1 or entry_id is None:
+        raise ValueError('Expected one default drawable configuration')
+    struct.pack_into('<I', output, 4, len(output))
+    result = bytearray(table[:12]) + pool + output
+    struct.pack_into('<I', result, 4, len(result))
+    return bytes(result), 0x7f080000 | entry_id
 
 
 def launcher_mascot(table):

@@ -7,7 +7,7 @@ import difflib
 import os
 
 from runtime_config import WORK, APK, BASE, tool
-from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
+from resource_extension import updater_paths, launcher_mascot, scene_mascot, MASCOT_PATH, SCENE_MASCOT_PATH
 from branding import rebrand_table, animation_overlays, mascot_drawables, LOGO_PATH
 from mascot_assets import parse
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex', 'res/mipmap-anydpi-v21/ic_launcher.xml'}
@@ -44,11 +44,13 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     assert 'classes12.dex' in built.namelist()
     assert 'classes13.dex' in built.namelist()
     table, resource_id = updater_paths(original.read('resources.arsc'))
+    table, scene_id = scene_mascot(table)
     mascot_paths,wrappers,_=mascot_drawables(BASE,original.read('resources.arsc'))
     assert built.read('resources.arsc') == rebrand_table(launcher_mascot(table),mascot_paths)[0]
     assert set(wrappers)<=set(built.namelist())
     assert LOGO_PATH in built.namelist()
-    assert built.read(MASCOT_PATH) == (Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
+    assert built.read(MASCOT_PATH) == (Path(__file__).resolve().parents[1]/'app/assets/mascot/launcher.png').read_bytes()
+    assert built.read(SCENE_MASCOT_PATH) == (Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
     assert built.read('res/mipmap-anydpi-v21/ic_launcher.xml') != original.read('res/mipmap-anydpi-v21/ic_launcher.xml')
     assert resource_id == 0x7f160016
     assert 'assets/duoaero/licenses/NotoSansMath-OFL.txt' in built.namelist()
@@ -80,7 +82,10 @@ before = resources(APK)
 after = resources(target)
 before_ids=[line.strip() for line in before if line.strip().startswith('resource 0x')]
 after_ids=[line.strip() for line in after if line.strip().startswith('resource 0x')]
-assert [line for line in after_ids if '0x7f160016 ' not in line]==before_ids, 'Original resource IDs changed'
+assert [line for line in after_ids if '0x7f160016 ' not in line and f'0x{scene_id:08x} ' not in line]==before_ids, 'Original resource IDs changed'
 assert any('resource 0x7f160016 xml/inhouse_update_paths' in line for line in after_ids)
+assert any(f'resource 0x{scene_id:08x} drawable/duoaero_scene_mascot' in line for line in after_ids)
+assert any('Already on DuoAero' in line for line in after), 'A visible plural still uses the old app name'
+assert not any('Already on Duolingo' in line for line in after), 'Plural branding was not replaced'
 print(f'PASS: {checked} original APK entries preserved byte-for-byte, original application/session activity retained')
 print(f'PASS: original resource IDs preserved, branding and {len(overlays)} mascot animations replaced, canonical provider retained, portrait window resizable')

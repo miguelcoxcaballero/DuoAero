@@ -1,8 +1,10 @@
 """Check the visible word and answer block in an actual graded native gap."""
 import csv
 import io
+import json
 import os
 from pathlib import Path
+import re
 import subprocess
 from PIL import Image
 
@@ -19,7 +21,12 @@ def find(word):
     assert len(hits) == 1, (word, [(r.get('text'), r.get('conf')) for r in rows])
     r = hits[0]
     return int(r['top']) + int(r['height']) / 2, int(r['height'])
-block_y, block_h = find('decreases')
+nodes = json.loads((folder / 'mixed-graded-0.json').read_text())
+answers = [n for n in nodes if n.get('text') == 'decreases' and n.get('visible')]
+assert len(answers) == 1, 'Expected the original visible selected word'
+left, top, right, bottom = map(int, re.findall(r'\d+', answers[0]['bounds']))
+assert top < height * .52 and bottom > top and right > left
+block_y, block_h = (top + bottom) / 2, bottom - top
 neighbors = [find('generally'), find('as')]
 distance = min(abs(block_y-y) for y, _ in neighbors)
 tolerance = max(8, max(block_h, *(h for _, h in neighbors)) * .30)

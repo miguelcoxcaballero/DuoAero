@@ -36,6 +36,12 @@ public class CourseProgressCheck {
   check(!NativeCourseProgress.isCompleted(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'q1'}]")),lesson));
   check(!NativeCourseProgress.isCompleted(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'foreign'}]")),lesson));
   check(NativeCourseProgress.isCompleted(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'q1'},{id:'q2'}]")),lesson));
+  JSONObject expanded=new JSONObject("{id:'lesson-1',challenges:[{id:'q1'},{id:'q2'},{id:'q3'}]}");
+  check(!NativeCourseProgress.isCompleted(good,expanded));
+  check(NativeCourseProgress.isRecordedCompletion(good,expanded,lesson));
+  check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("failed",true),expanded,lesson));
+  check(!NativeCourseProgress.isRecordedCompletion(good,expanded,copy(lesson).put("id","other")));
+  check(!NativeCourseProgress.isRecordedCompletion(good,expanded,null));
   JSONObject course=new JSONObject("{pathSectionsSummary:[{id:'section'}]}");
   JSONObject section=new JSONObject("{id:'section',units:[{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'a'},{id:'b'}]}}]},{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'c'}]}}]}]}");
   NativeCourseProgress.project(course,section,Collections.emptySet());

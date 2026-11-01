@@ -4710,6 +4710,30 @@
     ],
     "answer": 0,
     "explanation": "Newtonian gravity decreases with the inverse square of distance from the Earth centre; ISA may approximate it as constant over a limited altitude range.",
+    "rich_text": {
+      "options": [
+        [
+          {
+            "latex": "g=g_0\\left(\\frac{R_E}{R_E+h}\\right)^2"
+          }
+        ],
+        [
+          {
+            "latex": "g=g_0\\,\\frac{R_E}{R_E+h}"
+          }
+        ],
+        [
+          {
+            "latex": "g=g_0\\left(\\frac{R_E+h}{R_E}\\right)^2"
+          }
+        ],
+        [
+          {
+            "latex": "g=g_0\\left(\\frac{R_E}{R_E+h}\\right)^3"
+          }
+        ]
+      ]
+    },
     "option_explanations": {
       "g=g0(RE/(RE+h))²": "Correct. Newtonian gravity decreases with the inverse square of distance from the Earth centre; ISA may approximate it as constant over a limited altitude range.",
       "g=g0 RE/(RE+h)": "Incorrect. Newtonian gravity decreases with the inverse square of distance from the Earth centre; ISA may approximate it as constant over a limited altitude range.",
@@ -9332,6 +9356,7 @@
     "subtopic": "Atmospheric magnitudes and relationships",
     "stem": "Which term matches this definition: magnitude obtained as p/(R T) for an ideal gas?",
     "type": "choice",
+    "formula_hint": {"latex": "p=\\rho R_aT", "prerequisite": "BOOK-V6-01-D1"},
     "options": [
       "Absolute temperature",
       "Pressure",
@@ -15763,6 +15788,32 @@
     "subtopic": "First evaluate p_A in the lapse-rate layer.",
     "stem": "Find the ISA pressure ratio p_B/p_A at h_A=8500 m and h_B=12000 m. Use p0=101325 Pa, T0=288.15 K, R=287 J/(kg K), g=9.80665 m/s². Below 11000 m, T=T0-0.0065h and p/p0=(T/T0)^[g/(0.0065R)]. Above 11000 m, T=216.65 K and pressure decays exponentially. Choose the closest value.",
     "type": "choice",
+    "lesson_steps": [
+      {
+        "id": "TA1-0397-D2-S1",
+        "stem": "At 11 km, pressure is 22.63 kPa. At 12 km, it is 0.854 times that value. What is the pressure at 12 km?",
+        "options": [
+          "19.33 kPa",
+          "26.50 kPa",
+          "22.63 kPa",
+          "3.30 kPa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply the pressure by the given factor: 22.63 × 0.854 = 19.33 kPa."
+      },
+      {
+        "id": "TA1-0397-D2",
+        "stem": "At 8.5 km, pressure is 33.09 kPa. At 12 km, pressure is 19.33 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "0.584",
+          "1.712",
+          "0.930",
+          "1.000"
+        ],
+        "answer": 0,
+        "explanation": "Divide the second pressure by the first: 19.33 / 33.09 ≈ 0.584."
+      }
+    ],
     "options": [
       "1.7124",
       "0.93023",

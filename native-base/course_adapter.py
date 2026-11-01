@@ -76,13 +76,33 @@ def challenge(question):
         raise NotImplementedError(f"{question['id']}: native grading adapter for {kind} is not implemented")
     return result
 
-def session(questions, identifier, skill_id='duoaero_aerospace_diagnostic'):
+def lesson_questions(questions, expand_steps=True):
+    """Turn reviewed multi-step exercises into consecutive original challenges."""
+    expanded = []
+    for question in questions:
+        steps = question.get('lesson_steps') if expand_steps else None
+        if not steps:
+            expanded.append(question)
+            continue
+        if question['type'] != 'choice' or len(steps) < 2 or steps[-1]['id'] != question['id']:
+            raise ValueError('Invalid reviewed lesson steps: ' + question['id'])
+        for step in steps:
+            part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text')}
+            part.update(step)
+            expanded.append(part)
+    ids = [q['id'] for q in expanded]
+    if len(ids) != len(set(ids)):
+        raise ValueError('Duplicate native challenge IDs in lesson')
+    return expanded
+
+
+def session(questions, identifier, skill_id='duoaero_aerospace_diagnostic', expand_steps=True):
     # Original MathSessionCoordinator requires a Math skill ID to start the
     # original JS grader. GLOBAL_PRACTICE can display blobs but cannot grade them.
     return {'id': identifier, 'type': 'MATH_LESSON', 'fromLanguage': 'en',
             'skillId': skill_id, 'levelIndex': 0, 'levelSessionIndex': 0,
             'metadata': {'id': identifier, 'type': 'math_lesson'},
-            'challenges': [challenge(q) for q in questions]}
+            'challenges': [challenge(q) for q in lesson_questions(questions, expand_steps)]}
 
 if __name__ == '__main__':
     bank = json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))

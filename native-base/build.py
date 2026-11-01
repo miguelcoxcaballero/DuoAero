@@ -3,10 +3,10 @@ import subprocess,zipfile,xml.etree.ElementTree as E,hashlib,json,sys,copy
 import os, shutil
 from rich_question import choice_blob,content
 from math_notation import parts as notation_parts
-from course_adapter import session as native_session
+from course_adapter import session as native_session, lesson_questions
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
-from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
+from resource_extension import updater_paths, launcher_mascot, scene_mascot, MASCOT_PATH, SCENE_MASCOT_PATH
 from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
@@ -72,14 +72,14 @@ E.SubElement(provider,'meta-data',{A+'name':'android.support.FILE_PROVIDER_PATHS
 tree.write(WORK/'AndroidManifest.xml',encoding='utf-8',xml_declaration=True)
 with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk','w') as reference:
  for entry in base.infolist():
-  reference.writestr(entry,updater_paths(base.read(entry))[0] if entry.filename=='resources.arsc' else base.read(entry))
+  reference.writestr(entry,scene_mascot(updater_paths(base.read(entry))[0])[0] if entry.filename=='resources.arsc' else base.read(entry))
  reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
+ reference.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
 run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--rename-manifest-package',package,'--no-auto-version')
-# Use the existing approved artwork unchanged. Padding belongs to Android's
-# adaptive-icon drawable so the entire doghouse fits circular launcher masks.
+# Keep Snoopy's close-up inside Android's adaptive circular safe zone.
 launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
 launcher_res.parent.mkdir(parents=True,exist_ok=True)
-launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="22%"/></foreground></adaptive-icon>')
+launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="17%"/></foreground></adaptive-icon>')
 run(tool('aapt2'),'compile',launcher_res,'-o',WORK/'launcher-res.zip')
 wordmark_res=WORK/'launcher-res/drawable/duoaero_wordmark.xml'
 wordmark_res.parent.mkdir(parents=True,exist_ok=True)
@@ -452,6 +452,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   n=entry.filename
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
+   table,scene_id=scene_mascot(table)
    assert resource_id==0x7f160016
    branded,branding_report=rebrand_table(launcher_mascot(table),mascot_paths)
    (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
@@ -468,7 +469,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(updater/'dex/classes.dex','classes13.dex')
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
- out.write(ROOT/'app/assets/mascot/welcome.png',MASCOT_PATH)
+ out.write(ROOT/'app/assets/mascot/launcher.png',MASCOT_PATH)
+ out.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
  out.writestr(LOGO_PATH,wordmark_xml_bytes)
  for path,xml in mascot_xml_bytes.items():out.writestr(path,xml)
  for asset in (ROOT/'app/assets/updates').iterdir():
@@ -502,9 +504,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    question['pairs']=[[content(None,value) if any('latex' in p for p in notation_parts(value)) else value for value in pair] for pair in question['pairs']]
  out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed_driver,ensure_ascii=False))
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
- sample=plain_sample[:1]+[q for q in bank if q.get('rich_text')]
+ # Exercise the reported unformatted density fraction on the actual original
+ # select-one screen, in addition to authored rich-text samples.
+ sample=lesson_questions(plain_sample[:1]+[by_id['TA1-0148'],by_id['TA1-0397-D2']]+[q for q in bank if q.get('rich_text')])
  sample_ids={q['id'] for q in sample}
  sample.extend(q for q in plain_sample[1:] if q['id'] not in sample_ids)
+ sample=sample[:20]
  assert all(q['type']=='choice' for q in sample) and 10<=len(sample)<=20
  # MathSessionCoordinator starts the original JS sandbox only when the
  # original session type supplies a skill ID (Session.Type.F1). A language
@@ -512,18 +517,23 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  rich_session={'id':'duoaero_native_rich_diagnostic','type':'MATH_LESSON','fromLanguage':'en',
   'skillId':'duoaero_aerospace_diagnostic','levelIndex':0,'levelSessionIndex':0,
   'metadata':{'id':'duoaero_native_rich_diagnostic','type':'math_lesson'},
-  'challenges':[choice_blob(q) for q in sample]}
+  'challenges':[choice_blob(q,diagnostic_formula_hint=True) for q in sample]}
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
- catalog={}
+ catalog={};legacy_catalog={}
  lesson_total=0
  for node in json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig')):
   from path_adapter import stable_id
   lesson_total+=len(node['lessons'])
   for position,entry in enumerate(node['lessons']):
-   try: adapted=native_session([by_id[i] for i in entry['ids']],entry['id'],stable_id('skill',node['id']))
+   selected=[by_id[i] for i in entry['ids']]
+   try: adapted=native_session(selected,entry['id'],stable_id('skill',node['id']))
    except NotImplementedError: continue
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted
+   if any(question.get('lesson_steps') for question in selected):
+    legacy=native_session(selected,entry['id'],stable_id('skill',node['id']),expand_steps=False)
+    legacy['levelSessionIndex']=position
+    legacy_catalog[entry['id']]=legacy
  # Preserve earned chests from every node in 1.3.3 after regrouping.
  legacy_chests, prerequisites = {}, []
  for node in json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig')):
@@ -531,6 +541,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   legacy_chests[stable_id('chest', node['id'])] = list(prerequisites)
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
+ out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
  print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; runtime navigation and completion require separate acceptance.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')

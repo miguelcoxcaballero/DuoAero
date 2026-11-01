@@ -21,11 +21,13 @@ with zipfile.ZipFile(W/'tests.apk','a') as z:
  with zipfile.ZipFile(W/'DuoAero-native-base-test.apk') as target:
   lesson=json.loads(target.read('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json'))
  bank={q['id']:q for q in json.loads((R/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
+ from course_adapter import lesson_questions
+ expanded_bank={part['id']:part for q in bank.values() for part in lesson_questions([q])}
  formula_questions=prototypes()+[q for q in bank.values() if q['type']=='formula_blocks']
  z.writestr('assets/formula-selections.json',json.dumps([{'id':q['id'],'tokens':q['answer_blocks']} for q in formula_questions]))
  selections=[]
  for challenge in lesson['challenges']:
-  question=bank[challenge['id']];index=question['answer']
+  question=expanded_bank[challenge['id']];index=question['answer']
   rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
   selections.append({'id':question['id'],'answer':content(rich[index],question['options'][index])})
  z.writestr('assets/rich-session-selections.json',json.dumps(selections))
