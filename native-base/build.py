@@ -6,6 +6,7 @@ from course_adapter import session as native_session
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
 from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
+from branding import rebrand_table, wordmark_xml, animation_overlays, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -33,6 +34,16 @@ for el in root.iter():
  if el.get(A+'name','').startswith('.'):el.set(A+'name','com.duolingo'+el.get(A+'name'))
 E.SubElement(root,'uses-sdk',{A+'minSdkVersion':'29',A+'targetSdkVersion':'36'})
 app=root.find('application');app_label='DuoAero' if production else 'DuoAero original base · test';app.set(A+'label',app_label);app.set(A+'debuggable','false' if production else 'true')
+# The source APK opts out of resizing, which lets Samsung letterbox it on tall
+# phones. Keep the original portrait layouts but allow the full window bounds.
+app.set(A+'resizeableActivity','true')
+for element in [app,*app.findall('activity')]:
+ element.set(A+'resizeableActivity','true')
+ for attribute in ('maxAspectRatio','minAspectRatio'):
+  element.attrib.pop(A+attribute,None)
+ for metadata in list(element.findall('meta-data')):
+  if metadata.get(A+'name') in ('android.max_aspect','android.min_aspect'):
+   element.remove(metadata)
 app.set(A+'icon','@mipmap/ic_launcher')
 assert app.get(A+'name')=='com.duolingo.core.DuoApp'
 for component in app:
@@ -69,9 +80,16 @@ launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
 launcher_res.parent.mkdir(parents=True,exist_ok=True)
 launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="22%"/></foreground></adaptive-icon>')
 run(tool('aapt2'),'compile',launcher_res,'-o',WORK/'launcher-res.zip')
+wordmark_res=WORK/'launcher-res/drawable/duoaero_wordmark.xml'
+wordmark_res.parent.mkdir(parents=True,exist_ok=True)
+wordmark_res.write_text(wordmark_xml(BASE/'res/font/duolingosans_bold.otf'))
+run(tool('aapt2'),'compile',wordmark_res,'-o',WORK/'wordmark-res.zip')
 run(tool('aapt2'),'link','-o',WORK/'launcher.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'launcher-res.zip')
 with zipfile.ZipFile(WORK/'launcher.apk') as launcher:
  launcher_xml=launcher.read(next(n for n in launcher.namelist() if n.endswith('/duoaero_launcher.xml')))
+run(tool('aapt2'),'link','-o',WORK/'wordmark.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--no-auto-version','-R',WORK/'wordmark-res.zip')
+with zipfile.ZipFile(WORK/'wordmark.apk') as wordmark:
+ wordmark_xml_bytes=wordmark.read(LOGO_PATH)
 source=ROOT/'native-base/src/com/duoaero/nativebase/NativeCourseBridge.java';assert source.is_file()
 run(java('javac'),'--release','8','-encoding','UTF-8','-classpath',str(JAR)+os.pathsep+str(updater/'updater-shaded.jar'),'-d',WORK/'classes',*list((ROOT/'native-base/src').rglob('*.java')))
 run(java('java'),'-cp',BT/'lib/d8.jar','com.android.tools.r8.D8','--lib',JAR,'--min-api','29','--output',WORK/'dex',*list((WORK/'classes').rglob('*.class')))
@@ -309,13 +327,18 @@ run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
+ animation_files,animation_report=animation_overlays(base,(ROOT/'app/assets/mascot/welcome.png').read_bytes())
+ (WORK/'mascot-report.json').write_text(json.dumps(animation_report,indent=2)+'\n')
  out.writestr('AndroidManifest.xml',res.read('AndroidManifest.xml'))
  for entry in base.infolist():
   n=entry.filename
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
    assert resource_id==0x7f160016
-   out.writestr(entry,launcher_mascot(table))
+   branded,branding_report=rebrand_table(launcher_mascot(table))
+   (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
+   out.writestr(entry,branded)
+  elif n in animation_files:out.writestr(entry,animation_files[n])
   elif n=='res/mipmap-anydpi-v21/ic_launcher.xml':out.writestr(entry,launcher_xml)
   elif n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
   elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
@@ -328,6 +351,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(updater/'dex/classes.dex','classes13.dex')
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  out.write(ROOT/'app/assets/mascot/welcome.png',MASCOT_PATH)
+ out.writestr(LOGO_PATH,wordmark_xml_bytes)
  for asset in (ROOT/'app/assets/updates').iterdir():
   if asset.is_file() and asset.name!='config.json':out.write(asset,'assets/updates/'+asset.name)
  update_config=json.loads((ROOT/'app/assets/updates/config.json').read_text())

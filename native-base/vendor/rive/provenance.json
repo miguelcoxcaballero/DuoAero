@@ -1,0 +1,5 @@
+{
+  "repository": "https://github.com/rive-app/rive-runtime",
+  "revision": "dd601269efcb1a9ba797db38dbc5e071d6db61ee",
+  "use": "Wire property types and inheritance metadata for preserving existing animation objects; no runtime library replacement."
+}

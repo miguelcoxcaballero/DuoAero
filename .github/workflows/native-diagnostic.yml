@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["standalone","resume"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || '["s24","google","lesson","accounts"]') }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -81,7 +81,7 @@ jobs:
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
@@ -107,6 +107,10 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
+          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = google ]]; then
+            adb shell wm size 1440x3120
+            adb shell wm density 560
+          fi
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
           timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > ${{ runner.temp }}/duoaero-evidence/models.txt
@@ -229,11 +233,15 @@ jobs:
             mixed)
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               ;;
-            standalone|resume|mistakes|review)
+            standalone|s24|resume|mistakes|review)
               if [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_TEST_RESUME=1; fi
               if [ "$DIAGNOSTIC_SCENARIO" = mistakes ]; then export DUOAERO_TEST_MISTAKES=1; fi
               if [ "$DIAGNOSTIC_SCENARIO" = review ]; then export DUOAERO_TEST_REVIEW=1; fi
               python native-base/test_standalone.py
+              if [ "$DIAGNOSTIC_SCENARIO" = s24 ]; then
+                adb shell dumpsys activity activities > "$DUOAERO_EVIDENCE/s24-activities.txt"
+                python native-base/test_tall_window.py
+              fi
               ;;
             path)
               run_probe aerospace-path-session MATH_BT native-defaults late native-full aerospace-rich path-first true native-default native-cache true

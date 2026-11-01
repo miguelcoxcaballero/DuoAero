@@ -8,13 +8,19 @@ import os
 
 from runtime_config import WORK, APK, tool
 from resource_extension import updater_paths, launcher_mascot, MASCOT_PATH
+from branding import rebrand_table, animation_overlays, LOGO_PATH
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex', 'res/mipmap-anydpi-v21/ic_launcher.xml'}
 target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base-test.apk')))
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
+    approved=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
+    overlays, animation_report=animation_overlays(original,approved)
     checked = 0
     for entry in original.infolist():
         name = entry.filename
         if name.startswith('META-INF/') or name in allowed:
+            continue
+        if name in overlays:
+            assert built.read(name)==overlays[name], name
             continue
         if name.startswith('res/font/duolingosansmath_') and name.endswith('.ttf'):
             continue
@@ -23,7 +29,8 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     assert 'classes12.dex' in built.namelist()
     assert 'classes13.dex' in built.namelist()
     table, resource_id = updater_paths(original.read('resources.arsc'))
-    assert built.read('resources.arsc') == launcher_mascot(table)
+    assert built.read('resources.arsc') == rebrand_table(launcher_mascot(table))[0]
+    assert LOGO_PATH in built.namelist()
     assert built.read(MASCOT_PATH) == (Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
     assert built.read('res/mipmap-anydpi-v21/ic_launcher.xml') != original.read('res/mipmap-anydpi-v21/ic_launcher.xml')
     assert resource_id == 0x7f160016
@@ -37,6 +44,8 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
 A = '{http://schemas.android.com/apk/res/android}'
 manifest = ET.parse(WORK/'AndroidManifest.xml').getroot()
 assert manifest.find('application').get(A+'name') == 'com.duolingo.core.DuoApp'
+assert manifest.find('application').get(A+'resizeableActivity') == 'true'
+assert all(c.get(A+'resizeableActivity')!='false' and A+'maxAspectRatio' not in c.attrib for c in manifest.findall('./application/activity'))
 for component in manifest.find('application'):
     if any(any(category.get(A+'name') == 'android.intent.category.LAUNCHER' for category in intent.findall('category')) for intent in component.findall('intent-filter')):
         assert component.get(A+'label') == manifest.find('application').get(A+'label')
@@ -52,12 +61,9 @@ def resources(apk):
     return subprocess.check_output([str(tool('aapt2')), 'dump', 'resources', str(apk)], text=True).splitlines()
 before = resources(APK)
 after = resources(target)
-changes = list(difflib.ndiff(before, after))
-removed = [line[2:] for line in changes if line.startswith('- ')]
-added = [line[2:] for line in changes if line.startswith('+ ')]
-assert len(removed) == 2 and 'res/drawable/ic_launcher_foreground.xml' in removed[0] and 'type xml id=16 entryCount=' in removed[1], removed
-assert len(added) == 4 and MASCOT_PATH in added[0] and 'type xml id=16 entryCount=' in added[1], added
-assert 'resource 0x7f160016 xml/inhouse_update_paths' in added[2], added
-assert 'res/xml/inhouse_update_paths.xml' in added[3], added
+before_ids=[line.strip() for line in before if line.strip().startswith('resource 0x')]
+after_ids=[line.strip() for line in after if line.strip().startswith('resource 0x')]
+assert [line for line in after_ids if '0x7f160016 ' not in line]==before_ids, 'Original resource IDs changed'
+assert any('resource 0x7f160016 xml/inhouse_update_paths' in line for line in after_ids)
 print(f'PASS: {checked} original APK entries preserved byte-for-byte, original application/session activity retained')
-print('PASS: original resource IDs/configurations preserved; only launcher artwork reference changed and canonical updater provider added')
+print(f'PASS: original resource IDs preserved, branding and {len(overlays)} mascot animations replaced, canonical provider retained, portrait window resizable')

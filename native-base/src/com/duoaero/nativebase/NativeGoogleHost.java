@@ -24,6 +24,8 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  private final Map<Activity,ViewTreeObserver.OnGlobalLayoutListener> welcomeObservers=new WeakHashMap<>();
  private WeakReference<Activity> foreground=new WeakReference<>(null);
  private boolean ready,manualSync,manualSignIn;
+ private final ExecutorService pathRefresh=Executors.newSingleThreadExecutor(r->new Thread(r,"duoaero-drive-path"));
+ private String pendingPathAccount="";
  private static Object logoutClick;
  private String pending="",status="Progress saved on this device";
  private NativeGoogleHost(Application application){
@@ -135,11 +137,17 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  @JavascriptInterface public String readAuthStorage(){try{return NativeAuthStorage.read(app);}catch(Exception error){throw new IllegalStateException("Cannot restore Google authentication storage",error);}}
  @JavascriptInterface public void writeAuthStorage(String key,String value){try{NativeAuthStorage.write(app,key,value);}catch(Exception error){throw new IllegalStateException("Cannot save Google authentication storage",error);}}
  @JavascriptInterface public void applyProgressForAccount(String id,String raw){
-  try{NativeProgressSync.apply(app,id,raw);}catch(Exception error){throw new IllegalStateException("Cannot merge this account's progress",error);}
-  main.post(()->{
+  final boolean changed;
+  try{changed=NativeProgressSync.apply(app,id,raw);}catch(Exception error){throw new IllegalStateException("Cannot merge this account's progress",error);}
+  if(changed)main.post(()->{pendingPathAccount=id;refreshPathIfIdle();});
+ }
+ private void refreshPathIfIdle(){
+  if(pendingPathAccount.isEmpty()||hasSession())return;
+  final String id=pendingPathAccount;pendingPathAccount="";
+  pathRefresh.execute(()->{
    synchronized(NativeAccountStore.LOCK){
     if(!id.equals(NativeAccountStore.current(app)))return;
-    try{NativeLocalCache.install(app,true);}catch(Exception error){android.util.Log.e("DuoAeroNative","Could not refresh original path after Drive merge");}
+    try{NativeLocalCache.install(app,true);}catch(Exception error){android.util.Log.e("DuoAeroNative","Could not refresh original path after Drive merge",error);}
    }
   });
  }
@@ -190,6 +198,7 @@ public final class NativeGoogleHost implements Application.ActivityLifecycleCall
  public void onActivityPaused(Activity activity){if(foreground.get()==activity)web.onPause();}
  public void onActivityDestroyed(Activity activity){
   sessions.remove(activity);ViewTreeObserver.OnGlobalLayoutListener listener=welcomeObservers.remove(activity);
+  main.post(this::refreshPathIfIdle);
   if(listener!=null&&activity.getWindow().getDecorView().getViewTreeObserver().isAlive())activity.getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(listener);
   if(foreground.get()==activity){foreground.clear();if(web.getParent()!=null)((ViewGroup)web.getParent()).removeView(web);webContext.setBaseContext(app);}
  }

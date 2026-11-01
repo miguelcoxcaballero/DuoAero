@@ -155,6 +155,7 @@ final class SessionInteraction {
    payload=new String(bytes.toByteArray(),"UTF-8");
   }
   org.json.JSONArray selections=new org.json.JSONArray(payload);
+  long finalContinueAt=0;
   for(int i=0;i<selections.length();i++){
    org.json.JSONObject question=selections.getJSONObject(i);
    String answer=question.getString("answer");
@@ -184,12 +185,16 @@ final class SessionInteraction {
    android.util.Log.i("DuoAeroProbe","Native correct answer "+(i+1)+"/"+selections.length()+": "+question.getString("id"));
    for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
    if(!hasContinue(test))throw new IllegalStateException("Missing graded Continue at "+question.getString("id"));
+   if(i==selections.length()-1)finalContinueAt=android.os.SystemClock.elapsedRealtime();
    click(test,null,"CONTINUE");
    Thread.sleep(1000);
   }
-  Thread.sleep(8000);
+  for(int attempt=0;attempt<100&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
+  boolean summaryVisible=contains(test,"CLAIM XP");
+  long summaryWait=android.os.SystemClock.elapsedRealtime()-finalContinueAt;
+  android.util.Log.i("DuoAeroProbe","Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible);
   SessionScreen.capture(test,"lesson-after-last-answer","lesson-after-last-answer");
-  return "All "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
+  return "Final Continue to observed Claim XP: "+summaryWait+" ms; visible="+summaryVisible+".\nAll "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
  }
  static String claimXp(Instrumentation test)throws Exception {
   for(int attempt=0;attempt<60;attempt++){

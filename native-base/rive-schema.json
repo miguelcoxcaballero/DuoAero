@@ -1,0 +1,3066 @@
+{
+  "properties": {
+    "866": [
+      "Bytes",
+      "dataBindPathIdsPropertyKey"
+    ],
+    "4": [
+      "String",
+      "namePropertyKey"
+    ],
+    "5": [
+      "Id",
+      "parentIdPropertyKey"
+    ],
+    "15": [
+      "Double",
+      "rotationPropertyKey"
+    ],
+    "16": [
+      "Double",
+      "scaleXPropertyKey"
+    ],
+    "17": [
+      "Double",
+      "scaleYPropertyKey"
+    ],
+    "196": [
+      "Bool",
+      "clipPropertyKey"
+    ],
+    "7": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "8": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "494": [
+      "Id",
+      "styleIdPropertyKey"
+    ],
+    "706": [
+      "Double",
+      "fractionalWidthPropertyKey"
+    ],
+    "707": [
+      "Double",
+      "fractionalHeightPropertyKey"
+    ],
+    "1033": [
+      "Uint",
+      "focusFlagsPropertyKey"
+    ],
+    "956": [
+      "Uint",
+      "edgeBehaviorValuePropertyKey"
+    ],
+    "121": [
+      "Id",
+      "drawTargetIdPropertyKey"
+    ],
+    "119": [
+      "Id",
+      "drawableIdPropertyKey"
+    ],
+    "120": [
+      "Uint",
+      "placementValuePropertyKey"
+    ],
+    "296": [
+      "Id",
+      "activeComponentIdPropertyKey"
+    ],
+    "663": [
+      "Double",
+      "instanceWidthPropertyKey"
+    ],
+    "664": [
+      "Double",
+      "instanceHeightPropertyKey"
+    ],
+    "665": [
+      "Uint",
+      "instanceWidthUnitsValuePropertyKey"
+    ],
+    "666": [
+      "Uint",
+      "instanceHeightUnitsValuePropertyKey"
+    ],
+    "667": [
+      "Uint",
+      "instanceWidthScaleTypePropertyKey"
+    ],
+    "668": [
+      "Uint",
+      "instanceHeightScaleTypePropertyKey"
+    ],
+    "876": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "538": [
+      "Uint",
+      "fitPropertyKey"
+    ],
+    "1098": [
+      "Bool",
+      "fitToLayoutParentPropertyKey"
+    ],
+    "644": [
+      "Double",
+      "alignmentXPropertyKey"
+    ],
+    "645": [
+      "Double",
+      "alignmentYPropertyKey"
+    ],
+    "447": [
+      "Color",
+      "highlightColorPropertyKey"
+    ],
+    "448": [
+      "Double",
+      "cornerRadiusPropertyKey"
+    ],
+    "800": [
+      "Id",
+      "listSourcePropertyKey"
+    ],
+    "248": [
+      "String",
+      "urlPropertyKey"
+    ],
+    "249": [
+      "Uint",
+      "targetValuePropertyKey"
+    ],
+    "198": [
+      "Id",
+      "animationIdPropertyKey"
+    ],
+    "1040": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "1041": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "836": [
+      "Color",
+      "propertyValuePropertyKey"
+    ],
+    "449": [
+      "Uint",
+      "nameIdPropertyKey"
+    ],
+    "408": [
+      "Id",
+      "assetIdPropertyKey"
+    ],
+    "18": [
+      "Double",
+      "opacityPropertyKey"
+    ],
+    "13": [
+      "Double",
+      "xPropertyKey"
+    ],
+    "14": [
+      "Double",
+      "yPropertyKey"
+    ],
+    "245": [
+      "Bool",
+      "propertyValuePropertyKey"
+    ],
+    "11": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "12": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "236": [
+      "Id",
+      "defaultStateMachineIdPropertyKey"
+    ],
+    "583": [
+      "Id",
+      "viewModelIdPropertyKey"
+    ],
+    "299": [
+      "Double",
+      "xPropertyKey"
+    ],
+    "300": [
+      "Double",
+      "yPropertyKey"
+    ],
+    "303": [
+      "Double",
+      "posXPropertyKey"
+    ],
+    "304": [
+      "Double",
+      "posYPropertyKey"
+    ],
+    "307": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "308": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "305": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "306": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "301": [
+      "Id",
+      "xIdPropertyKey"
+    ],
+    "302": [
+      "Id",
+      "yIdPropertyKey"
+    ],
+    "312": [
+      "Uint",
+      "joystickFlagsPropertyKey"
+    ],
+    "313": [
+      "Id",
+      "handleSourceIdPropertyKey"
+    ],
+    "197": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "582": [
+      "Bytes",
+      "dataBindPathIdsPropertyKey"
+    ],
+    "895": [
+      "Bool",
+      "isPausedPropertyKey"
+    ],
+    "907": [
+      "Double",
+      "speedPropertyKey"
+    ],
+    "908": [
+      "Double",
+      "quantizePropertyKey"
+    ],
+    "1014": [
+      "Bool",
+      "isStatefulPropertyKey"
+    ],
+    "417": [
+      "Double",
+      "resolutionPropertyKey"
+    ],
+    "418": [
+      "Uint",
+      "cacheFlagsPropertyKey"
+    ],
+    "246": [
+      "String",
+      "propertyValuePropertyKey"
+    ],
+    "934": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "935": [
+      "Id",
+      "viewModelIdPropertyKey"
+    ],
+    "243": [
+      "Double",
+      "propertyValuePropertyKey"
+    ],
+    "870": [
+      "Uint",
+      "propertyValuePropertyKey"
+    ],
+    "23": [
+      "Uint",
+      "blendModeValuePropertyKey"
+    ],
+    "450": [
+      "Uint",
+      "additiveAmountPropertyKey"
+    ],
+    "129": [
+      "Uint",
+      "drawableFlagsPropertyKey"
+    ],
+    "459": [
+      "Id",
+      "sourceIdPropertyKey"
+    ],
+    "460": [
+      "Uint",
+      "maskFlagsPropertyKey"
+    ],
+    "458": [
+      "Double",
+      "resolutionPropertyKey"
+    ],
+    "462": [
+      "Double",
+      "boundsXPropertyKey"
+    ],
+    "463": [
+      "Double",
+      "boundsYPropertyKey"
+    ],
+    "464": [
+      "Double",
+      "boundsWidthPropertyKey"
+    ],
+    "465": [
+      "Double",
+      "boundsHeightPropertyKey"
+    ],
+    "872": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "873": [
+      "Id",
+      "enumIdPropertyKey"
+    ],
+    "1010": [
+      "Uint",
+      "actionTypePropertyKey"
+    ],
+    "1021": [
+      "Uint",
+      "kindPropertyKey"
+    ],
+    "1018": [
+      "Uint",
+      "mappingPropertyKey"
+    ],
+    "1019": [
+      "Uint",
+      "inputIndexPropertyKey"
+    ],
+    "1020": [
+      "Uint",
+      "buttonPhasePropertyKey"
+    ],
+    "971": [
+      "Uint",
+      "keyTypePropertyKey"
+    ],
+    "972": [
+      "Uint",
+      "keyPhasePropertyKey"
+    ],
+    "973": [
+      "Uint",
+      "modifiersPropertyKey"
+    ],
+    "874": [
+      "Id",
+      "listSourcePropertyKey"
+    ],
+    "82": [
+      "Double",
+      "rotationPropertyKey"
+    ],
+    "83": [
+      "Double",
+      "distancePropertyKey"
+    ],
+    "127": [
+      "Double",
+      "innerRadiusPropertyKey"
+    ],
+    "128": [
+      "Uint",
+      "pathFlagsPropertyKey"
+    ],
+    "770": [
+      "Bool",
+      "isHolePropertyKey"
+    ],
+    "32": [
+      "Bool",
+      "isClosedPropertyKey"
+    ],
+    "92": [
+      "Id",
+      "sourceIdPropertyKey"
+    ],
+    "93": [
+      "Uint",
+      "fillRulePropertyKey"
+    ],
+    "94": [
+      "Bool",
+      "isVisiblePropertyKey"
+    ],
+    "84": [
+      "Double",
+      "inRotationPropertyKey"
+    ],
+    "85": [
+      "Double",
+      "inDistancePropertyKey"
+    ],
+    "86": [
+      "Double",
+      "outRotationPropertyKey"
+    ],
+    "87": [
+      "Double",
+      "outDistancePropertyKey"
+    ],
+    "164": [
+      "Bool",
+      "linkCornerRadiusPropertyKey"
+    ],
+    "31": [
+      "Double",
+      "cornerRadiusTLPropertyKey"
+    ],
+    "161": [
+      "Double",
+      "cornerRadiusTRPropertyKey"
+    ],
+    "162": [
+      "Double",
+      "cornerRadiusBLPropertyKey"
+    ],
+    "163": [
+      "Double",
+      "cornerRadiusBRPropertyKey"
+    ],
+    "206": [
+      "Id",
+      "assetIdPropertyKey"
+    ],
+    "380": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "381": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "974": [
+      "Uint",
+      "fitPropertyKey"
+    ],
+    "975": [
+      "Double",
+      "alignmentXPropertyKey"
+    ],
+    "976": [
+      "Double",
+      "alignmentYPropertyKey"
+    ],
+    "1076": [
+      "Uint",
+      "samplerFilterPropertyKey"
+    ],
+    "1077": [
+      "Uint",
+      "samplerWrapXPropertyKey"
+    ],
+    "1078": [
+      "Uint",
+      "samplerWrapYPropertyKey"
+    ],
+    "215": [
+      "Double",
+      "uPropertyKey"
+    ],
+    "216": [
+      "Double",
+      "vPropertyKey"
+    ],
+    "24": [
+      "Double",
+      "xPropertyKey"
+    ],
+    "25": [
+      "Double",
+      "yPropertyKey"
+    ],
+    "20": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "21": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "123": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "124": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "125": [
+      "Uint",
+      "pointsPropertyKey"
+    ],
+    "126": [
+      "Double",
+      "cornerRadiusPropertyKey"
+    ],
+    "26": [
+      "Double",
+      "radiusPropertyKey"
+    ],
+    "223": [
+      "Bytes",
+      "triangleIndexBytesPropertyKey"
+    ],
+    "79": [
+      "Double",
+      "rotationPropertyKey"
+    ],
+    "80": [
+      "Double",
+      "inDistancePropertyKey"
+    ],
+    "81": [
+      "Double",
+      "outDistancePropertyKey"
+    ],
+    "181": [
+      "Bool",
+      "valuePropertyKey"
+    ],
+    "931": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "653": [
+      "Id",
+      "valuePropertyKey"
+    ],
+    "405": [
+      "Uint",
+      "easingValuePropertyKey"
+    ],
+    "406": [
+      "Double",
+      "amplitudePropertyKey"
+    ],
+    "407": [
+      "Double",
+      "periodPropertyKey"
+    ],
+    "240": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "541": [
+      "Bool",
+      "preserveOffsetPropertyKey"
+    ],
+    "980": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "337": [
+      "Double",
+      "x1PropertyKey"
+    ],
+    "338": [
+      "Double",
+      "y1PropertyKey"
+    ],
+    "339": [
+      "Double",
+      "x2PropertyKey"
+    ],
+    "340": [
+      "Double",
+      "y2PropertyKey"
+    ],
+    "952": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "930": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "977": [
+      "Id",
+      "objectIdPropertyKey"
+    ],
+    "978": [
+      "Uint",
+      "propertyKeyPropertyKey"
+    ],
+    "238": [
+      "Bool",
+      "nestedValuePropertyKey"
+    ],
+    "652": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "138": [
+      "String",
+      "namePropertyKey"
+    ],
+    "1068": [
+      "Int",
+      "valuePropertyKey"
+    ],
+    "292": [
+      "Double",
+      "speedPropertyKey"
+    ],
+    "393": [
+      "Uint",
+      "occursValuePropertyKey"
+    ],
+    "53": [
+      "Uint",
+      "propertyKeyPropertyKey"
+    ],
+    "224": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "535": [
+      "Uint",
+      "phaseValuePropertyKey"
+    ],
+    "88": [
+      "Color",
+      "valuePropertyKey"
+    ],
+    "1011": [
+      "Uint",
+      "traversalKindPropertyKey"
+    ],
+    "155": [
+      "Id",
+      "inputIdPropertyKey"
+    ],
+    "389": [
+      "Id",
+      "eventIdPropertyKey"
+    ],
+    "51": [
+      "Id",
+      "objectIdPropertyKey"
+    ],
+    "631": [
+      "Uint",
+      "valuePropertyKey"
+    ],
+    "650": [
+      "Uint",
+      "opValuePropertyKey"
+    ],
+    "689": [
+      "Uint",
+      "valuePropertyKey"
+    ],
+    "68": [
+      "Uint",
+      "interpolationTypePropertyKey"
+    ],
+    "69": [
+      "Id",
+      "interpolatorIdPropertyKey"
+    ],
+    "122": [
+      "Id",
+      "valuePropertyKey"
+    ],
+    "67": [
+      "Uint",
+      "framePropertyKey"
+    ],
+    "229": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "165": [
+      "Id",
+      "animationIdPropertyKey"
+    ],
+    "202": [
+      "Double",
+      "timePropertyKey"
+    ],
+    "871": [
+      "Bytes",
+      "viewModelPathIdsPropertyKey"
+    ],
+    "453": [
+      "Uint",
+      "inputValuePropertyKey"
+    ],
+    "454": [
+      "Uint",
+      "inputValueIndexPropertyKey"
+    ],
+    "171": [
+      "Id",
+      "exitBlendAnimationIdPropertyKey"
+    ],
+    "200": [
+      "Double",
+      "mixPropertyKey"
+    ],
+    "166": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "168": [
+      "Id",
+      "inputIdPropertyKey"
+    ],
+    "297": [
+      "Double",
+      "mixValuePropertyKey"
+    ],
+    "298": [
+      "Uint",
+      "blendSourcePropertyKey"
+    ],
+    "651": [
+      "Color",
+      "valuePropertyKey"
+    ],
+    "56": [
+      "Uint",
+      "fpsPropertyKey"
+    ],
+    "57": [
+      "Uint",
+      "durationPropertyKey"
+    ],
+    "58": [
+      "Double",
+      "speedPropertyKey"
+    ],
+    "59": [
+      "Uint",
+      "loopValuePropertyKey"
+    ],
+    "60": [
+      "Uint",
+      "workStartPropertyKey"
+    ],
+    "61": [
+      "Uint",
+      "workEndPropertyKey"
+    ],
+    "62": [
+      "Bool",
+      "enableWorkAreaPropertyKey"
+    ],
+    "376": [
+      "Bool",
+      "quantizePropertyKey"
+    ],
+    "677": [
+      "Uint",
+      "propertyTypePropertyKey"
+    ],
+    "157": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "167": [
+      "Id",
+      "inputIdPropertyKey"
+    ],
+    "199": [
+      "Double",
+      "speedPropertyKey"
+    ],
+    "201": [
+      "Bool",
+      "isPlayingPropertyKey"
+    ],
+    "149": [
+      "Id",
+      "animationIdPropertyKey"
+    ],
+    "156": [
+      "Uint",
+      "opValuePropertyKey"
+    ],
+    "647": [
+      "Bool",
+      "valuePropertyKey"
+    ],
+    "70": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "141": [
+      "Bool",
+      "valuePropertyKey"
+    ],
+    "239": [
+      "Double",
+      "nestedValuePropertyKey"
+    ],
+    "280": [
+      "String",
+      "valuePropertyKey"
+    ],
+    "151": [
+      "Id",
+      "stateToIdPropertyKey"
+    ],
+    "152": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "158": [
+      "Uint",
+      "durationPropertyKey"
+    ],
+    "160": [
+      "Uint",
+      "exitTimePropertyKey"
+    ],
+    "349": [
+      "Uint",
+      "interpolationTypePropertyKey"
+    ],
+    "350": [
+      "Id",
+      "interpolatorIdPropertyKey"
+    ],
+    "537": [
+      "Uint",
+      "randomWeightPropertyKey"
+    ],
+    "654": [
+      "String",
+      "valuePropertyKey"
+    ],
+    "392": [
+      "Id",
+      "eventIdPropertyKey"
+    ],
+    "536": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "228": [
+      "Uint",
+      "valuePropertyKey"
+    ],
+    "63": [
+      "Double",
+      "x1PropertyKey"
+    ],
+    "64": [
+      "Double",
+      "y1PropertyKey"
+    ],
+    "65": [
+      "Double",
+      "x2PropertyKey"
+    ],
+    "66": [
+      "Double",
+      "y2PropertyKey"
+    ],
+    "225": [
+      "Uint",
+      "listenerTypeValuePropertyKey"
+    ],
+    "399": [
+      "Id",
+      "eventIdPropertyKey"
+    ],
+    "868": [
+      "Bytes",
+      "viewModelPathIdsPropertyKey"
+    ],
+    "227": [
+      "Id",
+      "inputIdPropertyKey"
+    ],
+    "400": [
+      "Id",
+      "nestedInputIdPropertyKey"
+    ],
+    "237": [
+      "Id",
+      "inputIdPropertyKey"
+    ],
+    "55": [
+      "String",
+      "namePropertyKey"
+    ],
+    "140": [
+      "Double",
+      "valuePropertyKey"
+    ],
+    "982": [
+      "Uint",
+      "rolePropertyKey"
+    ],
+    "983": [
+      "String",
+      "labelPropertyKey"
+    ],
+    "984": [
+      "String",
+      "valuePropertyKey"
+    ],
+    "985": [
+      "String",
+      "hintPropertyKey"
+    ],
+    "986": [
+      "Uint",
+      "headingLevelPropertyKey"
+    ],
+    "987": [
+      "Uint",
+      "traitFlagsPropertyKey"
+    ],
+    "988": [
+      "Uint",
+      "stateFlagsPropertyKey"
+    ],
+    "1066": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "1067": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "1057": [
+      "Double",
+      "fractionalWidthPropertyKey"
+    ],
+    "1058": [
+      "Double",
+      "fractionalHeightPropertyKey"
+    ],
+    "1047": [
+      "Int",
+      "gridColumnPropertyKey"
+    ],
+    "1048": [
+      "Int",
+      "gridRowPropertyKey"
+    ],
+    "1049": [
+      "Uint",
+      "gridColumnSpanPropertyKey"
+    ],
+    "1050": [
+      "Uint",
+      "gridRowSpanPropertyKey"
+    ],
+    "1063": [
+      "Double",
+      "trackValuePropertyKey"
+    ],
+    "1065": [
+      "Double",
+      "trackMaxValuePropertyKey"
+    ],
+    "1061": [
+      "Uint",
+      "collectionPropertyKey"
+    ],
+    "1062": [
+      "Uint",
+      "trackTypePropertyKey"
+    ],
+    "1064": [
+      "Uint",
+      "trackMaxTypePropertyKey"
+    ],
+    "697": [
+      "Double",
+      "initialWidthPropertyKey"
+    ],
+    "698": [
+      "Double",
+      "initialHeightPropertyKey"
+    ],
+    "699": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "700": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "858": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "859": [
+      "Double",
+      "instanceWidthPropertyKey"
+    ],
+    "860": [
+      "Double",
+      "instanceHeightPropertyKey"
+    ],
+    "856": [
+      "Uint",
+      "instanceWidthUnitsValuePropertyKey"
+    ],
+    "861": [
+      "Uint",
+      "instanceHeightUnitsValuePropertyKey"
+    ],
+    "862": [
+      "Uint",
+      "instanceWidthScaleTypePropertyKey"
+    ],
+    "863": [
+      "Uint",
+      "instanceHeightScaleTypePropertyKey"
+    ],
+    "672": [
+      "Uint",
+      "patchIndexPropertyKey"
+    ],
+    "673": [
+      "Uint",
+      "stylePropertyKey"
+    ],
+    "498": [
+      "Double",
+      "gapHorizontalPropertyKey"
+    ],
+    "499": [
+      "Double",
+      "gapVerticalPropertyKey"
+    ],
+    "504": [
+      "Double",
+      "borderLeftPropertyKey"
+    ],
+    "505": [
+      "Double",
+      "borderRightPropertyKey"
+    ],
+    "506": [
+      "Double",
+      "borderTopPropertyKey"
+    ],
+    "507": [
+      "Double",
+      "borderBottomPropertyKey"
+    ],
+    "508": [
+      "Double",
+      "marginLeftPropertyKey"
+    ],
+    "509": [
+      "Double",
+      "marginRightPropertyKey"
+    ],
+    "510": [
+      "Double",
+      "marginTopPropertyKey"
+    ],
+    "511": [
+      "Double",
+      "marginBottomPropertyKey"
+    ],
+    "512": [
+      "Double",
+      "paddingLeftPropertyKey"
+    ],
+    "513": [
+      "Double",
+      "paddingRightPropertyKey"
+    ],
+    "514": [
+      "Double",
+      "paddingTopPropertyKey"
+    ],
+    "515": [
+      "Double",
+      "paddingBottomPropertyKey"
+    ],
+    "516": [
+      "Double",
+      "positionLeftPropertyKey"
+    ],
+    "517": [
+      "Double",
+      "positionRightPropertyKey"
+    ],
+    "518": [
+      "Double",
+      "positionTopPropertyKey"
+    ],
+    "519": [
+      "Double",
+      "positionBottomPropertyKey"
+    ],
+    "621": [
+      "Uint",
+      "positionLeftUnitsValuePropertyKey"
+    ],
+    "622": [
+      "Uint",
+      "positionRightUnitsValuePropertyKey"
+    ],
+    "623": [
+      "Uint",
+      "positionTopUnitsValuePropertyKey"
+    ],
+    "624": [
+      "Uint",
+      "positionBottomUnitsValuePropertyKey"
+    ],
+    "523": [
+      "Double",
+      "flexBasisPropertyKey"
+    ],
+    "524": [
+      "Double",
+      "aspectRatioPropertyKey"
+    ],
+    "546": [
+      "Uint",
+      "aspectRatioAxisValuePropertyKey"
+    ],
+    "591": [
+      "Id",
+      "interpolatorIdPropertyKey"
+    ],
+    "592": [
+      "Double",
+      "interpolationTimePropertyKey"
+    ],
+    "705": [
+      "Uint",
+      "flexBasisUnitsValuePropertyKey"
+    ],
+    "632": [
+      "Uint",
+      "layoutAlignmentTypePropertyKey"
+    ],
+    "589": [
+      "Uint",
+      "animationStyleTypePropertyKey"
+    ],
+    "590": [
+      "Uint",
+      "interpolationTypePropertyKey"
+    ],
+    "597": [
+      "Uint",
+      "positionTypeValuePropertyKey"
+    ],
+    "598": [
+      "Uint",
+      "flexDirectionValuePropertyKey"
+    ],
+    "599": [
+      "Uint",
+      "directionValuePropertyKey"
+    ],
+    "604": [
+      "Uint",
+      "flexWrapValuePropertyKey"
+    ],
+    "605": [
+      "Uint",
+      "overflowValuePropertyKey"
+    ],
+    "606": [
+      "Bool",
+      "intrinsicallySizedValuePropertyKey"
+    ],
+    "609": [
+      "Uint",
+      "borderLeftUnitsValuePropertyKey"
+    ],
+    "610": [
+      "Uint",
+      "borderRightUnitsValuePropertyKey"
+    ],
+    "611": [
+      "Uint",
+      "borderTopUnitsValuePropertyKey"
+    ],
+    "612": [
+      "Uint",
+      "borderBottomUnitsValuePropertyKey"
+    ],
+    "613": [
+      "Uint",
+      "marginLeftUnitsValuePropertyKey"
+    ],
+    "614": [
+      "Uint",
+      "marginRightUnitsValuePropertyKey"
+    ],
+    "615": [
+      "Uint",
+      "marginTopUnitsValuePropertyKey"
+    ],
+    "616": [
+      "Uint",
+      "marginBottomUnitsValuePropertyKey"
+    ],
+    "617": [
+      "Uint",
+      "paddingLeftUnitsValuePropertyKey"
+    ],
+    "618": [
+      "Uint",
+      "paddingRightUnitsValuePropertyKey"
+    ],
+    "619": [
+      "Uint",
+      "paddingTopUnitsValuePropertyKey"
+    ],
+    "620": [
+      "Uint",
+      "paddingBottomUnitsValuePropertyKey"
+    ],
+    "625": [
+      "Uint",
+      "gapHorizontalUnitsValuePropertyKey"
+    ],
+    "626": [
+      "Uint",
+      "gapVerticalUnitsValuePropertyKey"
+    ],
+    "1045": [
+      "Uint",
+      "justifyItemsValuePropertyKey"
+    ],
+    "1059": [
+      "Uint",
+      "layoutTypeValuePropertyKey"
+    ],
+    "639": [
+      "Bool",
+      "linkCornerRadiusPropertyKey"
+    ],
+    "640": [
+      "Double",
+      "cornerRadiusTLPropertyKey"
+    ],
+    "641": [
+      "Double",
+      "cornerRadiusTRPropertyKey"
+    ],
+    "642": [
+      "Double",
+      "cornerRadiusBLPropertyKey"
+    ],
+    "643": [
+      "Double",
+      "cornerRadiusBRPropertyKey"
+    ],
+    "675": [
+      "Double",
+      "offsetPropertyKey"
+    ],
+    "676": [
+      "Bool",
+      "normalizedPropertyKey"
+    ],
+    "502": [
+      "Double",
+      "minWidthPropertyKey"
+    ],
+    "500": [
+      "Double",
+      "maxWidthPropertyKey"
+    ],
+    "503": [
+      "Double",
+      "minHeightPropertyKey"
+    ],
+    "501": [
+      "Double",
+      "maxHeightPropertyKey"
+    ],
+    "627": [
+      "Uint",
+      "minWidthUnitsValuePropertyKey"
+    ],
+    "629": [
+      "Uint",
+      "maxWidthUnitsValuePropertyKey"
+    ],
+    "628": [
+      "Uint",
+      "minHeightUnitsValuePropertyKey"
+    ],
+    "630": [
+      "Uint",
+      "maxHeightUnitsValuePropertyKey"
+    ],
+    "655": [
+      "Uint",
+      "layoutWidthScaleTypePropertyKey"
+    ],
+    "656": [
+      "Uint",
+      "layoutHeightScaleTypePropertyKey"
+    ],
+    "451": [
+      "Bool",
+      "hugUnboundedPropertyKey"
+    ],
+    "607": [
+      "Uint",
+      "widthUnitsValuePropertyKey"
+    ],
+    "608": [
+      "Uint",
+      "heightUnitsValuePropertyKey"
+    ],
+    "1046": [
+      "Uint",
+      "justifySelfValuePropertyKey"
+    ],
+    "596": [
+      "Uint",
+      "displayValuePropertyKey"
+    ],
+    "888": [
+      "Double",
+      "distanceEndPropertyKey"
+    ],
+    "889": [
+      "Double",
+      "distanceOffsetPropertyKey"
+    ],
+    "174": [
+      "Bool",
+      "invertDirectionPropertyKey"
+    ],
+    "175": [
+      "Uint",
+      "parentBoneCountPropertyKey"
+    ],
+    "177": [
+      "Double",
+      "distancePropertyKey"
+    ],
+    "178": [
+      "Uint",
+      "modeValuePropertyKey"
+    ],
+    "722": [
+      "Uint",
+      "directionValuePropertyKey"
+    ],
+    "363": [
+      "Double",
+      "distancePropertyKey"
+    ],
+    "364": [
+      "Bool",
+      "orientPropertyKey"
+    ],
+    "365": [
+      "Bool",
+      "offsetPropertyKey"
+    ],
+    "195": [
+      "Uint",
+      "minMaxSpaceValuePropertyKey"
+    ],
+    "182": [
+      "Double",
+      "copyFactorPropertyKey"
+    ],
+    "183": [
+      "Double",
+      "minValuePropertyKey"
+    ],
+    "184": [
+      "Double",
+      "maxValuePropertyKey"
+    ],
+    "188": [
+      "Bool",
+      "offsetPropertyKey"
+    ],
+    "189": [
+      "Bool",
+      "doesCopyPropertyKey"
+    ],
+    "190": [
+      "Bool",
+      "minPropertyKey"
+    ],
+    "191": [
+      "Bool",
+      "maxPropertyKey"
+    ],
+    "185": [
+      "Double",
+      "copyFactorYPropertyKey"
+    ],
+    "186": [
+      "Double",
+      "minValueYPropertyKey"
+    ],
+    "187": [
+      "Double",
+      "maxValueYPropertyKey"
+    ],
+    "192": [
+      "Bool",
+      "doesCopyYPropertyKey"
+    ],
+    "193": [
+      "Bool",
+      "minYPropertyKey"
+    ],
+    "194": [
+      "Bool",
+      "maxYPropertyKey"
+    ],
+    "372": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "373": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "173": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "172": [
+      "Double",
+      "strengthPropertyKey"
+    ],
+    "179": [
+      "Uint",
+      "sourceSpaceValuePropertyKey"
+    ],
+    "180": [
+      "Uint",
+      "destSpaceValuePropertyKey"
+    ],
+    "778": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "327": [
+      "Double",
+      "modifyFromPropertyKey"
+    ],
+    "336": [
+      "Double",
+      "modifyToPropertyKey"
+    ],
+    "334": [
+      "Double",
+      "strengthPropertyKey"
+    ],
+    "316": [
+      "Uint",
+      "unitsValuePropertyKey"
+    ],
+    "325": [
+      "Uint",
+      "typeValuePropertyKey"
+    ],
+    "326": [
+      "Uint",
+      "modeValuePropertyKey"
+    ],
+    "333": [
+      "Bool",
+      "clampPropertyKey"
+    ],
+    "317": [
+      "Double",
+      "falloffFromPropertyKey"
+    ],
+    "318": [
+      "Double",
+      "falloffToPropertyKey"
+    ],
+    "319": [
+      "Double",
+      "offsetPropertyKey"
+    ],
+    "378": [
+      "Id",
+      "runIdPropertyKey"
+    ],
+    "289": [
+      "Uint",
+      "tagPropertyKey"
+    ],
+    "288": [
+      "Double",
+      "axisValuePropertyKey"
+    ],
+    "356": [
+      "Uint",
+      "tagPropertyKey"
+    ],
+    "357": [
+      "Uint",
+      "featureValuePropertyKey"
+    ],
+    "779": [
+      "Bool",
+      "radialPropertyKey"
+    ],
+    "782": [
+      "Bool",
+      "orientPropertyKey"
+    ],
+    "783": [
+      "Double",
+      "startPropertyKey"
+    ],
+    "784": [
+      "Double",
+      "endPropertyKey"
+    ],
+    "785": [
+      "Double",
+      "strengthPropertyKey"
+    ],
+    "786": [
+      "Double",
+      "offsetPropertyKey"
+    ],
+    "272": [
+      "Id",
+      "styleIdPropertyKey"
+    ],
+    "268": [
+      "String",
+      "textPropertyKey"
+    ],
+    "320": [
+      "Uint",
+      "axisTagPropertyKey"
+    ],
+    "321": [
+      "Double",
+      "axisValuePropertyKey"
+    ],
+    "274": [
+      "Double",
+      "fontSizePropertyKey"
+    ],
+    "370": [
+      "Double",
+      "lineHeightPropertyKey"
+    ],
+    "390": [
+      "Double",
+      "letterSpacingPropertyKey"
+    ],
+    "279": [
+      "Id",
+      "fontAssetIdPropertyKey"
+    ],
+    "335": [
+      "Uint",
+      "modifierFlagsPropertyKey"
+    ],
+    "328": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "329": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "324": [
+      "Double",
+      "opacityPropertyKey"
+    ],
+    "322": [
+      "Double",
+      "xPropertyKey"
+    ],
+    "323": [
+      "Double",
+      "yPropertyKey"
+    ],
+    "332": [
+      "Double",
+      "rotationPropertyKey"
+    ],
+    "330": [
+      "Double",
+      "scaleXPropertyKey"
+    ],
+    "331": [
+      "Double",
+      "scaleYPropertyKey"
+    ],
+    "493": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "281": [
+      "Uint",
+      "alignValuePropertyKey"
+    ],
+    "284": [
+      "Uint",
+      "sizingValuePropertyKey"
+    ],
+    "287": [
+      "Uint",
+      "overflowValuePropertyKey"
+    ],
+    "285": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "286": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "366": [
+      "Double",
+      "originXPropertyKey"
+    ],
+    "367": [
+      "Double",
+      "originYPropertyKey"
+    ],
+    "371": [
+      "Double",
+      "paragraphSpacingPropertyKey"
+    ],
+    "377": [
+      "Uint",
+      "originValuePropertyKey"
+    ],
+    "683": [
+      "Uint",
+      "wrapValuePropertyKey"
+    ],
+    "446": [
+      "Uint",
+      "wordBreakValuePropertyKey"
+    ],
+    "685": [
+      "Uint",
+      "verticalAlignValuePropertyKey"
+    ],
+    "703": [
+      "Bool",
+      "fitFromBaselinePropertyKey"
+    ],
+    "315": [
+      "Bool",
+      "fitFontSizeResizesBoxPropertyKey"
+    ],
+    "932": [
+      "Id",
+      "textRunListSourcePropertyKey"
+    ],
+    "1026": [
+      "Uint",
+      "verticalTrimValuePropertyKey"
+    ],
+    "1071": [
+      "Double",
+      "cornerRadiusPropertyKey"
+    ],
+    "817": [
+      "String",
+      "textPropertyKey"
+    ],
+    "818": [
+      "Double",
+      "selectionRadiusPropertyKey"
+    ],
+    "979": [
+      "Bool",
+      "multilinePropertyKey"
+    ],
+    "222": [
+      "Uint",
+      "alignValuePropertyKey"
+    ],
+    "1094": [
+      "Uint",
+      "verticalAlignValuePropertyKey"
+    ],
+    "1095": [
+      "Bool",
+      "obscuredPropertyKey"
+    ],
+    "1099": [
+      "Bool",
+      "selectAllOnFocusPropertyKey"
+    ],
+    "489": [
+      "Uint",
+      "maxCharactersPropertyKey"
+    ],
+    "490": [
+      "Uint",
+      "maxLinesPropertyKey"
+    ],
+    "814": [
+      "Uint",
+      "propertyValuePropertyKey"
+    ],
+    "575": [
+      "Double",
+      "propertyValuePropertyKey"
+    ],
+    "966": [
+      "Id",
+      "listSourcePropertyKey"
+    ],
+    "549": [
+      "Id",
+      "viewModelIdPropertyKey"
+    ],
+    "550": [
+      "Id",
+      "viewModelInstanceIdPropertyKey"
+    ],
+    "577": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "561": [
+      "String",
+      "propertyValuePropertyKey"
+    ],
+    "981": [
+      "Uint",
+      "viewModelTypePropertyKey"
+    ],
+    "554": [
+      "Id",
+      "viewModelPropertyIdPropertyKey"
+    ],
+    "875": [
+      "Uint",
+      "symbolTypeValuePropertyKey"
+    ],
+    "957": [
+      "Uint",
+      "componentPropsPropertyKey"
+    ],
+    "708": [
+      "Uint",
+      "enumTypePropertyKey"
+    ],
+    "687": [
+      "Uint",
+      "propertyValuePropertyKey"
+    ],
+    "566": [
+      "Id",
+      "viewModelIdPropertyKey"
+    ],
+    "574": [
+      "Id",
+      "enumIdPropertyKey"
+    ],
+    "560": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "578": [
+      "String",
+      "keyPropertyKey"
+    ],
+    "579": [
+      "String",
+      "valuePropertyKey"
+    ],
+    "565": [
+      "Id",
+      "viewModelReferenceIdPropertyKey"
+    ],
+    "557": [
+      "String",
+      "namePropertyKey"
+    ],
+    "572": [
+      "String",
+      "namePropertyKey"
+    ],
+    "824": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "555": [
+      "Color",
+      "propertyValuePropertyKey"
+    ],
+    "846": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "709": [
+      "Uint",
+      "enumTypePropertyKey"
+    ],
+    "593": [
+      "Bool",
+      "propertyValuePropertyKey"
+    ],
+    "212": [
+      "Bytes",
+      "bytesPropertyKey"
+    ],
+    "911": [
+      "Bytes",
+      "signaturePropertyKey"
+    ],
+    "926": [
+      "String",
+      "folderPathPropertyKey"
+    ],
+    "893": [
+      "Uint",
+      "generatorFunctionRefPropertyKey"
+    ],
+    "914": [
+      "Bool",
+      "isModulePropertyKey"
+    ],
+    "1022": [
+      "Uint",
+      "serializedImplementedMethodsPropertyKey"
+    ],
+    "530": [
+      "Double",
+      "volumePropertyKey"
+    ],
+    "1073": [
+      "Uint",
+      "samplerFilterPropertyKey"
+    ],
+    "1074": [
+      "Uint",
+      "samplerWrapXPropertyKey"
+    ],
+    "1075": [
+      "Uint",
+      "samplerWrapYPropertyKey"
+    ],
+    "1087": [
+      "Uint",
+      "languagePropertyKey"
+    ],
+    "207": [
+      "Double",
+      "heightPropertyKey"
+    ],
+    "208": [
+      "Double",
+      "widthPropertyKey"
+    ],
+    "204": [
+      "Uint",
+      "assetIdPropertyKey"
+    ],
+    "359": [
+      "Bytes",
+      "cdnUuidPropertyKey"
+    ],
+    "362": [
+      "String",
+      "cdnBaseUrlPropertyKey"
+    ],
+    "203": [
+      "String",
+      "namePropertyKey"
+    ],
+    "588": [
+      "Bytes",
+      "sourcePathIdsPropertyKey"
+    ],
+    "637": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "835": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "920": [
+      "Bytes",
+      "pathPropertyKey"
+    ],
+    "921": [
+      "Bool",
+      "isRelativePropertyKey"
+    ],
+    "634": [
+      "Bool",
+      "propertyValuePropertyKey"
+    ],
+    "635": [
+      "String",
+      "propertyValuePropertyKey"
+    ],
+    "638": [
+      "Color",
+      "propertyValuePropertyKey"
+    ],
+    "636": [
+      "Double",
+      "propertyValuePropertyKey"
+    ],
+    "686": [
+      "Uint",
+      "propertyValuePropertyKey"
+    ],
+    "823": [
+      "Id",
+      "propertyValuePropertyKey"
+    ],
+    "586": [
+      "Uint",
+      "propertyKeyPropertyKey"
+    ],
+    "587": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "660": [
+      "Id",
+      "converterIdPropertyKey"
+    ],
+    "273": [
+      "Id",
+      "activeComponentIdPropertyKey"
+    ],
+    "414": [
+      "Id",
+      "listSourcePropertyKey"
+    ],
+    "848": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "912": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "1015": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "892": [
+      "Id",
+      "scriptAssetIdPropertyKey"
+    ],
+    "89": [
+      "Double",
+      "lengthPropertyKey"
+    ],
+    "90": [
+      "Double",
+      "xPropertyKey"
+    ],
+    "91": [
+      "Double",
+      "yPropertyKey"
+    ],
+    "95": [
+      "Id",
+      "boneIdPropertyKey"
+    ],
+    "96": [
+      "Double",
+      "xxPropertyKey"
+    ],
+    "97": [
+      "Double",
+      "yxPropertyKey"
+    ],
+    "98": [
+      "Double",
+      "xyPropertyKey"
+    ],
+    "99": [
+      "Double",
+      "yyPropertyKey"
+    ],
+    "100": [
+      "Double",
+      "txPropertyKey"
+    ],
+    "101": [
+      "Double",
+      "tyPropertyKey"
+    ],
+    "104": [
+      "Double",
+      "xxPropertyKey"
+    ],
+    "105": [
+      "Double",
+      "yxPropertyKey"
+    ],
+    "106": [
+      "Double",
+      "xyPropertyKey"
+    ],
+    "107": [
+      "Double",
+      "yyPropertyKey"
+    ],
+    "108": [
+      "Double",
+      "txPropertyKey"
+    ],
+    "109": [
+      "Double",
+      "tyPropertyKey"
+    ],
+    "110": [
+      "Uint",
+      "inValuesPropertyKey"
+    ],
+    "111": [
+      "Uint",
+      "inIndicesPropertyKey"
+    ],
+    "112": [
+      "Uint",
+      "outValuesPropertyKey"
+    ],
+    "113": [
+      "Uint",
+      "outIndicesPropertyKey"
+    ],
+    "102": [
+      "Uint",
+      "valuesPropertyKey"
+    ],
+    "103": [
+      "Uint",
+      "indicesPropertyKey"
+    ],
+    "47": [
+      "Double",
+      "thicknessPropertyKey"
+    ],
+    "48": [
+      "Uint",
+      "capPropertyKey"
+    ],
+    "49": [
+      "Uint",
+      "joinPropertyKey"
+    ],
+    "50": [
+      "Bool",
+      "transformAffectsStrokePropertyKey"
+    ],
+    "470": [
+      "Uint",
+      "positionPropertyKey"
+    ],
+    "37": [
+      "Color",
+      "colorValuePropertyKey"
+    ],
+    "38": [
+      "Color",
+      "colorValuePropertyKey"
+    ],
+    "39": [
+      "Double",
+      "positionPropertyKey"
+    ],
+    "40": [
+      "Uint",
+      "fillRulePropertyKey"
+    ],
+    "922": [
+      "Id",
+      "targetIdPropertyKey"
+    ],
+    "42": [
+      "Double",
+      "startXPropertyKey"
+    ],
+    "33": [
+      "Double",
+      "startYPropertyKey"
+    ],
+    "34": [
+      "Double",
+      "endXPropertyKey"
+    ],
+    "35": [
+      "Double",
+      "endYPropertyKey"
+    ],
+    "46": [
+      "Double",
+      "opacityPropertyKey"
+    ],
+    "1103": [
+      "Double",
+      "transformXPropertyKey"
+    ],
+    "1104": [
+      "Double",
+      "transformYPropertyKey"
+    ],
+    "1105": [
+      "Double",
+      "transformRotationPropertyKey"
+    ],
+    "1106": [
+      "Double",
+      "transformScaleXPropertyKey"
+    ],
+    "1107": [
+      "Double",
+      "transformScaleYPropertyKey"
+    ],
+    "114": [
+      "Double",
+      "startPropertyKey"
+    ],
+    "115": [
+      "Double",
+      "endPropertyKey"
+    ],
+    "116": [
+      "Double",
+      "offsetPropertyKey"
+    ],
+    "117": [
+      "Uint",
+      "modeValuePropertyKey"
+    ],
+    "690": [
+      "Double",
+      "offsetPropertyKey"
+    ],
+    "691": [
+      "Bool",
+      "offsetIsPercentagePropertyKey"
+    ],
+    "692": [
+      "Double",
+      "lengthPropertyKey"
+    ],
+    "693": [
+      "Bool",
+      "lengthIsPercentagePropertyKey"
+    ],
+    "415": [
+      "Id",
+      "imageAssetIdPropertyKey"
+    ],
+    "269": [
+      "Uint",
+      "imageSamplerFilterPropertyKey"
+    ],
+    "270": [
+      "Uint",
+      "imageSamplerWrapXPropertyKey"
+    ],
+    "271": [
+      "Uint",
+      "imageSamplerWrapYPropertyKey"
+    ],
+    "416": [
+      "Double",
+      "imageScaleXPropertyKey"
+    ],
+    "368": [
+      "Double",
+      "imageScaleYPropertyKey"
+    ],
+    "369": [
+      "Double",
+      "imageOffsetXPropertyKey"
+    ],
+    "410": [
+      "Double",
+      "imageOffsetYPropertyKey"
+    ],
+    "411": [
+      "Double",
+      "imageRotationPropertyKey"
+    ],
+    "412": [
+      "Uint",
+      "imageSizeModePropertyKey"
+    ],
+    "487": [
+      "Id",
+      "artboardIdPropertyKey"
+    ],
+    "41": [
+      "Bool",
+      "isVisiblePropertyKey"
+    ],
+    "747": [
+      "Uint",
+      "blendModeValuePropertyKey"
+    ],
+    "452": [
+      "Uint",
+      "additiveAmountPropertyKey"
+    ],
+    "748": [
+      "Uint",
+      "spaceValuePropertyKey"
+    ],
+    "749": [
+      "Double",
+      "strengthPropertyKey"
+    ],
+    "750": [
+      "Double",
+      "offsetXPropertyKey"
+    ],
+    "751": [
+      "Double",
+      "offsetYPropertyKey"
+    ],
+    "752": [
+      "Bool",
+      "innerPropertyKey"
+    ],
+    "468": [
+      "Uint",
+      "pointerButtonValuePropertyKey"
+    ],
+    "962": [
+      "Id",
+      "eventIdPropertyKey"
+    ],
+    "965": [
+      "Uint",
+      "listenerTypeValuePropertyKey"
+    ],
+    "963": [
+      "Bytes",
+      "viewModelPathIdsPropertyKey"
+    ],
+    "728": [
+      "Double",
+      "frictionPropertyKey"
+    ],
+    "729": [
+      "Double",
+      "speedMultiplierPropertyKey"
+    ],
+    "730": [
+      "Double",
+      "elasticFactorPropertyKey"
+    ],
+    "725": [
+      "Id",
+      "scrollConstraintIdPropertyKey"
+    ],
+    "734": [
+      "Bool",
+      "autoSizePropertyKey"
+    ],
+    "759": [
+      "Double",
+      "scrollOffsetXPropertyKey"
+    ],
+    "760": [
+      "Double",
+      "scrollOffsetYPropertyKey"
+    ],
+    "724": [
+      "Bool",
+      "snapPropertyKey"
+    ],
+    "727": [
+      "Uint",
+      "physicsTypeValuePropertyKey"
+    ],
+    "726": [
+      "Id",
+      "physicsIdPropertyKey"
+    ],
+    "850": [
+      "Bool",
+      "virtualizePropertyKey"
+    ],
+    "221": [
+      "Uint",
+      "virtualizeBufferPropertyKey"
+    ],
+    "851": [
+      "Bool",
+      "infinitePropertyKey"
+    ],
+    "891": [
+      "Bool",
+      "interactivePropertyKey"
+    ],
+    "894": [
+      "Double",
+      "thresholdPropertyKey"
+    ],
+    "1029": [
+      "Double",
+      "dragMultiplierPropertyKey"
+    ],
+    "466": [
+      "Uint",
+      "scrollFlagsPropertyKey"
+    ],
+    "731": [
+      "Id",
+      "constraintIdPropertyKey"
+    ],
+    "662": [
+      "String",
+      "namePropertyKey"
+    ],
+    "757": [
+      "Uint",
+      "interpolationTypePropertyKey"
+    ],
+    "758": [
+      "Id",
+      "interpolatorIdPropertyKey"
+    ],
+    "756": [
+      "Double",
+      "durationPropertyKey"
+    ],
+    "485": [
+      "String",
+      "openDelimiterPropertyKey"
+    ],
+    "486": [
+      "String",
+      "closeDelimiterPropertyKey"
+    ],
+    "743": [
+      "Uint",
+      "lengthPropertyKey"
+    ],
+    "744": [
+      "String",
+      "textPropertyKey"
+    ],
+    "745": [
+      "Uint",
+      "padTypePropertyKey"
+    ],
+    "816": [
+      "Id",
+      "viewModelIdPropertyKey"
+    ],
+    "681": [
+      "Double",
+      "operationValuePropertyKey"
+    ],
+    "679": [
+      "Id",
+      "converterIdPropertyKey"
+    ],
+    "764": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "765": [
+      "Uint",
+      "decimalsPropertyKey"
+    ],
+    "766": [
+      "String",
+      "colorFormatPropertyKey"
+    ],
+    "669": [
+      "Uint",
+      "decimalsPropertyKey"
+    ],
+    "713": [
+      "Uint",
+      "interpolationTypePropertyKey"
+    ],
+    "714": [
+      "Id",
+      "interpolatorIdPropertyKey"
+    ],
+    "715": [
+      "Uint",
+      "flagsPropertyKey"
+    ],
+    "716": [
+      "Double",
+      "minInputPropertyKey"
+    ],
+    "717": [
+      "Double",
+      "maxInputPropertyKey"
+    ],
+    "718": [
+      "Double",
+      "minOutputPropertyKey"
+    ],
+    "719": [
+      "Double",
+      "maxOutputPropertyKey"
+    ],
+    "746": [
+      "Uint",
+      "trimTypePropertyKey"
+    ],
+    "711": [
+      "Bytes",
+      "sourcePathIdsPropertyKey"
+    ],
+    "682": [
+      "Uint",
+      "operationTypePropertyKey"
+    ],
+    "887": [
+      "Uint",
+      "randomModeValuePropertyKey"
+    ],
+    "483": [
+      "Double",
+      "propertyValuePropertyKey"
+    ],
+    "482": [
+      "String",
+      "propertyValuePropertyKey"
+    ],
+    "481": [
+      "String",
+      "namePropertyKey"
+    ],
+    "775": [
+      "Uint",
+      "operationTypePropertyKey"
+    ],
+    "776": [
+      "Uint",
+      "functionTypePropertyKey"
+    ],
+    "777": [
+      "Double",
+      "operationValuePropertyKey"
+    ],
+    "9": [
+      "Double",
+      "xArtboardPropertyKey"
+    ],
+    "10": [
+      "Double",
+      "yArtboardPropertyKey"
+    ]
+  },
+  "types": {
+    "548": "CustomPropertyGroup",
+    "23": "Backboard",
+    "128": "Event",
+    "612": "ScriptInputViewModelProperty",
+    "10": "Component",
+    "618": "ScriptInputTrigger",
+    "626": "ScriptInputColor",
+    "38": "TransformComponent",
+    "409": "LayoutComponent",
+    "653": "FocusData",
+    "49": "DrawRules",
+    "48": "DrawTarget",
+    "147": "Solo",
+    "452": "NestedArtboardLayout",
+    "621": "ScriptInputArtboard",
+    "451": "NestedArtboardLeaf",
+    "611": "ScriptInputNumber",
+    "153": "SelectionStyle",
+    "631": "ScriptInputBoolean",
+    "513": "ForegroundLayoutDrawable",
+    "559": "ArtboardComponentList",
+    "131": "OpenUrlEvent",
+    "93": "NestedAnimation",
+    "1039": "ComponentOrigin",
+    "592": "CustomPropertyColor",
+    "167": "CustomProperty",
+    "407": "AudioEvent",
+    "91": "WorldTransformComponent",
+    "627": "ScriptInputString",
+    "2": "Node",
+    "129": "CustomPropertyBoolean",
+    "1": "Artboard",
+    "11": "ContainerComponent",
+    "148": "Joystick",
+    "92": "NestedArtboard",
+    "136": "BitmapCache",
+    "130": "CustomPropertyString",
+    "648": "ArtboardListMapRule",
+    "127": "CustomPropertyNumber",
+    "613": "CustomPropertyTrigger",
+    "13": "Drawable",
+    "154": "LayerMask",
+    "616": "CustomPropertyEnum",
+    "663": "UserInput",
+    "670": "SemanticInput",
+    "974": "GamepadInput",
+    "664": "KeyboardInput",
+    "619": "ListPath",
+    "35": "CubicMirroredVertex",
+    "52": "Star",
+    "12": "Path",
+    "36": "CubicVertex",
+    "620": "PointsCommonPath",
+    "8": "Triangle",
+    "42": "ClippingShape",
+    "6": "CubicDetachedVertex",
+    "7": "Rectangle",
+    "111": "ContourMeshVertex",
+    "100": "Image",
+    "108": "MeshVertex",
+    "107": "Vertex",
+    "15": "ParametricPath",
+    "51": "Polygon",
+    "4": "Ellipse",
+    "16": "PointsPath",
+    "3": "Shape",
+    "5": "StraightVertex",
+    "109": "Mesh",
+    "14": "PathVertex",
+    "34": "CubicAsymmetricVertex",
+    "84": "KeyFrameBool",
+    "647": "ScriptedTransitionCondition",
+    "671": "FocusAction",
+    "601": "TransitionValueIdComparator",
+    "174": "ElasticInterpolator",
+    "126": "ListenerAlignTarget",
+    "125": "ListenerAction",
+    "163": "CubicInterpolatorComponent",
+    "652": "FocusActionTarget",
+    "53": "StateMachine",
+    "646": "ScriptedListenerAction",
+    "123": "NestedBool",
+    "484": "TransitionValueNumberComparator",
+    "485": "TransitionValueEnumComparator",
+    "54": "StateMachineComponent",
+    "72": "BlendState",
+    "480": "TransitionValueComparator",
+    "1067": "KeyFrameInt",
+    "145": "AdvanceableState",
+    "615": "StateMachineFireAction",
+    "26": "KeyedProperty",
+    "55": "StateMachineInput",
+    "64": "ExitState",
+    "654": "StateMachineListener",
+    "37": "KeyFrameColor",
+    "672": "FocusActionTraversal",
+    "527": "BlendState1D",
+    "67": "TransitionInputCondition",
+    "168": "ListenerFireEvent",
+    "25": "KeyedObject",
+    "115": "ListenerTriggerChange",
+    "528": "BlendState1DViewModel",
+    "450": "KeyFrameUint",
+    "482": "TransitionViewModelCondition",
+    "122": "NestedTrigger",
+    "630": "TransitionValueArtboardComparator",
+    "476": "TransitionCondition",
+    "505": "TransitionValueTriggerComparator",
+    "170": "InterpolatingKeyFrame",
+    "50": "KeyFrameId",
+    "29": "KeyFrame",
+    "118": "ListenerNumberChange",
+    "57": "StateMachineLayer",
+    "74": "BlendAnimation",
+    "602": "TransitionValueAssetComparator",
+    "98": "NestedRemapAnimation",
+    "1037": "FocusActionClear",
+    "171": "KeyFrameCallback",
+    "614": "StateMachineFireTrigger",
+    "28": "CubicEaseInterpolator",
+    "1038": "TransitionFocusCondition",
+    "71": "TransitionBoolCondition",
+    "478": "TransitionPropertyComparator",
+    "175": "KeyFrameInterpolator",
+    "487": "ListenerViewModelChange",
+    "78": "BlendStateTransition",
+    "97": "NestedLinearAnimation",
+    "75": "BlendAnimation1D",
+    "477": "TransitionComparator",
+    "63": "EntryState",
+    "77": "BlendAnimationDirect",
+    "483": "TransitionValueColorComparator",
+    "31": "LinearAnimation",
+    "70": "TransitionNumberCondition",
+    "76": "BlendState1DInput",
+    "62": "AnyState",
+    "96": "NestedSimpleAnimation",
+    "61": "AnimationState",
+    "69": "TransitionValueCondition",
+    "481": "TransitionValueBooleanComparator",
+    "593": "TransitionSelfComparator",
+    "30": "KeyFrameDouble",
+    "58": "StateMachineTrigger",
+    "59": "StateMachineBool",
+    "124": "NestedNumber",
+    "73": "BlendStateDirect",
+    "142": "KeyFrameString",
+    "66": "StateMachineLayerComponent",
+    "65": "StateTransition",
+    "486": "TransitionValueStringComparator",
+    "169": "StateMachineFireEvent",
+    "138": "CubicValueInterpolator",
+    "60": "LayerState",
+    "497": "TransitionArtboardCondition",
+    "117": "ListenerBoolChange",
+    "139": "CubicInterpolator",
+    "114": "StateMachineListenerSingle",
+    "68": "TransitionTriggerCondition",
+    "116": "ListenerInputChange",
+    "95": "NestedStateMachine",
+    "121": "NestedInput",
+    "27": "Animation",
+    "56": "StateMachineNumber",
+    "668": "SemanticData",
+    "1057": "LayoutNodeStyle",
+    "1068": "GridItemPlacement",
+    "1066": "LayoutParticipant",
+    "493": "NSlicer",
+    "1058": "GridTrack",
+    "508": "NSlicedNode",
+    "606": "ArtboardComponentListOverride",
+    "495": "AxisX",
+    "491": "NSlicerTileMode",
+    "494": "AxisY",
+    "420": "LayoutComponentStyle",
+    "492": "Axis",
+    "1056": "LayoutSizingStyle",
+    "625": "ListFollowPathConstraint",
+    "81": "IKConstraint",
+    "82": "DistanceConstraint",
+    "520": "DraggableConstraint",
+    "88": "ScaleConstraint",
+    "165": "FollowPathConstraint",
+    "85": "TransformComponentConstraint",
+    "89": "RotationConstraint",
+    "86": "TransformComponentConstraintY",
+    "83": "TransformConstraint",
+    "80": "TargetedConstraint",
+    "79": "Constraint",
+    "87": "TranslationConstraint",
+    "90": "TransformSpaceConstraint",
+    "137": "TextStylePaint",
+    "546": "TextTargetModifier",
+    "158": "TextModifierRange",
+    "144": "TextStyleAxis",
+    "160": "TextModifier",
+    "572": "TextInputText",
+    "164": "TextStyleFeature",
+    "547": "TextFollowPathModifier",
+    "1100": "TextStyleReference",
+    "135": "TextValueRun",
+    "571": "TextInputCursor",
+    "162": "TextVariationModifier",
+    "573": "TextStyle",
+    "575": "TextInputSelectedText",
+    "574": "TextInputSelection",
+    "159": "TextModifierGroup",
+    "570": "TextInputDrawable",
+    "1101": "TextStyleGlobal",
+    "134": "Text",
+    "1069": "TextStyleBackground",
+    "569": "TextInput",
+    "161": "TextShapeModifier",
+    "563": "ViewModelPropertySymbol",
+    "566": "ViewModelInstanceSymbolListIndex",
+    "442": "ViewModelInstanceNumber",
+    "598": "ViewModelPropertyArtboard",
+    "441": "ViewModelInstanceList",
+    "564": "ViewModelPropertySymbolListIndex",
+    "584": "ViewModelPropertyAsset",
+    "427": "ViewModelInstanceListItem",
+    "444": "ViewModelInstanceViewModel",
+    "510": "DataEnum",
+    "433": "ViewModelInstanceString",
+    "435": "ViewModel",
+    "431": "ViewModelPropertyNumber",
+    "428": "ViewModelInstanceValue",
+    "430": "ViewModelProperty",
+    "511": "ViewModelPropertyEnumSystem",
+    "501": "ViewModelInstanceTrigger",
+    "565": "ViewModelInstanceSymbol",
+    "437": "ViewModelInstance",
+    "439": "ViewModelPropertyEnumCustom",
+    "1043": "ViewModelPropertyAssetBlob",
+    "432": "ViewModelInstanceEnum",
+    "445": "DataEnumValue",
+    "436": "ViewModelPropertyViewModel",
+    "448": "ViewModelPropertyBoolean",
+    "443": "ViewModelPropertyString",
+    "429": "ViewModelComponent",
+    "585": "ViewModelPropertyAssetImage",
+    "1034": "ViewModelPropertyAssetFont",
+    "438": "DataEnumCustom",
+    "586": "ViewModelInstanceAsset",
+    "1044": "ViewModelInstanceAssetBlob",
+    "426": "ViewModelInstanceColor",
+    "587": "ViewModelInstanceAssetImage",
+    "599": "ViewModelInstanceArtboard",
+    "440": "ViewModelPropertyColor",
+    "512": "DataEnumSystem",
+    "502": "ViewModelPropertyTrigger",
+    "434": "ViewModelPropertyList",
+    "1035": "ViewModelInstanceAssetFont",
+    "449": "ViewModelInstanceBoolean",
+    "509": "ViewModelPropertyEnum",
+    "106": "FileAssetContents",
+    "971": "TextAsset",
+    "529": "ScriptAsset",
+    "970": "ShaderAsset",
+    "649": "BlobAsset",
+    "422": "ExportAudio",
+    "105": "ImageAsset",
+    "406": "AudioAsset",
+    "141": "FontAsset",
+    "1071": "ScriptModuleAsset",
+    "104": "DrawableAsset",
+    "103": "FileAsset",
+    "99": "Asset",
+    "642": "ManifestAsset",
+    "447": "DataBindContext",
+    "503": "BindablePropertyTrigger",
+    "474": "BindablePropertyEnum",
+    "590": "BindablePropertyList",
+    "597": "BindablePropertyArtboard",
+    "643": "DataBindPath",
+    "472": "BindablePropertyBoolean",
+    "662": "BindablePropertyViewModel",
+    "471": "BindablePropertyString",
+    "475": "BindablePropertyColor",
+    "473": "BindablePropertyNumber",
+    "588": "BindablePropertyAsset",
+    "9": "BindableProperty",
+    "567": "BindablePropertyInteger",
+    "596": "BindablePropertyId",
+    "446": "DataBind",
+    "637": "ScriptedLayout",
+    "110": "ScriptedTransition",
+    "603": "ScriptedDrawable",
+    "640": "ScriptedPathEffect",
+    "972": "ScriptedInterpolator",
+    "629": "ScriptedDataConverter",
+    "40": "Bone",
+    "41": "RootBone",
+    "44": "Tendon",
+    "39": "SkeletalComponent",
+    "43": "Skin",
+    "46": "CubicWeight",
+    "45": "Weight",
+    "24": "Stroke",
+    "17": "RadialGradient",
+    "18": "SolidColor",
+    "19": "GradientStop",
+    "20": "Fill",
+    "645": "GroupEffect",
+    "644": "TargetEffect",
+    "22": "LinearGradient",
+    "47": "TrimPath",
+    "506": "DashPath",
+    "507": "Dash",
+    "1089": "AngularGradient",
+    "113": "PaintImage",
+    "21": "ShapePaint",
+    "533": "Feather",
+    "155": "ListenerInputTypePointerButton",
+    "669": "ListenerInputTypeSemantic",
+    "659": "ListenerInputTypeEvent",
+    "665": "ListenerInputTypeKeyboard",
+    "973": "ListenerInputTypeGamepad",
+    "658": "ListenerInputType",
+    "666": "ListenerInputTypeText",
+    "660": "ListenerInputTypeViewModel",
+    "525": "ElasticScrollPhysics",
+    "522": "ScrollBarConstraint",
+    "521": "ScrollConstraint",
+    "523": "ScrollPhysics",
+    "524": "ClampedScrollPhysics",
+    "514": "DataConverterSystemDegsToRads",
+    "504": "DataConverterTrigger",
+    "488": "DataConverter",
+    "534": "DataConverterInterpolator",
+    "617": "DataConverterToNumber",
+    "177": "DataConverterStringTemplate",
+    "499": "DataConverterGroup",
+    "530": "DataConverterStringPad",
+    "531": "DataConverterStringRemoveZeros",
+    "535": "DataConverterBooleanNegate",
+    "568": "DataConverterNumberToList",
+    "591": "DataConverterListToLength",
+    "500": "DataConverterOperationValue",
+    "498": "DataConverterGroupItem",
+    "490": "DataConverterToString",
+    "489": "DataConverterRounder",
+    "519": "DataConverterRangeMapper",
+    "532": "DataConverterStringTrim",
+    "517": "DataConverterOperationViewModel",
+    "515": "DataConverterSystemNormalizer",
+    "516": "DataConverterOperation",
+    "536": "DataConverterFormula",
+    "176": "StringTemplateArgumentNumber",
+    "157": "StringTemplateArgumentString",
+    "156": "StringTemplateArgument",
+    "539": "FormulaTokenParenthesis",
+    "541": "FormulaTokenOperation",
+    "540": "FormulaTokenParenthesisClose",
+    "542": "FormulaTokenFunction",
+    "544": "FormulaTokenParenthesisOpen",
+    "545": "FormulaTokenInput",
+    "538": "FormulaTokenArgumentSeparator",
+    "543": "FormulaTokenValue",
+    "537": "FormulaToken"
+  },
+  "drawable_types": [
+    409,
+    452,
+    451,
+    513,
+    559,
+    1,
+    92,
+    13,
+    100,
+    3,
+    572,
+    571,
+    575,
+    574,
+    570,
+    134,
+    569,
+    637,
+    110,
+    603
+  ],
+  "component_types": [
+    548,
+    128,
+    612,
+    10,
+    618,
+    626,
+    38,
+    409,
+    653,
+    49,
+    48,
+    147,
+    452,
+    621,
+    451,
+    611,
+    631,
+    513,
+    559,
+    131,
+    93,
+    1039,
+    592,
+    167,
+    407,
+    91,
+    627,
+    2,
+    129,
+    1,
+    11,
+    148,
+    92,
+    136,
+    130,
+    648,
+    127,
+    613,
+    13,
+    154,
+    616,
+    619,
+    35,
+    52,
+    12,
+    36,
+    620,
+    8,
+    42,
+    6,
+    7,
+    111,
+    100,
+    108,
+    107,
+    15,
+    51,
+    4,
+    16,
+    3,
+    5,
+    109,
+    14,
+    34,
+    163,
+    123,
+    122,
+    98,
+    97,
+    96,
+    124,
+    95,
+    121,
+    668,
+    1057,
+    1068,
+    1066,
+    493,
+    1058,
+    508,
+    606,
+    495,
+    491,
+    494,
+    420,
+    492,
+    1056,
+    625,
+    81,
+    82,
+    520,
+    88,
+    165,
+    85,
+    89,
+    86,
+    83,
+    80,
+    79,
+    87,
+    90,
+    137,
+    546,
+    158,
+    144,
+    160,
+    572,
+    164,
+    547,
+    1100,
+    135,
+    571,
+    162,
+    573,
+    575,
+    574,
+    159,
+    570,
+    1101,
+    134,
+    1069,
+    569,
+    161,
+    566,
+    442,
+    441,
+    444,
+    433,
+    428,
+    501,
+    565,
+    437,
+    432,
+    586,
+    1044,
+    426,
+    587,
+    599,
+    1035,
+    449,
+    637,
+    110,
+    603,
+    640,
+    40,
+    41,
+    44,
+    39,
+    43,
+    46,
+    45,
+    24,
+    17,
+    18,
+    19,
+    20,
+    645,
+    644,
+    22,
+    47,
+    506,
+    507,
+    1089,
+    113,
+    21,
+    533,
+    525,
+    522,
+    521,
+    523,
+    524
+  ],
+  "asset_types": [
+    971,
+    529,
+    970,
+    649,
+    422,
+    105,
+    406,
+    141,
+    1071,
+    104,
+    103
+  ]
+}

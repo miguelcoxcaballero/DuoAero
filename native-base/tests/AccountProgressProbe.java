@@ -37,7 +37,8 @@ public final class AccountProgressProbe extends Instrumentation {
     .put("completedLessons",new JSONObject().put(lessonId,new JSONObject().put("at",20).put("nativeCompletion",proof)));
    check(prefs.edit().putString("account","synthetic-account-a").commit());
    check(new JSONObject((String)read.invoke(null,app,"synthetic-account-a")).getJSONObject("records").length()==0);
-   apply.invoke(null,app,"synthetic-account-a",payload.toString());
+   check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-account-a",payload.toString())));
+   check(Boolean.FALSE.equals(apply.invoke(null,app,"synthetic-account-a",payload.toString())));
    JSONObject first=new JSONObject((String)read.invoke(null,app,"synthetic-account-a"));
    check(first.getJSONObject("completedLessons").has(lessonId));
    check(!first.getJSONObject("records").getJSONObject(qid).getBoolean("correct"));

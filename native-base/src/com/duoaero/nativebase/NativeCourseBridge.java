@@ -352,6 +352,10 @@ public final class NativeCourseBridge {
     else{code=422;Log.e("DuoAeroNative","No supported local session for original request; field names="+input.names());}
    }
   }
+  if(captureLocalRequests){
+   Object diagnosticUrl=call(request,"url");
+   Log.i("DuoAeroNative","Synthetic local response "+call(request,"method")+" "+call(diagnosticUrl,"encodedPath")+" status="+code);
+  }
   return jsonResponse(request,code,payload);
  }
  static String asset(Application app,String path)throws IOException {
