@@ -37,12 +37,18 @@ with zipfile.ZipFile(APK) as original:
             ('duo_obsessed_02', 'lc_character_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
             ('duo_perfect_starry_eyed_03', 'lc_character_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
             ('duo_perfect_buff_03', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
+            ('duo_normal_lovey_dovey_03', 'lc_character_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
+            ('duo_perfect_chefs_kiss_03', 'lc_character_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
+            ('duo_normal_foam_finger_02', 'lc_character_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('lesson_complete_main_29', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('lesson_complete_redesign_v72', '01_duo_epic_arboard', 'EpicDuo_IdleLoop', 70, 190),
             ('lesson_complete_redesign_v72', '04_duo_lfg_artboard', 'Duo_LFG_IdleLoop', 60, 180),
             ('lesson_complete_redesign_v72', '02_duo_obsessed_artboard', 'ObsessedDuo_IdleLoop', 120, 240),
             ('lesson_complete_redesign_v72', '00_duo_buff_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('lesson_complete_redesign_v72', '22_duo_perfect_starry_eyed_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
+            ('lesson_complete_redesign_v72', '20_duo_normal_lovey_dovey_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
+            ('lesson_complete_redesign_v72', '26_duo_perfect_chefs_kiss_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
+            ('lesson_complete_redesign_v72', '25_duo_normal_foam_finger_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '17_duo_perfect_jaw_drop_artboard', 'JawdropDuo_Loop_animation', 120, 240)]:
         source = original.read(f'res/raw/{name}.riv')
         _, before, _ = parse(source)
