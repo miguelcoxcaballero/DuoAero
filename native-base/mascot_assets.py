@@ -68,13 +68,14 @@ CHARACTER_CAST={
     'zari_inlesson_v01_04':'sally',
     'falstaff_inlesson_v01_08':'charlie',
     'junior_inlesson_v01_13':'linus',
+    'lily_inlesson_v02_19':'lucy',
+    'oscar_inlesson_v01_02':'schroeder',
 }
 
 def expressive_character(data,name):
     """Use frame-by-frame Peanuts poses in the original character state rig.
 
-    Correct and idle timelines use happy drawings; incorrect timelines use
-    disappointed drawings. The original artboard and state machine still own
+    Waiting, correct and incorrect timelines use different drawings. The original artboard and state machine still own
     transitions, events and placement. No frame contains a scene background.
     """
     from io import BytesIO
@@ -83,7 +84,7 @@ def expressive_character(data,name):
     target='character';cast=CHARACTER_CAST[name]
     folder=Path(__file__).resolve().parents[1]/'app/assets/mascot/characters'/cast
     frames=[(folder/mood/f'frame-{i:02}.png').read_bytes()
-            for mood in ('happy','sad') for i in range(16)]
+            for mood in ('idle','happy','sad') for i in range(16)]
     asset_index=sum(t in ASSET for t,p,b in objects)
     asset_unique=max([p.get(204,0) for t,p,b in objects if t in ASSET]+[0])+1
     board=None;component_count=0
@@ -97,15 +98,15 @@ def expressive_character(data,name):
     def finish_animation():
         nonlocal track_count
         if not animation or not replace:return
-        timeline=animation.get(55,'').strip()
-        if not timeline.startswith(('Idle_00','Correct_','Incorrect_')):return
-        mood=1 if timeline.startswith('Incorrect_') else 0
+        timeline=animation.get(55,'').strip().lower()
+        if not timeline.startswith(('idle_00','correct_','incorrect_')):return
+        mood=2 if timeline.startswith('incorrect_') else 1 if timeline.startswith('correct_') else 0
         duration=max(1,animation.get(57,60));cycle=90
         # Fit whole cycles in looping idle timelines to avoid a visible jump.
-        if timeline=='Idle_00' and duration>=180:
+        if timeline=='idle_00' and duration>=180:
             cycle=max(16,round(duration/max(1,round(duration/90))))
         track_count+=1
-        for i in range(32):
+        for i in range(len(frames)):
             output.extend(encode(25,{51:component_count+1+i}))
             output.extend(encode(26,{53:18}))
             for t in range(duration):
@@ -167,14 +168,17 @@ def rive(data,name,png,width,height):
     surprised=('surprised',('JawdropDuo_Intro_animation','JawdropDuo_Loop_animation'))
     determined=('determined',('Duo_LFG_Intro_Animation','Duo_LFG_IdleLoop'))
     overjoyed=('overjoyed',('ObsessedDuo_Intro_Animation','ObsessedDuo_IdleLoop'))
+    starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},
              'duo_perfect_lfg_03':{'lc_character_artboard':determined},
              'duo_obsessed_02':{'lc_character_artboard':overjoyed},
+             'duo_perfect_starry_eyed_03':{'lc_character_artboard':starry},
              'lesson_complete_redesign_v72':{'01_duo_epic_arboard':epic,
                  '17_duo_perfect_jaw_drop_artboard':surprised,
                  '04_duo_lfg_artboard':determined,
-                 '02_duo_obsessed_artboard':overjoyed}}.get(name,{})
+                 '02_duo_obsessed_artboard':overjoyed,
+                 '22_duo_perfect_starry_eyed_artboard':starry}}.get(name,{})
     all_frames=[];frame_sets={}
     if targets:
         from io import BytesIO
