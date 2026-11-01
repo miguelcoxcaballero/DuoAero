@@ -405,3 +405,9 @@ bootstrap; it does not itself implement the standalone bootstrap.
 ### Early native inputs and visible stars (2026-11-01)
 
 Run `41261900086` at `e9cb9bd4` resolves all previously missing named end flows; `c110`, UI-ready true and original Claim XP button are visible. Its Rive animation/stats area remains blank. Fifteen native correct grades and separate incorrect/Got It still pass. Native star macro visibly renders difficulty; inline fractions shrink, but the long stem overlaps the first card after grading. Full-path probe fails because WelcomeFlowActivity opens over the session, not a process crash. Next patch routes an already installed local course through original home initialization at zero XP, without inventing progress; captures pre-answer layouts and renderer diagnostics. Runtime acceptance pending.
+
+The next diagnostic compares ANGLE/SwiftShader GLES (`-gpu swangle`) against the
+previous emulator's GLES 3.0 SwiftShader renderer, keeping the APK's original Rive
+runtime and assets. Attached renderer state is read without forcing playback. It
+also clicks the actual Claim XP button and tests native profile cache writes with
+repository flow holders untouched. These are pending checks, not release claims.

@@ -13,6 +13,7 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean fullCoursePath=false;
  private boolean captureHome=false;
  private boolean seedConfig=false;
+ private boolean nativeProfileCache=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
@@ -22,9 +23,10 @@ public final class UserSessionProbe extends Instrumentation {
   nativeCourseCache=fullCoursePath||(args!=null&&"native-minimal".equals(args.getString("course_cache")));
   captureHome=args!=null&&"true".equals(args.getString("capture_home"));
   seedConfig=args!=null&&"native-default".equals(args.getString("config_cache"));
+  nativeProfileCache=args!=null&&"native-cache".equals(args.getString("profile_mode"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
-  if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);}catch(Throwable error){setupError=error;}
+  if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);}catch(Throwable error){setupError=error;}
   start();
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;try{
@@ -35,7 +37,8 @@ public final class UserSessionProbe extends Instrumentation {
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
   if(setupError!=null)throw new IllegalStateException("Early diagnostic profile setup failed",setupError);
-  if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments);
+  if(!earlySetup)LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);
+  report.append("Profile input: ").append(nativeProfileCache?"original cache only; repository flows untouched":"cache plus diagnostic repository flow holders").append('\n');
   if(seedConfig)report.append(LocalConfigCache.install(getTargetContext()));
   if(nativeCourseCache){
    report.append(LocalCourseCache.install(getTargetContext(),fullCoursePath));
@@ -142,6 +145,9 @@ public final class UserSessionProbe extends Instrumentation {
     Thread.sleep(5000);report.append(dependencies.report());
    }
    SessionScreen.capture(this,"lesson-after-end-observation","lesson-after-end-observation");
+   report.append(SessionRendering.inspect(this,current));
+   report.append(SessionInteraction.claimXp(this));
+   report.append("After Claim XP resumed: ").append(resumed.get()==null?"none":resumed.get().getClass().getName()).append('\n');
   }
   if(captureHome){
    runOnMainSync(current::finish);

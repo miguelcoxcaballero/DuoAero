@@ -86,6 +86,13 @@ final class SessionInteraction {
   SessionScreen.capture(test,"lesson-after-last-answer","lesson-after-last-answer");
   return "All "+selections.length()+" diagnostic selections graded CORRECT by original visible fragments. Last Continue clicked. Inspect final screen: this alone does not assert session completion, saved progress or resume.\n";
  }
+ static String claimXp(Instrumentation test)throws Exception {
+  if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Original Claim XP is not visible");
+  click(test,"com.duolingo:id/continueButtonView","CLAIM XP");
+  Thread.sleep(6000);
+  SessionScreen.capture(test,"lesson-after-claim-xp","lesson-after-claim-xp");
+  return "Clicked original Claim XP through accessibility; captured the resulting screen. Persistence is not asserted.\n";
+ }
  private static boolean contains(Instrumentation test,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)return false;

@@ -5,6 +5,9 @@ import java.lang.reflect.*;
 /** Installs only the isolated diagnostic identity and original default config. */
 final class LocalProfileSetup {
  static void install(Context context,String courseId,boolean defaultExperiments)throws Exception {
+  install(context,courseId,defaultExperiments,true);
+ }
+ static void install(Context context,String courseId,boolean defaultExperiments,boolean replaceDiagnosticFlows)throws Exception {
   ClassLoader loader=context.getClassLoader();
   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
   bridge.getField("localOnly").setBoolean(null,true);
@@ -22,7 +25,7 @@ final class LocalProfileSetup {
   Object userFlow=flow.getConstructor(Object.class).newInstance(user);
   Object offlineRepositoryMode=flow.getConstructor(Object.class).newInstance(Boolean.FALSE);
   Class<?> lazy=Class.forName("qvl",true,loader);
-  for(String fieldName:new String[]{"t","u","v","w"}){
+  if(replaceDiagnosticFlows)for(String fieldName:new String[]{"t","u","v","w"}){
    final Object value=fieldName.equals("w")?offlineRepositoryMode:fieldName.equals("v")?userFlow:stateFlow;
    Object holder=Proxy.newProxyInstance(loader,new Class[]{lazy},(proxy,method,args)->{
     if(method.getName().equals("getValue"))return value;
@@ -47,7 +50,7 @@ final class LocalProfileSetup {
    if(method.getName().equals("equals"))return proxy==args[0];
    throw new UnsupportedOperationException(method.getName());
   });
-  Field loginField=loginRepository.getClass().getField("c");loginField.setAccessible(true);loginField.set(loginRepository,loginHolder);
+  if(replaceDiagnosticFlows){Field loginField=loginRepository.getClass().getField("c");loginField.setAccessible(true);loginField.set(loginRepository,loginHolder);}
   // Feed the original first-person cache too. Existing observers may have
   // captured repository flows before the diagnostic lazy holders were replaced.
   Object resourceFactory=repository.getClass().getField("r").get(repository);
