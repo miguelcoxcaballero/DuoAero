@@ -448,16 +448,14 @@ if os.environ.get('DUOAERO_TRACE_COMPLETION')=='1' and not production:
  trace_source=SMALI/'smali_classes5/com/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteCharacterAnimation.smali'
  trace_original=trace_source.read_bytes()
  trace_text=trace_original.decode('utf-8').replace('\r\n','\n')
- for getter in ('getCharNum','getCharFileResId'):
-  anchor=f'.method public final {getter}()'+('Ljava/lang/Integer;' if getter=='getCharNum' else 'I')+'\n    .locals 0'
-  assert trace_text.count(anchor)==1
-  hook=f'.method public final {getter}()'+('Ljava/lang/Integer;' if getter=='getCharNum' else 'I')+'''\n    .locals 2
-
-    const-string v0, "DuoAeroCharacterTrace"
-    invoke-virtual {p0}, Ljava/lang/Enum;->name()Ljava/lang/String;
-    move-result-object v1
-    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I'''
-  trace_text=trace_text.replace(anchor,hook)
+ for getter,signature,field,return_code in (
+  ('getCharNum','Ljava/lang/Integer;','a:Ljava/lang/Integer;',
+   '    const/16 v0, 0x14\n    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;\n    move-result-object v0\n    return-object v0'),
+  ('getCharFileResId','I','d:I','    const v0, 0x7f1200d9\n    return v0')):
+  original=f'.method public final {getter}(){signature}\n    .locals 0\n\n    iget'+('-object' if signature!='I' else '')+f' p0, p0, Lcom/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteCharacterAnimation;->{field}\n\n    return'+('-object' if signature!='I' else '')+' p0\n.end method'
+  assert trace_text.count(original)==1
+  forced=f'.method public final {getter}(){signature}\n    .locals 2\n\n    const-string v0, "DuoAeroCharacterTrace"\n    const-string v1, "FORCED_LOVEY_DOVEY_DUO"\n    invoke-static {{v0, v1}}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I\n\n'+return_code+'\n.end method'
+  trace_text=trace_text.replace(original,forced)
  try:
   trace_source.write_text(trace_text,encoding='utf-8')
   run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes5',WORK/'classes5-trace.dex')
