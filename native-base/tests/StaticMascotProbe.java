@@ -24,8 +24,14 @@ public final class StaticMascotProbe extends Instrumentation {
     if(id==0)throw new IllegalStateException("Original drawable missing: "+names[i]);
     Drawable drawable=context.getResources().getDrawable(id,context.getTheme());
     if(drawable.getIntrinsicWidth()<=0||drawable.getIntrinsicHeight()<=0)throw new IllegalStateException("Invalid original bounds: "+names[i]);
+    // An ImageView's fit-centre policy scales the canvas around the
+    // drawable's intrinsic bounds. Forcing smaller bounds directly does not
+    // scale Android layer-list item dimensions and produces a false crop.
     Bitmap image=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888);
-    drawable.setBounds(0,0,240,240);drawable.draw(new Canvas(image));
+    int width=drawable.getIntrinsicWidth(),height=drawable.getIntrinsicHeight();
+    float scale=Math.min(220f/width,220f/height);Canvas tile=new Canvas(image);
+    tile.translate((240-width*scale)/2f,(240-height*scale)/2f);tile.scale(scale,scale);
+    drawable.setBounds(0,0,width,height);drawable.draw(tile);
     int[] pixels=new int[240*240];image.getPixels(pixels,0,240,0,0,240,240);int hash=1,visible=0;
     for(int pixel:pixels){hash=31*hash+pixel;if((pixel>>>24)>16)visible++;}
     if(visible<500)throw new IllegalStateException("Empty drawn pose: "+names[i]);

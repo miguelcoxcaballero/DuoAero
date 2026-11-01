@@ -6,6 +6,20 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  private static boolean actualTouch;
+ static String quitPreview(Instrumentation test)throws Exception {
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
+  Thread.sleep(1500);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/quitButton");i++)Thread.sleep(200);
+  click(test,"com.duolingo:id/quitButton",null);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/primaryButton");i++)Thread.sleep(200);
+  if(!hasControl(test,"com.duolingo:id/primaryButton"))
+   throw new IllegalStateException("Original quit keep-going control missing");
+  SessionScreen.capture(test,"static-quit-dialog","static-quit-dialog");
+  click(test,"com.duolingo:id/primaryButton",null);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
+  if(!hasControl(test,"com.duolingo:id/challengeInstruction"))throw new IllegalStateException("Did not return to original lesson");
+  return "STATIC_QUIT_SCREEN_VERIFIED=true; original quit sheet opened and returned to lesson; inspect image for clipping.\n";
+ }
  static String firstPathNode(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/oval");i++)Thread.sleep(200);
   for(int i=0;i<150&&!contains(test,"Aeronautical organizations");i++){test.getUiAutomation().clearCache();Thread.sleep(200);}
