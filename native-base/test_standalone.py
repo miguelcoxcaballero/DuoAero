@@ -74,10 +74,11 @@ def capture_completion_motion():
     for frame in range(6):
         (OUT/('standalone-celebration-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
         time.sleep(.5)
-    if os.environ.get('DUOAERO_EXPECT_LOVEY')=='1':
+    expected_variant=os.environ.get('DUOAERO_EXPECT_CHARACTER')
+    if expected_variant:
         selected=adb('logcat','-d','-s','DuoAeroCharacterTrace:I','*:S').decode(errors='replace')
         (OUT/'completion-character-trace.txt').write_text(selected)
-        if 'FORCED_LOVEY_DOVEY_DUO' in selected:
+        if expected_variant in selected:
             # Regression guard for the old, large red doghouse fallback.
             # The actual screen still needs frame-by-frame visual review.
             from PIL import Image
@@ -86,10 +87,10 @@ def capture_completion_motion():
                 roi=im.crop((int(.15*w),int(.08*h),int(.85*w),int(.52*h)))
                 pixels=list(roi.getdata())
                 red=sum(r>180 and r>g*1.6 and r>b*1.6 and g<130 for r,g,b in pixels)/len(pixels)
-            assert red<.12, 'Lovey Dovey scene still shows the large red doghouse fallback'
-            (OUT/'lovey-fallback-check.txt').write_text('PASS: forced LOVEY_DOVEY_DUO in diagnostic build and did not detect the prior large red doghouse; visual animation smoothness remains to be inspected.\n')
+            assert red<.12, 'Forced scene still shows the large red doghouse fallback'
+            (OUT/'character-fallback-check.txt').write_text('PASS: forced '+expected_variant+' in diagnostic build and did not detect the prior large red doghouse; visual animation smoothness remains to be inspected.\n')
         else:
-            raise AssertionError('Diagnostic did not exercise the forced Lovey Dovey character')
+            raise AssertionError('Diagnostic did not exercise the requested forced character')
 
 try:
     adb('shell','am','force-stop',PACKAGE)

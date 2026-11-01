@@ -445,16 +445,21 @@ run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')
 if os.environ.get('DUOAERO_TRACE_COMPLETION')=='1' and not production:
+ variant=os.environ.get('DUOAERO_FORCE_CHARACTER','lovey')
+ forced_num,forced_file,forced_name={
+  'lovey':('0x14','0x7f1200d9','FORCED_LOVEY_DOVEY_DUO'),
+  'foam':('0x19','0x7f1200d7','FORCED_FOAM_FINGER_DUO'),
+ }[variant]
  trace_source=SMALI/'smali_classes5/com/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteCharacterAnimation.smali'
  trace_original=trace_source.read_bytes()
  trace_text=trace_original.decode('utf-8').replace('\r\n','\n')
  for getter,signature,field,return_code in (
   ('getCharNum','Ljava/lang/Integer;','a:Ljava/lang/Integer;',
-   '    const/16 v0, 0x14\n    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;\n    move-result-object v0\n    return-object v0'),
-  ('getCharFileResId','I','d:I','    const v0, 0x7f1200d9\n    return v0')):
+   f'    const/16 v0, {forced_num}\n    invoke-static {{v0}}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;\n    move-result-object v0\n    return-object v0'),
+  ('getCharFileResId','I','d:I',f'    const v0, {forced_file}\n    return v0')):
   original=f'.method public final {getter}(){signature}\n    .locals 0\n\n    iget'+('-object' if signature!='I' else '')+f' p0, p0, Lcom/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteCharacterAnimation;->{field}\n\n    return'+('-object' if signature!='I' else '')+' p0\n.end method'
   assert trace_text.count(original)==1
-  forced=f'.method public final {getter}(){signature}\n    .locals 2\n\n    const-string v0, "DuoAeroCharacterTrace"\n    const-string v1, "FORCED_LOVEY_DOVEY_DUO"\n    invoke-static {{v0, v1}}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I\n\n'+return_code+'\n.end method'
+  forced=f'.method public final {getter}(){signature}\n    .locals 2\n\n    const-string v0, "DuoAeroCharacterTrace"\n    const-string v1, "{forced_name}"\n    invoke-static {{v0, v1}}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I\n\n'+return_code+'\n.end method'
   trace_text=trace_text.replace(original,forced)
  try:
   trace_source.write_text(trace_text,encoding='utf-8')
