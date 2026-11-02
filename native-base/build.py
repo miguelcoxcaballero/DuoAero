@@ -633,6 +633,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]
+ if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
+  mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
   # The full staged approach problem, including named and symbolic formulas.
   mixed=lesson_questions([by_id['TA1-0806-D3']],teach_words=True)
