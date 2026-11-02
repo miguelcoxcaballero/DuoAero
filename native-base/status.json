@@ -1,5 +1,24 @@
 {
   "release_ready": false,
+  "development_2_0": {
+    "state": "in_progress",
+    "published": false,
+    "latest_published_version": "1.3.7",
+    "scope": "Original runtime and controllers; current development remains incomplete and is not a 2.0.0 release.",
+    "completed_test_examples": [
+      "Android run 41383369989 graded the 20-exercise density/dynamic-pressure sample, checked synthetic accounts, and completed the first Atmosphere lesson with prior nodes seeded and path reopening after restart.",
+      "Android run 41385232869 completed a ten-question second-section diagnostic and graded the next topic after restart; the second section is still draft-only.",
+      "Android run 41383606787 observed changing frames in the real quit sheet; smoothness and other character scenes remain unverified.",
+      "Android run 41385372302 rendered the DuoAero wordmark in the original welcome screen."
+    ],
+    "incomplete": [
+      "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",
+      "Complete expressive and smooth Peanuts cast animations in every original scene, including the static lesson-complete fallback.",
+      "Reliable proof of a faster completion transition, real Google OAuth/Drive roundtrip, updater installation and physical S24 Ultra audio, haptics and layout.",
+      "A fully tested 2.0.0 candidate signed with the permanent certificate, published APK and corresponding main branch."
+    ],
+    "historical_status_notice": "The fields below record older proof snapshots and do not independently certify the current development state; see DEVELOPMENT_2.md for current evidence."
+  },
   "base": "User-provided Duolingo_v6.103.5.apk",
   "architecture": "Original DuoApp, LaunchActivity, path and SessionActivity controllers with local Aerospace course/session service, account storage, Notes authentication host and frozen canonical updater.",
   "verified": {
