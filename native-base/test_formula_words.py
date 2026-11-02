@@ -19,7 +19,7 @@ for source_id,formula_id,expected in (
     ('TA1-0107-D2','TA1-0107-D2-F3',['duoaero-power-slot:2','duoaero-math:formula:\\textstyle =','___','duoaero-math:formula:\\textstyle \\times','___','duoaero-math:formula:\\textstyle \\times','___']),
     ('TA1-0055-F1','INTRO-ASPECT-RATIO',['___','duoaero-math:formula:\\textstyle =','duoaero-squared-fraction-slots']),
     ('TA1-0182-F1','ISA-ISOTHERMAL-FORMULA',['___','duoaero-math:formula:\\textstyle =','___','duoaero-math:formula:\\textstyle \\times','duoaero-negative-exponent']),
-    ('TA1-0107-D2','TA1-0107-D2-F1',['___','duoaero-math:formula:\\textstyle =','duoaero-power-slot:2','duoaero-math:formula:\\textstyle \\div','duoaero-math:formula:\\textstyle (','duoaero-math:formula:\\textstyle 2','duoaero-math:formula:\\textstyle \\times','___','duoaero-math:formula:\\textstyle )']),
+    ('TA1-0107-D2','TA1-0107-D2-F1',['___','duoaero-math:formula:\\textstyle =','duoaero-squared-over-twice']),
 ):
     named=next(q for q in lesson_questions([bank[source_id]],teach_words=True) if q['id']==formula_id+'-NAMED-ALL')
     text=challenge(named)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
