@@ -156,7 +156,7 @@ def linus_grid(data):
     """Replace Junior while preserving the original grid, frog and Rive timing.
 
     Three transparent renderings share the same placement. Eye-only clips and
-    interpolated opacity tracks add a blink without swapping the whole body.
+    held opacity tracks add a blink without swapping the whole body.
     Component references are shifted because the new drawables must precede
     the grid in Rive's original draw order. The source layout is asserted.
     """
@@ -202,7 +202,10 @@ def linus_grid(data):
                    (insert[1]+2,[(0,0.),(233,0.),(239,1.),(245,0.),(251,0.),(257,1.),(263,0.),(593,0.),(599,1.),(605,0.),(611,0.),(617,1.),(623,0.)])]
             for image_id,sequence in blink:
                 output.extend(encode(25,{51:image_id}));output.extend(encode(26,{53:18}))
-                for frame,value in sequence:output.extend(encode(30,{67:frame,68:1,70:value}))
+                # The three eye drawings are complete poses. Hold each pose
+                # for a few frames rather than blending two eye drawings,
+                # which produces visibly doubled pupils during a blink.
+                for frame,value in sequence:output.extend(encode(30,{67:frame,68:0,70:value}))
             animation=False;tracks=True
         if kind==31:
             if original.get(55)!='Timeline 1' or original.get(56)!=120:raise ValueError('Unexpected grid timeline')

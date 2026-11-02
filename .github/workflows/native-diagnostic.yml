@@ -262,6 +262,10 @@ jobs:
               python native-base/test_linus_grid.py
               python native-base/test_path_linus.py
               grep -q 'original Structures path opened' "$RUNNER_TEMP/duoaero-evidence/linus-path-result.txt"
+              # Keep the original path check at S24 proportions; use a smaller
+              # render surface for a less throttled Rive playback recording.
+              adb shell wm size 720x1280
+              adb shell wm density 280
               adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/linus-rive-ready
               adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.RiveGridProbe > "$RUNNER_TEMP/duoaero-evidence/linus-rive-probe.txt" &
               rive_probe_pid=$!

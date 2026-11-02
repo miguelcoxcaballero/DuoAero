@@ -23,4 +23,10 @@ images=[v for k,v,_ in result if k==100 and v.get(4,'').startswith('DuoAero Linu
 assert len(images)==3 and all(v.get(5)==260 for v in images)
 assert sum(k==42 and v.get(92)==258 for k,v,_ in result)==2
 assert {253,255}.issubset({v.get(51) for k,v,_ in result if k==25})
+for i,(kind,values,_) in enumerate(result):
+    if kind==25 and values.get(51) in (253,255):
+        assert result[i+1][0]==26 and result[i+1][1].get(53)==18
+        j=i+2;keys=[]
+        while j<len(result) and result[j][0]==30:keys.append(result[j][1]);j+=1
+        assert keys and all(k.get(68,0)==0 for k in keys)
 print('PASS: original grid state/timeline, transparent Linus frames and blink tracks; Android playback unverified.')
