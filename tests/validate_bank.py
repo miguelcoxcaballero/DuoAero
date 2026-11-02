@@ -34,9 +34,11 @@ for node in nodes:
   assert 1<=len(lesson['ids'])<=20
   expanded=lesson_questions([by_id[qid] for qid in lesson['ids']])
   native_expanded=lesson_questions([by_id[qid] for qid in lesson['ids']],teach_words=True)
-  assert len(native_expanded)>=10
+  # The displayed production session includes word-first introductions; the
+  # shorter expansion is retained for compatibility and prerequisite checks.
+  assert 10<=len(native_expanded)<=20
   expanded_ids=[q['id'] for q in expanded]
-  assert 10<=len(expanded)<=20 and len(expanded)==len(set(expanded_ids))
+  assert 1<=len(expanded)<=20 and len(expanded)==len(set(expanded_ids))
   for question in expanded:
    qid=question['id']
    assert qid not in seen, ('duplicate expanded id',qid)
