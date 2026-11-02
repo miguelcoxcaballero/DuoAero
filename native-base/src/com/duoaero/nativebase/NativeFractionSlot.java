@@ -109,12 +109,8 @@ public final class NativeFractionSlot {
   Class<?> scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
   Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
   if(twiceDenominator){
-   Class<?> placement=Class.forName("com.duolingo.core.math.models.figure.MathFigurePlacement",true,l),orientation=Class.forName("com.duolingo.core.math.models.network.challenge.MathFigureOrientation",true,l),promptType=Class.forName("com.duolingo.core.math.models.figure.MathPromptType",true,l);
    Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:fixed-two");
-   Object two=latex.newInstance("2\\times",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
-   Constructor<?> token=Class.forName("com.duolingo.core.math.models.figure.SequenceTokenUiState",true,l).getConstructor(float.class,ui);
-   java.util.ArrayList<Object> tokens=new java.util.ArrayList<>();tokens.add(token.newInstance(2f,two));tokens.add(token.newInstance(2f,contents[1]));
-   contents[1]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Sequence",true,l).getConstructor(placement,java.util.List.class,orientation,scale,boolean.class,promptType).newInstance(placement.getField("PROMPT").get(null),tokens,orientation.getField("HORIZONTAL").get(null),scaleInfo,false,promptType.getField("NON_IDENTITY").get(null));
+   contents[1]=latex.newInstance(PREFIX+key+":1*2",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   }
   float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
   Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l)
@@ -134,16 +130,22 @@ public final class NativeFractionSlot {
    Context context;
    synchronized(LIVE){WeakReference<Object> reference=KEYS.get(part[0]);Object key=reference==null?null:reference.get();context=key==null?null:LIVE.get(key);}
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
-   String[] spec=part[1].split("\\+",2);
+   boolean twice=part[1].endsWith("*2");
+   String position=twice?part[1].substring(0,part[1].length()-2):part[1];
+   String[] spec=position.split("\\+",2);
    int offset=Integer.parseInt(spec[0]),count=spec.length==2?Integer.parseInt(spec[1]):1;
    if(offset<0||offset>3||count<1||count>2||offset+count>4)throw new IllegalStateException("Invalid fraction slot position");
-   if(count>1){
+   if(count>1||twice){
     if(context.negativeExponent||!NativeInlineFormula.begin(figure,composer,modifier))throw new IllegalStateException("Cannot compose fraction factors");
     ClassLoader l=figure.getClass().getClassLoader();Class<?> cls=figure.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
     Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:factor-times");
     Object times=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("\\times",cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
     Class<?> mod=Class.forName("z5q",true,l),callback=Class.forName("qqh",true,l),state=Class.forName("s6p",true,l),o18=Class.forName("o18",true,l);
     Method prompt=Class.forName("jvo",true,l).getMethod("a",ui,mod,Class.forName("cvo",true,l),Class.forName("kotlin.jvm.functions.Function0",true,l),callback,callback,Class.forName("kotlin.jvm.functions.Function0",true,l),Integer.class,state,Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
+    if(twice){
+     Object two=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("2\\times",cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
+     prompt.invoke(null,two,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
+    }
     for(int i=0;i<count;i++){
      if(i>0)prompt.invoke(null,times,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
      context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset+i),composer,Integer.valueOf(0));
