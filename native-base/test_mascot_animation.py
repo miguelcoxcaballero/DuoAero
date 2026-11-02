@@ -47,7 +47,6 @@ with zipfile.ZipFile(APK) as original:
             ('duo_perfect_buff_03', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('duo_normal_lovey_dovey_03', 'lc_character_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
             ('duo_normal_swoon_03', 'lc_character_artboard', 'SwoonDuo_Loop_animation', 120, 240),
-            ('duo_normal_swoon_03', 'lc_character_artboard', 'SwoonDuo_Loop_animation_Blink', 60, 280),
             ('duo_perfect_chefs_kiss_03', 'lc_character_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
             ('duo_normal_foam_finger_02', 'lc_character_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('duo_zen_04', '36_zen_duo', 'duo_meditate_loop', 69, 171),
@@ -88,7 +87,9 @@ with zipfile.ZipFile(APK) as original:
                 layer = values.get(138)
             elif (board == target and layer == 'idleLoop' and kind == 65
                   and (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
-                                         ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))
+                                         ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),
+                                         ('duo_normal_swoon_03','lc_character_artboard'),
+                                         ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))
                   and 158 in values):
                 assert values[158] == 0
                 foam_switches += 1
@@ -114,7 +115,9 @@ with zipfile.ZipFile(APK) as original:
             assert entries[0][1].get(151)==(1 if name=='duo_normal_swoon_03' else 3)
         assert len(poses) == len(tracks) == 16
         if (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
-                              ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard')):
+                              ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),
+                              ('duo_normal_swoon_03','lc_character_artboard'),
+                              ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard')):
             assert foam_switches == 1
         assert len({pose[206] for pose in poses}) == 16
         # Exactly one pose is visible throughout the looping native segment.

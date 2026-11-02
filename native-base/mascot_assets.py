@@ -176,7 +176,7 @@ def rive(data,name,png,width,height):
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
-    swoon=('swoon',('SwoonDuo_intro_animation','SwoonDuo_Loop_animation','SwoonDuo_Loop_animation_Blink'))
+    swoon=('swoon',('SwoonDuo_Loop_animation',))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
     zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))
@@ -302,7 +302,9 @@ def rive(data,name,png,width,height):
         if (art is not None and kind==65 and state_layer=='idleLoop'
             and values.get(158)==800 and (name,art.get(4)) in (
                 ('duo_normal_foam_finger_02','lc_character_artboard'),
-                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))):
+                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),
+                ('duo_normal_swoon_03','lc_character_artboard'),
+                ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))):
             update[158]=0
         # The completion scene instantiates each character twice: the first
         # group (parent 371) is the moving character and the second (parent
