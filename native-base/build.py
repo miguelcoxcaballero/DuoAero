@@ -740,7 +740,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=orbit_lesson()
   assert len(mixed)==10
  if os.environ.get('DUOAERO_BUCKLING_NOTATION_DIAGNOSTIC')=='1' and not production:
-  mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057']],teach_words=True)
+  mixed=lesson_questions([dict(by_id['TA1-0529-D3'],stem="Compare the spacecraft's trajectory."),dict(by_id['TA1-0854-D3'],stem="Compare the spacecraft’s trajectory.")],teach_words=True)
   assert len(mixed)==2
  if os.environ.get('DUOAERO_PAYLOAD_STEPS_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0083-D2']],teach_words=True)
