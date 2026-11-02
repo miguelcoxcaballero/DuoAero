@@ -84,7 +84,7 @@ def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
     # "Duo Radio" also names playback and answer controls. They are not
     # pictures of the character and replacing them corrupts the interface.
-    if explicit_character(name):return True
+    if explicit_character(name) or name=='math_junior_grid_static':return True
     if name.startswith('duo_radio_') and name != 'duo_radio_host_static_bea':
         return False
     if any(part in name for part in ('_light_beam','_lightbeam','_glow','_sparkles','_confetti','_shadow','_particle')):return False
@@ -94,6 +94,7 @@ def mascot_name(name):
 def static_mood(name):
     """Select an authored pose only where the original name is unambiguous."""
     name=name.lower()
+    if name=='math_junior_grid_static':return 'linus_grid_static'
     character=explicit_character(name)
     if character:return character
     if name=='duo_radio_host_static_bea':return 'patty'

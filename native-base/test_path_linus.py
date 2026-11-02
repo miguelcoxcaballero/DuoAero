@@ -87,6 +87,7 @@ try:
         catalog=json.loads(apk.read('assets/duoaero/course/session-catalog.json'))
         raw=apk.read('res/raw/math_junior_grid.riv')
         assert b'DuoAero Linus' in raw,'Patched grid resource missing from diagnostic APK'
+        assert 'res/drawable/duoaero_scene_linus_grid_static.png' in apk.namelist(), 'Missing static path artwork'
     target='2.3-3-point-0-lesson-0';root='files/duoaero-course/local-test';folder=root+'/submissions'
     adb('shell','run-as',PACKAGE,'mkdir','-p',folder);claims={};found=False
     for unit in section['units']:
@@ -111,6 +112,6 @@ try:
     subprocess.run(['adb','pull','/sdcard/linus-path.mp4',str(OUT/'linus-path.mp4')],check=True,timeout=45,stdout=subprocess.DEVNULL)
     assert (OUT/'linus-path.mp4').stat().st_size>10000
     capture('linus-path-after-video')
-    (OUT/'linus-path-result.txt').write_text('PASS: earlier nodes seeded; original Structures path opened with patched grid resource and a 12-second recording. Visual animation and smoothness require inspection; real progress not tested.\n')
+    (OUT/'linus-path-result.txt').write_text('PASS: earlier nodes seeded; original Structures path opened with patched Rive and static resources and a 12-second recording. Actual appearance and animation require visual inspection; real progress not tested.\n')
 finally:
     (OUT/'linus-path-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))

@@ -6,7 +6,7 @@ from resource_extension import MOOD_SCENES, mood_scenes, scene_mascot, updater_p
 from runtime_config import APK, ROOT, BASE
 import zipfile
 
-for name,expected in {'duo_holding_flame':'flame_static','duo_chest':'chest_hug','duo_welcome':'phone_static','duo_wave':'wave_static','duo_happy':'wave','duo_flying':'plane','duo_thinking':'think',
+for name,expected in {'math_junior_grid_static':'linus_grid_static','duo_holding_flame':'flame_static','duo_chest':'chest_hug','duo_welcome':'phone_static','duo_wave':'wave_static','duo_happy':'wave','duo_flying':'plane','duo_thinking':'think',
                       'jaw_drop_duo':'surprised','lovey_dovey_duo':'lovey',
                       'foam_finger_duo':'foam','duo_breathe':'zen',
                       'practice_hub_duo_radio_falstaff_1':'charlie',
@@ -46,6 +46,8 @@ for name in ('intro_duo_logo_green','duo_logo_green','duo_logo_grey','duo_logo_w
 for path,name in report['original_paths'].items():
     if name=='duo_happy' and path in paths:
         assert '@drawable/duoaero_scene_celebrate' in xml[paths[path]]
+    if name=='math_junior_grid_static' and path in paths:
+        assert '@drawable/duoaero_scene_linus_grid_static' in xml[paths[path]]
 table,provider=updater_paths(table);table,scene=scene_mascot(table);table,ids=mood_scenes(table)
 assert provider==0x7f160016 and len(ids)==len(MOOD_SCENES)
 assert len(set(ids.values())|{scene})==len(MOOD_SCENES)+1

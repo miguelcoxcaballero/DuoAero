@@ -113,6 +113,7 @@ MOOD_SCENES['wave_static'] = 'wave-static.png'
 MOOD_SCENES['phone_static'] = 'welcome-phone.png'
 MOOD_SCENES['chest_hug'] = 'chest-hug.png'
 MOOD_SCENES['flame_static'] = 'flame-static.png'
+MOOD_SCENES['linus_grid_static'] = 'path-linus/grid-static.png'
 
 
 def mood_scenes(table):
