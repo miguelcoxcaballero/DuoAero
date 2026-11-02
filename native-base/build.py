@@ -603,8 +603,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
-  # A real choice containing approach speed, stall speed and maximum lift.
-  mixed=[by_id['TA1-0806-D3']]
+  # The full staged approach problem, including named and symbolic formulas.
+  mixed=lesson_questions([by_id['TA1-0806-D3']],teach_words=True)
  if os.environ.get('DUOAERO_SPACECRAFT_DIAGNOSTIC')=='1' and not production:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic']=='3.3']

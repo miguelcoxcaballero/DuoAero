@@ -29883,7 +29883,446 @@
       0.0
     ],
     "legacy_id": "TA1-0806",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0806-D3-CONTEXT",
+        "type": "choice",
+        "stem": "At pressure altitude 2800 m, ISA temperature is 269.95 K and measured temperature is 281.95 K. Which temperature gives actual air density?",
+        "options": [
+          "Measured temperature",
+          "ISA temperature",
+          "Their average",
+          "Sea-level temperature"
+        ],
+        "answer": 0,
+        "explanation": "Use the measured absolute temperature to calculate actual density on this warm day.",
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At pressure altitude "
+            },
+            {
+              "latex": "h=2800\\,\\mathrm{m}"
+            },
+            {
+              "text": ", ISA temperature is "
+            },
+            {
+              "latex": "T_{ISA}=269.95\\,\\mathrm K"
+            },
+            {
+              "text": " and measured temperature is "
+            },
+            {
+              "latex": "T=281.95\\,\\mathrm K"
+            },
+            {
+              "text": ". Which temperature gives actual air density?"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0806-D3-S1",
+        "type": "choice",
+        "stem": "Pressure is 71906 Pa and the product R T is 80919.65 m²/s². What is the air density?",
+        "options": [
+          "0.88861 kg/m³",
+          "1.12537 kg/m³",
+          "0.44431 kg/m³",
+          "1.77722 kg/m³"
+        ],
+        "answer": 0,
+        "explanation": "\\rho=\\frac{71906}{80919.65}\\approx0.88861\\,\\mathrm{kg/m^3}",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_aT}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Pressure is "
+            },
+            {
+              "latex": "p=71906\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_aT=80919.65\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is the air density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{71906}{80919.65}\\approx0.88861\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "APPROACH-STALL-SQUARED-WORDS",
+        "type": "gap",
+        "stem": "Complete the formula in words: ___ equals twice weight divided by density times wing area times maximum lift coefficient.",
+        "answer": [
+          "stall speed squared"
+        ],
+        "distractors": [
+          "approach speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "stall speed squared equals twice weight divided by density times wing area times maximum lift coefficient."
+      },
+      {
+        "id": "APPROACH-STALL-SQUARED-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=\\frac{2W}{\\rho S C_{L\\max}}",
+        "missing_latex": "V_s^2",
+        "formula_latex": "V_s^2=\\frac{2W}{\\rho S C_{L\\max}}",
+        "answer_blocks": [
+          "stall speed squared"
+        ],
+        "blocks": [
+          "stall speed squared",
+          "approach speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "V_s^2=\\frac{2W}{\\rho S C_{L\\max}}"
+      },
+      {
+        "id": "APPROACH-STALL-SQUARED",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\frac{2W}{\\rho S C_{L\\max}}",
+        "missing_latex": "V_s^2",
+        "formula_latex": "V_s^2=\\frac{2W}{\\rho S C_{L\\max}}",
+        "answer_blocks": [
+          "Vₛ²"
+        ],
+        "blocks": [
+          "Vₛ²",
+          "Vₐ",
+          "p",
+          "T"
+        ],
+        "explanation": "V_s^2=\\frac{2W}{\\rho S C_{L\\max}}"
+      },
+      {
+        "id": "TA1-0806-D3-S2",
+        "type": "choice",
+        "stem": "Twice the weight is 86328 N and density × area × maximum lift coefficient is 41.9868 kg/m. What is stall speed squared?",
+        "options": [
+          "2056.07 m²/s²",
+          "1028.04 m²/s²",
+          "4112.14 m²/s²",
+          "0.000486 m²/s²"
+        ],
+        "answer": 0,
+        "explanation": "V_s^2=\\frac{86328}{41.9868}\\approx2056.07\\,\\mathrm{m^2/s^2}",
+        "formula_hint": {
+          "latex": "V_s^2=\\frac{2W}{\\rho S C_{L\\max}}",
+          "prerequisite": "APPROACH-STALL-SQUARED"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice the weight is "
+            },
+            {
+              "latex": "2W=86328\\,\\mathrm N"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\rho S C_{L\\max}=41.9868\\,\\mathrm{kg/m}"
+            },
+            {
+              "text": ". What is stall speed squared?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "V_s^2=\\frac{86328}{41.9868}\\approx2056.07\\,\\mathrm{m^2/s^2}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "APPROACH-STALL-ROOT-WORDS",
+        "type": "gap",
+        "stem": "Complete the formula in words: ___ equals the square root of stall speed squared.",
+        "answer": [
+          "stall speed"
+        ],
+        "distractors": [
+          "approach speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "stall speed equals the square root of stall speed squared."
+      },
+      {
+        "id": "APPROACH-STALL-ROOT-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=\\sqrt{V_s^2}",
+        "missing_latex": "V_s",
+        "formula_latex": "V_s=\\sqrt{V_s^2}",
+        "answer_blocks": [
+          "stall speed"
+        ],
+        "blocks": [
+          "stall speed",
+          "approach speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "V_s=\\sqrt{V_s^2}"
+      },
+      {
+        "id": "APPROACH-STALL-ROOT",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\sqrt{V_s^2}",
+        "missing_latex": "V_s",
+        "formula_latex": "V_s=\\sqrt{V_s^2}",
+        "answer_blocks": [
+          "Vₛ"
+        ],
+        "blocks": [
+          "Vₛ",
+          "Vₐ",
+          "p",
+          "T"
+        ],
+        "explanation": "V_s=\\sqrt{V_s^2}"
+      },
+      {
+        "id": "TA1-0806-D3-S3",
+        "type": "choice",
+        "stem": "Stall speed squared is 2056.07 m²/s². What is stall speed?",
+        "options": [
+          "45.344 m/s",
+          "22.672 m/s",
+          "90.688 m/s",
+          "2056.07 m/s"
+        ],
+        "answer": 0,
+        "explanation": "V_s=\\sqrt{2056.07}\\approx45.344\\,\\mathrm{m/s}",
+        "formula_hint": {
+          "latex": "V_s=\\sqrt{V_s^2}",
+          "prerequisite": "APPROACH-STALL-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Stall speed squared is "
+            },
+            {
+              "latex": "V_s^2=2056.07\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is stall speed?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "V_s=\\sqrt{2056.07}\\approx45.344\\,\\mathrm{m/s}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "APPROACH-SPEED-WORDS",
+        "type": "gap",
+        "stem": "Complete the formula in words: ___ equals 1.3 times stall speed.",
+        "answer": [
+          "approach speed"
+        ],
+        "distractors": [
+          "stall speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "approach speed equals 1.3 times stall speed."
+      },
+      {
+        "id": "APPROACH-SPEED-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=1.3V_s",
+        "missing_latex": "V_{app}",
+        "formula_latex": "V_{app}=1.3V_s",
+        "answer_blocks": [
+          "approach speed"
+        ],
+        "blocks": [
+          "approach speed",
+          "stall speed",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "V_{app}=1.3V_s"
+      },
+      {
+        "id": "APPROACH-SPEED",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=1.3V_s",
+        "missing_latex": "V_{app}",
+        "formula_latex": "V_{app}=1.3V_s",
+        "answer_blocks": [
+          "Vₐₚₚ"
+        ],
+        "blocks": [
+          "Vₐₚₚ",
+          "Vₛ",
+          "p",
+          "T"
+        ],
+        "explanation": "V_{app}=1.3V_s"
+      },
+      {
+        "id": "TA1-0806-D3-S4",
+        "type": "choice",
+        "stem": "Stall speed is 45.344 m/s. What is 1.3 times stall speed?",
+        "options": [
+          "58.9472 m/s",
+          "45.3440 m/s",
+          "34.8800 m/s",
+          "163.2384 m/s"
+        ],
+        "answer": 0,
+        "explanation": "V_{app}=1.3\\times45.344=58.9472\\,\\mathrm{m/s}",
+        "formula_hint": {
+          "latex": "V_{app}=1.3V_s",
+          "prerequisite": "APPROACH-SPEED"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Stall speed is "
+            },
+            {
+              "latex": "V_s=45.344\\,\\mathrm{m/s}"
+            },
+            {
+              "text": ". What is 1.3 times stall speed?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "V_{app}=1.3\\times45.344=58.9472\\,\\mathrm{m/s}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "APPROACH-CONVERT-WORDS",
+        "type": "gap",
+        "stem": "Complete the formula in words: ___ equals 3.6 times speed in metres per second.",
+        "answer": [
+          "speed in km/h"
+        ],
+        "distractors": [
+          "speed in m/s",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "speed in km/h equals 3.6 times speed in metres per second."
+      },
+      {
+        "id": "APPROACH-CONVERT-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=3.6V_{m/s}",
+        "missing_latex": "V_{km/h}",
+        "formula_latex": "V_{km/h}=3.6V_{m/s}",
+        "answer_blocks": [
+          "speed in km/h"
+        ],
+        "blocks": [
+          "speed in km/h",
+          "speed in m/s",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "V_{km/h}=3.6V_{m/s}"
+      },
+      {
+        "id": "APPROACH-CONVERT",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=3.6V_{m/s}",
+        "missing_latex": "V_{km/h}",
+        "formula_latex": "V_{km/h}=3.6V_{m/s}",
+        "answer_blocks": [
+          "Vₖₘ/ₕ"
+        ],
+        "blocks": [
+          "Vₖₘ/ₕ",
+          "Vₘ/ₛ",
+          "p",
+          "T"
+        ],
+        "explanation": "V_{km/h}=3.6V_{m/s}"
+      },
+      {
+        "id": "TA1-0806-D3",
+        "type": "choice",
+        "stem": "Approach speed is 58.9472 m/s. What is this speed in km/h?",
+        "options": [
+          "212.21 km/h",
+          "207.65 km/h",
+          "163.24 km/h",
+          "21.632 km/h"
+        ],
+        "answer": 0,
+        "explanation": "V_{km/h}=3.6\\times58.9472\\approx212.21\\,\\mathrm{km/h}",
+        "formula_hint": {
+          "latex": "V_{km/h}=3.6V_{m/s}",
+          "prerequisite": "APPROACH-CONVERT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Approach speed is "
+            },
+            {
+              "latex": "V_{app}=58.9472\\,\\mathrm{m/s}"
+            },
+            {
+              "text": ". What is this speed in km/h?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "V_{km/h}=3.6\\times58.9472\\approx212.21\\,\\mathrm{km/h}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0420-D3",

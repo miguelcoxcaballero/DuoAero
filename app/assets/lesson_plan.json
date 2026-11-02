@@ -291,7 +291,6 @@
       "TA1-0646-D2",
       "TA1-0832-D3",
       "BOOK-V6-01-D3",
-      "TA1-0806-D3",
       "TA1-0853-D3",
       "TA1-0857-D3",
       "TA1-0911-D3",
@@ -342,7 +341,6 @@
           "TA1-0593-D2",
           "TA1-0708-D2",
           "TA1-0832-D3",
-          "TA1-0806-D3",
           "TA1-0853-D3",
           "TA1-0857-D3",
           "TA1-0911-D3",
@@ -400,7 +398,8 @@
       "TA1-N3-38-07",
       "TA1-N3-38-08",
       "TA1-N3-38-09",
-      "TA1-N3-38-10"
+      "TA1-N3-38-10",
+      "TA1-0806-D3"
     ],
     "lessons": [
       {
@@ -426,6 +425,13 @@
           "TA1-N3-38-10"
         ],
         "name": "Take-off and landings at high altitudes or temperatures · Lesson 1"
+      },
+      {
+        "id": "2.1-4-point-0-lesson-1",
+        "ids": [
+          "TA1-0806-D3"
+        ],
+        "name": "Take-off and landings at high altitudes or temperatures · Lesson 2"
       }
     ]
   },
