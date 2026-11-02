@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2]
+    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -86,11 +86,12 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|atmosphere-timing|chests|chests-native|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|atmosphere-timing|chests|chests-native|sections|two-sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = isa-mixed ]; then export DUOAERO_ISA_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = two-sections ]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -254,6 +255,9 @@ jobs:
               ;;
             sections)
               python native-base/test_sections.py
+              ;;
+            two-sections)
+              python native-base/test_two_sections.py
               ;;
             static-poses-only)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"

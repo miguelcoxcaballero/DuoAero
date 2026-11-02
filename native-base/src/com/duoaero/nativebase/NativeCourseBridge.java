@@ -406,8 +406,9 @@ public final class NativeCourseBridge {
     code=200;payload=NativeLocalFeatures.avatarResponse();
     Log.i("DuoAeroNative","Original avatar configuration request served locally");
    }
-   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM1)?")){
-    JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,"duoaero/course/section.json"));
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM[12])?")){
+    boolean second=path.endsWith("DUOAERO_MIDTERM2");
+    JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,second?"duoaero/course/section-2.json":"duoaero/course/section.json"));
     NativeCourseProgress.project(info,section,NativeSessionStore.completedLessons(app),NativeChestRewards.ids(NativeChestRewards.snapshot(app)));
     code=200;payload=(path.endsWith("MATH_BT")?info:section).toString();
    }
