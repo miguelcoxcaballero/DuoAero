@@ -269,14 +269,26 @@ public final class AccountProgressProbe extends Instrumentation {
    // needed for path credit, nor award gems for the derived lesson.
    String firstTarget=migrations.keys().next(),firstSource=migrations.getJSONObject(firstTarget).getString("sourceLesson");
    Method recordMethod=sessionStore.getDeclaredMethod("record",Application.class,String.class,JSONObject.class);recordMethod.setAccessible(true);
-   recordMethod.invoke(null,app,firstSource,newCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
+   Field localOnly=bridge.getField("localOnly"),installed=bridge.getField("localCourseInstalled");
+   boolean oldLocal=localOnly.getBoolean(null),oldInstalled=installed.getBoolean(null);
+   try{
+    // Unlike a real lesson, this storage-only instrumentation has not
+    // launched the standalone course bootstrap. Enable its normal guard for
+    // the actual record call, then restore the process state immediately.
+    localOnly.setBoolean(null,true);installed.setBoolean(null,true);
+    recordMethod.invoke(null,app,firstSource,newCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   }finally{localOnly.setBoolean(null,oldLocal);installed.setBoolean(null,oldInstalled);}
    check(((java.util.Set<?>)projectedMethod.invoke(null,app)).contains(firstTarget));
    check(!new JSONObject((String)read.invoke(null,app,"synthetic-split-old")).getJSONObject("completedLessons").has(firstTarget));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldCompletions.length()*10);
    // A real old-version lesson can finish after the update, rather than
    // already being present in the store before migration.
    check(prefs.edit().putString("account","synthetic-split-inflight").commit());
-   recordMethod.invoke(null,app,firstSource,oldCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   try{
+    localOnly.setBoolean(null,true);installed.setBoolean(null,true);
+    recordMethod.invoke(null,app,firstSource,oldCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   }finally{localOnly.setBoolean(null,oldLocal);installed.setBoolean(null,oldInstalled);}
    check(((java.util.Set<?>)actualMethod.invoke(null,app)).contains(firstSource));
    check(((java.util.Set<?>)projectedMethod.invoke(null,app)).contains(firstTarget));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==10);
