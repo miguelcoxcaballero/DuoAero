@@ -10,9 +10,13 @@
       "Android run 41385232869 completed a ten-question second-section diagnostic and graded the next topic after restart; the second section is still draft-only.",
       "Android run 41383606787 observed changing frames in the real quit sheet; smoothness and other character scenes remain unverified.",
       "Android run 41385372302 rendered the DuoAero wordmark in the original welcome screen.",
-    "Android run 41391260503 graded 14 lapse-rate controls and the offset-hint lesson with operators grouped to their following blocks; integrated regression is running.",
-    "Android run 41389283322 used the ISA-offset hint, retried the question at lesson end and reopened the next lesson after restart with earlier nodes seeded.",
-    "Android run 41393926752 forced the swooning completion character for diagnostic recording and observed moving poses without the prior overlap; other scenes and physical smoothness remain unverified."
+      "Android run 41391260503 graded 14 lapse-rate controls and the offset-hint lesson with operators grouped to their following blocks.",
+      "Android run 41389283322 used the ISA-offset hint, retried the question at lesson end and reopened the next lesson after restart with earlier nodes seeded.",
+      "Android run 41393926752 forced the swooning completion character for diagnostic recording and observed moving poses without the prior overlap; other scenes and physical smoothness remain unverified.",
+      "Android run 41431692180 passed synthetic account checks, Atmosphere with hint and persisted progress, wing geometry controls and static-resource diagnostics together.",
+      "Android run 41396302024 showed a one-day streak on the original path after a seeded lesson and again after restart; multi-day and real-account behavior remain unverified.",
+      "Android run 41398314531 passed review and 173 synthetic account checks with a shared read-only course catalog; a physical-phone speedup is unverified.",
+      "Android run 41397802231 graded six payload formula and calculation controls; run 41396895700 graded 34 wing geometry controls."
     ],
     "incomplete": [
       "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",
