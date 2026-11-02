@@ -84,7 +84,7 @@ run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidMan
 # Keep Snoopy's close-up inside Android's adaptive circular safe zone.
 launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
 launcher_res.parent.mkdir(parents=True,exist_ok=True)
-launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="17%"/></foreground></adaptive-icon>')
+launcher_res.write_text('<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/white"/><foreground><inset android:drawable="@drawable/ic_launcher_foreground" android:inset="19.5%"/></foreground></adaptive-icon>')
 run(tool('aapt2'),'compile',launcher_res,'-o',WORK/'launcher-res.zip')
 wordmark_res=WORK/'launcher-res/drawable/duoaero_wordmark.xml'
 wordmark_res.parent.mkdir(parents=True,exist_ok=True)
