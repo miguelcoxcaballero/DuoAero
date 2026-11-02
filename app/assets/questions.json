@@ -29616,7 +29616,7 @@
       {
         "id": "APPROACH-SPEED-NAMED",
         "type": "formula_named",
-        "stem": "Complete the formula with a quantity",
+        "stem": "Complete the formula with quantities",
         "before_latex": "",
         "after_latex": "=1.3V_s",
         "missing_latex": "V_{app}",
@@ -29712,7 +29712,7 @@
       {
         "id": "APPROACH-CONVERT-NAMED",
         "type": "formula_named",
-        "stem": "Complete the formula with a quantity",
+        "stem": "Complete the formula with quantities",
         "before_latex": "",
         "after_latex": "=3.6V_{m/s}",
         "missing_latex": "V_{km/h}",
