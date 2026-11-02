@@ -483,6 +483,11 @@ prior formulas and three or four short questions each, with original answers
 independently recalculated. Their split uses exact historical path-only
 migration and passes local validation. The new questions, p11 token fix,
 and the migrated path still need Android UI and persistence validation.
+Run 41522448593 graded the 19 controls of the first two staged problems and
+passed synthetic account projection. The inspected short question screens
+fit, but the gamma symbol was missing from one prompt. A subsequent authored
+text fix and exponent font-range change need another visual Android run; no
+real account or path migration was exercised in this diagnostic.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names
