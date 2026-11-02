@@ -1,0 +1,188 @@
+diff --git a/app/assets/questions.json b/app/assets/questions.json
+index 4c97a70..aeb161c 100644
+--- a/app/assets/questions.json
++++ b/app/assets/questions.json
+@@ -6759,7 +6759,80 @@
+       "22000 kg": "Incorrect: This subtracts fuel from empty mass rather than using the take-off balance."
+     },
+     "legacy_id": "TA1-0024",
+-    "section": "Midterm 1"
++    "section": "Midterm 1",
++    "lesson_steps": [
++      {
++        "id": "MASS-PAYLOAD-FORMULA",
++        "type": "formula_blocks",
++        "difficulty": 1,
++        "stem": "Complete the payload mass formula",
++        "prefix": "m_p =",
++        "blocks": [
++          "m_{to}",
++          "−",
++          "m_{oem}",
++          "m_f",
++          "+",
++          "m_i"
++        ],
++        "answer_blocks": [
++          "m_{to}",
++          "−",
++          "m_{oem}",
++          "−",
++          "m_f"
++        ],
++        "formula_latex": "m_p=m_{to}-m_{oem}-m_f",
++        "explanation": "m_p=m_{to}-m_{oem}-m_f",
++        "literal_operator_blocks": true
++      },
++      {
++        "id": "TA1-0024-F1-S1",
++        "stem": "Takeoff mass is 50000 kg and empty mass is 30000 kg. How much mass remains for fuel and payload?",
++        "options": [
++          "20000 kg",
++          "30000 kg",
++          "80000 kg",
++          "12000 kg"
++        ],
++        "answer": 0,
++        "explanation": "Subtract empty mass from takeoff mass: 50000 − 30000 = 20000 kg.",
++        "formula_hint": {
++          "latex": "m_p=m_{to}-m_{oem}-m_f",
++          "prerequisite": "MASS-PAYLOAD-FORMULA"
++        },
++        "rich_text": {
++          "explanation": [
++            {
++              "latex": "50000-30000=20000\\,\\mathrm{kg}"
++            }
++          ]
++        }
++      },
++      {
++        "id": "TA1-0024-F1",
++        "stem": "There are 20000 kg available for fuel and payload. Fuel mass is 8000 kg. What is the payload mass?",
++        "options": [
++          "20000 kg",
++          "8000 kg",
++          "12000 kg",
++          "22000 kg"
++        ],
++        "answer": 2,
++        "explanation": "Subtract fuel mass from the available 20000 kg: 20000 − 8000 = 12000 kg.",
++        "formula_hint": {
++          "latex": "m_p=m_{to}-m_{oem}-m_f",
++          "prerequisite": "MASS-PAYLOAD-FORMULA"
++        },
++        "rich_text": {
++          "explanation": [
++            {
++              "latex": "m_p=20000-8000=12000\\,\\mathrm{kg}"
++            }
++          ]
++        }
++      }
++    ]
+   },
+   {
+     "id": "TA1-0284",
+diff --git a/native-base/build.py b/native-base/build.py
+index 4839a49..51dae14 100644
+--- a/native-base/build.py
++++ b/native-base/build.py
+@@ -589,6 +589,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
+   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
+  if os.environ.get('DUOAERO_HYDRAULIC_DIAGNOSTIC')=='1' and not production:
+   mixed=lesson_questions([by_id['BOOK-V6-08-D1']],teach_words=True)
++ if os.environ.get('DUOAERO_MASS_DIAGNOSTIC')=='1' and not production:
++  mixed=lesson_questions([by_id['TA1-0024-F1']],teach_words=True)
++  assert len(mixed)==6
+  if os.environ.get('DUOAERO_ISA_DIAGNOSTIC')=='1' and not production:
+   # Real native grading of the ordered ratio prerequisite and three short,
+   # independently checked pressure calculations from the Aerospace path.
+diff --git a/native-base/formula_words.py b/native-base/formula_words.py
+index 3d35b4c..32e582a 100644
+--- a/native-base/formula_words.py
++++ b/native-base/formula_words.py
+@@ -11,6 +11,7 @@ import hashlib
+ # the following exercise asks the learner to build the symbolic formula.
+ FORMULAS = {
+  'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
++ 'payload_mass': ('Payload mass m-p equals takeoff mass m-to minus operating empty mass m-oem minus fuel ___ m-f.', 'mass', ['speed', 'pressure', 'area']),
+  'isothermal_pressure': ('Pressure p equals base pressure p-b times an exponential decay ___.', 'factor', ['temperature', 'altitude', 'area']),
+  'pressure_ratio': ('Pressure ratio r equals pressure p-B divided by ___ p-A.', 'pressure', ['temperature', 'density', 'mass']),
+  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
+@@ -37,6 +38,7 @@ FORMULAS = {
+ 
+ KINDS = {
+  'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas', 'ISA-ISOTHERMAL-FORMULA':'isothermal_pressure',
++ 'MASS-PAYLOAD-FORMULA':'payload_mass',
+  'ISA-PRESSURE-RATIO':'pressure_ratio',
+  'WIND-TAILWIND-FORMULA':'tailwind', 'WIND-TIME-FORMULA':'time', 'WIND-TOTAL-FORMULA':'total_time',
+  'BOOK-V6-03-D1':'range', 'BOOK-V6-03-D2':'range',
+@@ -58,6 +60,7 @@ KINDS = {
+ # to the explicitly authored word-first exercises above.
+ INLINE_SYMBOLS = {
+  'p':'p', 'p-b':r'p_b', 'p-A':r'p_A', 'p-B':r'p_B', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
++ 'm-p':r'm_p', 'm-to':r'm_{to}', 'm-oem':r'm_{oem}', 'm-f':r'm_f',
+  'Vg':r'V_g', 'V':'V', 'w':'w', 't':'t', 'd':'d',
+  't-total':r't_{\mathrm{total}}', 't-out':r't_{\mathrm{out}}', 't-back':r't_{\mathrm{back}}',
+  'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
+@@ -74,6 +77,7 @@ INLINE_SYMBOLS = {
+ # distractors. The rest of each equation comes from the reviewed LaTeX source.
+ EQUATION_NAMES = {
+  'gas':('temperature',['density','pressure','altitude']),
++ 'payload_mass':('fuel mass',['payload mass','takeoff mass','empty mass']),
+  'isothermal_pressure':('pressure',['base pressure','temperature','density']),
+  'pressure_ratio':('pressure ratio',['temperature','density','altitude']),
+  'tailwind':('wind speed',['airspeed','ground speed','flight time']),
+@@ -104,6 +108,7 @@ EQUATION_NAMES = {
+ # and its bar are preserved as one rendered mathematical object.
+ IN_PLACE = {
+  'gas':(r'p=\rho R_a','T',''),
++ 'payload_mass':(r'm_p=m_{to}-m_{oem}-',r'm_f',''),
+  'tailwind':(r'V_g=V+','w',''),
+  'total_time':(r't_{total}=t_{out}+',r't_{back}',''),
+  'hydraulic':(r'P_{hyd}=\Delta p\,','Q',''),
+@@ -154,6 +159,8 @@ def named_equation(formula):
+ MULTI_NAMED = {
+  'gas': (r'p=\rho R_aT', ['pressure','density','gas constant','temperature'],
+          ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
++ 'payload_mass': (r'm_p=m_{to}-m_{oem}-m_f', ['payload mass','takeoff mass','empty mass','fuel mass'],
++                  ['pressure','density','altitude','speed'], ['___','=','___','-','___','-','___']),
+  'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
+               ['distance','flight time','altitude'], ['___','=','___','+','___']),
+  'total_time': (r't_{total}=t_{out}+t_{back}', ['total time','outbound time','return time'],
+diff --git a/native-base/test_mass_steps.py b/native-base/test_mass_steps.py
+new file mode 100644
+index 0000000..5e7461d
+--- /dev/null
++++ b/native-base/test_mass_steps.py
+@@ -0,0 +1,29 @@
++"""Check the reviewed payload calculation and its word-first teaching order."""
++import json
++from pathlib import Path
++from course_adapter import lesson_questions
++from formula_exercises import formula_challenge
++
++root = Path(__file__).resolve().parents[1]
++bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text())}
++parts = lesson_questions([bank['TA1-0024-F1']], teach_words=True)
++assert [q['id'] for q in parts] == [
++    'MASS-PAYLOAD-FORMULA-WORDS', 'MASS-PAYLOAD-FORMULA-NAMED-ALL',
++    'MASS-PAYLOAD-FORMULA-NAMED', 'MASS-PAYLOAD-FORMULA',
++    'TA1-0024-F1-S1', 'TA1-0024-F1']
++named = parts[1]
++assert named['answer_blocks'] == ['payload mass','takeoff mass','empty mass','fuel mass']
++assert named['inline_latex'] == ['___','=','___','-','___','-','___']
++symbolic = parts[3]
++assert symbolic['formula_latex'] == r'm_p=m_{to}-m_{oem}-m_f'
++assert symbolic['answer_blocks'] == ['m_{to}','−','m_{oem}','−','m_f']
++input_data = formula_challenge(symbolic)['promptInputChallenge']['input']['expressionBuildInput']
++assert len(input_data['dragChoices']) == len(symbolic['blocks']) + 1  # two minus cards
++for part, expected in zip(parts[-2:], (50000-30000, 20000-8000)):
++    assert int(part['options'][part['answer']].split()[0]) == expected
++    assert part['formula_hint']['prerequisite'] == symbolic['id']
++    assert len(set(part['options'])) == 4 and len(part['stem']) < 160
++plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
++lesson = next(l for n in plan for l in n['lessons'] if 'TA1-0024-F1' in l['ids'])
++assert len(lesson_questions([bank[i] for i in lesson['ids']], teach_words=True)) == 20
++print('PASS: payload formula order, two subtractions and existing lesson length; Android UI unverified.')
