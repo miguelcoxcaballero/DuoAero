@@ -5937,7 +5937,85 @@
           "latex": "p=20\\times0.50=10\\,\\mathrm{kPa}"
         }
       ]
-    }
+    },
+    "lesson_steps": [
+      {
+        "id": "ISA-ISOTHERMAL-FORMULA",
+        "type": "formula_blocks",
+        "stem": "Complete the isothermal pressure formula",
+        "prefix": "p =",
+        "blocks": [
+          "p_b e^{-X}",
+          "p_b e^{X}",
+          "p_b e^{-2X}",
+          "p_b e^{X/2}"
+        ],
+        "answer_blocks": [
+          "p_b e^{-X}"
+        ],
+        "formula_latex": "p=p_b e^{-X}",
+        "explanation": "Isothermal pressure equals base pressure multiplied by the exponential decay factor."
+      },
+      {
+        "id": "TA1-0182-F1",
+        "rich_text": {
+          "stem": [
+            {
+              "text": "In an isothermal ISA layer, "
+            },
+            {
+              "latex": "p=p_be^{-X}"
+            },
+            {
+              "text": ". At the point of interest, "
+            },
+            {
+              "latex": "p_b=20\\,\\mathrm{kPa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "e^{-X}=0.50"
+            },
+            {
+              "text": ". What is pressure?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "5\\,\\mathrm{kPa}"
+              }
+            ],
+            [
+              {
+                "latex": "40\\,\\mathrm{kPa}"
+              }
+            ],
+            [
+              {
+                "latex": "10\\,\\mathrm{kPa}"
+              }
+            ],
+            [
+              {
+                "latex": "20\\,\\mathrm{kPa}"
+              }
+            ]
+          ],
+          "explanation": [
+            {
+              "latex": "p=20\\times0.50=10\\,\\mathrm{kPa}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0049-F1",

@@ -11,6 +11,7 @@ import hashlib
 # the following exercise asks the learner to build the symbolic formula.
 FORMULAS = {
  'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
+ 'isothermal_pressure': ('Pressure p equals base pressure p-b times an exponential decay ___.', 'factor', ['temperature', 'altitude', 'area']),
  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
  'time': ('Flight time t equals distance d divided by ground ___ Vg.', 'speed', ['mass', 'pressure', 'area']),
  'total_time': ('Total flight time t-total equals outbound time t-out plus ___ time t-back.', 'return', ['takeoff', 'reaction', 'climb']),
@@ -34,7 +35,7 @@ FORMULAS = {
 }
 
 KINDS = {
- 'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas',
+ 'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas', 'ISA-ISOTHERMAL-FORMULA':'isothermal_pressure',
  'WIND-TAILWIND-FORMULA':'tailwind', 'WIND-TIME-FORMULA':'time', 'WIND-TOTAL-FORMULA':'total_time',
  'BOOK-V6-03-D1':'range', 'BOOK-V6-03-D2':'range',
  'INTRO-AXIAL-STIFFNESS':'axial_stiffness', 'INTRO-CANTILEVER-STIFFNESS':'cantilever',
@@ -54,7 +55,7 @@ KINDS = {
 # Do not interpret arbitrary course prose as LaTeX: these names are restricted
 # to the explicitly authored word-first exercises above.
 INLINE_SYMBOLS = {
- 'p':'p', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
+ 'p':'p', 'p-b':r'p_b', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
  'Vg':r'V_g', 'V':'V', 'w':'w', 't':'t', 'd':'d',
  't-total':r't_{\mathrm{total}}', 't-out':r't_{\mathrm{out}}', 't-back':r't_{\mathrm{back}}',
  'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
@@ -71,6 +72,7 @@ INLINE_SYMBOLS = {
 # distractors. The rest of each equation comes from the reviewed LaTeX source.
 EQUATION_NAMES = {
  'gas':('temperature',['density','pressure','altitude']),
+ 'isothermal_pressure':('pressure',['base pressure','temperature','density']),
  'tailwind':('wind speed',['airspeed','ground speed','flight time']),
  'time':('flight time',['distance','ground speed','fuel mass']),
  'total_time':('return time',['outbound time','total time','distance']),
