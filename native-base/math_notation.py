@@ -26,7 +26,7 @@ TOKEN = re.compile(
     r'|(?:rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
-    r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)'
+    r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|CL0|CD0|CL|CD)'
     r'|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
