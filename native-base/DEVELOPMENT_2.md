@@ -533,3 +533,5 @@ The kinetic-temperature formula now has all three named quantities, a fixed squa
 Run 41528348194 uncovered a second product-fraction crash: a Compose intrinsic measurement of a SubcomposeLayout inside the original sequence. To avoid exposing that crash, named product equations now use explicit parentheses and division while keeping their operations fixed; kinetic temperature likewise uses a parenthesized denominator. The equivalent layout and one-tap interaction need fresh Android validation. The experimental vertical product-fraction code remains unreachable by these course exercises pending a proper fix.
 
 The Breguet exponent has a named-quantity exercise preserving multiplication and denominator grouping, placed after its word introduction and before its symbolic expression. Local sequencing and lesson-size checks pass; Android layout and one-tap grading are pending.
+
+Both induced-drag exercises now teach the named quantities with fixed square, pi and denominator grouping before the existing symbolic exercise. Local order and size checks pass; Android rendering and touch remain to be checked.

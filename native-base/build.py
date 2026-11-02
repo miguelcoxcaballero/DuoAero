@@ -716,6 +716,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_BREGUET_FORMULA_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0078-D2']],teach_words=True)[:5]
   assert len(mixed)==5 and mixed[1]['id']=='TA1-0078-D2-F1-NAMED-ALL'
+ if os.environ.get('DUOAERO_INDUCED_FORMULA_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['BOOK-V6-06-D1'],by_id['BOOK-V6-06-D2']],teach_words=True)
+  assert len(mixed)==8 and mixed[1]['id']=='BOOK-V6-06-D1-NAMED-ALL'
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
