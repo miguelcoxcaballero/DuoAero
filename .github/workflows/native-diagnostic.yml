@@ -229,6 +229,11 @@ jobs:
                   done
                 done
               done
+              for phase in wrong retry; do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-fraction-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-fraction-$phase.$extension" || true
+                done
+              done
               for phase in hint hinted-feedback retry; do
                 for extension in png json; do
                   adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-mach-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-mach-$phase.$extension" || true
