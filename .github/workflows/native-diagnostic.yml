@@ -487,7 +487,7 @@ jobs:
               ;;
             buckling-notation)
               run_probe aerospace-buckling-notation MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 2 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-buckling-notation.txt"
+              grep -q 'All 3 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-buckling-notation.txt"
               ;;
             orbit-draft)
               run_probe aerospace-orbit-draft MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

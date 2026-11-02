@@ -565,3 +565,5 @@ Run 41534612371 graded the grouped negative exponent, but its screenshot shows t
 Runs 41533886456 and 41534411607 graded all ten rocket and ten orbit draft controls, respectively; inspected screenshots show fixed operations, subscripts and native fraction slots. Run 41534135505 showed the rocket formula hint, waited for Check, retried the question at lesson end and reached Claim XP. These sessions were isolated diagnostics, not an integrated or reviewed second-midterm course. Run 41532498346 passed synthetic accounts and the clarified total-thrust labels; its inspected screenshot fits.
 
 An extended second-section diagnostic now places the rocket and orbit drafts after the existing launch-vehicle concepts within the original path level. Its isolated progression test must still verify the saved first session, restart and opening of the next session; the feature is disabled in production builds.
+
+Reviewed numeric assignments for OEM, MTOM, TAS, specific impulse and cruise speed now render as math with appropriate subscripts or upright acronyms. Local tests cover them without changing ordinary units; Android screenshots are still required.

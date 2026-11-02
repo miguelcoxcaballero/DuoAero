@@ -216,6 +216,10 @@ assert r'\frac{P_{\mathrm{cr,new}}}{P_{\mathrm{cr,old}}}' in content(None, 'Find
 assert content(None, 'Use 10 m/s and 20 J/(kg K).') == r'\text{Use 10 m/s and 20 J/(kg K).}'
 assert r'\ln\left(\frac{W_{i}}{W_{f}}\right)' in content(None, 'Use ln(Wi/Wf).')
 assert r'\text{ln(mass/area)}' in content(None, 'The label ln(mass/area) is literal.')
+assert r'\mathrm{OEM}=21000' in content(None, 'OEM=21000 kg.')
+assert r'\mathrm{MTOM}=41000' in content(None, 'MTOM=41000 kg.')
+assert r'I_{\mathrm{sp}}=300' in content(None, 'Isp=300 s.')
+assert r'V_{\mathrm{cr}}=210' in content(None, 'Vcr=210 m/s.')
 assert symbol('eta_p') == r'\eta_{p}'
 assert symbol('m_dot') == r'\dot{m}'
 assert symbol('sigma_max') == r'\sigma_{\mathrm{max}}'

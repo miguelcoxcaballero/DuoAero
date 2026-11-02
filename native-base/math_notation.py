@@ -23,10 +23,10 @@ TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*(?:Vapp|Vstall|Vs|Vmd))?(?![A-Za-z0-9_]|\.\d)'
-    r'|(?:p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'|(?:OEM|MTOM|TAS|Isp|Vcr|Pcr|p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
-    r'|(?:deltaL|Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|Pcr(?:_(?:new|old))?|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
+    r'|(?:deltaL|Vapp|Vstall|Vs|Vmd|Vcr|Isp|CLmax|CLopt|Pjet|Pcr(?:_(?:new|old))?|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
     r'|p11|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
@@ -43,7 +43,9 @@ def symbol(value):
     if value in ('Pcr','Pcr_new','Pcr_old'):
         suffix = value.partition('_')[2]
         return r'P_{\mathrm{cr' + (',' + suffix if suffix else '') + '}}'
-    aliases = {'CL_opt':r'C_{L,\mathrm{opt}}','CL_max':r'C_{L,\max}',
+    aliases = {'OEM':r'\mathrm{OEM}','MTOM':r'\mathrm{MTOM}','TAS':r'\mathrm{TAS}',
+               'Isp':r'I_{\mathrm{sp}}','Vcr':r'V_{\mathrm{cr}}',
+               'CL_opt':r'C_{L,\mathrm{opt}}','CL_max':r'C_{L,\max}',
                'CLmax':r'C_{L,\max}','CLopt':r'C_{L,\mathrm{opt}}',
                'Vapp':r'V_{\mathrm{app}}','Vstall':r'V_{\mathrm{stall}}',
                'Vs':r'V_s','Vmd':r'V_{\mathrm{md}}','Pjet':r'P_{\mathrm{jet}}',
@@ -60,7 +62,7 @@ def symbol(value):
         lhs = names.get(inequality.group(1), inequality.group(1))
         op = r'\geq ' if inequality.group(2) == '>=' else r'\leq '
         return lhs + op + inequality.group(3) + (r'V_s' if inequality.group(4) else '')
-    assignment = re.fullmatch(r'(p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
+    assignment = re.fullmatch(r'(OEM|MTOM|TAS|Isp|Vcr|Pcr|p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
     if assignment:
         rhs = assignment.group(2)
         scientific = re.fullmatch(r'(.+)[eE]([+-]?\d+)', rhs)
