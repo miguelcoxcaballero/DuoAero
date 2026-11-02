@@ -5,6 +5,12 @@
     "published": false,
     "latest_published_version": "1.3.7",
     "scope": "Original runtime and controllers; current development remains incomplete and is not a 2.0.0 release.",
+    "review_inventory": {
+      "source_questions": 1200,
+      "unstaged_stems_over_300_characters": 295,
+      "possible_calculations_without_authored_hints": 578,
+      "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
+    },
     "completed_test_examples": [
       "Android run 41383369989 graded the 20-exercise density/dynamic-pressure sample, checked synthetic accounts, and completed the first Atmosphere lesson with prior nodes seeded and path reopening after restart.",
       "Android run 41385232869 completed a ten-question second-section diagnostic and graded the next topic after restart; the second section is still draft-only.",
