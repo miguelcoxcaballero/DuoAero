@@ -237,6 +237,7 @@ assert symbol('pi²') == r'\pi^{2}'
 assert symbol('CL²') == r'C_{L}^{2}'
 assert symbol('CD0=0.02') == r'C_{D0}=0.02'
 assert parts('What is CD?') == [{'text':'What is '},{'latex':r'C_{D}'},{'text':'?'}]
+assert parts('k CL² = 0.010')[1] == {'latex':r'C_{L}^{2}'}
 assert parts('CD0=0.02') == [{'latex':r'C_{D0}=0.02'}]
 assert symbol('CD^2') == r'C_{D}^{2}'
 assert parts('CD = CD0 + k CL²') == [{'latex': r'C_D=C_{D0}+kC_L^2'}]
