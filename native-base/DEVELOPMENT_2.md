@@ -385,8 +385,10 @@ audibility, physical vibration, real Drive sync or an installed update.
 Separately, Android run 41464902704 installed the published signed 1.3.0 APK,
 opened its updater activity directly on a rooted emulator, accepted the A
 warning and slide, and displayed the actual 1.3.7 update offer. This checks
-the released 1.3.0 catalog flow, not entry through the signed-in settings,
-download or installation. B remains empty and is the app default.
+the released 1.3.0 catalog flow, not entry through the signed-in settings.
+Run 41465735190 then downloaded 1.3.7 and displayed Android's update
+confirmation; its detector missed that window, so the update was not accepted
+or installed. B remains empty and is the app default.
 
 ## Acceptance still required
 
