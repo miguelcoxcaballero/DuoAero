@@ -87,7 +87,7 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|energy-info|chests|chests-native|sections|two-sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|energy-info|chests|chests-native|sections|two-sections|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
@@ -102,7 +102,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = rotor-mixed ]; then export DUOAERO_ROTOR_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = missile-mixed ]; then export DUOAERO_MISSILE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = temp-lift-mixed ]; then export DUOAERO_TEMP_LIFT_DIAGNOSTIC=1; fi
-          if [ "$DIAGNOSTIC_SCENARIO" = two-sections ]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = two-sections || "$DIAGNOSTIC_SCENARIO" = section-tail ]]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -283,6 +283,10 @@ jobs:
               ;;
             branding-welcome)
               python native-base/test_welcome_wordmark.py
+              ;;
+            section-tail)
+              python native-base/test_section_tail.py
+              grep -q 'final rotorcraft node opened' "$RUNNER_TEMP/duoaero-evidence/section-tail-result.txt"
               ;;
             two-sections)
               python native-base/test_two_sections.py

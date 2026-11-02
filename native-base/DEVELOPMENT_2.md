@@ -290,6 +290,13 @@ Run 41395923743 subsequently passed the first Atmosphere lesson with a formula
 hint, retry and saved progress, plus the synthetic account checks, after the
 splash and Swoon changes. Earlier path nodes were seeded for this diagnostic.
 
+The isolated second-partial preview now links six draft topics. In Android run
+41396433753 the section picker opened, all ten questions of the first topic
+were graded, and the second topic opened after completion and restart. A
+separate scenario seeded the first five topics, opened the final rotorcraft
+topic and graded its first question. These are diagnostic drafts, not the
+completed production course or a real-account/Drive progression test.
+
 Android run 41392335036 repeated three integrated scenarios before the later
 icon and formula patches: a seeded original chest showed +25 gems and retained
 the balance after restart; a wrong answer was reviewed and its correction
