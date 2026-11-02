@@ -30169,15 +30169,23 @@
         "missing_latex": "V_{app}",
         "formula_latex": "V_{app}=1.3V_s",
         "answer_blocks": [
-          "approach speed"
+          "approach speed",
+          "stall speed"
         ],
         "blocks": [
-          "approach speed",
           "stall speed",
           "pressure",
+          "approach speed",
           "temperature"
         ],
-        "explanation": "V_{app}=1.3V_s"
+        "explanation": "V_{app}=1.3V_s",
+        "inline_latex": [
+          "___",
+          "=",
+          "1.3",
+          "\\times",
+          "___"
+        ]
       },
       {
         "id": "APPROACH-SPEED",
@@ -30257,15 +30265,23 @@
         "missing_latex": "V_{km/h}",
         "formula_latex": "V_{km/h}=3.6V_{m/s}",
         "answer_blocks": [
-          "speed in km/h"
+          "speed in km/h",
+          "speed in m/s"
         ],
         "blocks": [
-          "speed in km/h",
           "speed in m/s",
           "pressure",
+          "speed in km/h",
           "temperature"
         ],
-        "explanation": "V_{km/h}=3.6V_{m/s}"
+        "explanation": "V_{km/h}=3.6V_{m/s}",
+        "inline_latex": [
+          "___",
+          "=",
+          "3.6",
+          "\\times",
+          "___"
+        ]
       },
       {
         "id": "APPROACH-CONVERT",
