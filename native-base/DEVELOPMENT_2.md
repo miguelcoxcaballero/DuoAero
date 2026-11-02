@@ -100,6 +100,12 @@ DuoAero wordmark instead of the generic mascot. Android run 41385372302
 showed the correct wordmark in the actual welcome view; share cards and icon
 display-name variants need separate UI verification.
 
+Two original static poses now have distinct transparent Snoopy artwork:
+`duo_wave` waves, while `duo_welcome` holds up a phone, matching the original
+vector poses. Android run 41396166179 inflated and drew both original resource
+IDs; the extracted images were inspected. This checks resource resolution,
+not their placement on every original screen or animation coverage.
+
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
