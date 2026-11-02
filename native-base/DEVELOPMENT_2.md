@@ -214,6 +214,14 @@ experimental grouping change crashed a hydraulic formula screen in run
 also graded the revised 20 draft rotorcraft/diverse-aircraft questions, but
 they remain research drafts and do not establish a complete second partial.
 
+The first Atmosphere lesson now includes the ISA-offset formula as a word
+gap, three named positions, then a symbol before its calculation. Android run
+41389283322 used the hint on that calculation, verified its end-of-lesson
+retry, claimed XP and reopened the next lesson before and after restart. Its
+screenshot still shows a plus sign stranded before a line break. This is an
+emulated S24-proportioned screen with earlier nodes seeded, not a real-device
+or Google/Drive test.
+
 A separate approach-speed branch divides one clipped source into 18 controls,
 including quantity and symbol prerequisites. It has host numerical and exact
 historical-credit checks, but its Android interaction and migration checks are
