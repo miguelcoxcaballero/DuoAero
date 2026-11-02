@@ -6,7 +6,7 @@ import base64
 import json
 from pathlib import Path
 from course_adapter import lesson_questions, session
-from formula_words import KINDS
+from formula_words import KINDS, MULTI_NAMED
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
@@ -22,7 +22,7 @@ for node in plan:
         for i, q in enumerate(expanded):
             if q['type'] != 'formula_blocks':
                 continue
-            multi = q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2')
+            multi = KINDS[q['id']] in MULTI_NAMED
             offset = 1 if multi else 0
             assert i > 1+offset and expanded[i-2-offset]['id'] == q['id']+'-WORDS'
             assert expanded[i-1]['id'] == q['id']+'-NAMED'
@@ -31,8 +31,9 @@ for node in plan:
             if multi:
                 all_named = expanded[i-2]
                 assert all_named['id'] == q['id']+'-NAMED-ALL'
-                assert all_named['answer_blocks'] == ['pressure','density','gas constant','temperature']
-                assert all_named['inline_latex'] == ['___','=','___',r'\times','___',r'\times','___']
+                _, answers, _, pieces = MULTI_NAMED[KINDS[q['id']]]
+                assert all_named['answer_blocks'] == answers
+                assert all_named['inline_latex'] == pieces
             assert words['stem'].count('___') == 1
             assert len(set(words['answer']+words['distractors'])) == 4
             assert words['answer'][0] in words['explanation']
