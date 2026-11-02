@@ -5,7 +5,6 @@
       "BOOK-V6-01-D2",
       "TA1-0144-D2",
       "TA1-0425-D2",
-      "TA1-0178-D2",
       "TA1-0224-D2",
       "TA1-0445-D2"
     ]
@@ -40,6 +39,9 @@
   "2.1-5-point-1-lesson-2": {
     "sourceLesson": "2.1-5-point-1-lesson-0",
     "requiredQuestions": [
+      "TA1-0473-D2",
+      "TA1-0463-D2",
+      "TA1-0474-D2",
       "TA1-0668-D2",
       "TA1-0593-D2",
       "TA1-0708-D2",

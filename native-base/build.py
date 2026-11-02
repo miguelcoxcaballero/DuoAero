@@ -597,6 +597,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0445-D2','TA1-0449-D2','TA1-0592-D2','TA1-0668-D2','TA1-0708-D2')],teach_words=True)
  if os.environ.get('DUOAERO_DYNAMIC_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0144-D2','TA1-0224-D2','TA1-0310-D2','TA1-0473-D2','TA1-0474-D2','TA1-0581-D2','TA1-0593-D2')],teach_words=True)
+ if os.environ.get('DUOAERO_LAPSE_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0646-D2','TA1-0178-D2','TA1-0200-D2','TA1-0212-D2')],teach_words=True)
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]

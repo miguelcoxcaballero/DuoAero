@@ -18083,7 +18083,89 @@
       2.3092638912203256e-14
     ],
     "legacy_id": "TA1-0178",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0178-D2-S1",
+        "stem": "Altitude increases by 1600 m. At 0.0065 K/m, how much does temperature decrease?",
+        "options": [
+          "5.2 K",
+          "20.8 K",
+          "15.4 K",
+          "10.4 K"
+        ],
+        "answer": 3,
+        "explanation": "Multiply the lapse rate by the altitude increase: 0.0065 × 1600 = 10.4 K.",
+        "formula_hint": {
+          "latex": "\\Delta T=\\Gamma\\Delta h",
+          "prerequisite": "ISA-LAPSE-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Altitude increases by "
+            },
+            {
+              "latex": "\\Delta h=1600\\,\\mathrm{m}"
+            },
+            {
+              "text": ". At "
+            },
+            {
+              "latex": "\\Gamma=0.0065\\,\\mathrm{K/m}"
+            },
+            {
+              "text": ", how much does temperature decrease?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\Delta T=0.0065\\times 1600=10.4\\,\\mathrm{K}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0178-D2",
+        "stem": "The lower temperature is 278 K and the decrease is 10.4 K. What is the higher-altitude temperature?",
+        "options": [
+          "256.88 K",
+          "288.4 K",
+          "268.18 K",
+          "267.6 K"
+        ],
+        "answer": 3,
+        "explanation": "Subtract the temperature decrease: 278 − 10.4 = 267.6 K.",
+        "formula_hint": {
+          "latex": "T_B=T_A-\\Delta T",
+          "prerequisite": "ISA-ALT-TEMP-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "The lower temperature is "
+            },
+            {
+              "latex": "T_A=278\\,\\mathrm{K}"
+            },
+            {
+              "text": " and the decrease is "
+            },
+            {
+              "latex": "\\Delta T=10.4\\,\\mathrm{K}"
+            },
+            {
+              "text": ". What is the higher-altitude temperature?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "T_B=278-10.4=267.6\\,\\mathrm{K}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
   "id": "TA1-0120-D2",
@@ -19789,7 +19871,89 @@
       -1.2434497875801753e-14
     ],
     "legacy_id": "TA1-0200",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0200-D2-S1",
+        "stem": "Altitude increases by 1700 m. At 0.0065 K/m, how much does temperature decrease?",
+        "options": [
+          "22.1 K",
+          "16.05 K",
+          "11.05 K",
+          "5.525 K"
+        ],
+        "answer": 2,
+        "explanation": "Multiply the lapse rate by the altitude increase: 0.0065 × 1700 = 11.05 K.",
+        "formula_hint": {
+          "latex": "\\Delta T=\\Gamma\\Delta h",
+          "prerequisite": "ISA-LAPSE-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Altitude increases by "
+            },
+            {
+              "latex": "\\Delta h=1700\\,\\mathrm{m}"
+            },
+            {
+              "text": ". At "
+            },
+            {
+              "latex": "\\Gamma=0.0065\\,\\mathrm{K/m}"
+            },
+            {
+              "text": ", how much does temperature decrease?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\Delta T=0.0065\\times 1700=11.05\\,\\mathrm{K}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0200-D2",
+        "stem": "The lower temperature is 280 K and the decrease is 11.05 K. What is the higher-altitude temperature?",
+        "options": [
+          "291.05 K",
+          "256.6 K",
+          "273.15 K",
+          "268.95 K"
+        ],
+        "answer": 3,
+        "explanation": "Subtract the temperature decrease: 280 − 11.05 = 268.95 K.",
+        "formula_hint": {
+          "latex": "T_B=T_A-\\Delta T",
+          "prerequisite": "ISA-ALT-TEMP-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "The lower temperature is "
+            },
+            {
+              "latex": "T_A=280\\,\\mathrm{K}"
+            },
+            {
+              "text": " and the decrease is "
+            },
+            {
+              "latex": "\\Delta T=11.05\\,\\mathrm{K}"
+            },
+            {
+              "text": ". What is the higher-altitude temperature?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "T_B=280-11.05=268.95\\,\\mathrm{K}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
   "id": "TA1-0130-D2",
@@ -21508,7 +21672,89 @@
       1.0658141036401503e-14
     ],
     "legacy_id": "TA1-0212",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0212-D2-S1",
+        "stem": "Altitude increases by 1800 m. At 0.0065 K/m, how much does temperature decrease?",
+        "options": [
+          "16.7 K",
+          "11.7 K",
+          "5.85 K",
+          "23.4 K"
+        ],
+        "answer": 1,
+        "explanation": "Multiply the lapse rate by the altitude increase: 0.0065 × 1800 = 11.7 K.",
+        "formula_hint": {
+          "latex": "\\Delta T=\\Gamma\\Delta h",
+          "prerequisite": "ISA-LAPSE-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Altitude increases by "
+            },
+            {
+              "latex": "\\Delta h=1800\\,\\mathrm{m}"
+            },
+            {
+              "text": ". At "
+            },
+            {
+              "latex": "\\Gamma=0.0065\\,\\mathrm{K/m}"
+            },
+            {
+              "text": ", how much does temperature decrease?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\Delta T=0.0065\\times 1800=11.7\\,\\mathrm{K}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0212-D2",
+        "stem": "The lower temperature is 282 K and the decrease is 11.7 K. What is the higher-altitude temperature?",
+        "options": [
+          "278.13 K",
+          "293.7 K",
+          "270.3 K",
+          "256.32 K"
+        ],
+        "answer": 2,
+        "explanation": "Subtract the temperature decrease: 282 − 11.7 = 270.3 K.",
+        "formula_hint": {
+          "latex": "T_B=T_A-\\Delta T",
+          "prerequisite": "ISA-ALT-TEMP-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "The lower temperature is "
+            },
+            {
+              "latex": "T_A=282\\,\\mathrm{K}"
+            },
+            {
+              "text": " and the decrease is "
+            },
+            {
+              "latex": "\\Delta T=11.7\\,\\mathrm{K}"
+            },
+            {
+              "text": ". What is the higher-altitude temperature?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "T_B=282-11.7=270.3\\,\\mathrm{K}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0143-D2",
@@ -28196,7 +28442,211 @@
       -1.2434497875801753e-14
     ],
     "legacy_id": "TA1-0646",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "ISA-LAPSE-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: temperature decrease equals lapse rate times altitude ___.",
+        "answer": [
+          "increase"
+        ],
+        "distractors": [
+          "pressure",
+          "density",
+          "mass"
+        ],
+        "explanation": "The temperature decrease equals the positive lapse-rate magnitude times the altitude increase."
+      },
+      {
+        "id": "ISA-LAPSE-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "\\Delta T=\\Gamma\\Delta h",
+        "answer_blocks": [
+          "temperature decrease",
+          "lapse rate",
+          "altitude increase"
+        ],
+        "blocks": [
+          "temperature decrease",
+          "lapse rate",
+          "altitude increase",
+          "pressure",
+          "density",
+          "speed"
+        ],
+        "explanation": "\\Delta T=\\Gamma\\Delta h"
+      },
+      {
+        "id": "ISA-LAPSE-FORMULA",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "\\Delta T=\\Gamma",
+        "after_latex": "h",
+        "missing_latex": "\\Delta",
+        "formula_latex": "\\Delta T=\\Gamma\\Delta h",
+        "answer_blocks": [
+          "Δ"
+        ],
+        "blocks": [
+          "Δ",
+          "p",
+          "V",
+          "ρ"
+        ],
+        "explanation": "\\Delta T=\\Gamma\\Delta h"
+      },
+      {
+        "id": "ISA-ALT-TEMP-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: higher-altitude temperature equals lower-altitude temperature minus the temperature ___.",
+        "answer": [
+          "decrease"
+        ],
+        "distractors": [
+          "pressure",
+          "density",
+          "mass"
+        ],
+        "explanation": "Higher-altitude temperature equals the lower-altitude temperature minus the temperature decrease."
+      },
+      {
+        "id": "ISA-ALT-TEMP-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "-",
+          "___"
+        ],
+        "formula_latex": "T_B=T_A-\\Delta T",
+        "answer_blocks": [
+          "higher temperature",
+          "lower temperature",
+          "temperature decrease"
+        ],
+        "blocks": [
+          "higher temperature",
+          "lower temperature",
+          "temperature decrease",
+          "pressure",
+          "density",
+          "speed"
+        ],
+        "explanation": "T_B=T_A-\\Delta T"
+      },
+      {
+        "id": "ISA-ALT-TEMP-FORMULA",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "T_B=T_A-\\Delta",
+        "after_latex": "",
+        "missing_latex": "T",
+        "formula_latex": "T_B=T_A-\\Delta T",
+        "answer_blocks": [
+          "T"
+        ],
+        "blocks": [
+          "T",
+          "p",
+          "V",
+          "ρ"
+        ],
+        "explanation": "T_B=T_A-\\Delta T"
+      },
+      {
+        "id": "TA1-0646-D2-S1",
+        "stem": "Altitude increases by 2200 m. At 0.0065 K/m, how much does temperature decrease?",
+        "options": [
+          "14.3 K",
+          "7.15 K",
+          "28.6 K",
+          "19.3 K"
+        ],
+        "answer": 0,
+        "explanation": "Multiply the lapse rate by the altitude increase: 0.0065 × 2200 = 14.3 K.",
+        "formula_hint": {
+          "latex": "\\Delta T=\\Gamma\\Delta h",
+          "prerequisite": "ISA-LAPSE-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Altitude increases by "
+            },
+            {
+              "latex": "\\Delta h=2200\\,\\mathrm{m}"
+            },
+            {
+              "text": ". At "
+            },
+            {
+              "latex": "\\Gamma=0.0065\\,\\mathrm{K/m}"
+            },
+            {
+              "text": ", how much does temperature decrease?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\Delta T=0.0065\\times 2200=14.3\\,\\mathrm{K}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0646-D2",
+        "stem": "The lower temperature is 290 K and the decrease is 14.3 K. What is the higher-altitude temperature?",
+        "options": [
+          "275.7 K",
+          "304.3 K",
+          "255.22 K",
+          "298.03 K"
+        ],
+        "answer": 0,
+        "explanation": "Subtract the temperature decrease: 290 − 14.3 = 275.7 K.",
+        "formula_hint": {
+          "latex": "T_B=T_A-\\Delta T",
+          "prerequisite": "ISA-ALT-TEMP-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "The lower temperature is "
+            },
+            {
+              "latex": "T_A=290\\,\\mathrm{K}"
+            },
+            {
+              "text": " and the decrease is "
+            },
+            {
+              "latex": "\\Delta T=14.3\\,\\mathrm{K}"
+            },
+            {
+              "text": ". What is the higher-altitude temperature?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "T_B=290-14.3=275.7\\,\\mathrm{K}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
   "id": "TA1-0366-D2",
