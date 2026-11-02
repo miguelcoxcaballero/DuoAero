@@ -1,7 +1,9 @@
 """Inspect the real 1.3.0 updater UI; no app or catalog changes."""
-import os,subprocess,time
+import os,re,subprocess,time
 from pathlib import Path
 out=Path(os.environ['DUOAERO_EVIDENCE']);out.mkdir(parents=True,exist_ok=True)
+expected_version=os.environ.get('DUOAERO_EXPECT_VERSION','1.3.7')
+expected_code=os.environ.get('DUOAERO_EXPECT_CODE','10307')
 def adb(*args): return subprocess.check_output(['adb',*args],timeout=45)
 def snapshot(name):
     (out/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
@@ -34,12 +36,18 @@ try:
     for i in range(120):
         time.sleep(2)
         info=adb('shell','dumpsys','package','com.duoaero').decode(errors='replace')
-        if 'versionName=1.3.7' in info and 'versionCode=10307' in info:
+        if re.search(r'versionName='+re.escape(expected_version)+r'\s',info) and re.search(r'versionCode='+re.escape(expected_code)+r'\s',info):
             installed=True;(out/'installed-package.txt').write_text(info);break
     snapshot('old-update-result')
-    if not installed:raise AssertionError('Android did not report installed version 1.3.7')
+    if not installed:raise AssertionError('Android did not report the expected installed version')
     marker=adb('shell','cat','/data/user/0/com.duoaero/files/duoaero-update-probe').decode().strip()
     if marker!='updater-preservation-test':raise AssertionError('Synthetic app data was not preserved')
-    (out/'update-result.txt').write_text('PASS: signed 1.3.0 discovered and downloaded published 1.3.7, Android installer confirmed it, package manager reports versionCode 10307 and synthetic app data survived. No real Google or 2.0 APK tested.\n')
+    time.sleep(20)
+    launch=adb('shell','am','start','-W','-n','com.duoaero/com.duolingo.splash.LaunchActivity').decode(errors='replace')
+    (out/'updated-launch.txt').write_text(launch)
+    if 'Status: ok' not in launch:raise AssertionError('Updated app did not launch')
+    time.sleep(20);snapshot('updated-launch')
+    if not adb('shell','pidof','com.duoaero').strip():raise AssertionError('Updated app process did not remain running')
+    (out/'update-result.txt').write_text('PASS: signed 1.3.0 discovered and installed version '+expected_version+' (code '+expected_code+'); synthetic app data survived and the updated app launched. Real Google data and physical devices were not tested.\n')
 finally:
     (out/'old-logcat.txt').write_bytes(adb('logcat','-d','-s','AndroidRuntime:E','DuoAeroNative:I'))
