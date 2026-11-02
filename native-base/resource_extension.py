@@ -112,6 +112,7 @@ for character in CHARACTER_REPLACEMENTS.values():
 MOOD_SCENES['wave_static'] = 'wave-static.png'
 MOOD_SCENES['phone_static'] = 'welcome-phone.png'
 MOOD_SCENES['chest_hug'] = 'chest-hug.png'
+MOOD_SCENES['flame_static'] = 'flame-static.png'
 
 
 def mood_scenes(table):

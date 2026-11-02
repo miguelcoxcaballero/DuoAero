@@ -108,6 +108,9 @@ not their placement on every original screen or animation coverage.
 The original `duo_chest` vector shows the character holding a chest; its new
 transparent Snoopy equivalent resolved and drew in Android run 41427170617.
 It is a static resource check, not proof of the chest-opening animation.
+The original `duo_holding_flame` static vector also has a distinct transparent
+Snoopy pose; Android run 41451292908 resolved and drew that resource. The
+actual streak screen placement and animated scenes still need examination.
 After the chest, payload and catalog changes were combined, Android run
 41431692180 passed account checks, the Atmosphere lesson with a hint, wing
 geometry controls and static-resource diagnostics. It used synthetic accounts.
