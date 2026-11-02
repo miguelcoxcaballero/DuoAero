@@ -235,6 +235,8 @@ for units in ('m/s', 'kg/s', 'J/(kg K)', 'km/h'):
 assert parts('Use lift/drag comparisons.') == [{'text': 'Use lift/drag comparisons.'}]
 assert symbol('pi²') == r'\pi^{2}'
 assert symbol('CL²') == r'C_{L}^{2}'
+assert symbol('CD0=0.02') == r'C_{D0}=0.02'
+assert parts('CD0=0.02') == [{'latex':r'C_{D0}=0.02'}]
 assert symbol('CD^2') == r'C_{D}^{2}'
 assert parts('CD = CD0 + k CL²') == [{'latex': r'C_D=C_{D0}+kC_L^2'}]
 assert parts('CD=CD0+CL²/(pi e AR)') == [{'latex': r'C_D=C_{D0}+\frac{C_L^2}{\pi e\,AR}'}]
