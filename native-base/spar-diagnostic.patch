@@ -943,7 +943,7 @@ index b98f8ad..78981d7 100644
    mixed=lesson_questions([by_id['TA1-0024-F1']],teach_words=True)
    assert len(mixed)==6
 diff --git a/native-base/formula_words.py b/native-base/formula_words.py
-index 32e582a..21a06b8 100644
+index 32e582a..a7559ee 100644
 --- a/native-base/formula_words.py
 +++ b/native-base/formula_words.py
 @@ -12,6 +12,9 @@ import hashlib
@@ -997,9 +997,9 @@ index 32e582a..21a06b8 100644
                    ['pressure','density','altitude','speed'], ['___','=','___','-','___','-','___']),
 + 'spar_moment': (r'M=FL', ['bending moment','tip force','spar length'],
 +                 ['pressure','temperature','mass'], ['___','=','___',r'\times','___']),
-+ 'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['stress-limit inertia','bending moment','outer-fibre distance','allowable stress'],
++ 'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['inertia','moment','distance','stress'],
 +                         ['pressure','speed','temperature'], ['___','=','___',r'\times','___',r'\div','___']),
-+ 'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['deflection-limit inertia','tip force','length cubed','Young modulus','allowable deflection'],
++ 'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['inertia','force','length cubed','Young modulus','deflection'],
 +                             ['pressure','speed','temperature'], ['___','=','(', '___',r'\times','___',')',r'\div','(', '3',r'\times','___',r'\times','___',')']),
   'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
                ['distance','flight time','altitude'], ['___','=','___','+','___']),
@@ -1087,10 +1087,10 @@ index 8542ecd..466b331 100644
 +print('PASS: all 87 lesson IDs and unsafe filename cases; Android submission still requires device acceptance.')
 diff --git a/native-base/test_spar_steps.py b/native-base/test_spar_steps.py
 new file mode 100644
-index 0000000..1ed31fd
+index 0000000..ec02d0d
 --- /dev/null
 +++ b/native-base/test_spar_steps.py
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,44 @@
 +"""Check staged spar arithmetic, formula ordering and migration inputs."""
 +import json
 +import re
@@ -1110,6 +1110,8 @@ index 0000000..1ed31fd
 +                 for suffix in ('-WORDS', '-NAMED-ALL', '-NAMED', '')]
 +    assert positions == sorted(positions)
 +    assert first[positions[1]]['inline_latex'].count('___') == len(first[positions[1]]['answer_blocks'])
++assert next(q for q in first if q['id']=='SPAR-STRESS-FORMULA-NAMED-ALL')['answer_blocks'] == ['inertia','moment','distance','stress']
++assert next(q for q in first if q['id']=='SPAR-DEFLECTION-FORMULA-NAMED-ALL')['answer_blocks'] == ['inertia','force','length cubed','Young modulus','deflection']
 +assert max(i for i,q in enumerate(first) if q['id'] in names) < next(i for i,q in enumerate(first) if q['id'].endswith('-M'))
 +for qid in ids:
 +    original = bank[qid]
