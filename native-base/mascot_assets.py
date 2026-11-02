@@ -254,6 +254,8 @@ def rive(data,name,png,width,height):
             # Fit an integral number of cycles into the native work area,
             # including the 122-frame BuffDuo loop.
             span=end-start;cycle=max(16,round(span/max(1,round(span/60))));phase=start
+            if art.get(4) in ('21_duo_normal_swoon_artboard','lc_character_artboard') and name in ('duo_normal_swoon_03','lesson_complete_redesign_v72'):
+                cycle=span
         else:
             cycle=60;phase=0
         for i in range(len(frames)):
@@ -264,6 +266,11 @@ def rive(data,name,png,width,height):
             for t in range(0,max(1,duration)+1):
                 current=((t-phase)*len(frames)//cycle)%len(frames)
                 previous=((t-1-phase)*len(frames)//cycle)%len(frames)
+                if name in ('duo_normal_swoon_03','lesson_complete_redesign_v72') and art.get(4) in ('21_duo_normal_swoon_artboard','lc_character_artboard'):
+                    # Group the open-eyed poses and the closed-eyed poses into
+                    # one gradual cycle, instead of flickering between them.
+                    order=(0,15,14,13,12,11,10,7,1,2,3,4,5,6,8,9)
+                    current,previous=order[current],order[previous]
                 if t==0 or current!=previous:
                     output.extend(encode(30,{67:t,70:1. if current==i else 0.}))
     for kind,values,raw in objects:
