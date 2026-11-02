@@ -147,9 +147,13 @@ during lesson completion. An experimental empty response uses the original
 model's required `inLessonRewards` field for this unlimited-energy course;
 gem chests use a separate store. Android decoded the response and a native
 chest still awarded 25 gems, but the elapsed time remains too variable to
-claim an improvement. Other energy-info requests also retry and are under
-diagnostic investigation. A completion recording shows a visible wait on the
-emulator and the fallback Snoopy standing still on the final screen.
+claim an improvement. Run 41382465891 tested a full-energy local response for
+`energy-info`: the native model decoded, that endpoint stopped returning 503,
+and an entire first Atmosphere lesson plus restart completed with the infinity
+indicator visible throughout. Its 26.66 s emulator timing versus 28.84 s in a
+different run is insufficient to establish a speedup. A completion recording
+shows a visible wait on the emulator and the fallback Snoopy standing still on
+the final screen; physical-device behaviour remains unverified.
 
 ## Acceptance still required
 
