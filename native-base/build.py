@@ -115,6 +115,20 @@ patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nat
 flow_row_source=SMALI/'smali_classes4/iz0.smali'
 flow_row_original=flow_row_source.read_bytes()
 flow_row_text=flow_row_original.decode('utf-8').replace('\r\n','\n')
+# DIAGNOSTIC ONLY: cap native token width to see whether complete labels wrap.
+token_start=flow_row_text.index('.method public static final d(Lqqh;Lrp3;Lcom/duolingo/feature/math/ui/expressionbuild/TokenSource;ZIZLz5q;FLqqh;ZLs6p;Lo18;II)V')
+token_end=flow_row_text.index('.end method',token_start)
+token_method=flow_row_text[token_start:token_end]
+token_anchor='    move/from16 v8, p7'
+assert token_method.count(token_anchor)==1
+token_hook=token_anchor+'\
+\
+    const v0, 0x430c0000\
+\
+    invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F\
+\
+    move-result v8'
+flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
 flow_row_end=flow_row_text.index('.end method',flow_row_start)
 flow_row_method=flow_row_text[flow_row_start:flow_row_end]
