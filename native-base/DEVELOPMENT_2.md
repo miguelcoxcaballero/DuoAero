@@ -296,6 +296,16 @@ character additions. It is not a physical-device check.
 Run 41395923743 subsequently passed the first Atmosphere lesson with a formula
 hint, retry and saved progress, plus the synthetic account checks, after the
 splash and Swoon changes. Earlier path nodes were seeded for this diagnostic.
+In run 41396302024 the original home displayed a one-day streak both after
+completion and after restart. That seeded emulator scenario does not establish
+multi-day streak behavior or synchronization with a real account.
+
+The same emulator run measured 2.139 s loading and parsing the current
+session catalog inside the durable-completion path, and 2.323 s through its
+local refresh. Its 43.78 s final-Continue-to-Claim measurement included adb,
+screenshots and OCR overhead. A shared immutable-catalog cache is under test;
+neither that diagnostic nor an earlier network-suppression experiment has
+established an end-to-end speedup yet.
 
 The isolated second-partial preview now links six draft topics. In Android run
 41396433753 the section picker opened, all ten questions of the first topic
