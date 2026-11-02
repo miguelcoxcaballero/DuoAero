@@ -401,6 +401,12 @@ public final class NativeCourseBridge {
   // Original analytics sender oir.b accepts any2xx without reading a body.
   // This local course does not export Duolingo telemetry. Discard explicitly
   // instead of returning503 and triggering its tight event-batch retry loop.
+  // Opt-in synthetic diagnostics only: report route categories and counts,
+  // never batch bodies, query strings, identifiers or user data. The request
+  // and its response stay unchanged; some batched operations can be stateful.
+  if(localOnly&&captureLocalRequests&&method.equals("POST")&&path.equals("/2017-06-30/batch")){
+   try{diagnosticBatchCategories(request);}catch(Exception ignored){Log.i("DuoAeroNative","Synthetic batch categories unavailable");}
+  }
   if(localOnly&&method.equals("POST")&&(path.equals("/api/1/sync/batch")
        ||path.equals("/api/1/sync/challenge_response/batch")))return jsonResponse(request,204,"");
   if(serveLocalCourse&&hasLocalCourse()){
@@ -489,6 +495,22 @@ public final class NativeCourseBridge {
   ByteArrayOutputStream bytes=new ByteArrayOutputStream();
   try(InputStream stream=app.getAssets().open(path)){byte[] buffer=new byte[8192];int n;while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);}
   return bytes.toString("UTF-8");
+ }
+ static void diagnosticBatchCategories(Object request)throws Exception {
+  org.json.JSONArray requests=requestJson(request).optJSONArray("requests");
+  if(requests==null){Log.i("DuoAeroNative","Synthetic batch has no request array");return;}
+  int sessions=0,users=0,events=0,other=0;
+  for(int i=0;i<requests.length();i++){
+   JSONObject item=requests.optJSONObject(i);if(item==null){other++;continue;}
+   String value=item.optString("url","");String route;
+   try{route=new java.net.URI(value).getPath();}catch(Exception invalid){route="";}
+   if(route==null)route="";
+   if(route.contains("/sessions"))sessions++;
+   else if(route.contains("/users/"))users++;
+   else if(route.contains("/events")||route.contains("/tracking")||route.contains("/analytics"))events++;
+   else other++;
+  }
+  Log.i("DuoAeroNative","Synthetic batch route categories: sessions="+sessions+", users="+users+", events="+events+", other="+other);
  }
  static JSONObject requestJson(Object request)throws Exception {
   Object body=call(request,"body");if(body==null)throw new IllegalArgumentException("Missing local session request");
