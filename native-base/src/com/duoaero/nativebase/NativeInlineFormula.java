@@ -6,12 +6,15 @@ import java.lang.reflect.*;
 public final class NativeInlineFormula {
  private NativeInlineFormula(){}
  public static boolean begin(Object figure,Object composer){
+  return begin(figure,composer,null);
+ }
+ public static boolean begin(Object figure,Object composer,Object suppliedModifier){
   if(!NativeCourseBridge.hasLocalCourse()||figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$LatexString"))return false;
   try{
    ClassLoader loader=figure.getClass().getClassLoader();
    Class<?> compose=Class.forName("cuh",true,loader),o18=Class.forName("o18",true,loader);
    Class<?> modifiers=Class.forName("z5q",true,loader),arrangements=Class.forName("h1z",true,loader),alignment=Class.forName("b9z",true,loader);
-   Object modifier=Class.forName("w5q",true,loader).getField("a").get(null);
+   Object modifier=suppliedModifier!=null?suppliedModifier:Class.forName("w5q",true,loader).getField("a").get(null);
    Object policy=Class.forName("i0z",true,loader).getMethod("a",Class.forName("fv1",true,loader),Class.forName("lj0",true,loader),o18,int.class)
     .invoke(null,arrangements.getField("a").get(null),alignment.getField("l").get(null),composer,0);
    long key=(Long)Class.forName("yuk",true,loader).getMethod("f",o18).invoke(null,composer);

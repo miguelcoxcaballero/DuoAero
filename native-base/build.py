@@ -270,7 +270,8 @@ fraction_hook='''
     move-object/from16 v0, p0
     move-object/from16 v1, p10
     move/from16 v2, p11
-    invoke-static {v0, v1, v2}, Lcom/duoaero/nativebase/NativeFractionSlot;->render(Ljava/lang/Object;Ljava/lang/Object;I)Z
+    move-object/from16 v3, p1
+    invoke-static {v0, v3, v1, v2}, Lcom/duoaero/nativebase/NativeFractionSlot;->render(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;I)Z
     move-result v0
     if-eqz v0, :duoaero_original_figure
     return-void
@@ -742,8 +743,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057']],teach_words=True)
   assert len(mixed)==2
  if os.environ.get('DUOAERO_PAYLOAD_STEPS_DIAGNOSTIC')=='1' and not production:
-  mixed=lesson_questions([by_id['TA1-0083-D2'],by_id['TA1-0122-D2']],teach_words=True)
-  assert len(mixed)==20
+  mixed=lesson_questions([by_id['TA1-0083-D2']],teach_words=True)
+  assert len(mixed)==18
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

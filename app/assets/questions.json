@@ -15182,6 +15182,39 @@
         "explanation": "m_p=m_l-m_o-m_{f,l}"
       },
       {
+        "id": "MASS-PAYLOAD-MINIMUM",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the allowed payload formula",
+        "prefix": "",
+        "blocks": [
+          "m_{p,s}",
+          "m_{p,t}",
+          "m_{p,l}",
+          "m_b",
+          "m_l"
+        ],
+        "answer_blocks": [
+          "m_{p,s}",
+          "m_{p,t}",
+          "m_{p,l}"
+        ],
+        "inline_latex": [
+          "m_p",
+          "=",
+          "\\min",
+          "(",
+          "___",
+          ",",
+          "___",
+          ",",
+          "___",
+          ")"
+        ],
+        "formula_latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+        "explanation": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})"
+      },
+      {
         "id": "TA1-0083-D2-S1",
         "stem": "Takeoff fuel is 7000 kg and 3100 kg is burned. How much fuel remains at landing?",
         "options": [
@@ -15271,7 +15304,11 @@
           "20000 kg"
         ],
         "answer": 2,
-        "explanation": "The smallest limit is 10100 kg."
+        "explanation": "The smallest limit is 10100 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -17633,7 +17670,11 @@
           "13300 kg"
         ],
         "answer": 2,
-        "explanation": "The smallest limit is 10230 kg."
+        "explanation": "The smallest limit is 10230 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -19744,7 +19785,11 @@
           "16600 kg"
         ],
         "answer": 1,
-        "explanation": "The smallest limit is 10360 kg."
+        "explanation": "The smallest limit is 10360 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -21868,7 +21913,11 @@
           "10490 kg"
         ],
         "answer": 3,
-        "explanation": "The smallest limit is 10490 kg."
+        "explanation": "The smallest limit is 10490 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -23898,7 +23947,11 @@
           "17200 kg"
         ],
         "answer": 2,
-        "explanation": "The smallest limit is 10620 kg."
+        "explanation": "The smallest limit is 10620 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -25928,7 +25981,11 @@
           "14500 kg"
         ],
         "answer": 0,
-        "explanation": "The smallest limit is 10750 kg."
+        "explanation": "The smallest limit is 10750 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -27913,7 +27970,11 @@
           "14800 kg"
         ],
         "answer": 2,
-        "explanation": "The smallest limit is 10880 kg."
+        "explanation": "The smallest limit is 10880 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },
@@ -30148,7 +30209,11 @@
           "18100 kg"
         ],
         "answer": 2,
-        "explanation": "The smallest limit is 11010 kg."
+        "explanation": "The smallest limit is 11010 kg.",
+        "formula_hint": {
+          "latex": "m_p=\\min(m_{p,s},m_{p,t},m_{p,l})",
+          "prerequisite": "MASS-PAYLOAD-MINIMUM"
+        }
       }
     ]
   },

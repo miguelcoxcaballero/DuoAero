@@ -1,8 +1,9 @@
 """Check split payload limits against the original physical constraints."""
 import json
 import re
+import base64
 from pathlib import Path
-from course_adapter import lesson_questions, session
+from course_adapter import challenge, lesson_questions, session
 
 root=Path(__file__).resolve().parents[1]
 bank=json.loads((root/'app/assets/questions.json').read_text())
@@ -24,7 +25,14 @@ for index,q in enumerate(family):
     final=min(structural,expected[2],expected[4])
     assert int(q['options'][q['answer']].split()[0])==final
     assert steps[-1]['id']==q['id'] and steps[-1]['options']==q['options']
+    assert steps[-1]['formula_hint']['prerequisite']=='MASS-PAYLOAD-MINIMUM'
     expanded=lesson_questions([q],teach_words=True)
-    assert len(expanded)==(14 if index==0 else 6)
+    assert len(expanded)==(18 if index==0 else 6)
+    if index==0:
+        symbolic=next(item for item in expanded if item['id']=='MASS-PAYLOAD-MINIMUM')
+        encoded=challenge(symbolic)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text'].split('duoaero-gap:')[1]
+        pieces=json.loads(base64.b64decode(encoded))
+        assert pieces.count('___')==3 and any(r'\min' in piece for piece in pieces)
+        assert pieces[-1].endswith(')')
     assert len(session([q],'payload-diagnostic',teach_words=True)['challenges'])==len(expanded)
 print('PASS: eight payload constraints and 48 short steps checked; Android layout, touch and migration remain unverified.')

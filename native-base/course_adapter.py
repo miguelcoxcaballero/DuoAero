@@ -29,7 +29,16 @@ def challenge(question):
         # formula. The authoring validator checks that it appears earlier.
         return choice_blob(question, include_formula_hint=bool(question.get('formula_hint')))
     if kind == 'formula_blocks':
-        return formula_challenge(question)
+        result = formula_challenge(question)
+        if 'inline_latex' in question:
+            parts = ['___' if part == '___' else 'duoaero-math:formula:' + r'\textstyle ' + part
+                     for part in question['inline_latex']]
+            if parts.count('___') != len(question['answer_blocks']):
+                raise ValueError('Symbolic equation slots do not match answers: ' + question['id'])
+            payload = base64.b64encode(json.dumps(parts, ensure_ascii=False).encode('utf-8')).decode('ascii')
+            result['promptInputChallenge']['prompt']['body'] = {'underlyingEntity': {'noEntity': {}},
+                'taggedTextElement': {'text': 'duoaero-latex:duoaero-gap:' + payload}}
+        return result
     if kind == 'formula_named':
         adapter = dict(question, prefix='')
         result = formula_challenge(adapter, mathematical=bool(question.get('mathematical_blocks')))

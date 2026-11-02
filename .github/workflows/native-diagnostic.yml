@@ -488,7 +488,7 @@ jobs:
               ;;
             payload-steps)
               run_probe aerospace-payload-steps MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 20 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-payload-steps.txt"
+              grep -q 'All 18 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-payload-steps.txt"
               ;;
             buckling-notation)
               run_probe aerospace-buckling-notation MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

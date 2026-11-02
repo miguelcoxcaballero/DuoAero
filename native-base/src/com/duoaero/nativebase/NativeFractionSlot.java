@@ -27,8 +27,7 @@ public final class NativeFractionSlot {
   Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
   String key=Long.toString(NEXT.incrementAndGet());
   Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:negative-exponent");
-  Object baseRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(80f),Float.valueOf(80f));
-  Object base=latex.newInstance("e",80f,baseRange,cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object base=latex.newInstance("e",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object exponent=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l).getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(figure,new Context(scope,slot,render,first,true));KEYS.put(key,new WeakReference<>(figure));}
@@ -137,7 +136,7 @@ public final class NativeFractionSlot {
   }
   return fraction;
  }
- public static boolean render(Object figure,Object composer,int flags){
+ public static boolean render(Object figure,Object modifier,Object composer,int flags){
   if(figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$LatexString"))return false;
   try{
    String text=(String)figure.getClass().getField("a").get(figure);if(!text.startsWith(PREFIX))return false;
@@ -147,8 +146,11 @@ public final class NativeFractionSlot {
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
    int offset=Integer.parseInt(part[1]);if(offset<0||offset>3)throw new IllegalStateException("Invalid fraction slot position");
    if(context.negativeExponent){
-    if(!NativeInlineFormula.begin(figure,composer))throw new IllegalStateException("Cannot group negative exponent");
     ClassLoader l=figure.getClass().getClassLoader();Class<?> cls=figure.getClass();
+    Class<?> modifierClass=Class.forName("z5q",true,l);
+    if(modifier==null)modifier=Class.forName("w5q",true,l).getField("a").get(null);
+    modifier=Class.forName("a7k",true,l).getMethod("s",modifierClass,float.class,float.class,int.class).invoke(null,modifier,0f,-26f,1);
+    if(!NativeInlineFormula.begin(figure,composer,modifier))throw new IllegalStateException("Cannot group negative exponent");
     Class<?> entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
     Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:fixed-minus");
     Object minus=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("-",22f,cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
