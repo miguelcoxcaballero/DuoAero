@@ -567,3 +567,5 @@ Runs 41533886456 and 41534411607 graded all ten rocket and ten orbit draft contr
 An extended second-section diagnostic now places the rocket and orbit drafts after the existing launch-vehicle concepts within the original path level. Its isolated progression test must still verify the saved first session, restart and opening of the next session; the feature is disabled in production builds.
 
 Reviewed numeric assignments for OEM, MTOM, TAS, specific impulse and cruise speed now render as math with appropriate subscripts or upright acronyms. Local tests cover them without changing ordinary units; Android screenshots are still required.
+
+Eight payload-limit source problems now have six short calculations each, two preceding word/named/symbol formula sequences, and independently checked takeoff, landing and structural limits. Three additional lesson IDs use exact historical source coverage; 98 lessons and nineteen path-only migrations pass local validation. Android display, touch, hint behavior and migration are pending. The prior 44-formula inventory is now 46 and all have named candidates; the negative exponent still needs visual acceptance.

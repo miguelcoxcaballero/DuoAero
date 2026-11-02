@@ -12,6 +12,8 @@ import hashlib
 FORMULAS = {
  'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
  'payload_mass': ('Payload mass m-p equals takeoff mass m-to minus operating empty mass m-oem minus fuel ___ m-f.', 'mass', ['speed', 'pressure', 'area']),
+ 'fuel_remaining': ('Landing fuel equals takeoff fuel minus fuel ___.', 'burned', ['loaded','stored','added']),
+ 'landing_payload': ('Payload equals the landing mass limit minus operating empty mass minus landing ___.', 'fuel', ['wing','area','speed']),
  'spar_moment': ('Bending moment M equals tip force F times spar ___ L.', 'length', ['pressure', 'temperature', 'mass']),
  'yield_load': ('Yield load P-y equals yield stress sigma-y times cross-sectional ___ A.', 'area', ['temperature', 'speed', 'density']),
  'load_factor': ('Load factor n equals capacity P divided by applied ___ F.', 'force', ['temperature', 'area', 'speed']),
@@ -49,7 +51,7 @@ FORMULAS = {
 
 KINDS = {
  'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas', 'ISA-ISOTHERMAL-FORMULA':'isothermal_pressure',
- 'MASS-PAYLOAD-FORMULA':'payload_mass',
+ 'MASS-PAYLOAD-FORMULA':'payload_mass', 'MASS-FUEL-REMAINING':'fuel_remaining', 'MASS-LANDING-PAYLOAD':'landing_payload',
  'SPAR-MOMENT-FORMULA':'spar_moment', 'SPAR-STRESS-FORMULA':'spar_stress_inertia',
  'COLUMN-YIELD-FORMULA':'yield_load', 'COLUMN-FACTOR-FORMULA':'load_factor',
  'SPAR-DEFLECTION-FORMULA':'spar_deflection_inertia',
@@ -98,6 +100,8 @@ INLINE_SYMBOLS = {
 EQUATION_NAMES = {
  'gas':('temperature',['density','pressure','altitude']),
  'payload_mass':('fuel mass',['payload mass','takeoff mass','empty mass']),
+ 'fuel_remaining':('landing fuel',['takeoff fuel','fuel burned','payload']),
+ 'landing_payload':('payload',['empty mass','landing fuel','landing limit']),
  'spar_moment':('spar length',['tip force','bending moment','pressure']),
  'yield_load':('cross-sectional area',['yield stress','yield load','temperature']),
  'load_factor':('load factor',['capacity','applied force','area']),
@@ -140,6 +144,8 @@ EQUATION_NAMES = {
 IN_PLACE = {
  'gas':(r'p=\rho R_a','T',''),
  'payload_mass':(r'm_p=m_{to}-m_{oem}-',r'm_f',''),
+ 'fuel_remaining':('',r'm_{f,l}',r'=m_{f,t}-m_b'),
+ 'landing_payload':('','m_p',r'=m_l-m_o-m_{f,l}'),
  'spar_moment':(r'M=F',r'L',''),
  'yield_load':(r'P_y=\sigma_y ','A',''),
  'tailwind':(r'V_g=V+','w',''),
@@ -200,6 +206,10 @@ MULTI_NAMED = {
                          ['temperature','density','area'], ['___','=','___',r'\times','e^-___']),
  'payload_mass': (r'm_p=m_{to}-m_{oem}-m_f', ['payload mass','takeoff mass','empty mass','fuel mass'],
                   ['pressure','density','altitude','speed'], ['___','=','___','-','___','-','___']),
+ 'fuel_remaining': (r'm_{f,l}=m_{f,t}-m_b', ['landing fuel','takeoff fuel','fuel burned'],
+                    ['payload','empty mass','pressure'], ['___','=','___','-','___']),
+ 'landing_payload': (r'm_p=m_l-m_o-m_{f,l}', ['payload','landing limit','empty mass','landing fuel'],
+                     ['temperature','speed','pressure'], ['___','=','___','-','___','-','___']),
  'spar_moment': (r'M=FL', ['bending moment','tip force','spar length'],
                  ['pressure','temperature','mass'], ['___','=','___',r'\times','___']),
  'yield_load': (r'P_y=\sigma_y A', ['yield load','yield stress','area'],

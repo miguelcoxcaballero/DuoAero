@@ -8,7 +8,7 @@ bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_t
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lessons = {lesson['id']: lesson for node in plan for lesson in node['lessons']}
 migrations = json.loads((root/'native-base/lesson-migrations.json').read_text())
-assert len(lessons) == 95 and len(migrations) == 16
+assert len(lessons) == 98 and len(migrations) == 19
 for target, migration in migrations.items():
     source = migration['sourceLesson']
     required = migration['requiredQuestions']
@@ -62,4 +62,4 @@ assert 'TA1-0150-F1' not in lessons['2.5-5-point-0-lesson-0']['ids']
 assert 'TA1-0150-F1' in lessons['2.5-5-point-0-lesson-1']['ids']
 assert 'TA1-0031-F1' not in lessons['2.4-11-point-0-lesson-0']['ids']
 assert 'TA1-0031-F1' in lessons['2.4-11-point-0-lesson-1']['ids']
-print('PASS: 95 lessons have 10–20 native exercises; sixteen path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
+print('PASS: 98 lessons have 10–20 native exercises; nineteen path-only credits require exact historical coverage. Android UI and persistence remain unverified.')

@@ -739,8 +739,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=orbit_lesson()
   assert len(mixed)==10
  if os.environ.get('DUOAERO_BUCKLING_NOTATION_DIAGNOSTIC')=='1' and not production:
-  mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057'],by_id['TA1-0083-D2']],teach_words=True)
-  assert len(mixed)==3
+  mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057']],teach_words=True)
+  assert len(mixed)==2
+ if os.environ.get('DUOAERO_PAYLOAD_STEPS_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0083-D2'],by_id['TA1-0122-D2']],teach_words=True)
+  assert len(mixed)==20
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

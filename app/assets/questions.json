@@ -15143,7 +15143,137 @@
       0
     ],
     "legacy_id": "TA1-0083",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "MASS-FUEL-REMAINING",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the landing fuel formula",
+        "prefix": "m_{f,l}=m_{f,t}-",
+        "blocks": [
+          "m_b",
+          "m_l",
+          "m_p",
+          "m_o"
+        ],
+        "answer_blocks": [
+          "m_b"
+        ],
+        "formula_latex": "m_{f,l}=m_{f,t}-m_b",
+        "explanation": "m_{f,l}=m_{f,t}-m_b"
+      },
+      {
+        "id": "MASS-LANDING-PAYLOAD",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the landing payload formula",
+        "prefix": "m_p=m_l-m_o-",
+        "blocks": [
+          "m_{f,l}",
+          "m_b",
+          "m_l",
+          "m_o"
+        ],
+        "answer_blocks": [
+          "m_{f,l}"
+        ],
+        "formula_latex": "m_p=m_l-m_o-m_{f,l}",
+        "explanation": "m_p=m_l-m_o-m_{f,l}"
+      },
+      {
+        "id": "TA1-0083-D2-S1",
+        "stem": "Takeoff fuel is 7000 kg and 3100 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "3900 kg",
+          "4900 kg",
+          "2900 kg",
+          "5900 kg"
+        ],
+        "answer": 0,
+        "explanation": "3900 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0083-D2-S2",
+        "stem": "Empty mass is 21000 kg and takeoff fuel is 7000 kg. What is their combined mass?",
+        "options": [
+          "28000 kg",
+          "29000 kg",
+          "27000 kg",
+          "30000 kg"
+        ],
+        "answer": 0,
+        "explanation": "28000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0083-D2-S3",
+        "stem": "Takeoff mass limit is 41000 kg and non-payload mass is 28000 kg. What payload fits?",
+        "options": [
+          "13000 kg",
+          "14000 kg",
+          "12000 kg",
+          "15000 kg"
+        ],
+        "answer": 0,
+        "explanation": "13000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0083-D2-S4",
+        "stem": "Empty mass is 21000 kg and landing fuel is 3900 kg. What is their combined mass?",
+        "options": [
+          "24900 kg",
+          "25900 kg",
+          "23900 kg",
+          "26900 kg"
+        ],
+        "answer": 0,
+        "explanation": "24900 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0083-D2-S5",
+        "stem": "Landing mass limit is 35000 kg and non-payload mass is 24900 kg. What payload fits?",
+        "options": [
+          "10100 kg",
+          "11100 kg",
+          "9100 kg",
+          "12100 kg"
+        ],
+        "answer": 0,
+        "explanation": "10100 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0083-D2",
+        "stem": "Payload limits are 16000 kg structurally, 13000 kg at takeoff and 10100 kg at landing. What payload satisfies all three?",
+        "options": [
+          "13000 kg",
+          "16000 kg",
+          "10100 kg",
+          "20000 kg"
+        ],
+        "answer": 2,
+        "explanation": "The smallest limit is 10100 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0210-D2",
@@ -17411,7 +17541,101 @@
       0
     ],
     "legacy_id": "TA1-0122",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0122-D2-S1",
+        "stem": "Takeoff fuel is 7200 kg and 3230 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "3970 kg",
+          "4970 kg",
+          "2970 kg",
+          "5970 kg"
+        ],
+        "answer": 0,
+        "explanation": "3970 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0122-D2-S2",
+        "stem": "Empty mass is 21800 kg and takeoff fuel is 7200 kg. What is their combined mass?",
+        "options": [
+          "29000 kg",
+          "30000 kg",
+          "28000 kg",
+          "31000 kg"
+        ],
+        "answer": 0,
+        "explanation": "29000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0122-D2-S3",
+        "stem": "Takeoff mass limit is 42300 kg and non-payload mass is 29000 kg. What payload fits?",
+        "options": [
+          "13300 kg",
+          "14300 kg",
+          "12300 kg",
+          "15300 kg"
+        ],
+        "answer": 0,
+        "explanation": "13300 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0122-D2-S4",
+        "stem": "Empty mass is 21800 kg and landing fuel is 3970 kg. What is their combined mass?",
+        "options": [
+          "25770 kg",
+          "26770 kg",
+          "24770 kg",
+          "27770 kg"
+        ],
+        "answer": 0,
+        "explanation": "25770 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0122-D2-S5",
+        "stem": "Landing mass limit is 36000 kg and non-payload mass is 25770 kg. What payload fits?",
+        "options": [
+          "10230 kg",
+          "11230 kg",
+          "9230 kg",
+          "12230 kg"
+        ],
+        "answer": 0,
+        "explanation": "10230 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0122-D2",
+        "stem": "Payload limits are 16300 kg structurally, 13300 kg at takeoff and 10230 kg at landing. What payload satisfies all three?",
+        "options": [
+          "16300 kg",
+          "20500 kg",
+          "10230 kg",
+          "13300 kg"
+        ],
+        "answer": 2,
+        "explanation": "The smallest limit is 10230 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0251-D2",
@@ -19428,7 +19652,101 @@
       0
     ],
     "legacy_id": "TA1-0260",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0260-D2-S1",
+        "stem": "Takeoff fuel is 7400 kg and 3360 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4040 kg",
+          "5040 kg",
+          "3040 kg",
+          "6040 kg"
+        ],
+        "answer": 0,
+        "explanation": "4040 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0260-D2-S2",
+        "stem": "Empty mass is 22600 kg and takeoff fuel is 7400 kg. What is their combined mass?",
+        "options": [
+          "30000 kg",
+          "31000 kg",
+          "29000 kg",
+          "32000 kg"
+        ],
+        "answer": 0,
+        "explanation": "30000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0260-D2-S3",
+        "stem": "Takeoff mass limit is 43600 kg and non-payload mass is 30000 kg. What payload fits?",
+        "options": [
+          "13600 kg",
+          "14600 kg",
+          "12600 kg",
+          "15600 kg"
+        ],
+        "answer": 0,
+        "explanation": "13600 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0260-D2-S4",
+        "stem": "Empty mass is 22600 kg and landing fuel is 4040 kg. What is their combined mass?",
+        "options": [
+          "26640 kg",
+          "27640 kg",
+          "25640 kg",
+          "28640 kg"
+        ],
+        "answer": 0,
+        "explanation": "26640 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0260-D2-S5",
+        "stem": "Landing mass limit is 37000 kg and non-payload mass is 26640 kg. What payload fits?",
+        "options": [
+          "10360 kg",
+          "11360 kg",
+          "9360 kg",
+          "12360 kg"
+        ],
+        "answer": 0,
+        "explanation": "10360 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0260-D2",
+        "stem": "Payload limits are 16600 kg structurally, 13600 kg at takeoff and 10360 kg at landing. What payload satisfies all three?",
+        "options": [
+          "21000 kg",
+          "10360 kg",
+          "13600 kg",
+          "16600 kg"
+        ],
+        "answer": 1,
+        "explanation": "The smallest limit is 10360 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0257-D2",
@@ -21458,7 +21776,101 @@
       0
     ],
     "legacy_id": "TA1-0280",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0280-D2-S1",
+        "stem": "Takeoff fuel is 7600 kg and 3490 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4110 kg",
+          "5110 kg",
+          "3110 kg",
+          "6110 kg"
+        ],
+        "answer": 0,
+        "explanation": "4110 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0280-D2-S2",
+        "stem": "Empty mass is 23400 kg and takeoff fuel is 7600 kg. What is their combined mass?",
+        "options": [
+          "31000 kg",
+          "32000 kg",
+          "30000 kg",
+          "33000 kg"
+        ],
+        "answer": 0,
+        "explanation": "31000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0280-D2-S3",
+        "stem": "Takeoff mass limit is 44900 kg and non-payload mass is 31000 kg. What payload fits?",
+        "options": [
+          "13900 kg",
+          "14900 kg",
+          "12900 kg",
+          "15900 kg"
+        ],
+        "answer": 0,
+        "explanation": "13900 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0280-D2-S4",
+        "stem": "Empty mass is 23400 kg and landing fuel is 4110 kg. What is their combined mass?",
+        "options": [
+          "27510 kg",
+          "28510 kg",
+          "26510 kg",
+          "29510 kg"
+        ],
+        "answer": 0,
+        "explanation": "27510 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0280-D2-S5",
+        "stem": "Landing mass limit is 38000 kg and non-payload mass is 27510 kg. What payload fits?",
+        "options": [
+          "10490 kg",
+          "11490 kg",
+          "9490 kg",
+          "12490 kg"
+        ],
+        "answer": 0,
+        "explanation": "10490 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0280-D2",
+        "stem": "Payload limits are 16900 kg structurally, 13900 kg at takeoff and 10490 kg at landing. What payload satisfies all three?",
+        "options": [
+          "21500 kg",
+          "16900 kg",
+          "13900 kg",
+          "10490 kg"
+        ],
+        "answer": 3,
+        "explanation": "The smallest limit is 10490 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0432-D2",
@@ -23394,7 +23806,101 @@
       0
     ],
     "legacy_id": "TA1-0297",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0297-D2-S1",
+        "stem": "Takeoff fuel is 7800 kg and 3620 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4180 kg",
+          "5180 kg",
+          "3180 kg",
+          "6180 kg"
+        ],
+        "answer": 0,
+        "explanation": "4180 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0297-D2-S2",
+        "stem": "Empty mass is 24200 kg and takeoff fuel is 7800 kg. What is their combined mass?",
+        "options": [
+          "32000 kg",
+          "33000 kg",
+          "31000 kg",
+          "34000 kg"
+        ],
+        "answer": 0,
+        "explanation": "32000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0297-D2-S3",
+        "stem": "Takeoff mass limit is 46200 kg and non-payload mass is 32000 kg. What payload fits?",
+        "options": [
+          "14200 kg",
+          "15200 kg",
+          "13200 kg",
+          "16200 kg"
+        ],
+        "answer": 0,
+        "explanation": "14200 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0297-D2-S4",
+        "stem": "Empty mass is 24200 kg and landing fuel is 4180 kg. What is their combined mass?",
+        "options": [
+          "28380 kg",
+          "29380 kg",
+          "27380 kg",
+          "30380 kg"
+        ],
+        "answer": 0,
+        "explanation": "28380 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0297-D2-S5",
+        "stem": "Landing mass limit is 39000 kg and non-payload mass is 28380 kg. What payload fits?",
+        "options": [
+          "10620 kg",
+          "11620 kg",
+          "9620 kg",
+          "12620 kg"
+        ],
+        "answer": 0,
+        "explanation": "10620 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0297-D2",
+        "stem": "Payload limits are 17200 kg structurally, 14200 kg at takeoff and 10620 kg at landing. What payload satisfies all three?",
+        "options": [
+          "14200 kg",
+          "22000 kg",
+          "10620 kg",
+          "17200 kg"
+        ],
+        "answer": 2,
+        "explanation": "The smallest limit is 10620 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0552-D2",
@@ -25330,7 +25836,101 @@
       0
     ],
     "legacy_id": "TA1-0395",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0395-D2-S1",
+        "stem": "Takeoff fuel is 8000 kg and 3750 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4250 kg",
+          "5250 kg",
+          "3250 kg",
+          "6250 kg"
+        ],
+        "answer": 0,
+        "explanation": "4250 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0395-D2-S2",
+        "stem": "Empty mass is 25000 kg and takeoff fuel is 8000 kg. What is their combined mass?",
+        "options": [
+          "33000 kg",
+          "34000 kg",
+          "32000 kg",
+          "35000 kg"
+        ],
+        "answer": 0,
+        "explanation": "33000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0395-D2-S3",
+        "stem": "Takeoff mass limit is 47500 kg and non-payload mass is 33000 kg. What payload fits?",
+        "options": [
+          "14500 kg",
+          "15500 kg",
+          "13500 kg",
+          "16500 kg"
+        ],
+        "answer": 0,
+        "explanation": "14500 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0395-D2-S4",
+        "stem": "Empty mass is 25000 kg and landing fuel is 4250 kg. What is their combined mass?",
+        "options": [
+          "29250 kg",
+          "30250 kg",
+          "28250 kg",
+          "31250 kg"
+        ],
+        "answer": 0,
+        "explanation": "29250 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0395-D2-S5",
+        "stem": "Landing mass limit is 40000 kg and non-payload mass is 29250 kg. What payload fits?",
+        "options": [
+          "10750 kg",
+          "11750 kg",
+          "9750 kg",
+          "12750 kg"
+        ],
+        "answer": 0,
+        "explanation": "10750 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0395-D2",
+        "stem": "Payload limits are 17500 kg structurally, 14500 kg at takeoff and 10750 kg at landing. What payload satisfies all three?",
+        "options": [
+          "10750 kg",
+          "17500 kg",
+          "22500 kg",
+          "14500 kg"
+        ],
+        "answer": 0,
+        "explanation": "The smallest limit is 10750 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0564-D2",
@@ -27221,7 +27821,101 @@
       0
     ],
     "legacy_id": "TA1-0401",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0401-D2-S1",
+        "stem": "Takeoff fuel is 8200 kg and 3880 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4320 kg",
+          "5320 kg",
+          "3320 kg",
+          "6320 kg"
+        ],
+        "answer": 0,
+        "explanation": "4320 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0401-D2-S2",
+        "stem": "Empty mass is 25800 kg and takeoff fuel is 8200 kg. What is their combined mass?",
+        "options": [
+          "34000 kg",
+          "35000 kg",
+          "33000 kg",
+          "36000 kg"
+        ],
+        "answer": 0,
+        "explanation": "34000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0401-D2-S3",
+        "stem": "Takeoff mass limit is 48800 kg and non-payload mass is 34000 kg. What payload fits?",
+        "options": [
+          "14800 kg",
+          "15800 kg",
+          "13800 kg",
+          "16800 kg"
+        ],
+        "answer": 0,
+        "explanation": "14800 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0401-D2-S4",
+        "stem": "Empty mass is 25800 kg and landing fuel is 4320 kg. What is their combined mass?",
+        "options": [
+          "30120 kg",
+          "31120 kg",
+          "29120 kg",
+          "32120 kg"
+        ],
+        "answer": 0,
+        "explanation": "30120 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0401-D2-S5",
+        "stem": "Landing mass limit is 41000 kg and non-payload mass is 30120 kg. What payload fits?",
+        "options": [
+          "10880 kg",
+          "11880 kg",
+          "9880 kg",
+          "12880 kg"
+        ],
+        "answer": 0,
+        "explanation": "10880 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0401-D2",
+        "stem": "Payload limits are 17800 kg structurally, 14800 kg at takeoff and 10880 kg at landing. What payload satisfies all three?",
+        "options": [
+          "23000 kg",
+          "17800 kg",
+          "10880 kg",
+          "14800 kg"
+        ],
+        "answer": 2,
+        "explanation": "The smallest limit is 10880 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0601-D2",
@@ -29362,7 +30056,101 @@
       0
     ],
     "legacy_id": "TA1-0572",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0572-D2-S1",
+        "stem": "Takeoff fuel is 8400 kg and 4010 kg is burned. How much fuel remains at landing?",
+        "options": [
+          "4390 kg",
+          "5390 kg",
+          "3390 kg",
+          "6390 kg"
+        ],
+        "answer": 0,
+        "explanation": "4390 kg",
+        "formula_hint": {
+          "latex": "m_{f,l}=m_{f,t}-m_b",
+          "prerequisite": "MASS-FUEL-REMAINING"
+        }
+      },
+      {
+        "id": "TA1-0572-D2-S2",
+        "stem": "Empty mass is 26600 kg and takeoff fuel is 8400 kg. What is their combined mass?",
+        "options": [
+          "35000 kg",
+          "36000 kg",
+          "34000 kg",
+          "37000 kg"
+        ],
+        "answer": 0,
+        "explanation": "35000 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0572-D2-S3",
+        "stem": "Takeoff mass limit is 50100 kg and non-payload mass is 35000 kg. What payload fits?",
+        "options": [
+          "15100 kg",
+          "16100 kg",
+          "14100 kg",
+          "17100 kg"
+        ],
+        "answer": 0,
+        "explanation": "15100 kg",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0572-D2-S4",
+        "stem": "Empty mass is 26600 kg and landing fuel is 4390 kg. What is their combined mass?",
+        "options": [
+          "30990 kg",
+          "31990 kg",
+          "29990 kg",
+          "32990 kg"
+        ],
+        "answer": 0,
+        "explanation": "30990 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0572-D2-S5",
+        "stem": "Landing mass limit is 42000 kg and non-payload mass is 30990 kg. What payload fits?",
+        "options": [
+          "11010 kg",
+          "12010 kg",
+          "10010 kg",
+          "13010 kg"
+        ],
+        "answer": 0,
+        "explanation": "11010 kg",
+        "formula_hint": {
+          "latex": "m_p=m_l-m_o-m_{f,l}",
+          "prerequisite": "MASS-LANDING-PAYLOAD"
+        }
+      },
+      {
+        "id": "TA1-0572-D2",
+        "stem": "Payload limits are 18100 kg structurally, 15100 kg at takeoff and 11010 kg at landing. What payload satisfies all three?",
+        "options": [
+          "15100 kg",
+          "23500 kg",
+          "11010 kg",
+          "18100 kg"
+        ],
+        "answer": 2,
+        "explanation": "The smallest limit is 11010 kg."
+      }
+    ]
   },
   {
     "id": "TA1-0698-D2",

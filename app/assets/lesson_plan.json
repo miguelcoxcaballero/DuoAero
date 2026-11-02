@@ -811,6 +811,23 @@
       {
         "id": "2.2-3-point-0-lesson-1",
         "ids": [
+          "TA1-0083-D2"
+        ],
+        "name": "Initial analysis / Refined sizing and optimization · 1 · Lesson 2"
+      },
+      {
+        "id": "2.2-3-point-0-lesson-2",
+        "ids": [
+          "TA1-0122-D2",
+          "TA1-0198-D2",
+          "TA1-0260-D2",
+          "TA1-0279-D2"
+        ],
+        "name": "Initial analysis / Refined sizing and optimization · 1 · Lesson 3"
+      },
+      {
+        "id": "2.2-3-point-0-lesson-3",
+        "ids": [
           "TA1-0317",
           "TA1-0344",
           "TA1-0357",
@@ -818,15 +835,10 @@
           "EX-2023-11-06-7",
           "EX-2025-11-06-8",
           "TA1-0272",
-          "TA1-0083-D2",
-          "TA1-0198-D2",
-          "TA1-0122-D2",
-          "TA1-0279-D2",
-          "TA1-0260-D2",
           "TA1-0282-D2",
           "TA1-0280-D2"
         ],
-        "name": "Initial analysis / Refined sizing and optimization · 1 · Lesson 2"
+        "name": "Initial analysis / Refined sizing and optimization · 1 · Lesson 4"
       }
     ]
   },
@@ -873,17 +885,7 @@
           "TA1-0297-D2",
           "TA1-0342-D2",
           "TA1-0395-D2",
-          "TA1-0605-D2",
-          "TA1-0401-D2",
-          "TA1-0640-D2",
-          "TA1-0572-D2",
-          "TA1-0650-D2",
-          "TA1-0645-D3",
-          "TA1-0736-D3",
-          "TA1-0703-D3",
-          "TA1-0749-D3",
-          "TA1-0718-D3",
-          "TA1-0851-D3"
+          "TA1-0605-D2"
         ],
         "name": "Initial analysis / Refined sizing and optimization · 2 · Lesson 1"
       },
@@ -906,6 +908,22 @@
           "TA1-N3-36-10"
         ],
         "name": "Initial analysis / Refined sizing and optimization · 2 · Lesson 2"
+      },
+      {
+        "id": "2.2-3-point-1-lesson-2",
+        "ids": [
+          "TA1-0401-D2",
+          "TA1-0640-D2",
+          "TA1-0572-D2",
+          "TA1-0650-D2",
+          "TA1-0645-D3",
+          "TA1-0736-D3",
+          "TA1-0703-D3",
+          "TA1-0749-D3",
+          "TA1-0718-D3",
+          "TA1-0851-D3"
+        ],
+        "name": "Initial analysis / Refined sizing and optimization · 2 · Lesson 3"
       }
     ]
   },
