@@ -80,14 +80,20 @@ were unsorted; the follow-up orders height before width and reports failures
 separately. Run 41374041351 then loaded the original drawable and confirmed
 different frames. Inflating the complete fragment from an instrumentation
 application context failed on an unrelated themed text widget; the revised
-probe inflates the original image element in isolation. Neither this nor the
-frame check proves the attached screen or smooth playback works.
+probe inflates the original image element in isolation and passed in run
+41374984771. That run exposed visible pixels on the source atlas cell seams;
+the source image was replaced and host assertions now check transparent seams.
+The replacement atlas must be retested on Android. Neither the old test nor
+the frame check proves the attached screen or smooth playback works.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather
-than opening the inner row, so navigation was not established. A corrected
-two-tap diagnostic is running on the separate research branch. It contains no
-production content for the second midterm.
+than opening the inner row. Android run 41374119769 tapped the inner row and
+actually showed the second section's diagnostic path; the test failed only
+because it expected a topic title where the original header showed Midterm 2.
+A follow-up on the separate research branch adds the topic title and tests
+opening its synthetic lesson. There is no production second-midterm content,
+nor evidence yet for grading, persistence, rewards or a real course there.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
