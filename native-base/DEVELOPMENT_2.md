@@ -256,6 +256,15 @@ but the recording showed it practically motionless. A revised state-machine
 entry starts the sprite loop in a browser preview; Android playback and smoothness
 are being checked separately and the animation is not integrated.
 
+Android run 41392335036 repeated three integrated scenarios before the later
+icon and formula patches: a seeded original chest showed +25 gems and retained
+the balance after restart; a wrong answer was reviewed and its correction
+persisted after restart; the original settings opened the updater settings and
+its provider read test bytes. The latter did not install an update. Android run
+41392120069 graded the night/large-font sample and observed 21 SoundPool starts
+and 20 haptic completions in emulator services. These observations do not prove
+audibility, physical vibration, real Drive sync or an installed update.
+
 ## Acceptance still required
 
 * Review all calculation families, simplify long questions, author correct
