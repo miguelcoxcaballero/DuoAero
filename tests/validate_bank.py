@@ -12,8 +12,10 @@ assert {q['type'] for q in bank}=={'choice','multi','gap','matching','order','fo
 ids=[q['id'] for q in bank];assert len(set(ids))==1200
 for q in bank:
  assert q['section']=='Midterm 1'
+ # Publish only the source category, title and cited pages.
+ assert set(q['origin']) <= {'kind','title','page','pages','pdf_page'}
  if q['origin']['kind']=='exam':
-  assert all(q['origin'].get(k) for k in ['date','number','title','url','source_excerpt','answer_basis'])
+  assert q['origin'].get('title')
  if q['type'] in ['choice','multi']:assert len(q['options'])==4
  if q['type']=='formula_blocks':
   assert q['answer_blocks'] and len(q['blocks'])==len(set(q['blocks']))

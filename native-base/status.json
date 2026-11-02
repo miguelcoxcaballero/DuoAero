@@ -7,8 +7,8 @@
     "scope": "Original runtime and controllers; current development remains incomplete and is not a 2.0.0 release.",
     "review_inventory": {
       "source_questions": 1200,
-      "unstaged_stems_over_300_characters": 289,
-      "possible_calculations_without_authored_hints": 578,
+      "unstaged_stems_over_300_characters": 288,
+      "possible_calculations_without_authored_hints": 577,
       "authored_formula_exercises_without_full_named_blocks": 26,
       "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },
@@ -27,7 +27,8 @@
       "Android run 41452609503 graded 53 introductory and follow-up spar controls and passed synthetic accounts; compact quantity cards were inspected on an S24-proportioned emulator.",
       "Android run 41455195283 completed the fourth spar session through the original path, restarted and opened the next node; earlier progress was seeded.",
       "Android run 41461040425 displayed the static Linus fallback on the seeded original Structures path; animated Rive playback is still under test.",
-      "Android run 41464902704 directly opened the published 1.3.0 updater on a rooted emulator and displayed the actual 1.3.7 offer after opting in to A; download and installation remain unverified."
+      "Android run 41464902704 directly opened the published 1.3.0 updater on a rooted emulator and displayed the actual 1.3.7 offer after opting in to A; download and installation remain unverified.",
+      "Android run 41464615993 graded all 11 controls in a staged column example; inspected screenshots show native named tiles above and below a fraction bar. Incorrect feedback, retries and broader fractions remain unverified."
     ],
     "incomplete": [
       "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",

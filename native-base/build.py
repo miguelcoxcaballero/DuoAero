@@ -261,7 +261,23 @@ shortcut_original=shortcut_source.read_bytes()
 shortcut_text=rebrand_visible_literal(shortcut_original.decode('utf-8').replace('\r\n','\n'),
  '.method public final i(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Lc6s;Landroid/graphics/Bitmap;Landroid/os/Bundle;)V',
  '    const-string p5, "Duolingo"')
+fraction_source=SMALI/'smali_classes3/jvo.smali'
+fraction_original=fraction_source.read_bytes()
+fraction_text=fraction_original.decode('utf-8').replace('\r\n','\n')
+fraction_anchor='.method public static final a(Lcom/duolingo/core/math/models/figure/MathFigureUiState;Lz5q;Lcvo;Lkotlin/jvm/functions/Function0;Lqqh;Lqqh;Lkotlin/jvm/functions/Function0;Ljava/lang/Integer;Ls6p;Lcom/duolingo/feature/math/ui/figure/WebViewInteractionState;Lo18;II)V\n    .locals 32'
+assert fraction_text.count(fraction_anchor)==1
+fraction_hook='''
+    move-object/from16 v0, p0
+    move-object/from16 v1, p10
+    move/from16 v2, p11
+    invoke-static {v0, v1, v2}, Lcom/duoaero/nativebase/NativeFractionSlot;->render(Ljava/lang/Object;Ljava/lang/Object;I)Z
+    move-result v0
+    if-eqz v0, :duoaero_original_figure
+    return-void
+    :duoaero_original_figure
+'''
 try:
+ fraction_source.write_text(fraction_text.replace(fraction_anchor,fraction_anchor+'\n'+fraction_hook),encoding='utf-8')
  app_name_source.write_text(app_name_text,encoding='utf-8')
  shortcut_source.write_text(shortcut_text,encoding='utf-8')
  tip_source.write_text(tip_text.replace(tip_anchor,'    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaTipOpened()V\n\n'+tip_anchor),encoding='utf-8')
@@ -276,6 +292,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ fraction_source.write_bytes(fraction_original)
  app_name_source.write_bytes(app_name_original)
  shortcut_source.write_bytes(shortcut_original)
  tip_source.write_bytes(tip_original)
@@ -603,6 +620,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
  if os.environ.get('DUOAERO_HYDRAULIC_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['BOOK-V6-08-D1']],teach_words=True)
+ if os.environ.get('DUOAERO_COLUMN_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0961-D3']],teach_words=True)
+  assert len(mixed)==11
  if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='intro' and not production:
   mixed=lesson_questions([by_id['TA1-0737-D3']],teach_words=True)
   assert len(mixed)==17

@@ -36,8 +36,8 @@ def challenge(question):
         segments = []
         if 'inline_latex' in question:
             for part in question['inline_latex']:
-                segments.append('___' if part == '___' else 'duoaero-math:formula:' + r'\textstyle ' + part)
-            if segments.count('___') != len(question['answer_blocks']):
+                segments.append('___' if part == '___' else 'duoaero-fraction-slots' if part == '___/___' else 'duoaero-math:formula:' + r'\textstyle ' + part)
+            if segments.count('___') + 2*segments.count('duoaero-fraction-slots') != len(question['answer_blocks']):
                 raise ValueError('Named equation slots do not match answers: ' + question['id'])
         else:
             if question['before_latex']:

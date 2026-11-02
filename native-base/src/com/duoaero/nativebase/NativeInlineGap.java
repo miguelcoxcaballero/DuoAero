@@ -10,6 +10,9 @@ import org.json.JSONArray;
 public final class NativeInlineGap {
  private static final String MARKER="duoaero-gap:";
  private static final String OPERATOR_GAP="duoaero-operator-gap:";
+ private static final String FRACTION="duoaero-fraction-slots";
+ private static int countSlots(String part){return part.equals(FRACTION)?2:part.equals("___")||part.startsWith(OPERATOR_GAP)?1:0;}
+ private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
   if(!NativeCourseBridge.hasLocalCourse()||figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$LatexString"))return false;
@@ -47,7 +50,7 @@ public final class NativeInlineGap {
        Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
    Method slot=Class.forName("fz0",true,l).getMethod("d",List.class,callback,callback,boolean.class,boolean.class,mod,float.class,boolean.class,state,o18,int.class);
    Class<?> irh=Class.forName("irh",true,l);
-   int gaps=0;for(String part:parts)if("___".equals(part)||part.startsWith(OPERATOR_GAP))gaps++;
+   int gaps=0;for(String part:parts)gaps+=countSlots(part);
    final int gapCount=gaps;
    // The original BuildSpace composable lays out the whole list. For several
    // separated inline holes, invoke its original per-slot composable with the
@@ -72,9 +75,13 @@ public final class NativeInlineGap {
      if(part.equals("___")){
       if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
       else{
-       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(parts.get(i))||parts.get(i).startsWith(OPERATOR_GAP))ordinal++;
+       int ordinal=slotsBefore(parts,index);
        renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,args[3]);
       }
+     }
+     else if(part.equals(FRACTION)){
+      Object fraction=NativeFractionSlot.create(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
      else{
       String spoken;
@@ -98,7 +105,7 @@ public final class NativeInlineGap {
      if(paired){
       if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
       else{
-       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(parts.get(i))||parts.get(i).startsWith(OPERATOR_GAP))ordinal++;
+       int ordinal=slotsBefore(parts,index);
        renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,Integer.valueOf(0));
       }
       NativeInlineFormula.end(true,composition);

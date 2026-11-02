@@ -298,6 +298,15 @@ run 41455195283 completed the fourth session through the original path,
 restarted and opened the next node. Nine historical path-credit migrations
 are covered by local tests; real Google/Drive migration remains unverified.
 
+One column-capacity example now teaches yield load and capacity factor with
+word, named-quantity and symbolic exercises before three short calculations.
+Android run 41464615993 graded its 11 controls using the original controller;
+its inspected screenshots show the named tiles in the numerator and denominator
+of the native fraction. Wrong-answer feedback, retries and other fraction
+layouts still need device tests. To honor the source-publication restriction,
+the public question bank now retains source category, title and cited pages,
+omitting source URLs, file identifiers and other source metadata.
+
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly
 switched between its idle, happy and sad Peanuts poses. This is a preview of
@@ -381,7 +390,7 @@ download or installation. B remains empty and is the app default.
 
 ## Acceptance still required
 
-The current authored bank has 36 symbolic formula exercises with a word-first
+The current authored bank has 38 symbolic formula exercises with a word-first
 introduction; 26 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
