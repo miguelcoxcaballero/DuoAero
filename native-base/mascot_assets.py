@@ -152,8 +152,83 @@ def expressive_character(data,name):
         output.extend(encode(106,{212:frame}))
     return bytes(output),changed
 
+def linus_grid(data):
+    """Replace Junior while preserving the original grid, frog and Rive timing.
+
+    Three transparent renderings share the same placement. Eye-only clips and
+    interpolated opacity tracks add a blink without swapping the whole body.
+    Component references are shifted because the new drawables must precede
+    the grid in Rive's original draw order. The source layout is asserted.
+    """
+    header,objects,props=parse(data)
+    boards=[v.get(4) for k,v,_ in objects if k==1]
+    if boards != ['math_junior_grid']:raise ValueError('Unexpected grid artboard')
+    first=next(i for i,(kind,_,_) in enumerate(objects) if kind==31)
+    parent={};indices={};group=None;insert=None;index=0
+    for i,(kind,values,_) in enumerate(objects[:first]):
+        if kind==1:index=0;continue
+        if kind in COMPONENT or 'Interpolator' in SCHEMA['types'].get(str(kind),''):
+            index+=1;indices[i]=index;parent[index]=values.get(5)
+            if values.get(4)=='Junior Grid':group=index
+            if values.get(4)=='Junior':insert=(i,index)
+    if group!=235 or insert!=(254,253):raise ValueError('Unexpected original grid component layout')
+    if any(kind in ASSET for kind,_,_ in objects):raise ValueError('Unexpected original grid image assets')
+    allowed_ids={5,51,69,92,149,151,236}
+    for kind,values,_ in objects:
+        unexpected=[key for key in values if props.get(key,('',))[0]=='Id' and key not in allowed_ids]
+        if unexpected:raise ValueError('Unexpected grid reference fields: '+repr(unexpected))
+    folder=Path(__file__).resolve().parents[1]/'app/assets/mascot/path-linus'
+    frames=[(folder/name).read_bytes() for name in ('open.png','closed.png','half.png')]
+    sizes=[struct.unpack_from('>II',frame,16) for frame in frames]
+    asset_index=0;asset_unique=1;added=7;junior=insert[1]+added;mask=insert[1]+5
+    keyed={25,26}|{int(k) for k,v in SCHEMA['types'].items() if 'KeyFrame' in v}
+    output=bytearray(header);changed=0;animation=False;tracks=False
+    for i,(kind,original,raw) in enumerate(objects):
+        if i==insert[0]:
+            # Foreground eye states, base figure, then a non-painted mask.
+            for frame_index in (1,2,0):
+                width,height=sizes[frame_index]
+                sx=.42*sizes[0][0]/width;sy=.42*sizes[0][1]/height
+                image_id=insert[1]+(0 if frame_index==1 else 2 if frame_index==2 else 4)
+                output.extend(encode(100,{4:'DuoAero Linus '+str(frame_index),5:junior,
+                    206:asset_index+frame_index,13:16.276,14:-156.545,
+                    16:sx,17:sy,18:0. if frame_index else 1.}))
+                if frame_index:output.extend(encode(42,{5:image_id,92:mask}))
+            output.extend(encode(3,{4:'Linus eye mask',5:junior,13:-73.,14:-165.}))
+            output.extend(encode(7,{5:mask,20:100.,21:64.}))
+        if animation and kind not in keyed:
+            # Two short three-state blinks within the original 120 fps loop.
+            blink=[(insert[1],[(0,0.),(239,0.),(245,1.),(251,1.),(257,0.),(599,0.),(605,1.),(611,1.),(617,0.)]),
+                   (insert[1]+2,[(0,0.),(233,0.),(239,1.),(245,0.),(251,0.),(257,1.),(263,0.),(593,0.),(599,1.),(605,0.),(611,0.),(617,1.),(623,0.)])]
+            for image_id,sequence in blink:
+                output.extend(encode(25,{51:image_id}));output.extend(encode(26,{53:18}))
+                for frame,value in sequence:output.extend(encode(30,{67:frame,68:1,70:value}))
+            animation=False;tracks=True
+        if kind==31:
+            if original.get(55)!='Timeline 1' or original.get(56)!=120:raise ValueError('Unexpected grid timeline')
+            animation=True
+        values=dict(original)
+        if i in indices and kind in DRAWABLE:
+            current=indices[i];seen=set()
+            while current is not None and current not in seen:
+                seen.add(current)
+                if current==group:
+                    values[129]=values.get(129,0)|1;changed+=1;break
+                current=parent.get(current)
+        for key in (5,92,51,69):
+            if key in values and values[key]>=insert[1]:values[key]+=added
+        output.extend(raw if values==original else encode(kind,values,props))
+    if changed!=23 or not tracks:raise ValueError('Original Junior grid shapes or timeline changed')
+    for frame_index,frame in enumerate(frames):
+        width,height=sizes[frame_index]
+        output.extend(encode(105,{203:'DuoAero Linus '+str(frame_index),204:asset_unique+frame_index,
+                                  207:float(height),208:float(width)}))
+        output.extend(encode(106,{212:frame}))
+    return bytes(output),boards
+
 def rive(data,name,png,width,height):
     if name in CHARACTER_CAST:return expressive_character(data,name)
+    if name=='math_junior_grid':return linus_grid(data)
     header,objects,props=parse(data)
     artboard_names=[p.get(4,'') for t,p,b in objects if t==1]
     asset_index=sum(t in ASSET for t,p,b in objects)
