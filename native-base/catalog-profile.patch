@@ -1,0 +1,183 @@
+diff --git a/native-base/src/com/duoaero/nativebase/NativeCourseBridge.java b/native-base/src/com/duoaero/nativebase/NativeCourseBridge.java
+index b92011e..8584bc8 100644
+--- a/native-base/src/com/duoaero/nativebase/NativeCourseBridge.java
++++ b/native-base/src/com/duoaero/nativebase/NativeCourseBridge.java
+@@ -432,7 +432,7 @@ public final class NativeCourseBridge {
+    }
+    else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_.-]+")){
+     String sessionId=path.substring(path.lastIndexOf('/')+1);
+-    JSONObject catalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
++    JSONObject catalog=sessionCatalog(app);
+     if(NativeSessionId.valid(sessionId)&&catalog.has(sessionId)){
+      JSONObject submission=requestJson(request);
+      NativeSessionStore.record(app,sessionId,submission);
+@@ -443,7 +443,7 @@ public final class NativeCourseBridge {
+     }else code=404;
+    }
+    else if(method.equals("POST")&&path.matches("/(?:[0-9-]+/)?sessions")){
+-    JSONObject input=requestJson(request);JSONObject index=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
++    JSONObject input=requestJson(request);JSONObject index=sessionCatalog(app);
+     String selected=null;JSONObject metadata=input.optJSONObject("metadata");
+     if(metadata!=null&&index.has(metadata.optString("id")))selected=metadata.getString("id");
+     if(selected==null){
+@@ -463,6 +463,15 @@ public final class NativeCourseBridge {
+   }
+   return jsonResponse(request,code,payload);
+  }
++ // Installed assets are immutable for the lifetime of this Android process.
++ // Every caller treats this shared JSONObject and its descendants as read-only.
++ // Sharing the parsed catalog avoids repeated full-course parsing on the
++ // session request and on each durable completion/progress refresh.
++ private static JSONObject sessionCatalog;
++ static synchronized JSONObject sessionCatalog(Application app)throws Exception {
++  if(sessionCatalog==null)sessionCatalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
++  return sessionCatalog;
++ }
+  static String asset(Application app,String path)throws IOException {
+   ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+   try(InputStream stream=app.getAssets().open(path)){byte[] buffer=new byte[8192];int n;while((n=stream.read(buffer))!=-1)bytes.write(buffer,0,n);}
+diff --git a/native-base/src/com/duoaero/nativebase/NativeProgressSync.java b/native-base/src/com/duoaero/nativebase/NativeProgressSync.java
+index 63d7493..9331afe 100644
+--- a/native-base/src/com/duoaero/nativebase/NativeProgressSync.java
++++ b/native-base/src/com/duoaero/nativebase/NativeProgressSync.java
+@@ -26,7 +26,7 @@ final class NativeProgressSync {
+    String before=NativeSessionStore.exportCompletions(app).toString();
+    JSONObject incoming=new JSONObject(raw);
+    if(incoming.optInt("nativeSchema")!=1)throw new IllegalArgumentException("Unsupported native Drive progress schema");
+-   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++   JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+    Set<String> known=new HashSet<>();
+    for(Iterator<String> keys=catalog.keys();keys.hasNext();){JSONArray challenges=catalog.getJSONObject(keys.next()).getJSONArray("challenges");for(int i=0;i<challenges.length();i++)known.add(challenges.getJSONObject(i).getString("id"));}
+    JSONObject records=incoming.optJSONObject("records"),lessons=incoming.optJSONObject("completedLessons");
+diff --git a/native-base/src/com/duoaero/nativebase/NativeReviewStore.java b/native-base/src/com/duoaero/nativebase/NativeReviewStore.java
+index 5e8bd17..ceaa535 100644
+--- a/native-base/src/com/duoaero/nativebase/NativeReviewStore.java
++++ b/native-base/src/com/duoaero/nativebase/NativeReviewStore.java
+@@ -42,7 +42,7 @@ final class NativeReviewStore {
+   catch(FileNotFoundException empty){return null;}
+   List<String> pending=NativeQuestionLedger.unresolved(state.getJSONObject("records"));
+   if(pending.isEmpty())return null;
+-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+   Map<String,JSONObject> questions=new HashMap<>();JSONObject template=null;
+   for(Iterator<String> keys=catalog.keys();keys.hasNext();){
+    JSONObject lesson=catalog.getJSONObject(keys.next());if(template==null)template=lesson;
+diff --git a/native-base/src/com/duoaero/nativebase/NativeSessionResume.java b/native-base/src/com/duoaero/nativebase/NativeSessionResume.java
+index d0ac4e0..91d42ea 100644
+--- a/native-base/src/com/duoaero/nativebase/NativeSessionResume.java
++++ b/native-base/src/com/duoaero/nativebase/NativeSessionResume.java
+@@ -17,7 +17,6 @@ public final class NativeSessionResume {
+  private static final String FORMAT="duolingo-6.103.5-persisted-state-v1";
+  private static final Map<Object,Boolean> observed=new WeakHashMap<>();
+  private static final Set<String> finished=new HashSet<>();
+- private static JSONObject catalog;
+  private static Application application()throws Exception {
+   return (Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+  }
+@@ -32,7 +31,7 @@ public final class NativeSessionResume {
+    Object header=session.getClass().getField("a").get(session);
+    String id=(String)header.getClass().getMethod("C").invoke(header);
+    Application app=application();
+-   if(catalog==null)catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++   JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+    if(!NativeSessionId.valid(id)||finished.contains(id))return state;
+    JSONObject lesson=catalog.optJSONObject(id);
+    if(lesson==null)lesson=NativeReviewStore.lookup(app,id);
+diff --git a/native-base/src/com/duoaero/nativebase/NativeSessionStore.java b/native-base/src/com/duoaero/nativebase/NativeSessionStore.java
+index 17795ec..5df2628 100644
+--- a/native-base/src/com/duoaero/nativebase/NativeSessionStore.java
++++ b/native-base/src/com/duoaero/nativebase/NativeSessionStore.java
+@@ -50,12 +50,14 @@ public final class NativeSessionStore {
+   return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacyCatalog.optJSONObject(lesson.getString("id")),history);
+  }
+  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
++  long profileStart=android.os.SystemClock.elapsedRealtime();
+   if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");
+   File folder=new File(NativeAccountStore.root(app),"submissions");
+   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
+   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
+-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+   JSONObject lesson=catalog.getJSONObject(sessionId);
++  android.util.Log.i("DuoAeroNative","catalog_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
+   // An update can arrive while a published older lesson is in progress.
+   // Accept its exact preserved historical question set on final submission;
+   // a partial or foreign set still fails the same native completion checks.
+@@ -86,12 +88,14 @@ public final class NativeSessionStore {
+   // Read back the committed bytes before acknowledging the original request.
+   JSONObject saved=read(file);
+   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
++  android.util.Log.i("DuoAeroNative","durable_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
+   if(completed)NativeSessionResume.completed(app,sessionId);
+   android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+(submissionValid?null:NativeCourseProgress.completionIssue(submission,lesson)));
+   // The original home may keep its path resource cached when SessionActivity
+   // closes. Publish the committed local progress instead of relying on a
+   // subsequent native network refresh or an app restart.
+   if(completed)NativeRewards.refresh(app,true);
++  android.util.Log.i("DuoAeroNative","refresh_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
+   NativeGoogleHost.changed(app);
+  }
+  static synchronized Set<String> completedLessons(Application app)throws Exception {
+@@ -102,7 +106,7 @@ public final class NativeSessionStore {
+    return base.endsWith(".json")&&NativeSessionId.valid(base.substring(0,base.length()-5));
+   });
+   if(files==null)return completed;
+-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+   Set<String> bases=new HashSet<>();for(File path:files)bases.add(path.getName().replaceFirst("\\.bak$",""));
+   for(String name:bases){
+    JSONObject record=read(new AtomicFile(new File(folder,name)));
+@@ -117,7 +121,7 @@ public final class NativeSessionStore {
+  static synchronized Set<String> projectedCompletedLessons(Application app)throws Exception {
+   Set<String> actual=completedLessons(app);
+   JSONObject migrations=migrations(app);
+-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+   File folder=new File(NativeAccountStore.root(app),"submissions");
+   Map<String,Set<String>> verified=new HashMap<>();
+   for(Iterator<String> keys=migrations.keys();keys.hasNext();){
+@@ -133,7 +137,7 @@ public final class NativeSessionStore {
+   return NativeCourseProgress.projectedCompletions(actual,migrations,verified);
+  }
+  static synchronized JSONObject exportCompletions(Application app)throws Exception {
+-  JSONObject result=new JSONObject(),catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject result=new JSONObject(),catalog=NativeCourseBridge.sessionCatalog(app);
+   File folder=new File(NativeAccountStore.root(app),"submissions");
+   for(String id:completedLessons(app)){
+    JSONObject stored=read(new AtomicFile(new File(folder,id+".json")));
+@@ -149,7 +153,7 @@ public final class NativeSessionStore {
+   return result;
+  }
+  static synchronized void importCompletions(Application app,JSONObject incoming)throws Exception {
+-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
++  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
+   File folder=new File(NativeAccountStore.root(app),"submissions");
+   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
+   for(Iterator<String> keys=incoming.keys();keys.hasNext();){
+diff --git a/native-base/tests/AccountProgressProbe.java b/native-base/tests/AccountProgressProbe.java
+index fac5ab5..748e0a1 100644
+--- a/native-base/tests/AccountProgressProbe.java
++++ b/native-base/tests/AccountProgressProbe.java
+@@ -17,6 +17,11 @@ public final class AccountProgressProbe extends Instrumentation {
+   SharedPreferences prefs=getTargetContext().getSharedPreferences("duoaero-google",0);
+   try{
+    Application app=(Application)getTargetContext().getApplicationContext();ClassLoader loader=app.getClassLoader();
++   Class<?> catalogBridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
++   Method cachedCatalog=catalogBridge.getDeclaredMethod("sessionCatalog",Application.class);cachedCatalog.setAccessible(true);
++   JSONObject sharedCatalog=(JSONObject)cachedCatalog.invoke(null,app);
++   String originalCatalog=sharedCatalog.toString();
++   check(sharedCatalog==cachedCatalog.invoke(null,app));
+    Class<?> sync=Class.forName("com.duoaero.nativebase.NativeProgressSync",true,loader);
+    Method read=sync.getDeclaredMethod("read",Application.class,String.class),apply=sync.getDeclaredMethod("apply",Application.class,String.class,String.class);
+    read.setAccessible(true);apply.setAccessible(true);
+@@ -340,7 +345,9 @@ public final class AccountProgressProbe extends Instrumentation {
+    check(Boolean.TRUE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
+    check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
+    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldTopic.length()*10+25);
+-   report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
++   check(sharedCatalog==cachedCatalog.invoke(null,app));
++   check(originalCatalog.equals(sharedCatalog.toString()));
++   report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation, immutable shared catalog and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
+    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
+    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
+   }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}
