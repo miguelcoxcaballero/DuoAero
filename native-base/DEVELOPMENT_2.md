@@ -245,8 +245,8 @@ The combined lapse, offset and approach course repeated both checks successfully
 in Android run 41391868945, before the later icon and operator patches.
 A subsequent Android run 41392188207 graded all 19 exercises after adding an
 original matching screen for the four stall-speed quantities; its screenshot
-showed all four pairs on the emulated tall display. This matching change and
-the operator-grouping fix are integrated and their combined case is being tested. The integrated bank has 85 lessons and six evidence-based path migrations.
+showed all four pairs on the emulated tall display. Run 41393579098 also
+passed the combined matching, operator-grouping and account-migration checks. The integrated bank has 85 lessons and six evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
 The drag-polar parser now formats the complete reviewed equations and standalone
