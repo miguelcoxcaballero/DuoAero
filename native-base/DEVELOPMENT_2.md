@@ -47,6 +47,15 @@ signs on an S24-proportioned emulated screen with larger text. Drag/drop,
 wrong-answer feedback and all supported font scales are still unverified. It
 currently covers only the ideal-gas equation, not all formula families.
 
+The old path check counted source items but missed word and named-formula
+expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
+have been rebalanced between their existing session IDs, keeping formula
+introductions before calculations; five oversized nodes remain and need a
+migration-safe split. The minimum-size check now counts visible exercises
+when a source item expands into many steps. Host checks pass; a new Android
+synthetic-account test checks 1.3.7 proofs for all eight changed sessions but
+has not yet run on a device.
+
 Two static, transparent Snoopy illustrations target explicitly identified
 reading and gem-holding resources. A diagnostic drew the reading resource IDs;
 that is not evidence of the actual screen or of animation. The gem pose and the

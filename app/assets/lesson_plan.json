@@ -627,19 +627,19 @@
           "TA1-0053-F1",
           "TA1-0304",
           "TA1-0497",
-          "TA1-0107-D2",
-          "TA1-0156-D2",
-          "TA1-0164-D2",
-          "TA1-0195-D2",
-          "TA1-0327-D2",
-          "TA1-0348-D2",
-          "TA1-0371-D2"
+          "TA1-0107-D2"
         ],
         "name": "Kinetic heating · Lesson 1"
       },
       {
         "id": "2.1-0-point-0-lesson-1",
         "ids": [
+          "TA1-0156-D2",
+          "TA1-0164-D2",
+          "TA1-0195-D2",
+          "TA1-0327-D2",
+          "TA1-0348-D2",
+          "TA1-0371-D2",
           "TA1-0456-D2",
           "TA1-0753-D3",
           "TA1-0846-D3",
@@ -1210,16 +1210,16 @@
           "TA1-0809",
           "TA1-0759",
           "TA1-0738",
-          "TA1-0351",
-          "BOOK-V6-04-D2",
-          "TA1-0211-D2",
-          "TA1-0154-D2"
+          "BOOK-V6-04-D2"
         ],
         "name": "Hooke’s law and the concept of stiffness: axial loads · Lesson 1"
       },
       {
         "id": "2.3-6-point-0-lesson-1",
         "ids": [
+          "TA1-0351",
+          "TA1-0211-D2",
+          "TA1-0154-D2",
           "TA1-0316-D2",
           "TA1-0237-D2",
           "TA1-0331-D2",
@@ -1301,14 +1301,14 @@
           "TA1-0160-D2",
           "TA1-0103-D2",
           "TA1-0248-D2",
-          "TA1-0255-D2",
-          "TA1-0358-D2"
+          "TA1-0255-D2"
         ],
         "name": "Hooke’s law and the concept of stiffness: bending · Lesson 1"
       },
       {
         "id": "2.3-5-point-0-lesson-1",
         "ids": [
+          "TA1-0358-D2",
           "TA1-0299-D2",
           "TA1-0421-D2",
           "TA1-0355-D2",
@@ -2910,15 +2910,15 @@
           "TA1-0135-D2",
           "TA1-0430-D2",
           "TA1-0283-D2",
-          "TA1-0480-D2",
-          "TA1-0359-D2",
-          "TA1-0531-D2"
+          "TA1-0480-D2"
         ],
         "name": "Thrust · Lesson 1"
       },
       {
         "id": "2.5-5-point-0-lesson-1",
         "ids": [
+          "TA1-0359-D2",
+          "TA1-0531-D2",
           "TA1-0464-D2",
           "TA1-0547-D2",
           "BOOK-V6-07-D3",

@@ -35,4 +35,10 @@ for qid, (formula_id, answer) in expected.items():
 for node in plan:
     for lesson in node['lessons']:
         assert len(lesson_questions([bank[qid] for qid in lesson['ids']])) <= 20, lesson['id']
+    # Count the additional word and named-quantity exercises, too. These
+    # nodes have been rebalanced without changing stable lesson IDs; other
+    # nodes still need their own migration-safe split before a global limit.
+    if node['id'] in {'2.1-0-point-0', '2.3-6-point-0', '2.3-5-point-0', '2.5-5-point-0'}:
+        for lesson in node['lessons']:
+            assert len(lesson_questions([bank[qid] for qid in lesson['ids']], teach_words=True)) <= 20, lesson['id']
 print('PASS: four introductory formula prerequisites and numerical answers; Android UI remains unverified.')

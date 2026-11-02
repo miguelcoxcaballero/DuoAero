@@ -224,6 +224,22 @@ public final class AccountProgressProbe extends Instrumentation {
    check(Boolean.TRUE.equals(storedProof.invoke(null,app,published137Proof,future137)));
    JSONObject partial137=new JSONObject(published137Proof.toString());partial137.getJSONArray("challenges").remove(0);
    check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial137,future137)));
+   // These four levels now spread oversized, expanded lessons over their
+   // existing two session IDs. Validate each exact published 1.3.7 proof
+   // against its actual revised catalog, including both sides of each move.
+   for(String node:new String[]{"2.1-0-point-0","2.3-6-point-0","2.3-5-point-0","2.5-5-point-0"}){
+    for(int index=0;index<2;index++){
+     String id=node+"-lesson-"+index;
+     JSONArray old=histories[3].getJSONObject(id).getJSONArray("challenges");
+     JSONObject proof=new JSONObject().put("id",id).put("type","MATH_LESSON").put("failed",false)
+      .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",new JSONArray(old.toString()));
+     JSONObject revised=catalog.getJSONObject(id);
+     check(Boolean.FALSE.equals(completed.invoke(null,proof,revised)));
+     check(Boolean.TRUE.equals(storedProof.invoke(null,app,proof,revised)));
+     JSONObject partial=new JSONObject(proof.toString());partial.getJSONArray("challenges").remove(0);
+     check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial,revised)));
+    }
+   }
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

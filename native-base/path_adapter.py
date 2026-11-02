@@ -6,6 +6,7 @@ must be verified separately; generated JSON is not proof of a working path.
 import hashlib
 import json
 from pathlib import Path
+from course_adapter import lesson_questions
 
 ROOT = Path(__file__).resolve().parents[1]
 COURSE_ID = 'MATH_BT'  # Internal original catalog entry; content is Aerospace.
@@ -44,8 +45,13 @@ def build_path(plan, bank):
         metadata = []
         for lesson in node_lessons:
             ids = lesson['ids']
-            if not 10 <= len(ids) <= 20 or any(qid not in by_id for qid in ids):
+            if not 1 <= len(ids) <= 20 or any(qid not in by_id for qid in ids):
                 raise ValueError(f"Invalid lesson questions: {lesson['id']}")
+            # A single source item can expand into several native exercises.
+            # Count what the learner sees when enforcing the minimum, while
+            # still requiring real source questions and preserving their IDs.
+            if len(lesson_questions([by_id[qid] for qid in ids], teach_words=True)) < 10:
+                raise ValueError(f"Lesson has fewer than 10 exercises: {lesson['id']}")
             if sum(len(by_id[qid].get('lesson_steps') or [None]) for qid in ids)>20:
                 raise ValueError(f"Expanded lesson exceeds 20 questions: {lesson['id']}")
             if lesson['id'] in lessons:
