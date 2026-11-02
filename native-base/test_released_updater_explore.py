@@ -13,5 +13,6 @@ try:
     adb('root');adb('wait-for-device')
     adb('shell','am','start','-W','-n','com.duoaero/com.inhouse.services.updater.UpdateActivity','--ez','settings','true')
     time.sleep(15);snapshot('old-updater')
+    adb('shell','input','tap','200','2220');time.sleep(4);snapshot('old-channel-warning')
 finally:
     (out/'old-logcat.txt').write_bytes(adb('logcat','-d','-s','AndroidRuntime:E','DuoAeroNative:I'))
