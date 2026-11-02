@@ -183,7 +183,7 @@ MULTI_NAMED = {
  'yield_load': (r'P_y=\sigma_y A', ['yield load','yield stress','area'],
                 ['temperature','speed','density'], ['___','=','___',r'\times','___']),
  'load_factor': (r'n=\frac{P}{F}', ['factor','capacity','force'],
-                 ['temperature','area','speed'], ['___','=','___',r'\div','___']),
+                 ['temperature','area','speed'], ['___','=','___/___']),
  'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['inertia','moment','distance','stress'],
                          ['pressure','speed','temperature'], ['___','=','___',r'\times','___',r'\div','___']),
  'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['inertia','force','length cubed','Young modulus','deflection'],
@@ -202,7 +202,8 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert parts.count('___') == len(answers) and len(set(answers+distractors)) == len(answers+distractors)
+    assert sum(2 if p == '___/___' else 1 if p == '___' else 0 for p in parts) == len(answers)
+    assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
             'stem':'Complete the formula with quantities',

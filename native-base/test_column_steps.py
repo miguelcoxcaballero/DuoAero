@@ -8,7 +8,7 @@ original=bank['TA1-0961-D3'];parts=lesson_questions([original],teach_words=True)
 for name in ('COLUMN-YIELD-FORMULA','COLUMN-FACTOR-FORMULA'):
     positions=[next(i for i,p in enumerate(parts) if p['id']==name+suffix) for suffix in ('-WORDS','-NAMED-ALL','-NAMED','')]
     assert positions==sorted(positions)
-    named=parts[positions[1]];assert named['inline_latex'].count('___')==len(named['answer_blocks'])
+    named=parts[positions[1]];assert sum(2 if p=='___/___' else 1 if p=='___' else 0 for p in named['inline_latex'])==len(named['answer_blocks'])
 r=.0062;section=math.pi*r*r;inertia=math.pi*r**4/4
 capacity=math.pi**2*70e9*inertia/(.7*.57)**2;yield_load=225e6*section
 expected=[capacity,yield_load,min(capacity,yield_load)/3800]
