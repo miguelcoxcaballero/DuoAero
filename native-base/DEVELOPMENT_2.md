@@ -248,6 +248,11 @@ showed all four pairs on the emulated tall display. This matching change and
 the operator-grouping fix are integrated and their combined case is being tested. The integrated bank has 85 lessons and six evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
+The drag-polar parser now formats the complete reviewed equations and standalone
+lift/drag coefficients, including their powers. Run 41393483218 graded a native
+choice and its screenshot showed both squared terms and coefficient subscripts.
+This is a targeted improvement, not an audit of every question.
+
 Eight fixed-pressure temperature/lift-coefficient problems now use two short
 calculations after named and symbolic formula exercises. Run 41393361188
 graded all 22 staged controls and passed account migration on the emulator.
