@@ -21,7 +21,7 @@ public final class NativeChestRewards {
  static Set<String> ids(JSONObject records){Set<String> result=new HashSet<>();for(Iterator<String> i=records.keys();i.hasNext();)result.add(i.next());return result;}
  static Set<String> eligible(Application app)throws Exception {
   JSONObject section=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/section.json"));
-  Set<String> complete=NativeSessionStore.completedLessons(app),eligible=new HashSet<>();
+  Set<String> complete=NativeSessionStore.projectedCompletedLessons(app),eligible=new HashSet<>();
   boolean prerequisites=true;
   JSONArray units=section.getJSONArray("units");
   for(int i=0;i<units.length();i++){

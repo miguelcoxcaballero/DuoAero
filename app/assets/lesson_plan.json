@@ -237,21 +237,29 @@
           "TA1-0409",
           "TA1-0151",
           "TA1-0681",
-          "TA1-0444",
-          "TA1-0812",
-          "TA1-0459",
-          "TA1-0544",
-          "TA1-0967",
-          "TA1-0918"
+          "TA1-0444"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 1"
       },
       {
         "id": "2.1-5-point-0-lesson-1",
         "ids": [
+          "TA1-0812",
+          "TA1-0459",
+          "TA1-0544",
+          "TA1-0967",
+          "TA1-0918",
+          "TA1-0646-D2",
+          "BOOK-V6-01-D3",
           "TA1-0937",
           "TA1-0765",
-          "TH-2026-OTHER-1",
+          "TH-2026-OTHER-1"
+        ],
+        "name": "International Standard Atmosphere · 1 · Lesson 2"
+      },
+      {
+        "id": "2.1-5-point-0-lesson-2",
+        "ids": [
           "TA1-0307",
           "TA1-0402",
           "TA1-0439",
@@ -263,11 +271,9 @@
           "TA1-0425-D2",
           "TA1-0178-D2",
           "TA1-0224-D2",
-          "TA1-0445-D2",
-          "TA1-0646-D2",
-          "BOOK-V6-01-D3"
+          "TA1-0445-D2"
         ],
-        "name": "International Standard Atmosphere · 1 · Lesson 2"
+        "name": "International Standard Atmosphere · 1 · Lesson 3"
       }
     ]
   },
@@ -463,19 +469,25 @@
           "TA1-0338",
           "TA1-0863",
           "TA1-0886",
-          "TA1-0092-D2",
-          "TA1-0120-D2",
-          "TA1-0130-D2",
-          "TA1-0143-D2",
-          "TA1-0229-D2"
+          "TA1-0092-D2"
         ],
         "name": "Clouds, winds and icing · Lesson 1"
       },
       {
         "id": "2.1-3-point-0-lesson-1",
         "ids": [
+          "TA1-0120-D2",
+          "TA1-0130-D2",
+          "TA1-0143-D2",
+          "TA1-0229-D2",
           "TA1-0263-D2",
-          "TA1-0268-D2",
+          "TA1-0268-D2"
+        ],
+        "name": "Clouds, winds and icing · Lesson 2"
+      },
+      {
+        "id": "2.1-3-point-0-lesson-2",
+        "ids": [
           "TA1-0366-D2",
           "TA1-0420-D3",
           "TA1-0484-D3",
@@ -488,7 +500,7 @@
           "TA1-N3-06-09",
           "TA1-N3-06-10"
         ],
-        "name": "Clouds, winds and icing · Lesson 2"
+        "name": "Clouds, winds and icing · Lesson 3"
       }
     ]
   },
@@ -924,7 +936,13 @@
           "TA1-0823",
           "TA1-0860",
           "TA1-0210-D2",
-          "TA1-0093-D2",
+          "TA1-0093-D2"
+        ],
+        "name": "Breguet equation / Aircraft configuration · 1 · Lesson 2"
+      },
+      {
+        "id": "2.2-2-point-0-lesson-2",
+        "ids": [
           "TA1-0078-D2",
           "BOOK-V6-03-D2",
           "TA1-0251-D2",
@@ -932,7 +950,7 @@
           "TA1-0094-D2",
           "TA1-0038-D2"
         ],
-        "name": "Breguet equation / Aircraft configuration · 1 · Lesson 2"
+        "name": "Breguet equation / Aircraft configuration · 1 · Lesson 3"
       }
     ]
   },

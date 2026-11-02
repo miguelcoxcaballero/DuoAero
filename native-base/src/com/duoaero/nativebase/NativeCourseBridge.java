@@ -415,7 +415,7 @@ public final class NativeCourseBridge {
    }
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM1)?")){
     JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,"duoaero/course/section.json"));
-    NativeCourseProgress.project(info,section,NativeSessionStore.completedLessons(app),NativeChestRewards.ids(NativeChestRewards.snapshot(app)));
+    NativeCourseProgress.project(info,section,NativeSessionStore.projectedCompletedLessons(app),NativeChestRewards.ids(NativeChestRewards.snapshot(app)));
     code=200;payload=(path.endsWith("MATH_BT")?info:section).toString();
    }
    else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_.-]+")){
