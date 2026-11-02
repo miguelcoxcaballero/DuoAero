@@ -143,10 +143,10 @@ public final class AccountProgressProbe extends Instrumentation {
    check(bundle.getClass().getField("b").get(bundle).toString().equals("PATH_CHEST"));
    java.util.List<?> rewardsList=(java.util.List<?>)bundle.getClass().getField("c").get(bundle);
    check(rewardsList.size()==1 && rewardsList.get(0).getClass().getName().endsWith("CurrencyReward"));
-   // A previously completed lesson remains exportable/importable after one
-   // source question is split into two new native challenges.
+   // A previously completed lesson remains exportable/importable after its
+   // current question set changes. Use the exact published 1.3.7 snapshot.
    JSONObject legacyCatalog;
-   try(InputStream input=app.getAssets().open("duoaero/course/legacy-session-catalog.json")){
+   try(InputStream input=app.getAssets().open("duoaero/course/history-1.3.7.json")){
     ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;
     while((n=input.read(block))!=-1)bytes.write(block,0,n);
     legacyCatalog=new JSONObject(bytes.toString("UTF-8"));
