@@ -23,12 +23,16 @@ jobs:
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
+          export ANDROID_AVD_HOME="$RUNNER_TEMP/duoaero-avd"
+          mkdir -p "$ANDROID_AVD_HOME"
           export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager 'system-images;android-35;google_apis;x86_64'
-          echo no | avdmanager create avd --force --name duoaero --package 'system-images;android-35;google_apis;x86_64' --device pixel_2
+          echo no | avdmanager create avd --force --name duoaero --path "$ANDROID_AVD_HOME/duoaero.avd" --package 'system-images;android-35;google_apis;x86_64' --device pixel_2
           emulator -avd duoaero -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > "$DUOAERO_EVIDENCE/emulator.txt" 2>&1 &
+          emulator_pid=$!
           for attempt in $(seq 1 180); do
+            if ! kill -0 "$emulator_pid" 2>/dev/null; then cat "$DUOAERO_EVIDENCE/emulator.txt"; exit 1; fi
             if [ "$(timeout 5 adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = 1 ]; then break; fi
             sleep 2
           done
