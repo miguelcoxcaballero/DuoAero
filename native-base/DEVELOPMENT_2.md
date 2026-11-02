@@ -431,7 +431,7 @@ so smoothness cannot be established. This prototype is not integrated.
 
 ## Acceptance still required
 
-The current authored bank has 38 symbolic formula exercises with a word-first
+The current authored bank has 44 symbolic formula exercises with a word-first
 introduction; 10 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
@@ -458,10 +458,13 @@ Android SDK with a stub course bridge. The diagnostic APK also compiles;
 acceptable Android rendering remains required. Android run
 41519217015 graded the four controls but its screenshot showed an oversized
 exponent and a single-column word bank cutting off options. The exponent and
-labels were subsequently compacted; the revised layout still needs Android QA.
+labels were subsequently compacted. Run 41526660877 graded the revised power
+and aspect-ratio exercises with short taps; inspected screenshots show a
+readable fixed superscript and all options fitting on the S24-proportioned
+emulator. This does not establish physical Samsung behavior or every font size.
 The aspect-ratio equation now has an experimental squared numerator in the
-original fraction figure. Data validation and Java helper compilation pass;
-its actual layout and short-tap behavior require Android acceptance.
+original fraction figure. Its inspected screenshot and short-tap grading pass
+in that same diagnostic run.
 The two axial-extension formulas and axial stiffness now use named factors
 inside an experimental original fraction figure; the spar stress equation
 uses the same fraction rather than a division glyph. A new structural lesson
@@ -492,8 +495,9 @@ Run 41522448593 graded the 19 controls of the first two staged problems and
 passed synthetic account projection. The inspected short question screens
 fit, but the gamma symbol was missing from one prompt. A subsequent authored
 text fix was visually checked in run 41524834250, which graded the same 19
-controls and showed gamma correctly. Its exponent was too small, so a later
-font-size adjustment needs another Android visual run. No real account or path
+controls and showed gamma correctly. Its exponent was too small; run
+41526660877 subsequently verified the revised size on the separate power and
+aspect questions. No real account or path
 migration was exercised in these diagnostic sessions.
 
 The original APK contains 67 Rive resources named after the ten mapped
