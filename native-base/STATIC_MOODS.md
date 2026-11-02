@@ -39,5 +39,7 @@ and actual changing pixels rather than considering an open sheet sufficient.
 Run 41382612045 applied the drawable after the original state binding. Its
 four-second attached-screen recording contained 18 distinct frames when
 checked locally, and the original keep-learning button returned to the lesson.
-The hosted job failed only because ffmpeg was missing; its dependency is now
-pinned for the follow-up. Smoothness and other screens remain unverified.
+The hosted job failed only because ffmpeg was missing. After pinning the
+decoder, Android run 41383606787 passed the attached-drawable check and found
+22 distinct frames in the real quit-sheet recording. This confirms changing
+frames in that scene; visual smoothness and other screens remain unverified.

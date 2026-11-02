@@ -120,8 +120,9 @@ The original resource is now a safe static drawable and a hook installs the
 sad animation after the original quit state binds its image. Android run
 41382612045 opened the real sheet and returned to the lesson; the actual
 recording showed 18 distinct frames when checked locally. The hosted video
-check lacked ffmpeg and was retried with a pinned decoder. Other feedback
-remains static and smoothness remains unverified.
+check lacked ffmpeg; after pinning a decoder, run 41383606787 passed and found
+22 distinct frames in its attached-screen recording. Other feedback remains
+static and visual smoothness remains unverified.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather
