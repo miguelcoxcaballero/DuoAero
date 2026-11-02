@@ -22,7 +22,7 @@ class FeedbackChecksTest(unittest.TestCase):
             assert_native_correct(screen('CONTINUE'), 'test')
 
     def test_incorrect_or_error_cannot_be_overridden_by_positive(self):
-        for error in ('GOT IT', 'Incorrect', 'Error', 'Skip', 'Something went wrong'):
+        for error in ('GOT IT', 'Incorrect', 'Error', 'Skip', 'Oops! Something went wrong', 'Let’s skip this exercise for now'):
             with self.subTest(error=error), self.assertRaises(AssertionError):
                 assert_native_correct(screen(' Correct!', error, 'CONTINUE'), 'test')
 
