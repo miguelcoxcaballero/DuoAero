@@ -303,7 +303,9 @@ word, named-quantity and symbolic exercises before three short calculations.
 Android run 41464615993 graded its 11 controls using the original controller;
 its inspected screenshots show the named tiles in the numerator and denominator
 of the native fraction. Wrong-answer feedback, retries and other fraction
-layouts still need device tests. To honor the source-publication restriction,
+layouts still need device tests. Android run 41467201483 subsequently passed
+the fraction, static Linus path and synthetic account scenarios together in
+one source snapshot. To honor the source-publication restriction,
 the public question bank now retains source category, title and cited pages,
 omitting source URLs, file identifiers and other source metadata.
 
