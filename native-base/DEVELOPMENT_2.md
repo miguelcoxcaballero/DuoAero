@@ -240,6 +240,12 @@ The operator-grouping fix is integrated and the combined approach case is
 being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
+Local browser previews loaded all ten replacement in-lesson Rive rigs and
+triggered their original correct and incorrect inputs: each preview visibly
+switched between its idle, happy and sad Peanuts poses. This is a preview of
+the source rigs, not evidence that every scene, transition or animation is
+smooth and reachable in the Android app.
+
 A distinct Swoon pose appeared on a completion screen in run 41387776940,
 but the recording showed it practically motionless. A revised state-machine
 entry starts the sprite loop in a browser preview; Android playback and smoothness
