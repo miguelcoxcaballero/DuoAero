@@ -383,6 +383,11 @@ equations express a fraction with division symbols or put an exponent into a
 word tile; they still require layout work to preserve the original operators
 and exponents in place as requested.
 
+The original APK contains 67 Rive resources named after the ten mapped
+supporting characters, including the ten in-lesson rigs. The other 57 names
+are a review inventory: a resource name alone does not establish that its
+scene is reachable in the Aerospace path or that it still needs replacement.
+
 * Review all calculation families, simplify long questions, author correct
   prerequisite formulas and word/symbol block exercises, and verify ordering.
 * Complete the course/partial coverage from available source material without
