@@ -40,7 +40,7 @@ def prerequisites():
         ['___','=',r'\min','(','___',',','___',')'],r'=\min(q_{\mathrm{cap}},q_M)'),
       introduce('LIMITS-MAX-WEIGHT','The maximum weight is pressure times wing area times maximum lift coefficient, divided by 1.25 ___.',
         'squared',['cubed','halved','unchanged'],LOAD,
-        ['maximum weight','allowed pressure','wing area','max lift coefficient'],['mass','temperature','speed'],
+        ['maximum weight','allowed pressure','wing area','maximum lift coefficient'],['mass','temperature','speed'],
         ['___','=','(', '___',r'\times','___',r'\times','___',')',r'\div',r'1.25^2'],
         ['W_max','q_allowed','S','C_Lmax'],['___','=','(', '___',r'\times','___',r'\times','___',')',r'\div',r'1.25^2'],
         r'=\frac{q_{\mathrm{allowed}}S C_{L,\max}}{1.25^2}'),
