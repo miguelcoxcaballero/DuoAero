@@ -81,6 +81,7 @@ MOOD_SCENES = {
     'chef': 'chef/frame-00.png',
     'zen': 'zen/frame-00.png',
     'sad': 'sad.png',
+    'sad_animated': 'sad-atlas.png',
     'sally': 'characters/sally/idle/frame-00.png',
     'charlie': 'characters/charlie/idle/frame-00.png',
     'linus': 'characters/linus/idle/frame-00.png',

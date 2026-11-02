@@ -205,11 +205,12 @@ def mascot_drawables(decoded,table):
         if w<=0 or h<=0:raise ValueError('Invalid original mascot size: '+path)
         target='res/drawable/duoaero_mascot_'+hashlib.sha256(path.encode()).hexdigest()[:16]+'.xml'
         mood=static_mood(name)
-        if name=='duo_happy':
-            # This original resource is used by an in-app AppCompatImageView.
+        if name in ('duo_happy','duo_sad'):
+            # These original resources are used by in-app AppCompatImageViews.
             # Preserve its intrinsic bounds while the transparent atlas plays;
             # do not use custom drawables for notification RemoteViews.
-            files[target]=f'<drawable xmlns:android="http://schemas.android.com/apk/res/android" class="com.duoaero.nativebase.NativeWaveDrawable" android:width="{w:g}dp" android:height="{h:g}dp"/>'
+            drawable_class='NativeWaveDrawable' if name=='duo_happy' else 'NativeSadDrawable'
+            files[target]=f'<drawable xmlns:android="http://schemas.android.com/apk/res/android" class="com.duoaero.nativebase.{drawable_class}" android:width="{w:g}dp" android:height="{h:g}dp"/>'
             paths[path]=target;sizes[path]=[w,h]
             continue
         source=MOOD_SCENES[mood] if mood else 'welcome.png'

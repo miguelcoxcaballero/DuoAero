@@ -59,9 +59,10 @@ expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 have been rebalanced between their existing session IDs, keeping formula
 introductions before calculations; five oversized nodes remain and need a
 migration-safe split. The minimum-size check now counts visible exercises
-when a source item expands into many steps. Host checks pass; a new Android
-synthetic-account test checks 1.3.7 proofs for all eight changed sessions but
-has not yet run on a device.
+when a source item expands into many steps. Host checks pass; an Android
+synthetic-account test passed in run 41374984771: all eight exact historical proofs were
+accepted, partial proofs rejected, and 102 synthetic account checks passed.
+This does not establish a real Google or Drive migration.
 
 Two static, transparent Snoopy illustrations target explicitly identified
 reading and gem-holding resources. A diagnostic drew the reading resource IDs;
@@ -85,6 +86,11 @@ probe inflates the original image element in isolation and passed in run
 the source image was replaced and host assertions now check transparent seams.
 The replacement atlas must be retested on Android. Neither the old test nor
 the frame check proves the attached screen or smooth playback works.
+
+An additional transparent 16-frame sad expression is bound specifically to
+the original `duo_sad` in-app views, including the lesson quit sheet. Its
+atlas seams and Java compilation pass locally. Android resource inflation,
+the actual quit sheet and playback have not yet been tested for this change.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather

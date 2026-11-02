@@ -24,19 +24,20 @@ public final class StaticMascotProbe extends Instrumentation {
     if(id==0)throw new IllegalStateException("Original drawable missing: "+names[i]);
     Drawable drawable=context.getResources().getDrawable(id,context.getTheme());
     if(drawable.getIntrinsicWidth()<=0||drawable.getIntrinsicHeight()<=0)throw new IllegalStateException("Invalid original bounds: "+names[i]);
-    if(names[i].equals("duo_happy")){
-     if(!(drawable instanceof android.graphics.drawable.Animatable))throw new IllegalStateException("Wave does not expose native animation");
+    if(names[i].equals("duo_happy")||names[i].equals("duo_sad")){
+     String animationName=names[i].equals("duo_happy")?"wave":"sad";
+     if(!(drawable instanceof android.graphics.drawable.Animatable))throw new IllegalStateException(animationName+" does not expose native animation");
      drawable.setBounds(0,0,240,240);
      Bitmap first=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888),later=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888);
      drawable.draw(new Canvas(first));Thread.sleep(660);drawable.draw(new Canvas(later));
-     if(first.sameAs(later))throw new IllegalStateException("Wave frames did not change");
+     if(first.sameAs(later))throw new IllegalStateException(animationName+" frames did not change");
      for(int frame=0;frame<2;frame++){
-      try(FileOutputStream outputFrame=new FileOutputStream(new File(context.getExternalFilesDir(null),"wave-frame-"+frame+".png"))){
-       if(!(frame==0?first:later).compress(Bitmap.CompressFormat.PNG,100,outputFrame))throw new IllegalStateException("Cannot capture wave frame");
+      try(FileOutputStream outputFrame=new FileOutputStream(new File(context.getExternalFilesDir(null),animationName+"-frame-"+frame+".png"))){
+       if(!(frame==0?first:later).compress(Bitmap.CompressFormat.PNG,100,outputFrame))throw new IllegalStateException("Cannot capture "+animationName+" frame");
       }
      }
      ((android.graphics.drawable.Animatable)drawable).stop();first.recycle();later.recycle();
-     report.append("WAVE_FRAMES_CHANGED=true; original screen playback and smoothness are unverified.\n");
+     report.append(animationName.equals("wave")?"WAVE_FRAMES_CHANGED=true":"SAD_FRAMES_CHANGED=true").append("; original screen playback and smoothness are unverified.\n");
     }
     // An ImageView's fit-centre policy scales the canvas around the
     // drawable's intrinsic bounds. Forcing smaller bounds directly does not

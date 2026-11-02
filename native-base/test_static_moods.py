@@ -26,12 +26,13 @@ for mood,source in MOOD_SCENES.items():
 # The native drawable slices this atlas at quarter-width/height boundaries.
 # No visible pixels may touch a seam: otherwise a neighbouring pose leaks
 # into the next frame or its body is clipped at the boundary.
-with Image.open(ROOT/'app/assets/mascot/wave-atlas.png') as image:
-    alpha=image.getchannel('A');width,height=image.size
-    for i in range(1,4):
-        x=width*i//4;y=height*i//4
-        assert max(alpha.getpixel((x,v)) for v in range(height))<=8,('wave column',i)
-        assert max(alpha.getpixel((u,y)) for u in range(width))<=8,('wave row',i)
+for atlas in ('wave-atlas.png','sad-atlas.png'):
+    with Image.open(ROOT/'app/assets/mascot'/atlas) as image:
+        alpha=image.getchannel('A');width,height=image.size
+        for i in range(1,4):
+            x=width*i//4;y=height*i//4
+            assert max(alpha.getpixel((x,v)) for v in range(height))<=8,(atlas,'column',i)
+            assert max(alpha.getpixel((u,y)) for u in range(width))<=8,(atlas,'row',i)
 with zipfile.ZipFile(APK) as base:table=base.read('resources.arsc')
 table,provider=updater_paths(table);table,scene=scene_mascot(table);table,ids=mood_scenes(table)
 assert provider==0x7f160016 and len(ids)==len(MOOD_SCENES)
