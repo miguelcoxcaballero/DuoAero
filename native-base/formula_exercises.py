@@ -39,12 +39,15 @@ def math_latex(value):
 
 
 def figure(value, symbolic=False, latex=False):
-    display=value
+    display = html.escape(value)
+    # Diagnostic only: use a TeX multiline figure, retaining the full original
+    # entity for grading. Rendering, accessibility and tapping must be checked.
     if symbolic and not latex and len(value)>15 and ' ' in value:
-        split=min((i for i,c in enumerate(value) if c==' '),key=lambda i:abs(i-len(value)/2))
-        display=value[:split]+'\n'+value[split+1:]
+        split=min((i for i,c in enumerate(value) if c==' '), key=lambda i:abs(i-len(value)/2))
+        first, second = value[:split], value[split+1:]
+        display = 'duoaero-latex:' + r'\substack{\text{' + first + r'}\\\text{' + second + '}}'
     return {'underlyingEntity': {'entity': entity(value)} if symbolic else {'noEntity': {}},
-            'taggedTextElement': {'text': 'duoaero-latex:' + math_latex(value) if latex else html.escape(display)}}
+            'taggedTextElement': {'text': 'duoaero-latex:' + math_latex(value) if latex else display}}
 
 
 def formula_challenge(question, mathematical=True):
