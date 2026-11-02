@@ -114,6 +114,11 @@ MOOD_SCENES['phone_static'] = 'welcome-phone.png'
 MOOD_SCENES['chest_hug'] = 'chest-hug.png'
 MOOD_SCENES['flame_static'] = 'flame-static.png'
 MOOD_SCENES['linus_grid_static'] = 'path-linus/grid-static.png'
+MOOD_SCENES['sally_plane_static'] = 'path-poses/sally-plane.png'
+MOOD_SCENES['sally_protractor_static'] = 'path-poses/sally-protractor.png'
+MOOD_SCENES['linus_calculator_static'] = 'path-poses/linus-calculator.png'
+MOOD_SCENES['snoopy_ruler_static'] = 'path-poses/snoopy-ruler.png'
+MOOD_SCENES['snoopy_clock_static'] = 'path-poses/snoopy-clock.png'
 
 
 def mood_scenes(table):

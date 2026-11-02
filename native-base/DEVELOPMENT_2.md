@@ -330,6 +330,11 @@ alone therefore did not change the visible character. A transparent static
 Linus scene is now mapped to that fallback. In Android run 41461040425 the
 original seeded Structures path displayed the replacement without clipping.
 The separate animated Rive prototype is not integrated or accepted yet.
+Five more transparent static replacements target the original math-path
+drawable IDs for Zari's toy-horse and protractor scenes, Junior's calculator, and Duo's
+ruler and clock. Android run 41468281983 resolved and drew all five distinct
+IDs; their actual path placement and corresponding animated scenes have not
+yet been verified.
 
 Android run 41395067195 passed the tall-window check on an emulated display
 with S24 Ultra proportions, using the course before the later splash and

@@ -8,6 +8,14 @@ LOGO_PATH = 'res/drawable/duoaero_wordmark.xml'
 WORDMARKS = frozenset(('duolingo_logo_350','duolingo_max_wordmark',
     'duolingo_max_wordmark_onboarding','duo_logo_green','duo_logo_grey',
     'duo_logo_white','intro_duo_logo_green'))
+PATH_POSES = {
+    'math_junior_grid_static':'linus_grid_static',
+    'math_zari_horsey_static':'sally_plane_static',
+    'math_zari_protractor_static':'sally_protractor_static',
+    'math_junior_calculator_static':'linus_calculator_static',
+    'math_duo_ruler_static':'snoopy_ruler_static',
+    'math_duo_clock_static':'snoopy_clock_static',
+}
 
 def rebrand_app_display_names(smali):
     """Change only human-readable icon titles, preserving runtime identifiers."""
@@ -84,7 +92,7 @@ def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
     # "Duo Radio" also names playback and answer controls. They are not
     # pictures of the character and replacing them corrupts the interface.
-    if explicit_character(name) or name=='math_junior_grid_static':return True
+    if explicit_character(name) or name in PATH_POSES:return True
     if name.startswith('duo_radio_') and name != 'duo_radio_host_static_bea':
         return False
     if any(part in name for part in ('_light_beam','_lightbeam','_glow','_sparkles','_confetti','_shadow','_particle')):return False
@@ -94,7 +102,7 @@ def mascot_name(name):
 def static_mood(name):
     """Select an authored pose only where the original name is unambiguous."""
     name=name.lower()
-    if name=='math_junior_grid_static':return 'linus_grid_static'
+    if name in PATH_POSES:return PATH_POSES[name]
     character=explicit_character(name)
     if character:return character
     if name=='duo_radio_host_static_bea':return 'patty'

@@ -1,7 +1,7 @@
 """Check source pose selection and resource table extensions; Android UI is separate."""
 from pathlib import Path
 from PIL import Image
-from branding import LOGO_PATH, mascot_name, static_mood, mascot_drawables, rebrand_table
+from branding import LOGO_PATH, PATH_POSES, mascot_name, static_mood, mascot_drawables, rebrand_table
 from resource_extension import MOOD_SCENES, mood_scenes, scene_mascot, updater_paths
 from runtime_config import APK, ROOT, BASE
 import zipfile
@@ -12,6 +12,8 @@ for name,expected in {'math_junior_grid_static':'linus_grid_static','duo_holding
                       'practice_hub_duo_radio_falstaff_1':'charlie',
                       'practice_hub_duo_radio_chatting_with_zari_01':'sally',
                       'duo_radio_host_static_bea':'patty'}.items():
+    assert mascot_name(name) and static_mood(name)==expected,(name,expected)
+for name,expected in PATH_POSES.items():
     assert mascot_name(name) and static_mood(name)==expected,(name,expected)
 for name in ('duo_radio_play','duo_radio_check_correct','super_duo_fly_glow','super_duo_light_beam'):
     assert not mascot_name(name), name
@@ -46,8 +48,8 @@ for name in ('intro_duo_logo_green','duo_logo_green','duo_logo_grey','duo_logo_w
 for path,name in report['original_paths'].items():
     if name=='duo_happy' and path in paths:
         assert '@drawable/duoaero_scene_celebrate' in xml[paths[path]]
-    if name=='math_junior_grid_static' and path in paths:
-        assert '@drawable/duoaero_scene_linus_grid_static' in xml[paths[path]]
+    if name in PATH_POSES and path in paths:
+        assert '@drawable/duoaero_scene_'+PATH_POSES[name] in xml[paths[path]]
 table,provider=updater_paths(table);table,scene=scene_mascot(table);table,ids=mood_scenes(table)
 assert provider==0x7f160016 and len(ids)==len(MOOD_SCENES)
 assert len(set(ids.values())|{scene})==len(MOOD_SCENES)+1
