@@ -627,7 +627,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if two_section_test:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
-  diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment')]
+  diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft')]
   for topic,title in diagnostic_topics:
    diagnostic_id='second-partial-'+topic+'-lesson-0'
    diagnostic_skill=stable_id('skill','second-partial-'+topic)
@@ -649,9 +649,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    out.write(source,'assets/duoaero/course/'+target_name+'.json');continue
   data=json.loads(source.read_text())
   if target_name=='path-info':
-   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Diagnostic second midterm',completedUnits=0,totalUnits=2,totalLevelsPerUnit=[1,1],completedLevelsPerUnit=[0,0])
+   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Diagnostic second midterm',completedUnits=0,totalUnits=len(diagnostic_topics),totalLevelsPerUnit=[1]*len(diagnostic_topics),completedLevelsPerUnit=[0]*len(diagnostic_topics))
    data['pathSectionsSummary'].append(summary)
-   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Diagnostic second midterm',subtitle='Diagnostic only',iconText='2',completedUnits=0,totalUnits=2,sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
+   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Diagnostic second midterm',subtitle='Diagnostic only',iconText='2',completedUnits=0,totalUnits=len(diagnostic_topics),sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
    data['pathTabsSummary'][0]['pathSectionGroups'].append(group)
   else:
    section=copy.deepcopy(data);section['id']='DUOAERO_MIDTERM2';section['index']=1
