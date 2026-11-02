@@ -315,9 +315,10 @@ The path screenshot from diagnostic run 41452609503 still shows the original
 Junior-and-frog illustration. The original Rive file is
 `res/raw/math_junior_grid.riv`, but Android run 41458302460 showed that this
 path instance actually used `math_junior_grid_static`; replacing the Rive file
-alone therefore did not change the visible character. Both an alternate static
-scene and an animated Rive prototype are isolated in a diagnostic branch; neither
-has yet been visually accepted on Android or integrated into this branch.
+alone therefore did not change the visible character. A transparent static
+Linus scene is now mapped to that fallback. In Android run 41461040425 the
+original seeded Structures path displayed the replacement without clipping.
+The separate animated Rive prototype is not integrated or accepted yet.
 
 Android run 41395067195 passed the tall-window check on an emulated display
 with S24 Ultra proportions, using the course before the later splash and
