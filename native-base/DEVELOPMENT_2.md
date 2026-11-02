@@ -312,10 +312,12 @@ artwork and state-machine change are integrated, not the diagnostic selector.
 Its appearance on a physical phone, other selectors and all remaining scenes
 still need review; this one animation does not establish a complete cast.
 The path screenshot from diagnostic run 41452609503 still shows the original
-Junior-and-frog illustration. Browser playback of the original files identifies
-it as `res/raw/math_junior_grid.riv` (not `path_junior_frog.json`); it is not
-covered by the in-lesson replacements. A Linus scene is artwork in progress and
-has not yet been animated or integrated.
+Junior-and-frog illustration. The original Rive file is
+`res/raw/math_junior_grid.riv`, but Android run 41458302460 showed that this
+path instance actually used `math_junior_grid_static`; replacing the Rive file
+alone therefore did not change the visible character. Both an alternate static
+scene and an animated Rive prototype are isolated in a diagnostic branch; neither
+has yet been visually accepted on Android or integrated into this branch.
 
 Android run 41395067195 passed the tall-window check on an emulated display
 with S24 Ultra proportions, using the course before the later splash and
