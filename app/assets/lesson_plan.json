@@ -1261,9 +1261,6 @@
           "TA1-0066",
           "TA1-0241",
           "TA1-0511",
-          "TA1-0809",
-          "TA1-0759",
-          "TA1-0738",
           "BOOK-V6-04-D2"
         ],
         "name": "Hooke’s law and the concept of stiffness: axial loads · Lesson 1"
@@ -1271,6 +1268,9 @@
       {
         "id": "2.3-6-point-0-lesson-1",
         "ids": [
+          "TA1-0809",
+          "TA1-0759",
+          "TA1-0738",
           "TA1-0351",
           "TA1-0211-D2",
           "TA1-0154-D2",
@@ -1278,7 +1278,13 @@
           "TA1-0237-D2",
           "TA1-0331-D2",
           "TA1-0334-D2",
-          "TA1-0340-D2",
+          "TA1-0340-D2"
+        ],
+        "name": "Hooke’s law and the concept of stiffness: axial loads · Lesson 2"
+      },
+      {
+        "id": "2.3-6-point-0-lesson-2",
+        "ids": [
           "TA1-0433-D2",
           "TA1-0405-D2",
           "TA1-0503-D2",
@@ -1290,7 +1296,7 @@
           "TA1-0626-D2",
           "BOOK-V6-04-D3"
         ],
-        "name": "Hooke’s law and the concept of stiffness: axial loads · Lesson 2"
+        "name": "Hooke’s law and the concept of stiffness: axial loads · Lesson 3"
       }
     ]
   },

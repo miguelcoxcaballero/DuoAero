@@ -9,7 +9,7 @@
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 288,
       "possible_calculations_without_authored_hints": 577,
-      "authored_formula_exercises_without_full_named_blocks": 13,
+      "authored_formula_exercises_without_full_named_blocks": 10,
       "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },
     "completed_test_examples": [

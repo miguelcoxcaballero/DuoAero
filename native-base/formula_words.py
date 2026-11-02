@@ -220,7 +220,11 @@ MULTI_NAMED = {
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],
                    ['temperature','pressure','area'], ['___/___','=','1','-','___']),
  'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['inertia','moment','distance','stress'],
-                         ['pressure','speed','temperature'], ['___','=','___',r'\times','___',r'\div','___']),
+                         ['pressure','speed','temperature'], ['___','=','___*___/___']),
+ 'axial_stiffness': (r'k=\frac{EA}{L}', ['stiffness','Young modulus','area','length'],
+                     ['pressure','temperature','speed'], ['___','=','___*___/___']),
+ 'extension': (r'\Delta L=\frac{FL}{E_Y A}', ['extension','force','length','Young modulus','area'],
+               ['pressure','temperature','speed'], ['___','=','___*___/___*___']),
  'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['inertia','force','length cubed','Young modulus','deflection'],
                              ['pressure','speed','temperature'], ['___','=','(', '___',r'\times','___',')',r'\div','(', '3',r'\times','___',r'\times','___',')']),
  'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
@@ -237,7 +241,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(2 if p in ('___/___','___^2/___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],

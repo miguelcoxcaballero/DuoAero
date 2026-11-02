@@ -687,6 +687,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_ASPECT_SLOT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0055-F1']],teach_words=True)
   assert len(mixed)==5
+ if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
+  introduced=lesson_questions([by_id['TA1-0041-F1'],by_id['BOOK-V6-04-D1'],by_id['TA1-0737-D3']],teach_words=True)
+  formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA')
+  mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
+  assert len(mixed)==12
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

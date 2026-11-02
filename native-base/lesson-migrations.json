@@ -147,5 +147,20 @@
       "TA1-N3-38-09",
       "TA1-N3-38-10"
     ]
+  },
+  "2.3-6-point-0-lesson-2": {
+    "sourceLesson": "2.3-6-point-0-lesson-1",
+    "requiredQuestions": [
+      "TA1-0433-D2",
+      "TA1-0405-D2",
+      "TA1-0503-D2",
+      "TA1-0416-D2",
+      "TA1-0587-D2",
+      "TA1-0479-D2",
+      "TA1-0611-D2",
+      "TA1-0555-D2",
+      "TA1-0626-D2",
+      "BOOK-V6-04-D3"
+    ]
   }
 }

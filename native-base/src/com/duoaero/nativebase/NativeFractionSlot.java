@@ -44,6 +44,31 @@ public final class NativeFractionSlot {
  public static Object createSquaredNumerator(Object template,Object scope,Object slot,Method render,int first) throws Exception {
   return createFraction(template,scope,slot,render,first,true);
  }
+ /** Original fraction and horizontal sequences with two or three factors. */
+ public static Object createProduct(Object template,Object scope,Object slot,Method render,int first,int numeratorCount,int denominatorCount) throws Exception {
+  if(numeratorCount<1||numeratorCount>2||denominatorCount<1||denominatorCount>2||numeratorCount+denominatorCount<3)throw new IllegalArgumentException("Unsupported fraction product");
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
+  Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
+  Class<?> placement=Class.forName("com.duolingo.core.math.models.figure.MathFigurePlacement",true,l),orientation=Class.forName("com.duolingo.core.math.models.network.challenge.MathFigureOrientation",true,l),promptType=Class.forName("com.duolingo.core.math.models.figure.MathPromptType",true,l);
+  Constructor<?> sequence=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Sequence",true,l).getConstructor(placement,java.util.List.class,orientation,scale,boolean.class,promptType);
+  String key=Long.toString(NEXT.incrementAndGet());Object[] sides=new Object[2];int ordinal=0;
+  for(int side=0;side<2;side++){
+   int count=side==0?numeratorCount:denominatorCount;java.util.ArrayList<Object> factors=new java.util.ArrayList<>();
+   for(int i=0;i<count;i++){
+    Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:fraction-factor");
+    if(i>0)factors.add(latex.newInstance("\\times",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template)));
+    factors.add(latex.newInstance(PREFIX+key+":"+(ordinal++),cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template)));
+   }
+   sides[side]=count==1?factors.get(0):sequence.newInstance(placement.getField("PROMPT").get(null),factors,orientation.getField("HORIZONTAL").get(null),scaleInfo,false,promptType.getField("NON_IDENTITY").get(null));
+  }
+  float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
+  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(sides[0],sides[1],padding,padding,"fraction",scaleInfo,false,null);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
+  return fraction;
+ }
  private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
@@ -85,7 +110,7 @@ public final class NativeFractionSlot {
    Context context;
    synchronized(LIVE){WeakReference<Object> reference=KEYS.get(part[0]);Object key=reference==null?null:reference.get();context=key==null?null:LIVE.get(key);}
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
-   int offset=Integer.parseInt(part[1]);if(offset<0||offset>1)throw new IllegalStateException("Invalid fraction slot position");
+   int offset=Integer.parseInt(part[1]);if(offset<0||offset>3)throw new IllegalStateException("Invalid fraction slot position");
    context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset),composer,Integer.valueOf(0));
    return true;
   }catch(Exception failure){throw new IllegalStateException("Cannot render native fraction slot",failure);}

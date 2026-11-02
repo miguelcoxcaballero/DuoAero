@@ -16,7 +16,7 @@ for name in names:
     positions = [next(i for i,q in enumerate(first) if q['id'] == name + suffix)
                  for suffix in ('-WORDS', '-NAMED-ALL', '-NAMED', '')]
     assert positions == sorted(positions)
-    assert first[positions[1]]['inline_latex'].count('___') == len(first[positions[1]]['answer_blocks'])
+    assert sum(part.count('___') for part in first[positions[1]]['inline_latex']) == len(first[positions[1]]['answer_blocks'])
 assert next(q for q in first if q['id']=='SPAR-STRESS-FORMULA-NAMED-ALL')['answer_blocks'] == ['inertia','moment','distance','stress']
 assert next(q for q in first if q['id']=='SPAR-DEFLECTION-FORMULA-NAMED-ALL')['answer_blocks'] == ['inertia','force','length cubed','Young modulus','deflection']
 assert max(i for i,q in enumerate(first) if q['id'] in names) < next(i for i,q in enumerate(first) if q['id'].endswith('-M'))
