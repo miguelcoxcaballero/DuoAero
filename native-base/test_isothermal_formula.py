@@ -26,6 +26,12 @@ assert formula['answer_blocks'] == [r'p_b e^{-X}']
 assert calculation['formula_hint'] == {'latex':r'p=p_b e^{-X}', 'prerequisite':formula_id}
 assert Decimal('20') * Decimal('0.50') == Decimal('10')
 assert calculation['options'][calculation['answer']] == '10 kPa'
+later = lesson_questions([bank['TA1-0397-D2']])
+first_step = later[0]
+assert first_step['id'] == 'TA1-0397-D2-S1'
+assert first_step['formula_hint'] == calculation['formula_hint']
+assert (Decimal('22.63') * Decimal('0.854')).quantize(Decimal('0.01')) == Decimal('19.33')
+assert first_step['options'][first_step['answer']] == '19.33 kPa'
 blob = json.loads(choice_blob(calculation, include_formula_hint=True)['challengeBlob'])
 assert 'grading_function' in blob
 original = json.loads((root/'native-base/session-history/1.3.7.json').read_text())

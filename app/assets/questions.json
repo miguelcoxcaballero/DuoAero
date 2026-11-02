@@ -16166,7 +16166,35 @@
           "3.30 kPa"
         ],
         "answer": 0,
-        "explanation": "Multiply the pressure by the given factor: 22.63 × 0.854 = 19.33 kPa."
+        "explanation": "Multiply the pressure by the given factor: 22.63 × 0.854 = 19.33 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.63\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 12 km, the pressure is "
+            },
+            {
+              "latex": "0.854\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 12 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.63\\times0.854\\approx19.33\\,\\mathrm{kPa}"
+            }
+          ]
+        }
       },
       {
         "id": "TA1-0397-D2",
