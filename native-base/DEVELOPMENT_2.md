@@ -535,3 +535,5 @@ Run 41528348194 uncovered a second product-fraction crash: a Compose intrinsic m
 The Breguet exponent has a named-quantity exercise preserving multiplication and denominator grouping, placed after its word introduction and before its symbolic expression. Local sequencing and lesson-size checks pass; Android layout and one-tap grading are pending.
 
 Both induced-drag exercises now teach the named quantities with fixed square, pi and denominator grouping before the existing symbolic exercise. Local order and size checks pass; Android rendering and touch remain to be checked.
+
+Run 41529226548 graded the four additional wind steps, with short prompts and hint controls inspected. Cantilever stiffness, two buckling and two Breguet range exercises now include named quantities and fixed operations before symbols; all five need Android layout and one-tap review. The first cantilever lesson moves one historical source question to its existing next lesson, verified against all four saved versions.
