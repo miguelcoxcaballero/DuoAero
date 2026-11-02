@@ -1,9 +1,9 @@
 """Check source pose selection and resource table extensions; Android UI is separate."""
 from pathlib import Path
 from PIL import Image
-from branding import mascot_name, static_mood
+from branding import mascot_name, static_mood, mascot_drawables, rebrand_table
 from resource_extension import MOOD_SCENES, mood_scenes, scene_mascot, updater_paths
-from runtime_config import APK, ROOT
+from runtime_config import APK, ROOT, BASE
 import zipfile
 
 for name,expected in {'duo_happy':'wave','duo_flying':'plane','duo_thinking':'think',
@@ -34,6 +34,11 @@ for atlas in ('wave-atlas.png','sad-atlas.png'):
             assert max(alpha.getpixel((x,v)) for v in range(height))<=8,(atlas,'column',i)
             assert max(alpha.getpixel((u,y)) for u in range(width))<=8,(atlas,'row',i)
 with zipfile.ZipFile(APK) as base:table=base.read('resources.arsc')
+paths,xml,_=mascot_drawables(BASE,table)
+assert all('class="com.duoaero.nativebase.' not in value for value in xml.values())
+for path,name in rebrand_table(table)[1]['original_paths'].items():
+    if name=='duo_happy' and path in paths:
+        assert '@drawable/duoaero_scene_celebrate' in xml[paths[path]]
 table,provider=updater_paths(table);table,scene=scene_mascot(table);table,ids=mood_scenes(table)
 assert provider==0x7f160016 and len(ids)==len(MOOD_SCENES)
 assert len(set(ids.values())|{scene})==len(MOOD_SCENES)+1

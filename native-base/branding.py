@@ -205,6 +205,9 @@ def mascot_drawables(decoded,table):
         if w<=0 or h<=0:raise ValueError('Invalid original mascot size: '+path)
         target='res/drawable/duoaero_mascot_'+hashlib.sha256(path.encode()).hexdigest()[:16]+'.xml'
         mood=static_mood(name)
+        # The wave image is a 4x4 atlas, not a standalone pose. A resource
+        # loaded by Android must show one image even before an app hook runs.
+        if mood=='wave':mood='celebrate'
         source=MOOD_SCENES[mood] if mood else 'welcome.png'
         png=(Path(__file__).resolve().parents[1]/'app/assets/mascot'/source).read_bytes()
         iw,ih=struct.unpack_from('>II',png,16);scale=min(w/iw,h/ih)
