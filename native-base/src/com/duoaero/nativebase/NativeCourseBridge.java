@@ -227,17 +227,18 @@ public final class NativeCourseBridge {
   try{return Class.forName("wg90",true,index.getClass().getClassLoader()).getConstructor(String.class).newInstance(title);}
   catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind original Aerospace header text",error);}
  }
- private static volatile String[] pathTopics;
+ private static volatile String[] pathTopics,pathTopics2;
  public static String pathTopicTitle(Object index,String section,String original){
-  if(!localOnly||!"DUOAERO_MIDTERM1".equals(section)||index==null)return original;
+  if(!localOnly||index==null||!("DUOAERO_MIDTERM1".equals(section)||"DUOAERO_MIDTERM2".equals(section)))return original;
   try{
-   String[] topics=pathTopics;
+   boolean second="DUOAERO_MIDTERM2".equals(section);
+   String[] topics=second?pathTopics2:pathTopics;
    if(topics==null){
     Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
-    JSONArray units=new JSONObject(asset(app,"duoaero/course/section.json")).getJSONArray("units");
+    JSONArray units=new JSONObject(asset(app,second?"duoaero/course/section-2.json":"duoaero/course/section.json")).getJSONArray("units");
     topics=new String[units.length()];
     for(int i=0;i<topics.length;i++)topics[i]=units.getJSONObject(i).getString("teachingObjective");
-    pathTopics=topics;
+    if(second)pathTopics2=topics;else pathTopics=topics;
    }
    int position=(Integer)field(index,"a");
    return position>=0&&position<topics.length?topics[position]:original;

@@ -38,7 +38,12 @@ try:
  expanded=wait('two-sections-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
  rows=[n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2']
  tap(rows[-1])
- wait('two-sections-returned',lambda t:has(t,'Diagnostic second partial') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
- (OUT/'two-sections-result.txt').write_text('PASS: diagnostic second section selected in original picker and original path showed its title. No real second-midterm content, progress or restart is asserted.\n')
+ second=wait('two-sections-returned',lambda t:has(t,'Diagnostic second partial') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
+ oval=next(n for n in second.iter('node') if n.get('resource-id')=='com.duolingo:id/oval')
+ tap(oval)
+ popup=wait('two-sections-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')))
+ tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
+ wait('two-sections-exercise',lambda t:any(n.get('resource-id')=='com.duolingo:id/mathCard' for n in t.iter('node')),90)
+ (OUT/'two-sections-result.txt').write_text('PASS: diagnostic second section selected, title shown and its synthetic lesson opened in the original UI. No real second-midterm content, grading, progress or restart is asserted.\n')
 finally:
  (OUT/'two-sections-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
