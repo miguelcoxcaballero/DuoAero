@@ -33,7 +33,8 @@ def second_active(tree,capture_name):
  a,b,c,d=map(int,re.findall(r'\d+',ovals[0].get('bounds')))
  with Image.open(OUT/(capture_name+'.png')) as image:
   red,green,blue=image.convert('RGB').getpixel(((a+c)//2,b+(d-b)//5))
-  return green>120 and green>red*1.2 and green>blue*1.2
+  # The original second-section active level is blue; locked levels are grey.
+  return blue>140 and blue>red*1.2 and blue>=green
 try:
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
