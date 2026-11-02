@@ -673,7 +673,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if two_section_test:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
-  diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft')]
+  diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft'),('4','Missiles'),('5.1','Diverse aircraft'),('5.2','Rotorcraft')]
   for topic,title in diagnostic_topics:
    diagnostic_id='second-partial-'+topic+'-lesson-0'
    diagnostic_skill=stable_id('skill','second-partial-'+topic)
