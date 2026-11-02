@@ -40,6 +40,13 @@ further ratio problems are now split into two calculations; run 41381978642
 graded all ten in Android and verified synthetic account migration. Its full
 Atmosphere progression test also passed, with earlier nodes seeded.
 
+Seven further pressure/density questions now teach density and dynamic
+pressure with word slots and named-quantity equations before symbolic recall,
+then split each calculation into two steps with reviewed hints. The displayed
+rounded values and original answers are checked by `test_dynamic_steps.py`.
+Run 41383369989 graded the 20-step sample on Android and passed synthetic
+account checks. This sample does not establish full-course acceptance.
+
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
 or simple unit paths. A source-bank audit found 125 previously plain `sqrt`
