@@ -287,3 +287,14 @@ earth, altitude = 6371.0, 100.0
 ratio = earth / (earth + altitude)
 assert 0 < ratio ** 3 < ratio ** 2 < ratio < 1 < (1 / ratio) ** 2
 print('PASS: explicit subscripts, Greek symbols and powers render as math; prose and word gaps stay literal.')
+
+# Multi-part coefficient names are a single subscript, not a literal
+# multi-letter variable followed by an unrelated subscript.
+for source, expected in {
+    'Cm_ac': r'C_{m,\mathrm{ac}}',
+    'cm_ac': r'C_{m,\mathrm{ac}}',
+    'ce_md': r'c_{e,\mathrm{md}}',
+    'CLmax_clean': r'C_{L,\max,\mathrm{clean}}',
+    'CLmax_deployed': r'C_{L,\max,\mathrm{deployed}}',
+}.items():
+    assert parts('Find ' + source + ' now') == [{'text': 'Find '}, {'latex': expected}, {'text': ' now'}]
