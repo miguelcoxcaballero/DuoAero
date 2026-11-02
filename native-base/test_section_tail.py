@@ -35,10 +35,11 @@ try:
  for unit in section['units'][:5]:
   id=unit['levels'][0]['pathLevelClientData']['sessionMetadatas'][0]['id'];lesson=catalog[id];now=time.time();proof={'id':id,'type':'MATH_LESSON','failed':False,'shouldLearnThings':True,'startTime':now-120,'endTime':now,'challenges':[{'id':q['id']} for q in lesson['challenges']]};write_private(folder+'/'+id+'.json',{'schema':1,'sessionId':id,'savedAt':int(now*1000),'nativeSubmission':proof,'completionSubmission':proof,'completedOnce':True})
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
- home=wait('section-tail-home',lambda t:has(t,'1 · Aerospace industry') and any(n.get('resource-id')=='com.duolingo:id/primaryCardView' for n in t.iter('node')))
- tap(next(n for n in home.iter('node') if n.get('resource-id')=='com.duolingo:id/primaryCardView'))
- picker=wait('section-tail-picker',lambda t:has(t,'Midterm 2') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
- tap([n for n in picker.iter('node') if n.get('text','').casefold()=='midterm 2'][-1]);expanded=wait('section-tail-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2);tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
+ home=wait('section-tail-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/primaryCardView' for n in t.iter('node')))
+ if not has(home,'MIDTERM 2'):
+  tap(next(n for n in home.iter('node') if n.get('resource-id')=='com.duolingo:id/primaryCardView'))
+  picker=wait('section-tail-picker',lambda t:has(t,'Midterm 2') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
+  tap([n for n in picker.iter('node') if n.get('text','').casefold()=='midterm 2'][-1]);expanded=wait('section-tail-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2);tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
  for attempt in range(8):
   path=capture('section-tail-path-'+str(attempt))
   if path is not None and has(path,'5.2 · Rotorcraft'):
