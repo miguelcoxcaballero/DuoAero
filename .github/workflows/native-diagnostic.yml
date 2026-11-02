@@ -415,9 +415,11 @@ jobs:
               ;;
           esac
           python - <<'PYTHON'
+          import os
           from pathlib import Path
-          assert '1200 passed, 0 failed' in Path('$RUNNER_TEMP/duoaero-evidence/models.txt').read_text()
-          for path in Path('$RUNNER_TEMP/duoaero-evidence').glob('session-*.txt'):
+          evidence=Path(os.environ['RUNNER_TEMP'])/'duoaero-evidence'
+          assert '1200 passed, 0 failed' in (evidence/'models.txt').read_text()
+          for path in evidence.glob('session-*.txt'):
               assert 'DIAGNOSTIC_COLLECTION_COMPLETED=true' in path.read_text(), path.name
           PYTHON
           echo 'Diagnostic collection only. This does not establish a playable lesson or authorize release.' > $RUNNER_TEMP/duoaero-evidence/NOT-A-RELEASE.txt
