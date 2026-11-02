@@ -9,7 +9,7 @@
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 289,
       "possible_calculations_without_authored_hints": 578,
-      "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions. The calculation estimate predates the six most recently staged spar problems."
+      "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },
     "completed_test_examples": [
       "Android run 41383369989 graded the 20-exercise density/dynamic-pressure sample, checked synthetic accounts, and completed the first Atmosphere lesson with prior nodes seeded and path reopening after restart.",
