@@ -28,6 +28,9 @@ final class SessionInteraction {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/primaryButton");i++)Thread.sleep(200);
   if(!hasControl(test,"com.duolingo:id/primaryButton"))
    throw new IllegalStateException("Original quit keep-going control missing");
+  Class<?> mascot=Class.forName("com.duoaero.nativebase.NativeMascotView",true,test.getTargetContext().getClassLoader());
+  if(!Boolean.TRUE.equals(mascot.getMethod("quitAnimationAttached").invoke(null)))
+   throw new IllegalStateException("Original quit sheet opened without its animated mascot");
   SessionScreen.capture(test,"static-quit-dialog","static-quit-dialog");
   // Record the attached original sheet, rather than treating two isolated
   // drawable frames as proof of smooth animation in the real view.

@@ -274,6 +274,7 @@ jobs:
               grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/session-static-quit.txt"
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.png"
               adb pull /sdcard/duoaero-sad-quit.mp4 "${{ runner.temp }}/duoaero-evidence/sad-quit.mp4"
+              python native-base/test_quit_animation_recording.py
               ;;
             static-mascot)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"

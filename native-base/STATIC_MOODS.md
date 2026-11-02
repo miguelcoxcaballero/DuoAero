@@ -33,4 +33,6 @@ its experimental transparent 16-frame wave is not yet attached to that
 screen. Direct XML references to custom application drawables crashed the
 original quit sheet. A targeted hook instead installs the sad animation after
 that original layout inflates; attached-screen playback and smoothness still
-require Android evidence.
+require Android evidence. Run 41380455084 opened the sheet, but its screen
+recording showed a static image. The next probe checks the attached drawable
+and actual changing pixels rather than considering an open sheet sufficient.
