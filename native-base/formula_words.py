@@ -12,6 +12,9 @@ import hashlib
 FORMULAS = {
  'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
  'payload_mass': ('Payload mass m-p equals takeoff mass m-to minus operating empty mass m-oem minus fuel ___ m-f.', 'mass', ['speed', 'pressure', 'area']),
+ 'spar_moment': ('Bending moment M equals tip force F times spar ___ L.', 'length', ['pressure', 'temperature', 'mass']),
+ 'spar_stress_inertia': ('The section moment I-stress for a stress limit equals moment M times outer-fibre distance c divided by allowable ___ sigma-a.', 'stress', ['density', 'speed', 'temperature']),
+ 'spar_deflection_inertia': ('The section moment I-deflection for a deflection limit equals tip force F times length L cubed divided by three times Young modulus E-Y times allowable ___ delta-a.', 'deflection', ['density', 'speed', 'pressure']),
  'isothermal_pressure': ('Pressure p equals base pressure p-b times an exponential decay ___.', 'factor', ['temperature', 'altitude', 'area']),
  'pressure_ratio': ('Pressure ratio r equals pressure p-B divided by ___ p-A.', 'pressure', ['temperature', 'density', 'mass']),
  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
@@ -39,6 +42,8 @@ FORMULAS = {
 KINDS = {
  'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas', 'ISA-ISOTHERMAL-FORMULA':'isothermal_pressure',
  'MASS-PAYLOAD-FORMULA':'payload_mass',
+ 'SPAR-MOMENT-FORMULA':'spar_moment', 'SPAR-STRESS-FORMULA':'spar_stress_inertia',
+ 'SPAR-DEFLECTION-FORMULA':'spar_deflection_inertia',
  'ISA-PRESSURE-RATIO':'pressure_ratio',
  'WIND-TAILWIND-FORMULA':'tailwind', 'WIND-TIME-FORMULA':'time', 'WIND-TOTAL-FORMULA':'total_time',
  'BOOK-V6-03-D1':'range', 'BOOK-V6-03-D2':'range',
@@ -61,6 +66,7 @@ KINDS = {
 INLINE_SYMBOLS = {
  'p':'p', 'p-b':r'p_b', 'p-A':r'p_A', 'p-B':r'p_B', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
  'm-p':r'm_p', 'm-to':r'm_{to}', 'm-oem':r'm_{oem}', 'm-f':r'm_f',
+ 'I-stress':r'I_\sigma', 'I-deflection':r'I_\delta', 'F':'F', 'c':'c', 'sigma-a':r'\sigma_a', 'delta-a':r'\delta_a',
  'Vg':r'V_g', 'V':'V', 'w':'w', 't':'t', 'd':'d',
  't-total':r't_{\mathrm{total}}', 't-out':r't_{\mathrm{out}}', 't-back':r't_{\mathrm{back}}',
  'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
@@ -78,6 +84,9 @@ INLINE_SYMBOLS = {
 EQUATION_NAMES = {
  'gas':('temperature',['density','pressure','altitude']),
  'payload_mass':('fuel mass',['payload mass','takeoff mass','empty mass']),
+ 'spar_moment':('spar length',['tip force','bending moment','pressure']),
+ 'spar_stress_inertia':('stress-limit inertia',['bending moment','allowable stress','distance']),
+ 'spar_deflection_inertia':('deflection-limit inertia',['tip force','length','allowable deflection']),
  'isothermal_pressure':('pressure',['base pressure','temperature','density']),
  'pressure_ratio':('pressure ratio',['temperature','density','altitude']),
  'tailwind':('wind speed',['airspeed','ground speed','flight time']),
@@ -109,6 +118,7 @@ EQUATION_NAMES = {
 IN_PLACE = {
  'gas':(r'p=\rho R_a','T',''),
  'payload_mass':(r'm_p=m_{to}-m_{oem}-',r'm_f',''),
+ 'spar_moment':(r'M=F',r'L',''),
  'tailwind':(r'V_g=V+','w',''),
  'total_time':(r't_{total}=t_{out}+',r't_{back}',''),
  'hydraulic':(r'P_{hyd}=\Delta p\,','Q',''),
@@ -161,6 +171,12 @@ MULTI_NAMED = {
          ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
  'payload_mass': (r'm_p=m_{to}-m_{oem}-m_f', ['payload mass','takeoff mass','empty mass','fuel mass'],
                   ['pressure','density','altitude','speed'], ['___','=','___','-','___','-','___']),
+ 'spar_moment': (r'M=FL', ['bending moment','tip force','spar length'],
+                 ['pressure','temperature','mass'], ['___','=','___',r'\times','___']),
+ 'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['inertia','moment','distance','stress'],
+                         ['pressure','speed','temperature'], ['___','=','___',r'\times','___',r'\div','___']),
+ 'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['inertia','force','length cubed','Young modulus','deflection'],
+                             ['pressure','speed','temperature'], ['___','=','(', '___',r'\times','___',')',r'\div','(', '3',r'\times','___',r'\times','___',')']),
  'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
               ['distance','flight time','altitude'], ['___','=','___','+','___']),
  'total_time': (r't_{total}=t_{out}+t_{back}', ['total time','outbound time','return time'],

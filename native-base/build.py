@@ -603,6 +603,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
  if os.environ.get('DUOAERO_HYDRAULIC_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['BOOK-V6-08-D1']],teach_words=True)
+ if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='intro' and not production:
+  mixed=lesson_questions([by_id['TA1-0737-D3']],teach_words=True)
+  assert len(mixed)==17
+ if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='rest' and not production:
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0774-D3','TA1-0836-D3','TA1-0950-D3')],teach_words=True)
+  assert len(mixed)==12
  if os.environ.get('DUOAERO_MASS_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0024-F1']],teach_words=True)
   assert len(mixed)==6
