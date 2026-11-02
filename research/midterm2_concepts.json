@@ -281,6 +281,146 @@
       ],
       "answer": 0,
       "explanation": "Regular exercise is one countermeasure used to mitigate changes to muscles and bones during extended spaceflight."
+    },
+    {
+      "id": "M2-SC-001",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "Which spacecraft subsystem supplies electrical power to onboard equipment?",
+      "options": [
+        "The launch fairing",
+        "The electrical power subsystem",
+        "The thermal protection coating",
+        "The orbital debris shield"
+      ],
+      "answer": 1,
+      "explanation": "The power subsystem generates, stores and distributes electricity."
+    },
+    {
+      "id": "M2-SC-002",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What does a spacecraft attitude control system regulate?",
+      "options": [
+        "The colour of the launch pad",
+        "The chemical composition of Earth’s atmosphere",
+        "Its orientation in space",
+        "The date of the next solar eclipse"
+      ],
+      "answer": 2,
+      "explanation": "Attitude is the spacecraft’s orientation; orbit control addresses its trajectory."
+    },
+    {
+      "id": "M2-SC-003",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What is the role of a spacecraft thermal control system?",
+      "options": [
+        "Make every component exactly 0 °C",
+        "Make sunlight the same intensity everywhere",
+        "Keep equipment within acceptable temperature limits",
+        "Remove the need for electrical power"
+      ],
+      "answer": 2,
+      "explanation": "Thermal control keeps equipment within the temperature ranges needed for operation."
+    },
+    {
+      "id": "M2-SC-004",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What is telemetry used for in a space mission?",
+      "options": [
+        "Sending measurements and status information to the ground",
+        "Opening the payload fairing before launch",
+        "Moving the spacecraft by expelling propellant",
+        "Generating oxygen from sunlight"
+      ],
+      "answer": 0,
+      "explanation": "Telemetry carries measurements and spacecraft status back to mission controllers."
+    },
+    {
+      "id": "M2-SC-005",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What is an uplink in spacecraft communications?",
+      "options": [
+        "The exhaust from an onboard thruster",
+        "A signal sent from the ground to the spacecraft",
+        "A signal sent only between two ground antennas",
+        "A measurement of solar panel area"
+      ],
+      "answer": 1,
+      "explanation": "An uplink carries information or commands toward the spacecraft."
+    },
+    {
+      "id": "M2-SC-006",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "How does a flyby differ from an orbiter mission?",
+      "options": [
+        "A flyby must land on the target",
+        "A flyby passes the target without entering an orbit around it",
+        "A flyby remains fixed above the same surface point indefinitely",
+        "An orbiter never observes its target"
+      ],
+      "answer": 1,
+      "explanation": "A flyby makes observations while passing; an orbiter remains in orbit for repeated observations."
+    },
+    {
+      "id": "M2-SC-007",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "Which vehicle is designed to move across a planetary surface?",
+      "options": [
+        "A flyby probe",
+        "A rover",
+        "A communications antenna",
+        "A launch escape tower"
+      ],
+      "answer": 1,
+      "explanation": "A rover travels over a surface to make measurements at different locations."
+    },
+    {
+      "id": "M2-SC-008",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What is the purpose of a lander?",
+      "options": [
+        "Replace all ground communication equipment",
+        "Measure only the Sun from Earth",
+        "Remain permanently in Earth orbit",
+        "Reach the surface and operate there"
+      ],
+      "answer": 3,
+      "explanation": "A lander is designed to reach a surface and perform its mission there."
+    },
+    {
+      "id": "M2-SC-009",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "Why can an atmospheric entry probe need a heat shield?",
+      "options": [
+        "To increase the strength of its radio signal",
+        "To produce thrust in a vacuum",
+        "To make gravity disappear",
+        "To protect it from intense heating during entry"
+      ],
+      "answer": 3,
+      "explanation": "During fast atmospheric entry, intense heating can damage the vehicle without suitable protection."
+    },
+    {
+      "id": "M2-SC-010",
+      "topic": "3.3",
+      "type": "choice",
+      "stem": "What can a balloon drifting in a planetary atmosphere help study?",
+      "options": [
+        "The mechanical strength of a launch tower",
+        "The exhaust of every rocket on Earth",
+        "The inside of a solid planetary core directly",
+        "Atmospheric conditions and circulation"
+      ],
+      "answer": 3,
+      "explanation": "A drifting balloon can carry sensors and track conditions along its atmospheric path."
     }
   ]
 }
