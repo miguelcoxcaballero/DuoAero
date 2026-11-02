@@ -6,6 +6,7 @@ from course_adapter import session
 source=json.loads((root/'research/midterm2_spacecraft_extra.json').read_text())
 qs=source['questions'];assert source['status']=='draft_not_connected_to_course' and len(qs)==10
 assert len({q['id'] for q in qs})==10
+assert {q['answer'] for q in qs} == {0,1,2,3}
 for q in qs:
  assert q['topic']=='3.3' and q['type']=='choice' and q['stem'].endswith('?')
  assert len(q['options'])==len(set(q['options']))==4 and 0<=q['answer']<4
