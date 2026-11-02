@@ -585,6 +585,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed.extend(lesson_questions([by_id['TA1-0041-F1']],teach_words=True)[:3])
   sound=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
+ if os.environ.get('DUOAERO_HYDRAULIC_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['BOOK-V6-08-D1']],teach_words=True)
  if os.environ.get('DUOAERO_ISA_DIAGNOSTIC')=='1' and not production:
   # Real native grading of the ordered ratio prerequisite and three short,
   # independently checked pressure calculations from the Aerospace path.
