@@ -35,6 +35,12 @@ that is not evidence of the actual screen or of animation. The gem pose and the
 original screens still need inspection. Many generic mascot scenes and the
 articulation and smoothness of animations remain unfinished.
 
+An experimental 16-frame transparent wave is bound to the original
+`duo_happy` ImageView without modifying notification RemoteViews. It uses
+drawn arm poses rather than translating one still image. This needs real
+Android inflation, screen placement and smooth playback checks; a generated
+sprite sheet alone is not an animation acceptance test.
+
 ## Acceptance still required
 
 * Review all calculation families, simplify long questions, author correct

@@ -21,3 +21,7 @@ explicit original reading-story artwork. This is one static pose, not an
 animation, and its placement in the original Android screens needs inspection.
 An additional gem-holding Snoopy targets two explicit static gem poses; it too
 requires original-screen inspection and is not evidence of chest animation.
+
+The `duo_happy` ImageView has an experimental transparent 16-frame wave.
+The original layout and intrinsic size remain in use. Android inflation,
+actual-screen placement, playback and smoothness require device evidence.

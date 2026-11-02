@@ -61,6 +61,7 @@ def static_mood(name):
     """Select an authored pose only where the original name is unambiguous."""
     name=name.lower()
     if name=='duo_radio_host_static_bea':return 'patty'
+    if name=='duo_happy':return 'wave'
     if name.startswith('practice_hub_duo_radio_'):
         cast={'zari':'sally','falstaff':'charlie','junior':'linus','lily':'lucy',
               'oscar':'schroeder','bea':'patty','lin':'marcie','vikram':'franklin',
@@ -204,6 +205,13 @@ def mascot_drawables(decoded,table):
         if w<=0 or h<=0:raise ValueError('Invalid original mascot size: '+path)
         target='res/drawable/duoaero_mascot_'+hashlib.sha256(path.encode()).hexdigest()[:16]+'.xml'
         mood=static_mood(name)
+        if name=='duo_happy':
+            # This original resource is used by an in-app AppCompatImageView.
+            # Preserve its intrinsic bounds while the transparent atlas plays;
+            # do not use custom drawables for notification RemoteViews.
+            files[target]=f'<drawable xmlns:android="http://schemas.android.com/apk/res/android" class="com.duoaero.nativebase.NativeWaveDrawable" android:width="{w:g}dp" android:height="{h:g}dp"/>'
+            paths[path]=target;sizes[path]=[w,h]
+            continue
         source=MOOD_SCENES[mood] if mood else 'welcome.png'
         png=(Path(__file__).resolve().parents[1]/'app/assets/mascot'/source).read_bytes()
         iw,ih=struct.unpack_from('>II',png,16);scale=min(w/iw,h/ih)

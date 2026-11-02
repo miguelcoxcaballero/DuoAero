@@ -93,6 +93,7 @@ MOOD_SCENES = {
     'woodstock': 'characters/woodstock/idle/frame-00.png',
     'reading': 'reading.png',
     'gem': 'gem.png',
+    'wave': 'wave-atlas.png',
 }
 
 
