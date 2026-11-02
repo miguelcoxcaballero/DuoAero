@@ -95,6 +95,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = isa-mixed ]; then export DUOAERO_ISA_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = isa-extra ]; then export DUOAERO_ISA_EXTRA_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = dynamic-mixed ]; then export DUOAERO_DYNAMIC_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = lapse-mixed ]; then export DUOAERO_LAPSE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]; then export DUOAERO_SQRT_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed ]; then export DUOAERO_SPACECRAFT_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = rotor-mixed ]; then export DUOAERO_ROTOR_DIAGNOSTIC=1; fi
@@ -108,6 +109,7 @@ jobs:
           python native-base/test_intro_formulas.py
           python native-base/test_path_structure.py
           python native-base/test_lesson_migrations.py
+          python native-base/test_lapse_steps.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
@@ -131,11 +133,11 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
-          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = branding-welcome || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = atmosphere-timing || "$DIAGNOSTIC_SCENARIO" = energy-info || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = branding-welcome || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = atmosphere-timing || "$DIAGNOSTIC_SCENARIO" = energy-info || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = lapse-mixed || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
           fi
-          if [[ "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = lapse-mixed || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
@@ -347,6 +349,10 @@ jobs:
             isa-extra)
               run_probe aerospace-isa-extra MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-isa-extra.txt"
+              ;;
+            lapse-mixed)
+              run_probe aerospace-lapse MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 14 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-lapse.txt"
               ;;
             dynamic-mixed)
               run_probe aerospace-dynamic MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
