@@ -192,12 +192,14 @@ try:
         tree=capture('atmosphere-complete')
         if tree is not None and matching(tree,'CLAIM XP'):
             claim_seen_at=time.monotonic()
+            if os.environ.get('DUOAERO_CAPTURE_SWOON')=='1':time.sleep(5)
             tap_node(matching(tree,'CLAIM XP')[-1]);break
         # Some original Rive summaries expose neither text nor a special ID.
         # OCR verifies the visible button before tapping it.
         point=claim_xp(OUT/'atmosphere-complete.png',OUT/'atmosphere-claim-ocr.png')
         if point:
             claim_seen_at=time.monotonic()
+            if os.environ.get('DUOAERO_CAPTURE_SWOON')=='1':time.sleep(5)
             adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(2)
     else:raise AssertionError('Claim XP missing')

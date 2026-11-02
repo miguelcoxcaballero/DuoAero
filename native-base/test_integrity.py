@@ -11,6 +11,8 @@ from resource_extension import updater_paths, launcher_mascot, scene_mascot, moo
 from branding import rebrand_table, animation_overlays, mascot_drawables, LOGO_PATH
 from mascot_assets import parse
 allowed = {'AndroidManifest.xml', 'resources.arsc', 'classes.dex', 'classes3.dex', 'classes4.dex', 'classes6.dex', 'classes7.dex', 'res/mipmap-anydpi-v21/ic_launcher.xml'}
+if os.environ.get('DUOAERO_FORCE_SWOON')=='1':
+    allowed.add('classes5.dex')  # Diagnostic-only forced character selector.
 target = Path(os.environ.get('DUOAERO_VERIFY_APK', str(WORK/'DuoAero-native-base-test.apk')))
 with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     approved=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()

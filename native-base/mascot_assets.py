@@ -176,6 +176,7 @@ def rive(data,name,png,width,height):
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
+    swoon=('swoon',('SwoonDuo_intro_animation','SwoonDuo_Loop_animation'))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
     zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))
@@ -186,6 +187,7 @@ def rive(data,name,png,width,height):
              'duo_perfect_starry_eyed_03':{'lc_character_artboard':starry},
              'duo_perfect_buff_03':{'lc_character_artboard':hero},
              'duo_normal_lovey_dovey_03':{'lc_character_artboard':lovey},
+             'duo_normal_swoon_03':{'lc_character_artboard':swoon},
              'duo_perfect_chefs_kiss_03':{'lc_character_artboard':chef},
              'duo_normal_foam_finger_02':{'lc_character_artboard':foam},
              'duo_zen_04':{'36_zen_duo':zen},
@@ -196,6 +198,7 @@ def rive(data,name,png,width,height):
                  '02_duo_obsessed_artboard':overjoyed,
                  '00_duo_buff_artboard':hero,
                  '20_duo_normal_lovey_dovey_artboard':lovey,
+                 '21_duo_normal_swoon_artboard':swoon,
                  '26_duo_perfect_chefs_kiss_artboard':chef,
                  '25_duo_normal_foam_finger_artboard':foam,
                  '22_duo_perfect_starry_eyed_artboard':starry}}.get(name,{})

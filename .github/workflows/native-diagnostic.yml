@@ -87,8 +87,9 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|atmosphere-timing|energy-info|chests|chests-native|sections|two-sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|swoon-preview|s24|atmosphere|atmosphere-hint|atmosphere-timing|energy-info|chests|chests-native|sections|two-sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = swoon-preview ]; then export DUOAERO_FORCE_SWOON=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = hydraulic-words ]; then export DUOAERO_HYDRAULIC_DIAGNOSTIC=1; fi
@@ -131,7 +132,7 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
-          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = branding-welcome || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = atmosphere-timing || "$DIAGNOSTIC_SCENARIO" = energy-info || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = swoon-preview || "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = branding-welcome || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = atmosphere-timing || "$DIAGNOSTIC_SCENARIO" = energy-info || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = hydraulic-words || "$DIAGNOSTIC_SCENARIO" = isa-mixed || "$DIAGNOSTIC_SCENARIO" = isa-extra || "$DIAGNOSTIC_SCENARIO" = dynamic-mixed || "$DIAGNOSTIC_SCENARIO" = spacecraft-mixed || "$DIAGNOSTIC_SCENARIO" = rotor-mixed || "$DIAGNOSTIC_SCENARIO" = sqrt-mixed ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
           fi
@@ -257,6 +258,12 @@ jobs:
               export DUOAERO_TEST_FORMULA_HINT=1
               export DUOAERO_CAPTURE_COMPLETION=1
               python native-base/test_atmosphere.py
+              ;;
+            swoon-preview)
+              export DUOAERO_CAPTURE_COMPLETION=1 DUOAERO_CAPTURE_SWOON=1
+              python native-base/test_atmosphere.py
+              grep -q 'Diagnostic forced swoon character' "$RUNNER_TEMP/duoaero-evidence/atmosphere-log.txt"
+              test -s "$RUNNER_TEMP/duoaero-evidence/lesson-completion.mp4"
               ;;
             atmosphere-timing)
               python native-base/test_atmosphere.py

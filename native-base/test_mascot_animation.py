@@ -12,6 +12,14 @@ from runtime_config import APK, ROOT
 
 frames = [(ROOT / 'app/assets/mascot/celebrate' / f'frame-{i:02}.png').read_bytes() for i in range(16)]
 assert len(set(frames)) == 16
+swoon_frames = [(ROOT / 'app/assets/mascot/swoon' / f'frame-{i:02}.png').read_bytes() for i in range(16)]
+assert len(set(swoon_frames)) == 16
+for frame in swoon_frames:
+    with Image.open(io.BytesIO(frame)) as image:
+        alpha=image.convert('RGBA').getchannel('A')
+        width,height=image.size
+        assert max(max(alpha.getpixel((x,y)) for x in range(width) for y in (0,height-1)),
+                   max(alpha.getpixel((x,y)) for y in range(height) for x in (0,width-1))) <= 8
 for frame in frames:
     with Image.open(io.BytesIO(frame)) as image:
         assert image.mode == 'RGBA'
@@ -38,6 +46,7 @@ with zipfile.ZipFile(APK) as original:
             ('duo_perfect_starry_eyed_03', 'lc_character_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
             ('duo_perfect_buff_03', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('duo_normal_lovey_dovey_03', 'lc_character_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
+            ('duo_normal_swoon_03', 'lc_character_artboard', 'SwoonDuo_Loop_animation', 120, 240),
             ('duo_perfect_chefs_kiss_03', 'lc_character_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
             ('duo_normal_foam_finger_02', 'lc_character_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('duo_zen_04', '36_zen_duo', 'duo_meditate_loop', 69, 171),
@@ -48,6 +57,7 @@ with zipfile.ZipFile(APK) as original:
             ('lesson_complete_redesign_v72', '00_duo_buff_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('lesson_complete_redesign_v72', '22_duo_perfect_starry_eyed_artboard', 'StarryEyedDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '20_duo_normal_lovey_dovey_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
+            ('lesson_complete_redesign_v72', '21_duo_normal_swoon_artboard', 'SwoonDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '26_duo_perfect_chefs_kiss_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '25_duo_normal_foam_finger_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('lesson_complete_redesign_v72', '17_duo_perfect_jaw_drop_artboard', 'JawdropDuo_Loop_animation', 120, 240)]:
@@ -101,7 +111,7 @@ with zipfile.ZipFile(APK) as original:
                        for track in tracks.values()) == 1
         assert [next(v for t, v in reversed(track) if t <= start) for track in tracks.values()] == [
             next(v for t, v in reversed(track) if t <= end) for track in tracks.values()]
-    for mood in ('surprised', 'determined', 'overjoyed', 'hero'):
+    for mood in ('surprised', 'determined', 'overjoyed', 'hero', 'swoon'):
         for path in (ROOT/'app/assets/mascot'/mood).glob('*.png'):
             with Image.open(path) as image:
                 alpha=image.convert('RGBA').getchannel('A')
