@@ -2706,19 +2706,25 @@
           "TA1-0062-D2",
           "TA1-0125-D2",
           "TA1-0190-D2",
-          "TA1-0108-D2",
           "TA1-0168-D2",
           "TA1-0235-D2",
-          "TA1-0220-D2",
           "TA1-0221-D2",
           "TA1-0236-D2",
-          "TA1-0315-D2",
-          "TA1-0419-D2",
-          "TA1-0286-D2",
-          "TA1-0383-D2",
-          "TA1-0446-D2"
+          "TA1-0419-D2"
         ],
         "name": "Mean aerodynamic chord · 1 · Lesson 1"
+      },
+      {
+        "id": "2.4-2-point-0-lesson-2",
+        "ids": [
+          "TA1-0108-D2",
+          "TA1-0220-D2",
+          "TA1-0315-D2",
+          "TA1-0383-D2",
+          "TA1-0446-D2",
+          "TA1-0286-D2"
+        ],
+        "name": "Mean aerodynamic chord · 1 · Lesson 2"
       },
       {
         "id": "2.4-2-point-0-lesson-1",
@@ -2737,7 +2743,7 @@
           "TA1-0512-D3",
           "TA1-0729-D3"
         ],
-        "name": "Mean aerodynamic chord · 1 · Lesson 2"
+        "name": "Mean aerodynamic chord · 1 · Lesson 3"
       }
     ]
   },

@@ -72,5 +72,16 @@
       "TA1-0801-D2",
       "TA1-0819-D2"
     ]
+  },
+  "2.4-2-point-0-lesson-2": {
+    "sourceLesson": "2.4-2-point-0-lesson-0",
+    "requiredQuestions": [
+      "TA1-0108-D2",
+      "TA1-0220-D2",
+      "TA1-0315-D2",
+      "TA1-0383-D2",
+      "TA1-0446-D2",
+      "TA1-0286-D2"
+    ]
   }
 }

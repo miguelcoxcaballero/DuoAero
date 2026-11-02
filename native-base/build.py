@@ -595,6 +595,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0397-D2','TA1-0425-D2','TA1-0463-D2')],teach_words=True)
  if os.environ.get('DUOAERO_ISA_EXTRA_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0445-D2','TA1-0449-D2','TA1-0592-D2','TA1-0668-D2','TA1-0708-D2')],teach_words=True)
+ if os.environ.get('DUOAERO_WING_DIAGNOSTIC') in ('intro','rest') and not production:
+  wing_ids=('TA1-0062-D2','TA1-0108-D2','TA1-0220-D2','TA1-0315-D2','TA1-0383-D2','TA1-0407-D2','TA1-0556-D2','TA1-0566-D2')
+  chosen=wing_ids[:4] if os.environ['DUOAERO_WING_DIAGNOSTIC']=='intro' else wing_ids[4:]
+  mixed=lesson_questions([by_id[qid] for qid in chosen],teach_words=True)
+  assert len(mixed)==(22 if os.environ['DUOAERO_WING_DIAGNOSTIC']=='intro' else 12)
  if os.environ.get('DUOAERO_TEMP_LIFT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0045-D2','TA1-0339-D2','TA1-0509-D2','TA1-0651-D2','TA1-0676-D2','TA1-0778-D2','TA1-0801-D2','TA1-0819-D2')],teach_words=True)
   assert len(mixed)==22
