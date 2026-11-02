@@ -569,3 +569,5 @@ An extended second-section diagnostic now places the rocket and orbit drafts aft
 Reviewed numeric assignments for OEM, MTOM, TAS, specific impulse and cruise speed now render as math with appropriate subscripts or upright acronyms. Local tests cover them without changing ordinary units; Android screenshots are still required.
 
 Eight payload-limit source problems now have six short calculations each, two preceding word/named/symbol formula sequences, and independently checked takeoff, landing and structural limits. Three additional lesson IDs use exact historical source coverage; 98 lessons and nineteen path-only migrations pass local validation. Android display, touch, hint behavior and migration are pending. The prior 44-formula inventory is now 46 and all have named candidates; the negative exponent still needs visual acceptance.
+
+Run 41536150799 passed synthetic accounts and the real original availability converter read both true and false values. Its timing job never reached the path because the new diagnostic scenario omitted standalone bootstrap; that scenario has been corrected and must be rerun. No timing conclusion is established.
