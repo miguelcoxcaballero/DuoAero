@@ -7,7 +7,7 @@ from course_adapter import lesson_questions, session
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text())}
-ids = ['TA1-0737-D3', 'TA1-0774-D3', 'TA1-0836-D3', 'TA1-0950-D3']
+ids = ['TA1-0737-D3', 'TA1-0774-D3', 'TA1-0836-D3', 'TA1-0950-D3', 'TA1-0957-D3', 'TA1-N3-11-06', 'TA1-N3-11-07', 'TA1-N3-11-08', 'TA1-N3-11-09', 'TA1-N3-11-10']
 pattern = re.compile(r'length ([0-9.]+) m under transverse tip force ([0-9.]+) N\. E=([0-9.]+) GPa, total section height h=([0-9.]+) m, allowable stress=([0-9.]+) MPa and allowable deflection=([0-9.]+) m')
 names = ('SPAR-MOMENT-FORMULA', 'SPAR-STRESS-FORMULA', 'SPAR-DEFLECTION-FORMULA')
 first = lesson_questions([bank[ids[0]]], teach_words=True)
@@ -41,4 +41,4 @@ for qid in ids:
         assert len(rich['options']) == len(part['options'])
         assert all(r'10^{-6}' in option[0]['latex'] for option in rich['options'])
     session([original], qid, teach_words=True)
-print('PASS: four staged spar problems and three word-first formulas; Android UI unverified.')
+print('PASS: ten staged spar problems and three word-first formulas; Android UI unverified.')

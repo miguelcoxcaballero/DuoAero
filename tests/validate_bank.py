@@ -26,7 +26,7 @@ by_id={q['id']:q for q in bank}
 seen={}
 formula_prerequisites=set()
 for node in nodes:
- assert 1<=len(node['lessons'])<=3
+ assert 1<=len(node['lessons'])<=4
  for lesson in node['lessons']:
   # One source question can expand into several reviewed native exercises.
   assert 1<=len(lesson['ids'])<=20

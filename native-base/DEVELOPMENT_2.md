@@ -123,7 +123,7 @@ expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
 split into three lessons, keeping prior IDs and introducing four new IDs;
 four further lessons were added for the staged approach, temperature/lift,
-wing-geometry and initial spar problems; all 87 lessons have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
+wing-geometry and spar problems; all 88 lessons have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
 that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
 it covers questions omitted from the new shorter source lesson. Local tests
@@ -288,12 +288,14 @@ That path had 86 lessons and seven evidence-based migrations; the checked
 historical snapshots grant only path credit and do not create rewards. This
 does not cover all remaining wing calculations or a real-account migration.
 
-Four spar strength/deflection problems now teach named quantities and three
-formulas before four short calculations. Android run 41451482417 graded 17
-introductory and 12 follow-up controls and passed synthetic account checks.
-Its dark, larger-text screenshots showed the compact quantity cards fully
-visible after a previous layout clipped them. The six remaining variants and
-the proposed four-session path are still under separate testing.
+Ten spar strength/deflection problems now teach named quantities and three
+formulas before four short calculations. Android run 41452609503 graded all
+53 introductory and follow-up controls and passed synthetic account checks.
+Dark, larger-text screenshots showed the compact quantity cards fully visible
+after a previous layout clipped them. With earlier progress seeded, Android
+run 41455195283 completed the fourth session through the original path,
+restarted and opened the next node. Nine historical path-credit migrations
+are covered by local tests; real Google/Drive migration remains unverified.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly

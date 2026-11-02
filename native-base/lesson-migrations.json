@@ -90,7 +90,12 @@
       "TA1-0774-D3",
       "TA1-0836-D3",
       "TA1-0950-D3",
-      "TA1-0957-D3",
+      "TA1-0957-D3"
+    ]
+  },
+  "2.3-3-point-0-lesson-3": {
+    "sourceLesson": "2.3-3-point-0-lesson-1",
+    "requiredQuestions": [
       "TA1-N3-11-06",
       "TA1-N3-11-07",
       "TA1-N3-11-08",

@@ -38,7 +38,7 @@ def build_path(plan, bank):
                           'teachingObjective': topic_names.get(topic, topic)})
         unit_index = len(units) - 1
         node_lessons = node['lessons']
-        if not 1 <= len(node_lessons) <= 3:
+        if not 1 <= len(node_lessons) <= 4:
             raise ValueError(f"Invalid lesson count for {node['id']}")
         skill_id = stable_id('skill', node['id'])
         level_id = stable_id('level', node['id'])

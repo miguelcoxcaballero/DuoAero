@@ -39608,7 +39608,201 @@
       0.0
     ],
     "legacy_id": "TA1-0957",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0957-D3-M",
+        "stem": "Tip force is 1980 N and spar length is 2.14 m. What is the bending moment?",
+        "options": [
+          "4237.2 N m",
+          "2118.6 N m",
+          "8474.4 N m",
+          "6355.8 N m"
+        ],
+        "answer": 0,
+        "explanation": "1980 × 2.14 = 4237.2 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=1980\\times 2.14=4237.2\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-0957-D3-S",
+        "stem": "For the stress limit, M c = 266.9436 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "2.5423 × 10^-6 m⁴",
+          "1.2712 × 10^-6 m⁴",
+          "5.0846 × 10^-6 m⁴",
+          "3.8135 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "266.9436 ÷ 105 = 2.5423 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{266.9436}{105}=2.5423\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=266.9436\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "2.5423\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "1.2712\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.0846\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.8135\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-0957-D3-D",
+        "stem": "For the deflection limit, unit conversion gives 19404.6811 ÷ 2646 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "7.3336 × 10^-6 m⁴",
+          "3.6668 × 10^-6 m⁴",
+          "14.6672 × 10^-6 m⁴",
+          "11.0004 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "19404.6811 ÷ 2646 = 7.3336 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{19404.6811}{2646}=7.3336\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{19404.6811}{2646}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "7.3336\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.6668\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "14.6672\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "11.0004\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-0957-D3",
+        "stem": "The stress limit requires 2.5423 and the deflection limit 7.3336, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 7.3336 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(2.5423,7.3336)=7.3336\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=2.5423\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=7.3336\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "5.0846\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "2.4445\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "2.5423\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "7.3336\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0931-D3",
@@ -41113,7 +41307,201 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-11-06-M",
+        "stem": "Tip force is 2100 N and spar length is 2.2 m. What is the bending moment?",
+        "options": [
+          "4620 N m",
+          "2310 N m",
+          "9240 N m",
+          "6930 N m"
+        ],
+        "answer": 0,
+        "explanation": "2100 × 2.2 = 4620 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=2100\\times 2.2=4620\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-N3-11-06-S",
+        "stem": "For the stress limit, M c = 300.3 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "2.86 × 10^-6 m⁴",
+          "1.43 × 10^-6 m⁴",
+          "5.72 × 10^-6 m⁴",
+          "4.29 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "300.3 ÷ 105 = 2.86 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{300.3}{105}=2.86\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=300.3\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "2.86\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "1.43\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.72\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.29\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-06-D",
+        "stem": "For the deflection limit, unit conversion gives 22360.8 ÷ 2730 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "8.1908 × 10^-6 m⁴",
+          "4.0954 × 10^-6 m⁴",
+          "16.3815 × 10^-6 m⁴",
+          "12.2862 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "22360.8 ÷ 2730 = 8.1908 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{22360.8}{2730}=8.1908\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{22360.8}{2730}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "8.1908\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.0954\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "16.3815\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "12.2862\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-06",
+        "stem": "The stress limit requires 2.86 and the deflection limit 8.1908, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 8.1908 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(2.86,8.1908)=8.1908\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=2.86\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=8.1908\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "8.1908\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "2.86\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.72\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "2.7303\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-18-06",
@@ -42618,7 +43006,201 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-11-07-M",
+        "stem": "Tip force is 2220 N and spar length is 2.26 m. What is the bending moment?",
+        "options": [
+          "5017.2 N m",
+          "2508.6 N m",
+          "10034.4 N m",
+          "7525.8 N m"
+        ],
+        "answer": 0,
+        "explanation": "2220 × 2.26 = 5017.2 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=2220\\times 2.26=5017.2\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-N3-11-07-S",
+        "stem": "For the stress limit, M c = 336.1524 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "3.2015 × 10^-6 m⁴",
+          "1.6007 × 10^-6 m⁴",
+          "6.4029 × 10^-6 m⁴",
+          "4.8022 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "336.1524 ÷ 105 = 3.2015 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{336.1524}{105}=3.2015\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=336.1524\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "3.2015\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "1.6007\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "6.4029\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.8022\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-07-D",
+        "stem": "For the deflection limit, unit conversion gives 25625.8507 ÷ 2814 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "9.1066 × 10^-6 m⁴",
+          "4.5533 × 10^-6 m⁴",
+          "18.2131 × 10^-6 m⁴",
+          "13.6598 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "25625.8507 ÷ 2814 = 9.1066 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{25625.8507}{2814}=9.1066\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{25625.8507}{2814}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "9.1066\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.5533\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "18.2131\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "13.6598\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-07",
+        "stem": "The stress limit requires 3.2015 and the deflection limit 9.1066, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 9.1066 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(3.2015,9.1066)=9.1066\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=3.2015\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=9.1066\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "6.4029\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "9.1066\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.2015\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.0355\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-18-07",
@@ -44123,7 +44705,201 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-11-08-M",
+        "stem": "Tip force is 2340 N and spar length is 2.32 m. What is the bending moment?",
+        "options": [
+          "5428.8 N m",
+          "2714.4 N m",
+          "10857.6 N m",
+          "8143.2 N m"
+        ],
+        "answer": 0,
+        "explanation": "2340 × 2.32 = 5428.8 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=2340\\times 2.32=5428.8\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-N3-11-08-S",
+        "stem": "For the stress limit, M c = 374.5872 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "3.5675 × 10^-6 m⁴",
+          "1.7837 × 10^-6 m⁴",
+          "7.135 × 10^-6 m⁴",
+          "5.3512 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "374.5872 ÷ 105 = 3.5675 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{374.5872}{105}=3.5675\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=374.5872\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "3.5675\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "1.7837\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "7.135\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.3512\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-08-D",
+        "stem": "For the deflection limit, unit conversion gives 29219.9731 ÷ 2898 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "10.0828 × 10^-6 m⁴",
+          "5.0414 × 10^-6 m⁴",
+          "20.1656 × 10^-6 m⁴",
+          "15.1242 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "29219.9731 ÷ 2898 = 10.0828 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{29219.9731}{2898}=10.0828\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{29219.9731}{2898}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "10.0828\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.0414\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "20.1656\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "15.1242\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-08",
+        "stem": "The stress limit requires 3.5675 and the deflection limit 10.0828, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 10.0828 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(3.5675,10.0828)=10.0828\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=3.5675\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=10.0828\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "3.5675\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "7.135\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.3609\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "10.083\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-18-08",
@@ -45628,7 +46404,201 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-11-09-M",
+        "stem": "Tip force is 2460 N and spar length is 2.38 m. What is the bending moment?",
+        "options": [
+          "5854.8 N m",
+          "2927.4 N m",
+          "11709.6 N m",
+          "8782.2 N m"
+        ],
+        "answer": 0,
+        "explanation": "2460 × 2.38 = 5854.8 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=2460\\times 2.38=5854.8\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-N3-11-09-S",
+        "stem": "For the stress limit, M c = 415.6908 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "3.959 × 10^-6 m⁴",
+          "1.9795 × 10^-6 m⁴",
+          "7.9179 × 10^-6 m⁴",
+          "5.9384 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "415.6908 ÷ 105 = 3.959 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{415.6908}{105}=3.959\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=415.6908\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "3.959\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "1.9795\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "7.9179\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.9384\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-09-D",
+        "stem": "For the deflection limit, unit conversion gives 33163.9291 ÷ 2982 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "11.1214 × 10^-6 m⁴",
+          "5.5607 × 10^-6 m⁴",
+          "22.2427 × 10^-6 m⁴",
+          "16.6821 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "33163.9291 ÷ 2982 = 11.1214 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{33163.9291}{2982}=11.1214\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{33163.9291}{2982}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "11.1214\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "5.5607\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "22.2427\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "16.6821\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-09",
+        "stem": "The stress limit requires 3.959 and the deflection limit 11.1214, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 11.1214 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(3.959,11.1214)=11.1214\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=3.959\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=11.1214\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "3.7071\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "11.121\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "7.9179\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "3.959\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-18-09",
@@ -47133,7 +48103,201 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-11-10-M",
+        "stem": "Tip force is 2580 N and spar length is 2.44 m. What is the bending moment?",
+        "options": [
+          "6295.2 N m",
+          "3147.6 N m",
+          "12590.4 N m",
+          "9442.8 N m"
+        ],
+        "answer": 0,
+        "explanation": "2580 × 2.44 = 6295.2 N m.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "M=2580\\times 2.44=6295.2\\,\\mathrm{N\\,m}"
+            }
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-MOMENT-FORMULA",
+          "latex": "M=FL"
+        }
+      },
+      {
+        "id": "TA1-N3-11-10-S",
+        "stem": "For the stress limit, M c = 459.5496 N m² and allowable stress is 105 MPa. Find the required inertia in 10⁻⁶ m⁴.",
+        "options": [
+          "4.3767 × 10^-6 m⁴",
+          "2.1883 × 10^-6 m⁴",
+          "8.7533 × 10^-6 m⁴",
+          "6.565 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "459.5496 ÷ 105 = 4.3767 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\sigma=\\frac{459.5496}{105}=4.3767\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the stress limit, "
+            },
+            {
+              "latex": "Mc=459.5496\\,\\mathrm{N\\,m^2}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
+            },
+            {
+              "text": ". Find the required inertia."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "4.3767\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "2.1883\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "8.7533\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "6.565\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-STRESS-FORMULA",
+          "latex": "I_\\sigma=\\frac{Mc}{\\sigma_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-10-D",
+        "stem": "For the deflection limit, unit conversion gives 37479.1027 ÷ 3066 in 10⁻⁶ m⁴. What inertia is required?",
+        "options": [
+          "12.2241 × 10^-6 m⁴",
+          "6.1121 × 10^-6 m⁴",
+          "24.4482 × 10^-6 m⁴",
+          "18.3362 × 10^-6 m⁴"
+        ],
+        "answer": 0,
+        "explanation": "37479.1027 ÷ 3066 = 12.2241 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_\\delta=\\frac{37479.1027}{3066}=12.2241\\times 10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "For the deflection limit, unit conversion gives "
+            },
+            {
+              "latex": "\\frac{37479.1027}{3066}\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What inertia is required?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "12.2241\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "6.1121\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "24.4482\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "18.3362\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        },
+        "formula_hint": {
+          "prerequisite": "SPAR-DEFLECTION-FORMULA",
+          "latex": "I_\\delta=\\frac{FL^3}{3E\\delta_a}"
+        }
+      },
+      {
+        "id": "TA1-N3-11-10",
+        "stem": "The stress limit requires 4.3767 and the deflection limit 12.2241, both in 10⁻⁶ m⁴. What minimum inertia satisfies both?",
+        "explanation": "Both limits must be satisfied, so choose the larger value: 12.2241 × 10^-6 m⁴.",
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "I_{\\min}=\\max(4.3767,12.2241)=12.2241\\times10^{-6}\\,\\mathrm{m^4}"
+            }
+          ],
+          "stem": [
+            {
+              "text": "The stress and deflection limits require "
+            },
+            {
+              "latex": "I_\\sigma=4.3767\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "I_\\delta=12.2241\\times10^{-6}\\,\\mathrm{m^4}"
+            },
+            {
+              "text": ". What minimum inertia satisfies both?"
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "12.224\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "8.7533\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.3767\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ],
+            [
+              {
+                "latex": "4.0747\\times 10^{-6}\\,\\mathrm{m^4}"
+              }
+            ]
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-18-10",

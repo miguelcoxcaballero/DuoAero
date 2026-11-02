@@ -606,9 +606,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='intro' and not production:
   mixed=lesson_questions([by_id['TA1-0737-D3']],teach_words=True)
   assert len(mixed)==17
- if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='rest' and not production:
-  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0774-D3','TA1-0836-D3','TA1-0950-D3')],teach_words=True)
-  assert len(mixed)==12
+ if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='rest-a' and not production:
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0774-D3','TA1-0836-D3','TA1-0950-D3','TA1-0957-D3')],teach_words=True)
+  assert len(mixed)==16
+ if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='rest-b' and not production:
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-N3-11-06','TA1-N3-11-07','TA1-N3-11-08','TA1-N3-11-09','TA1-N3-11-10')],teach_words=True)
+  assert len(mixed)==20
  if os.environ.get('DUOAERO_MASS_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0024-F1']],teach_words=True)
   assert len(mixed)==6

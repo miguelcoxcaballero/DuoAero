@@ -1660,14 +1660,20 @@
           "TA1-0774-D3",
           "TA1-0836-D3",
           "TA1-0950-D3",
-          "TA1-0957-D3",
+          "TA1-0957-D3"
+        ],
+        "name": "Wing structural components · Lesson 3"
+      },
+      {
+        "id": "2.3-3-point-0-lesson-3",
+        "ids": [
           "TA1-N3-11-06",
           "TA1-N3-11-07",
           "TA1-N3-11-08",
           "TA1-N3-11-09",
           "TA1-N3-11-10"
         ],
-        "name": "Wing structural components · Lesson 3"
+        "name": "Wing structural components · Lesson 4"
       }
     ]
   },
