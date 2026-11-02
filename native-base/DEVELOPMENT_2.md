@@ -302,8 +302,11 @@ One column-capacity example now teaches yield load and capacity factor with
 word, named-quantity and symbolic exercises before three short calculations.
 Android run 41464615993 graded its 11 controls using the original controller;
 its inspected screenshots show the named tiles in the numerator and denominator
-of the native fraction. Wrong-answer feedback, retries and other fraction
-layouts still need device tests. Android run 41467201483 subsequently passed
+of the native fraction. Android run 41467380208 intentionally submitted an
+incorrect fraction, observed incorrect feedback only after Check, retried it
+at lesson end, corrected it and reached Claim XP. Its solution screenshot was
+not collected, so the wrong-answer LaTeX appearance remains unverified. Other
+fraction layouts still need device tests. Android run 41467201483 passed
 the fraction, static Linus path and synthetic account scenarios together in
 one source snapshot. To honor the source-publication restriction,
 the public question bank now retains source category, title and cited pages,

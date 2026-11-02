@@ -64,7 +64,7 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch)throws Exception {
+ static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
   actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
@@ -80,6 +80,7 @@ final class SessionInteraction {
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
    boolean hinted=hintRetry&&q.getString("id").equals(hintId);
+   boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
    if(hinted){
     hintedQuestion=q;
     clickTip(test);Thread.sleep(800);
@@ -100,7 +101,7 @@ final class SessionInteraction {
    }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
    else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
-    for(int j=0;j<tokens.length();j++){clickLast(test,tokens.getString(j));Thread.sleep(500);}
+    for(int j=0;j<tokens.length();j++){clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);}
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
     Thread.sleep(1500); // Original JS grading completes asynchronously.
@@ -115,10 +116,10 @@ final class SessionInteraction {
    boolean correct=hasContinue(test)&&!contains(test,"GOT IT");
    for(String label:positive)if(contains(test,label))correct=true;
    if(!correct)click(test,"com.duolingo:id/submitButton",null);
-   if(hinted){
+   if(hinted||wrongFraction){
     for(int attempt=0;attempt<150&&!contains(test,"GOT IT");attempt++)Thread.sleep(200);
-    if(!contains(test,"GOT IT"))throw new IllegalStateException("Hint did not produce incorrect feedback at Check");
-    SessionScreen.capture(test,"mixed-mach-hinted-feedback","mixed-mach-hinted-feedback");
+    if(!contains(test,"GOT IT"))throw new IllegalStateException("Expected incorrect feedback after Check");
+    SessionScreen.capture(test,wrongFraction?"mixed-fraction-wrong":"mixed-mach-hinted-feedback",wrongFraction?"mixed-fraction-wrong":"mixed-mach-hinted-feedback");
     click(test,null,"GOT IT");continue;
    }
    for(int attempt=0;attempt<150&&!correct;attempt++){
@@ -130,6 +131,26 @@ final class SessionInteraction {
    if(!correct)throw new IllegalStateException("No original correct feedback for "+q.getString("id"));
    android.util.Log.i("DuoAeroProbe","Native mixed feedback CORRECT: "+q.getString("id")+" type="+kind);
    click(test,null,"CONTINUE");
+  }
+  if(fractionWrong){
+   org.json.JSONObject retry=null;
+   for(int i=0;i<questions.length();i++)if(questions.getJSONObject(i).getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL"))retry=questions.getJSONObject(i);
+   if(retry==null)throw new IllegalStateException("Fraction retry question missing");
+   for(int attempt=0;attempt<150&&!(contains(test,"Complete the formula with quantities")&&contains(test,"capacity")&&contains(test,"force"));attempt++){
+    if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
+    Thread.sleep(200);
+   }
+   if(!(contains(test,"Complete the formula with quantities")&&contains(test,"capacity")&&contains(test,"force")))throw new IllegalStateException("Wrong fraction did not retry at lesson end");
+   SessionScreen.capture(test,"mixed-fraction-retry","mixed-fraction-retry");
+   org.json.JSONArray tokens=retry.getJSONArray("answer_blocks");
+   for(int i=0;i<tokens.length();i++){clickLast(test,tokens.getString(i));Thread.sleep(500);}
+   click(test,"com.duolingo:id/submitButton",null);
+   for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
+   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Fraction retry did not grade correctly");
+   click(test,null,"CONTINUE");
+   for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
+   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Fraction retry did not reach completion");
+   return "PASS: wrong native fraction graded at Check and retried at lesson end, then Claim XP appeared. Course persistence not tested.\n";
   }
   if(hintRetry){
    String retryNeedle=windScenario?"1.4583":"17.97";
