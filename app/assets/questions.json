@@ -6908,7 +6908,34 @@
       "3 m": "Correct: 60/20 = 3."
     },
     "legacy_id": "TA1-0031",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "MEAN-CHORD-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the geometric mean chord formula",
+        "prefix": "\\bar{c} =",
+        "blocks": [
+          "\\frac{S}{b}",
+          "\\frac{b}{S}",
+          "S × b",
+          "S + b"
+        ],
+        "answer_blocks": [
+          "\\frac{S}{b}"
+        ],
+        "formula_latex": "\\bar{c}=\\frac{S}{b}",
+        "explanation": "\\bar{c}=\\frac{S}{b}"
+      },
+      {
+        "id": "TA1-0031-F1",
+        "formula_hint": {
+          "latex": "\\bar{c}=\\frac{S}{b}",
+          "prerequisite": "MEAN-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
   "id": "TA1-0180-F1",

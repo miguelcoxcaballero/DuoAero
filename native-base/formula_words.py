@@ -44,6 +44,7 @@ FORMULAS = {
  'wing_loading': ('Weight W divided by wing area S equals dynamic pressure q times lift ___.', 'coefficient', ['temperature', 'altitude', 'density']),
  'lift': ('Lift L equals dynamic pressure q times wing area S times lift ___.', 'coefficient', ['temperature', 'altitude', 'density']),
  'total_thrust': ('Total thrust T equals momentum thrust T-m plus pressure thrust T-p, the thrust due to pressure ___.', 'difference', ['temperature', 'density', 'altitude']),
+ 'mean_chord': ('Geometric mean chord c-bar equals wing area S divided by wing ___ b.', 'span', ['pressure', 'mass', 'density']),
 }
 
 KINDS = {
@@ -69,6 +70,7 @@ KINDS = {
  'CABIN-PRESSURE-FORMULA':'cabin_pressure', 'CABIN-MACH-PRESSURE':'mach_pressure', 'CABIN-WING-LOADING':'wing_loading',
  'LIFT-FORMULA':'lift',
  'TOTAL-THRUST-FORMULA':'total_thrust',
+ 'MEAN-CHORD-FORMULA':'mean_chord',
 }
 
 # Each item is emitted as mathematical LaTeX inside the surrounding sentence.
@@ -84,7 +86,7 @@ INLINE_SYMBOLS = {
  'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
  'k':'k', 'A':'A', 'L':'L', 'I':'I', 'Pcr':r'P_{cr}', 'E-Y':r'E_Y', 'K':'K',
  'delta-L':r'\Delta L', 'F':'F', 'AR':r'\mathrm{AR}', 'b':'b', 'S':'S',
- 'lambda':r'\lambda', 'c-tip':r'c_t', 'c-root':r'c_r', 'P-hyd':r'P_{\mathrm{hyd}}',
+ 'lambda':r'\lambda', 'c-bar':r'\bar{c}', 'c-tip':r'c_t', 'c-root':r'c_r', 'P-hyd':r'P_{\mathrm{hyd}}',
  'delta-p':r'\Delta p', 'T-m':r'T_m', 'T-p':r'T_p', 'Q':'Q', 'q':'q', 'pi':r'\pi', 'CDi':r'C_{D,i}',
  'CL':r'C_L', 'e':'e', 'm-dot':r'\dot{m}', 'Ve':r'V_e', 'V0':r'V_0',
  'delta-T':r'\Delta T', 'cp':r'c_p', 'Tt':r'T_t', 'a':'a',
@@ -128,6 +130,7 @@ EQUATION_NAMES = {
  'wing_loading':('lift coefficient',['wing area','weight','airspeed']),
  'lift':('lift',['drag','weight','wing area']),
  'total_thrust':('total thrust',['momentum thrust','pressure thrust','wing area']),
+ 'mean_chord':('mean chord',['wingspan','wing area','aspect ratio']),
 }
 
 # Where the quantity is an operand at the top level, keep the hole precisely
@@ -227,6 +230,8 @@ MULTI_NAMED = {
           ['temperature','altitude','mass'], ['___','=','___',r'\times','___',r'\times','___']),
  'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum thrust','pressure thrust'],
                   ['temperature','altitude','mass'], ['___','=','___','+','___']),
+ 'mean_chord': (r'\bar{c}=\frac{S}{b}', ['mean chord','wing area','wingspan'],
+                ['temperature','density','mass'], ['___','=','___/___']),
  'thrust': (r'T=\dot m(V_e-V_0)', ['thrust','mass flow','exhaust speed','flight speed'],
             ['pressure','density','altitude'], ['___','=','___',r'\times','(','___','-','___',')']),
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],
