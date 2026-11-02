@@ -144,9 +144,12 @@ the route with a third draft topic present, and run 41383706755 graded its ten
 draft questions. The combined branch passed synthetic accounts and the first
 Atmosphere progression test in run 41384151374; its second-section test first
 opened the welcome screen because the diagnostic bootstrap was not enabled.
-That setup is corrected, and the rerun remains pending. Thirty conceptual
-questions are kept as diagnostic-only draft content: production content,
-rewards, Drive and the complete second-midterm course remain unverified.
+That setup is corrected, and the rerun remains pending. The research draft now
+also includes twenty original conceptual questions on diverse aircraft and
+rotorcraft, aligned with the course outline; these are not in the diagnostic
+section or production. All fifty draft questions, the missing topics and
+calculations, rewards, Drive and the complete second-midterm course still need
+editorial review and Android acceptance.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
