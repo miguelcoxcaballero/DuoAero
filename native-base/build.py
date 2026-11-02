@@ -731,14 +731,14 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert len(mixed)==5 and mixed[1]['id']=='ISA-ISOTHERMAL-FORMULA-NAMED-ALL'
  if os.environ.get('DUOAERO_ROCKET_DRAFT_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
-  from rocket_lesson import lesson as rocket_lesson
-  mixed=rocket_lesson()
-  assert len(mixed)==10
+  from speed_limits_lesson import prerequisites
+  mixed=prerequisites()
+  assert len(mixed)==20
  if os.environ.get('DUOAERO_ORBIT_DRAFT_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
-  from orbit_lesson import lesson as orbit_lesson
-  mixed=orbit_lesson()
-  assert len(mixed)==10
+  from speed_limits_steps import draft
+  mixed=draft(by_id['TA1-0867-D3'])
+  assert len(mixed)==8
  if os.environ.get('DUOAERO_BUCKLING_NOTATION_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057']],teach_words=True)
   assert len(mixed)==2
