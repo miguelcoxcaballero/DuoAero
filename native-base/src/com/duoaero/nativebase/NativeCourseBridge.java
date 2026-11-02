@@ -499,18 +499,22 @@ public final class NativeCourseBridge {
  static void diagnosticBatchCategories(Object request)throws Exception {
   org.json.JSONArray requests=requestJson(request).optJSONArray("requests");
   if(requests==null){Log.i("DuoAeroNative","Synthetic batch has no request array");return;}
-  int sessions=0,users=0,events=0,other=0;
+  Map<String,Integer> counts=new java.util.TreeMap<>();
   for(int i=0;i<requests.length();i++){
-   JSONObject item=requests.optJSONObject(i);if(item==null){other++;continue;}
+   JSONObject item=requests.optJSONObject(i);if(item==null)continue;
    String value=item.optString("url","");String route;
    try{route=new java.net.URI(value).getPath();}catch(Exception invalid){route="";}
    if(route==null)route="";
-   if(route.contains("/sessions"))sessions++;
-   else if(route.contains("/users/"))users++;
-   else if(route.contains("/events")||route.contains("/tracking")||route.contains("/analytics"))events++;
-   else other++;
+   String category=route.contains("/sessions")?"sessions":route.contains("/quests")?"quests":
+       route.contains("/streak")?"streak":route.contains("/leaderboards")?"leaderboards":
+       route.contains("/shop")?"shop":route.contains("/friends")?"friends":
+       route.contains("/goals")?"goals":route.contains("/events")||route.contains("/tracking")||route.contains("/analytics")?"events":
+       route.contains("/users/")?"other-user":"other";
+   String method=item.optString("method","").toUpperCase(java.util.Locale.ROOT);
+   if(!java.util.Arrays.asList("GET","POST","PUT","PATCH","DELETE").contains(method))method="UNKNOWN";
+   String key=method+":"+category;counts.put(key,counts.containsKey(key)?counts.get(key)+1:1);
   }
-  Log.i("DuoAeroNative","Synthetic batch route categories: sessions="+sessions+", users="+users+", events="+events+", other="+other);
+  Log.i("DuoAeroNative","Synthetic batch route categories: "+counts);
  }
  static JSONObject requestJson(Object request)throws Exception {
   Object body=call(request,"body");if(body==null)throw new IllegalArgumentException("Missing local session request");
