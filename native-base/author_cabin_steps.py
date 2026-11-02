@@ -60,9 +60,9 @@ for index, question in enumerate(family):
         steps.append(choice(prefix+'-S2', f'Mach number is {mach}. What is its square?',
             [fmt(square,6),fmt(mach,6),fmt(square*2,6),fmt(square/2,6)], '',
             f'{mach} × {mach} = {fmt(square,6)}.',r'q=\frac12\gamma pM^2','CABIN-MACH-PRESSURE'))
-        dynamic_stem=f'Outside pressure is {outside} Pa and Mach squared is {fmt(square,6)}. For γ = 1.4, what is dynamic pressure?'
+        dynamic_stem=f'Outside pressure is {outside} Pa and Mach squared is {fmt(square,6)}. For gamma = 1.4, what is dynamic pressure?'
     else:
-        dynamic_stem=f'Outside pressure is {outside} Pa and Mach is {mach}. For γ = 1.4, what is dynamic pressure?'
+        dynamic_stem=f'Outside pressure is {outside} Pa and Mach is {mach}. For gamma = 1.4, what is dynamic pressure?'
     steps.append(choice(prefix+'-S3', dynamic_stem,
         [fmt(dynamic,2),fmt(dynamic*2,2),fmt(dynamic/2,2),fmt(dynamic*Decimal('1.2'),2)], ' Pa',
         f'0.7 × {outside} × {fmt(square,6)} = {fmt(dynamic,2)} Pa.',

@@ -29884,7 +29884,7 @@
       },
       {
         "id": "TA1-0776-D3-S3",
-        "stem": "Outside pressure is 19000 Pa and Mach squared is 0.518400. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 19000 Pa and Mach squared is 0.518400. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "6894.72 Pa",
           "13789.44 Pa",
@@ -32127,7 +32127,7 @@
       },
       {
         "id": "TA1-0790-D3-S3",
-        "stem": "Outside pressure is 18800 Pa and Mach is 0.728. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 18800 Pa and Mach is 0.728. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "6974.59 Pa",
           "13949.18 Pa",
@@ -33983,7 +33983,7 @@
       },
       {
         "id": "TA1-0848-D3-S3",
-        "stem": "Outside pressure is 18600 Pa and Mach squared is 0.541696. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 18600 Pa and Mach squared is 0.541696. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7052.88 Pa",
           "14105.76 Pa",
@@ -35680,7 +35680,7 @@
       },
       {
         "id": "TA1-0921-D3-S3",
-        "stem": "Outside pressure is 18400 Pa and Mach squared is 0.553536. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 18400 Pa and Mach squared is 0.553536. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7129.54 Pa",
           "14259.08 Pa",
@@ -37405,7 +37405,7 @@
       },
       {
         "id": "TA1-0949-D3-S3",
-        "stem": "Outside pressure is 18200 Pa and Mach squared is 0.565504. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 18200 Pa and Mach squared is 0.565504. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7204.52 Pa",
           "14409.04 Pa",
@@ -39130,7 +39130,7 @@
       },
       {
         "id": "TA1-N3-38-06-S3",
-        "stem": "Outside pressure is 18000 Pa and Mach squared is 0.577600. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 18000 Pa and Mach squared is 0.577600. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7277.76 Pa",
           "14555.52 Pa",
@@ -40855,7 +40855,7 @@
       },
       {
         "id": "TA1-N3-38-07-S3",
-        "stem": "Outside pressure is 17800 Pa and Mach squared is 0.589824. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 17800 Pa and Mach squared is 0.589824. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7349.21 Pa",
           "14698.42 Pa",
@@ -42580,7 +42580,7 @@
       },
       {
         "id": "TA1-N3-38-08-S3",
-        "stem": "Outside pressure is 17600 Pa and Mach squared is 0.602176. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 17600 Pa and Mach squared is 0.602176. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7418.81 Pa",
           "14837.62 Pa",
@@ -44305,7 +44305,7 @@
       },
       {
         "id": "TA1-N3-38-09-S3",
-        "stem": "Outside pressure is 17400 Pa and Mach squared is 0.614656. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 17400 Pa and Mach squared is 0.614656. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7486.51 Pa",
           "14973.02 Pa",
@@ -46030,7 +46030,7 @@
       },
       {
         "id": "TA1-N3-38-10-S3",
-        "stem": "Outside pressure is 17200 Pa and Mach squared is 0.627264. For γ = 1.4, what is dynamic pressure?",
+        "stem": "Outside pressure is 17200 Pa and Mach squared is 0.627264. For gamma = 1.4, what is dynamic pressure?",
         "options": [
           "7552.26 Pa",
           "15104.52 Pa",

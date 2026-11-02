@@ -4,6 +4,7 @@ import re
 from decimal import Decimal
 from pathlib import Path
 from course_adapter import lesson_questions
+from math_notation import parts
 
 root=Path(__file__).resolve().parents[1]
 bank=json.loads((root/'app/assets/questions.json').read_text())
@@ -22,6 +23,7 @@ for index,q in enumerate(family):
     assert all(len(s['stem'])<160 and len(set(s['options']))==4 for s in questions)
     assert Decimal(questions[0]['options'][questions[0]['answer']].split()[0])==p
     q_step=questions[-2]
+    assert {'latex':r'\gamma=1.4'} in parts(q_step['stem'])
     shown=Decimal(q_step['options'][q_step['answer']].split()[0])
     assert abs(shown-dynamic)<Decimal('.006')
     last=questions[-1]
