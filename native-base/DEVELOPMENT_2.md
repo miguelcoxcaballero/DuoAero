@@ -308,6 +308,11 @@ recorded moving transparent frames without the observed overlap. Only the
 artwork and state-machine change are integrated, not the diagnostic selector.
 Its appearance on a physical phone, other selectors and all remaining scenes
 still need review; this one animation does not establish a complete cast.
+The path screenshot from diagnostic run 41452609503 still shows the original
+Junior-and-frog illustration. The original resource is
+`res/raw/path_junior_frog.json`; it is not covered by the existing in-lesson
+character replacements. A Linus scene is artwork in progress and has not yet
+been animated or integrated.
 
 Android run 41395067195 passed the tall-window check on an emulated display
 with S24 Ultra proportions, using the course before the later splash and
