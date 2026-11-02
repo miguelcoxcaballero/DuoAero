@@ -110,8 +110,8 @@ The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
 split into three lessons, keeping prior IDs and introducing four new IDs;
-two further lessons were added for the staged approach and temperature/lift
-problems; all 85 lessons have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
+three further lessons were added for the staged approach, temperature/lift,
+and wing-geometry problems; all 86 lessons have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
 that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
 it covers questions omitted from the new shorter source lesson. Local tests
@@ -252,7 +252,7 @@ in Android run 41391868945, before the later icon and operator patches.
 A subsequent Android run 41392188207 graded all 19 exercises after adding an
 original matching screen for the four stall-speed quantities; its screenshot
 showed all four pairs on the emulated tall display. Run 41393579098 also
-passed the combined matching, operator-grouping and account-migration checks. The integrated bank has 85 lessons and six evidence-based path migrations.
+passed the combined matching, operator-grouping and account-migration checks. At that point the bank had 85 lessons and six evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
 The drag-polar parser now formats the complete reviewed equations and standalone
@@ -268,6 +268,13 @@ The division sign was left at a line end in an earlier screenshot; run
 Android run 41394920139 also passed the combined 85-lesson account,
 temperature/lift and 19-step approach diagnostics before the later splash and
 character changes. These checks do not cover every numerical problem.
+
+Eight trapezoidal-wing root-chord problems now teach their symbols and formulas
+before three short calculations each. Android run 41396895700 graded the 22
+introductory and 12 remaining controls, and passed synthetic account checks.
+The new path has 86 lessons and seven evidence-based migrations; the checked
+historical snapshots grant only path credit and do not create rewards. This
+does not cover all remaining wing calculations or a real-account migration.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly

@@ -17384,7 +17384,321 @@
       0.0
     ],
     "legacy_id": "TA1-0062",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "WING-QUANTITIES",
+        "type": "matching",
+        "stem": "Match each symbol to its quantity",
+        "pairs": [
+          [
+            "b",
+            "wingspan"
+          ],
+          [
+            "S",
+            "wing area"
+          ],
+          [
+            "AR",
+            "aspect ratio"
+          ],
+          [
+            "lambda",
+            "taper ratio"
+          ]
+        ],
+        "explanation": "Wingspan, wing area, aspect ratio and taper ratio describe the wing geometry."
+      },
+      {
+        "id": "WING-SPAN-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: Wingspan equals the square root of aspect ratio times wing ___.",
+        "answer": [
+          "area"
+        ],
+        "distractors": [
+          "mass",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "Wingspan equals the square root of aspect ratio times wing area."
+      },
+      {
+        "id": "WING-SPAN-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=\\sqrt{AR\\,S}",
+        "missing_latex": "b",
+        "formula_latex": "b=\\sqrt{AR\\,S}",
+        "answer_blocks": [
+          "wingspan"
+        ],
+        "blocks": [
+          "wingspan",
+          "area",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "b=\\sqrt{AR\\,S}"
+      },
+      {
+        "id": "WING-SPAN",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\sqrt{AR\\,S}",
+        "missing_latex": "b",
+        "formula_latex": "b=\\sqrt{AR\\,S}",
+        "answer_blocks": [
+          "b"
+        ],
+        "blocks": [
+          "b",
+          "S",
+          "T",
+          "p"
+        ],
+        "explanation": "b=\\sqrt{AR\\,S}"
+      },
+      {
+        "id": "WING-DENOM-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: The denominator equals wingspan times one plus taper ___.",
+        "answer": [
+          "ratio"
+        ],
+        "distractors": [
+          "density",
+          "pressure",
+          "mass"
+        ],
+        "explanation": "The denominator equals wingspan times one plus taper ratio."
+      },
+      {
+        "id": "WING-DENOM-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\times",
+          "(",
+          "1",
+          "+",
+          "___",
+          ")"
+        ],
+        "formula_latex": "d=b(1+\\lambda)",
+        "answer_blocks": [
+          "denominator",
+          "wingspan",
+          "taper ratio"
+        ],
+        "blocks": [
+          "wingspan",
+          "pressure",
+          "denominator",
+          "taper ratio",
+          "mass",
+          "temperature"
+        ],
+        "explanation": "d=b(1+\\lambda)"
+      },
+      {
+        "id": "WING-DENOM",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=b(1+\\lambda)",
+        "missing_latex": "d",
+        "formula_latex": "d=b(1+\\lambda)",
+        "answer_blocks": [
+          "d"
+        ],
+        "blocks": [
+          "d",
+          "S",
+          "T",
+          "p"
+        ],
+        "explanation": "d=b(1+\\lambda)"
+      },
+      {
+        "id": "WING-ROOT-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: Root chord equals twice wing area divided by the ___.",
+        "answer": [
+          "denominator"
+        ],
+        "distractors": [
+          "mass",
+          "density",
+          "pressure"
+        ],
+        "explanation": "Root chord equals twice wing area divided by the denominator."
+      },
+      {
+        "id": "WING-ROOT-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=\\frac{2S}{d}",
+        "missing_latex": "c_r",
+        "formula_latex": "c_r=\\frac{2S}{d}",
+        "answer_blocks": [
+          "root chord"
+        ],
+        "blocks": [
+          "root chord",
+          "wingspan",
+          "pressure",
+          "temperature"
+        ],
+        "explanation": "c_r=\\frac{2S}{d}"
+      },
+      {
+        "id": "WING-ROOT",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\frac{2S}{d}",
+        "missing_latex": "c_r",
+        "formula_latex": "c_r=\\frac{2S}{d}",
+        "answer_blocks": [
+          "cᵣ"
+        ],
+        "blocks": [
+          "cᵣ",
+          "b",
+          "S",
+          "p"
+        ],
+        "explanation": "c_r=\\frac{2S}{d}"
+      },
+      {
+        "id": "TA1-0062-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 266 m². What is wingspan?",
+        "options": [
+          "32.619013 m",
+          "8.154753 m",
+          "16.309506 m",
+          "133.000000 m"
+        ],
+        "answer": 2,
+        "explanation": "The square root of 266 is approximately 16.309506 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=266\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{266}\\approx16.309506\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0062-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 16.309506 m and one plus taper ratio is 1.4. What is their product?",
+        "options": [
+          "16.309506 m",
+          "31.966632 m",
+          "22.833308 m",
+          "11.649647 m"
+        ],
+        "answer": 2,
+        "explanation": "Multiply 16.309506 by 1.4 to get approximately 22.833308 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=16.309506\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.4"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=16.309506\\times1.4\\approx22.833308\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0062-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 76 m² and the denominator is 22.833308 m. What is root chord?",
+        "options": [
+          "7.7664 m",
+          "1.3314 m",
+          "3.3285 m",
+          "2.3299 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 76 by 22.833308 to get approximately 3.3285 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=76\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=22.833308\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{76}{22.833308}\\approx3.3285\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0125-D2",
@@ -19336,7 +19650,126 @@
       0.0
     ],
     "legacy_id": "TA1-0108",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0108-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 297.25 m². What is wingspan?",
+        "options": [
+          "148.625000 m",
+          "17.240940 m",
+          "34.481879 m",
+          "8.620470 m"
+        ],
+        "answer": 1,
+        "explanation": "The square root of 297.25 is approximately 17.240940 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=297.25\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{297.25}\\approx17.240940\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0108-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 17.240940 m and one plus taper ratio is 1.42. What is their product?",
+        "options": [
+          "34.764631 m",
+          "17.240940 m",
+          "24.482135 m",
+          "12.141507 m"
+        ],
+        "answer": 2,
+        "explanation": "Multiply 17.240940 by 1.42 to get approximately 24.482135 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=17.240940\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.42"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=17.240940\\times1.42\\approx24.482135\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0108-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 82 m² and the denominator is 24.482135 m. What is root chord?",
+        "options": [
+          "2.3781 m",
+          "8.2002 m",
+          "3.3494 m",
+          "1.4067 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 82 by 24.482135 to get approximately 3.3494 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=82\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=24.482135\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{82}{24.482135}\\approx3.3494\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0168-D2",
@@ -21208,7 +21641,126 @@
       0.0
     ],
     "legacy_id": "TA1-0220",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0220-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 330 m². What is wingspan?",
+        "options": [
+          "18.165902 m",
+          "165.000000 m",
+          "36.331804 m",
+          "9.082951 m"
+        ],
+        "answer": 0,
+        "explanation": "The square root of 330 is approximately 18.165902 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=330\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{330}\\approx18.165902\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0220-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 18.165902 m and one plus taper ratio is 1.44. What is their product?",
+        "options": [
+          "18.165902 m",
+          "37.668814 m",
+          "26.158899 m",
+          "12.615210 m"
+        ],
+        "answer": 2,
+        "explanation": "Multiply 18.165902 by 1.44 to get approximately 26.158899 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=18.165902\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.44"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=18.165902\\times1.44\\approx26.158899\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0220-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 88 m² and the denominator is 26.158899 m. What is root chord?",
+        "options": [
+          "8.6504 m",
+          "2.4221 m",
+          "1.4802 m",
+          "3.3641 m"
+        ],
+        "answer": 3,
+        "explanation": "Divide 88 by 26.158899 to get approximately 3.3641 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=88\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=26.158899\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{88}{26.158899}\\approx3.3641\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0221-D2",
@@ -23045,7 +23597,126 @@
       0.0
     ],
     "legacy_id": "TA1-0315",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0315-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 364.25 m². What is wingspan?",
+        "options": [
+          "19.085335 m",
+          "38.170669 m",
+          "182.125000 m",
+          "9.542667 m"
+        ],
+        "answer": 0,
+        "explanation": "The square root of 364.25 is approximately 19.085335 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=364.25\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{364.25}\\approx19.085335\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0315-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 19.085335 m and one plus taper ratio is 1.46. What is their product?",
+        "options": [
+          "27.864589 m",
+          "19.085335 m",
+          "13.072147 m",
+          "40.682300 m"
+        ],
+        "answer": 0,
+        "explanation": "Multiply 19.085335 by 1.46 to get approximately 27.864589 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=19.085335\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.46"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=19.085335\\times1.46\\approx27.864589\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0315-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 94 m² and the denominator is 27.864589 m. What is root chord?",
+        "options": [
+          "1.5518 m",
+          "2.4626 m",
+          "3.3735 m",
+          "9.1208 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 94 by 27.864589 to get approximately 3.3735 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=94\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=27.864589\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{94}{27.864589}\\approx3.3735\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0419-D2",
@@ -24788,7 +25459,126 @@
       0.0
     ],
     "legacy_id": "TA1-0383",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0383-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 400 m². What is wingspan?",
+        "options": [
+          "10.000000 m",
+          "200.000000 m",
+          "40.000000 m",
+          "20.000000 m"
+        ],
+        "answer": 3,
+        "explanation": "The square root of 400 is approximately 20.000000 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=400\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{400}\\approx20.000000\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0383-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 20.000000 m and one plus taper ratio is 1.48. What is their product?",
+        "options": [
+          "29.600000 m",
+          "43.808000 m",
+          "13.513514 m",
+          "20.000000 m"
+        ],
+        "answer": 0,
+        "explanation": "Multiply 20.000000 by 1.48 to get approximately 29.600000 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=20.000000\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.48"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=20.000000\\times1.48\\approx29.600000\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0383-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 100 m² and the denominator is 29.600000 m. What is root chord?",
+        "options": [
+          "1.6216 m",
+          "2.5 m",
+          "9.6154 m",
+          "3.3784 m"
+        ],
+        "answer": 3,
+        "explanation": "Divide 100 by 29.600000 to get approximately 3.3784 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=100\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=29.600000\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{100}{29.600000}\\approx3.3784\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0446-D2",
@@ -26545,7 +27335,126 @@
       0.0
     ],
     "legacy_id": "TA1-0407",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0407-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 437.25 m². What is wingspan?",
+        "options": [
+          "20.910524 m",
+          "41.821047 m",
+          "10.455262 m",
+          "218.625000 m"
+        ],
+        "answer": 0,
+        "explanation": "The square root of 437.25 is approximately 20.910524 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=437.25\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{437.25}\\approx20.910524\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0407-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 20.910524 m and one plus taper ratio is 1.5. What is their product?",
+        "options": [
+          "13.940349 m",
+          "31.365786 m",
+          "20.910524 m",
+          "47.048679 m"
+        ],
+        "answer": 1,
+        "explanation": "Multiply 20.910524 by 1.5 to get approximately 31.365786 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=20.910524\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.5"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=20.910524\\times1.5\\approx31.365786\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0407-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 106 m² and the denominator is 31.365786 m. What is root chord?",
+        "options": [
+          "1.6897 m",
+          "2.5346 m",
+          "3.3795 m",
+          "10.138 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 106 by 31.365786 to get approximately 3.3795 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=106\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=31.365786\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{106}{31.365786}\\approx3.3795\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0453-D2",
@@ -28325,7 +29234,126 @@
       -1.1102230246251565e-16
     ],
     "legacy_id": "TA1-0556",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0556-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 476 m². What is wingspan?",
+        "options": [
+          "238.000000 m",
+          "43.634848 m",
+          "10.908712 m",
+          "21.817424 m"
+        ],
+        "answer": 3,
+        "explanation": "The square root of 476 is approximately 21.817424 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=476\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{476}\\approx21.817424\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0556-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 21.817424 m and one plus taper ratio is 1.52. What is their product?",
+        "options": [
+          "21.817424 m",
+          "14.353568 m",
+          "50.406976 m",
+          "33.162484 m"
+        ],
+        "answer": 3,
+        "explanation": "Multiply 21.817424 by 1.52 to get approximately 33.162484 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=21.817424\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.52"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=21.817424\\times1.52\\approx33.162484\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0556-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 112 m² and the denominator is 33.162484 m. What is root chord?",
+        "options": [
+          "2.5668 m",
+          "10.695 m",
+          "3.3773 m",
+          "1.7562 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 112 by 33.162484 to get approximately 3.3773 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=112\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=33.162484\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{112}{33.162484}\\approx3.3773\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0454-D2",
@@ -30321,7 +31349,126 @@
       -1.1102230246251565e-16
     ],
     "legacy_id": "TA1-0566",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0566-D2-S1",
+        "type": "choice",
+        "stem": "Aspect ratio times wing area is 516.25 m². What is wingspan?",
+        "options": [
+          "22.721136 m",
+          "11.360568 m",
+          "45.442271 m",
+          "258.125000 m"
+        ],
+        "answer": 0,
+        "explanation": "The square root of 516.25 is approximately 22.721136 m.",
+        "formula_hint": {
+          "latex": "b=\\sqrt{AR\\,S}",
+          "prerequisite": "WING-SPAN"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Aspect ratio times wing area is "
+            },
+            {
+              "latex": "AR\\,S=516.25\\,\\mathrm{m^2}"
+            },
+            {
+              "text": ". What is wingspan?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "b=\\sqrt{516.25}\\approx22.721136\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0566-D2-S2",
+        "type": "choice",
+        "stem": "Wingspan is 22.721136 m and one plus taper ratio is 1.54. What is their product?",
+        "options": [
+          "22.721136 m",
+          "53.885446 m",
+          "34.990549 m",
+          "14.753984 m"
+        ],
+        "answer": 2,
+        "explanation": "Multiply 22.721136 by 1.54 to get approximately 34.990549 m.",
+        "formula_hint": {
+          "latex": "d=b(1+\\lambda)",
+          "prerequisite": "WING-DENOM"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Wingspan is "
+            },
+            {
+              "latex": "b=22.721136\\,\\mathrm m"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "1+\\lambda=1.54"
+            },
+            {
+              "text": ". What is their product?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "d=22.721136\\times1.54\\approx34.990549\\,\\mathrm m"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0566-D2",
+        "type": "choice",
+        "stem": "Twice wing area is 118 m² and the denominator is 34.990549 m. What is root chord?",
+        "options": [
+          "11.29 m",
+          "1.8211 m",
+          "3.3723 m",
+          "2.5967 m"
+        ],
+        "answer": 2,
+        "explanation": "Divide 118 by 34.990549 to get approximately 3.3723 m.",
+        "formula_hint": {
+          "latex": "c_r=\\frac{2S}{d}",
+          "prerequisite": "WING-ROOT"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Twice wing area is "
+            },
+            {
+              "latex": "2S=118\\,\\mathrm{m^2}"
+            },
+            {
+              "text": " and the denominator is "
+            },
+            {
+              "latex": "d=34.990549\\,\\mathrm m"
+            },
+            {
+              "text": ". What is root chord?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "c_r=\\frac{118}{34.990549}\\approx3.3723\\,\\mathrm m"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0513-D2",
