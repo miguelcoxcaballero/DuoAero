@@ -27,10 +27,10 @@ index 453458d..9725d1e 100644
      ]
    },
 diff --git a/app/assets/questions.json b/app/assets/questions.json
-index b597134..0bccef4 100644
+index b597134..5d210fe 100644
 --- a/app/assets/questions.json
 +++ b/app/assets/questions.json
-@@ -32828,7 +32828,173 @@
+@@ -32828,7 +32828,284 @@
        0.0
      ],
      "legacy_id": "TA1-0737",
@@ -159,6 +159,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\sigma=\\frac{156.75}{105}=1.4929\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the stress limit, "
++            },
++            {
++              "latex": "Mc=156.75\\,\\mathrm{N\\,m^2}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
++            },
++            {
++              "text": ". Find the required inertia."
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "1.4929\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "0.7464\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.9857\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.2393\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -182,6 +221,39 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\delta=\\frac{10288.5}{2310}=4.4539\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the deflection limit, unit conversion gives "
++            },
++            {
++              "latex": "\\frac{10288.5}{2310}\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What inertia is required?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "4.4539\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.2269\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "8.9078\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "6.6808\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -198,6 +270,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_{\\min}=\\max(1.4929,4.4539)=4.4539\\times10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "The stress and deflection limits require "
++            },
++            {
++              "latex": "I_\\sigma=1.4929\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "I_\\delta=4.4539\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What minimum inertia satisfies both?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "4.4539\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.4929\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.9857\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.4846\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        }
 +      }
@@ -205,7 +316,7 @@ index b597134..0bccef4 100644
    },
    {
      "id": "TA1-0674-D3",
-@@ -34304,7 +34470,90 @@
+@@ -34304,7 +34581,201 @@
        0.0
      ],
      "legacy_id": "TA1-0774",
@@ -251,6 +362,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\sigma=\\frac{180.9864}{105}=1.7237\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the stress limit, "
++            },
++            {
++              "latex": "Mc=180.9864\\,\\mathrm{N\\,m^2}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
++            },
++            {
++              "text": ". Find the required inertia."
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "1.7237\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "0.8618\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "3.4474\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.5855\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -274,6 +424,39 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\delta=\\frac{12197.8483}{2394}=5.0952\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the deflection limit, unit conversion gives "
++            },
++            {
++              "latex": "\\frac{12197.8483}{2394}\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What inertia is required?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "5.0952\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.5476\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "10.1903\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "7.6428\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -290,6 +473,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_{\\min}=\\max(1.7237,5.0952)=5.0952\\times10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "The stress and deflection limits require "
++            },
++            {
++              "latex": "I_\\sigma=1.7237\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "I_\\delta=5.0952\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What minimum inertia satisfies both?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "3.4474\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.6984\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "5.0952\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.7237\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        }
 +      }
@@ -297,7 +519,7 @@ index b597134..0bccef4 100644
    },
    {
      "id": "TA1-0715-D3",
-@@ -35767,7 +36016,90 @@
+@@ -35767,7 +36238,201 @@
        0.0
      ],
      "legacy_id": "TA1-0836",
@@ -343,6 +565,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\sigma=\\frac{207.3732}{105}=1.975\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the stress limit, "
++            },
++            {
++              "latex": "Mc=207.3732\\,\\mathrm{N\\,m^2}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
++            },
++            {
++              "text": ". Find the required inertia."
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "1.975\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "0.9875\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "3.95\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.9625\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -366,6 +627,39 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\delta=\\frac{14341.7899}{2478}=5.7876\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the deflection limit, unit conversion gives "
++            },
++            {
++              "latex": "\\frac{14341.7899}{2478}\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What inertia is required?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "5.7876\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.8938\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "11.5753\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "8.6815\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -382,6 +676,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_{\\min}=\\max(1.975,5.7876)=5.7876\\times10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "The stress and deflection limits require "
++            },
++            {
++              "latex": "I_\\sigma=1.975\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "I_\\delta=5.7876\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What minimum inertia satisfies both?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "1.975\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.9292\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "5.7876\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "3.95\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        }
 +      }
@@ -389,7 +722,7 @@ index b597134..0bccef4 100644
    },
    {
      "id": "TA1-0802-D3",
-@@ -37244,7 +37576,90 @@
+@@ -37244,7 +37909,201 @@
        0.0
      ],
      "legacy_id": "TA1-0950",
@@ -435,6 +768,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\sigma=\\frac{235.9968}{105}=2.2476\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the stress limit, "
++            },
++            {
++              "latex": "Mc=235.9968\\,\\mathrm{N\\,m^2}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "\\sigma_a=105\\,\\mathrm{MPa}"
++            },
++            {
++              "text": ". Find the required inertia."
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "2.2476\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "1.1238\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "4.4952\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "3.3714\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -458,6 +830,39 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_\\delta=\\frac{16737.9763}{2562}=6.5332\\times 10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "For the deflection limit, unit conversion gives "
++            },
++            {
++              "latex": "\\frac{16737.9763}{2562}\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What inertia is required?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "6.5332\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "3.2666\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "13.0663\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "9.7998\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        },
 +        "formula_hint": {
@@ -474,6 +879,45 @@ index b597134..0bccef4 100644
 +            {
 +              "latex": "I_{\\min}=\\max(2.2476,6.5332)=6.5332\\times10^{-6}\\,\\mathrm{m^4}"
 +            }
++          ],
++          "stem": [
++            {
++              "text": "The stress and deflection limits require "
++            },
++            {
++              "latex": "I_\\sigma=2.2476\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": " and "
++            },
++            {
++              "latex": "I_\\delta=6.5332\\times10^{-6}\\,\\mathrm{m^4}"
++            },
++            {
++              "text": ". What minimum inertia satisfies both?"
++            }
++          ],
++          "options": [
++            [
++              {
++                "latex": "4.4952\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.1777\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "2.2476\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ],
++            [
++              {
++                "latex": "6.5332\\times 10^{-6}\\,\\mathrm{m^4}"
++              }
++            ]
 +          ]
 +        }
 +      }
@@ -643,10 +1087,10 @@ index 8542ecd..466b331 100644
 +print('PASS: all 87 lesson IDs and unsafe filename cases; Android submission still requires device acceptance.')
 diff --git a/native-base/test_spar_steps.py b/native-base/test_spar_steps.py
 new file mode 100644
-index 0000000..dcd418f
+index 0000000..1ed31fd
 --- /dev/null
 +++ b/native-base/test_spar_steps.py
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,42 @@
 +"""Check staged spar arithmetic, formula ordering and migration inputs."""
 +import json
 +import re
@@ -682,5 +1126,10 @@ index 0000000..dcd418f
 +    answer = Decimal(re.match(r'[0-9.]+', parts[-1]['options'][parts[-1]['answer']]).group())
 +    assert abs(answer-max(expected[1:])) < Decimal('0.0006'), qid
 +    assert len(parts[-1]['stem']) < 160
++    for part in parts[1:]:
++        rich = part['rich_text']
++        assert any('latex' in segment for segment in rich['stem'])
++        assert len(rich['options']) == len(part['options'])
++        assert all(r'10^{-6}' in option[0]['latex'] for option in rich['options'])
 +    session([original], qid, teach_words=True)
 +print('PASS: four staged spar problems and three word-first formulas; Android UI unverified.')
