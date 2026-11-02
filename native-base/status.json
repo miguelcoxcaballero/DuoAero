@@ -35,7 +35,8 @@
       "Android run 41523145284 crashed in the experimental product-fraction sequence with a SequenceTokenUiState class cast. The native-token wrapper avoided that cast, but run 41528348194 then crashed due to Compose intrinsic measurements. Product fractions now use a parenthesized division fallback awaiting Android testing.",
       "Android run 41527035707 displayed the axial-extension hint, waited until Check to grade, retried at lesson end and reached Claim XP. Inspected captures show ΔL and the hint fraction. It is a synthetic diagnostic session, not real-account persistence.",
       "Android runs 41526287112 and 41527904567 graded the lift and mean-chord sequences; inspected S24-proportioned captures show quantity blocks and the mean-chord fraction. Run 41527421053 graded total thrust, but a bank option was clipped at the right edge; shorter tiles await Android retest.",
-      "Android run 41529226548 graded two additional wind problems split into four steps; inspected prompts fit and show formula-hint controls."
+      "Android run 41529226548 graded two additional wind problems split into four steps; inspected prompts fit and show formula-hint controls.",
+      "Android run 41530291309 graded eight staged kinetic-heating and Mach controls and passed synthetic account checks; inspected S24-proportioned prompts and hint buttons fit. Android run 41529919628 graded compact total-thrust controls and its inspected bank no longer clips. These do not prove physical-device or real-account behavior."
     ],
     "incomplete": [
       "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",
