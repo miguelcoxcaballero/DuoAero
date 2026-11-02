@@ -121,13 +121,13 @@ token_end=flow_row_text.index('.end method',token_start)
 token_method=flow_row_text[token_start:token_end]
 token_anchor='    move/from16 v8, p7'
 assert token_method.count(token_anchor)==1
-token_hook=token_anchor+'\
-\
-    const v0, 0x430c0000\
-\
-    invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F\
-\
-    move-result v8'
+token_hook=token_anchor+'''
+
+    const v0, 0x430c0000
+
+    invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F
+
+    move-result v8'''
 flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
 flow_row_end=flow_row_text.index('.end method',flow_row_start)
