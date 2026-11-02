@@ -30,6 +30,12 @@ assert notation_parts('Require TAS>=1.3Vs and M<=0.75.') == [
     {'text': ' and '}, {'latex': r'M\leq 0.75'}, {'text': '.'}]
 assert notation_parts('Vapp>=1.3 Vs; Vs<=71') == [
     {'latex': r'V_{\mathrm{app}}\geq 1.3V_s'}, {'text': '; '}, {'latex': r'V_s\leq 71'}]
+assert notation_parts('Use Vapp=1.3Vs and CLmax=1.75.') == [
+    {'text': 'Use '}, {'latex': r'V_{\mathrm{app}}=1.3V_s'}, {'text': ' and '},
+    {'latex': r'C_{L,\max}=1.75'}, {'text': '.'}]
+assert notation_parts('Approach Vapp and stall speed Vs.') == [
+    {'text': 'Approach '}, {'latex': r'V_{\mathrm{app}}'},
+    {'text': ' and stall speed '}, {'latex': r'V_s'}, {'text': '.'}]
 assert notation_parts('The camera is fine') == [{'text': 'The camera is fine'}]
 assert notation_parts('Vstall=sqrt(2W/(rho S CLmax))') == [
     {'latex':r'V_{\mathrm{stall}}=\sqrt{\frac{2W}{\rho\,S\,C_{L,\max}}}'}]

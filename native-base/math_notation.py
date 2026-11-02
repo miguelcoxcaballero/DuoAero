@@ -22,9 +22,11 @@ _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
+    r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*(?:Vapp|Vstall|Vs|Vmd))?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
+    r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)'
     r'|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
@@ -37,9 +39,15 @@ TOKEN = re.compile(
 
 def symbol(value):
     aliases = {'CL_opt':r'C_{L,\mathrm{opt}}','CL_max':r'C_{L,\max}',
-               'CLmax':r'C_{L,\max}','CD0':r'C_{D0}','CL0':r'C_{L0}'}
+               'CLmax':r'C_{L,\max}','CLopt':r'C_{L,\mathrm{opt}}',
+               'Vapp':r'V_{\mathrm{app}}','Vstall':r'V_{\mathrm{stall}}',
+               'Vs':r'V_s','Vmd':r'V_{\mathrm{md}}','Pjet':r'P_{\mathrm{jet}}',
+               'CD0':r'C_{D0}','CL0':r'C_{L0}'}
     if value in aliases:
         return aliases[value]
+    aliased_assignment = re.fullmatch(r'(Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+))(?:\s*(Vapp|Vstall|Vs|Vmd))?', value)
+    if aliased_assignment:
+        return aliases[aliased_assignment.group(1)] + '=' + aliased_assignment.group(2) + (aliases[aliased_assignment.group(3)] if aliased_assignment.group(3) else '')
     inequality = re.fullmatch(r'(TAS|Vapp|Vs|Pcrit|[A-Z])\s*(>=|<=)\s*((?:\d+(?:\.\d+)?|\.\d+))(?:\s*(Vs))?', value)
     if inequality:
         names = {'TAS': r'\mathrm{TAS}', 'Vapp': r'V_{\mathrm{app}}',
