@@ -239,7 +239,7 @@ def mascot_drawables(decoded,table):
         if name == 'duo_eyes':
             # Android applies a circular splash mask; keep the complete face
             # within it instead of enlarging the old doghouse to 288dp.
-            image_w, image_h = w*.59, h*.59
+            image_w, image_h = w*.35, h*.35
             drawable = '@drawable/ic_launcher_foreground'
         else:
             image_w, image_h = iw*scale, ih*scale
