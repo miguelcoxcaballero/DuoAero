@@ -574,6 +574,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_ISA_DIAGNOSTIC')=='1' and not production:
   # Real native rendering/grading of the newly divided pressure calculation.
   mixed=lesson_questions([by_id['TA1-0463-D2']],teach_words=True)
+ if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
+  # Original question with a square root, a nested physical fraction and units.
+  mixed=[by_id['TA1-0006-F1']]
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:

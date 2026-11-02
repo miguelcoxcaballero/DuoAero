@@ -27,6 +27,13 @@ quoted. The driver now quotes formula labels; this does not by itself prove
 completion or rule out other problems. A second pressure-ratio question has
 also been divided into reviewed steps and needs native grading evidence.
 
+The notation converter now recognizes balanced square roots, nested simple
+fractions and several lift/drag subscripts without converting ordinary prose
+or simple unit paths. A source-bank audit found 125 previously plain `sqrt`
+occurrences converted; this is not a complete LaTeX audit. The `sqrt-mixed`
+Android diagnostic must render and grade a representative original question
+before device acceptance is claimed.
+
 A four-slot named ideal-gas exercise is under test: pressure, density, gas
 constant and temperature occupy their positions with the original equality
 operator. The native per-slot controller is called with the real index. This

@@ -31,6 +31,25 @@ assert notation_parts('Require TAS>=1.3Vs and M<=0.75.') == [
 assert notation_parts('Vapp>=1.3 Vs; Vs<=71') == [
     {'latex': r'V_{\mathrm{app}}\geq 1.3V_s'}, {'text': '; '}, {'latex': r'V_s\leq 71'}]
 assert notation_parts('The camera is fine') == [{'text': 'The camera is fine'}]
+assert notation_parts('Vstall=sqrt(2W/(rho S CLmax))') == [
+    {'latex':r'V_{\mathrm{stall}}=\sqrt{\frac{2W}{\rho\,S\,C_{L,\max}}}'}]
+assert notation_parts('CL=sqrt(CD0/k)') == [
+    {'latex':r'C_{L}=\sqrt{\frac{C_{D0}}{k}}'}]
+assert notation_parts('R1=sqrt(T2/T1)') == [
+    {'latex':r'R_{1}=\sqrt{\frac{T_{2}}{T_{1}}}'}]
+assert notation_parts('Vs=sqrt(2W/(rho S CLmax))') == [
+    {'latex':r'V_s=\sqrt{\frac{2W}{\rho\,S\,C_{L,\max}}}'}]
+assert notation_parts('sqrt(V²+2Pjet/m_dot)') == [
+    {'latex':r'\sqrt{V^2+\frac{2P_{\mathrm{jet}}}{\dot{m}}}'}]
+assert notation_parts('Apply sqrt(2) at fixed load.') == [
+    {'text':'Apply '}, {'latex':r'\sqrt{2}'}, {'text':' at fixed load.'}]
+assert notation_parts('sqrt(1/sqrt(CL))') == [
+    {'latex':r'\sqrt{\frac{1}{\sqrt{C_{L}}}}'}]
+assert notation_parts('sqrt(weight)') == [{'text':'sqrt(weight)'}]
+assert notation_parts('sqrt(m/s)') == [{'text':'sqrt(m/s)'}]
+assert notation_parts('2W/(rho S CL_opt) = 6400 m²/s²') == [
+    {'latex':r'\textstyle \frac{2W}{\rho\,S\,C_{L,\mathrm{opt}}}'},
+    {'text':' = 6400 '}, {'latex':r'm^{2}'}, {'text':'/'}, {'latex':r's^{2}'}]
 assert not any('latex' in p for p in notation_parts('k=1/(pi e AR)')) or not any(
     p.get('latex') == 'k=1' for p in notation_parts('k=1/(pi e AR)'))
 
