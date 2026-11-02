@@ -9,7 +9,7 @@ from rocket_lesson import lesson
 
 questions = lesson()
 assert len(questions) == 10 and len({q['id'] for q in questions}) == 10
-assert [q['type'] for q in questions] == ['gap','formula_named','formula_named','formula_blocks','choice']*2
+assert [q['type'] for q in questions] == ['gap','formula_named','formula_named','formula_named','choice']*2
 seen = set()
 for q in questions:
     if q.get('formula_hint'):

@@ -32,7 +32,7 @@ def challenge(question):
         return formula_challenge(question)
     if kind == 'formula_named':
         adapter = dict(question, prefix='')
-        result = formula_challenge(adapter, mathematical=False)
+        result = formula_challenge(adapter, mathematical=bool(question.get('mathematical_blocks')))
         segments = []
         if 'inline_latex' in question:
             for part in question['inline_latex']:
