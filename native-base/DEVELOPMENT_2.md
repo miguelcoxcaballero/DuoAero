@@ -49,6 +49,10 @@ An experimental 16-frame transparent wave is bound to the original
 drawn arm poses rather than translating one still image. This needs real
 Android inflation, screen placement and smooth playback checks; a generated
 sprite sheet alone is not an animation acceptance test.
+Run 41372032864 failed to load the drawable because its intrinsic bounds or
+atlas could not be read. The attribute IDs supplied to `obtainAttributes`
+were unsorted; the follow-up orders height before width and reports failures
+separately. This suspected fix still requires a fresh Android run.
 
 ## Acceptance still required
 

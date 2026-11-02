@@ -35,15 +35,20 @@ public final class NativeWaveDrawable extends Drawable implements Animatable, Ru
  @Override public void inflate(Resources resources,XmlPullParser parser,AttributeSet attrs,Resources.Theme theme)
    throws XmlPullParserException,IOException {
   super.inflate(resources,parser,attrs,theme);
-  TypedArray values=resources.obtainAttributes(attrs,new int[]{android.R.attr.width,android.R.attr.height});
-  try{intrinsicWidth=values.getDimensionPixelSize(0,-1);intrinsicHeight=values.getDimensionPixelSize(1,-1);}
+  // Android's attribute lookup requires IDs in ascending order. height
+  // (0x01010155) precedes width (0x01010159), regardless of XML order.
+  TypedArray values=resources.obtainAttributes(attrs,new int[]{android.R.attr.height,android.R.attr.width});
+  try{intrinsicHeight=values.getDimensionPixelSize(0,-1);intrinsicWidth=values.getDimensionPixelSize(1,-1);}
   finally{values.recycle();}
   int id=resources.getIdentifier("duoaero_scene_wave","drawable","com.duolingo");
   if(id==0)throw new XmlPullParserException("Wave atlas resource missing");
   BitmapFactory.Options options=new BitmapFactory.Options();options.inScaled=false;
   atlas=BitmapFactory.decodeResource(resources,id,options);
-  if(atlas==null||atlas.getWidth()<COLUMNS||atlas.getHeight()<COLUMNS||intrinsicWidth<=0||intrinsicHeight<=0)
-   throw new XmlPullParserException("Invalid wave atlas or intrinsic size");
+  if(atlas==null)throw new XmlPullParserException("Wave atlas could not be decoded, resource="+id);
+  if(atlas.getWidth()<COLUMNS||atlas.getHeight()<COLUMNS)
+   throw new XmlPullParserException("Wave atlas too small: "+atlas.getWidth()+"x"+atlas.getHeight());
+  if(intrinsicWidth<=0||intrinsicHeight<=0)
+   throw new XmlPullParserException("Wave intrinsic bounds unavailable: "+intrinsicWidth+"x"+intrinsicHeight);
  }
  @Override public void draw(Canvas canvas){
   if(atlas==null)return;
