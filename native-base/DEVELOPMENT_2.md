@@ -149,7 +149,9 @@ the route with a third draft topic present, and run 41383706755 graded its ten
 draft questions. The combined branch passed synthetic accounts and the first
 Atmosphere progression test in run 41384151374; its second-section test first
 opened the welcome screen because the diagnostic bootstrap was not enabled.
-That setup is corrected, and the rerun remains pending. The research draft now
+After the setup correction, run 41385232869 graded the ten first-topic
+questions, claimed XP, observed the next node and graded its first question
+after restarting. The latest merged build is being checked separately. The research draft now
 also includes twenty original conceptual questions on diverse aircraft and
 rotorcraft, aligned with the course outline; these are not in the diagnostic
 section or production. All fifty draft questions, the missing topics and
