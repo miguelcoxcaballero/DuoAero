@@ -29420,7 +29420,7 @@
       {
         "id": "APPROACH-STALL-SQUARED-WORDS",
         "type": "gap",
-        "stem": "Complete the formula in words: ___ equals twice weight divided by density times wing area times maximum lift coefficient.",
+        "stem": "Complete the formula in words: ___ equals twice weight divided by the product of density, wing area and maximum lift coefficient.",
         "answer": [
           "stall speed squared"
         ],
@@ -29429,7 +29429,7 @@
           "pressure",
           "temperature"
         ],
-        "explanation": "stall speed squared equals twice weight divided by density times wing area times maximum lift coefficient."
+        "explanation": "stall speed squared equals twice weight divided by the product of density, wing area and maximum lift coefficient."
       },
       {
         "id": "APPROACH-STALL-SQUARED-NAMED",
