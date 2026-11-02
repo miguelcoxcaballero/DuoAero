@@ -6045,7 +6045,104 @@
       "270 K": "Incorrect: This ignores the specified deviation."
     },
     "legacy_id": "TA1-0049",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "ISA-OFFSET-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: actual temperature equals ISA temperature plus the temperature ___.",
+        "answer": [
+          "offset"
+        ],
+        "distractors": [
+          "pressure",
+          "density",
+          "altitude"
+        ],
+        "explanation": "Actual temperature equals the ISA temperature plus the signed temperature offset."
+      },
+      {
+        "id": "ISA-OFFSET-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "+",
+          "___"
+        ],
+        "formula_latex": "T=T_{\\mathrm{ISA}}+\\Delta T",
+        "answer_blocks": [
+          "actual temp",
+          "ISA temp",
+          "temp offset"
+        ],
+        "blocks": [
+          "actual temp",
+          "ISA temp",
+          "temp offset",
+          "pressure",
+          "density",
+          "speed"
+        ],
+        "explanation": "T=T_{\\mathrm{ISA}}+\\Delta T"
+      },
+      {
+        "id": "ISA-OFFSET-FORMULA",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "T=T_{\\mathrm{ISA}}+",
+        "after_latex": "",
+        "missing_latex": "\\Delta T",
+        "formula_latex": "T=T_{\\mathrm{ISA}}+\\Delta T",
+        "answer_blocks": [
+          "ΔT"
+        ],
+        "blocks": [
+          "ΔT",
+          "p",
+          "V",
+          "ρ"
+        ],
+        "explanation": "T=T_{\\mathrm{ISA}}+\\Delta T"
+      },
+      {
+        "id": "TA1-0049-F1",
+        "stem": "ISA temperature is 270 K. On an ISA+10 day, what is the actual temperature?",
+        "options": [
+          "283.15 K",
+          "260 K",
+          "280 K",
+          "270 K"
+        ],
+        "answer": 2,
+        "explanation": "ISA+10 means 10 K warmer: 270 + 10 = 280 K.",
+        "formula_hint": {
+          "latex": "T=T_{\\mathrm{ISA}}+\\Delta T",
+          "prerequisite": "ISA-OFFSET-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "ISA temperature is "
+            },
+            {
+              "latex": "T_{\\mathrm{ISA}}=270\\,\\mathrm{K}"
+            },
+            {
+              "text": ". On an ISA+10 day, what is the actual temperature?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "T=270+10=280\\,\\mathrm{K}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0053-F1",
