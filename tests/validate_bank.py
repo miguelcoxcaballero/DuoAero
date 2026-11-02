@@ -24,6 +24,7 @@ assert sum(q['topic']=='2.6' for q in bank)==24
 assigned=[]
 by_id={q['id']:q for q in bank}
 seen={}
+formula_prerequisites=set()
 for node in nodes:
  assert 1<=len(node['lessons'])<=3
  for lesson in node['lessons']:
@@ -43,8 +44,13 @@ for node in nodes:
     prerequisites=[hint.get('prerequisite')]+hint.get('additional_prerequisites',[])
     assert len(prerequisites)==len(set(prerequisites)), (qid,prerequisites)
     for prerequisite in prerequisites:
-     assert seen.get(prerequisite)=='formula_blocks', (qid,prerequisite)
+     assert prerequisite in formula_prerequisites, (qid,prerequisite)
    seen[qid]=question['type']
+   if question['type']=='formula_blocks':formula_prerequisites.add(qid)
+   elif question['type']=='formula_named' and question.get('symbol_prerequisite') is True:
+    assert len(question['answer_blocks'])==1 and question.get('formula_latex')
+    assert question['answer_blocks'][0] in question['blocks'] and len(question['answer_blocks'][0])==1
+    formula_prerequisites.add(qid)
   assigned+=lesson['ids']
 assert collections.Counter(assigned)==collections.Counter(ids)
 print('PASS: 1200 questions, 400/level, 106 exams, 21 reflections, all sources and full path coverage')

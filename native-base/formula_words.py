@@ -45,7 +45,7 @@ KINDS = {
  'BOOK-V6-04-D1':'extension', 'BOOK-V6-04-D2':'extension',
  'INTRO-ASPECT-RATIO':'aspect', 'INTRO-TAPER-RATIO':'taper',
  'BOOK-V6-08-D1':'hydraulic', 'BOOK-V6-08-D2':'hydraulic',
- 'BOOK-V6-02-D1':'dynamic_pressure', 'BOOK-V6-02-D2':'dynamic_pressure',
+ 'BOOK-V6-02-D1':'dynamic_pressure', 'BOOK-V6-02-D2':'dynamic_pressure', 'ISA-DYNAMIC':'dynamic_pressure',
  'BOOK-V6-06-D1':'induced_drag', 'BOOK-V6-06-D2':'induced_drag',
  'BOOK-V6-07-D1':'thrust', 'BOOK-V6-07-D2':'thrust',
  'TA1-0107-D2-F1':'kinetic_temperature', 'TA1-0107-D2-F2':'static_temperature',
