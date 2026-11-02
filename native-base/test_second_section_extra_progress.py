@@ -102,6 +102,22 @@ try:
     adb('shell','am','force-stop',PACKAGE);adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     path=open_second_section('extra-section-restart')
     assert has(path,'3.3'),'Expected next topic after restart'
-    (OUT/'extra-section-result.txt').write_text('PASS: seeded prior diagnostic lessons, completed extra 3.2 lesson, stored it and reopened the second-section path after restart; real accounts and remaining course unverified.\n')
+    labels=[n for n in path.iter('node') if '3.3' in (n.get('text','')+' '+n.get('content-desc',''))]
+    ovals=[n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']
+    assert labels and ovals,'Missing next topic or its original level'
+    y=int(re.findall(r'\d+',labels[0].get('bounds'))[1]);after=[n for n in ovals if int(re.findall(r'\d+',n.get('bounds'))[1])>y]
+    assert after,'Next-topic level is not visible';tap(after[0])
+    popup=wait('extra-section-next-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in t.iter('node')))
+    tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true'))
+    draft=json.loads((Path(__file__).resolve().parents[1]/'research/midterm2_concepts.json').read_text())
+    first=next(q for q in draft['questions'] if q['topic']=='3.3');answer=first['options'][first['answer']]
+    question=wait('extra-section-next-question',lambda t:has(t,answer),90)
+    choices=[n for n in question.iter('node') if answer in (n.get('text','')+' '+n.get('content-desc','')) and n.get('resource-id')=='com.duolingo:id/mathCard']
+    assert choices,'Next topic did not open its first question';tap(choices[-1])
+    ready=wait('extra-section-next-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
+    tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
+    feedback=wait('extra-section-next-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
+    assert not has(feedback,'GOT IT'),'Correct next-topic answer was rejected'
+    (OUT/'extra-section-result.txt').write_text('PASS: seeded prior diagnostic lessons, completed extra 3.2 lesson, restarted and graded the first 3.3 question; real accounts and remaining course unverified.\n')
 finally:
     (OUT/'extra-section-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
