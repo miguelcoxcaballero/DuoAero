@@ -277,6 +277,10 @@ artwork and state-machine change are integrated, not the diagnostic selector.
 Its appearance on a physical phone, other selectors and all remaining scenes
 still need review; this one animation does not establish a complete cast.
 
+Android run 41395067195 passed the tall-window check on an emulated display
+with S24 Ultra proportions, using the course before the later splash and
+character additions. It is not a physical-device check.
+
 Android run 41392335036 repeated three integrated scenarios before the later
 icon and formula patches: a seeded original chest showed +25 gems and retained
 the balance after restart; a wrong answer was reviewed and its correction
