@@ -412,6 +412,14 @@ public final class NativeCourseBridge {
     // GoalsProgressResponse's original empty/default state: no assigned quests.
     code=200;
    }
+   else if((method.equals("GET")&&path.equals("/users/1/friends-quests/potential-matches"))
+        ||(method.equals("POST")&&path.equals("/2017-06-30/messaging/get-messages/"))){
+    // Diagnostic-only empty local social responses: verify native decoding,
+    // course progression and timing before changing the shipped behavior.
+    try(java.io.InputStream marker=app.getAssets().open("duoaero/offline-social-diagnostic")){
+     code=200;payload=method.equals("GET")?"{\"potentialMatches\":[]}":"{\"messageDisplayInfo\":[]}";
+    }catch(java.io.FileNotFoundException absent){}
+   }
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/avatar-builder-config")){
     // The original resource may reload when Profile starts observing it.
     // Answer its normal request as well as seeding its native cache.
