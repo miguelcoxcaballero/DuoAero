@@ -222,12 +222,18 @@ screenshot still shows a plus sign stranded before a line break. This is an
 emulated S24-proportioned screen with earlier nodes seeded, not a real-device
 or Google/Drive test.
 
-A separate approach-speed branch divides one clipped source into 18 controls,
-including quantity and symbol prerequisites. It has host numerical and exact
-historical-credit checks, but its Android interaction and migration checks are
-still running. A distinct Swoon pose appeared on a completion screen in run
-41387776940, but the recording showed it practically motionless; it is not an
-accepted animation and is not integrated.
+A clipped warm-day approach-speed source is now staged as 18 controls,
+with named and symbolic formula prerequisites. Android run 41390434067 graded
+all 18 original controls at S24 proportions, dark mode and 1.15 font scale;
+run 41390029749 also passed the historical migration with synthetic accounts.
+Its operator still wraps at the end of a line; a separate fix is under test.
+The integrated bank has 84 lessons and five evidence-based path migrations.
+Other long problems and actual-device tests remain open.
+
+A distinct Swoon pose appeared on a completion screen in run 41387776940,
+but the recording showed it practically motionless. A revised state-machine
+entry starts the sprite loop in a browser preview; Android playback and smoothness
+are being checked separately and the animation is not integrated.
 
 ## Acceptance still required
 
