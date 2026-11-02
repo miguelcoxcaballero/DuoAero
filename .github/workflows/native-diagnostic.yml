@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","isa-mixed"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -90,6 +90,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = isa-mixed ]; then export DUOAERO_ISA_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -120,11 +121,11 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
-          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = isa-mixed ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
           fi
-          if [[ "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch || "$DIAGNOSTIC_SCENARIO" = isa-mixed ]]; then
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
@@ -300,6 +301,10 @@ jobs:
             formula-words-touch)
               run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 13 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
+              ;;
+            isa-mixed)
+              run_probe aerospace-isa-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 5 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-isa-mixed.txt"
               ;;
             wind-mixed-hint)
               run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

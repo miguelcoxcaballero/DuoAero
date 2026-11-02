@@ -571,6 +571,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed.extend(lesson_questions([by_id['TA1-0041-F1']],teach_words=True)[:3])
   sound=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
+ if os.environ.get('DUOAERO_ISA_DIAGNOSTIC')=='1' and not production:
+  # Real native rendering/grading of the newly divided pressure calculation.
+  mixed=lesson_questions([by_id['TA1-0463-D2']],teach_words=True)
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:

@@ -32,7 +32,7 @@ for node in plan:
                 all_named = expanded[i-1]
                 assert all_named['id'] == q['id']+'-NAMED-ALL'
                 assert all_named['answer_blocks'] == ['pressure','density','gas constant','temperature']
-                assert all_named['inline_latex'] == ['___','=','___','___','___']
+                assert all_named['inline_latex'] == ['___','=','___',r'\times','___',r'\times','___']
             assert words['stem'].count('___') == 1
             assert len(set(words['answer']+words['distractors'])) == 4
             assert words['answer'][0] in words['explanation']
@@ -47,7 +47,7 @@ for node in plan:
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
                 marker='duoaero-latex:duoaero-gap:'
                 parts=json.loads(base64.b64decode(body[len(marker):]).decode())
-                assert parts == ['___',r'duoaero-math:formula:\textstyle =','___','___','___']
+                assert parts == ['___',r'duoaero-math:formula:\textstyle =','___',r'duoaero-math:formula:\textstyle \times','___',r'duoaero-math:formula:\textstyle \times','___']
                 assert q['promptInputChallenge']['input']['expressionBuildInput']['slotCount'] == 4
             if q['id'] == 'BOOK-V6-01-D1-NAMED':
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']

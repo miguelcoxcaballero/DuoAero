@@ -25,8 +25,12 @@ lesson proofs, though actual migration must still be tested on Android.
 A four-slot named ideal-gas exercise is under test: pressure, density, gas
 constant and temperature occupy their positions with the original equality
 operator. The native per-slot controller is called with the real index. This
-is experimental until the original Android UI shows all slots, permits rapid
-touches and drag/drop, grades correctly, and lays out at large font sizes. It
+is experimental. Android diagnostic run 41370981586, commit df1af26, passed
+13 actual exercises including four word slots and rapid touch at emulated S24
+Ultra proportions, dark mode and 1.15 font scale. Its screenshot showed a
+two-line product with no explicit multiplication signs; the next source
+revision adds signs for clarity and needs Android re-testing. Drag/drop,
+wrong-answer feedback and all supported font scales are still unverified. It
 currently covers only the ideal-gas equation, not all formula families.
 
 Two static, transparent Snoopy illustrations target explicitly identified
