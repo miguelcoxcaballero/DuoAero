@@ -629,6 +629,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
+ out.write(ROOT/'native-base/lesson-migrations.json','assets/duoaero/course/lesson-migrations.json')
  # Keep exact published question sets for old on-device and Drive proofs;
  # later lesson expansions must not invalidate previously completed lessons.
  for history_version in ('1.3.0','1.3.5','1.3.6','1.3.7'):

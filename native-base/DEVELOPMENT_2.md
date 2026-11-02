@@ -64,13 +64,17 @@ the revised order still needs Android interaction testing.
 
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
-have been rebalanced between their existing session IDs, keeping formula
-introductions before calculations; five oversized nodes remain and need a
-migration-safe split. The minimum-size check now counts visible exercises
-when a source item expands into many steps. Host checks pass; an Android
-synthetic-account test passed in run 41374984771: all eight exact historical proofs were
-accepted, partial proofs rejected, and 102 synthetic account checks passed.
-This does not establish a real Google or Drive migration.
+were rebalanced between their existing session IDs. Three more nodes are now
+split into three lessons, keeping prior IDs and introducing three new IDs;
+all 82 lessons have 10–20 visible exercises in host validation. For each new
+ID, path-only credit is derived only from an exact stored historical proof
+that includes every question moved there. No synthetic completion, XP or gem
+award is created. A replay or Drive import retains the historical proof when
+it covers questions omitted from the new shorter source lesson. Local tests
+verify mapping coverage in every published 1.3.x snapshot and the pure
+projection boundaries. The Android account, chest, replay, export/import and
+real path tests for this split are still required; no real Google or Drive
+migration has been established.
 
 Two static, transparent Snoopy illustrations target explicitly identified
 reading and gem-holding resources. A diagnostic drew the reading resource IDs;

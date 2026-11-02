@@ -49,6 +49,21 @@ public final class NativeCourseProgress {
   }
   return wanted.equals(seen)?null:"incomplete lesson question coverage";
  }
+ /** Add path-only credit for content already covered by an exact, validated
+  * historical lesson proof. No new completion, XP or reward is written. */
+ public static Set<String> projectedCompletions(Set<String> completed,JSONObject migrations,
+                                                 Map<String,Set<String>> verifiedQuestions)throws JSONException {
+  Set<String> projected=new HashSet<>(completed);
+  for(Iterator<String> keys=migrations.keys();keys.hasNext();){
+   String target=keys.next();JSONObject migration=migrations.getJSONObject(target);
+   String source=migration.getString("sourceLesson");JSONArray questions=migration.getJSONArray("requiredQuestions");
+   Set<String> proof=verifiedQuestions.get(source),required=new HashSet<>();
+   for(int i=0;i<questions.length();i++)required.add(questions.getString(i));
+   if(!required.isEmpty()&&required.size()==questions.length()&&completed.contains(source)
+      &&proof!=null&&proof.containsAll(required))projected.add(target);
+  }
+  return projected;
+ }
  public static void project(JSONObject course,JSONObject section,Set<String> completed)throws JSONException {
   project(course,section,completed,Collections.emptySet());
  }

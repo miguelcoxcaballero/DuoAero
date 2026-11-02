@@ -47,6 +47,18 @@ public class CourseProgressCheck {
   check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("challenges",new JSONArray("[{id:'q1'}]")),expanded,null,history));
   check(!NativeCourseProgress.isRecordedCompletion(copy(good).put("challenges",new JSONArray("[{id:'q1'},{id:'q2'},{id:'foreign'}]")),expanded,null,history));
   check(!NativeCourseProgress.isRecordedCompletion(good,expanded,null,new JSONArray().put(copy(lesson).put("id","other"))));
+  JSONObject migrations=new JSONObject("{newLesson:{sourceLesson:'lesson-1',requiredQuestions:['q1','q2']}}");
+  Set<String> real=new HashSet<>(Collections.singleton("lesson-1"));
+  Map<String,Set<String>> verified=new HashMap<>();verified.put("lesson-1",new HashSet<>(Arrays.asList("q1","q2")));
+  check(NativeCourseProgress.projectedCompletions(real,migrations,verified).contains("newLesson"));
+  check(!real.contains("newLesson")); // projection did not create a submission
+  verified.put("lesson-1",Collections.singleton("q1"));
+  check(!NativeCourseProgress.projectedCompletions(real,migrations,verified).contains("newLesson"));
+  verified.put("lesson-1",new HashSet<>(Arrays.asList("q1","q2")));
+  check(!NativeCourseProgress.projectedCompletions(Collections.emptySet(),migrations,verified).contains("newLesson"));
+  check(!NativeCourseProgress.projectedCompletions(real,migrations,Collections.emptyMap()).contains("newLesson"));
+  JSONObject duplicate=new JSONObject("{newLesson:{sourceLesson:'lesson-1',requiredQuestions:['q1','q1']}}");
+  check(!NativeCourseProgress.projectedCompletions(real,duplicate,verified).contains("newLesson"));
   JSONObject course=new JSONObject("{pathSectionsSummary:[{id:'section'}]}");
   JSONObject section=new JSONObject("{id:'section',units:[{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'a'},{id:'b'}]}}]},{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'c'}]}}]}]}");
   NativeCourseProgress.project(course,section,Collections.emptySet());

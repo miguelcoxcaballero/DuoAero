@@ -11,6 +11,24 @@ public final class NativeSessionStore {
  private NativeSessionStore(){}
  private static JSONObject legacyCatalog;
  private static JSONObject[] historicalCatalogs;
+ private static JSONObject migrations;
+ private static JSONObject migrations(Application app)throws Exception {
+  if(migrations==null)migrations=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/lesson-migrations.json"));
+  return migrations;
+ }
+ private static boolean coversMigratedQuestions(Application app,String source,JSONObject proof)throws Exception {
+  if(proof==null)return false;
+  org.json.JSONArray challenges=proof.optJSONArray("challenges");if(challenges==null)return false;
+  Set<String> ids=new HashSet<>();for(int i=0;i<challenges.length();i++)ids.add(challenges.getJSONObject(i).getString("id"));
+  JSONObject mappings=migrations(app);
+  for(Iterator<String> keys=mappings.keys();keys.hasNext();){
+   JSONObject migration=mappings.getJSONObject(keys.next());if(!source.equals(migration.getString("sourceLesson")))continue;
+   org.json.JSONArray required=migration.getJSONArray("requiredQuestions");if(required.length()==0)continue;
+   boolean all=true;for(int i=0;i<required.length();i++)all&=ids.contains(required.getString(i));
+   if(all)return true;
+  }
+  return false;
+ }
  private static boolean validStoredProof(Application app,JSONObject proof,JSONObject lesson)throws Exception {
   if(proof==null)return false;
   // Assets cannot change during the life of an installed app. Cache the
@@ -45,11 +63,13 @@ public final class NativeSessionStore {
    days=NativeRewards.mergeDays(days,previous.optJSONArray("studyDays"));
    if(!sessionId.equals(previous.getString("sessionId")))throw new IOException("Stored lesson identity mismatch");
    completed|=previous.optBoolean("completedOnce")||validStoredProof(app,previous.getJSONObject("nativeSubmission"),lesson);
+   JSONObject prior=previous.optJSONObject("completionSubmission");
+   if(prior==null)prior=previous.optJSONObject("nativeSubmission");
    if(proof==null){
-    JSONObject prior=previous.optJSONObject("completionSubmission");
-    if(prior==null)prior=previous.optJSONObject("nativeSubmission");
     if(validStoredProof(app,prior,lesson))proof=prior;
    }
+   else if(validStoredProof(app,prior,lesson)&&coversMigratedQuestions(app,sessionId,prior)
+           &&!coversMigratedQuestions(app,sessionId,proof))proof=prior;
   }catch(FileNotFoundException absent){}
   JSONObject record=new JSONObject().put("schema",1).put("sessionId",sessionId)
    .put("savedAt",System.currentTimeMillis()).put("nativeSubmission",submission).put("completedOnce",completed).put("studyDays",days);
@@ -87,6 +107,26 @@ public final class NativeSessionStore {
   }
   return completed;
  }
+ /** Derive path/chest eligibility only from verified stored historical proofs.
+  * This never writes a synthetic submission or grants XP for a new lesson. */
+ static synchronized Set<String> projectedCompletedLessons(Application app)throws Exception {
+  Set<String> actual=completedLessons(app);
+  JSONObject migrations=migrations(app);
+  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  File folder=new File(NativeAccountStore.root(app),"submissions");
+  Map<String,Set<String>> verified=new HashMap<>();
+  for(Iterator<String> keys=migrations.keys();keys.hasNext();){
+   JSONObject migration=migrations.getJSONObject(keys.next());String source=migration.getString("sourceLesson");
+   if(verified.containsKey(source)||!actual.contains(source)||!catalog.has(source)||!NativeSessionId.valid(source))continue;
+   JSONObject stored=read(new AtomicFile(new File(folder,source+".json")));
+   JSONObject proof=stored.optJSONObject("completionSubmission");if(proof==null)proof=stored.optJSONObject("nativeSubmission");
+   if(!validStoredProof(app,proof,catalog.getJSONObject(source)))continue;
+   org.json.JSONArray challenges=proof.getJSONArray("challenges");Set<String> ids=new HashSet<>();
+   for(int i=0;i<challenges.length();i++)ids.add(challenges.getJSONObject(i).getString("id"));
+   verified.put(source,ids);
+  }
+  return NativeCourseProgress.projectedCompletions(actual,migrations,verified);
+ }
  static synchronized JSONObject exportCompletions(Application app)throws Exception {
   JSONObject result=new JSONObject(),catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
   File folder=new File(NativeAccountStore.root(app),"submissions");
@@ -118,7 +158,8 @@ public final class NativeSessionStore {
    stored.put("studyDays",NativeRewards.mergeDays(stored.optJSONArray("studyDays"),remote.optJSONArray("studyDays")));
    if(stored.optBoolean("completedOnce")){
     JSONObject localProof=stored.optJSONObject("completionSubmission");
-    if(localProof!=null)proof=localProof;
+    if(localProof!=null&&validStoredProof(app,localProof,catalog.getJSONObject(id))
+       &&!(coversMigratedQuestions(app,id,proof)&&!coversMigratedQuestions(app,id,localProof)))proof=localProof;
    }
    stored.put("completionSubmission",proof).put("completedOnce",true).put("savedAt",Math.max(stored.optLong("savedAt",1),remote.optLong("at",1)));
    FileOutputStream output=null;

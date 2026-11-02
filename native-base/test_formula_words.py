@@ -16,7 +16,7 @@ for node in plan:
     for lesson in node['lessons']:
         source = [bank[qid] for qid in lesson['ids']]
         expanded = lesson_questions(source, teach_words=True)
-        assert len(expanded) <= 26, (lesson['id'], len(expanded))
+        assert 10 <= len(expanded) <= 20, (lesson['id'], len(expanded))
         ids = [q['id'] for q in expanded]
         assert len(ids) == len(set(ids))
         for i, q in enumerate(expanded):

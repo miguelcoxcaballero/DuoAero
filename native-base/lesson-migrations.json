@@ -1,0 +1,46 @@
+{
+  "2.1-5-point-0-lesson-2": {
+    "sourceLesson": "2.1-5-point-0-lesson-1",
+    "requiredQuestions": [
+      "TA1-0307",
+      "TA1-0402",
+      "TA1-0439",
+      "TA1-0777",
+      "TA1-0869",
+      "TA1-0397-D2",
+      "BOOK-V6-01-D2",
+      "TA1-0144-D2",
+      "TA1-0425-D2",
+      "TA1-0178-D2",
+      "TA1-0224-D2",
+      "TA1-0445-D2"
+    ]
+  },
+  "2.1-3-point-0-lesson-2": {
+    "sourceLesson": "2.1-3-point-0-lesson-1",
+    "requiredQuestions": [
+      "TA1-0366-D2",
+      "TA1-0420-D3",
+      "TA1-0484-D3",
+      "TA1-0523-D3",
+      "TA1-0627-D3",
+      "TA1-0936-D3",
+      "TA1-N3-06-06",
+      "TA1-N3-06-07",
+      "TA1-N3-06-08",
+      "TA1-N3-06-09",
+      "TA1-N3-06-10"
+    ]
+  },
+  "2.2-2-point-0-lesson-2": {
+    "sourceLesson": "2.2-2-point-0-lesson-1",
+    "requiredQuestions": [
+      "TA1-0078-D2",
+      "BOOK-V6-03-D2",
+      "TA1-0251-D2",
+      "TA1-0238-D2",
+      "TA1-0094-D2",
+      "TA1-0038-D2"
+    ]
+  }
+}

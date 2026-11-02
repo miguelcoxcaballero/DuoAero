@@ -239,6 +239,88 @@ public final class AccountProgressProbe extends Instrumentation {
      check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial,revised)));
     }
    }
+   // Split sessions get path-only credit only when an exact historical proof
+   // actually contains all of the questions moved to the new session.
+   JSONObject migrations;
+   try(InputStream input=app.getAssets().open("duoaero/course/lesson-migrations.json")){
+    ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[4096];int n;
+    while((n=input.read(block))!=-1)bytes.write(block,0,n);migrations=new JSONObject(bytes.toString("UTF-8"));
+   }
+   Method actualMethod=sessionStore.getDeclaredMethod("completedLessons",Application.class);actualMethod.setAccessible(true);
+   Method projectedMethod=sessionStore.getDeclaredMethod("projectedCompletedLessons",Application.class);projectedMethod.setAccessible(true);
+   JSONObject oldCompletions=new JSONObject(),newCompletions=new JSONObject();
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();){
+    String target=it.next(),sourceId=migrations.getJSONObject(target).getString("sourceLesson");
+    JSONArray old=histories[3].getJSONObject(sourceId).getJSONArray("challenges"),now=catalog.getJSONObject(sourceId).getJSONArray("challenges");
+    for(int mode=0;mode<2;mode++){
+     JSONArray ids=new JSONArray(mode==0?old.toString():now.toString());
+     JSONObject completedProof=new JSONObject().put("id",sourceId).put("type","MATH_LESSON").put("failed",false)
+      .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",ids);
+     (mode==0?oldCompletions:newCompletions).put(sourceId,new JSONObject().put("at",20).put("nativeCompletion",completedProof));
+    }
+   }
+   check(prefs.edit().putString("account","synthetic-split-old").commit());
+   check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-split-old",new JSONObject().put("nativeSchema",1).put("completedLessons",oldCompletions).toString())));
+   java.util.Set<?> actual=(java.util.Set<?>)actualMethod.invoke(null,app),projected=(java.util.Set<?>)projectedMethod.invoke(null,app);
+   JSONObject oldExport=new JSONObject((String)read.invoke(null,app,"synthetic-split-old")).getJSONObject("completedLessons");
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();){String target=it.next();check(!actual.contains(target)&&projected.contains(target)&&!oldExport.has(target));}
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldCompletions.length()*10);
+   // Replaying the shortened source must not discard the historical proof
+   // needed for path credit, nor award gems for the derived lesson.
+   String firstTarget=migrations.keys().next(),firstSource=migrations.getJSONObject(firstTarget).getString("sourceLesson");
+   Method recordMethod=sessionStore.getDeclaredMethod("record",Application.class,String.class,JSONObject.class);recordMethod.setAccessible(true);
+   recordMethod.invoke(null,app,firstSource,newCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   check(((java.util.Set<?>)projectedMethod.invoke(null,app)).contains(firstTarget));
+   check(!new JSONObject((String)read.invoke(null,app,"synthetic-split-old")).getJSONObject("completedLessons").has(firstTarget));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldCompletions.length()*10);
+   check(prefs.edit().putString("account","synthetic-split-current").commit());
+   check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-split-current",new JSONObject().put("nativeSchema",1).put("completedLessons",newCompletions).toString())));
+   java.util.Set<?> newProjected=(java.util.Set<?>)projectedMethod.invoke(null,app);
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();)check(!newProjected.contains(it.next()));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==newCompletions.length()*10);
+   // Importing the old proof after a shorter current completion must upgrade
+   // the retained evidence without duplicating rewards or fake submissions.
+   apply.invoke(null,app,"synthetic-split-current",new JSONObject().put("nativeSchema",1).put("completedLessons",oldCompletions).toString());
+   newProjected=(java.util.Set<?>)projectedMethod.invoke(null,app);
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();)check(newProjected.contains(it.next()));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==newCompletions.length()*10);
+   check(prefs.edit().putString("account","synthetic-split-partial").commit());
+   JSONObject partialCompletions=new JSONObject(oldCompletions.toString());
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();){
+    JSONObject migration=migrations.getJSONObject(it.next());String sourceId=migration.getString("sourceLesson");
+    String missing=migration.getJSONArray("requiredQuestions").getString(0);
+    JSONArray ids=partialCompletions.getJSONObject(sourceId).getJSONObject("nativeCompletion").getJSONArray("challenges");
+    boolean removed=false;for(int i=0;i<ids.length();i++)if(missing.equals(ids.getJSONObject(i).getString("id"))){ids.remove(i);removed=true;break;}
+    check(removed);
+   }
+   apply.invoke(null,app,"synthetic-split-partial",new JSONObject().put("nativeSchema",1).put("completedLessons",partialCompletions).toString());
+   java.util.Set<?> partialProjected=(java.util.Set<?>)projectedMethod.invoke(null,app);
+   for(java.util.Iterator<String> it=migrations.keys();it.hasNext();)check(!partialProjected.contains(it.next()));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==0);
+   // A previously completed topic can still unlock its existing chest after
+   // two of its levels gain derived third lessons; claiming remains idempotent.
+   check(prefs.edit().putString("account","synthetic-split-chest").commit());
+   JSONObject oldTopic=new JSONObject();JSONArray topicUnits=section.getJSONArray("units");String topicChest=null;
+   for(int unit=0;unit<=1;unit++){
+    JSONArray path=topicUnits.getJSONObject(unit).getJSONArray("levels");
+    for(int i=0;i<path.length();i++){
+     JSONObject level=path.getJSONObject(i);
+     if("chest".equals(level.optString("type"))){if(unit==1)topicChest=level.getString("id");continue;}
+     JSONArray entries=level.getJSONObject("pathLevelClientData").getJSONArray("sessionMetadatas");
+     for(int j=0;j<entries.length();j++){
+      String id=entries.getJSONObject(j).getString("id");JSONObject historical=histories[3].optJSONObject(id);
+      if(historical==null)continue;
+      JSONObject historicalProof=new JSONObject().put("id",id).put("type","MATH_LESSON").put("failed",false)
+       .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",new JSONArray(historical.getJSONArray("challenges").toString()));
+      oldTopic.put(id,new JSONObject().put("at",20).put("nativeCompletion",historicalProof));
+     }
+    }
+   }
+   check(topicChest!=null);
+   apply.invoke(null,app,"synthetic-split-chest",new JSONObject().put("nativeSchema",1).put("completedLessons",oldTopic).toString());
+   check(Boolean.TRUE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
+   check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldTopic.length()*10+25);
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");

@@ -57,6 +57,7 @@ with zipfile.ZipFile(APK) as original, zipfile.ZipFile(target) as built:
     assert built.read('res/mipmap-anydpi-v21/ic_launcher.xml') != original.read('res/mipmap-anydpi-v21/ic_launcher.xml')
     assert resource_id == 0x7f160016
     assert 'assets/duoaero/licenses/NotoSansMath-OFL.txt' in built.namelist()
+    assert built.read('assets/duoaero/course/lesson-migrations.json') == (Path(__file__).resolve().parents[1]/'native-base/lesson-migrations.json').read_bytes()
     badging=subprocess.check_output([str(tool('aapt2')),'dump','badging',str(target)],text=True)
     if "package: name='com.duoaero' " in badging:
         assert 'assets/duoaero/google-required' in built.namelist()
