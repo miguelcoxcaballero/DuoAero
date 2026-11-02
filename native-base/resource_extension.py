@@ -92,6 +92,7 @@ MOOD_SCENES = {
     'pigpen': 'characters/pigpen/idle/frame-00.png',
     'woodstock': 'characters/woodstock/idle/frame-00.png',
     'reading': 'reading.png',
+    'gem': 'gem.png',
 }
 
 

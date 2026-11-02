@@ -18,6 +18,8 @@ for name in ('duo_radio_play','duo_radio_check_correct','super_duo_fly_glow','su
 assert static_mood('duo_sad') == 'sad'
 assert static_mood('duo_reading_stories') == 'reading'
 assert static_mood('stories_duo_reading') == 'reading'
+assert static_mood('duo_holding_gem') == 'gem'
+assert static_mood('guidebook_header_duo_gem') == 'gem'
 for mood,source in MOOD_SCENES.items():
     with Image.open(ROOT/'app/assets/mascot'/source) as image:
         assert image.mode=='RGBA' and image.getchannel('A').getextrema()[0]==0,mood

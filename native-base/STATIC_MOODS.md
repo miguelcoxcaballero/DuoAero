@@ -19,3 +19,5 @@ transparent. A scene-by-scene artwork and animation review remains necessary.
 The follow-up adds a transparent Snoopy reading an aerospace book for the
 explicit original reading-story artwork. This is one static pose, not an
 animation, and its placement in the original Android screens needs inspection.
+An additional gem-holding Snoopy targets two explicit static gem poses; it too
+requires original-screen inspection and is not evidence of chest animation.
