@@ -13,6 +13,7 @@ jobs:
           python3 native-base/test_kinetic_steps.py
           python3 native-base/test_payload_steps.py
           python3 native-base/test_reynolds_steps.py
+          python3 native-base/test_spar_steps.py
           python3 research/test_breguet_ratio_steps.py
           python3 research/test_approach_speed_steps.py
           python3 research/test_approach_prerequisites.py
