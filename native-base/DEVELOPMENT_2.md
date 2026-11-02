@@ -47,13 +47,11 @@ rounded values and original answers are checked by `test_dynamic_steps.py`.
 Run 41383369989 graded the 20-step sample on Android and passed synthetic
 account checks. This sample does not establish full-course acceptance.
 
-The separate `codex/lapse-study` branch stages four tropospheric lapse-rate
-questions as single-operation temperature-decrease and subtraction steps,
-preceded by named-quantity and symbol practice. It rebalances lessons and
-tests the old completion snapshots. Run 41387274344 graded all 14 original
-controls and passed synthetic accounts for an earlier version of the tiles;
-more compact tiles and whole `Δh`/`ΔT` symbols are under Android retest and
-are not yet integrated. None of this establishes the rest of the course.
+Four tropospheric lapse-rate questions are integrated as single-operation
+temperature-decrease and subtraction steps, preceded by named quantities and
+symbols. Run 41391260503 graded all 14 controls with compact tiles and grouped
+operators, and tested the Atmosphere lesson with a hint. Historical completion
+snapshots are checked synthetically; the rest of the course remains incomplete.
 
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
@@ -68,10 +66,10 @@ such as `Vapp=1.3Vs`. Local comparisons found 189 source stem/explanation
 fields with changed notation; the corresponding Android diagnostic remains
 pending and this does not establish a complete notation audit.
 
-A four-slot named ideal-gas exercise is under test: pressure, density, gas
+A four-slot named ideal-gas exercise is integrated: pressure, density, gas
 constant and temperature occupy their positions with the original equality
 operator. The native per-slot controller is called with the real index. This
-is experimental. Android diagnostic run 41370981586, commit df1af26, passed
+was tested experimentally. Android diagnostic run 41370981586, commit df1af26, passed
 13 actual exercises including four word slots and rapid touch at emulated S24
 Ultra proportions, dark mode and 1.15 font scale. Its screenshot showed a
 two-line product with no explicit multiplication signs; the next source
@@ -192,10 +190,10 @@ Atmosphere progression test in run 41384151374; its second-section test first
 opened the welcome screen because the diagnostic bootstrap was not enabled.
 After the setup correction, run 41385232869 graded the ten first-topic
 questions, claimed XP, observed the next node and graded its first question
-after restarting. The latest merged build is being checked separately. The research draft now
-also includes twenty original conceptual questions on diverse aircraft and
-rotorcraft, aligned with the course outline; these are not in the diagnostic
-section or production. Run 41386234650 graded the first version of those
+after restarting. The research draft now also includes twenty original
+conceptual questions on diverse aircraft and rotorcraft, aligned with the
+course outline. All six topics are present only in the diagnostic section,
+not the production course. Run 41386234650 graded the first version of those
 twenty on Android; the job failed at its final evidence-path check. Their
 distractors were subsequently improved, and run 41388130102 graded the revised
 twenty. Ten introductory topic-4 questions were added as a research draft and
@@ -223,9 +221,9 @@ shows a visible wait on the emulator and the fallback Snoopy standing still on
 the final screen; physical-device behaviour remains unverified.
 Diagnostic run 41385394122 observed the original completion selector choosing
 both `LOVEY_DOVEY_DUO` and `SWOON_DUO`. The latter previously had a generic
-fallback. A distinct transparent swoon pose sequence is being tried on a
-separate `codex/swoon-animation` branch, but its real-screen playback and
-smoothness are not accepted.
+fallback. A distinct transparent swoon pose sequence was integrated after
+forced Android run 41393926752 showed movement without the earlier overlap.
+Unforced selection and smoothness on a physical phone remain unverified.
 Run 41384336207 tried schema-checked empty offline social responses and still
 completed and reopened the lesson. Its 40.34 s measurement includes emulator
 and screenshot overhead and does not show a speedup; this experiment has not
