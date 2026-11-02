@@ -807,7 +807,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   prerequisites.extend(lesson['id'] for lesson in node['lessons'])
   legacy_chests[stable_id('chest', node['id'])] = list(prerequisites)
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
- two_section_test=os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' and not production
+ extended_section_test=os.environ.get('DUOAERO_EXTENDED_SECTION_DIAGNOSTIC')=='1' and not production
+ two_section_test=(os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' or extended_section_test) and not production
  if two_section_test:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
@@ -819,6 +820,14 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    assert len(selected)==10
    catalog[diagnostic_id]=native_session(selected,diagnostic_id,diagnostic_skill,teach_words=True)
    catalog[diagnostic_id]['levelSessionIndex']=0
+   if extended_section_test and topic=='3.1':
+    sys.path.insert(0,str(ROOT/'research'))
+    from rocket_lesson import lesson as rocket_lesson
+    from orbit_lesson import lesson as orbit_lesson
+    for index, selected in enumerate((rocket_lesson(),orbit_lesson()),1):
+     identifier='second-partial-3.1-lesson-'+str(index)
+     catalog[identifier]=native_session(selected,identifier,diagnostic_skill)
+     catalog[identifier]['levelSessionIndex']=index
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
  out.write(ROOT/'native-base/lesson-migrations.json','assets/duoaero/course/lesson-migrations.json')
@@ -844,10 +853,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    for index,(topic,title) in enumerate(diagnostic_topics):
     unit=copy.deepcopy(template);unit['teachingObjective']=topic+' · '+title;unit['unitIndex']=index;unit['levels']=unit['levels'][:1]
     level=unit['levels'][0];diagnostic_skill=stable_id('skill','second-partial-'+topic)
-    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=1
+    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=3 if extended_section_test and topic=='3.1' else 1
     level['absoluteNodeIndex']=index;level['pathLevelMetadata']['unitIndex']=index
     level['pathLevelClientData']['title']=title;level['pathLevelClientData']['skillId']=diagnostic_skill
     metadata=[{'id':'second-partial-'+topic+'-lesson-0','type':'math_lesson'}]
+    if extended_section_test and topic=='3.1':
+     metadata.extend({'id':'second-partial-3.1-lesson-'+str(i),'type':'math_lesson'} for i in (1,2))
     level['pathLevelClientData']['sessionMetadatas']=metadata;level['pathLevelClientData']['practiceSessionMetadatas']=metadata
     level['pathLevelMetadata']['skillId']=diagnostic_skill;units.append(unit)
    section['units']=units
