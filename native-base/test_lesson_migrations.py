@@ -27,4 +27,16 @@ for target, migration in migrations.items():
 for lesson in lessons.values():
     count=len(lesson_questions([bank[qid] for qid in lesson['ids']],teach_words=True))
     assert 10 <= count <= 20, (lesson['id'], count)
+# These three conceptual questions moved only to the next existing lesson in
+# the same topic to make room for complete named equations. No lesson ID or
+# migration is added, so the move itself cannot award progress or rewards.
+for source, target, moved in (
+    ('2.1-3-point-0-lesson-0','2.1-3-point-0-lesson-1',['TA1-0886']),
+    ('2.1-0-point-0-lesson-0','2.1-0-point-0-lesson-1',['TA1-0304','TA1-0497']),
+):
+    assert lessons[target]['ids'][:len(moved)] == moved
+    assert not set(moved) & set(lessons[source]['ids'])
+    for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
+        snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
+        assert set(moved) <= {q['id'] for q in snapshot[source]['challenges']}
 print('PASS: 88 lessons have 10–20 native exercises; nine path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
