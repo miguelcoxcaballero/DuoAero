@@ -264,7 +264,7 @@ def _root_body(value):
     return ''.join(output)
 
 
-def parts(value):
+def _general_parts(value):
     """Format unambiguous roots before processing ordinary fractions."""
     result, offset = [], 0
     for match in _ROOT_NAME.finditer(value):
@@ -305,3 +305,23 @@ def parts(value):
     if offset < len(value):
         result.extend(_parts_without_roots(value[offset:]))
     return result or [{'text': value}]
+
+
+# Two exact drag-polar forms recur throughout the reviewed question bank.
+# Keep each complete equation together instead of rendering its terms as
+# disconnected pieces of prose. The matcher is deliberately narrow.
+_POLAR = re.compile(r"(?<![A-Za-z0-9_])CD\s*=\s*CD0\s*\+\s*(?:k\s*CL(?:²|\^2)|CL(?:²|\^2)\s*/\s*\(\s*pi\s+e\s+AR\s*\))(?![A-Za-z0-9_])")
+def parts(value):
+    result, offset = [], 0
+    for match in _POLAR.finditer(value):
+        if match.start() > offset:
+            result.extend(_general_parts(value[offset:match.start()]))
+        if re.search(r"/\s*\(", match.group()):
+            latex = r"C_D=C_{D0}+\frac{C_L^2}{\pi e\,AR}"
+        else:
+            latex = r"C_D=C_{D0}+kC_L^2"
+        result.append({'latex': latex})
+        offset = match.end()
+    if offset < len(value):
+        result.extend(_general_parts(value[offset:]))
+    return result or _general_parts(value)
