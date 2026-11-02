@@ -14,7 +14,7 @@ root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))}
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
 ids = ['TA1-0092-D2', 'TA1-0120-D2', 'TA1-0130-D2',
-       'TA1-0263-D2', 'TA1-0268-D2', 'TA1-0366-D2']
+       'TA1-0143-D2', 'TA1-0229-D2', 'TA1-0263-D2', 'TA1-0268-D2', 'TA1-0366-D2']
 round4 = lambda n: n.quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
 pattern = re.compile(r'two legs of (\d+) km each\. Airspeed is (\d+) km/h and steady along-track wind is (\d+)')
 tailwind_steps = lesson_questions([bank['TA1-0012-F1']])
@@ -60,4 +60,4 @@ for node in plan:
                 assert q['formula_hint']['prerequisite'] in seen, q['id']
             seen.add(q['id'])
 assert {'WIND-TAILWIND-FORMULA','WIND-TIME-FORMULA','WIND-TOTAL-FORMULA'} <= seen
-print('PASS: six wind problems, three taught formulas and stable lesson size; Android UI unverified.')
+print('PASS: eight wind problems, three taught formulas and stable lesson size; Android UI unverified.')

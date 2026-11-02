@@ -21173,7 +21173,55 @@
       0.0
     ],
     "legacy_id": "TA1-0143",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0143-D2-S1",
+        "stem": "The outbound leg is 340 km at a ground speed of 207 km/h. How long does it take?",
+        "options": [
+          "1.6425 h",
+          "1.3333 h",
+          "1.4719 h",
+          "3.2850 h"
+        ],
+        "answer": 0,
+        "explanation": "Outbound time is distance divided by ground speed: 340 ÷ 207 = 1.6425 h.",
+        "formula_hint": {
+          "latex": "t=\\frac{d}{V_g}",
+          "prerequisite": "WIND-TIME-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "t_{out}=\\frac{340}{207}=1.6425\\,\\mathrm{h}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0143-D2",
+        "stem": "The outbound leg takes 1.6425 h and the return takes 1.3333 h. What is the total flight time?",
+        "options": [
+          "2.9758 h",
+          "1.4879 h",
+          "0.3092 h",
+          "3.2850 h"
+        ],
+        "answer": 0,
+        "explanation": "Add the two stated times: 1.6425 + 1.3333 = 2.9758 h.",
+        "formula_hint": {
+          "latex": "t_{total}=t_{out}+t_{back}",
+          "prerequisite": "WIND-TOTAL-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "t_{total}=1.6425+1.3333=2.9758\\,\\mathrm{h}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0280-D2",
@@ -22995,7 +23043,55 @@
       0.0
     ],
     "legacy_id": "TA1-0229",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0229-D2-S1",
+        "stem": "The outbound leg is 360 km at a ground speed of 212 km/h. How long does it take?",
+        "options": [
+          "1.6981 h",
+          "1.3636 h",
+          "1.5126 h",
+          "3.3962 h"
+        ],
+        "answer": 0,
+        "explanation": "Outbound time is distance divided by ground speed: 360 ÷ 212 = 1.6981 h.",
+        "formula_hint": {
+          "latex": "t=\\frac{d}{V_g}",
+          "prerequisite": "WIND-TIME-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "t_{out}=\\frac{360}{212}=1.6981\\,\\mathrm{h}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0229-D2",
+        "stem": "The outbound leg takes 1.6981 h and the return takes 1.3636 h. What is the total flight time?",
+        "options": [
+          "3.0617 h",
+          "1.5309 h",
+          "0.3345 h",
+          "3.3962 h"
+        ],
+        "answer": 0,
+        "explanation": "Add the two stated times: 1.6981 + 1.3636 = 3.0617 h.",
+        "formula_hint": {
+          "latex": "t_{total}=t_{out}+t_{back}",
+          "prerequisite": "WIND-TOTAL-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "t_{total}=1.6981+1.3636=3.0617\\,\\mathrm{h}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0297-D2",

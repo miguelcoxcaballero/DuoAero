@@ -704,6 +704,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_MEAN_CHORD_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0031-F1']],teach_words=True)
   assert len(mixed)==5 and mixed[-1].get('formula_hint')
+ if os.environ.get('DUOAERO_WIND_EXTRA_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0143-D2'],by_id['TA1-0229-D2']],teach_words=True)
+  assert len(mixed)==4 and all(q.get('formula_hint') for q in mixed)
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
