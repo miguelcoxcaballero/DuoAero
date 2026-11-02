@@ -128,6 +128,12 @@ token_hook=token_anchor+'''
     invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F
 
     move-result v8'''
+# Probe the original intrinsic-width branch for filled tokens.
+token_state_anchor='    move/from16 v10, p9'
+assert token_method.count(token_state_anchor)==1
+token_method=token_method.replace(token_state_anchor,token_state_anchor+'''
+
+    const/4 v10, 0x0''')
 flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
 flow_row_end=flow_row_text.index('.end method',flow_row_start)
