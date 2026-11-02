@@ -215,17 +215,20 @@ This network experiment remains separate and is not enabled in production.
 The latest lapse-rate sequence is integrated in this development branch. Run
 41388461549 graded all 14 staged controls with the original Android screen;
 the four source answers also match the independent numerical checks. Its
-screenshot still shows an operator stranded at the end of a wrapped line. An
-experimental grouping change crashed a hydraulic formula screen in run
-41389101897 and is not integrated; a correction is under test. Run 41388130102
+screenshot showed an operator stranded at the end of a wrapped line. An initial
+grouping change crashed in run 41389101897. After fixing composition flags,
+run 41390137453 graded the hydraulic exercise and run 41391260503 graded all
+14 lapse controls and completed the offset-hint lesson; the inspected screenshot
+keeps the operator with its operand. A separate fast-touch test timed out during
+emulator installation and is being repeated. Run 41388130102
 also graded the revised 20 draft rotorcraft/diverse-aircraft questions, but
 they remain research drafts and do not establish a complete second partial.
 
 The first Atmosphere lesson now includes the ISA-offset formula as a word
 gap, three named positions, then a symbol before its calculation. Android run
 41389283322 used the hint on that calculation, verified its end-of-lesson
-retry, claimed XP and reopened the next lesson before and after restart. Its
-screenshot still shows a plus sign stranded before a line break. This is an
+retry, claimed XP and reopened the next lesson before and after restart. A
+later version with the operator grouping also passed in run 41391260503. This is an
 emulated S24-proportioned screen with earlier nodes seeded, not a real-device
 or Google/Drive test.
 
@@ -233,8 +236,8 @@ A clipped warm-day approach-speed source is now staged as 18 controls,
 with named and symbolic formula prerequisites. Android run 41390434067 graded
 all 18 original controls at S24 proportions, dark mode and 1.15 font scale;
 run 41390029749 also passed the historical migration with synthetic accounts.
-Its operator still wraps at the end of a line; a separate fix is under test.
-The integrated bank has 84 lessons and five evidence-based path migrations.
+The operator-grouping fix is integrated and the combined approach case is
+being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
 A distinct Swoon pose appeared on a completion screen in run 41387776940,
