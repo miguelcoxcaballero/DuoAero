@@ -17768,7 +17768,161 @@
       -2.220446049250313e-16
     ],
     "legacy_id": "TA1-0144",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "ISA-DENSITY-WORDS",
+        "type": "gap",
+        "stem": "Complete the formula in words: Density rho equals pressure p divided by the product of gas constant R-air and absolute ___.",
+        "answer": [
+          "temperature"
+        ],
+        "distractors": [
+          "velocity",
+          "altitude",
+          "mass"
+        ],
+        "explanation": "Density rho equals pressure p divided by gas constant R-air times absolute temperature.",
+        "formula_word_symbols": true
+      },
+      {
+        "id": "ISA-DENSITY-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=\\frac{p}{R_a T}",
+        "missing_latex": "\\rho",
+        "formula_latex": "\\rho=\\frac{p}{R_a T}",
+        "answer_blocks": [
+          "density"
+        ],
+        "blocks": [
+          "pressure",
+          "temperature",
+          "density",
+          "velocity"
+        ],
+        "explanation": "\\rho=\\frac{p}{R_a T}"
+      },
+      {
+        "id": "ISA-DENSITY",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\frac{p}{R_a T}",
+        "missing_latex": "\\rho",
+        "formula_latex": "\\rho=\\frac{p}{R_a T}",
+        "answer_blocks": [
+          "ρ"
+        ],
+        "blocks": [
+          "T",
+          "p",
+          "V",
+          "ρ"
+        ],
+        "explanation": "\\rho=\\frac{p}{R_a T}"
+      },
+      {
+        "id": "ISA-DYNAMIC",
+        "type": "formula_blocks",
+        "stem": "Complete the dynamic pressure formula",
+        "prefix": "q = ½ ρ",
+        "blocks": [
+          "V",
+          "V²",
+          "S",
+          "C_L",
+          "V³"
+        ],
+        "answer_blocks": [
+          "V²"
+        ],
+        "formula_latex": "q=\\frac12\\rho V^2",
+        "explanation": "Dynamic pressure is one half times density times the square of airspeed."
+      },
+      {
+        "id": "TA1-0144-D2-S1",
+        "stem": "Air pressure is 73700 Pa and R times T is 75481 m²/s². What is density?",
+        "options": [
+          "0.97640 kg/m³",
+          "1.02417 kg/m³",
+          "0.48820 kg/m³",
+          "1.95280 kg/m³"
+        ],
+        "answer": 0,
+        "explanation": "Divide pressure by R T: 73700 / 75481 ≈ 0.97640 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=73700\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=75481\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{73700}{75481}\\approx0.97640\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0144-D2",
+        "stem": "Air density is 0.97640 kg/m³ and half the square of airspeed is 4608 m²/s². What is dynamic pressure?",
+        "options": [
+          "4499.3 Pa",
+          "3599.4 Pa",
+          "8998.6 Pa",
+          "2249.7 Pa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply density by half the squared airspeed: 0.97640 × 4608 ≈ 4499.3 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=0.97640\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=4608\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=0.97640\\times4608\\approx4499.3\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0425-D2",
@@ -19392,7 +19546,89 @@
       0.0
     ],
     "legacy_id": "TA1-0224",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0224-D2-S1",
+        "stem": "Air pressure is 75400 Pa and R times T is 76342 m²/s². What is density?",
+        "options": [
+          "1.01249 kg/m³",
+          "0.98766 kg/m³",
+          "1.97532 kg/m³",
+          "0.49383 kg/m³"
+        ],
+        "answer": 1,
+        "explanation": "Divide pressure by R T: 75400 / 76342 ≈ 0.98766 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=75400\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=76342\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{75400}{76342}\\approx0.98766\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0224-D2",
+        "stem": "Air density is 0.98766 kg/m³ and half the square of airspeed is 5000 m²/s². What is dynamic pressure?",
+        "options": [
+          "4938.3 Pa",
+          "2469.2 Pa",
+          "3950.6 Pa",
+          "9876.6 Pa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply density by half the squared airspeed: 0.98766 × 5000 ≈ 4938.3 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=0.98766\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=5000\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=0.98766\\times5000\\approx4938.3\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0445-D2",
@@ -21029,7 +21265,89 @@
       -1.1102230246251565e-16
     ],
     "legacy_id": "TA1-0310",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0310-D2-S1",
+        "stem": "Air pressure is 77100 Pa and R times T is 77203 m²/s². What is density?",
+        "options": [
+          "0.99867 kg/m³",
+          "1.99734 kg/m³",
+          "1.00133 kg/m³",
+          "0.49933 kg/m³"
+        ],
+        "answer": 0,
+        "explanation": "Divide pressure by R T: 77100 / 77203 ≈ 0.99867 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=77100\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=77203\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{77100}{77203}\\approx0.99867\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0310-D2",
+        "stem": "Air density is 0.99867 kg/m³ and half the square of airspeed is 5408 m²/s². What is dynamic pressure?",
+        "options": [
+          "10801.6 Pa",
+          "2700.4 Pa",
+          "4320.6 Pa",
+          "5400.8 Pa"
+        ],
+        "answer": 3,
+        "explanation": "Multiply density by half the squared airspeed: 0.99867 × 5408 ≈ 5400.8 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=0.99867\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=5408\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=0.99867\\times5408\\approx5400.8\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0449-D2",
@@ -22618,7 +22936,89 @@
       0.0
     ],
     "legacy_id": "TA1-0473",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0473-D2-S1",
+        "stem": "Air pressure is 78800 Pa and R times T is 78064 m²/s². What is density?",
+        "options": [
+          "0.99066 kg/m³",
+          "1.00943 kg/m³",
+          "2.01886 kg/m³",
+          "0.50472 kg/m³"
+        ],
+        "answer": 1,
+        "explanation": "Divide pressure by R T: 78800 / 78064 ≈ 1.00943 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=78800\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=78064\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{78800}{78064}\\approx1.00943\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0473-D2",
+        "stem": "Air density is 1.00943 kg/m³ and half the square of airspeed is 5832 m²/s². What is dynamic pressure?",
+        "options": [
+          "4709.6 Pa",
+          "5887.0 Pa",
+          "2943.5 Pa",
+          "11774.0 Pa"
+        ],
+        "answer": 1,
+        "explanation": "Multiply density by half the squared airspeed: 1.00943 × 5832 ≈ 5887.0 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=1.00943\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=5832\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=1.00943\\times5832\\approx5887.0\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0463-D2",
@@ -24195,7 +24595,89 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0474",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0474-D2-S1",
+        "stem": "Air pressure is 80500 Pa and R times T is 78925 m²/s². What is density?",
+        "options": [
+          "1.01996 kg/m³",
+          "0.98043 kg/m³",
+          "0.50998 kg/m³",
+          "2.03992 kg/m³"
+        ],
+        "answer": 0,
+        "explanation": "Divide pressure by R T: 80500 / 78925 ≈ 1.01996 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=80500\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=78925\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{80500}{78925}\\approx1.01996\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0474-D2",
+        "stem": "Air density is 1.01996 kg/m³ and half the square of airspeed is 6272 m²/s². What is dynamic pressure?",
+        "options": [
+          "6397.2 Pa",
+          "12794.4 Pa",
+          "3198.6 Pa",
+          "5117.8 Pa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply density by half the squared airspeed: 1.01996 × 6272 ≈ 6397.2 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=1.01996\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=6272\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=1.01996\\times6272\\approx6397.2\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0592-D2",
@@ -25775,7 +26257,89 @@
       0.0
     ],
     "legacy_id": "TA1-0581",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0581-D2-S1",
+        "stem": "Air pressure is 82200 Pa and R times T is 79786 m²/s². What is density?",
+        "options": [
+          "1.03026 kg/m³",
+          "0.97063 kg/m³",
+          "0.51513 kg/m³",
+          "2.06052 kg/m³"
+        ],
+        "answer": 0,
+        "explanation": "Divide pressure by R T: 82200 / 79786 ≈ 1.03026 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=82200\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=79786\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{82200}{79786}\\approx1.03026\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0581-D2",
+        "stem": "Air density is 1.03026 kg/m³ and half the square of airspeed is 6728 m²/s². What is dynamic pressure?",
+        "options": [
+          "13863.2 Pa",
+          "5545.3 Pa",
+          "6931.6 Pa",
+          "3465.8 Pa"
+        ],
+        "answer": 2,
+        "explanation": "Multiply density by half the squared airspeed: 1.03026 × 6728 ≈ 6931.6 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=1.03026\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=6728\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=1.03026\\times6728\\approx6931.6\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0668-D2",
@@ -27389,7 +27953,89 @@
       0.0
     ],
     "legacy_id": "TA1-0593",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0593-D2-S1",
+        "stem": "Air pressure is 83900 Pa and R times T is 80647 m²/s². What is density?",
+        "options": [
+          "2.08068 kg/m³",
+          "0.96122 kg/m³",
+          "1.04034 kg/m³",
+          "0.52017 kg/m³"
+        ],
+        "answer": 2,
+        "explanation": "Divide pressure by R T: 83900 / 80647 ≈ 1.04034 kg/m³.",
+        "formula_hint": {
+          "latex": "\\rho=\\frac{p}{R_a T}",
+          "prerequisite": "ISA-DENSITY"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air pressure is "
+            },
+            {
+              "latex": "p=83900\\,\\mathrm{Pa}"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "R_a T=80647\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is density?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "\\rho=\\frac{83900}{80647}\\approx1.04034\\,\\mathrm{kg/m^3}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0593-D2",
+        "stem": "Air density is 1.04034 kg/m³ and half the square of airspeed is 7200 m²/s². What is dynamic pressure?",
+        "options": [
+          "3745.2 Pa",
+          "5992.3 Pa",
+          "7490.4 Pa",
+          "14980.8 Pa"
+        ],
+        "answer": 2,
+        "explanation": "Multiply density by half the squared airspeed: 1.04034 × 7200 ≈ 7490.4 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\rho V^2",
+          "prerequisite": "ISA-DYNAMIC"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Air density is "
+            },
+            {
+              "latex": "\\rho=1.04034\\,\\mathrm{kg/m^3}"
+            },
+            {
+              "text": " and half the squared airspeed is "
+            },
+            {
+              "latex": "\\frac12 V^2=7200\\,\\mathrm{m^2/s^2}"
+            },
+            {
+              "text": ". What is dynamic pressure?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "q=1.04034\\times7200\\approx7490.4\\,\\mathrm{Pa}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0708-D2",
