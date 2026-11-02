@@ -510,9 +510,10 @@ final class SessionInteraction {
  private static AccessibilityNodeInfo findLast(AccessibilityNodeInfo node,String text,int depth){
   if(depth>50||!own(node))return null;
   for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=findLast(child,text,depth+1);if(found!=null)return found;}finally{child.recycle();}}
-  if(node.isVisibleToUser()&&(text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
+  if(node.isVisibleToUser()&&(text.equals(normalizeToken(node.getText()))||text.equals(normalizeToken(node.getContentDescription()))))return AccessibilityNodeInfo.obtain(node);
   return null;
  }
+ private static String normalizeToken(CharSequence value){return value==null?"":value.toString().replace((char)10,' ').replace((char)13,' ');}
  private static void click(Instrumentation test,String id,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)throw new IllegalStateException("No active native window");

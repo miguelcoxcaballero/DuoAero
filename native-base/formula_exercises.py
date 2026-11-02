@@ -42,7 +42,7 @@ def figure(value, symbolic=False, latex=False):
     display=value
     if symbolic and not latex and len(value)>15 and ' ' in value:
         split=min((i for i,c in enumerate(value) if c==' '),key=lambda i:abs(i-len(value)/2))
-        display=value[:split]+'\\n'+value[split+1:]
+        display=value[:split]+'\n'+value[split+1:]
     return {'underlyingEntity': {'entity': entity(value)} if symbolic else {'noEntity': {}},
             'taggedTextElement': {'text': 'duoaero-latex:' + math_latex(value) if latex else html.escape(display)}}
 
