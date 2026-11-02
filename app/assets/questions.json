@@ -29965,6 +29965,30 @@
         }
       },
       {
+        "id": "APPROACH-STALL-QUANTITIES",
+        "type": "matching",
+        "stem": "Match each symbol to its quantity",
+        "pairs": [
+          [
+            "W",
+            "weight"
+          ],
+          [
+            "rho",
+            "air density"
+          ],
+          [
+            "S",
+            "wing area"
+          ],
+          [
+            "CLmax",
+            "maximum lift coefficient"
+          ]
+        ],
+        "explanation": "Weight, air density, wing area and maximum lift coefficient are the inputs to stall speed."
+      },
+      {
         "id": "APPROACH-STALL-SQUARED-WORDS",
         "type": "gap",
         "stem": "Complete the formula in words: ___ equals twice weight divided by the product of density, wing area and maximum lift coefficient.",
