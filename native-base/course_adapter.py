@@ -12,7 +12,7 @@ from pathlib import Path
 from rich_question import choice_blob, difficulty_stars, content, text_latex
 from math_notation import parts as notation_parts
 from formula_exercises import formula_challenge
-from formula_words import word_introduction, named_equation, named_equation_all, choices_in_stable_order, INLINE_SYMBOLS
+from formula_words import word_introduction, named_equation, named_equation_all, choices_in_stable_order, INLINE_SYMBOLS, KINDS, MULTI_NAMED
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -137,7 +137,7 @@ def lesson_questions(questions, expand_steps=True, teach_words=False):
     if teach_words:
         expanded = [part for q in expanded for part in
                     ([word_introduction(q)]
-                     + ([named_equation_all(q)] if q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2') else [])
+                     + ([named_equation_all(q)] if KINDS[q['id']] in MULTI_NAMED else [])
                      + [named_equation(q), q] if q['type'] == 'formula_blocks' else [q])]
     ids = [q['id'] for q in expanded]
     if len(ids) != len(set(ids)):

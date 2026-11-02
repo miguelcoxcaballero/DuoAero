@@ -151,23 +151,26 @@ def named_equation(formula):
             'explanation':equation}
 
 
-def named_equation_all(formula):
-    """Practice the named operands of a reviewed equation in their places.
+MULTI_NAMED = {
+ 'gas': (r'p=\rho R_aT', ['pressure','density','gas constant','temperature'],
+         ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
+ 'hydraulic': (r'P_{hyd}=\Delta p\,Q', ['hydraulic power','pressure difference','flow rate'],
+               ['mass','temperature','altitude'], ['___','=','___',r'\times','___']),
+}
 
-    This initial multi-slot exercise is intentionally limited to the ideal-gas
-    equation. Other expressions need individual review, especially operands
-    nested inside fractions and exponents.
-    """
-    if KINDS[formula['id']] != 'gas' or formula['formula_latex'] != r'p=\rho R_aT':
-        raise ValueError('Multi-slot equation is not reviewed: ' + formula['id'])
-    answers = ['pressure', 'density', 'gas constant', 'temperature']
-    distractors = ['velocity', 'altitude', 'mass', 'area']
+
+def named_equation_all(formula):
+    """Put reviewed quantity names in place while keeping every operation."""
+    expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
+    if formula['formula_latex'] != expected:
+        raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
+    assert parts.count('___') == len(answers) and len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
             'stem':'Complete the formula with quantities',
             # The symbolic product is implicit; explicit multiplication signs
             # keep the relationship readable when word tiles wrap to a line.
-            'inline_latex':['___', '=', '___', r'\times', '___', r'\times', '___'],
+            'inline_latex':list(parts),
             'formula_latex':formula['formula_latex'],
             'answer_blocks':answers,
             'blocks':choices_in_stable_order(formula['id']+'-NAMED-ALL',answers+distractors),
