@@ -432,7 +432,7 @@ public final class NativeCourseBridge {
    }
    else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_.-]+")){
     String sessionId=path.substring(path.lastIndexOf('/')+1);
-    JSONObject catalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
+    JSONObject catalog=sessionCatalog(app);
     if(NativeSessionId.valid(sessionId)&&catalog.has(sessionId)){
      JSONObject submission=requestJson(request);
      NativeSessionStore.record(app,sessionId,submission);
@@ -443,7 +443,7 @@ public final class NativeCourseBridge {
     }else code=404;
    }
    else if(method.equals("POST")&&path.matches("/(?:[0-9-]+/)?sessions")){
-    JSONObject input=requestJson(request);JSONObject index=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
+    JSONObject input=requestJson(request);JSONObject index=sessionCatalog(app);
     String selected=null;JSONObject metadata=input.optJSONObject("metadata");
     if(metadata!=null&&index.has(metadata.optString("id")))selected=metadata.getString("id");
     if(selected==null){
@@ -462,6 +462,15 @@ public final class NativeCourseBridge {
    Log.i("DuoAeroNative","Synthetic local response "+call(request,"method")+" "+call(diagnosticUrl,"encodedPath")+" status="+code);
   }
   return jsonResponse(request,code,payload);
+ }
+ // Installed assets are immutable for the lifetime of this Android process.
+ // Every caller treats this shared JSONObject and its descendants as read-only.
+ // Sharing the parsed catalog avoids repeated full-course parsing on the
+ // session request and on each durable completion/progress refresh.
+ private static JSONObject sessionCatalog;
+ static synchronized JSONObject sessionCatalog(Application app)throws Exception {
+  if(sessionCatalog==null)sessionCatalog=new JSONObject(asset(app,"duoaero/course/session-catalog.json"));
+  return sessionCatalog;
  }
  static String asset(Application app,String path)throws IOException {
   ByteArrayOutputStream bytes=new ByteArrayOutputStream();

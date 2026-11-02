@@ -26,7 +26,7 @@ final class NativeProgressSync {
    String before=NativeSessionStore.exportCompletions(app).toString();
    JSONObject incoming=new JSONObject(raw);
    if(incoming.optInt("nativeSchema")!=1)throw new IllegalArgumentException("Unsupported native Drive progress schema");
-   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+   JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
    Set<String> known=new HashSet<>();
    for(Iterator<String> keys=catalog.keys();keys.hasNext();){JSONArray challenges=catalog.getJSONObject(keys.next()).getJSONArray("challenges");for(int i=0;i<challenges.length();i++)known.add(challenges.getJSONObject(i).getString("id"));}
    JSONObject records=incoming.optJSONObject("records"),lessons=incoming.optJSONObject("completedLessons");

@@ -6759,7 +6759,80 @@
       "22000 kg": "Incorrect: This subtracts fuel from empty mass rather than using the take-off balance."
     },
     "legacy_id": "TA1-0024",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "MASS-PAYLOAD-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the payload mass formula",
+        "prefix": "m_p =",
+        "blocks": [
+          "m_{to}",
+          "−",
+          "m_{oem}",
+          "m_f",
+          "+",
+          "m_i"
+        ],
+        "answer_blocks": [
+          "m_{to}",
+          "−",
+          "m_{oem}",
+          "−",
+          "m_f"
+        ],
+        "formula_latex": "m_p=m_{to}-m_{oem}-m_f",
+        "explanation": "m_p=m_{to}-m_{oem}-m_f",
+        "literal_operator_blocks": true
+      },
+      {
+        "id": "TA1-0024-F1-S1",
+        "stem": "Takeoff mass is 50000 kg and empty mass is 30000 kg. How much mass remains for fuel and payload?",
+        "options": [
+          "20000 kg",
+          "30000 kg",
+          "80000 kg",
+          "12000 kg"
+        ],
+        "answer": 0,
+        "explanation": "Subtract empty mass from takeoff mass: 50000 − 30000 = 20000 kg.",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "50000-30000=20000\\,\\mathrm{kg}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0024-F1",
+        "stem": "There are 20000 kg available for fuel and payload. Fuel mass is 8000 kg. What is the payload mass?",
+        "options": [
+          "20000 kg",
+          "8000 kg",
+          "12000 kg",
+          "22000 kg"
+        ],
+        "answer": 2,
+        "explanation": "Subtract fuel mass from the available 20000 kg: 20000 − 8000 = 12000 kg.",
+        "formula_hint": {
+          "latex": "m_p=m_{to}-m_{oem}-m_f",
+          "prerequisite": "MASS-PAYLOAD-FORMULA"
+        },
+        "rich_text": {
+          "explanation": [
+            {
+              "latex": "m_p=20000-8000=12000\\,\\mathrm{kg}"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0284",

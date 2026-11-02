@@ -17,7 +17,6 @@ public final class NativeSessionResume {
  private static final String FORMAT="duolingo-6.103.5-persisted-state-v1";
  private static final Map<Object,Boolean> observed=new WeakHashMap<>();
  private static final Set<String> finished=new HashSet<>();
- private static JSONObject catalog;
  private static Application application()throws Exception {
   return (Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
  }
@@ -32,7 +31,7 @@ public final class NativeSessionResume {
    Object header=session.getClass().getField("a").get(session);
    String id=(String)header.getClass().getMethod("C").invoke(header);
    Application app=application();
-   if(catalog==null)catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+   JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
    if(!NativeSessionId.valid(id)||finished.contains(id))return state;
    JSONObject lesson=catalog.optJSONObject(id);
    if(lesson==null)lesson=NativeReviewStore.lookup(app,id);

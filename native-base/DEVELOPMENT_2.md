@@ -307,6 +307,20 @@ screenshots and OCR overhead. A shared immutable-catalog cache is under test;
 neither that diagnostic nor an earlier network-suppression experiment has
 established an end-to-end speedup yet.
 
+The shared session catalog is now cached for the installed app process and
+treated as read-only. Android run 41398314531 passed a full Atmosphere lesson,
+restart, review and 173 synthetic account checks, including an unchanged
+catalog after account operations. In that separate emulator run the catalog
+lookup in the completion path took less than one millisecond, with 0.749 s
+through local refresh; the automated final-Continue-to-Claim observation was
+39.84 s including adb/OCR overhead. Differences between emulator runs do not
+establish the actual improvement on a phone or account for the full delay.
+
+The first payload-mass calculation teaches named and symbolic quantities
+before two subtractions, with a reviewed formula hint. Android run
+41397802231 graded all six controls; the resulting lesson remains within the
+existing 20-exercise limit. Other mass and range problems still need review.
+
 The isolated second-partial preview now links six draft topics. In Android run
 41396433753 the section picker opened, all ten questions of the first topic
 were graded, and the second topic opened after completion and restart. A

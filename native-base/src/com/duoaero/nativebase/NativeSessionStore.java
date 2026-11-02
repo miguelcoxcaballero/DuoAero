@@ -54,7 +54,7 @@ public final class NativeSessionStore {
   File folder=new File(NativeAccountStore.root(app),"submissions");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
   JSONObject lesson=catalog.getJSONObject(sessionId);
   // An update can arrive while a published older lesson is in progress.
   // Accept its exact preserved historical question set on final submission;
@@ -102,7 +102,7 @@ public final class NativeSessionStore {
    return base.endsWith(".json")&&NativeSessionId.valid(base.substring(0,base.length()-5));
   });
   if(files==null)return completed;
-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
   Set<String> bases=new HashSet<>();for(File path:files)bases.add(path.getName().replaceFirst("\\.bak$",""));
   for(String name:bases){
    JSONObject record=read(new AtomicFile(new File(folder,name)));
@@ -117,7 +117,7 @@ public final class NativeSessionStore {
  static synchronized Set<String> projectedCompletedLessons(Application app)throws Exception {
   Set<String> actual=completedLessons(app);
   JSONObject migrations=migrations(app);
-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
   File folder=new File(NativeAccountStore.root(app),"submissions");
   Map<String,Set<String>> verified=new HashMap<>();
   for(Iterator<String> keys=migrations.keys();keys.hasNext();){
@@ -133,7 +133,7 @@ public final class NativeSessionStore {
   return NativeCourseProgress.projectedCompletions(actual,migrations,verified);
  }
  static synchronized JSONObject exportCompletions(Application app)throws Exception {
-  JSONObject result=new JSONObject(),catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject result=new JSONObject(),catalog=NativeCourseBridge.sessionCatalog(app);
   File folder=new File(NativeAccountStore.root(app),"submissions");
   for(String id:completedLessons(app)){
    JSONObject stored=read(new AtomicFile(new File(folder,id+".json")));
@@ -149,7 +149,7 @@ public final class NativeSessionStore {
   return result;
  }
  static synchronized void importCompletions(Application app,JSONObject incoming)throws Exception {
-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
   File folder=new File(NativeAccountStore.root(app),"submissions");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
   for(Iterator<String> keys=incoming.keys();keys.hasNext();){

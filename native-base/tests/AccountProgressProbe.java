@@ -17,6 +17,11 @@ public final class AccountProgressProbe extends Instrumentation {
   SharedPreferences prefs=getTargetContext().getSharedPreferences("duoaero-google",0);
   try{
    Application app=(Application)getTargetContext().getApplicationContext();ClassLoader loader=app.getClassLoader();
+   Class<?> catalogBridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
+   Method cachedCatalog=catalogBridge.getDeclaredMethod("sessionCatalog",Application.class);cachedCatalog.setAccessible(true);
+   JSONObject sharedCatalog=(JSONObject)cachedCatalog.invoke(null,app);
+   String originalCatalog=sharedCatalog.toString();
+   check(sharedCatalog==cachedCatalog.invoke(null,app));
    Class<?> sync=Class.forName("com.duoaero.nativebase.NativeProgressSync",true,loader);
    Method read=sync.getDeclaredMethod("read",Application.class,String.class),apply=sync.getDeclaredMethod("apply",Application.class,String.class,String.class);
    read.setAccessible(true);apply.setAccessible(true);
@@ -340,7 +345,9 @@ public final class AccountProgressProbe extends Instrumentation {
    check(Boolean.TRUE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
    check(Boolean.FALSE.equals(mergeChest.invoke(null,app,new JSONObject().put(topicChest,100))));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldTopic.length()*10+25);
-   report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
+   check(sharedCatalog==cachedCatalog.invoke(null,app));
+   check(originalCatalog.equals(sharedCatalog.toString()));
+   report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation, immutable shared catalog and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
   }catch(Throwable error){if(error instanceof InvocationTargetException)error=error.getCause();report.append(android.util.Log.getStackTraceString(error));}

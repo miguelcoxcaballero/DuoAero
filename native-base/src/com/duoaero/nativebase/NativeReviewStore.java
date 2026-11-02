@@ -42,7 +42,7 @@ final class NativeReviewStore {
   catch(FileNotFoundException empty){return null;}
   List<String> pending=NativeQuestionLedger.unresolved(state.getJSONObject("records"));
   if(pending.isEmpty())return null;
-  JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
+  JSONObject catalog=NativeCourseBridge.sessionCatalog(app);
   Map<String,JSONObject> questions=new HashMap<>();JSONObject template=null;
   for(Iterator<String> keys=catalog.keys();keys.hasNext();){
    JSONObject lesson=catalog.getJSONObject(keys.next());if(template==null)template=lesson;
