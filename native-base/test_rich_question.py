@@ -220,6 +220,10 @@ assert parts('Use exp(-Kh).')[1] == {'latex': r'e^{-Kh}'}
 isa_exp = parts('Use p=p11 exp[-g(h-11000)/(RT)] above 11000 m.')
 assert {'latex': r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'} in isa_exp
 assert ''.join(p.get('text', '') for p in isa_exp) == 'Use  above 11000 m.'
+isa_questions = [q for q in bank if 'exp[-g(h-11000)/(RT)]' in q.get('stem', '')]
+assert len(isa_questions) == 10
+for question in isa_questions:
+    assert {'latex': r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'} in parts(question['stem'])
 assert parts('The mass generally increases.') == [{'text': 'The mass generally increases.'}]
 assert parts('Fill ___ with one word.') == [{'text': 'Fill ___ with one word.'}]
 assert content(None, 'Use eta_p and m_dot in kg/s².') == r'\text{Use }\eta_{p}\text{ and }\dot{m}\text{ in kg/}s^{2}\text{.}'
