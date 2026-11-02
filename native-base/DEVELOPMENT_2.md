@@ -377,7 +377,10 @@ audibility, physical vibration, real Drive sync or an installed update.
 The current authored bank has 36 symbolic formula exercises with a word-first
 introduction; 26 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
-formula that may be needed by the rest of the course.
+formula that may be needed by the rest of the course. Some existing named
+equations express a fraction with division symbols or put an exponent into a
+word tile; they still require layout work to preserve the original operators
+and exponents in place as requested.
 
 * Review all calculation families, simplify long questions, author correct
   prerequisite formulas and word/symbol block exercises, and verify ordering.
