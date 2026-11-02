@@ -396,5 +396,26 @@
     ],
     "chest_diagnostic": "Run 41353988971: seeded prerequisites; visible +25 gems confirmation and balance after restart, but screenshot shows fallback dialog with no original chest animation. Not a full course or Drive test.",
     "updater_profile_diagnostic": "Run 41354031335 failed: synthetic profile crashed with an unsupported drawable before reaching updater settings. Real signed app with a Google account has not been tested for this; a profile-resource fix is under test."
+  },
+  "v1_3_7_development": {
+    "release": "https://github.com/miguelcoxcaballero/DuoAero/releases/tag/v1.3.7",
+    "apk_sha256": "c67004fc37acbfffe16b45250ece0a253876e227da43a6862f5d9a8c2f7c5914",
+    "versionCode": 10307,
+    "source_commit": "5786d735b3c6cbd66dbceb774cbdcc428eb4183e",
+    "channel": "A; B remains empty",
+    "tests": {
+      "candidate_build": 41364315026,
+      "android_integration": 41364314913,
+      "signed_install_over_1_3_0_and_fresh": 41366320110,
+      "signing": 41366219602,
+      "description": "Emulator: 12 representative actual word/named/symbolic choices and short taps, first Atmosphere lesson with seeded earlier nodes, hint, retry, Claim XP and next lesson after restart; original chest +25 gems persistence; synthetic account history and update settings. Signed APK installed over 1.3.0 and fresh and reached the Google welcome after restart."
+    },
+    "limitations": [
+      "This is a development preview, not the completed app.",
+      "The 29 existing symbolic formula-block exercises get word and named-equation practice; other equations, hints and the full course remain to be audited.",
+      "Many static mascot scenes remain generic. Some character sequences mainly translate a drawing; articulated motion, all poses, smoothness and all screens remain incomplete or unverified.",
+      "Real Google OAuth, Drive sync, populated account migration, in-app update installation and physical S24 Ultra behavior have not been established.",
+      "A static quit-dialog probe did not show its expected dialog and did not establish the appearance of that screen."
+    ]
   }
 }
