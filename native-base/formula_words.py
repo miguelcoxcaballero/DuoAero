@@ -245,7 +245,7 @@ MULTI_NAMED = {
  # The preceding word challenge names both contributions as thrust. Keep the
  # tiles compact enough that the original two-column bank and Check stay on
  # screen at large font sizes.
- 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum','pressure'],
+ 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum part','pressure part'],
                   ['temperature','altitude','mass'], ['___','=','___','+','___']),
  'mean_chord': (r'\bar{c}=\frac{S}{b}', ['mean chord','wing area','wingspan'],
                 ['temperature','density','mass'], ['___','=','___/___']),
@@ -279,7 +279,8 @@ def named_equation_all(formula):
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
-            'stem':'Complete the formula with quantities',
+            'stem':('Complete thrust using its contributions' if KINDS[formula['id']]=='total_thrust'
+                    else 'Complete the formula with quantities'),
             # The symbolic product is implicit; explicit multiplication signs
             # keep the relationship readable when word tiles wrap to a line.
             'inline_latex':list(parts),
