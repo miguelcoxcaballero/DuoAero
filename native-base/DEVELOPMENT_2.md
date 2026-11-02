@@ -257,8 +257,9 @@ This is a targeted improvement, not an audit of every question.
 Eight fixed-pressure temperature/lift-coefficient problems now use two short
 calculations after named and symbolic formula exercises. Run 41393361188
 graded all 22 staged controls and passed account migration on the emulator.
-The division sign was left at a line end in a screenshot; a grouping fix is
-under Android test. These checks do not cover every numerical problem.
+The division sign was left at a line end in an earlier screenshot; run
+41394563874 graded all 22 controls with the sign grouped beside its operand.
+These checks do not cover every numerical problem.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly
