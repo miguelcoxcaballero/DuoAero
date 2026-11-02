@@ -7908,7 +7908,38 @@
       "12 kN": "Incorrect: This ignores the pressure-thrust contribution."
     },
     "legacy_id": "TA1-0150",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TOTAL-THRUST-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the total thrust formula",
+        "prefix": "T =",
+        "blocks": [
+          "T_m",
+          "+",
+          "T_p",
+          "−",
+          "×"
+        ],
+        "answer_blocks": [
+          "T_m",
+          "+",
+          "T_p"
+        ],
+        "formula_latex": "T=T_m+T_p",
+        "explanation": "T=T_m+T_p",
+        "literal_operator_blocks": true
+      },
+      {
+        "id": "TA1-0150-F1",
+        "formula_hint": {
+          "latex": "T=T_m+T_p",
+          "prerequisite": "TOTAL-THRUST-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0033-F1",

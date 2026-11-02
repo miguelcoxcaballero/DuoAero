@@ -43,6 +43,7 @@ FORMULAS = {
  'mach_pressure': ('Dynamic pressure q equals one half times heat capacity ratio gamma times pressure p times Mach number M ___.', 'squared', ['cubed', 'halved', 'unchanged']),
  'wing_loading': ('Weight W divided by wing area S equals dynamic pressure q times lift ___.', 'coefficient', ['temperature', 'altitude', 'density']),
  'lift': ('Lift L equals dynamic pressure q times wing area S times lift ___.', 'coefficient', ['temperature', 'altitude', 'density']),
+ 'total_thrust': ('Total thrust T equals momentum thrust T-m plus pressure thrust T-p, the thrust due to pressure ___.', 'difference', ['temperature', 'density', 'altitude']),
 }
 
 KINDS = {
@@ -67,6 +68,7 @@ KINDS = {
  'TA1-0078-D2-F1':'breguet_exponent', 'TA1-0078-D2-F2':'fuel_fraction',
  'CABIN-PRESSURE-FORMULA':'cabin_pressure', 'CABIN-MACH-PRESSURE':'mach_pressure', 'CABIN-WING-LOADING':'wing_loading',
  'LIFT-FORMULA':'lift',
+ 'TOTAL-THRUST-FORMULA':'total_thrust',
 }
 
 # Each item is emitted as mathematical LaTeX inside the surrounding sentence.
@@ -83,7 +85,7 @@ INLINE_SYMBOLS = {
  'k':'k', 'A':'A', 'L':'L', 'I':'I', 'Pcr':r'P_{cr}', 'E-Y':r'E_Y', 'K':'K',
  'delta-L':r'\Delta L', 'F':'F', 'AR':r'\mathrm{AR}', 'b':'b', 'S':'S',
  'lambda':r'\lambda', 'c-tip':r'c_t', 'c-root':r'c_r', 'P-hyd':r'P_{\mathrm{hyd}}',
- 'delta-p':r'\Delta p', 'Q':'Q', 'q':'q', 'pi':r'\pi', 'CDi':r'C_{D,i}',
+ 'delta-p':r'\Delta p', 'T-m':r'T_m', 'T-p':r'T_p', 'Q':'Q', 'q':'q', 'pi':r'\pi', 'CDi':r'C_{D,i}',
  'CL':r'C_L', 'e':'e', 'm-dot':r'\dot{m}', 'Ve':r'V_e', 'V0':r'V_0',
  'delta-T':r'\Delta T', 'cp':r'c_p', 'Tt':r'T_t', 'a':'a',
  'gamma':r'\gamma', 'M':'M', 'x':'x', 'ce':r'c_e', 'm-fuel':r'm_{\mathrm{fuel}}', 'r':'r',
@@ -125,6 +127,7 @@ EQUATION_NAMES = {
  'mach_pressure':('dynamic pressure',['cabin pressure','density','area']),
  'wing_loading':('lift coefficient',['wing area','weight','airspeed']),
  'lift':('lift',['drag','weight','wing area']),
+ 'total_thrust':('total thrust',['momentum thrust','pressure thrust','wing area']),
 }
 
 # Where the quantity is an operand at the top level, keep the hole precisely
@@ -147,6 +150,7 @@ IN_PLACE = {
  'cabin_pressure':('','p',r'=p_c-\Delta p'),
  'wing_loading':(r'\frac{W}{S}=q',r'C_L',''),
  'lift':('','L',r'=qSC_L'),
+ 'total_thrust':('','T',r'=T_m+T_p'),
 }
 
 
@@ -221,6 +225,8 @@ MULTI_NAMED = {
                   ['temperature','altitude','mass'], ['___/___','=','___',r'\times','___']),
  'lift': (r'L=qSC_L', ['lift','dynamic p','wing area','lift coeff'],
           ['temperature','altitude','mass'], ['___','=','___',r'\times','___',r'\times','___']),
+ 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum thrust','pressure thrust'],
+                  ['temperature','altitude','mass'], ['___','=','___','+','___']),
  'thrust': (r'T=\dot m(V_e-V_0)', ['thrust','mass flow','exhaust speed','flight speed'],
             ['pressure','density','altitude'], ['___','=','___',r'\times','(','___','-','___',')']),
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],
