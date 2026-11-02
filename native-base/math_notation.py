@@ -13,7 +13,7 @@ SUPERSCRIPTS = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', '0123456789-+'
 # Keep physical unit expressions such as m/s and J/(kg K) as ordinary text.
 _NAME = r'[A-Za-z][A-Za-z0-9_]*'
 _POWER = r'(?:\^[+-]?\d+(?:\.\d+)?|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)'
-FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])((?:\d+(?:\.\d+)?[A-Za-z][A-Za-z0-9_]*|' + _NAME + r'))\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
+FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])((?:\d+(?:\.\d+)?[A-Za-z][A-Za-z0-9_]*|' + _NAME + r'|\d+(?:\.\d+)?))\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
 _UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','MN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
 _SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp','mi','mf'}
 _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
@@ -26,7 +26,7 @@ TOKEN = re.compile(
     r'|(?:p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
-    r'|(?:deltaL|Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
+    r'|(?:deltaL|Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|Pcr(?:_(?:new|old))?|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
     r'|p11|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
@@ -40,6 +40,9 @@ TOKEN = re.compile(
 def symbol(value):
     if value == 'deltaL':
         return r'\Delta L'
+    if value in ('Pcr','Pcr_new','Pcr_old'):
+        suffix = value.partition('_')[2]
+        return r'P_{\mathrm{cr' + (',' + suffix if suffix else '') + '}}'
     aliases = {'CL_opt':r'C_{L,\mathrm{opt}}','CL_max':r'C_{L,\max}',
                'CLmax':r'C_{L,\max}','CLopt':r'C_{L,\mathrm{opt}}',
                'Vapp':r'V_{\mathrm{app}}','Vstall':r'V_{\mathrm{stall}}',
@@ -132,7 +135,7 @@ def _parts_without_roots(value):
         numerator, denominator, exponent = match.group(1), match.group(2), match.group(3)
         inner = denominator[1:-1] if denominator.startswith('(') else denominator
         names = re.findall(_NAME, inner)
-        if not names or not _symbolic(numerator) or not all(_symbolic(name) for name in names):
+        if not names or not (_symbolic(numerator) or re.fullmatch(r'\d+(?:\.\d+)?',numerator)) or not all(_symbolic(name) for name in names):
             continue
         if numerator in _UNITS and all(name in _UNITS for name in names):
             continue

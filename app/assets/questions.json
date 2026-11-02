@@ -5813,7 +5813,11 @@
       "4": "Correct: 1/(0.5)² = 4."
     },
     "legacy_id": "TA1-0234",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "formula_hint": {
+      "latex": "P_{cr}=\\frac{\\pi^2 E_Y I}{(KL)^2}",
+      "prerequisite": "BOOK-V6-05-D1"
+    }
   },
   {
     "topic": "2.3",

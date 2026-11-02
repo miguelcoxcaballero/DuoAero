@@ -16,6 +16,7 @@ expected={
     'TA1-0016-F1':('LIFT-FORMULA',r'L=qSC_L','20 kN'),
     'TA1-0150-F1':('TOTAL-THRUST-FORMULA',r'T=T_m+T_p','15 kN'),
     'TA1-0031-F1':('MEAN-CHORD-FORMULA',r'\bar{c}=\frac{S}{b}','3 m'),
+    'TA1-0234-F1':('BOOK-V6-05-D1',r'P_{cr}=\frac{\pi^2 E_Y I}{(KL)^2}','4'),
 }
 for node in plan:
     for lesson in node['lessons']:
@@ -35,4 +36,5 @@ assert Decimal(12000)/12000000*1000==1
 assert Decimal(2000)*20*Decimal('.5')==20000
 assert Decimal(12)+3==15
 assert Decimal(60)/20==3
-print('PASS: six direct calculations have prior formula hints and checked answers; Android hint/retry remains unverified.')
+assert 1/(Decimal('.5')**2)==4
+print('PASS: seven direct calculations have prior formula hints and checked answers; Android hint/retry remains unverified.')

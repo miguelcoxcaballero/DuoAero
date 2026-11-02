@@ -738,6 +738,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   from orbit_lesson import lesson as orbit_lesson
   mixed=orbit_lesson()
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_BUCKLING_NOTATION_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0234-F1']],teach_words=True)
+  assert len(mixed)==1
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

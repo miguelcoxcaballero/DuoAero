@@ -209,6 +209,11 @@ print('LaTeX preserved; ambiguous content rejected. Rendering still requires dev
 
 from math_notation import parts, symbol
 assert symbol('p_base') == r'p_{\mathrm{base}}'
+assert symbol('Pcr') == r'P_{\mathrm{cr}}'
+assert symbol('Pcr_new') == r'P_{\mathrm{cr,new}}'
+assert r'\frac{1}{L^{2}}' in content(None, 'Rigidity is proportional to 1/L².')
+assert r'\frac{P_{\mathrm{cr,new}}}{P_{\mathrm{cr,old}}}' in content(None, 'Find Pcr_new/Pcr_old.')
+assert content(None, 'Use 10 m/s and 20 J/(kg K).') == r'\text{Use 10 m/s and 20 J/(kg K).}'
 assert symbol('eta_p') == r'\eta_{p}'
 assert symbol('m_dot') == r'\dot{m}'
 assert symbol('sigma_max') == r'\sigma_{\mathrm{max}}'
