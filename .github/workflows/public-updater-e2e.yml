@@ -41,7 +41,7 @@ jobs:
           adb shell wm density 560
           adb shell svc power stayon true
           adb install --no-incremental "$RUNNER_TEMP/release/DuoAero-1.3.0.apk"
-          python native-base/test_released_updater_explore.py
+          python native-base/test_released_updater.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
