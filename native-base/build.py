@@ -567,7 +567,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   # Exercise word and named slots before both symbolic and fractional
   # formulas, including an exponent whose base must remain visible.
   mixed=lesson_questions([by_id['BOOK-V6-01-D1']],teach_words=True)
-  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:3])
+  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:4])
   mixed.extend(lesson_questions([by_id['TA1-0041-F1']],teach_words=True)[:3])
   sound=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
