@@ -315,6 +315,9 @@ character additions. It is not a physical-device check.
 Run 41395923743 subsequently passed the first Atmosphere lesson with a formula
 hint, retry and saved progress, plus the synthetic account checks, after the
 splash and Swoon changes. Earlier path nodes were seeded for this diagnostic.
+Its question-16 screenshot shows the reported ideal-gas density expression
+as the fraction p/(RT); the correct choice is density. This is one rendering
+check, not a complete LaTeX audit.
 In run 41396302024 the original home displayed a one-day streak both after
 completion and after restart. That seeded emulator scenario does not establish
 multi-day streak behavior or synchronization with a real account.
