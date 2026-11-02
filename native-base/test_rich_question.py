@@ -217,6 +217,9 @@ assert symbol('m²') == r'm^{2}'
 assert symbol('exp(-Kh)') == r'e^{-Kh}'
 assert symbol('exp(-ln2)') == r'e^{-\ln 2}'
 assert parts('Use exp(-Kh).')[1] == {'latex': r'e^{-Kh}'}
+isa_exp = parts('Use p=p11 exp[-g(h-11000)/(RT)] above 11000 m.')
+assert {'latex': r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'} in isa_exp
+assert ''.join(p.get('text', '') for p in isa_exp) == 'Use  above 11000 m.'
 assert parts('The mass generally increases.') == [{'text': 'The mass generally increases.'}]
 assert parts('Fill ___ with one word.') == [{'text': 'Fill ___ with one word.'}]
 assert content(None, 'Use eta_p and m_dot in kg/s².') == r'\text{Use }\eta_{p}\text{ and }\dot{m}\text{ in kg/}s^{2}\text{.}'

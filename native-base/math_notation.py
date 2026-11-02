@@ -311,12 +311,17 @@ def _general_parts(value):
 # Keep each complete equation together instead of rendering its terms as
 # disconnected pieces of prose. The matcher is deliberately narrow.
 _POLAR = re.compile(r"(?<![A-Za-z0-9_])CD\s*=\s*CD0\s*\+\s*(?:k\s*CL(?:²|\^2)|CL(?:²|\^2)\s*/\s*\(\s*pi\s+e\s+AR\s*\))(?![A-Za-z0-9_])")
+_ISA_EXP = re.compile(r'(?<![A-Za-z0-9_])p\s*=\s*p11\s+exp\[-g\(h-11000\)/\(RT\)\]')
 def parts(value):
     result, offset = [], 0
-    for match in _POLAR.finditer(value):
+    for match in sorted([*_POLAR.finditer(value), *_ISA_EXP.finditer(value)], key=lambda m: m.start()):
+        if match.start() < offset:
+            continue
         if match.start() > offset:
             result.extend(_general_parts(value[offset:match.start()]))
-        if re.search(r"/\s*\(", match.group()):
+        if match.re is _ISA_EXP:
+            latex = r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'
+        elif re.search(r"/\s*\(", match.group()):
             latex = r"C_D=C_{D0}+\frac{C_L^2}{\pi e\,AR}"
         else:
             latex = r"C_D=C_{D0}+kC_L^2"
