@@ -102,7 +102,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = rotor-mixed ]; then export DUOAERO_ROTOR_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = missile-mixed ]; then export DUOAERO_MISSILE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = temp-lift-mixed ]; then export DUOAERO_TEMP_LIFT_DIAGNOSTIC=1; fi
-          if [ "$DIAGNOSTIC_SCENARIO" = two-sections ]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = two-sections || "$DIAGNOSTIC_SCENARIO" = section-tail ]]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -283,6 +283,10 @@ jobs:
               ;;
             branding-welcome)
               python native-base/test_welcome_wordmark.py
+              ;;
+            section-tail)
+              python native-base/test_section_tail.py
+              grep -q 'final rotorcraft node opened' "$RUNNER_TEMP/duoaero-evidence/section-tail-result.txt"
               ;;
             two-sections)
               python native-base/test_two_sections.py
