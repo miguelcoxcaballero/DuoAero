@@ -2,25 +2,285 @@
   "status": "draft_not_connected_to_course",
   "note": "Original practice questions for editorial and Android review; not a complete second-midterm course.",
   "questions": [
-    {"id":"M2-LV-001","topic":"3.1","type":"choice","stem":"What must a launch vehicle provide to place a payload in orbit?","options":["Only height above sea level","A suitable position and orbital velocity","A continuous connection to the ground","A wing-generated lift force throughout the orbit"],"answer":1,"explanation":"Reaching altitude alone does not establish an orbit: the payload also needs an appropriate velocity."},
-    {"id":"M2-LV-002","topic":"3.1","type":"choice","stem":"Which statement about the Kármán line is correct?","options":["It is a commonly used 100 km boundary, not a sharp end to all atmospheric particles.","It is the altitude of every geostationary satellite.","It marks the point where gravity becomes zero.","It is the boundary between Earth's inner and outer radiation belts."],"answer":0,"explanation":"The 100 km line is a convention; the atmosphere becomes progressively thinner and gravity remains present."},
-    {"id":"M2-LV-003","topic":"3.1","type":"choice","stem":"What reaction produces the thrust of a rocket in vacuum?","options":["Air pushes against the nozzle.","The rocket accelerates expelled propellant rearward.","Gravity pulls on the wings.","The payload repels the atmosphere."],"answer":1,"explanation":"The vehicle gains momentum in the opposite direction to the exhaust; it does not need air to push against."},
-    {"id":"M2-LV-004","topic":"3.1","type":"choice","stem":"For the same initial mass and exhaust velocity, how does using more propellant affect ideal rocket velocity change?","options":["It increases the ideal velocity change.","It always makes the velocity change zero.","It decreases the ideal velocity change.","It has no effect on the mass ratio."],"answer":0,"explanation":"With initial mass fixed, using more propellant lowers final mass and increases the mass ratio in the ideal rocket equation."},
-    {"id":"M2-LV-005","topic":"3.1","type":"choice","stem":"Why can discarding an empty stage help a launch vehicle?","options":["The remaining stages no longer accelerate that discarded mass.","It eliminates gravity everywhere.","It makes the remaining propellant weightless.","It guarantees that no aerodynamic drag occurs."],"answer":0,"explanation":"Staging reduces the mass carried by later stages, although the discarded structure must first be accelerated."},
-    {"id":"M2-LV-006","topic":"3.1","type":"choice","stem":"Which propulsion system usually offers controlled throttling during a burn?","options":["A liquid-propellant engine designed for throttling","Every solid rocket motor","A detached empty tank","An unpowered fairing"],"answer":0,"explanation":"A suitably designed liquid engine can regulate propellant flow; solid motors typically follow a largely predetermined burn profile."},
-    {"id":"M2-LV-007","topic":"3.1","type":"choice","stem":"Why is a near-equatorial site useful for a launch toward the east?","options":["Earth's rotation supplies an initial eastward velocity.","Earth's rotation cancels gravitational attraction.","All desired orbital inclinations become equally accessible without manoeuvres.","The atmosphere disappears at the equator."],"answer":0,"explanation":"The launch site already moves eastward with Earth; the achievable benefit depends on location and launch direction."},
-    {"id":"M2-LV-008","topic":"3.1","type":"choice","stem":"What does aerodynamic drag do to a vehicle ascending through the atmosphere?","options":["It opposes motion relative to the surrounding air.","It always points vertically upward.","It replaces the need for propulsion.","It vanishes at every altitude below 100 km."],"answer":0,"explanation":"Aerodynamic drag acts against the vehicle's velocity relative to the local air and contributes to launch losses."},
-    {"id":"M2-LV-009","topic":"3.1","type":"choice","stem":"Why can practical launch velocity requirements exceed an ideal orbital-speed estimate?","options":["Gravity and atmospheric drag cause losses during ascent.","An orbit requires the atmosphere to stop rotating.","Payload mass becomes negative during flight.","The exhaust cannot leave a rocket in vacuum."],"answer":0,"explanation":"Real ascent is not instantaneous and includes gravity and aerodynamic losses as well as steering effects."},
-    {"id":"M2-LV-010","topic":"3.1","type":"choice","stem":"What does the payload fairing mainly protect during atmospheric ascent?","options":["The payload from aerodynamic and thermal loads","The ground station from orbital debris","The Sun from exhaust gases","The rocket equation from gravity"],"answer":0,"explanation":"A fairing encloses the payload during the dense-atmosphere phase and is normally discarded once it is no longer needed."},
-    {"id":"M2-ENV-001","topic":"3.2","type":"choice","stem":"Why do astronauts in an orbiting spacecraft experience microgravity?","options":["Spacecraft and occupants are continually falling around Earth together.","Earth's gravity is exactly zero in low orbit.","The spacecraft has no mass while orbiting.","The atmosphere pushes them upward."],"answer":0,"explanation":"The spacecraft and its occupants share approximately the same free-fall trajectory; gravity remains significant in low Earth orbit."},
-    {"id":"M2-ENV-002","topic":"3.2","type":"choice","stem":"Why are handholds useful inside a spacecraft?","options":["They help crew control their position in microgravity.","They increase Earth's gravitational field.","They create breathable oxygen.","They stop all solar radiation."],"answer":0,"explanation":"Without the usual weight-supported contact with the floor, crew need ways to position and stabilize themselves."},
-    {"id":"M2-ENV-003","topic":"3.2","type":"choice","stem":"Which risk must a life-support system address in vacuum?","options":["The absence of breathable external air","An unlimited supply of liquid water","Permanent protection from radiation","An externally maintained cabin pressure"],"answer":0,"explanation":"A spacecraft or pressure suit must provide a controlled breathable environment and suitable pressure."},
-    {"id":"M2-ENV-004","topic":"3.2","type":"choice","stem":"What is outgassing?","options":["Release of trapped or volatile substances from a material","Deliberately increasing the orbital inclination","Conversion of sunlight directly into mass","A method of steering with aerodynamic lift"],"answer":0,"explanation":"In vacuum, volatile components can leave materials and potentially contaminate sensitive surfaces."},
-    {"id":"M2-ENV-005","topic":"3.2","type":"choice","stem":"Why can a small debris fragment be dangerous to a spacecraft?","options":["Its relative impact speed can be very high.","It always has the mass of a launch vehicle.","It instantly removes Earth's gravity.","It cannot be detected by any means."],"answer":0,"explanation":"High relative speed can give even a small particle substantial impact energy."},
-    {"id":"M2-ENV-006","topic":"3.2","type":"choice","stem":"Which combination helps manage collision risk in orbit?","options":["Tracking, avoidance manoeuvres and appropriate shielding","Turning off cabin lights only","Removing all thermal insulation","Pointing the antenna at the ground"],"answer":0,"explanation":"Tracking supports avoidance for detectable objects, while shielding helps protect against some smaller impacts."},
-    {"id":"M2-ENV-007","topic":"3.2","type":"choice","stem":"Why is radiative heat transfer important for an exterior spacecraft surface in vacuum?","options":["There is essentially no surrounding gas to provide normal external convection.","Thermal radiation requires dense air.","Every surface in space has the same temperature.","A spacecraft cannot emit infrared energy."],"answer":0,"explanation":"External convection is negligible in vacuum; surfaces can exchange heat by radiation and conduct heat through structures."},
-    {"id":"M2-ENV-008","topic":"3.2","type":"choice","stem":"What is the main purpose of multilayer insulation on a spacecraft?","options":["To reduce unwanted radiative heat exchange","To create atmospheric lift","To generate drinking water directly","To stop a rocket's combustion"],"answer":0,"explanation":"Multilayer insulation limits radiative exchange and is one part of a broader thermal-control design."},
-    {"id":"M2-ENV-009","topic":"3.2","type":"choice","stem":"Which source can expose a spacecraft to energetic particles?","options":["Solar events and trapped radiation belts","Only the cabin ventilation fan","Only reflected sound waves","A shadow that has no particles"],"answer":0,"explanation":"Space radiation can include energetic particles from solar activity, trapped belts and cosmic sources."},
-    {"id":"M2-ENV-010","topic":"3.2","type":"choice","stem":"Which practice helps reduce the physical effects of long stays in microgravity?","options":["A planned exercise programme","Avoiding all movement","Removing the pressure suit during an EVA","Turning off life support"],"answer":0,"explanation":"Regular exercise is one countermeasure used to mitigate changes to muscles and bones during extended spaceflight."}
+    {
+      "id": "M2-LV-001",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "What must a launch vehicle provide to place a payload in orbit?",
+      "options": [
+        "Only height above sea level",
+        "A continuous connection to the ground",
+        "A wing-generated lift force throughout the orbit",
+        "A suitable position and orbital velocity"
+      ],
+      "answer": 3,
+      "explanation": "Reaching altitude alone does not establish an orbit: the payload also needs an appropriate velocity."
+    },
+    {
+      "id": "M2-LV-002",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "Which statement about the Kármán line is correct?",
+      "options": [
+        "It marks the point where gravity becomes zero.",
+        "It is the altitude of every geostationary satellite.",
+        "It is the boundary between Earth's inner and outer radiation belts.",
+        "It is a commonly used 100 km boundary, not a sharp end to all atmospheric particles."
+      ],
+      "answer": 3,
+      "explanation": "The 100 km line is a convention; the atmosphere becomes progressively thinner and gravity remains present."
+    },
+    {
+      "id": "M2-LV-003",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "What reaction produces the thrust of a rocket in vacuum?",
+      "options": [
+        "The payload repels the atmosphere.",
+        "The rocket accelerates expelled propellant rearward.",
+        "Gravity pulls on the wings.",
+        "Air pushes against the nozzle."
+      ],
+      "answer": 1,
+      "explanation": "The vehicle gains momentum in the opposite direction to the exhaust; it does not need air to push against."
+    },
+    {
+      "id": "M2-LV-004",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "For the same initial mass and exhaust velocity, how does using more propellant affect ideal rocket velocity change?",
+      "options": [
+        "It has no effect on the mass ratio.",
+        "It decreases the ideal velocity change.",
+        "It always makes the velocity change zero.",
+        "It increases the ideal velocity change."
+      ],
+      "answer": 3,
+      "explanation": "With initial mass fixed, using more propellant lowers final mass and increases the mass ratio in the ideal rocket equation."
+    },
+    {
+      "id": "M2-LV-005",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "Why can discarding an empty stage help a launch vehicle?",
+      "options": [
+        "It makes the remaining propellant weightless.",
+        "It eliminates gravity everywhere.",
+        "The remaining stages no longer accelerate that discarded mass.",
+        "It guarantees that no aerodynamic drag occurs."
+      ],
+      "answer": 2,
+      "explanation": "Staging reduces the mass carried by later stages, although the discarded structure must first be accelerated."
+    },
+    {
+      "id": "M2-LV-006",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "Which propulsion system usually offers controlled throttling during a burn?",
+      "options": [
+        "A liquid-propellant engine designed for throttling",
+        "An unpowered fairing",
+        "A detached empty tank",
+        "Every solid rocket motor"
+      ],
+      "answer": 0,
+      "explanation": "A suitably designed liquid engine can regulate propellant flow; solid motors typically follow a largely predetermined burn profile."
+    },
+    {
+      "id": "M2-LV-007",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "Why is a near-equatorial site useful for a launch toward the east?",
+      "options": [
+        "All desired orbital inclinations become equally accessible without manoeuvres.",
+        "The atmosphere disappears at the equator.",
+        "Earth's rotation cancels gravitational attraction.",
+        "Earth's rotation supplies an initial eastward velocity."
+      ],
+      "answer": 3,
+      "explanation": "The launch site already moves eastward with Earth; the achievable benefit depends on location and launch direction."
+    },
+    {
+      "id": "M2-LV-008",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "What does aerodynamic drag do to a vehicle ascending through the atmosphere?",
+      "options": [
+        "It opposes motion relative to the surrounding air.",
+        "It always points vertically upward.",
+        "It replaces the need for propulsion.",
+        "It vanishes at every altitude below 100 km."
+      ],
+      "answer": 0,
+      "explanation": "Aerodynamic drag acts against the vehicle's velocity relative to the local air and contributes to launch losses."
+    },
+    {
+      "id": "M2-LV-009",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "Why can practical launch velocity requirements exceed an ideal orbital-speed estimate?",
+      "options": [
+        "An orbit requires the atmosphere to stop rotating.",
+        "The exhaust cannot leave a rocket in vacuum.",
+        "Payload mass becomes negative during flight.",
+        "Gravity and atmospheric drag cause losses during ascent."
+      ],
+      "answer": 3,
+      "explanation": "Real ascent is not instantaneous and includes gravity and aerodynamic losses as well as steering effects."
+    },
+    {
+      "id": "M2-LV-010",
+      "topic": "3.1",
+      "type": "choice",
+      "stem": "What does the payload fairing mainly protect during atmospheric ascent?",
+      "options": [
+        "The rocket equation from gravity",
+        "The Sun from exhaust gases",
+        "The payload from aerodynamic and thermal loads",
+        "The ground station from orbital debris"
+      ],
+      "answer": 2,
+      "explanation": "A fairing encloses the payload during the dense-atmosphere phase and is normally discarded once it is no longer needed."
+    },
+    {
+      "id": "M2-ENV-001",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Why do astronauts in an orbiting spacecraft experience microgravity?",
+      "options": [
+        "Earth's gravity is exactly zero in low orbit.",
+        "Spacecraft and occupants are continually falling around Earth together.",
+        "The spacecraft has no mass while orbiting.",
+        "The atmosphere pushes them upward."
+      ],
+      "answer": 1,
+      "explanation": "The spacecraft and its occupants share approximately the same free-fall trajectory; gravity remains significant in low Earth orbit."
+    },
+    {
+      "id": "M2-ENV-002",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Why are handholds useful inside a spacecraft?",
+      "options": [
+        "They help crew control their position in microgravity.",
+        "They increase Earth's gravitational field.",
+        "They stop all solar radiation.",
+        "They create breathable oxygen."
+      ],
+      "answer": 0,
+      "explanation": "Without the usual weight-supported contact with the floor, crew need ways to position and stabilize themselves."
+    },
+    {
+      "id": "M2-ENV-003",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Which risk must a life-support system address in vacuum?",
+      "options": [
+        "The absence of breathable external air",
+        "An externally maintained cabin pressure",
+        "An unlimited supply of liquid water",
+        "Permanent protection from radiation"
+      ],
+      "answer": 0,
+      "explanation": "A spacecraft or pressure suit must provide a controlled breathable environment and suitable pressure."
+    },
+    {
+      "id": "M2-ENV-004",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "What is outgassing?",
+      "options": [
+        "A method of steering with aerodynamic lift",
+        "Conversion of sunlight directly into mass",
+        "Deliberately increasing the orbital inclination",
+        "Release of trapped or volatile substances from a material"
+      ],
+      "answer": 3,
+      "explanation": "In vacuum, volatile components can leave materials and potentially contaminate sensitive surfaces."
+    },
+    {
+      "id": "M2-ENV-005",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Why can a small debris fragment be dangerous to a spacecraft?",
+      "options": [
+        "Its relative impact speed can be very high.",
+        "It always has the mass of a launch vehicle.",
+        "It instantly removes Earth's gravity.",
+        "It cannot be detected by any means."
+      ],
+      "answer": 0,
+      "explanation": "High relative speed can give even a small particle substantial impact energy."
+    },
+    {
+      "id": "M2-ENV-006",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Which combination helps manage collision risk in orbit?",
+      "options": [
+        "Turning off cabin lights only",
+        "Pointing the antenna at the ground",
+        "Tracking, avoidance manoeuvres and appropriate shielding",
+        "Removing all thermal insulation"
+      ],
+      "answer": 2,
+      "explanation": "Tracking supports avoidance for detectable objects, while shielding helps protect against some smaller impacts."
+    },
+    {
+      "id": "M2-ENV-007",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Why is radiative heat transfer important for an exterior spacecraft surface in vacuum?",
+      "options": [
+        "A spacecraft cannot emit infrared energy.",
+        "There is essentially no surrounding gas to provide normal external convection.",
+        "Thermal radiation requires dense air.",
+        "Every surface in space has the same temperature."
+      ],
+      "answer": 1,
+      "explanation": "External convection is negligible in vacuum; surfaces can exchange heat by radiation and conduct heat through structures."
+    },
+    {
+      "id": "M2-ENV-008",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "What is the main purpose of multilayer insulation on a spacecraft?",
+      "options": [
+        "To stop a rocket's combustion",
+        "To create atmospheric lift",
+        "To reduce unwanted radiative heat exchange",
+        "To generate drinking water directly"
+      ],
+      "answer": 2,
+      "explanation": "Multilayer insulation limits radiative exchange and is one part of a broader thermal-control design."
+    },
+    {
+      "id": "M2-ENV-009",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Which source can expose a spacecraft to energetic particles?",
+      "options": [
+        "Only reflected sound waves",
+        "Solar events and trapped radiation belts",
+        "Only the cabin ventilation fan",
+        "A shadow that has no particles"
+      ],
+      "answer": 1,
+      "explanation": "Space radiation can include energetic particles from solar activity, trapped belts and cosmic sources."
+    },
+    {
+      "id": "M2-ENV-010",
+      "topic": "3.2",
+      "type": "choice",
+      "stem": "Which practice helps reduce the physical effects of long stays in microgravity?",
+      "options": [
+        "A planned exercise programme",
+        "Turning off life support",
+        "Removing the pressure suit during an EVA",
+        "Avoiding all movement"
+      ],
+      "answer": 0,
+      "explanation": "Regular exercise is one countermeasure used to mitigate changes to muscles and bones during extended spaceflight."
+    }
   ]
 }
