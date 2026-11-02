@@ -98,4 +98,6 @@ for kind, expected in {
     'induced_drag': ['induced drag coefficient', 'lift coefficient', 'efficiency', 'aspect ratio'],
 }.items():
     assert MULTI_NAMED[kind][1] == expected
+assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'length'
+assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
 print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')
