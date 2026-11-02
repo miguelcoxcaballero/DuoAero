@@ -111,6 +111,7 @@ for character in CHARACTER_REPLACEMENTS.values():
 # Appended after existing scenes to keep their assigned resource IDs stable.
 MOOD_SCENES['wave_static'] = 'wave-static.png'
 MOOD_SCENES['phone_static'] = 'welcome-phone.png'
+MOOD_SCENES['chest_hug'] = 'chest-hug.png'
 
 
 def mood_scenes(table):

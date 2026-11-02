@@ -105,6 +105,9 @@ Two original static poses now have distinct transparent Snoopy artwork:
 vector poses. Android run 41396166179 inflated and drew both original resource
 IDs; the extracted images were inspected. This checks resource resolution,
 not their placement on every original screen or animation coverage.
+The original `duo_chest` vector shows the character holding a chest; its new
+transparent Snoopy equivalent resolved and drew in Android run 41427170617.
+It is a static resource check, not proof of the chest-opening animation.
 
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
