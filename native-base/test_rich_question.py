@@ -109,12 +109,12 @@ for gap in (q for q in bank if q['type'] == 'gap'):
     assert pieces.count('___') == 1 and pieces.index('___') > 0
 pressure_problem = next(q for q in bank if q['id'] == 'TA1-0397-D2')
 steps = lesson_questions([pressure_problem])
-assert [q['id'] for q in steps] == ['TA1-0397-D2-S1', 'TA1-0397-D2']
+assert [q['id'] for q in steps] == ['ISA-PRESSURE-RATIO','TA1-0397-D2-S1', 'TA1-0397-D2']
 assert [q['id'] for q in lesson_questions([pressure_problem], expand_steps=False)] == ['TA1-0397-D2']
 assert [c['id'] for c in session([pressure_problem], 'lesson')['challenges']] == [q['id'] for q in steps]
 assert all(len(q['stem']) < 160 for q in steps)
-assert steps[0]['options'][steps[0]['answer']] == '19.33 kPa'
-assert steps[1]['options'][steps[1]['answer']] == '0.584'
+assert steps[1]['options'][steps[1]['answer']] == '19.33 kPa'
+assert steps[2]['options'][steps[2]['answer']] == '0.584'
 assert math.isclose(22.63 * .854, 19.33, abs_tol=.005)
 assert math.isclose(19.33 / 33.09, .584, abs_tol=.001)
 mach_problem = next(q for q in bank if q['id'] == 'TA1-0107-D2')

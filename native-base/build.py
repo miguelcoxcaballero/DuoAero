@@ -572,8 +572,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   sound=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
   mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
  if os.environ.get('DUOAERO_ISA_DIAGNOSTIC')=='1' and not production:
-  # Real native rendering/grading of the newly divided pressure calculation.
-  mixed=lesson_questions([by_id['TA1-0463-D2']],teach_words=True)
+  # Real native grading of the ordered ratio prerequisite and three short,
+  # independently checked pressure calculations from the Aerospace path.
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0397-D2','TA1-0425-D2','TA1-0463-D2')],teach_words=True)
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]

@@ -27,28 +27,37 @@ assert calculation['formula_hint'] == {'latex':r'p=p_b e^{-X}', 'prerequisite':f
 assert Decimal('20') * Decimal('0.50') == Decimal('10')
 assert calculation['options'][calculation['answer']] == '10 kPa'
 later = lesson_questions([bank['TA1-0397-D2']])
-first_step = later[0]
+assert later[0]['id'] == 'ISA-PRESSURE-RATIO'
+first_step = later[1]
 assert first_step['id'] == 'TA1-0397-D2-S1'
 assert first_step['formula_hint'] == calculation['formula_hint']
 assert (Decimal('22.63') * Decimal('0.854')).quantize(Decimal('0.01')) == Decimal('19.33')
 assert first_step['options'][first_step['answer']] == '19.33 kPa'
-ratio_lesson = next(lesson for node in plan for lesson in node['lessons']
-                    if lesson['id'] == '2.1-5-point-1-lesson-0')
-ratio_questions = lesson_questions([bank[qid] for qid in ratio_lesson['ids']], teach_words=True)
+ratio_questions = [q for node in plan for item in node['lessons']
+                   for q in lesson_questions([bank[qid] for qid in item['ids']], teach_words=True)]
 ratio_ids = [q['id'] for q in ratio_questions]
 for prior, following in zip(('ISA-PRESSURE-RATIO-WORDS','ISA-PRESSURE-RATIO-NAMED',
-                             'ISA-PRESSURE-RATIO','TA1-0463-D2-S1'),
+                             'ISA-PRESSURE-RATIO','TA1-0397-D2-S1','TA1-0397-D2',
+                             'TA1-0425-D2-S1','TA1-0425-D2','TA1-0463-D2-S1'),
                             ('ISA-PRESSURE-RATIO-NAMED','ISA-PRESSURE-RATIO',
-                             'TA1-0463-D2-S1','TA1-0463-D2')):
+                             'TA1-0397-D2-S1','TA1-0397-D2','TA1-0425-D2-S1',
+                             'TA1-0425-D2','TA1-0463-D2-S1','TA1-0463-D2')):
     assert ratio_ids.index(prior) < ratio_ids.index(following)
 new_steps = lesson_questions([bank['TA1-0463-D2']])
 assert (Decimal('22.63') * Decimal('0.7528')).quantize(Decimal('0.01')) == Decimal('17.04')
 assert (Decimal('17.04') / Decimal('30.28')).quantize(Decimal('0.001')) == Decimal('0.563')
-assert new_steps[1]['options'][new_steps[1]['answer']] == '17.04 kPa'
-assert new_steps[2]['options'][new_steps[2]['answer']] == '0.563'
-assert new_steps[1]['formula_hint']['prerequisite'] == formula_id
-assert new_steps[2]['formula_hint']['prerequisite'] == 'ISA-PRESSURE-RATIO'
-assert all(len(set(q['options'])) == len(q['options']) for q in new_steps[1:])
+assert new_steps[0]['options'][new_steps[0]['answer']] == '17.04 kPa'
+assert new_steps[1]['options'][new_steps[1]['answer']] == '0.563'
+assert new_steps[0]['formula_hint']['prerequisite'] == formula_id
+assert new_steps[1]['formula_hint']['prerequisite'] == 'ISA-PRESSURE-RATIO'
+middle_steps = lesson_questions([bank['TA1-0425-D2']])
+assert (Decimal('22.63') * Decimal('0.8276')).quantize(Decimal('0.01')) == Decimal('18.73')
+assert (Decimal('18.73') / Decimal('32.37')).quantize(Decimal('0.001')) == Decimal('0.579')
+assert [q['options'][q['answer']] for q in middle_steps] == ['18.73 kPa', '0.579']
+assert middle_steps[0]['formula_hint']['prerequisite'] == formula_id
+assert middle_steps[1]['formula_hint']['prerequisite'] == 'ISA-PRESSURE-RATIO'
+assert later[2]['formula_hint']['prerequisite'] == 'ISA-PRESSURE-RATIO'
+assert all(len(set(q['options'])) == len(q['options']) for q in new_steps+middle_steps)
 blob = json.loads(choice_blob(calculation, include_formula_hint=True)['challengeBlob'])
 assert 'grading_function' in blob
 original = json.loads((root/'native-base/session-history/1.3.7.json').read_text())

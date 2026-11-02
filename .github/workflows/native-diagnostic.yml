@@ -316,7 +316,7 @@ jobs:
               ;;
             isa-mixed)
               run_probe aerospace-isa-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 5 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-isa-mixed.txt"
+              grep -q 'All 9 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-isa-mixed.txt"
               ;;
             sqrt-mixed)
               run_probe aerospace-sqrt-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

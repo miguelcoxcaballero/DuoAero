@@ -224,10 +224,9 @@ public final class AccountProgressProbe extends Instrumentation {
    check(Boolean.TRUE.equals(storedProof.invoke(null,app,published137Proof,future137)));
    JSONObject partial137=new JSONObject(published137Proof.toString());partial137.getJSONArray("challenges").remove(0);
    check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial137,future137)));
-   // These four levels now spread oversized, expanded lessons over their
-   // existing two session IDs. Validate each exact published 1.3.7 proof
-   // against its actual revised catalog, including both sides of each move.
-   for(String node:new String[]{"2.1-0-point-0","2.3-6-point-0","2.3-5-point-0","2.5-5-point-0"}){
+   // Validate exact published 1.3.7 proofs on both sides of each rebalance,
+   // including the two original ISA levels whose prerequisites changed.
+   for(String node:new String[]{"2.1-5-point-0","2.1-5-point-1","2.1-0-point-0","2.3-6-point-0","2.3-5-point-0","2.5-5-point-0"}){
     for(int index=0;index<2;index++){
      String id=node+"-lesson-"+index;
      JSONArray old=histories[3].getJSONObject(id).getJSONArray("challenges");

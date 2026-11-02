@@ -264,10 +264,8 @@
           "TA1-0178-D2",
           "TA1-0224-D2",
           "TA1-0445-D2",
-          "TA1-0200-D2",
-          "TA1-0310-D2",
-          "TA1-0449-D2",
-          "TA1-0212-D2"
+          "TA1-0646-D2",
+          "BOOK-V6-01-D3"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 2"
       }
@@ -320,6 +318,10 @@
       {
         "id": "2.1-5-point-1-lesson-0",
         "ids": [
+          "TA1-0200-D2",
+          "TA1-0310-D2",
+          "TA1-0449-D2",
+          "TA1-0212-D2",
           "TA1-0473-D2",
           "TA1-0463-D2",
           "TA1-0474-D2",
@@ -328,22 +330,20 @@
           "TA1-0668-D2",
           "TA1-0593-D2",
           "TA1-0708-D2",
-          "TA1-0646-D2",
           "TA1-0832-D3",
-          "BOOK-V6-01-D3",
           "TA1-0806-D3",
           "TA1-0853-D3",
           "TA1-0857-D3",
           "TA1-0911-D3",
           "TA1-0939-D3",
-          "TA1-0867-D3",
-          "TA1-0941-D3"
+          "TA1-0867-D3"
         ],
         "name": "International Standard Atmosphere · 2 · Lesson 1"
       },
       {
         "id": "2.1-5-point-1-lesson-1",
         "ids": [
+          "TA1-0941-D3",
           "TA1-0981-D3",
           "TA1-0984-D3",
           "TA1-0943-D3",

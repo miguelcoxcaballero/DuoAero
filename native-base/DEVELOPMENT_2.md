@@ -32,6 +32,11 @@ pressure-ratio question has also been divided into reviewed steps and graded
 in a standalone Android diagnostic. Run 41373085468 also passed the complete
 Atmosphere lesson after showing a formula hint: it verified the extra retry,
 claimed XP, persisted completion and opened the next lesson after restart.
+After that run, the pressure-ratio prerequisite was moved before the first
+ratio calculation and another long ISA problem was split into two short
+steps with formula hints. Local tests check their order and rounded results;
+the revised nine-exercise Android diagnostic and changed lesson migrations
+must run before this later change is accepted.
 
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
@@ -97,9 +102,11 @@ picker. Its first test tapped the second card only once, expanding it rather
 than opening the inner row. Android run 41374119769 tapped the inner row and
 actually showed the second section's diagnostic path; the test failed only
 because it expected a topic title where the original header showed Midterm 2.
-A follow-up on the separate research branch adds the topic title and tests
-opening its synthetic lesson. There is no production second-midterm content,
-nor evidence yet for grading, persistence, rewards or a real course there.
+The follow-up on the separate research branch passed Android run 41375262771:
+the second topic title appeared and its synthetic lesson opened. There is no
+production second-midterm content, nor evidence yet for grading, persistence,
+rewards or a real course there. Twenty conceptual questions exist only as an
+isolated draft on that research branch.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
