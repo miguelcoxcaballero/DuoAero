@@ -96,8 +96,8 @@ The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
 split into three lessons, keeping prior IDs and introducing four new IDs;
-all 83 lessons have 10–20 visible exercises in host validation. For each new
-ID, path-only credit is derived only from an exact stored historical proof
+a fifth lesson was later added for the staged approach problem; all 84 lessons
+have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
 that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
 it covers questions omitted from the new shorter source lesson. Local tests
