@@ -593,6 +593,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]
+ if os.environ.get('DUOAERO_SPACECRAFT_DIAGNOSTIC')=='1' and not production:
+  draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
+  mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic']=='3.3']
+  assert len(mixed)==10
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
