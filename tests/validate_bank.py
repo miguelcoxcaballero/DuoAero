@@ -27,8 +27,11 @@ seen={}
 for node in nodes:
  assert 1<=len(node['lessons'])<=3
  for lesson in node['lessons']:
-  assert 10<=len(lesson['ids'])<=20
+  # One source question can expand into several reviewed native exercises.
+  assert 1<=len(lesson['ids'])<=20
   expanded=lesson_questions([by_id[qid] for qid in lesson['ids']])
+  native_expanded=lesson_questions([by_id[qid] for qid in lesson['ids']],teach_words=True)
+  assert len(native_expanded)>=10
   expanded_ids=[q['id'] for q in expanded]
   assert 10<=len(expanded)<=20 and len(expanded)==len(set(expanded_ids))
   for question in expanded:
