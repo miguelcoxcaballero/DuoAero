@@ -373,6 +373,12 @@ its provider read test bytes. The latter did not install an update. Android run
 and 20 haptic completions in emulator services. These observations do not prove
 audibility, physical vibration, real Drive sync or an installed update.
 
+Separately, Android run 41464902704 installed the published signed 1.3.0 APK,
+opened its updater activity directly on a rooted emulator, accepted the A
+warning and slide, and displayed the actual 1.3.7 update offer. This checks
+the released 1.3.0 catalog flow, not entry through the signed-in settings,
+download or installation. B remains empty and is the app default.
+
 ## Acceptance still required
 
 The current authored bank has 36 symbolic formula exercises with a word-first
