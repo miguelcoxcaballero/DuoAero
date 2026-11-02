@@ -87,6 +87,11 @@ the revised order passed Android run 41380455084. The hydraulic sequence
 passed four original controls in run 41381254897. The wind sequence passed
 14 native touch-driven challenges in run 41380642719.
 
+A front-facing Peanuts-style aviator launcher replaces the earlier generic dog.
+Android run 41391211227 rendered the original launcher drawable without clipping
+the face, ears or goggles. The host check also verifies a padded splash mask;
+the actual splash on the user's S24 Ultra remains unverified.
+
 The original welcome and share-card wordmark resource names now map to the
 DuoAero wordmark instead of the generic mascot. Android run 41385372302
 showed the correct wordmark in the actual welcome view; share cards and icon
