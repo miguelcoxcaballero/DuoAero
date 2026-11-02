@@ -406,11 +406,28 @@ The manually dispatched `released-updater-e2e.yml` diagnostic can repeat this
 check for an expected channel-A version and code; it uses a rooted emulator,
 automates the A warning and Android confirmation, and checks only a synthetic
 private-file marker, not a real profile or a physical device.
+Run 41469978603 reported a post-update launch as successful, but its capture
+still shows Android's installer success dialog: a successful intent and process
+ID were insufficient evidence. The diagnostic now closes the installer, starts
+a fresh app process and requires a resumed DuoAero foreground activity; that
+stricter check must pass before claiming the updated app actually opens.
+
+The taper and fuel-fraction equations now also use two native word slots in a
+fraction, with a preceding verbal introduction. Android run 41469220414 graded
+both exercises and its screenshots show the fraction bars; the later clearer
+``fraction left`` label still needs its own Android visual check. The lesson
+size and path migration checks pass locally; they do not establish full course
+acceptance.
+
+In a separate Rive prototype, run 41470392850 showed Linus blinking and the
+original frog moving without the earlier double-eye artifact in the sampled
+frames. Its recording captured only 22 frames in 8.5 seconds on the emulator,
+so smoothness cannot be established. This prototype is not integrated.
 
 ## Acceptance still required
 
 The current authored bank has 38 symbolic formula exercises with a word-first
-introduction; 26 still lack the separate exercise with all named quantities
+introduction; 24 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
 equations express a fraction with division symbols or put an exponent into a
