@@ -65,9 +65,27 @@ try:
   if point:adb('shell','input','tap',str(point[0]),str(point[1]));break
   time.sleep(2)
  else:raise AssertionError('Second-section Claim XP missing')
- wait('two-sections-after-completion',lambda t:any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
+ # A saved JSON file alone is insufficient: the original path must actually
+ # expose the next node, both before and after a process restart.
+ wait('two-sections-after-completion',lambda t:has(t,'3.2 · Space flight environment') and has(t,'START') and
+      sum(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node'))>=2,120)
  saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/submissions/second-partial-3.1-lesson-0.json'))
  assert saved.get('completedOnce') is True,'Second-section completion not durably recorded'
- (OUT/'two-sections-result.txt').write_text('PASS: selected the second diagnostic section, graded 10 drafted questions and saved the first lesson. Complete course, restart, rewards and Drive remain unverified.\n')
+ adb('shell','am','force-stop',PACKAGE)
+ adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
+ restarted=wait('two-sections-restarted',lambda t:any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
+ if not has(restarted,'MIDTERM 2'):
+  card=next(n for n in restarted.iter('node') if n.get('resource-id')=='com.duolingo:id/primaryCardView');tap(card)
+  picker=wait('two-sections-restart-picker',lambda t:has(t,'Midterm 2') and not any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')))
+  labels=[n for n in picker.iter('node') if n.get('text','').casefold()=='midterm 2'];tap(labels[-1])
+  expanded=wait('two-sections-restart-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
+  tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
+ path=wait('two-sections-restart-path',lambda t:has(t,'3.2 · Space flight environment') and has(t,'START') and
+           sum(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node'))>=2,120)
+ tap([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval'][-1])
+ next_node=wait('two-sections-next-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),45)
+ tap(next(n for n in next_node.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
+ wait('two-sections-next-question',lambda t:has(t,'Why do astronauts in an orbiting spacecraft'),90)
+ (OUT/'two-sections-result.txt').write_text('PASS: 10 drafted questions graded, first second-section lesson saved, next node unlocked and opened after restart. Full course, rewards and Drive remain unverified.\n')
 finally:
  (OUT/'two-sections-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))

@@ -2,6 +2,7 @@ package com.duoaero.nativebase;
 
 import android.content.Context;
 import java.lang.reflect.*;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 import org.json.*;
@@ -25,25 +26,38 @@ final class NativeLocalCache {
    .put("learningLanguage","en").put("fromLanguage","en")
    .put("activePathSectionId",sectionId).put("pathSectionsSummary",new JSONArray());
   JSONObject sectionJson=new JSONObject().put("id",sectionId).put("index",0).put("units",new JSONArray());
+  java.util.List<JSONObject> sections=new ArrayList<>();
   if(fullPath){
    course=assetJson(context,"duoaero/course/path-info.json");
    sectionJson=assetJson(context,"duoaero/course/section.json");
    sectionId=sectionJson.getString("id");
-   NativeCourseProgress.project(course,sectionJson,NativeSessionStore.completedLessons((android.app.Application)app),NativeChestRewards.ids(NativeChestRewards.snapshot((android.app.Application)app)));
+   sections.add(sectionJson);
+   // Diagnostic-only second-section asset; production builds without it
+   // retain their existing single-section behaviour.
+   try{sections.add(assetJson(context,"duoaero/course/section-2.json"));}
+   catch(java.io.FileNotFoundException absent){}
+   java.util.Set<String> completed=NativeSessionStore.completedLessons((android.app.Application)app);
+   java.util.Set<String> chests=NativeChestRewards.ids(NativeChestRewards.snapshot((android.app.Application)app));
+   for(JSONObject one:sections)NativeCourseProgress.project(course,one,completed,chests);
   }
+  else sections.add(sectionJson);
   Method decode=Class.forName("a8l",true,loader).getMethod("b",Class.forName("kotlinx.serialization.KSerializer",true,loader),String.class);
   Object info=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathInfo"),course.toString());
   if(!info.getClass().getName().equals("mt8"))throw new IllegalStateException("Expected original Math CoursePathInfo; got "+info.getClass().getName());
-  Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionJson.toString());
-  if(fullPath){
+  java.util.List<Object> decodedSections=new ArrayList<>();
+  for(JSONObject sectionInput:sections){
+   Object section=decode.invoke(json,serializer(loader,"com.duolingo.data.path.common.CoursePathSection"),sectionInput.toString());
+   decodedSections.add(section);
+   if(fullPath){
    int unitIndex=0;
    for(Object unit:(Iterable<?>)field(section,"c")){
-    String expected=sectionJson.getJSONArray("units").getJSONObject(unitIndex++).getString("teachingObjective");
+    String expected=sectionInput.getJSONArray("units").getJSONObject(unitIndex++).getString("teachingObjective");
     if(!expected.equals(field(unit,"d")))throw new IllegalStateException("Original unit lost its Aerospace topic name");
     if(unitIndex<=3){
      Object header=Class.forName("vao",true,loader).getMethod("n",Class.forName("com.duolingo.data.path.common.CoursePathInfo",true,loader),Class.forName("wzh",true,loader),java.util.Locale.class).invoke(null,info,unit,java.util.Locale.ENGLISH);
      android.util.Log.i("DuoAeroNative","Original path header "+unitIndex+": "+header);
     }
+   }
    }
   }
   Object courseRepository=Class.forName("ymw",true,loader).getMethod("get").invoke(field(component,"O2"));
@@ -54,10 +68,14 @@ final class NativeLocalCache {
   Object userId=userType.getConstructor(long.class).newInstance(1L);
   Object courseId=courseType.getConstructor(String.class).newInstance("MATH_BT");
   Object infoFactory=field(courseRepository,"c"),sectionFactory=field(courseRepository,"d");
-  Object sectionResource=sectionFactory.getClass().getMethod("a",userType,courseType,String.class,String.class).invoke(sectionFactory,userId,courseId,sectionId,"en");
   Object infoResource=infoFactory.getClass().getMethod("a",userType,courseType,String.class).invoke(infoFactory,userId,courseId,"en");
-  // Publish the section first so the original course observer can resolve it.
-  write(loader,cache,sectionResource,section);
+  // Publish all sections first so observers never see an updated summary
+  // paired with a stale second-section path after a completed lesson.
+  for(int i=0;i<sections.size();i++){
+   Object sectionResource=sectionFactory.getClass().getMethod("a",userType,courseType,String.class,String.class)
+    .invoke(sectionFactory,userId,courseId,sections.get(i).getString("id"),"en");
+   write(loader,cache,sectionResource,decodedSections.get(i));
+  }
   write(loader,cache,infoResource,info);
   return "Native cache input: original Math CoursePathInfo and CoursePathSection with "+sectionJson.getJSONArray("units").length()+" units. This does not prove home/path rendering or lesson navigation.\n";
  }

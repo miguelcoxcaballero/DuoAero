@@ -73,6 +73,16 @@ public class CourseProgressCheck {
   check(chest.getString("state").equals("passed")&&chest.getInt("finishedSessions")==1);
   check(level(section,1).getString("state").equals("active"));
   check(course.getJSONArray("pathSectionsSummary").getJSONObject(0).getInt("completedUnits")==1);
+  JSONObject twoCourse=new JSONObject("{pathSectionsSummary:[{id:'first'},{id:'second'}]}");
+  JSONObject firstSection=new JSONObject("{id:'first',units:[{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'first-lesson'}]}}]}]}");
+  JSONObject secondSection=new JSONObject("{id:'second',units:[{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'second-a'}]}}]},{levels:[{pathLevelClientData:{sessionMetadatas:[{id:'second-b'}]}}]}]}");
+  Set<String> done=new HashSet<>(Arrays.asList("first-lesson","second-a"));
+  NativeCourseProgress.project(twoCourse,firstSection,done);
+  NativeCourseProgress.project(twoCourse,secondSection,done);
+  check(level(firstSection,0).getString("state").equals("passed"));
+  check(level(secondSection,0).getString("state").equals("passed")&&level(secondSection,1).getString("state").equals("active"));
+  check(twoCourse.getJSONArray("pathSectionsSummary").getJSONObject(0).getInt("completedUnits")==1);
+  check(twoCourse.getJSONArray("pathSectionsSummary").getJSONObject(1).getInt("completedUnits")==1);
   JSONObject records=new JSONObject();
   NativeQuestionLedger.record(records,"q1",false,100,"lesson1");
   NativeQuestionLedger.record(records,"q2",false,200,"lesson2");
