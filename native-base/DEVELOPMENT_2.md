@@ -468,6 +468,11 @@ uses the same fraction rather than a division glyph. A new structural lesson
 has exact historical path-only credit. All 93 lessons pass the local size and
 migration checks, but the new fraction layout and Android migration still need
 device diagnostics.
+Run 41523145284 crashed when opening the first product fraction because the
+original Sequence expects SequenceTokenUiState entries, not raw figures. The
+prototype now wraps each factor as a native sequence token and compiles with
+the Android SDK stub; another Android run is required to establish that the
+crash is fixed and the fraction and touches fit.
 The pressure ratio and three dynamic-pressure formulas now also have named
 equations. Run 41520281226 graded the pressure ratio and one dynamic-pressure
 sequence; the inspected ratio fits, but its dynamic-pressure screenshot showed

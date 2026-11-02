@@ -63,7 +63,13 @@ public final class NativeFractionSlot {
     if(i>0)factors.add(latex.newInstance("\\times",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template)));
     factors.add(latex.newInstance(PREFIX+key+":"+(ordinal++),cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template)));
    }
-   sides[side]=count==1?factors.get(0):sequence.newInstance(placement.getField("PROMPT").get(null),factors,orientation.getField("HORIZONTAL").get(null),scaleInfo,false,promptType.getField("NON_IDENTITY").get(null));
+   if(count==1)sides[side]=factors.get(0);
+   else{
+    Constructor<?> token=Class.forName("com.duolingo.core.math.models.figure.SequenceTokenUiState",true,l).getConstructor(float.class,ui);
+    java.util.ArrayList<Object> tokens=new java.util.ArrayList<>();
+    for(Object factor:factors)tokens.add(token.newInstance(2f,factor));
+    sides[side]=sequence.newInstance(placement.getField("PROMPT").get(null),tokens,orientation.getField("HORIZONTAL").get(null),scaleInfo,false,promptType.getField("NON_IDENTITY").get(null));
+   }
   }
   float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
   Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(sides[0],sides[1],padding,padding,"fraction",scaleInfo,false,null);
