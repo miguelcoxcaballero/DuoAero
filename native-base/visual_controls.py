@@ -13,8 +13,13 @@ def claim_xp(screenshot, evidence):
         # Preserve the original screenshot. This crop only improves OCR of the
         # white lettering on the original blue button; no text is supplied.
         ImageOps.invert(footer).save(evidence)
-    result = subprocess.run(['tesseract', str(evidence), 'stdout', '--psm', '6', 'tsv'],
-                            capture_output=True, text=True, check=True, timeout=15)
+    try:
+        result = subprocess.run(['tesseract', str(evidence), 'stdout', '--psm', '6', 'tsv'],
+                                capture_output=True, text=True, check=True, timeout=15)
+    except subprocess.TimeoutExpired:
+        # The caller owns the overall screen deadline and may retry a slow
+        # emulator screenshot; a timed-out OCR pass is not a detected button.
+        return None
     evidence.with_suffix('.tsv').write_text(result.stdout)
     words = [r for r in csv.DictReader(io.StringIO(result.stdout), delimiter='\t')
              if r.get('text', '').strip() and float(r['conf']) >= 80]
