@@ -101,6 +101,17 @@ with zipfile.ZipFile(APK) as original:
                     object_id = values.get(51)
                 elif kind == 30 and original_count + 1 <= (object_id or 0) <= original_count + 16:
                     tracks.setdefault(object_id, []).append((values[67], values[70]))
+        if (name,target) in (('duo_normal_swoon_03','lc_character_artboard'),
+                             ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard')):
+            board_name = layer_name = None
+            entries = []
+            for index, (kind, values, _) in enumerate(objects):
+                if kind == 1: board_name = values.get(4)
+                elif board_name == target and kind == 57: layer_name = values.get(138)
+                elif board_name == target and layer_name == 'idleLoop' and kind == 63:
+                    entries.append(objects[index+1])
+            assert len(entries)==1 and entries[0][0]==65
+            assert entries[0][1].get(151)==(1 if name=='duo_normal_swoon_03' else 3)
         assert len(poses) == len(tracks) == 16
         if (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
                               ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard')):

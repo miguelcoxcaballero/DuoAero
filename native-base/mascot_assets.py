@@ -314,6 +314,12 @@ def rive(data,name,png,width,height):
             for k,v in values.items():
                 if isinstance(v,str) and PROPS[k][1]=='textPropertyKey':update[k]=display_text(v)
         output.extend(raw if update==values else encode(kind,update,props))
+        if (kind==63 and art is not None and state_layer=='idleLoop'
+            and (name,art.get(4)) in (('duo_normal_swoon_03','lc_character_artboard'),
+                                      ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))):
+            # The original entry has no initial transition: select its existing
+            # loop state so the idle pose animates without an external trigger.
+            output.extend(encode(65,{151:1 if name=='duo_normal_swoon_03' else 3}))
     finish_animation();finish()
     if changed:
         for i,frame in enumerate(all_frames):
