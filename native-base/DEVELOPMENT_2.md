@@ -205,6 +205,22 @@ An additional diagnostic skipped 111 original promotion-video prefetches,
 but its OCR process timed out before confirming Claim XP. It therefore does not
 establish successful completion or a speedup, and remains experimental.
 
+The latest lapse-rate sequence is integrated in this development branch. Run
+41388461549 graded all 14 staged controls with the original Android screen;
+the four source answers also match the independent numerical checks. Its
+screenshot still shows an operator stranded at the end of a wrapped line. An
+experimental grouping change crashed a hydraulic formula screen in run
+41389101897 and is not integrated; a correction is under test. Run 41388130102
+also graded the revised 20 draft rotorcraft/diverse-aircraft questions, but
+they remain research drafts and do not establish a complete second partial.
+
+A separate approach-speed branch divides one clipped source into 18 controls,
+including quantity and symbol prerequisites. It has host numerical and exact
+historical-credit checks, but its Android interaction and migration checks are
+still running. A distinct Swoon pose appeared on a completion screen in run
+41387776940, but the recording showed it practically motionless; it is not an
+accepted animation and is not integrated.
+
 ## Acceptance still required
 
 * Review all calculation families, simplify long questions, author correct
