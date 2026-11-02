@@ -50,12 +50,14 @@ public final class NativeSessionStore {
   return NativeCourseProgress.isRecordedCompletion(proof,lesson,legacyCatalog.optJSONObject(lesson.getString("id")),history);
  }
  static synchronized void record(Application app,String sessionId,JSONObject submission)throws Exception {
+  long profileStart=android.os.SystemClock.elapsedRealtime();
   if(!NativeCourseBridge.hasLocalCourse()||!NativeSessionId.valid(sessionId))throw new IllegalArgumentException("Invalid local course session");
   File folder=new File(NativeAccountStore.root(app),"submissions");
   if(!folder.isDirectory()&&!folder.mkdirs())throw new IOException("Cannot create native session store");
   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
   JSONObject lesson=catalog.getJSONObject(sessionId);
+  android.util.Log.i("DuoAeroNative","catalog_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
   // An update can arrive while a published older lesson is in progress.
   // Accept its exact preserved historical question set on final submission;
   // a partial or foreign set still fails the same native completion checks.
@@ -86,12 +88,14 @@ public final class NativeSessionStore {
   // Read back the committed bytes before acknowledging the original request.
   JSONObject saved=read(file);
   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
+  android.util.Log.i("DuoAeroNative","durable_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
   if(completed)NativeSessionResume.completed(app,sessionId);
   android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+(submissionValid?null:NativeCourseProgress.completionIssue(submission,lesson)));
   // The original home may keep its path resource cached when SessionActivity
   // closes. Publish the committed local progress instead of relying on a
   // subsequent native network refresh or an app restart.
   if(completed)NativeRewards.refresh(app,true);
+  android.util.Log.i("DuoAeroNative","refresh_ms="+(android.os.SystemClock.elapsedRealtime()-profileStart));
   NativeGoogleHost.changed(app);
  }
  static synchronized Set<String> completedLessons(Application app)throws Exception {
