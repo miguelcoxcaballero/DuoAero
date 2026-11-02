@@ -1,5 +1,5 @@
 """Visible branding changes must never rewrite links or package identifiers."""
-from branding import display_text, mascot_name
+from branding import WORDMARKS, display_text, mascot_name
 
 assert display_text('Welcome to Duolingo! #Duolingo365') == 'Welcome to DuoAero! #DuoAero365'
 assert display_text('Duolingo: https://www.duolingo.com/terms') == 'DuoAero: https://www.duolingo.com/terms'
@@ -9,4 +9,5 @@ assert display_text('support@duolingo.com') == 'support@duolingo.com'
 for control in ('duo_radio_play','duo_radio_pause','duo_radio_check_correct','duo_radio_x_incorrect'):
     assert not mascot_name(control), control
 assert mascot_name('duo_radio_host_static_bea')
+assert {'intro_duo_logo_green','duo_logo_green','duo_logo_grey','duo_logo_white'} <= WORDMARKS
 print('PASS: visible labels and hashtags rebranded; links and package IDs preserved.')

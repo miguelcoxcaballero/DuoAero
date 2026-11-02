@@ -5,6 +5,9 @@ from resource_extension import chunks, MOOD_SCENES, CHARACTER_REPLACEMENTS
 
 MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
 LOGO_PATH = 'res/drawable/duoaero_wordmark.xml'
+WORDMARKS = frozenset(('duolingo_logo_350','duolingo_max_wordmark',
+    'duolingo_max_wordmark_onboarding','duo_logo_green','duo_logo_grey',
+    'duo_logo_white','intro_duo_logo_green'))
 
 def display_text(text):
     if text.startswith(('res/','com.duolingo')):return text
@@ -132,10 +135,10 @@ def rebrand_table(table,drawable_paths=None):
             if flags or es!=8 or package[at+11]!=3:continue
             old=struct.unpack_from('<I',package,at+12)[0]; name=keys[key]
             if tid in (17,19):text_indices.add(old)
-            elif mascot_name(name) or name in ('duolingo_logo_350','duolingo_max_wordmark','duolingo_max_wordmark_onboarding'):
+            elif mascot_name(name) or name in WORDMARKS:
                 original_paths[values[old]]=name
-                if 'duolingo' not in name and drawable_paths is not None and values[old] not in drawable_paths:continue
-                path=LOGO_PATH if 'duolingo' in name else (drawable_paths or {}).get(values[old],MASCOT_PATH)
+                if name not in WORDMARKS and drawable_paths is not None and values[old] not in drawable_paths:continue
+                path=LOGO_PATH if name in WORDMARKS else (drawable_paths or {}).get(values[old],MASCOT_PATH)
                 struct.pack_into('<I',package,at+12,index(path));affected[name]=path
     for i in text_indices:
         updated=display_text(values[i])

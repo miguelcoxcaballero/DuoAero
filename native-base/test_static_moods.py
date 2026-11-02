@@ -1,7 +1,7 @@
 """Check source pose selection and resource table extensions; Android UI is separate."""
 from pathlib import Path
 from PIL import Image
-from branding import mascot_name, static_mood, mascot_drawables, rebrand_table
+from branding import LOGO_PATH, mascot_name, static_mood, mascot_drawables, rebrand_table
 from resource_extension import MOOD_SCENES, mood_scenes, scene_mascot, updater_paths
 from runtime_config import APK, ROOT, BASE
 import zipfile
@@ -40,7 +40,10 @@ for atlas in ('wave-atlas.png','sad-atlas.png'):
 with zipfile.ZipFile(APK) as base:table=base.read('resources.arsc')
 paths,xml,_=mascot_drawables(BASE,table)
 assert all('class="com.duoaero.nativebase.' not in value for value in xml.values())
-for path,name in rebrand_table(table)[1]['original_paths'].items():
+_,report=rebrand_table(table,paths)
+for name in ('intro_duo_logo_green','duo_logo_green','duo_logo_grey','duo_logo_white'):
+    assert report['drawable_resources'][name]==LOGO_PATH,name
+for path,name in report['original_paths'].items():
     if name=='duo_happy' and path in paths:
         assert '@drawable/duoaero_scene_celebrate' in xml[paths[path]]
 table,provider=updater_paths(table);table,scene=scene_mascot(table);table,ids=mood_scenes(table)
