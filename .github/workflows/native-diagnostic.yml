@@ -118,15 +118,15 @@ jobs:
           sudo chmod 666 /dev/kvm
           mkdir -p "$ANDROID_AVD_HOME"
           echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name DuoAeroDiagnostic --path "$ANDROID_AVD_HOME/DuoAeroDiagnostic.avd" --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
-          "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > ${{ runner.temp }}/duoaero-evidence/emulator.txt 2>&1 &
+          "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > $RUNNER_TEMP/duoaero-evidence/emulator.txt 2>&1 &
           emulator_pid=$!
           ready=false
           for attempt in $(seq 1 150); do
-            if ! kill -0 "$emulator_pid" 2>/dev/null; then cat ${{ runner.temp }}/duoaero-evidence/emulator.txt; exit 1; fi
+            if ! kill -0 "$emulator_pid" 2>/dev/null; then cat $RUNNER_TEMP/duoaero-evidence/emulator.txt; exit 1; fi
             if [ "$(timeout 5 adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = 1 ]; then ready=true; break; fi
             sleep 2
           done
-          if [ "$ready" != true ]; then cat ${{ runner.temp }}/duoaero-evidence/emulator.txt; exit 1; fi
+          if [ "$ready" != true ]; then cat $RUNNER_TEMP/duoaero-evidence/emulator.txt; exit 1; fi
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
@@ -140,9 +140,9 @@ jobs:
           fi
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
           timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
-          timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > ${{ runner.temp }}/duoaero-evidence/models.txt
-          adb logcat -d -b crash > ${{ runner.temp }}/duoaero-evidence/models-crash.txt
-          adb logcat -d -s AndroidRuntime:E DEBUG:F libc:F ActivityManager:I > ${{ runner.temp }}/duoaero-evidence/models-lifecycle.txt
+          timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > $RUNNER_TEMP/duoaero-evidence/models.txt
+          adb logcat -d -b crash > $RUNNER_TEMP/duoaero-evidence/models-crash.txt
+          adb logcat -d -s AndroidRuntime:E DEBUG:F libc:F ActivityManager:I > $RUNNER_TEMP/duoaero-evidence/models-lifecycle.txt
           run_probe() {
             probe_label="$1"
             probe_course="$2"
@@ -164,23 +164,23 @@ jobs:
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
             probe_status=0
-            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "${{ runner.temp }}/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
-            echo "Instrumentation command exit: $probe_status" >> "${{ runner.temp }}/duoaero-evidence/session-$probe_label.txt"
-            adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "${{ runner.temp }}/duoaero-evidence/session-$probe_label.png" || true
-            adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "${{ runner.temp }}/duoaero-evidence/views-$probe_label.json" || true
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
+            echo "Instrumentation command exit: $probe_status" >> "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt"
+            adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.png" || true
+            adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "$RUNNER_TEMP/duoaero-evidence/views-$probe_label.json" || true
             if [ "$probe_interact" != none ]; then
               for phase in selected submitted continued; do
                 for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/interaction-$phase.$extension" "${{ runner.temp }}/duoaero-evidence/interaction-$probe_label-$phase.$extension" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/interaction-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/interaction-$probe_label-$phase.$extension" || true
                 done
               done
             fi
             if [ "$probe_home" = true ]; then
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png "${{ runner.temp }}/duoaero-evidence/home-$probe_label.png" || true
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json "${{ runner.temp }}/duoaero-evidence/home-$probe_label.json" || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png "$RUNNER_TEMP/duoaero-evidence/home-$probe_label.png" || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json "$RUNNER_TEMP/duoaero-evidence/home-$probe_label.json" || true
               if [ "$probe_config" = native-default ]; then
                 for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.$extension" "${{ runner.temp }}/duoaero-evidence/home-before-config.$extension" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.$extension" "$RUNNER_TEMP/duoaero-evidence/home-before-config.$extension" || true
                 done
               fi
             fi
@@ -188,7 +188,7 @@ jobs:
               if [ "$probe_interact" = path-first ]; then
                 for phase in topic-headers node-opened session; do
                   for extension in png json; do
-                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "${{ runner.temp }}/duoaero-evidence/path-$phase.$extension" || true
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/path-$phase.$extension" || true
                   done
                 done
               fi
@@ -198,7 +198,7 @@ jobs:
                   *) probe_file="lesson-answer-$phase" ;;
                 esac
                 for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$probe_file.$extension" "${{ runner.temp }}/duoaero-evidence/$probe_file.$extension" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$probe_file.$extension" "$RUNNER_TEMP/duoaero-evidence/$probe_file.$extension" || true
                 done
               done
             fi
@@ -206,7 +206,7 @@ jobs:
               for phase in prompt selected graded; do
                 for item in $(seq 0 23); do
                   for extension in png json; do
-                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "${{ runner.temp }}/duoaero-evidence/$probe_label-$phase-$item.$extension" || true
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/formula-$phase-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/$probe_label-$phase-$item.$extension" || true
                   done
                 done
               done
@@ -215,39 +215,39 @@ jobs:
               for phase in prompt selected graded; do
                 for item in $(seq 0 19); do
                   for extension in png json; do
-                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-$phase-$item.$extension" "${{ runner.temp }}/duoaero-evidence/mixed-$phase-$item.$extension" || true
+                    adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-$phase-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-$phase-$item.$extension" || true
                   done
                 done
               done
               for phase in hint hinted-feedback retry; do
                 for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-mach-$phase.$extension" "${{ runner.temp }}/duoaero-evidence/mixed-mach-$phase.$extension" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-mach-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-mach-$phase.$extension" || true
                 done
               done
             fi
-            adb logcat -d -s DuoAeroProbe:I DuoAeroNative:I AndroidRuntime:E chromium:E > "${{ runner.temp }}/duoaero-evidence/probe-$probe_label.txt"
-            adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "${{ runner.temp }}/duoaero-evidence/render-$probe_label.txt"
-            adb shell dumpsys power > "${{ runner.temp }}/duoaero-evidence/power-$probe_label.txt"
-            adb shell dumpsys activity lastanr > "${{ runner.temp }}/duoaero-evidence/anr-$probe_label.txt"
+            adb logcat -d -s DuoAeroProbe:I DuoAeroNative:I AndroidRuntime:E chromium:E > "$RUNNER_TEMP/duoaero-evidence/probe-$probe_label.txt"
+            adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "$RUNNER_TEMP/duoaero-evidence/render-$probe_label.txt"
+            adb shell dumpsys power > "$RUNNER_TEMP/duoaero-evidence/power-$probe_label.txt"
+            adb shell dumpsys activity lastanr > "$RUNNER_TEMP/duoaero-evidence/anr-$probe_label.txt"
             if [ "$probe_interact" = path-first ]; then
               for phase in node-opened session; do
                 for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "${{ runner.temp }}/duoaero-evidence/path-$phase.$extension" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/path-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/path-$phase.$extension" || true
                 done
               done
             fi
-            adb logcat -d -b crash > "${{ runner.temp }}/duoaero-evidence/crash-$probe_label.txt"
-            cat "${{ runner.temp }}/duoaero-evidence/session-$probe_label.txt"
+            adb logcat -d -b crash > "$RUNNER_TEMP/duoaero-evidence/crash-$probe_label.txt"
+            cat "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt"
             if [ "$probe_status" != 0 ]; then adb shell am force-stop com.duoaero.nativebase; fi
           }
           case "$DIAGNOSTIC_SCENARIO" in
             google)
-              timeout 300 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > ${{ runner.temp }}/duoaero-evidence/google.txt
+              timeout 300 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > $RUNNER_TEMP/duoaero-evidence/google.txt
               adb shell am force-stop com.duoaero.nativebase
-              timeout 150 adb shell am instrument -w -e restart true com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > ${{ runner.temp }}/duoaero-evidence/google-restart.txt
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ ${{ runner.temp }}/duoaero-evidence/google-files || true
-              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/google-logcat.txt
-              python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/google-restart.txt').read_text()"
+              timeout 150 adb shell am instrument -w -e restart true com.duoaero.nativebase.tests/com.duoaero.nativebase.GoogleGateProbe > $RUNNER_TEMP/duoaero-evidence/google-restart.txt
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/ $RUNNER_TEMP/duoaero-evidence/google-files || true
+              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > $RUNNER_TEMP/duoaero-evidence/google-logcat.txt
+              python -c "from pathlib import Path; assert 'GOOGLE_GATE_VERIFIED=true' in Path('$RUNNER_TEMP/duoaero-evidence/google.txt').read_text(); assert 'GOOGLE_STORAGE_RESTART_VERIFIED=true' in Path('$RUNNER_TEMP/duoaero-evidence/google-restart.txt').read_text()"
               ;;
             atmosphere)
               python native-base/test_atmosphere.py
@@ -259,13 +259,13 @@ jobs:
               ;;
             atmosphere-timing)
               python native-base/test_atmosphere.py
-              test -s "${{ runner.temp }}/duoaero-evidence/atmosphere-latency.txt"
+              test -s "$RUNNER_TEMP/duoaero-evidence/atmosphere-latency.txt"
               ;;
             energy-info)
               python native-base/test_atmosphere.py
-              grep -q 'energy-info status=200' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
-              ! grep -q 'energy-info status=503' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
-              test -s "${{ runner.temp }}/duoaero-evidence/atmosphere-latency.txt"
+              grep -q 'energy-info status=200' "$RUNNER_TEMP/duoaero-evidence/atmosphere-log.txt"
+              ! grep -q 'energy-info status=503' "$RUNNER_TEMP/duoaero-evidence/atmosphere-log.txt"
+              test -s "$RUNNER_TEMP/duoaero-evidence/atmosphere-latency.txt"
               ;;
             sections)
               python native-base/test_sections.py
@@ -277,30 +277,30 @@ jobs:
               python native-base/test_two_sections.py
               ;;
             static-poses-only)
-              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'STATIC_MOODS_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'WAVE_FRAMES_CHANGED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'SAD_FRAMES_CHANGED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'WAVE_IMAGE_INFLATED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "${{ runner.temp }}/duoaero-evidence/static-mascot-poses.png"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-0.png "${{ runner.temp }}/duoaero-evidence/wave-frame-0.png"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-1.png "${{ runner.temp }}/duoaero-evidence/wave-frame-1.png"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/sad-frame-0.png "${{ runner.temp }}/duoaero-evidence/sad-frame-0.png"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/sad-frame-1.png "${{ runner.temp }}/duoaero-evidence/sad-frame-1.png"
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              grep -q 'STATIC_MOODS_VERIFIED=true' "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              grep -q 'WAVE_FRAMES_CHANGED=true' "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              grep -q 'SAD_FRAMES_CHANGED=true' "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              grep -q 'WAVE_IMAGE_INFLATED=true' "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "$RUNNER_TEMP/duoaero-evidence/static-mascot-poses.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-0.png "$RUNNER_TEMP/duoaero-evidence/wave-frame-0.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-1.png "$RUNNER_TEMP/duoaero-evidence/wave-frame-1.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/sad-frame-0.png "$RUNNER_TEMP/duoaero-evidence/sad-frame-0.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/sad-frame-1.png "$RUNNER_TEMP/duoaero-evidence/sad-frame-1.png"
               run_probe static-quit MATH_BT native-defaults late native-full aerospace-mixed quit-preview false native-default native-cache true
-              grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/session-static-quit.txt"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.png"
-              adb pull /sdcard/duoaero-sad-quit.mp4 "${{ runner.temp }}/duoaero-evidence/sad-quit.mp4"
+              grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "$RUNNER_TEMP/duoaero-evidence/session-static-quit.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "$RUNNER_TEMP/duoaero-evidence/static-quit-dialog.png"
+              adb pull /sdcard/duoaero-sad-quit.mp4 "$RUNNER_TEMP/duoaero-evidence/sad-quit.mp4"
               python native-base/test_quit_animation_recording.py
               ;;
             static-mascot)
-              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'STATIC_MOODS_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "${{ runner.temp }}/duoaero-evidence/static-mascot-poses.png"
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              grep -q 'STATIC_MOODS_VERIFIED=true' "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "$RUNNER_TEMP/duoaero-evidence/static-mascot-poses.png"
               run_probe static-quit MATH_BT native-defaults late native-full aerospace-mixed quit-preview false native-default native-cache true
-              grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/session-static-quit.txt"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.png"
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.json "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.json"
+              grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "$RUNNER_TEMP/duoaero-evidence/session-static-quit.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "$RUNNER_TEMP/duoaero-evidence/static-quit-dialog.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.json "$RUNNER_TEMP/duoaero-evidence/static-quit-dialog.json"
               ;;
             chests)
               python native-base/test_chests.py
@@ -310,18 +310,18 @@ jobs:
               python native-base/test_chests.py
               ;;
             accounts)
-              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > ${{ runner.temp }}/duoaero-evidence/accounts.txt
-              python -c "from pathlib import Path; assert 'ACCOUNT_STORAGE_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/accounts.txt').read_text()"
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.AccountProgressProbe > $RUNNER_TEMP/duoaero-evidence/accounts.txt
+              python -c "from pathlib import Path; assert 'ACCOUNT_STORAGE_VERIFIED=true' in Path('$RUNNER_TEMP/duoaero-evidence/accounts.txt').read_text()"
               ;;
             updater)
-              timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UpdaterProbe > ${{ runner.temp }}/duoaero-evidence/updater.txt
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/launcher-icon.png ${{ runner.temp }}/duoaero-evidence/ || true
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.png ${{ runner.temp }}/duoaero-evidence/ || true
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.json ${{ runner.temp }}/duoaero-evidence/ || true
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.png ${{ runner.temp }}/duoaero-evidence/ || true
-              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.json ${{ runner.temp }}/duoaero-evidence/ || true
-              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > ${{ runner.temp }}/duoaero-evidence/updater-logcat.txt
-              python -c "from pathlib import Path; assert 'UPDATER_HOST_VERIFIED=true' in Path('${{ runner.temp }}/duoaero-evidence/updater.txt').read_text()"
+              timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.UpdaterProbe > $RUNNER_TEMP/duoaero-evidence/updater.txt
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/launcher-icon.png $RUNNER_TEMP/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.png $RUNNER_TEMP/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/profile-observation.json $RUNNER_TEMP/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.png $RUNNER_TEMP/duoaero-evidence/ || true
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/updater-settings.json $RUNNER_TEMP/duoaero-evidence/ || true
+              adb logcat -d -s AndroidRuntime:E DuoAeroNative:I chromium:E > $RUNNER_TEMP/duoaero-evidence/updater-logcat.txt
+              python -c "from pathlib import Path; assert 'UPDATER_HOST_VERIFIED=true' in Path('$RUNNER_TEMP/duoaero-evidence/updater.txt').read_text()"
               ;;
             mixed|gap-s24)
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
@@ -333,39 +333,39 @@ jobs:
               ;;
             formula-words-touch)
               run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 14 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
+              grep -q 'All 14 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-words-touch.txt"
               ;;
             hydraulic-words)
               run_probe aerospace-hydraulic-words MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 4 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-hydraulic-words.txt"
+              grep -q 'All 4 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-hydraulic-words.txt"
               ;;
             isa-mixed)
               run_probe aerospace-isa-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 9 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-isa-mixed.txt"
+              grep -q 'All 9 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-isa-mixed.txt"
               ;;
             isa-extra)
               run_probe aerospace-isa-extra MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 10 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-isa-extra.txt"
+              grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-isa-extra.txt"
               ;;
             dynamic-mixed)
               run_probe aerospace-dynamic MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 20 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-dynamic.txt"
+              grep -q 'All 20 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-dynamic.txt"
               ;;
             sqrt-mixed)
               run_probe aerospace-sqrt-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 1 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-sqrt-mixed.txt"
+              grep -q 'All 1 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-sqrt-mixed.txt"
               ;;
             spacecraft-mixed)
               run_probe aerospace-spacecraft MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 10 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-spacecraft.txt"
+              grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-spacecraft.txt"
               ;;
             wind-mixed-hint)
               run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true
-              grep -q 'PASS: native wind formula practice preceded each calculation' "${{ runner.temp }}/duoaero-evidence/session-aerospace-wind-hint.txt"
+              grep -q 'PASS: native wind formula practice preceded each calculation' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-wind-hint.txt"
               ;;
             mixed-hint)
               run_probe aerospace-mixed-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true
-              grep -q 'PASS: native Mach formula practice preceded each calculation' "${{ runner.temp }}/duoaero-evidence/session-aerospace-mixed-hint.txt"
+              grep -q 'PASS: native Mach formula practice preceded each calculation' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-mixed-hint.txt"
               ;;
             standalone|s24|resume|mistakes|review)
               if [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_TEST_RESUME=1; fi
@@ -385,9 +385,9 @@ jobs:
               adb shell settings put system font_scale 1.3
               adb shell am force-stop com.duoaero.nativebase
               run_probe aerospace-night-large MATH_BT native-defaults late native-full aerospace-rich math-all false native-default native-cache true
-              adb shell dumpsys vibrator_manager > ${{ runner.temp }}/duoaero-evidence/vibration-observation.txt
-              adb shell dumpsys audio > ${{ runner.temp }}/duoaero-evidence/audio-observation.txt
-              adb shell dumpsys uimode > ${{ runner.temp }}/duoaero-evidence/night-observation.txt
+              adb shell dumpsys vibrator_manager > $RUNNER_TEMP/duoaero-evidence/vibration-observation.txt
+              adb shell dumpsys audio > $RUNNER_TEMP/duoaero-evidence/audio-observation.txt
+              adb shell dumpsys uimode > $RUNNER_TEMP/duoaero-evidence/night-observation.txt
               python native-base/test_device_effects.py
               ;;
           hint)
@@ -405,11 +405,11 @@ jobs:
           esac
           python - <<'PYTHON'
           from pathlib import Path
-          assert '1200 passed, 0 failed' in Path('${{ runner.temp }}/duoaero-evidence/models.txt').read_text()
-          for path in Path('${{ runner.temp }}/duoaero-evidence').glob('session-*.txt'):
+          assert '1200 passed, 0 failed' in Path('$RUNNER_TEMP/duoaero-evidence/models.txt').read_text()
+          for path in Path('$RUNNER_TEMP/duoaero-evidence').glob('session-*.txt'):
               assert 'DIAGNOSTIC_COLLECTION_COMPLETED=true' in path.read_text(), path.name
           PYTHON
-          echo 'Diagnostic collection only. This does not establish a playable lesson or authorize release.' > ${{ runner.temp }}/duoaero-evidence/NOT-A-RELEASE.txt
+          echo 'Diagnostic collection only. This does not establish a playable lesson or authorize release.' > $RUNNER_TEMP/duoaero-evidence/NOT-A-RELEASE.txt
       - name: Preserve emulator ANR thread traces
         if: always()
         timeout-minutes: 2
