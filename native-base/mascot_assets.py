@@ -176,6 +176,7 @@ def rive(data,name,png,width,height):
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
+    swoon=('swoon',('SwoonDuo_Loop_animation',))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
     zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))
@@ -186,6 +187,7 @@ def rive(data,name,png,width,height):
              'duo_perfect_starry_eyed_03':{'lc_character_artboard':starry},
              'duo_perfect_buff_03':{'lc_character_artboard':hero},
              'duo_normal_lovey_dovey_03':{'lc_character_artboard':lovey},
+             'duo_normal_swoon_03':{'lc_character_artboard':swoon},
              'duo_perfect_chefs_kiss_03':{'lc_character_artboard':chef},
              'duo_normal_foam_finger_02':{'lc_character_artboard':foam},
              'duo_zen_04':{'36_zen_duo':zen},
@@ -196,6 +198,7 @@ def rive(data,name,png,width,height):
                  '02_duo_obsessed_artboard':overjoyed,
                  '00_duo_buff_artboard':hero,
                  '20_duo_normal_lovey_dovey_artboard':lovey,
+                 '21_duo_normal_swoon_artboard':swoon,
                  '26_duo_perfect_chefs_kiss_artboard':chef,
                  '25_duo_normal_foam_finger_artboard':foam,
                  '22_duo_perfect_starry_eyed_artboard':starry}}.get(name,{})
@@ -251,6 +254,8 @@ def rive(data,name,png,width,height):
             # Fit an integral number of cycles into the native work area,
             # including the 122-frame BuffDuo loop.
             span=end-start;cycle=max(16,round(span/max(1,round(span/60))));phase=start
+            if art.get(4) in ('21_duo_normal_swoon_artboard','lc_character_artboard') and name in ('duo_normal_swoon_03','lesson_complete_redesign_v72'):
+                cycle=span
         else:
             cycle=60;phase=0
         for i in range(len(frames)):
@@ -261,6 +266,11 @@ def rive(data,name,png,width,height):
             for t in range(0,max(1,duration)+1):
                 current=((t-phase)*len(frames)//cycle)%len(frames)
                 previous=((t-1-phase)*len(frames)//cycle)%len(frames)
+                if name in ('duo_normal_swoon_03','lesson_complete_redesign_v72') and art.get(4) in ('21_duo_normal_swoon_artboard','lc_character_artboard'):
+                    # Group the open-eyed poses and the closed-eyed poses into
+                    # one gradual cycle, instead of flickering between them.
+                    order=(0,15,14,13,12,11,10,7,1,2,3,4,5,6,8,9)
+                    current,previous=order[current],order[previous]
                 if t==0 or current!=previous:
                     output.extend(encode(30,{67:t,70:1. if current==i else 0.}))
     for kind,values,raw in objects:
@@ -292,7 +302,9 @@ def rive(data,name,png,width,height):
         if (art is not None and kind==65 and state_layer=='idleLoop'
             and values.get(158)==800 and (name,art.get(4)) in (
                 ('duo_normal_foam_finger_02','lc_character_artboard'),
-                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))):
+                ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),
+                ('duo_normal_swoon_03','lc_character_artboard'),
+                ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))):
             update[158]=0
         # The completion scene instantiates each character twice: the first
         # group (parent 371) is the moving character and the second (parent
@@ -311,6 +323,12 @@ def rive(data,name,png,width,height):
             for k,v in values.items():
                 if isinstance(v,str) and PROPS[k][1]=='textPropertyKey':update[k]=display_text(v)
         output.extend(raw if update==values else encode(kind,update,props))
+        if (kind==63 and art is not None and state_layer=='idleLoop'
+            and (name,art.get(4)) in (('duo_normal_swoon_03','lc_character_artboard'),
+                                      ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))):
+            # The original entry has no initial transition: select its existing
+            # loop state so the idle pose animates without an external trigger.
+            output.extend(encode(65,{151:1 if name=='duo_normal_swoon_03' else 3}))
     finish_animation();finish()
     if changed:
         for i,frame in enumerate(all_frames):
