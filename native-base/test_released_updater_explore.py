@@ -24,9 +24,22 @@ try:
         focused=adb('shell','dumpsys','window','windows').decode(errors='replace')
         (out/'last-window.txt').write_text(focused)
         if i%12==0:snapshot('download-'+str(i))
-        current='\n'.join(line for line in focused.splitlines() if 'mCurrentFocus=' in line or 'mFocusedApp=' in line)
-        if 'packageinstaller' in current.lower():
+        # Android 15's 'dumpsys window windows' exposes the installer as a
+        # WindowState, but does not include mCurrentFocus in this output.
+        if 'com.google.android.packageinstaller/com.android.packageinstaller.PackageInstallerActivity' in focused:
             installer=True;snapshot('old-system-installer');break
     if not installer:raise AssertionError('Android package installer did not appear in ten minutes')
+    adb('shell','input','tap','1185','1745')
+    installed=False
+    for i in range(120):
+        time.sleep(2)
+        info=adb('shell','dumpsys','package','com.duoaero').decode(errors='replace')
+        if 'versionName=1.3.7' in info and 'versionCode=10307' in info:
+            installed=True;(out/'installed-package.txt').write_text(info);break
+    snapshot('old-update-result')
+    if not installed:raise AssertionError('Android did not report installed version 1.3.7')
+    marker=adb('shell','cat','/data/user/0/com.duoaero/files/duoaero-update-probe').decode().strip()
+    if marker!='updater-preservation-test':raise AssertionError('Synthetic app data was not preserved')
+    (out/'update-result.txt').write_text('PASS: signed 1.3.0 discovered and downloaded published 1.3.7, Android installer confirmed it, package manager reports versionCode 10307 and synthetic app data survived. No real Google or 2.0 APK tested.\n')
 finally:
     (out/'old-logcat.txt').write_bytes(adb('logcat','-d','-s','AndroidRuntime:E','DuoAeroNative:I'))
