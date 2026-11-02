@@ -17,7 +17,7 @@ FORMULAS = {
  'load_factor': ('Load factor n equals capacity P divided by applied ___ F.', 'force', ['temperature', 'area', 'speed']),
  'spar_stress_inertia': ('The section moment I-stress for a stress limit equals moment M times outer-fibre distance c divided by allowable ___ sigma-a.', 'stress', ['density', 'speed', 'temperature']),
  'spar_deflection_inertia': ('The section moment I-deflection for a deflection limit equals tip force F times length L cubed divided by three times Young modulus E-Y times allowable ___ delta-a.', 'deflection', ['density', 'speed', 'pressure']),
- 'isothermal_pressure': ('Pressure p equals base pressure p-b times an exponential decay ___.', 'factor', ['temperature', 'altitude', 'area']),
+ 'isothermal_pressure': ('Pressure p equals base pressure p-b times e raised to the negative ___ X.', 'exponent', ['temperature', 'altitude', 'area']),
  'pressure_ratio': ('Pressure ratio r equals pressure p-B divided by ___ p-A.', 'pressure', ['temperature', 'density', 'mass']),
  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
  'time': ('Flight time t equals distance d divided by ground ___ Vg.', 'speed', ['mass', 'pressure', 'area']),
@@ -196,6 +196,8 @@ def named_equation(formula):
 MULTI_NAMED = {
  'gas': (r'p=\rho R_aT', ['pressure','density','gas constant','temperature'],
          ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
+ 'isothermal_pressure': (r'p=p_b e^{-X}', ['pressure','base pressure','exponent'],
+                         ['temperature','density','area'], ['___','=','___',r'\times','e^-___']),
  'payload_mass': (r'm_p=m_{to}-m_{oem}-m_f', ['payload mass','takeoff mass','empty mass','fuel mass'],
                   ['pressure','density','altitude','speed'], ['___','=','___','-','___','-','___']),
  'spar_moment': (r'M=FL', ['bending moment','tip force','spar length'],
@@ -273,7 +275,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p in ('___','e^-___') or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],

@@ -15,10 +15,24 @@ public final class NativeFractionSlot {
  private static final WeakHashMap<Object,Context> LIVE=new WeakHashMap<>();
  private static final Map<String,WeakReference<Object>> KEYS=new HashMap<>();
  private static final class Context {
-  final Object scope,slot;final Method render;final int first;
-  Context(Object scope,Object slot,Method render,int first){this.scope=scope;this.slot=slot;this.render=render;this.first=first;}
+  final Object scope,slot;final Method render;final int first;final boolean negativeExponent;
+  Context(Object scope,Object slot,Method render,int first){this(scope,slot,render,first,false);}
+  Context(Object scope,Object slot,Method render,int first,boolean negativeExponent){this.scope=scope;this.slot=slot;this.render=render;this.first=first;this.negativeExponent=negativeExponent;}
  }
  private NativeFractionSlot(){}
+ /** Keep e and the minus sign fixed while placing a quantity in its exponent. */
+ public static Object createNegativeExponent(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  String key=Long.toString(NEXT.incrementAndGet());
+  Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:negative-exponent");
+  Object base=latex.newInstance("e",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object exponent=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l).getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(figure,new Context(scope,slot,render,first,true));KEYS.put(key,new WeakReference<>(figure));}
+  return figure;
+ }
  /** Original exponentiation figure with an interactive base and fixed power. */
  public static Object createPower(Object template,Object scope,Object slot,Method render,int first,String power) throws Exception {
   if(!power.matches("[0-9]{1,2}"))throw new IllegalArgumentException("Unsupported fixed power");
@@ -131,7 +145,18 @@ public final class NativeFractionSlot {
    synchronized(LIVE){WeakReference<Object> reference=KEYS.get(part[0]);Object key=reference==null?null:reference.get();context=key==null?null:LIVE.get(key);}
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
    int offset=Integer.parseInt(part[1]);if(offset<0||offset>3)throw new IllegalStateException("Invalid fraction slot position");
+   if(context.negativeExponent){
+    if(!NativeInlineFormula.begin(figure,composer))throw new IllegalStateException("Cannot group negative exponent");
+    ClassLoader l=figure.getClass().getClassLoader();Class<?> cls=figure.getClass();
+    Class<?> entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+    Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:fixed-minus");
+    Object minus=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("-",22f,cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
+    Class<?> mod=Class.forName("z5q",true,l),callback=Class.forName("qqh",true,l),state=Class.forName("s6p",true,l),o18=Class.forName("o18",true,l);
+    Method prompt=Class.forName("jvo",true,l).getMethod("a",ui,mod,Class.forName("cvo",true,l),Class.forName("kotlin.jvm.functions.Function0",true,l),callback,callback,Class.forName("kotlin.jvm.functions.Function0",true,l),Integer.class,state,Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
+    prompt.invoke(null,minus,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
+   }
    context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset),composer,Integer.valueOf(0));
+   if(context.negativeExponent)NativeInlineFormula.end(true,composer);
    return true;
   }catch(Exception failure){throw new IllegalStateException("Cannot render native fraction slot",failure);}
  }

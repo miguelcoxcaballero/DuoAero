@@ -233,14 +233,14 @@
           "TA1-0244",
           "TA1-0148",
           "TA1-0409",
-          "TA1-0151",
-          "TA1-0444"
+          "TA1-0151"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 1"
       },
       {
         "id": "2.1-5-point-0-lesson-1",
         "ids": [
+          "TA1-0444",
           "TA1-0321",
           "TA1-0431",
           "TA1-0681",
@@ -254,8 +254,7 @@
           "TA1-0402",
           "TA1-0439",
           "TA1-0777",
-          "TA1-0869",
-          "TA1-0397-D2"
+          "TA1-0869"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 2"
       },
@@ -267,7 +266,8 @@
           "TA1-0765",
           "BOOK-V6-01-D2",
           "TA1-0425-D2",
-          "TA1-0445-D2"
+          "TA1-0445-D2",
+          "TA1-0397-D2"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 3"
       },

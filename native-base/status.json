@@ -9,8 +9,8 @@
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 278,
       "possible_calculations_without_authored_hints": 552,
-      "authored_formula_exercises_without_full_named_blocks": 1,
-      "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
+      "authored_formula_exercises_without_full_named_blocks": 0,
+      "note": "All 44 authored formula exercises now have named-block candidates; several new native layouts still require Android grading and visual acceptance. Other figures are review queues, not confirmed errors."
     },
     "completed_test_examples": [
       "Android run 41383369989 graded the 20-exercise density/dynamic-pressure sample, checked synthetic accounts, and completed the first Atmosphere lesson with prior nodes seeded and path reopening after restart.",

@@ -48,8 +48,11 @@ assert 'EX-2023-11-06-3' not in lessons['2.1-0-point-0-lesson-0']['ids']
 assert 'EX-2023-11-06-3' in lessons['2.1-0-point-0-lesson-1']['ids']
 assert 'TA1-0255-D2' not in lessons['2.3-5-point-0-lesson-0']['ids']
 assert 'TA1-0255-D2' in lessons['2.3-5-point-0-lesson-1']['ids']
+assert 'TA1-0444' not in lessons['2.1-5-point-0-lesson-0']['ids']
+assert 'TA1-0444' in lessons['2.1-5-point-0-lesson-1']['ids']
 for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
     snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
+    assert 'TA1-0444' in {q['id'] for q in snapshot['2.1-5-point-0-lesson-0']['challenges']}
     assert 'TA1-0255-D2' in {q['id'] for q in snapshot['2.3-5-point-0-lesson-0']['challenges']}
     assert 'EX-2023-11-06-3' in {q['id'] for q in snapshot['2.1-0-point-0-lesson-0']['challenges']}
     assert 'TA1-0053-F1' in {q['id'] for q in snapshot['2.1-0-point-0-lesson-0']['challenges']}

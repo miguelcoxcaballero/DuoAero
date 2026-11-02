@@ -36,8 +36,8 @@ def challenge(question):
         segments = []
         if 'inline_latex' in question:
             for part in question['inline_latex']:
-                segments.append('___' if part == '___' else 'duoaero-fraction-slots' if part == '___/___' else 'duoaero-squared-fraction-slots' if part == '___^2/___' else 'duoaero-squared-over-twice' if part == '___^2/2*___' else 'duoaero-product-fraction-21' if part == '___*___/___' else 'duoaero-product-fraction-22' if part == '___*___/___*___' else 'duoaero-power-slot:' + part[4:] if re.fullmatch(r'___\^\d{1,2}',part) else 'duoaero-math:formula:' + r'\textstyle ' + part)
-            if segments.count('___') + 2*(segments.count('duoaero-fraction-slots')+segments.count('duoaero-squared-fraction-slots')+segments.count('duoaero-squared-over-twice')) + 3*segments.count('duoaero-product-fraction-21') + 4*segments.count('duoaero-product-fraction-22') + sum(p.startswith('duoaero-power-slot:') for p in segments) != len(question['answer_blocks']):
+                segments.append('___' if part == '___' else 'duoaero-negative-exponent' if part == 'e^-___' else 'duoaero-fraction-slots' if part == '___/___' else 'duoaero-squared-fraction-slots' if part == '___^2/___' else 'duoaero-squared-over-twice' if part == '___^2/2*___' else 'duoaero-product-fraction-21' if part == '___*___/___' else 'duoaero-product-fraction-22' if part == '___*___/___*___' else 'duoaero-power-slot:' + part[4:] if re.fullmatch(r'___\^\d{1,2}',part) else 'duoaero-math:formula:' + r'\textstyle ' + part)
+            if segments.count('___') + segments.count('duoaero-negative-exponent') + 2*(segments.count('duoaero-fraction-slots')+segments.count('duoaero-squared-fraction-slots')+segments.count('duoaero-squared-over-twice')) + 3*segments.count('duoaero-product-fraction-21') + 4*segments.count('duoaero-product-fraction-22') + sum(p.startswith('duoaero-power-slot:') for p in segments) != len(question['answer_blocks']):
                 raise ValueError('Named equation slots do not match answers: ' + question['id'])
         else:
             if question['before_latex']:

@@ -17,7 +17,8 @@ public final class NativeInlineGap {
  private static final String PRODUCT_FRACTION_21="duoaero-product-fraction-21";
  private static final String PRODUCT_FRACTION_22="duoaero-product-fraction-22";
  private static final String POWER="duoaero-power-slot:";
- private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(POWER)?1:0;}
+ private static final String NEGATIVE_EXPONENT="duoaero-negative-exponent";
+ private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -100,6 +101,10 @@ public final class NativeInlineGap {
      else if(part.equals(SQUARED_TWICE)){
       Object fraction=NativeFractionSlot.createSquaredOverTwice(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
       prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
+     else if(part.equals(NEGATIVE_EXPONENT)){
+      Object power=NativeFractionSlot.createNegativeExponent(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
      else if(part.equals(PRODUCT_FRACTION_21)||part.equals(PRODUCT_FRACTION_22)){
       Object fraction=NativeFractionSlot.createProduct(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),2,part.equals(PRODUCT_FRACTION_21)?1:2);
