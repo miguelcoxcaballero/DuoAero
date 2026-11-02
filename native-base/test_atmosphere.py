@@ -9,6 +9,7 @@ from visual_controls import claim_xp
 
 OUT=Path(os.environ['DUOAERO_EVIDENCE']); PACKAGE='com.duoaero.nativebase'
 HINT_TEST=os.environ.get('DUOAERO_TEST_FORMULA_HINT')=='1'
+HINT_ID=os.environ.get('DUOAERO_HINT_QUESTION','TA1-0148')
 ROOT=Path(__file__).resolve().parents[1]
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=35)
 def capture(name):
@@ -110,8 +111,8 @@ try:
     open_atmosphere('atmosphere-initial')
     # Reproduce a mistake and its native retry: the reported lesson includes
     # formula/gap controllers and the user's screenshot shows wrong feedback.
-    sequence=[(expanded[0]['id'],True,False)]+[(q['id'],False,HINT_TEST and q['id']=='TA1-0148') for q in expanded[1:]]+[(expanded[0]['id'],False,False)]
-    if HINT_TEST:sequence.append(('TA1-0148',False,False))
+    sequence=[(expanded[0]['id'],True,False)]+[(q['id'],False,HINT_TEST and q['id']==HINT_ID) for q in expanded[1:]]+[(expanded[0]['id'],False,False)]
+    if HINT_TEST:sequence.append((HINT_ID,False,False))
     for index,(qid,wrong,hinted) in enumerate(sequence):
         q=bank[qid];kind=q['type']
         if kind=='choice':
