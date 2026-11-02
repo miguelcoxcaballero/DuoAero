@@ -108,6 +108,9 @@ for character in CHARACTER_REPLACEMENTS.values():
     for expression in ('happy', 'sad'):
         MOOD_SCENES[character+'_'+expression] = 'characters/'+character+'/'+expression+'/frame-00.png'
 
+# Appended after existing scenes to keep their assigned resource IDs stable.
+MOOD_SCENES['wave_static'] = 'wave-static.png'
+
 
 def mood_scenes(table):
     ids = {}
