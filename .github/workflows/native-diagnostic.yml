@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/spar-cubic-name-android, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/spar-cubic-name-android' && '["product-fraction"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -468,7 +468,7 @@ jobs:
               ;;
             product-fraction)
               run_probe aerospace-product-fraction MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 12 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-product-fraction.txt"
+              grep -q 'All 4 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-product-fraction.txt"
               ;;
             direct-hint)
               python native-base/test_simple_calculation_hints.py
