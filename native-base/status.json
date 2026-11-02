@@ -8,7 +8,7 @@
     "review_inventory": {
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 278,
-      "possible_calculations_without_authored_hints": 565,
+      "possible_calculations_without_authored_hints": 564,
       "authored_formula_exercises_without_full_named_blocks": 10,
       "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },

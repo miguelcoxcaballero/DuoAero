@@ -5781,7 +5781,11 @@
       "1.5 mm": "Incorrect: The given numerator already includes the bar length."
     },
     "legacy_id": "TA1-0106",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "formula_hint": {
+      "latex": "\\Delta L=\\frac{FL}{E_Y A}",
+      "prerequisite": "BOOK-V6-04-D1"
+    }
   },
   {
     "id": "TA1-0234-F1",

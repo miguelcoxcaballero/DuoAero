@@ -71,9 +71,9 @@ final class SessionInteraction {
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
   }
   org.json.JSONArray questions=new org.json.JSONArray(bytes.toString("UTF-8"));
-  boolean windScenario=false;
-  for(int i=0;i<questions.length();i++)if(questions.getJSONObject(i).getString("id").equals("TA1-0092-D2-S1"))windScenario=true;
-  String hintId=windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
+  boolean windScenario=false,directHintScenario=false;
+  for(int i=0;i<questions.length();i++){String id=questions.getJSONObject(i).getString("id");if(id.equals("TA1-0092-D2-S1"))windScenario=true;if(id.equals("TA1-0106-F1"))directHintScenario=true;}
+  String hintId=directHintScenario?"TA1-0106-F1":windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
   org.json.JSONObject hintedQuestion=null;
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
@@ -153,7 +153,7 @@ final class SessionInteraction {
    return "PASS: wrong native fraction graded at Check and retried at lesson end, then Claim XP appeared. Course persistence not tested.\n";
   }
   if(hintRetry){
-   String retryNeedle=windScenario?"1.4583":"17.97";
+   String retryNeedle=directHintScenario?"1.0 mm":windScenario?"1.4583":"17.97";
    for(int attempt=0;attempt<150&&!contains(test,retryNeedle);attempt++){
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
@@ -167,6 +167,7 @@ final class SessionInteraction {
    click(test,null,"CONTINUE");
    for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
    if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Hinted retry did not reach lesson completion");
+   if(directHintScenario)return "PASS: native axial extension hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
    return "PASS: native "+(windScenario?"wind":"Mach")+" formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
   }
   return "All "+questions.length()+" mixed source exercises produced original visible correct feedback through native controls. No course completion or overflow acceptance asserted.\n";
