@@ -31,8 +31,8 @@ public final class NativeFractionSlot {
       .getConstructor(String.class).newInstance("duoaero:power-slot");
   Object base=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),
       cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
-  Object exponentRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(12f),Float.valueOf(12f));
-  Object exponent=latex.newInstance("\\scriptstyle "+power,12f,exponentRange,
+  Object exponentRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(22f),Float.valueOf(22f));
+  Object exponent=latex.newInstance("\\scriptstyle "+power,22f,exponentRange,
       cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
       .getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
@@ -85,8 +85,8 @@ public final class NativeFractionSlot {
   if(squaredNumerator){
    Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l)
        .getConstructor(String.class).newInstance("duoaero:fixed-square");
-   Object exponentRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(12f),Float.valueOf(12f));
-   Object exponent=latex.newInstance("\\scriptstyle 2",12f,exponentRange,
+   Object exponentRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(22f),Float.valueOf(22f));
+   Object exponent=latex.newInstance("\\scriptstyle 2",22f,exponentRange,
        cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
    contents[0]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
        .getConstructor(ui,ui,String.class,entityClass).newInstance(contents[0],exponent,"power",null);
