@@ -9,6 +9,14 @@ WORDMARKS = frozenset(('duolingo_logo_350','duolingo_max_wordmark',
     'duolingo_max_wordmark_onboarding','duo_logo_green','duo_logo_grey',
     'duo_logo_white','intro_duo_logo_green'))
 
+def rebrand_app_display_names(smali):
+    """Change only human-readable icon titles, preserving runtime identifiers."""
+    pattern = re.compile(r'(?m)^(\s*const-string(?:/jumbo)?\s+\w+,\s+")([^"\n]*Duolingo[^"\n]*)(")')
+    result, count = pattern.subn(lambda match: match.group(1)+match.group(2).replace('Duolingo','DuoAero')+match.group(3), smali)
+    if count != 22:
+        raise ValueError('Unexpected original AppDisplayName layout: '+str(count))
+    return result
+
 def display_text(text):
     if text.startswith(('res/','com.duolingo')):return text
     # URLs, email addresses, resource paths and package names keep their routing.

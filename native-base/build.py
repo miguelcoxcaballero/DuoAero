@@ -7,7 +7,7 @@ from course_adapter import session as native_session, lesson_questions
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
 from resource_extension import updater_paths, launcher_mascot, scene_mascot, mood_scenes, MOOD_SCENES, MASCOT_PATH, SCENE_MASCOT_PATH
-from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, LOGO_PATH
+from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, rebrand_app_display_names, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -246,7 +246,11 @@ submit_original=submit_source.read_bytes();submit_text=submit_original.decode('u
 submit_anchor='    invoke-virtual {v13, v11}, Lcom/duolingo/session/challenges/ElementFragment;->H(Lnha0;)Lcom/duolingo/core/session/FragmentGuess;\n\n    move-result-object v0'
 assert submit_text.count(submit_anchor)==1
 submit_hook=submit_anchor+'\n\n    invoke-static {v13, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaHintGuess(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;\n\n    move-result-object v0\n\n    check-cast v0, Lcom/duolingo/core/session/FragmentGuess;'
+app_name_source=SMALI/'smali_classes3/com/duolingo/feature/appicon/AppDisplayName.smali'
+app_name_original=app_name_source.read_bytes()
+app_name_text=rebrand_app_display_names(app_name_original.decode('utf-8').replace('\r\n','\n'))
 try:
+ app_name_source.write_text(app_name_text,encoding='utf-8')
  tip_source.write_text(tip_text.replace(tip_anchor,'    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->formulaTipOpened()V\n\n'+tip_anchor),encoding='utf-8')
  submit_source.write_text(submit_text.replace(submit_anchor,submit_hook),encoding='utf-8')
  unit_header_source.write_text(unit_header_text.replace(unit_header_anchor,unit_header_hook+unit_header_anchor),encoding='utf-8')
@@ -259,6 +263,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ app_name_source.write_bytes(app_name_original)
  tip_source.write_bytes(tip_original)
  submit_source.write_bytes(submit_original)
  unit_header_source.write_bytes(unit_header_original)
