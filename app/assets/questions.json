@@ -16422,7 +16422,143 @@
       0.0
     ],
     "legacy_id": "TA1-0054",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "REYNOLDS-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the Reynolds number formula",
+        "prefix": "",
+        "blocks": [
+          "ρ",
+          "V",
+          "c",
+          "μ",
+          "p",
+          "T"
+        ],
+        "answer_blocks": [
+          "ρ",
+          "V",
+          "c",
+          "μ"
+        ],
+        "inline_latex": [
+          "\\mathrm{Re}",
+          "=",
+          "(",
+          "___",
+          "\\times",
+          "___",
+          "\\times",
+          "___",
+          ")",
+          "\\div",
+          "___"
+        ],
+        "formula_latex": "\\mathrm{Re}=\\frac{\\rho Vc}{\\mu}",
+        "explanation": "\\mathrm{Re}=\\frac{\\rho Vc}{\\mu}"
+      },
+      {
+        "id": "REYNOLDS-SCALE-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the chord scale formula",
+        "prefix": "",
+        "blocks": [
+          "μ_r",
+          "ρ_r",
+          "V_r",
+          "T",
+          "p"
+        ],
+        "answer_blocks": [
+          "μ_r",
+          "ρ_r",
+          "V_r"
+        ],
+        "inline_latex": [
+          "k",
+          "=",
+          "___",
+          "\\div",
+          "(",
+          "___",
+          "\\times",
+          "___",
+          ")"
+        ],
+        "formula_latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+        "explanation": "k=\\frac{\\mu_r}{\\rho_r V_r}"
+      },
+      {
+        "id": "REYNOLDS-CHORD-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the model chord formula",
+        "prefix": "c_2=c_1",
+        "blocks": [
+          "k",
+          "p",
+          "T",
+          "V"
+        ],
+        "answer_blocks": [
+          "k"
+        ],
+        "formula_latex": "c_2=c_1 k",
+        "explanation": "c_2=c_1 k"
+      },
+      {
+        "id": "TA1-0054-D2-S1",
+        "stem": "The density ratio is 0.72 and the speed ratio is 1.15. What is their product?",
+        "options": [
+          "0.828000",
+          "0.928000",
+          "0.728000",
+          "1.028000"
+        ],
+        "answer": 0,
+        "explanation": "0.828000",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0054-D2-S2",
+        "stem": "The viscosity ratio is 1.06 and the density-speed ratio product is 0.828000. What is the chord scale factor?",
+        "options": [
+          "1.280193",
+          "1.380193",
+          "1.180193",
+          "1.480193"
+        ],
+        "answer": 0,
+        "explanation": "1.280193",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0054-D2",
+        "stem": "The reference chord is 1.4 m and the model scale factor is 1.280193. What is the model chord?",
+        "options": [
+          "1.0936 m",
+          "1.6908 m",
+          "1.7923 m",
+          "1.2174 m"
+        ],
+        "answer": 2,
+        "explanation": "1.4 × 1.280193 ≈ 1.7923 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0115-D2",
@@ -18617,7 +18753,57 @@
       0.0
     ],
     "legacy_id": "TA1-0088",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0088-D2-S1",
+        "stem": "The density ratio is 0.735 and the speed ratio is 1.17. What is their product?",
+        "options": [
+          "0.859950",
+          "0.959950",
+          "0.759950",
+          "1.059950"
+        ],
+        "answer": 0,
+        "explanation": "0.859950",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0088-D2-S2",
+        "stem": "The viscosity ratio is 1.07 and the density-speed ratio product is 0.859950. What is the chord scale factor?",
+        "options": [
+          "1.244258",
+          "1.344258",
+          "1.144258",
+          "1.444258"
+        ],
+        "answer": 0,
+        "explanation": "1.244258",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0088-D2",
+        "stem": "The reference chord is 1.48 m and the model scale factor is 1.244258. What is the model chord?",
+        "options": [
+          "1.8415 m",
+          "1.265 m",
+          "1.721 m",
+          "1.1895 m"
+        ],
+        "answer": 0,
+        "explanation": "1.48 × 1.244258 ≈ 1.8415 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0134-D2",
@@ -20732,7 +20918,57 @@
       0.0
     ],
     "legacy_id": "TA1-0116",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0116-D2-S1",
+        "stem": "The density ratio is 0.75 and the speed ratio is 1.19. What is their product?",
+        "options": [
+          "0.892500",
+          "0.992500",
+          "0.792500",
+          "1.092500"
+        ],
+        "answer": 0,
+        "explanation": "0.892500",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0116-D2-S2",
+        "stem": "The viscosity ratio is 1.08 and the density-speed ratio product is 0.892500. What is the chord scale factor?",
+        "options": [
+          "1.210084",
+          "1.310084",
+          "1.110084",
+          "1.410084"
+        ],
+        "answer": 0,
+        "explanation": "1.210084",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0116-D2",
+        "stem": "The reference chord is 1.56 m and the model scale factor is 1.210084. What is the model chord?",
+        "options": [
+          "1.8877 m",
+          "1.3109 m",
+          "1.7479 m",
+          "1.2892 m"
+        ],
+        "answer": 0,
+        "explanation": "1.56 × 1.210084 ≈ 1.8877 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0230-D2",
@@ -22860,7 +23096,57 @@
       0.0
     ],
     "legacy_id": "TA1-0174",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0174-D2-S1",
+        "stem": "The density ratio is 0.765 and the speed ratio is 1.21. What is their product?",
+        "options": [
+          "0.925650",
+          "1.025650",
+          "0.825650",
+          "1.125650"
+        ],
+        "answer": 0,
+        "explanation": "0.925650",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0174-D2-S2",
+        "stem": "The viscosity ratio is 1.09 and the density-speed ratio product is 0.925650. What is the chord scale factor?",
+        "options": [
+          "1.177551",
+          "1.277551",
+          "1.077551",
+          "1.377551"
+        ],
+        "answer": 0,
+        "explanation": "1.177551",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0174-D2",
+        "stem": "The reference chord is 1.64 m and the model scale factor is 1.177551. What is the model chord?",
+        "options": [
+          "1.3554 m",
+          "1.7717 m",
+          "1.3927 m",
+          "1.9312 m"
+        ],
+        "answer": 3,
+        "explanation": "1.64 × 1.177551 ≈ 1.9312 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0335-D2",
@@ -24894,7 +25180,57 @@
       0.0
     ],
     "legacy_id": "TA1-0261",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0261-D2-S1",
+        "stem": "The density ratio is 0.78 and the speed ratio is 1.23. What is their product?",
+        "options": [
+          "0.959400",
+          "1.059400",
+          "0.859400",
+          "1.159400"
+        ],
+        "answer": 0,
+        "explanation": "0.959400",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0261-D2-S2",
+        "stem": "The viscosity ratio is 1.1 and the density-speed ratio product is 0.959400. What is the chord scale factor?",
+        "options": [
+          "1.146550",
+          "1.246550",
+          "1.046550",
+          "1.346550"
+        ],
+        "answer": 0,
+        "explanation": "1.146550",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0261-D2",
+        "stem": "The reference chord is 1.72 m and the model scale factor is 1.146550. What is the model chord?",
+        "options": [
+          "1.7928 m",
+          "1.5002 m",
+          "1.9721 m",
+          "1.3984 m"
+        ],
+        "answer": 2,
+        "explanation": "1.72 × 1.146550 ≈ 1.9721 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0336-D2",
@@ -26894,7 +27230,57 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0368",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0368-D2-S1",
+        "stem": "The density ratio is 0.795 and the speed ratio is 1.25. What is their product?",
+        "options": [
+          "0.993750",
+          "1.093750",
+          "0.893750",
+          "1.193750"
+        ],
+        "answer": 0,
+        "explanation": "0.993750",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0368-D2-S2",
+        "stem": "The viscosity ratio is 1.11 and the density-speed ratio product is 0.993750. What is the chord scale factor?",
+        "options": [
+          "1.116981",
+          "1.216981",
+          "1.016981",
+          "1.316981"
+        ],
+        "answer": 0,
+        "explanation": "1.116981",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0368-D2",
+        "stem": "The reference chord is 1.8 m and the model scale factor is 1.116981. What is the model chord?",
+        "options": [
+          "1.44 m",
+          "2.0106 m",
+          "1.8113 m",
+          "1.6115 m"
+        ],
+        "answer": 1,
+        "explanation": "1.8 × 1.116981 ≈ 2.0106 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0381-D2",
@@ -28917,7 +29303,57 @@
       0.0
     ],
     "legacy_id": "TA1-0428",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0428-D2-S1",
+        "stem": "The density ratio is 0.81 and the speed ratio is 1.27. What is their product?",
+        "options": [
+          "1.028700",
+          "1.128700",
+          "0.928700",
+          "1.228700"
+        ],
+        "answer": 0,
+        "explanation": "1.028700",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0428-D2-S2",
+        "stem": "The viscosity ratio is 1.12 and the density-speed ratio product is 1.028700. What is the chord scale factor?",
+        "options": [
+          "1.088753",
+          "1.188753",
+          "0.988753",
+          "1.288753"
+        ],
+        "answer": 0,
+        "explanation": "1.088753",
+        "formula_hint": {
+          "latex": "k=\\frac{\\mu_r}{\\rho_r V_r}",
+          "prerequisite": "REYNOLDS-SCALE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0428-D2",
+        "stem": "The reference chord is 1.88 m and the model scale factor is 1.088753. What is the model chord?",
+        "options": [
+          "1.4803 m",
+          "2.0469 m",
+          "1.7267 m",
+          "1.8275 m"
+        ],
+        "answer": 1,
+        "explanation": "1.88 × 1.088753 ≈ 2.0469 m.",
+        "formula_hint": {
+          "latex": "c_2=c_1 k",
+          "prerequisite": "REYNOLDS-CHORD-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0485-D2",

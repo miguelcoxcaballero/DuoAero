@@ -2084,8 +2084,27 @@
           "EX-2019-10-23-14",
           "EX-2019-10-23-15",
           "TA1-0561",
+          "TA1-0054-D2"
+        ],
+        "name": "Potential flow, boundary layer and Reynolds number · Lesson 1"
+      },
+      {
+        "id": "2.4-9-point-0-lesson-1",
+        "ids": [
+          "TA1-0088-D2",
+          "TA1-0116-D2",
+          "TA1-0174-D2",
+          "TA1-0261-D2",
           "TA1-0096",
-          "TA1-0628",
+          "TA1-0628"
+        ],
+        "name": "Potential flow, boundary layer and Reynolds number · Lesson 2"
+      },
+      {
+        "id": "2.4-9-point-0-lesson-2",
+        "ids": [
+          "TA1-0368-D2",
+          "TA1-0428-D2",
           "TA1-0281",
           "TA1-0313",
           "TA1-0705",
@@ -2093,16 +2112,9 @@
           "TA1-0781",
           "TH-2026-AERO-24-1",
           "TA1-0147",
-          "TA1-0533",
-          "TA1-0054-D2",
-          "TA1-0088-D2",
-          "TA1-0116-D2",
-          "TA1-0174-D2",
-          "TA1-0261-D2",
-          "TA1-0368-D2",
-          "TA1-0428-D2"
+          "TA1-0533"
         ],
-        "name": "Potential flow, boundary layer and Reynolds number · Lesson 1"
+        "name": "Potential flow, boundary layer and Reynolds number · Lesson 3"
       }
     ]
   },

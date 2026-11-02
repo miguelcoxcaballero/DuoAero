@@ -225,5 +225,31 @@
       "TA1-0718-D3",
       "TA1-0851-D3"
     ]
+  },
+  "2.4-9-point-0-lesson-1": {
+    "sourceLesson": "2.4-9-point-0-lesson-0",
+    "requiredQuestions": [
+      "TA1-0088-D2",
+      "TA1-0116-D2",
+      "TA1-0174-D2",
+      "TA1-0261-D2",
+      "TA1-0096",
+      "TA1-0628"
+    ]
+  },
+  "2.4-9-point-0-lesson-2": {
+    "sourceLesson": "2.4-9-point-0-lesson-0",
+    "requiredQuestions": [
+      "TA1-0368-D2",
+      "TA1-0428-D2",
+      "TA1-0281",
+      "TA1-0313",
+      "TA1-0705",
+      "TA1-0525",
+      "TA1-0781",
+      "TH-2026-AERO-24-1",
+      "TA1-0147",
+      "TA1-0533"
+    ]
   }
 }

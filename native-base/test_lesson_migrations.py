@@ -8,13 +8,13 @@ bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_t
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lessons = {lesson['id']: lesson for node in plan for lesson in node['lessons']}
 migrations = json.loads((root/'native-base/lesson-migrations.json').read_text())
-assert len(lessons) == 98 and len(migrations) == 19
+assert len(lessons) == 100 and len(migrations) == 21
 for target, migration in migrations.items():
     source = migration['sourceLesson']
     required = migration['requiredQuestions']
     target_node,_,target_index = target.rpartition('-lesson-')
     source_node,_,source_index = source.rpartition('-lesson-')
-    assert ((target_node == source_node and int(target_index) >= 2 and int(source_index) < 2) or (target == '2.1-4-point-0-lesson-1' and source == '2.1-5-point-1-lesson-0'))
+    assert ((target_node == source_node and int(target_index) >= 1 and int(source_index) < int(target_index)) or (target == '2.1-4-point-0-lesson-1' and source == '2.1-5-point-1-lesson-0'))
     assert required == lessons[target]['ids'] and len(required) == len(set(required))
     # A new 2.0 completion of the shorter source lesson must never award
     # completion of a new, not-yet-played lesson.
@@ -62,4 +62,4 @@ assert 'TA1-0150-F1' not in lessons['2.5-5-point-0-lesson-0']['ids']
 assert 'TA1-0150-F1' in lessons['2.5-5-point-0-lesson-1']['ids']
 assert 'TA1-0031-F1' not in lessons['2.4-11-point-0-lesson-0']['ids']
 assert 'TA1-0031-F1' in lessons['2.4-11-point-0-lesson-1']['ids']
-print('PASS: 98 lessons have 10–20 native exercises; nineteen path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
+print('PASS: 100 lessons have 10–20 native exercises; twenty-one path-only credits require exact historical coverage. Android UI and persistence remain unverified.')

@@ -745,6 +745,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_PAYLOAD_STEPS_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0083-D2']],teach_words=True)
   assert len(mixed)==18
+ if os.environ.get('DUOAERO_REYNOLDS_STEPS_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0054-D2'],by_id['TA1-0088-D2']],teach_words=True)
+  assert len(mixed)==18
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
