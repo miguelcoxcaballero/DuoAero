@@ -54,6 +54,26 @@ public final class ModelProbe extends Instrumentation {
     Object model=decode.invoke(json,c.getClass().getMethod("serializer").invoke(c),responses[i]);
     if(!model.getClass().getName().equals(types[i]))throw new AssertionError("Invalid local optional-feature response");
    }
+   // Check both boolean values through the actual legacy availability
+   // converter: accepting JSON alone must not be confused with reading the
+   // correct field or proving any end-of-lesson speedup.
+   Class<?> availability=Class.forName("pp2",true,loader);
+   Object converter=availability.getField("b").get(null);
+   Class<?> reader=Class.forName("com.google.gson.stream.JsonReader",true,loader);
+   Method parse=converter.getClass().getMethod("parseExpected",reader);
+   for(boolean enforce:new boolean[]{false,true}){
+    Object input=reader.getConstructor(java.io.Reader.class).newInstance(new StringReader("{\"enforce_offline\":"+enforce+"}"));
+    Object decoded=parse.invoke(converter,input);
+    if(availability.getField("a").getBoolean(decoded)!=enforce)throw new AssertionError("Availability boolean ignored");
+   }
+   Method route=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getDeclaredMethod("isLocalAvailability",String.class,String.class,String.class);
+   route.setAccessible(true);
+   if(!(Boolean)route.invoke(null,"GET","zombie.duolingo.com","/1/android.json")
+      ||(Boolean)route.invoke(null,"POST","zombie.duolingo.com","/1/android.json")
+      ||(Boolean)route.invoke(null,"GET","example.com","/1/android.json")
+      ||(Boolean)route.invoke(null,"GET","zombie.duolingo.com","/1/android.json/other"))
+    throw new AssertionError("Availability routing is not scoped to the original check");
+   report.append("Original offline-availability response reads both boolean values.\n");
    report.append("Original optional-feature response models decoded.\n");
   }catch(Throwable error){failed++;report.append(android.util.Log.getStackTraceString(error));}
   report.append("Native model decoding: ").append(passed).append(" passed, ").append(failed).append(" failed.\n");

@@ -382,9 +382,22 @@ public final class NativeCourseBridge {
    return response;
   }
  }
+ static boolean isLocalAvailability(String method,String host,String path){
+  return "GET".equals(method)&&"zombie.duolingo.com".equals(host)
+       &&path!=null&&path.matches("/[0-9]+/android\\.json");
+ }
  static Object offlineResponse(Object request)throws Exception {
   int code=503;String payload="{}";
-  Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method");
+  Object url=call(request,"url");String path=(String)call(url,"encodedPath"),method=(String)call(request,"method"),host=(String)call(url,"host");
+  // The original zombie availability check uses a retrying request whose
+  // response model has one boolean field, enforce_offline. This local course
+  // does not depend on the original service being available. Returning its
+  // explicit disabled state avoids repeated 503s without affecting updates,
+  // Google/Drive, session submissions, or any other host or route.
+  if(localOnly&&hasLocalCourse()&&isLocalAvailability(method,host,path)){
+   if(captureLocalRequests)Log.i("DuoAeroNative","Synthetic availability check served locally: enforce_offline=false");
+   return jsonResponse(request,200,"{\"enforce_offline\":false}");
+  }
   // Original analytics sender oir.b accepts any2xx without reading a body.
   // This local course does not export Duolingo telemetry. Discard explicitly
   // instead of returning503 and triggering its tight event-batch retry loop.
