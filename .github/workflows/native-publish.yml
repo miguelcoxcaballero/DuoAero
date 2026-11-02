@@ -1,7 +1,7 @@
 name: Publish verified native APK artifact
 on:
   push:
-    branches: [codex/original-runtime-integration, main]
+    branches: [codex/original-runtime-integration, codex/integration-137, main]
     paths: ['.github/native-publish-request.json']
   workflow_dispatch:
 permissions:

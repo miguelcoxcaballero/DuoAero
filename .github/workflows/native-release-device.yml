@@ -1,7 +1,7 @@
 name: Verify signed production APK on Android
 on:
   push:
-    branches: [codex/original-runtime-integration, main]
+    branches: [codex/original-runtime-integration, codex/integration-137, main]
     paths: ['.github/native-smoke-request.json']
   workflow_dispatch:
 permissions:
@@ -21,18 +21,18 @@ jobs:
           import hashlib,json,urllib.request,subprocess,zipfile
           from pathlib import Path
           r=json.loads(Path('.github/native-smoke-request.json').read_text())
-          assert r['version']=='1.3.5' and r['versionCode']==10305
+          assert r['version']=='1.3.7' and r['versionCode']==10307
           assert isinstance(r['artifactId'],int) and r['artifactId']>0
           with open('signed-artifact.zip','wb') as output:
               subprocess.run(['gh','api',f"repos/miguelcoxcaballero/youtube-calma/actions/artifacts/{r['artifactId']}/zip"],stdout=output,check=True)
           with zipfile.ZipFile('signed-artifact.zip') as archive:
-              required={'DuoAero-1.3.5.apk','build-info.json','SHA256SUMS.txt'}
-              assert required<=set(archive.namelist())<=required|{'DuoAero-1.3.5.apk.idsig'},archive.namelist()
+              required={'DuoAero-1.3.7.apk','build-info.json','SHA256SUMS.txt'}
+              assert required<=set(archive.namelist())<=required|{'DuoAero-1.3.7.apk.idsig'},archive.namelist()
               info=json.loads(archive.read('build-info.json'))
               assert info['sha']==r['sourceSha'] and info['apkSha256']==r['apkSha256']
-              Path('new.apk').write_bytes(archive.read('DuoAero-1.3.5.apk'))
-          urllib.request.urlretrieve('https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.4/DuoAero-1.3.4.apk','old.apk')
-          for target,digest in [('old.apk','3c33dd60beda6301dbbe19110640717bbe885edbb7d529d577b24e8051d444a9'),('new.apk',r['apkSha256'])]:
+              Path('new.apk').write_bytes(archive.read('DuoAero-1.3.7.apk'))
+          urllib.request.urlretrieve('https://github.com/miguelcoxcaballero/DuoAero/releases/download/v1.3.0/DuoAero-1.3.0.apk','old.apk')
+          for target,digest in [('old.apk','c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a'),('new.apk',r['apkSha256'])]:
               assert hashlib.sha256(Path(target).read_bytes()).hexdigest()==digest
           PY
           tools="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"

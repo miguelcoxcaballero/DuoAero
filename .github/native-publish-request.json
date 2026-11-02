@@ -1,8 +1,8 @@
 {
-  "mode": "signed",
-  "version": "1.3.6",
-  "versionCode": 10306,
-  "artifactId": 13101247944,
-  "sourceSha": "46c861c7cfec95c1349ffd581ef1648f72f9222e",
-  "apkSha256": "522f96145a062fb71d603d3a455265ebd7d26f75eb91c738e829c53b3e33e91c"
+  "mode": "unsigned",
+  "version": "1.3.7",
+  "versionCode": 10307,
+  "artifactId": 13107285376,
+  "sourceSha": "6d05dd32b9fb94034b6ce5e8e1742f2a042b75ec",
+  "apkSha256": "a875be0a6e24fc63c4a5ccc88ba2bf23ae953d91f81332be6fd0a0dc0edf889f"
 }
