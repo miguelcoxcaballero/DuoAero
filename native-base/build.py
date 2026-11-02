@@ -123,7 +123,7 @@ token_anchor='    move/from16 v8, p7'
 assert token_method.count(token_anchor)==1
 token_hook=token_anchor+'''
 
-    const v0, 0x430c0000
+    const v0, 0x43200000
 
     invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F
 
