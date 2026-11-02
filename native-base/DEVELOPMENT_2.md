@@ -179,6 +179,10 @@ indicator visible throughout. Its 26.66 s emulator timing versus 28.84 s in a
 different run is insufficient to establish a speedup. A completion recording
 shows a visible wait on the emulator and the fallback Snoopy standing still on
 the final screen; physical-device behaviour remains unverified.
+Diagnostic run 41385394122 observed the original completion selector choosing
+both `LOVEY_DOVEY_DUO` and `SWOON_DUO`. The latter previously had a generic
+fallback. A distinct transparent swoon pose sequence is being tried on a
+separate branch, but its real-screen playback and smoothness are not accepted.
 Run 41384336207 tried schema-checked empty offline social responses and still
 completed and reopened the lesson. Its 40.34 s measurement includes emulator
 and screenshot overhead and does not show a speedup; this experiment has not
