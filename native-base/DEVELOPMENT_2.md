@@ -453,7 +453,10 @@ The speed-of-sound equation additionally has an experimental named base with
 a fixed squared exponent, using the original exponentiation figure. Adapter
 and ordering checks pass, and the modified Java helpers compile against the
 Android SDK with a stub course bridge. Full APK compilation, Android rendering
-and touch of that prototype remain acceptance requirements.
+and touch of that prototype remain acceptance requirements. Android run
+41519217015 graded the four controls but its screenshot showed an oversized
+exponent and a single-column word bank cutting off options. The exponent and
+labels were subsequently compacted; the revised layout still needs Android QA.
 The pressure ratio and three dynamic-pressure formulas now also have named
 equations. The atmosphere lesson split retains exact historical source proof;
 90 native lessons meet the local size check. Android migration and the new
