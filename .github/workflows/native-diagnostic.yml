@@ -267,6 +267,8 @@ jobs:
               ;;
             offline-fallbacks)
               python native-base/test_atmosphere.py
+              grep -Eq 'Diagnostic skipped [1-9][0-9]* promotion-video prefetches' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
+              ! grep -q '/videos/promo/.*status=503' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
               grep -q 'friends-quests/potential-matches status=200' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
               grep -q 'messaging/get-messages/ status=200' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"
               ! grep -q 'friends-quests/potential-matches status=503' "${{ runner.temp }}/duoaero-evidence/atmosphere-log.txt"

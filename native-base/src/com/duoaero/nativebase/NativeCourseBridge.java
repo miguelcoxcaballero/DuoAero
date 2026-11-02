@@ -8,6 +8,17 @@ import java.util.*;
 
 /** Development-only schema probe. Never reads or records authentication headers. */
 public final class NativeCourseBridge {
+ /** Diagnostic only: stop original promotion-video prefetch for this local course. */
+ public static void diagnosticPromoPrefetch(java.util.ArrayList<?> videos){
+  if(!hasLocalCourse()||videos==null)return;
+  try{
+   Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+   try(java.io.InputStream marker=app.getAssets().open("duoaero/offline-social-diagnostic")){
+    int count=videos.size();videos.clear();
+    Log.i("DuoAeroNative","Diagnostic skipped "+count+" promotion-video prefetches");
+   }
+  }catch(Exception error){Log.d("DuoAeroNative","Promotion prefetch diagnostic unavailable",error);}
+ }
  public static volatile boolean localOnly = false;
  public static volatile boolean captureNativeFlows = false;
  // The local course marks a viewed formula as a miss only when checked.

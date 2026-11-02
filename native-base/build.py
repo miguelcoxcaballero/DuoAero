@@ -176,7 +176,14 @@ runtime_log_text=runtime_log_original.decode('utf-8').replace('\r\n','\n')
 runtime_log_anchor='.method public final f(Lcom/duolingo/core/log/LogOwner;ILjava/lang/String;Ljava/lang/Throwable;)V\n    .locals 1'
 assert runtime_log_text.count(runtime_log_anchor)==1
 runtime_log_hook=runtime_log_anchor+'\n\n    invoke-static {p1, p2, p4}, Lcom/duoaero/nativebase/NativeCourseBridge;->reportRuntimeFailure(Ljava/lang/Object;ILjava/lang/Throwable;)V'
+prefetch_source=SMALI/'smali/pu1.smali'
+prefetch_original=prefetch_source.read_bytes()
+prefetch_text=prefetch_original.decode('utf-8').replace('\r\n','\n')
+prefetch_anchor='    invoke-static/range {v11 .. v20}, Lcom/duolingo/data/ads/promotions/l3;->c(ZZZZZZZZZI)Ljava/util/ArrayList;\n\n    move-result-object v0'
+assert prefetch_text.count(prefetch_anchor)==1
+prefetch_hook=prefetch_anchor+'\n\n    invoke-static {v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->diagnosticPromoPrefetch(Ljava/util/ArrayList;)V'
 try:
+ prefetch_source.write_text(prefetch_text.replace(prefetch_anchor,prefetch_hook),encoding='utf-8')
  # The original secondary-process WebView suffix includes the PID. Recognize
  # our actual main process so OAuth storage survives a process restart.
  web_process_source.write_text(web_process_text.replace(web_process_anchor,web_process_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
@@ -188,6 +195,7 @@ try:
  package_source.write_text(package_text.replace(package_anchor,package_anchor.replace('"com.duolingo"','"'+package+'"')),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali',WORK/'classes.dex')
 finally:
+ prefetch_source.write_bytes(prefetch_original)
  web_process_source.write_bytes(web_process_original)
  runtime_log_source.write_bytes(runtime_log_original)
  bootstrap_source.write_bytes(bootstrap_original)
