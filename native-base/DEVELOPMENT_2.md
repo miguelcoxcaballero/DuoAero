@@ -390,7 +390,14 @@ warning and slide, and displayed the actual 1.3.7 update offer. This checks
 the released 1.3.0 catalog flow, not entry through the signed-in settings.
 Run 41465735190 then downloaded 1.3.7 and displayed Android's update
 confirmation; its detector missed that window, so the update was not accepted
-or installed. B remains empty and is the app default.
+or installed. With the detector corrected, run 41468559822 accepted Android's
+installer, observed package versionCode 10307 and verified a synthetic private
+file survived. This is an emulator upgrade to the published 1.3.7, not a test
+of a 2.0 APK or real-account data. B remains empty and is the app default.
+The manually dispatched `released-updater-e2e.yml` diagnostic can repeat this
+check for an expected channel-A version and code; it uses a rooted emulator,
+automates the A warning and Android confirmation, and checks only a synthetic
+private-file marker, not a real profile or a physical device.
 
 ## Acceptance still required
 

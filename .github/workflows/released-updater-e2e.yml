@@ -1,0 +1,59 @@
+name: Test update from published 1.3.0
+on:
+  workflow_dispatch:
+    inputs:
+      expected_version:
+        description: Expected version from channel A
+        required: true
+        default: 1.3.7
+      expected_code:
+        description: Expected Android version code
+        required: true
+        default: "10307"
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DUOAERO_EXPECT_VERSION: ${{ inputs.expected_version }}
+      DUOAERO_EXPECT_CODE: ${{ inputs.expected_code }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set evidence directory
+        run: echo "DUOAERO_EVIDENCE=$RUNNER_TEMP/evidence" >> "$GITHUB_ENV"
+      - name: Download immutable signed 1.3.0
+        run: |
+          mkdir -p "$DUOAERO_EVIDENCE" "$RUNNER_TEMP/release"
+          gh release download v1.3.0 --repo "$GITHUB_REPOSITORY" --pattern 'DuoAero-1.3.0.apk' --dir "$RUNNER_TEMP/release"
+          printf '%s  %s\n' c4c441cd49ca40e37fa6e27008f44a3479ff1fe87d276e9d201c66882bef916a "$RUNNER_TEMP/release/DuoAero-1.3.0.apk" | sha256sum -c -
+      - name: Run released updater
+        run: |
+          test -e /dev/kvm
+          sudo chmod 666 /dev/kvm
+          export ANDROID_AVD_HOME="$RUNNER_TEMP/duoaero-avd"
+          mkdir -p "$ANDROID_AVD_HOME"
+          export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager 'system-images;android-35;google_apis;x86_64'
+          echo no | avdmanager create avd --force --name duoaero --path "$ANDROID_AVD_HOME/duoaero.avd" --package 'system-images;android-35;google_apis;x86_64' --device pixel_2
+          emulator -avd duoaero -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > "$DUOAERO_EVIDENCE/emulator.txt" 2>&1 &
+          emulator_pid=$!
+          for attempt in $(seq 1 180); do
+            if ! kill -0 "$emulator_pid" 2>/dev/null; then cat "$DUOAERO_EVIDENCE/emulator.txt"; exit 1; fi
+            if [ "$(timeout 5 adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = 1 ]; then break; fi
+            sleep 2
+          done
+          test "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1
+          adb shell wm size 1440x3120
+          adb shell wm density 560
+          adb shell svc power stayon true
+          adb install --no-incremental "$RUNNER_TEMP/release/DuoAero-1.3.0.apk"
+          python native-base/test_released_updater.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: released-updater-evidence
+          path: ${{ runner.temp }}/evidence
