@@ -7,7 +7,7 @@ from runtime_config import ROOT, java
 
 plan = json.loads((ROOT / 'app/assets/lesson_plan.json').read_text())
 ids = [lesson['id'] for node in plan for lesson in node['lessons']]
-assert '2.1-5-point-0-lesson-0' in ids and len(ids) == 88
+assert '2.1-5-point-0-lesson-0' in ids and len(ids) == 89
 with tempfile.TemporaryDirectory() as folder:
     folder = Path(folder)
     runner = folder / 'Check.java'
@@ -24,4 +24,4 @@ public class Check {
                     str(ROOT / 'native-base/src/com/duoaero/nativebase/NativeSessionId.java'),
                     str(runner)], check=True)
     subprocess.run([str(java('java')), '-cp', str(folder), 'com.duoaero.nativebase.Check', *ids], check=True)
-print('PASS: all 88 lesson IDs and unsafe filename cases; Android submission still requires device acceptance.')
+print('PASS: all 89 lesson IDs and unsafe filename cases; Android submission still requires device acceptance.')

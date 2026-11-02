@@ -432,12 +432,23 @@ so smoothness cannot be established. This prototype is not integrated.
 ## Acceptance still required
 
 The current authored bank has 38 symbolic formula exercises with a word-first
-introduction; 24 still lack the separate exercise with all named quantities
+introduction; 19 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
 equations express a fraction with division symbols or put an exponent into a
 word tile; they still require layout work to preserve the original operators
 and exponents in place as requested.
+
+Flight time, Mach number and static temperature now have full named-quantity
+equations in addition to their verbal and symbolic exercises. Three conceptual
+questions were moved to the next existing lesson in their same topics to keep
+all lessons within 10–20 exercises; lesson IDs and the migration rules remain
+unchanged. Historical snapshots confirm those questions were present in the
+earlier lesson in each reviewed release. Local ordering, migration and progress
+tests pass; Android touch and layout acceptance is still pending. The two
+thrust formulas also have named equations. A third thrust lesson holds ten
+questions formerly in the second, with path credit limited to exact historical
+coverage and no new completion rewards; Android migration remains unverified.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names

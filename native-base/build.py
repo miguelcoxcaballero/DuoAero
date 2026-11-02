@@ -669,6 +669,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   formula_ids=('WIND-TIME-FORMULA','TA1-0107-D2-F2','TA1-0107-D2-F4')
   mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
   assert len(mixed)==12
+ if os.environ.get('DUOAERO_NAMED_THRUST_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['BOOK-V6-07-D1'],by_id['BOOK-V6-07-D2']],teach_words=True)
+  assert len(mixed)==8
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
