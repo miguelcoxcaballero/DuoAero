@@ -7076,7 +7076,34 @@
       "40 kN": "Incorrect: This omits CL."
     },
     "legacy_id": "TA1-0016",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "LIFT-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the lift formula",
+        "prefix": "L = q S",
+        "blocks": [
+          "C_L",
+          "C_D",
+          "M",
+          "V"
+        ],
+        "answer_blocks": [
+          "C_L"
+        ],
+        "formula_latex": "L=qSC_L",
+        "explanation": "L=qSC_L"
+      },
+      {
+        "id": "TA1-0016-F1",
+        "formula_hint": {
+          "latex": "L=qSC_L",
+          "prerequisite": "LIFT-FORMULA"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0326",
