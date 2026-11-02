@@ -6511,7 +6511,11 @@
       "0.25": "Incorrect: This inserts an unnecessary factor of one half."
     },
     "legacy_id": "TA1-0017",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "formula_hint": {
+      "latex": "\\frac{W}{S}=qC_L",
+      "prerequisite": "CABIN-WING-LOADING"
+    }
   },
   {
     "id": "TA1-0044-F1",
@@ -7841,7 +7845,11 @@
       "2.5 kN": "Incorrect: The momentum-thrust formula has no factor of one half."
     },
     "legacy_id": "TA1-0069",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "formula_hint": {
+      "latex": "T=\\dot m(V_e-V_0)",
+      "prerequisite": "BOOK-V6-07-D1"
+    }
   },
   {
     "id": "TA1-0150-F1",

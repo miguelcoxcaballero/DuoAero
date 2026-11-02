@@ -1,0 +1,30 @@
+"""Check the formula prerequisites and arithmetic for two direct examples."""
+import json
+from decimal import Decimal
+from pathlib import Path
+from course_adapter import lesson_questions
+from rich_question import choice_blob
+
+root=Path(__file__).resolve().parents[1]
+bank={q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
+plan=json.loads((root/'app/assets/lesson_plan.json').read_text())
+seen=set()
+expected={
+    'TA1-0069-F1':('BOOK-V6-07-D1',r'T=\dot m(V_e-V_0)','5 kN'),
+    'TA1-0017-F1':('CABIN-WING-LOADING',r'\frac{W}{S}=qC_L','0.50'),
+}
+for node in plan:
+    for lesson in node['lessons']:
+        for q in lesson_questions([bank[i] for i in lesson['ids']],teach_words=True):
+            if q['id'] in expected:
+                prerequisite,latex,answer=expected[q['id']]
+                assert prerequisite in seen
+                assert q['formula_hint']=={'latex':latex,'prerequisite':prerequisite}
+                assert q['options'][q['answer']]==answer
+                blob=json.loads(choice_blob(q,include_formula_hint=True)['challengeBlob'])
+                assert blob['hint']['explanation']['value']==latex
+            seen.add(q['id'])
+assert set(expected)<=seen
+assert Decimal(50)*100/1000==5
+assert Decimal(60000)/120000==Decimal('.50')
+print('PASS: two direct calculations have prior formula hints and checked answers; Android hint/retry remains unverified.')
