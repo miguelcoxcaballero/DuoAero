@@ -54,6 +54,11 @@ occurrences converted; this is not a complete LaTeX audit. The `sqrt-mixed`
 Android diagnostic must render and grade a representative original question
 before device acceptance is claimed. The later denominator case such as
 `1/sqrt(CLmax)` is covered by a host assertion, not yet Android UI evidence.
+Reviewed aliases for approach speed, stall speed, minimum-drag speed and
+maximum lift coefficient now render with subscripts, including an assignment
+such as `Vapp=1.3Vs`. Local comparisons found 189 source stem/explanation
+fields with changed notation; the corresponding Android diagnostic remains
+pending and this does not establish a complete notation audit.
 
 A four-slot named ideal-gas exercise is under test: pressure, density, gas
 constant and temperature occupy their positions with the original equality
