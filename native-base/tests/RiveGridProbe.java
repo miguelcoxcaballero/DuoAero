@@ -15,7 +15,10 @@ public final class RiveGridProbe extends Instrumentation {
  public void onStart(){
   Bundle result=new Bundle();StringBuilder report=new StringBuilder();
   try {
-   Activity activity=startActivitySync(new Intent().setClassName(getTargetContext().getPackageName(),"com.duolingo.splash.LaunchActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+   // The launch activity owns a HomeFragment and cannot have its content
+   // replaced while that fragment is initializing. Use the simple updater
+   // activity as a diagnostic host instead; the app's Rive runtime is shared.
+   Activity activity=startActivitySync(new Intent().setClassName(getTargetContext().getPackageName(),"com.inhouse.services.updater.UpdateActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
    ClassLoader loader=getTargetContext().getClassLoader();
    Class<?> rive=Class.forName("app.rive.runtime.kotlin.core.Rive",true,loader);
    Class<?> renderer=Class.forName("app.rive.runtime.kotlin.core.RendererType",true,loader);
