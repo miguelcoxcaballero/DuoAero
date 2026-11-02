@@ -12,7 +12,7 @@ from pathlib import Path
 from rich_question import choice_blob, difficulty_stars, content, text_latex
 from math_notation import parts as notation_parts
 from formula_exercises import formula_challenge
-from formula_words import word_introduction, named_equation, choices_in_stable_order, INLINE_SYMBOLS
+from formula_words import word_introduction, named_equation, named_equation_all, choices_in_stable_order, INLINE_SYMBOLS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,11 +34,17 @@ def challenge(question):
         adapter = dict(question, prefix='')
         result = formula_challenge(adapter, mathematical=False)
         segments = []
-        if question['before_latex']:
-            segments.append('duoaero-math:formula:' + r'\textstyle ' + question['before_latex'])
-        segments.append('___')
-        if question['after_latex']:
-            segments.append('duoaero-math:formula:' + r'\textstyle ' + question['after_latex'])
+        if 'inline_latex' in question:
+            for part in question['inline_latex']:
+                segments.append('___' if part == '___' else 'duoaero-math:formula:' + r'\textstyle ' + part)
+            if segments.count('___') != len(question['answer_blocks']):
+                raise ValueError('Named equation slots do not match answers: ' + question['id'])
+        else:
+            if question['before_latex']:
+                segments.append('duoaero-math:formula:' + r'\textstyle ' + question['before_latex'])
+            segments.append('___')
+            if question['after_latex']:
+                segments.append('duoaero-math:formula:' + r'\textstyle ' + question['after_latex'])
         payload = base64.b64encode(json.dumps(segments, ensure_ascii=False).encode('utf-8')).decode('ascii')
         prompt = result['promptInputChallenge']['prompt']
         prompt['body'] = {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {
@@ -130,7 +136,9 @@ def lesson_questions(questions, expand_steps=True, teach_words=False):
             expanded.append(part)
     if teach_words:
         expanded = [part for q in expanded for part in
-                    ([word_introduction(q), named_equation(q), q] if q['type'] == 'formula_blocks' else [q])]
+                    ([word_introduction(q), named_equation(q)]
+                     + ([named_equation_all(q)] if q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2') else [])
+                     + [q] if q['type'] == 'formula_blocks' else [q])]
     ids = [q['id'] for q in expanded]
     if len(ids) != len(set(ids)):
         raise ValueError('Duplicate native challenge IDs in lesson')

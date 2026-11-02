@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -294,7 +294,7 @@ jobs:
               ;;
             formula-words-touch)
               run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 12 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
+              grep -q 'All 13 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
               ;;
             wind-mixed-hint)
               run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

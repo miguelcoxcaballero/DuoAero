@@ -22,7 +22,7 @@ FORMULAS = {
  'aspect': ('Wing aspect ratio AR equals wingspan b squared divided by wing ___ S.', 'area', ['mass', 'density', 'pressure']),
  'taper': ('Wing taper ratio lambda equals tip chord c-tip divided by root ___ c-root.', 'chord', ['pressure', 'mass', 'density']),
  'hydraulic': ('Hydraulic power P-hyd equals pressure difference delta-p times volume ___ rate Q.', 'flow', ['mass', 'temperature', 'pressure']),
- 'dynamic_pressure': ('Dynamic pressure q equals one half times density rho times airspeed V ___.', 'squared', ['cubed', 'halved', 'doubled']),
+ 'dynamic_pressure': ('Dynamic pressure q equals one half times airspeed V squared times ___ rho.', 'density', ['pressure', 'area', 'mass']),
  'induced_drag': ('Induced drag coefficient CDi = lift coefficient CL squared / (pi times efficiency e times aspect ___ AR).', 'ratio', ['mass', 'pressure', 'temperature']),
  'thrust': ('Ideal thrust T equals mass flow rate m-dot times the difference between exhaust speed Ve and flight ___ V0.', 'speed', ['mass', 'pressure', 'density']),
  'kinetic_temperature': ('Temperature rise delta-T equals speed V squared divided by twice specific heat cp at constant ___.', 'pressure', ['area', 'mass', 'velocity']),
@@ -83,7 +83,7 @@ EQUATION_NAMES = {
  'taper':('taper ratio',['aspect ratio','wingspan','area']),
  'hydraulic':('flow rate',['hydraulic power','pressure','area']),
  'dynamic_pressure':('density',['dynamic pressure','airspeed','wing area']),
- 'induced_drag':('induced drag',['lift coefficient','aspect ratio','efficiency']),
+ 'induced_drag':('induced drag coefficient',['lift coefficient','aspect ratio','efficiency']),
  'thrust':('flight speed',['mass flow','exhaust speed','pressure']),
  'kinetic_temperature':('temperature rise',['speed','specific heat','pressure']),
  'static_temperature':('temperature rise',['total temperature','speed','density']),
@@ -144,3 +144,24 @@ def named_equation(formula):
             'before_latex':before, 'after_latex':after, 'missing_latex':missing, 'formula_latex':equation,
             'answer_blocks':[answer], 'blocks':choices_in_stable_order(formula['id']+'-NAMED',[answer,*distractors]),
             'explanation':equation}
+
+
+def named_equation_all(formula):
+    """Practice the named operands of a reviewed equation in their places.
+
+    This initial multi-slot exercise is intentionally limited to the ideal-gas
+    equation. Other expressions need individual review, especially operands
+    nested inside fractions and exponents.
+    """
+    if KINDS[formula['id']] != 'gas' or formula['formula_latex'] != r'p=\rho R_aT':
+        raise ValueError('Multi-slot equation is not reviewed: ' + formula['id'])
+    answers = ['pressure', 'density', 'gas constant', 'temperature']
+    distractors = ['velocity', 'altitude', 'mass', 'area']
+    return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
+            'difficulty':formula['difficulty'],
+            'stem':'Complete the formula with quantities',
+            'inline_latex':['___', '=', '___', '___', '___'],
+            'formula_latex':formula['formula_latex'],
+            'answer_blocks':answers,
+            'blocks':choices_in_stable_order(formula['id']+'-NAMED-ALL',answers+distractors),
+            'explanation':formula['formula_latex']}

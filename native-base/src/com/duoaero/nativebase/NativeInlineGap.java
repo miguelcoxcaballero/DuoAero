@@ -33,10 +33,30 @@ public final class NativeInlineGap {
        Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
    Method slot=Class.forName("fz0",true,l).getMethod("d",List.class,callback,callback,boolean.class,boolean.class,mod,float.class,boolean.class,state,o18,int.class);
    Class<?> irh=Class.forName("irh",true,l);
+   int gaps=0;for(int i=0;i<words.length();i++)if("___".equals(words.getString(i)))gaps++;
+   final int gapCount=gaps;
+   // The original BuildSpace composable lays out the whole list. For several
+   // separated inline holes, invoke its original per-slot composable with the
+   // full list and real slot index, preserving drag/drop and selection IDs.
+   final Object originalSlot;
+   final Method renderSlot;
+   if(gapCount>1){
+    if(slots.size()!=gapCount)throw new IllegalStateException("Inline slot count mismatch");
+    Class<?> gp=Class.forName("gp3",true,l);
+    originalSlot=gp.getConstructor(List.class,boolean.class,callback,callback,boolean.class,float.class,boolean.class,state)
+     .newInstance(slots,enabled,onSelect,onDrop,checked,width,measured,interaction);
+    renderSlot=gp.getMethod("invoke",Object.class,Object.class,Object.class,Object.class);
+   }else{originalSlot=null;renderSlot=null;}
    Object function=Proxy.newProxyInstance(l,new Class<?>[]{irh},(proxy,method,args)->{
     if(method.getName().equals("invoke")){
      int index=((Integer)args[1]).intValue();Object composition=args[2];String part=words.getString(index);
-     if(part.equals("___"))slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
+     if(part.equals("___")){
+      if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
+      else{
+       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(words.getString(i)))ordinal++;
+       renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,args[3]);
+      }
+     }
      else{
       String spoken;
       if(part.startsWith("duoaero-math:")){

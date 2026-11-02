@@ -22,10 +22,17 @@ for node in plan:
         for i, q in enumerate(expanded):
             if q['type'] != 'formula_blocks':
                 continue
-            assert i > 1 and expanded[i-2]['id'] == q['id']+'-WORDS'
-            assert expanded[i-1]['id'] == q['id']+'-NAMED'
-            words = expanded[i-2]
-            named = expanded[i-1]
+            multi = q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2')
+            offset = 1 if multi else 0
+            assert i > 1+offset and expanded[i-2-offset]['id'] == q['id']+'-WORDS'
+            assert expanded[i-1-offset]['id'] == q['id']+'-NAMED'
+            words = expanded[i-2-offset]
+            named = expanded[i-1-offset]
+            if multi:
+                all_named = expanded[i-1]
+                assert all_named['id'] == q['id']+'-NAMED-ALL'
+                assert all_named['answer_blocks'] == ['pressure','density','gas constant','temperature']
+                assert all_named['inline_latex'] == ['___','=','___','___','___']
             assert words['stem'].count('___') == 1
             assert len(set(words['answer']+words['distractors'])) == 4
             assert words['answer'][0] in words['explanation']
@@ -36,6 +43,12 @@ for node in plan:
         actual = session(source, lesson['id'], teach_words=True)['challenges']
         assert [q['id'] for q in actual] == ids
         for q in actual:
+            if q['id'] == 'BOOK-V6-01-D1-NAMED-ALL':
+                body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+                marker='duoaero-latex:duoaero-gap:'
+                parts=json.loads(base64.b64decode(body[len(marker):]).decode())
+                assert parts == ['___',r'duoaero-math:formula:\textstyle =','___','___','___']
+                assert q['promptInputChallenge']['input']['expressionBuildInput']['slotCount'] == 4
             if q['id'] == 'BOOK-V6-01-D1-NAMED':
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
                 marker='duoaero-latex:duoaero-gap:'
@@ -51,4 +64,13 @@ for node in plan:
             assert r'duoaero-math:R-air:R_a' in parts
             assert any(part.startswith('duoaero-math:T:T') for part in parts)
 assert seen == set(KINDS), (sorted(seen-set(KINDS)), sorted(set(KINDS)-seen))
+# The words must name the physical quantity represented by each symbol, not
+# conflate a force with its dimensionless coefficient or an operand with an
+# operation. Check both the named equation and the preliminary word exercise.
+for q in lesson_questions(list(bank.values()), teach_words=True):
+    if q['id'] == 'BOOK-V6-06-D1-NAMED':
+        assert q['missing_latex'] == r'C_{D,i}'
+        assert q['answer_blocks'] == ['induced drag coefficient']
+    if q['id'] == 'BOOK-V6-02-D1-WORDS':
+        assert q['answer'] == ['density'] and 'rho' in q['stem']
 print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')

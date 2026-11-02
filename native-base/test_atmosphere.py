@@ -110,7 +110,7 @@ try:
             needle=content(parts[answer],q['options'][answer]);resource='com.duolingo:id/mathCard'
         elif kind=='gap':needle=q['answer'][0];resource=None
         elif kind in ('formula_blocks','formula_named'):
-            assert len(q['answer_blocks'])==1
+            assert q['answer_blocks']
             needle=q['answer_blocks'][0];resource=None
         else:raise AssertionError('Unsupported atmosphere question '+kind)
         tree=wait('atmosphere-question-'+str(index),lambda t:bool(matching(t,needle,resource)),60,True)
@@ -136,6 +136,14 @@ try:
         # touch only while the Check action remains disabled.
         time.sleep(1)
         choose(candidates[-1],kind,needle)
+        if kind in ('formula_blocks','formula_named'):
+            for next_needle in q['answer_blocks'][1:]:
+                tree=wait('atmosphere-next-token-'+str(index),lambda t:bool(matching(t,next_needle)),30)
+                candidates=[n for n in matching(tree,next_needle) if n.get('text','')==next_needle or n.get('content-desc','')==next_needle]
+                clickable=[n for n in candidates if n.get('clickable')=='true']
+                if clickable:candidates=clickable
+                assert candidates,'No selectable formula token '+next_needle
+                choose(candidates[-1],kind,next_needle)
         for retry in range(3):
             try:
                 tree=wait('atmosphere-selected-'+str(index),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),10)
