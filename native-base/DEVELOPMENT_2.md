@@ -412,6 +412,10 @@ still shows Android's installer success dialog: a successful intent and process
 ID were insufficient evidence. The diagnostic now closes the installer, starts
 a fresh app process and requires a resumed DuoAero foreground activity; that
 stricter check must pass before claiming the updated app actually opens.
+Run 41512696327 ran the strict script: after the installation it cold-started
+the updated app and its inspected screenshot shows the Google welcome screen.
+This remains an emulator test with a synthetic file, not a real Google account
+or an update to the unfinished 2.0.
 
 The taper and fuel-fraction equations now also use two native word slots in a
 fraction, with a preceding verbal introduction. Android run 41469220414 graded
