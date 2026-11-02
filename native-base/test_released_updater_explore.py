@@ -4,8 +4,6 @@ from pathlib import Path
 out=Path(os.environ['DUOAERO_EVIDENCE']);out.mkdir(parents=True,exist_ok=True)
 def adb(*args): return subprocess.check_output(['adb',*args],timeout=45)
 def snapshot(name):
-    adb('shell','uiautomator','dump','/sdcard/window.xml')
-    (out/(name+'.xml')).write_bytes(adb('exec-out','cat','/sdcard/window.xml'))
     (out/(name+'.png')).write_bytes(adb('exec-out','screencap','-p'))
 try:
     adb('shell','am','start','-W','-n','com.duoaero/com.duolingo.splash.LaunchActivity')
