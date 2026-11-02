@@ -500,6 +500,13 @@ controls and showed gamma correctly. Its exponent was too small; run
 aspect questions. No real account or path
 migration was exercised in these diagnostic sessions.
 
+Run 41527035707 exercised the direct axial-extension hint with the original
+controller. Its inspected captures show ΔL and the hint as mathematical text,
+then the question as a previous mistake at the end; the correct retry reached
+Claim XP. This used a diagnostic session and does not establish real-account
+persistence. The first attempt 41525477334 clicked before the feedback panel
+closed; the driver was changed to wait for actual answer controls.
+
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names
 are a review inventory: a resource name alone does not establish that its
