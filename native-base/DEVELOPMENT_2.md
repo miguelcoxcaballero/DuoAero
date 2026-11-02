@@ -432,7 +432,7 @@ so smoothness cannot be established. This prototype is not integrated.
 ## Acceptance still required
 
 The current authored bank has 38 symbolic formula exercises with a word-first
-introduction; 18 still lack the separate exercise with all named quantities
+introduction; 14 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
 equations express a fraction with division symbols or put an exponent into a
@@ -454,6 +454,16 @@ a fixed squared exponent, using the original exponentiation figure. Adapter
 and ordering checks pass, and the modified Java helpers compile against the
 Android SDK with a stub course bridge. Full APK compilation, Android rendering
 and touch of that prototype remain acceptance requirements.
+The pressure ratio and three dynamic-pressure formulas now also have named
+equations. The atmosphere lesson split retains exact historical source proof;
+90 native lessons meet the local size check. Android migration and the new
+equations are not yet accepted.
+
+Run 41517680035 graded all ten unsplit cabin-pressure problems and rendered
+the exponential as a power and fraction. Inspected screenshots show long
+stems clipped, and a separate p11 was not subscripted. These exercises still
+need to be broken into short, taught calculation steps; the p11 token fix has
+local tests but has not yet been visually checked in Android.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names

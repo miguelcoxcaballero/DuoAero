@@ -8,7 +8,7 @@ bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_t
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lessons = {lesson['id']: lesson for node in plan for lesson in node['lessons']}
 migrations = json.loads((root/'native-base/lesson-migrations.json').read_text())
-assert len(lessons) == 89 and len(migrations) == 10
+assert len(lessons) == 90 and len(migrations) == 11
 for target, migration in migrations.items():
     source = migration['sourceLesson']
     required = migration['requiredQuestions']
@@ -34,6 +34,7 @@ for source, target, moved in (
     ('2.1-3-point-0-lesson-0','2.1-3-point-0-lesson-1',['TA1-0886']),
     ('2.1-0-point-0-lesson-0','2.1-0-point-0-lesson-1',['TA1-0304','TA1-0497']),
     ('2.5-5-point-0-lesson-0','2.5-5-point-0-lesson-1',['TA1-0283-D2','TA1-0480-D2']),
+    ('2.1-5-point-0-lesson-1','2.1-5-point-0-lesson-2',['TA1-0307']),
 ):
     assert lessons[target]['ids'][:len(moved)] == moved
     assert not set(moved) & set(lessons[source]['ids'])
@@ -45,4 +46,4 @@ assert 'TA1-0053-F1' in lessons['2.1-0-point-0-lesson-1']['ids']
 for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
     snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
     assert 'TA1-0053-F1' in {q['id'] for q in snapshot['2.1-0-point-0-lesson-0']['challenges']}
-print('PASS: 89 lessons have 10–20 native exercises; ten path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
+print('PASS: 90 lessons have 10–20 native exercises; eleven path-only credits require exact historical coverage. Android UI and persistence remain unverified.')

@@ -251,7 +251,6 @@
           "TA1-0918",
           "BOOK-V6-01-D3",
           "TH-2026-OTHER-1",
-          "TA1-0307",
           "TA1-0402",
           "TA1-0439",
           "TA1-0777",
@@ -263,15 +262,22 @@
       {
         "id": "2.1-5-point-0-lesson-2",
         "ids": [
+          "TA1-0307",
           "TA1-0937",
           "TA1-0765",
           "BOOK-V6-01-D2",
-          "TA1-0144-D2",
           "TA1-0425-D2",
-          "TA1-0224-D2",
           "TA1-0445-D2"
         ],
         "name": "International Standard Atmosphere · 1 · Lesson 3"
+      },
+      {
+        "id": "2.1-5-point-0-lesson-3",
+        "ids": [
+          "TA1-0144-D2",
+          "TA1-0224-D2"
+        ],
+        "name": "Atmosphere · Lesson 4"
       }
     ]
   },

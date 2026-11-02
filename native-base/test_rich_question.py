@@ -217,6 +217,8 @@ assert symbol('m²') == r'm^{2}'
 assert symbol('exp(-Kh)') == r'e^{-Kh}'
 assert symbol('exp(-ln2)') == r'e^{-\ln 2}'
 assert parts('Use exp(-Kh).')[1] == {'latex': r'e^{-Kh}'}
+assert symbol('p11=22626') == r'p_{11}=22626'
+assert {'latex': r'p_{11}=22626'} in parts('where p11=22626 Pa')
 isa_exp = parts('Use p=p11 exp[-g(h-11000)/(RT)] above 11000 m.')
 assert {'latex': r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'} in isa_exp
 assert ''.join(p.get('text', '') for p in isa_exp) == 'Use  above 11000 m.'

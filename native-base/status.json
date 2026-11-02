@@ -9,7 +9,7 @@
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 288,
       "possible_calculations_without_authored_hints": 577,
-      "authored_formula_exercises_without_full_named_blocks": 18,
+      "authored_formula_exercises_without_full_named_blocks": 14,
       "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },
     "completed_test_examples": [
@@ -30,7 +30,8 @@
       "Android run 41512696327 directly opened the published 1.3.0 updater on a rooted emulator, opted in to A, installed 1.3.7, retained a synthetic private file and cold-started to the Google welcome. A 2.0 APK and real-account data were not tested.",
       "Android run 41464615993 graded all 11 controls in a staged column example; inspected screenshots show native named tiles above and below a fraction bar. Run 41467201483 passed this, the static Linus path and synthetic accounts together. Run 41471235112 graded a wrong fraction, displayed its correct LaTeX fraction, and retried it at lesson end; broader fractions remain unverified.",
       "Android runs 41469220414 and 41472025112 graded taper and fuel-fraction examples with native fraction bars; the clearer fuel label was visually reviewed. The Linus Rive prototype 41470392850 sampled a blink without double-eye artifact, but recording frame rate was insufficient to verify smoothness and it is not integrated.",
-      "Local checks cover full named equations for flight time, Mach number, static temperature, speed of sound and two thrust formulas. The fixed-exponent slot is experimental and lacks Android acceptance. Questions moved between lessons are documented against historical snapshots; the new thrust lesson uses exact path-only migration. Android layout, touch and migration remain pending."
+      "Local checks cover full named equations for flight time, Mach number, static temperature, speed of sound, pressure ratio, dynamic pressure and two thrust formulas. The fixed-exponent slot is experimental and lacks Android acceptance. Questions moved between lessons are documented against historical snapshots; new lessons use exact path-only migration. Android layout, touch and migration remain pending.",
+      "Android run 41517680035 graded ten unsplit cabin questions and rendered the exponential, but inspected screenshots show clipped stems and a literal p11. A local token fix exists; all ten need shorter calculation steps and further Android checks."
     ],
     "incomplete": [
       "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",

@@ -22,7 +22,7 @@ for qid in ids:
     assert second['formula_hint']['prerequisite']=='ISA-DYNAMIC'
     assert all(len(step['stem'])<160 and len(set(step['options']))==4 and step.get('rich_text') for step in (first,second))
 intro=lesson_questions([bank[ids[0]]],teach_words=True)
-assert [q['id'] for q in intro[:6]]==['ISA-DENSITY-WORDS','ISA-DENSITY-NAMED','ISA-DENSITY',
-                                      'ISA-DYNAMIC-WORDS','ISA-DYNAMIC-NAMED','ISA-DYNAMIC']
+assert [q['id'] for q in intro[:7]]==['ISA-DENSITY-WORDS','ISA-DENSITY-NAMED','ISA-DENSITY',
+                                      'ISA-DYNAMIC-WORDS','ISA-DYNAMIC-NAMED-ALL','ISA-DYNAMIC-NAMED','ISA-DYNAMIC']
 assert intro[2]['symbol_prerequisite'] and intro[2]['answer_blocks']==['ρ']
 print('PASS: seven density and dynamic-pressure calculations checked; both formulas precede the first; Android UI remains unverified.')

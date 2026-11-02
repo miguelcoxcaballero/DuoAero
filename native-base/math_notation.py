@@ -23,11 +23,11 @@ TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*(?:Vapp|Vstall|Vs|Vmd))?(?![A-Za-z0-9_]|\.\d)'
-    r'|(?:rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'|(?:p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
-    r'|(?:p|T|g|V|rho)[012]'
+    r'|p11|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
     r'|[A-Za-z]+\^(?:[+-]?\d+(?:\.\d+)?)'
@@ -55,14 +55,14 @@ def symbol(value):
         lhs = names.get(inequality.group(1), inequality.group(1))
         op = r'\geq ' if inequality.group(2) == '>=' else r'\leq '
         return lhs + op + inequality.group(3) + (r'V_s' if inequality.group(4) else '')
-    assignment = re.fullmatch(r'(rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
+    assignment = re.fullmatch(r'(p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
     if assignment:
         rhs = assignment.group(2)
         scientific = re.fullmatch(r'(.+)[eE]([+-]?\d+)', rhs)
         if scientific:
             rhs = scientific.group(1) + r'\times 10^{' + str(int(scientific.group(2))) + '}'
         return symbol(assignment.group(1)) + '=' + rhs
-    numeric = re.fullmatch(r'(rho|p|T|g|V)([012])', value)
+    numeric = re.fullmatch(r'(rho|p|T|g|V)(11|[012])', value)
     if numeric:
         return GREEK.get(numeric.group(1), numeric.group(1)) + '_{' + numeric.group(2) + '}'
     if value == 'RE':
