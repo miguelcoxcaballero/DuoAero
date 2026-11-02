@@ -236,6 +236,8 @@ A clipped warm-day approach-speed source is now staged as 18 controls,
 with named and symbolic formula prerequisites. Android run 41390434067 graded
 all 18 original controls at S24 proportions, dark mode and 1.15 font scale;
 run 41390029749 also passed the historical migration with synthetic accounts.
+The combined lapse, offset and approach course repeated both checks successfully
+in Android run 41391868945, before the later icon and operator patches.
 The operator-grouping fix is integrated and the combined approach case is
 being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
 Other long problems and actual-device tests remain open.
