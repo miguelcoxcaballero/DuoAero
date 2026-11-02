@@ -259,7 +259,9 @@ calculations after named and symbolic formula exercises. Run 41393361188
 graded all 22 staged controls and passed account migration on the emulator.
 The division sign was left at a line end in an earlier screenshot; run
 41394563874 graded all 22 controls with the sign grouped beside its operand.
-These checks do not cover every numerical problem.
+Android run 41394920139 also passed the combined 85-lesson account,
+temperature/lift and 19-step approach diagnostics before the later splash and
+character changes. These checks do not cover every numerical problem.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly
