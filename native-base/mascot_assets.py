@@ -176,7 +176,7 @@ def rive(data,name,png,width,height):
     starry=('overjoyed',('StarryEyedDuo_intro_animation','StarryEyedDuo_Loop_animation'))
     hero=('hero',('BuffDuo_Intro_Animation','BuffDuo_IdleLoop'))
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
-    swoon=('swoon',('SwoonDuo_intro_animation','SwoonDuo_Loop_animation'))
+    swoon=('swoon',('SwoonDuo_intro_animation','SwoonDuo_Loop_animation','SwoonDuo_Loop_animation_Blink'))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
     foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
     zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))

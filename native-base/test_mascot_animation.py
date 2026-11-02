@@ -47,6 +47,7 @@ with zipfile.ZipFile(APK) as original:
             ('duo_perfect_buff_03', 'lc_character_artboard', 'BuffDuo_IdleLoop', 61, 183),
             ('duo_normal_lovey_dovey_03', 'lc_character_artboard', 'LoveyDoveyDuo_Loop_animation', 120, 240),
             ('duo_normal_swoon_03', 'lc_character_artboard', 'SwoonDuo_Loop_animation', 120, 240),
+            ('duo_normal_swoon_03', 'lc_character_artboard', 'SwoonDuo_Loop_animation_Blink', 60, 280),
             ('duo_perfect_chefs_kiss_03', 'lc_character_artboard', 'ChefsKissDuo_Loop_animation', 120, 240),
             ('duo_normal_foam_finger_02', 'lc_character_artboard', 'FoamFingerDuo_Loop_animation', 120, 240),
             ('duo_zen_04', '36_zen_duo', 'duo_meditate_loop', 69, 171),
