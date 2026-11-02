@@ -262,6 +262,20 @@ jobs:
               python native-base/test_linus_grid.py
               python native-base/test_path_linus.py
               grep -q 'original Structures path opened' "$RUNNER_TEMP/duoaero-evidence/linus-path-result.txt"
+              adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/linus-rive-ready
+              adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.RiveGridProbe > "$RUNNER_TEMP/duoaero-evidence/linus-rive-probe.txt" &
+              rive_probe_pid=$!
+              ready=false
+              for attempt in $(seq 1 90); do
+                if adb shell test -f /sdcard/Android/data/com.duoaero.nativebase/files/linus-rive-ready; then ready=true; break; fi
+                if ! kill -0 "$rive_probe_pid" 2>/dev/null; then break; fi
+                sleep 1
+              done
+              if [ "$ready" != true ]; then wait "$rive_probe_pid" || true; cat "$RUNNER_TEMP/duoaero-evidence/linus-rive-probe.txt"; exit 1; fi
+              adb shell screenrecord --bit-rate 1000000 --time-limit 9 /sdcard/linus-rive.mp4
+              adb pull /sdcard/linus-rive.mp4 "$RUNNER_TEMP/duoaero-evidence/linus-rive.mp4"
+              wait "$rive_probe_pid"
+              grep -q 'RIVE_GRID_READY=true' "$RUNNER_TEMP/duoaero-evidence/linus-rive-probe.txt"
               ;;
             atmosphere)
               python native-base/test_atmosphere.py
