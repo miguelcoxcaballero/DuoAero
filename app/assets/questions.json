@@ -19429,7 +19429,95 @@
       0.0
     ],
     "legacy_id": "TA1-0445",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0445-D2-S1",
+        "stem": "At 11 km, pressure is 22.6258 kPa. At 12.4 km, it is 0.80187 times that value. What is the pressure at 12.4 km?",
+        "options": [
+          "28.22 kPa",
+          "4.49 kPa",
+          "22.63 kPa",
+          "18.14 kPa"
+        ],
+        "answer": 3,
+        "explanation": "Multiply the base pressure by the decay factor: 22.6258 × 0.80187 ≈ 18.14 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.6258\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 12.4 km, the pressure is "
+            },
+            {
+              "latex": "0.80187\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 12.4 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.6258\\times0.80187\\approx18.14\\,\\mathrm{kPa}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0445-D2",
+        "stem": "At 8.8 km, pressure is 31.66 kPa. At 12.4 km, pressure is 18.14 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "1.000",
+          "1.745",
+          "0.573",
+          "0.802"
+        ],
+        "answer": 2,
+        "explanation": "Divide the second pressure by the first: 18.14 / 31.66 ≈ 0.573.",
+        "formula_hint": {
+          "latex": "r=\\frac{p_B}{p_A}",
+          "prerequisite": "ISA-PRESSURE-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 8.8 km, "
+            },
+            {
+              "latex": "p_A=31.66\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 12.4 km, "
+            },
+            {
+              "latex": "p_B=18.14\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". What is the pressure ratio "
+            },
+            {
+              "latex": "p_B/p_A"
+            },
+            {
+              "text": "?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r=\\frac{18.14}{31.66}\\approx0.573"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0200-D2",
@@ -20978,7 +21066,95 @@
       0.0
     ],
     "legacy_id": "TA1-0449",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0449-D2-S1",
+        "stem": "At 11 km, pressure is 22.6258 kPa. At 12.6 km, it is 0.77697 times that value. What is the pressure at 12.6 km?",
+        "options": [
+          "5.05 kPa",
+          "22.63 kPa",
+          "29.12 kPa",
+          "17.58 kPa"
+        ],
+        "answer": 3,
+        "explanation": "Multiply the base pressure by the decay factor: 22.6258 × 0.77697 ≈ 17.58 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.6258\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 12.6 km, the pressure is "
+            },
+            {
+              "latex": "0.77697\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 12.6 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.6258\\times0.77697\\approx17.58\\,\\mathrm{kPa}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0449-D2",
+        "stem": "At 8.95 km, pressure is 30.97 kPa. At 12.6 km, pressure is 17.58 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "1.762",
+          "0.568",
+          "1.000",
+          "0.777"
+        ],
+        "answer": 1,
+        "explanation": "Divide the second pressure by the first: 17.58 / 30.97 ≈ 0.568.",
+        "formula_hint": {
+          "latex": "r=\\frac{p_B}{p_A}",
+          "prerequisite": "ISA-PRESSURE-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 8.95 km, "
+            },
+            {
+              "latex": "p_A=30.97\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 12.6 km, "
+            },
+            {
+              "latex": "p_B=17.58\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". What is the pressure ratio "
+            },
+            {
+              "latex": "p_B/p_A"
+            },
+            {
+              "text": "?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r=\\frac{17.58}{30.97}\\approx0.568"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0212-D2",
@@ -24056,7 +24232,95 @@
       0.0
     ],
     "legacy_id": "TA1-0592",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0592-D2-S1",
+        "stem": "At 11 km, pressure is 22.6258 kPa. At 13 km, it is 0.72947 times that value. What is the pressure at 13 km?",
+        "options": [
+          "31.02 kPa",
+          "16.50 kPa",
+          "22.63 kPa",
+          "6.13 kPa"
+        ],
+        "answer": 1,
+        "explanation": "Multiply the base pressure by the decay factor: 22.6258 × 0.72947 ≈ 16.50 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.6258\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13 km, the pressure is "
+            },
+            {
+              "latex": "0.72947\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 13 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.6258\\times0.72947\\approx16.50\\,\\mathrm{kPa}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0592-D2",
+        "stem": "At 9.25 km, pressure is 29.61 kPa. At 13 km, pressure is 16.50 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "0.729",
+          "1.795",
+          "1.000",
+          "0.557"
+        ],
+        "answer": 3,
+        "explanation": "Divide the second pressure by the first: 16.50 / 29.61 ≈ 0.557.",
+        "formula_hint": {
+          "latex": "r=\\frac{p_B}{p_A}",
+          "prerequisite": "ISA-PRESSURE-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 9.25 km, "
+            },
+            {
+              "latex": "p_A=29.61\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13 km, "
+            },
+            {
+              "latex": "p_B=16.50\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". What is the pressure ratio "
+            },
+            {
+              "latex": "p_B/p_A"
+            },
+            {
+              "text": "?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r=\\frac{16.50}{29.61}\\approx0.557"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "BOOK-V6-SYS-03-D2",
@@ -25548,7 +25812,95 @@
       0.0
     ],
     "legacy_id": "TA1-0668",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0668-D2-S1",
+        "stem": "At 11 km, pressure is 22.6258 kPa. At 13.2 km, it is 0.70682 times that value. What is the pressure at 13.2 km?",
+        "options": [
+          "15.99 kPa",
+          "6.64 kPa",
+          "32.01 kPa",
+          "22.63 kPa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply the base pressure by the decay factor: 22.6258 × 0.70682 ≈ 15.99 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.6258\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13.2 km, the pressure is "
+            },
+            {
+              "latex": "0.70682\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 13.2 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.6258\\times0.70682\\approx15.99\\,\\mathrm{kPa}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0668-D2",
+        "stem": "At 9.4 km, pressure is 28.95 kPa. At 13.2 km, pressure is 15.99 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "1.000",
+          "0.552",
+          "0.707",
+          "1.811"
+        ],
+        "answer": 1,
+        "explanation": "Divide the second pressure by the first: 15.99 / 28.95 ≈ 0.552.",
+        "formula_hint": {
+          "latex": "r=\\frac{p_B}{p_A}",
+          "prerequisite": "ISA-PRESSURE-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 9.4 km, "
+            },
+            {
+              "latex": "p_A=28.95\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13.2 km, "
+            },
+            {
+              "latex": "p_B=15.99\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". What is the pressure ratio "
+            },
+            {
+              "latex": "p_B/p_A"
+            },
+            {
+              "text": "?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r=\\frac{15.99}{28.95}\\approx0.552"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "BOOK-V6-SYS-05-D2",
@@ -27074,7 +27426,95 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0708",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0708-D2-S1",
+        "stem": "At 11 km, pressure is 22.6258 kPa. At 13.4 km, it is 0.68487 times that value. What is the pressure at 13.4 km?",
+        "options": [
+          "15.50 kPa",
+          "7.13 kPa",
+          "22.63 kPa",
+          "33.04 kPa"
+        ],
+        "answer": 0,
+        "explanation": "Multiply the base pressure by the decay factor: 22.6258 × 0.68487 ≈ 15.50 kPa.",
+        "formula_hint": {
+          "latex": "p=p_b e^{-X}",
+          "prerequisite": "ISA-ISOTHERMAL-FORMULA"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 11 km, "
+            },
+            {
+              "latex": "p_b=22.6258\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13.4 km, the pressure is "
+            },
+            {
+              "latex": "0.68487\\,p_b"
+            },
+            {
+              "text": ". What is the pressure at 13.4 km?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "p=22.6258\\times0.68487\\approx15.50\\,\\mathrm{kPa}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0708-D2",
+        "stem": "At 9.55 km, pressure is 28.30 kPa. At 13.4 km, pressure is 15.50 kPa. What is the ratio of the second pressure to the first?",
+        "options": [
+          "1.826",
+          "0.548",
+          "0.685",
+          "1.000"
+        ],
+        "answer": 1,
+        "explanation": "Divide the second pressure by the first: 15.50 / 28.30 ≈ 0.548.",
+        "formula_hint": {
+          "latex": "r=\\frac{p_B}{p_A}",
+          "prerequisite": "ISA-PRESSURE-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At 9.55 km, "
+            },
+            {
+              "latex": "p_A=28.30\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". At 13.4 km, "
+            },
+            {
+              "latex": "p_B=15.50\\,\\mathrm{kPa}"
+            },
+            {
+              "text": ". What is the pressure ratio "
+            },
+            {
+              "latex": "p_B/p_A"
+            },
+            {
+              "text": "?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r=\\frac{15.50}{28.30}\\approx0.548"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0646-D2",
