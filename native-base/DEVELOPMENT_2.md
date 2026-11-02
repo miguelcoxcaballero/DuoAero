@@ -555,3 +555,5 @@ An additional isolated ten-exercise circular-orbit draft introduces circumferenc
 Run 41532833785 graded the experimental negative-exponent sequence, but its inspected screen shows the exponent slot too low and the preceding multiplication stranded at a line break. A taller invisible base metric and operator grouping are now implemented; they require a new Android rendering and touch test. The earlier run is not visual acceptance.
 
 Inverse powers such as 1/L² and Pcr/Pcr_new/Pcr_old now render as fractions and critical-load subscripts, while ordinary units remain prose in local tests. The halved-column calculation is now placed after its Euler formula and offers that formula as a hint; its answer 4 is independently checked. Android rendering and hint behavior for this specific exercise require review.
+
+Simple logarithms of symbolic ratios such as ln(Wi/Wf) are now converted as a single mathematical logarithm with subscripted numerator and denominator; unmarked ordinary words remain text. Local notation and bank checks pass; Android display remains to be verified.

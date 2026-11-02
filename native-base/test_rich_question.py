@@ -214,6 +214,8 @@ assert symbol('Pcr_new') == r'P_{\mathrm{cr,new}}'
 assert r'\frac{1}{L^{2}}' in content(None, 'Rigidity is proportional to 1/L².')
 assert r'\frac{P_{\mathrm{cr,new}}}{P_{\mathrm{cr,old}}}' in content(None, 'Find Pcr_new/Pcr_old.')
 assert content(None, 'Use 10 m/s and 20 J/(kg K).') == r'\text{Use 10 m/s and 20 J/(kg K).}'
+assert r'\ln\left(\frac{W_{i}}{W_{f}}\right)' in content(None, 'Use ln(Wi/Wf).')
+assert r'\text{ln(mass/area)}' in content(None, 'The label ln(mass/area) is literal.')
 assert symbol('eta_p') == r'\eta_{p}'
 assert symbol('m_dot') == r'\dot{m}'
 assert symbol('sigma_max') == r'\sigma_{\mathrm{max}}'

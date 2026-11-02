@@ -72,7 +72,7 @@ def symbol(value):
         return GREEK.get(numeric.group(1), numeric.group(1)) + '_{' + numeric.group(2) + '}'
     if value == 'RE':
         return r'R_{E}'
-    if value in ('cp', 'ce', 'CL', 'CD', 'mi', 'mf', 'Tt'):
+    if value in ('cp', 'ce', 'CL', 'CD', 'mi', 'mf', 'Wi', 'Wf', 'Tt'):
         return value[0] + '_{' + value[1] + '}'
     scientific = re.fullmatch(r'((?:\d+(?:\.\d+)?|\.\d+))[eE]([+-]?\d+)', value)
     if scientific:
@@ -317,15 +317,23 @@ def _general_parts(value):
 # disconnected pieces of prose. The matcher is deliberately narrow.
 _POLAR = re.compile(r"(?<![A-Za-z0-9_])CD\s*=\s*CD0\s*\+\s*(?:k\s*CL(?:²|\^2)|CL(?:²|\^2)\s*/\s*\(\s*pi\s+e\s+AR\s*\))(?![A-Za-z0-9_])")
 _ISA_EXP = re.compile(r'(?<![A-Za-z0-9_])p\s*=\s*p11\s+exp\[-g\(h-11000\)/\(RT\)\]')
+_LOG_RATIO = re.compile(r'(?<![A-Za-z0-9_])ln\(\s*([A-Za-z][A-Za-z0-9_]*)\s*/\s*([A-Za-z][A-Za-z0-9_]*)\s*\)')
 def parts(value):
     result, offset = [], 0
-    for match in sorted([*_POLAR.finditer(value), *_ISA_EXP.finditer(value)], key=lambda m: m.start()):
+    for match in sorted([*_POLAR.finditer(value), *_ISA_EXP.finditer(value), *_LOG_RATIO.finditer(value)], key=lambda m: m.start()):
         if match.start() < offset:
             continue
         if match.start() > offset:
             result.extend(_general_parts(value[offset:match.start()]))
         if match.re is _ISA_EXP:
             latex = r'p=p_{11}e^{-\frac{g(h-11000)}{RT}}'
+        elif match.re is _LOG_RATIO:
+            numerator, denominator = match.groups()
+            if not (_symbolic(numerator) and _symbolic(denominator)):
+                result.extend(_general_parts(match.group()))
+                offset = match.end()
+                continue
+            latex = r'\ln\left(\frac{' + symbol(numerator) + '}{' + symbol(denominator) + r'}\right)'
         elif re.search(r"/\s*\(", match.group()):
             latex = r"C_D=C_{D0}+\frac{C_L^2}{\pi e\,AR}"
         else:
