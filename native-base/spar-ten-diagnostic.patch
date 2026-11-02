@@ -2279,10 +2279,10 @@ index fb55d28..192a66b 100644
          level_id = stable_id('level', node['id'])
 diff --git a/native-base/test_four_session_path.py b/native-base/test_four_session_path.py
 new file mode 100644
-index 0000000..fea7723
+index 0000000..94d8a84
 --- /dev/null
 +++ b/native-base/test_four_session_path.py
-@@ -0,0 +1,184 @@
+@@ -0,0 +1,177 @@
 +"""Seed first three sessions, then complete the fourth through the original path."""
 +import json, os, re, shlex, subprocess, time, zipfile
 +from pathlib import Path
@@ -2365,6 +2365,23 @@ index 0000000..fea7723
 +        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
 +    raise AssertionError('Cannot open first Atmosphere path node')
 +
++def active_oval(tree):
++    # Only tap the original active level: hidden older ovals may be underneath
++    # the sticky section header and clicking them can leave the application.
++    matches=[]
++    for parent in tree.iter('node'):
++        children=list(parent)
++        if any(n.get('resource-id')=='com.duolingo:id/progressRing' for n in children):
++            matches.extend(n for n in children if n.get('resource-id')=='com.duolingo:id/oval')
++    return matches[0] if len(matches)==1 else None
++
++def open_active_node(prefix, expected_title):
++    tree=wait(prefix+'-path',lambda t:active_oval(t) is not None,90)
++    tap_node(active_oval(tree))
++    dialog=wait(prefix+'-node',lambda t:bool(matching(t,expected_title)
++                    and any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node'))),60)
++    tap_node(next(n for n in dialog.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
++
 +try:
 +    adb('shell','am','force-stop',PACKAGE)
 +    assert b'Success' in adb('shell','pm','clear',PACKAGE)
@@ -2405,19 +2422,7 @@ index 0000000..fea7723
 +    assert len(expanded)==20 and all(q['type']=='choice' for q in expanded)
 +    adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
 +    wait('four-session-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
-+    opened=False
-+    for attempt in range(12):
-+        tree=capture('four-session-path-'+str(attempt))
-+        if tree is None:continue
-+        for oval in [n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']:
-+            tap_node(oval);time.sleep(1);dialog=capture('four-session-node-'+str(attempt))
-+            if dialog is not None and matching(dialog,'Wing structural components'):
-+                buttons=[n for n in dialog.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton']
-+                if buttons:tap_node(buttons[0]);opened=True;break
-+            adb('shell','input','keyevent','4');time.sleep(.4)
-+        if opened:break
-+        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
-+    assert opened,'Cannot open four-session structural node'
++    open_active_node('four-session','Wing structural components')
 +    for index,q in enumerate(expanded):
 +        parts=q.get('rich_text',{}).get('options',[None]*len(q['options']))
 +        needle=content(parts[q['answer']],q['options'][q['answer']])
@@ -2447,19 +2452,7 @@ index 0000000..fea7723
 +    wait('four-session-restarted',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),90)
 +    saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat',folder+'/'+fourth+'.json'))
 +    assert saved.get('completedOnce') is True
-+    opened=False
-+    for attempt in range(12):
-+        tree=capture('four-session-next-path-'+str(attempt))
-+        if tree is None:continue
-+        for oval in [n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']:
-+            tap_node(oval);time.sleep(1);dialog=capture('four-session-next-node-'+str(attempt))
-+            if dialog is not None and matching(dialog,next_node['name']):
-+                buttons=[n for n in dialog.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton']
-+                if buttons:tap_node(buttons[0]);opened=True;break
-+            adb('shell','input','keyevent','4');time.sleep(.4)
-+        if opened:break
-+        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
-+    assert opened,'Cannot open the next node after the fourth session'
++    open_active_node('four-session-next',next_node['name'])
 +    wait('four-session-next-question',lambda t:bool(matching(t,next_needle,'com.duolingo:id/mathCard')),60)
 +    routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
 +    selected=re.findall(r'Local original session selected: ([A-Za-z0-9_.-]+)',routes)
