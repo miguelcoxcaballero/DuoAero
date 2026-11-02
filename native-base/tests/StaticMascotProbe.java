@@ -17,8 +17,9 @@ public final class StaticMascotProbe extends Instrumentation {
   Bundle output=new Bundle();StringBuilder report=new StringBuilder();
   try{
    Context context=getTargetContext();String[] names={"duo_happy","duo_flying","duo_thinking","jaw_drop_duo","foam_finger_duo","duo_breathe",
-    "practice_hub_duo_radio_falstaff_1","practice_hub_duo_radio_chatting_with_zari_01","practice_hub_duo_radio_junior_s_big_questions_01","duo_sad","duo_reading_stories","stories_duo_reading","duo_holding_gem","guidebook_header_duo_gem"};
-   Bitmap grid=Bitmap.createBitmap(720,1200,Bitmap.Config.ARGB_8888);Canvas canvas=new Canvas(grid);HashSet<Integer> variants=new HashSet<>();
+    "practice_hub_duo_radio_falstaff_1","practice_hub_duo_radio_chatting_with_zari_01","practice_hub_duo_radio_junior_s_big_questions_01","duo_sad","duo_reading_stories","stories_duo_reading","duo_holding_gem","guidebook_header_duo_gem",
+    "character_falstaff","duoradio_host_zari_exercise_correct","duoradio_host_zari_exercise_incorrect"};
+   Bitmap grid=Bitmap.createBitmap(720,1440,Bitmap.Config.ARGB_8888);Canvas canvas=new Canvas(grid);HashSet<Integer> variants=new HashSet<>();
    for(int i=0;i<names.length;i++){
     int id=context.getResources().getIdentifier(names[i],"drawable","com.duolingo");
     if(id==0)throw new IllegalStateException("Original drawable missing: "+names[i]);

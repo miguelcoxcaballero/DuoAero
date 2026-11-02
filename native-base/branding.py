@@ -1,7 +1,7 @@
 """Rebrand displayed Android values without changing IDs or protocol strings."""
 import re
 import struct
-from resource_extension import chunks, MOOD_SCENES
+from resource_extension import chunks, MOOD_SCENES, CHARACTER_REPLACEMENTS
 
 MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
 LOGO_PATH = 'res/drawable/duoaero_wordmark.xml'
@@ -47,10 +47,22 @@ def pool_bytes(pool, values):
     struct.pack_into('<I',out,20,28+4*len(values))
     return bytes(out)
 
+def explicit_character(name):
+    """Identify single-character static vectors, excluding controls/groups."""
+    names='|'.join(CHARACTER_REPLACEMENTS)
+    match=re.fullmatch(r'(?:character_('+names+r')(?:_small)?|in_challenge_('+names+r')|duoradio_host_('+names+r')_(exercise(?:_correct|_incorrect)?|listening|talking))',name.lower())
+    if not match:return None
+    original=next(group for group in match.group(1,2,3) if group)
+    suffix=match.group(4) or ''
+    expression='_happy' if suffix.endswith('_correct') and not suffix.endswith('_incorrect') else '_sad' if suffix.endswith('_incorrect') else ''
+    return CHARACTER_REPLACEMENTS[original]+expression
+
+
 def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
     # "Duo Radio" also names playback and answer controls. They are not
     # pictures of the character and replacing them corrupts the interface.
+    if explicit_character(name):return True
     if name.startswith('duo_radio_') and name != 'duo_radio_host_static_bea':
         return False
     if any(part in name for part in ('_light_beam','_lightbeam','_glow','_sparkles','_confetti','_shadow','_particle')):return False
@@ -60,6 +72,8 @@ def mascot_name(name):
 def static_mood(name):
     """Select an authored pose only where the original name is unambiguous."""
     name=name.lower()
+    character=explicit_character(name)
+    if character:return character
     if name=='duo_radio_host_static_bea':return 'patty'
     if name=='duo_happy':return 'wave'
     if name.startswith('practice_hub_duo_radio_'):

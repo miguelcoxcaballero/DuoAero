@@ -16,6 +16,12 @@ an unrelated emotion. Android animated-vector resources
 are not demonstrated to animate merely because the replacement artwork is
 transparent. A scene-by-scene artwork and animation review remains necessary.
 
+The follow-up also targets 78 explicit single-character static vectors for the
+ten existing Peanuts cast mappings. Correct and incorrect radio illustrations
+use their respective happy and sad artwork. Host checks confirm the wrappers;
+original-screen placement and these character states still need Android review.
+Multi-character pictures and unclassified names remain outside this change.
+
 The follow-up adds a transparent Snoopy reading an aerospace book for the
 explicit original reading-story artwork. This is one static pose, not an
 animation, and its placement in the original Android screens needs inspection.

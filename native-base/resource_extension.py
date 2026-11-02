@@ -97,6 +97,17 @@ MOOD_SCENES = {
     'wave': 'wave-atlas.png',
 }
 
+# Existing drawings are distinct transparent poses for the corresponding
+# Peanuts cast. These apply only to explicit single-character vector IDs.
+CHARACTER_REPLACEMENTS = {
+    'zari':'sally', 'falstaff':'charlie', 'junior':'linus', 'lily':'lucy',
+    'oscar':'schroeder', 'bea':'patty', 'lin':'marcie', 'vikram':'franklin',
+    'eddy':'pigpen', 'lucy':'woodstock',
+}
+for character in CHARACTER_REPLACEMENTS.values():
+    for expression in ('happy', 'sad'):
+        MOOD_SCENES[character+'_'+expression] = 'characters/'+character+'/'+expression+'/frame-00.png'
+
 
 def mood_scenes(table):
     ids = {}

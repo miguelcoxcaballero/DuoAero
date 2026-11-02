@@ -20,6 +20,10 @@ assert static_mood('duo_reading_stories') == 'reading'
 assert static_mood('stories_duo_reading') == 'reading'
 assert static_mood('duo_holding_gem') == 'gem'
 assert static_mood('guidebook_header_duo_gem') == 'gem'
+assert static_mood('character_falstaff') == 'charlie'
+assert static_mood('duoradio_host_zari_exercise_correct') == 'sally_happy'
+assert static_mood('duoradio_host_zari_exercise_incorrect') == 'sally_sad'
+assert not mascot_name('duoradio_play') and not mascot_name('bea_junior_zari')
 for mood,source in MOOD_SCENES.items():
     with Image.open(ROOT/'app/assets/mascot'/source) as image:
         assert image.mode=='RGBA' and image.getchannel('A').getextrema()[0]==0,mood
