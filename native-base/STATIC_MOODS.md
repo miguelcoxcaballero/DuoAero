@@ -15,3 +15,7 @@ deliberately remain on the prior generic artwork rather than mapping them to
 an unrelated emotion. Android animated-vector resources
 are not demonstrated to animate merely because the replacement artwork is
 transparent. A scene-by-scene artwork and animation review remains necessary.
+
+The follow-up adds a transparent Snoopy reading an aerospace book for the
+explicit original reading-story artwork. This is one static pose, not an
+animation, and its placement in the original Android screens needs inspection.

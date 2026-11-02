@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods]
+    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -248,6 +248,11 @@ jobs:
               ;;
             sections)
               python native-base/test_sections.py
+              ;;
+            static-poses-only)
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
+              grep -q 'STATIC_MOODS_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "${{ runner.temp }}/duoaero-evidence/static-mascot-poses.png"
               ;;
             static-mascot)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"

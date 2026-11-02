@@ -15,6 +15,12 @@ emulator fresh-install and 1.3.0-to-1.3.6 upgrade smoke test.
 the same lesson-expansion rules. Four lesson question sets differ between
 1.3.5 and the 1.3.6 candidate.
 
+`1.3.7.json` contains the exact lesson and challenge IDs extracted from
+`assets/duoaero/course/session-catalog.json` inside the published, signed
+1.3.7 APK. The APK SHA-256 was verified before extracting the catalog.
+Sixteen lessons differ from 1.3.6, so those completions cannot be validated
+against the older snapshot after further lesson changes.
+
 After a version is published, keep its snapshot immutable. A later build can
 use its exact sets to validate an old completion proof when questions are
 added to a lesson. Do not accept an arbitrary subset of a lesson: doing so

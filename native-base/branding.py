@@ -68,6 +68,7 @@ def static_mood(name):
         for original,replacement in cast.items():
             if re.search(r'(^|_)'+original+r'(_|$)',name):return replacement
     if any(word in name for word in ('sad','cry','fail','noooo')):return 'sad'
+    if name in ('duo_reading_stories','stories_duo_reading'):return 'reading'
     if any(word in name for word in ('jaw_drop','surprised','shocked','amaze')):return 'surprised'
     if any(word in name for word in ('flying','_fly','flight','plane')):return 'plane'
     if any(word in name for word in ('thinking','ponder','detective','smart')):return 'think'

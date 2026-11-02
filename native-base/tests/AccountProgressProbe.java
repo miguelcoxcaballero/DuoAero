@@ -167,7 +167,7 @@ public final class AccountProgressProbe extends Instrumentation {
    // Check published snapshots against a hypothetical later lesson. A
    // future split must not break a complete historical proof or accept a
    // partial/foreign proof. These are synthetic records, not a Drive roundtrip.
-   String[] versions={"1.3.0","1.3.5","1.3.6"};JSONObject[] histories=new JSONObject[versions.length];
+   String[] versions={"1.3.0","1.3.5","1.3.6","1.3.7"};JSONObject[] histories=new JSONObject[versions.length];
    for(int i=0;i<versions.length;i++){
     try(InputStream input=app.getAssets().open("duoaero/course/history-"+versions[i]+".json")){
      ByteArrayOutputStream bytes=new ByteArrayOutputStream();byte[] block=new byte[8192];int n;
@@ -208,6 +208,22 @@ public final class AccountProgressProbe extends Instrumentation {
    check(Boolean.FALSE.equals(recorded.invoke(null,published130Proof,currentLesson,null,new JSONArray())));
    check(Boolean.TRUE.equals(recorded.invoke(null,published130Proof,currentLesson,null,new JSONArray().put(histories[0].getJSONObject(oldId)))));
    check(Boolean.TRUE.equals(storedProof.invoke(null,app,published130Proof,currentLesson)));
+   // 1.3.7 added named and word-formula challenges to the first Atmosphere
+   // lesson. Its exact completion must remain valid after future expansion,
+   // while older snapshots cannot accidentally validate that distinct proof.
+   String published137Id="2.1-5-point-0-lesson-0";
+   JSONObject published137=histories[3].getJSONObject(published137Id);
+   JSONArray published137Questions=published137.getJSONArray("challenges");
+   JSONObject published137Proof=new JSONObject().put("id",published137Id).put("type","MATH_LESSON").put("failed",false)
+    .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",new JSONArray(published137Questions.toString()));
+   JSONObject future137=new JSONObject(catalog.getJSONObject(published137Id).toString());
+   future137.getJSONArray("challenges").put(new JSONObject().put("id","future-formula-question"));
+   JSONArray pre137=new JSONArray();for(int i=0;i<3;i++)pre137.put(histories[i].getJSONObject(published137Id));
+   check(Boolean.FALSE.equals(recorded.invoke(null,published137Proof,future137,null,pre137)));
+   check(Boolean.TRUE.equals(recorded.invoke(null,published137Proof,future137,null,new JSONArray().put(published137))));
+   check(Boolean.TRUE.equals(storedProof.invoke(null,app,published137Proof,future137)));
+   JSONObject partial137=new JSONObject(published137Proof.toString());partial137.getJSONArray("challenges").remove(0);
+   check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial137,future137)));
    report.append("PASS: ").append(checks).append(" synthetic account storage, cross-account rejection, completion validation and minimized export checks. No Google login, network Drive sync or lesson UI acceptance asserted.\n");
    result.putBoolean("ACCOUNT_STORAGE_VERIFIED",true);
    report.append("ACCOUNT_STORAGE_VERIFIED=true\n");
