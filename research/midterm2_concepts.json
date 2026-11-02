@@ -701,6 +701,146 @@
       ],
       "answer": 1,
       "explanation": "In a steady hover, forces approximately balance, including upward thrust and weight."
+    },
+    {
+      "id": "M2-MIS-001",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What distinguishes a guided missile from an unguided rocket?",
+      "options": [
+        "It must have a human pilot",
+        "A guidance system can adjust its flight path",
+        "It cannot travel through the atmosphere",
+        "It never uses a rocket motor"
+      ],
+      "answer": 1,
+      "explanation": "A guided vehicle can adjust its flight path using a guidance and control system."
+    },
+    {
+      "id": "M2-MIS-002",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What does a propulsion system produce to accelerate a vehicle?",
+      "options": [
+        "Cabin pressure",
+        "Wing span",
+        "Thrust",
+        "Orbital inclination"
+      ],
+      "answer": 2,
+      "explanation": "Propulsion produces thrust; the vehicle accelerates according to the net force acting on it."
+    },
+    {
+      "id": "M2-MIS-003",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What happens to vehicle mass as onboard propellant is consumed?",
+      "options": [
+        "It always increases",
+        "It becomes independent of the remaining propellant",
+        "It decreases",
+        "It stays exactly constant"
+      ],
+      "answer": 2,
+      "explanation": "Consumed propellant leaves the vehicle, so the remaining vehicle mass decreases."
+    },
+    {
+      "id": "M2-MIS-004",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What is the role of guidance in a flight vehicle?",
+      "options": [
+        "Replace all of the vehicle structure",
+        "Measure the material density of a wing",
+        "Generate electricity for cabin lighting",
+        "Determine how the desired path should change"
+      ],
+      "answer": 3,
+      "explanation": "Guidance uses information about the motion and a desired path to determine commands."
+    },
+    {
+      "id": "M2-MIS-005",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What is the role of the flight control system?",
+      "options": [
+        "Provide the entire payload mass",
+        "Define sea-level pressure",
+        "Make gravity disappear",
+        "Carry out commands by adjusting vehicle motion"
+      ],
+      "answer": 3,
+      "explanation": "The control system acts on the vehicle to change its motion in response to commands."
+    },
+    {
+      "id": "M2-MIS-006",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What force can an aerodynamic control surface produce in air?",
+      "options": [
+        "An aerodynamic force",
+        "A permanent change in Earth mass",
+        "A force without interacting with air",
+        "A change in gravity"
+      ],
+      "answer": 0,
+      "explanation": "A control surface interacts with the airflow and produces an aerodynamic force and moment."
+    },
+    {
+      "id": "M2-MIS-007",
+      "topic": "4",
+      "type": "choice",
+      "stem": "During an unpowered ballistic coast, which force still acts on the vehicle?",
+      "options": [
+        "A constant force from the battery",
+        "Gravity",
+        "Thrust from an operating engine",
+        "A mandatory force from the launch pad"
+      ],
+      "answer": 1,
+      "explanation": "Gravity continues to act after engine cutoff; aerodynamic force may also act in an atmosphere."
+    },
+    {
+      "id": "M2-MIS-008",
+      "topic": "4",
+      "type": "choice",
+      "stem": "What does a sensor provide to a guidance system?",
+      "options": [
+        "An automatic removal of aerodynamic drag",
+        "A guarantee of perfect knowledge",
+        "A replacement for the vehicle mass",
+        "Measurements with possible uncertainty"
+      ],
+      "answer": 3,
+      "explanation": "Sensors provide measurements, which can contain noise or other uncertainty."
+    },
+    {
+      "id": "M2-MIS-009",
+      "topic": "4",
+      "type": "choice",
+      "stem": "Which atmospheric property directly affects dynamic pressure at a given speed?",
+      "options": [
+        "Air density",
+        "Dynamic viscosity",
+        "Air temperature alone",
+        "Speed of sound"
+      ],
+      "answer": 0,
+      "explanation": "At a given speed, dynamic pressure directly depends on local density; temperature alone does not determine it."
+    },
+    {
+      "id": "M2-MIS-010",
+      "topic": "4",
+      "type": "choice",
+      "stem": "Why can a vehicle use more than one propulsion stage?",
+      "options": [
+        "To avoid any need for energy",
+        "To keep total mass constant after burning propellant",
+        "To make gravity vanish",
+        "To discard mass that is no longer needed"
+      ],
+      "answer": 3,
+      "explanation": "Staging can discard hardware no longer needed, reducing the mass carried by later stages."
     }
   ]
 }

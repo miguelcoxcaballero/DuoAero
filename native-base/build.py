@@ -609,6 +609,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic']=='3.3']
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_MISSILE_DIAGNOSTIC')=='1' and not production:
+  draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
+  mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic']=='4']
+  assert len(mixed)==10
  if os.environ.get('DUOAERO_ROTOR_DIAGNOSTIC')=='1' and not production:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic'] in ('5.1','5.2')]
