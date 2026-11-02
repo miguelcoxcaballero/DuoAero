@@ -154,6 +154,10 @@ def named_equation(formula):
 MULTI_NAMED = {
  'gas': (r'p=\rho R_aT', ['pressure','density','gas constant','temperature'],
          ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
+ 'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
+              ['distance','flight time','altitude'], ['___','=','___','+','___']),
+ 'total_time': (r't_{total}=t_{out}+t_{back}', ['total time','outbound time','return time'],
+                ['distance','ground speed','wind speed'], ['___','=','___','+','___']),
  'hydraulic': (r'P_{hyd}=\Delta p\,Q', ['hydraulic power','pressure difference','flow rate'],
                ['mass','temperature','altitude'], ['___','=','___',r'\times','___']),
 }

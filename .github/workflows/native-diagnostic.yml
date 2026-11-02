@@ -316,7 +316,7 @@ jobs:
               ;;
             formula-words-touch)
               run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 13 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
+              grep -q 'All 14 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
               ;;
             hydraulic-words)
               run_probe aerospace-hydraulic-words MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
