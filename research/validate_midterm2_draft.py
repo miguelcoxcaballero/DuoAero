@@ -8,6 +8,7 @@ questions = data['questions']
 assert len(questions) == 20
 assert {q['topic'] for q in questions} == {'3.1', '3.2'}
 assert len({q['id'] for q in questions}) == len(questions)
+assert len({q['answer'] for q in questions}) == 4
 for q in questions:
     assert q['type'] == 'choice' and q['stem'].endswith('?')
     assert len(q['options']) == len(set(q['options'])) == 4
