@@ -42,11 +42,24 @@ try:
     if not installed:raise AssertionError('Android did not report the expected installed version')
     marker=adb('shell','cat','/data/user/0/com.duoaero/files/duoaero-update-probe').decode().strip()
     if marker!='updater-preservation-test':raise AssertionError('Synthetic app data was not preserved')
+    # The installer can remain on its success dialog after package manager
+    # reports the new version. Close it and require a fresh app process; a
+    # mere successful intent or pid can otherwise produce a false positive.
     time.sleep(20)
+    adb('shell','am','force-stop','com.google.android.packageinstaller')
+    adb('shell','am','force-stop','com.duoaero')
     launch=adb('shell','am','start','-W','-n','com.duoaero/com.duolingo.splash.LaunchActivity').decode(errors='replace')
     (out/'updated-launch.txt').write_text(launch)
     if 'Status: ok' not in launch:raise AssertionError('Updated app did not launch')
-    time.sleep(20);snapshot('updated-launch')
+    foreground=False
+    for i in range(12):
+        time.sleep(5)
+        activities=adb('shell','dumpsys','activity','activities').decode(errors='replace')
+        (out/'updated-activities.txt').write_text(activities)
+        if re.search(r'(?:topResumedActivity|mResumedActivity).*com\.duoaero/',activities):
+            foreground=True;break
+    snapshot('updated-launch')
+    if not foreground:raise AssertionError('Updated app did not reach a resumed foreground activity')
     if not adb('shell','pidof','com.duoaero').strip():raise AssertionError('Updated app process did not remain running')
     (out/'update-result.txt').write_text('PASS: signed 1.3.0 discovered and installed version '+expected_version+' (code '+expected_code+'); synthetic app data survived and the updated app launched. Real Google data and physical devices were not tested.\n')
 finally:
