@@ -26,7 +26,7 @@ TOKEN = re.compile(
     r'|(?:p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
-    r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
+    r'|(?:deltaL|Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet|CL0|CD0|CL|CD)(?![\^⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺])'
     r'|p11|(?:p|T|g|V|rho)[012]'
     r'|RE'
     r'|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+'
@@ -38,6 +38,8 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    if value == 'deltaL':
+        return r'\Delta L'
     aliases = {'CL_opt':r'C_{L,\mathrm{opt}}','CL_max':r'C_{L,\max}',
                'CLmax':r'C_{L,\max}','CLopt':r'C_{L,\mathrm{opt}}',
                'Vapp':r'V_{\mathrm{app}}','Vstall':r'V_{\mathrm{stall}}',

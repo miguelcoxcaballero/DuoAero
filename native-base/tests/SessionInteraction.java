@@ -154,11 +154,11 @@ final class SessionInteraction {
   }
   if(hintRetry){
    String retryNeedle=directHintScenario?"1.0 mm":windScenario?"1.4583":"17.97";
-   for(int attempt=0;attempt<150&&!contains(test,retryNeedle);attempt++){
+   for(int attempt=0;attempt<150&&(contains(test,"GOT IT")||!contains(test,retryNeedle)||!hasControl(test,"com.duolingo:id/mathCard"));attempt++){
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(!contains(test,retryNeedle)||hintedQuestion==null)throw new IllegalStateException("Hinted calculation did not retry at lesson end");
+   if(contains(test,"GOT IT")||!contains(test,retryNeedle)||!hasControl(test,"com.duolingo:id/mathCard")||hintedQuestion==null)throw new IllegalStateException("Hinted calculation did not retry at lesson end");
    SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
    click(test,"com.duolingo:id/mathCard",hintedQuestion.getString("selection"));Thread.sleep(1500);
    click(test,"com.duolingo:id/submitButton",null);
