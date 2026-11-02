@@ -27,7 +27,8 @@ public final class NativeFractionSlot {
   Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
   String key=Long.toString(NEXT.incrementAndGet());
   Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:negative-exponent");
-  Object base=latex.newInstance("\\vphantom{\\frac{1}{2}}e",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object baseRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(80f),Float.valueOf(80f));
+  Object base=latex.newInstance("e",80f,baseRange,cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object exponent=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l).getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(figure,new Context(scope,slot,render,first,true));KEYS.put(key,new WeakReference<>(figure));}

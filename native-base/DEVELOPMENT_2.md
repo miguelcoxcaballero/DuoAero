@@ -559,3 +559,5 @@ Inverse powers such as 1/L² and Pcr/Pcr_new/Pcr_old now render as fractions and
 Simple logarithms of symbolic ratios such as ln(Wi/Wf) are now converted as a single mathematical logarithm with subscripted numerator and denominator; unmarked ordinary words remain text. Local notation and bank checks pass; Android display remains to be verified.
 
 Synthetic emulator logs showed repeated 503 retries to the original zombie site-availability endpoint during lessons. The original converter defines a single boolean field enforce_offline; the local bridge now answers only that exact host, GET and numeric android.json route with false, scoped to the local course. Android must still verify real converter parsing, narrow routing, successful lesson progression, absence of repeated requests and timing before any performance claim. Other batch requests remain unchanged because they may carry stateful actions.
+
+Run 41534612371 graded the grouped negative exponent, but its screenshot shows the original math renderer rejects vphantom and clips the resulting text. That command was removed. A larger plain e base is under test; the exponent layout is still not accepted.
