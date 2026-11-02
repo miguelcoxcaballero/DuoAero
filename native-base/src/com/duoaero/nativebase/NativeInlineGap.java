@@ -162,7 +162,10 @@ public final class NativeInlineGap {
    });
    Object composable=Class.forName("ul3",true,l).getMethod("r",int.class,o18,Class.forName("pqh",true,l)).invoke(null,0x44aa771,composer,function);
    Class<?> iv=Class.forName("iv1",true,l),spacing=Class.forName("hv1",true,l);
-   Object vertical=spacing.getConstructor(float.class,boolean.class,iv).newInstance(4f,true,Class.forName("gal",true,l).getConstructor(int.class).newInstance(12));
+   // The interactive negative exponent is raised above its line. Reserve
+   // enough space between wrapped rows so it cannot overlap the prior row.
+   boolean raisedExponent=false;for(String part:parts)if(part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_NEGATIVE))raisedExponent=true;
+   Object vertical=spacing.getConstructor(float.class,boolean.class,iv).newInstance(raisedExponent?32f:4f,true,Class.forName("gal",true,l).getConstructor(int.class).newInstance(12));
    Object align=Class.forName("b9z",true,l).getField("o").get(null);
    Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(equation?4f:10f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
    // Align every word and its original answer slot at the centre of its own
