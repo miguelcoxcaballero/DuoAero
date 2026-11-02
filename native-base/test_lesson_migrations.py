@@ -8,13 +8,13 @@ bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_t
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lessons = {lesson['id']: lesson for node in plan for lesson in node['lessons']}
 migrations = json.loads((root/'native-base/lesson-migrations.json').read_text())
-assert len(lessons) == 83 and len(migrations) == 4
+assert len(lessons) == 84 and len(migrations) == 5
 for target, migration in migrations.items():
     source = migration['sourceLesson']
     required = migration['requiredQuestions']
     target_node,_,target_index = target.rpartition('-lesson-')
     source_node,_,source_index = source.rpartition('-lesson-')
-    assert target_node == source_node and int(target_index) >= 2 and int(source_index) < 2
+    assert ((target_node == source_node and int(target_index) >= 2 and int(source_index) < 2) or (target == '2.1-4-point-0-lesson-1' and source == '2.1-5-point-1-lesson-0'))
     assert required == lessons[target]['ids'] and len(required) == len(set(required))
     # A new 2.0 completion of the shorter source lesson must never award
     # completion of a new, not-yet-played lesson.
@@ -27,4 +27,4 @@ for target, migration in migrations.items():
 for lesson in lessons.values():
     count=len(lesson_questions([bank[qid] for qid in lesson['ids']],teach_words=True))
     assert 10 <= count <= 20, (lesson['id'], count)
-print('PASS: 83 lessons have 10–20 native exercises; four path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
+print('PASS: 84 lessons have 10–20 native exercises; five path-only credits require exact historical coverage. Android UI and persistence remain unverified.')

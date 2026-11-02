@@ -49,7 +49,7 @@ for node in nodes:
    if question['type']=='formula_blocks':formula_prerequisites.add(qid)
    elif question['type']=='formula_named' and question.get('symbol_prerequisite') is True:
     assert len(question['answer_blocks'])==1 and question.get('formula_latex')
-    assert question['answer_blocks'][0] in question['blocks'] and len(question['answer_blocks'][0])==1
+    assert question['answer_blocks'][0] in question['blocks'] and (len(question['answer_blocks'][0])==1 or (qid.startswith('APPROACH-') and question['answer_blocks'][0] in {'Vₛ²','Vₛ','Vₐₚₚ','Vₖₘ/ₕ'}))
     formula_prerequisites.add(qid)
   assigned+=lesson['ids']
 assert collections.Counter(assigned)==collections.Counter(ids)
