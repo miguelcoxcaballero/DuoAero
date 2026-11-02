@@ -304,8 +304,9 @@ Android run 41464615993 graded its 11 controls using the original controller;
 its inspected screenshots show the named tiles in the numerator and denominator
 of the native fraction. Android run 41467380208 intentionally submitted an
 incorrect fraction, observed incorrect feedback only after Check, retried it
-at lesson end, corrected it and reached Claim XP. Its solution screenshot was
-not collected, so the wrong-answer LaTeX appearance remains unverified. Other
+at lesson end, corrected it and reached Claim XP. Run 41471235112 also captured
+the incorrect feedback; the reviewed screenshot shows the solution as a proper
+LaTeX fraction. Other
 fraction layouts still need device tests. Android run 41467201483 passed
 the fraction, static Linus path and synthetic account scenarios together in
 one source snapshot. To honor the source-publication restriction,
@@ -414,8 +415,8 @@ stricter check must pass before claiming the updated app actually opens.
 
 The taper and fuel-fraction equations now also use two native word slots in a
 fraction, with a preceding verbal introduction. Android run 41469220414 graded
-both exercises and its screenshots show the fraction bars; the later clearer
-``fraction left`` label still needs its own Android visual check. The lesson
+both exercises and its screenshots show the fraction bars. The later clearer
+``fraction left`` label was also inspected in Android run 41472025112. The lesson
 size and path migration checks pass locally; they do not establish full course
 acceptance.
 
