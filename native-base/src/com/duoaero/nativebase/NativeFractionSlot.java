@@ -31,7 +31,7 @@ public final class NativeFractionSlot {
       .getConstructor(String.class).newInstance("duoaero:power-slot");
   Object base=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),
       cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
-  Object exponent=latex.newInstance(power,Math.max(12f,cls.getField("b").getFloat(template)*.42f),cls.getField("c").get(template),
+  Object exponent=latex.newInstance("\\scriptstyle "+power,Math.max(12f,cls.getField("b").getFloat(template)*.42f),cls.getField("c").get(template),
       cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
   Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
       .getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
@@ -59,7 +59,7 @@ public final class NativeFractionSlot {
   if(squaredNumerator){
    Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l)
        .getConstructor(String.class).newInstance("duoaero:fixed-square");
-   Object exponent=latex.newInstance("2",Math.max(12f,cls.getField("b").getFloat(template)*.42f),cls.getField("c").get(template),
+   Object exponent=latex.newInstance("\\scriptstyle 2",Math.max(12f,cls.getField("b").getFloat(template)*.42f),cls.getField("c").get(template),
        cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
    contents[0]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
        .getConstructor(ui,ui,String.class,entityClass).newInstance(contents[0],exponent,"power",null);
