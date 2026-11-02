@@ -33,7 +33,8 @@ public final class NativeInlineGap {
     if(i+1<words.length()&&"___".equals(words.getString(i+1))
        &&(part.equals("duoaero-math:formula:\\textstyle +")
           ||part.equals("duoaero-math:formula:\\textstyle -")
-          ||part.equals("duoaero-math:formula:\\textstyle \\times"))){
+          ||part.equals("duoaero-math:formula:\\textstyle \\times")
+          ||part.equals("duoaero-math:formula:\\textstyle \\div"))){
      parts.add(OPERATOR_GAP+part);i++;
     }else parts.add(part);
    }
