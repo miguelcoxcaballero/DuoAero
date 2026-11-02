@@ -1,5 +1,5 @@
-The user added the 90-page V6 Aerospace Technology first-midterm textbook on
-2026-11-01 and explicitly requested formula recall with one or several missing
+The user added the V6 Aerospace Technology first-midterm textbook and
+explicitly requested formula recall with one or several missing
 components, selectable blocks, and matching exercises in the original runtime.
 
 Source: Tecnología Aeroespacial - Primer parcial - V6 desde la base paso a paso.
