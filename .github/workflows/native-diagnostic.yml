@@ -144,8 +144,8 @@ jobs:
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
-          timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
-          timeout 180 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
+          timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/DuoAero-native-base-test.apk"
+          timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/tests-signed.apk"
           timeout 180 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.ModelProbe > $RUNNER_TEMP/duoaero-evidence/models.txt
           adb logcat -d -b crash > $RUNNER_TEMP/duoaero-evidence/models-crash.txt
           adb logcat -d -s AndroidRuntime:E DEBUG:F libc:F ActivityManager:I > $RUNNER_TEMP/duoaero-evidence/models-lifecycle.txt
