@@ -47,6 +47,14 @@ rounded values and original answers are checked by `test_dynamic_steps.py`.
 Run 41383369989 graded the 20-step sample on Android and passed synthetic
 account checks. This sample does not establish full-course acceptance.
 
+The separate `codex/lapse-study` branch stages four tropospheric lapse-rate
+questions as single-operation temperature-decrease and subtraction steps,
+preceded by named-quantity and symbol practice. It rebalances lessons and
+tests the old completion snapshots. Run 41387274344 graded all 14 original
+controls and passed synthetic accounts for an earlier version of the tiles;
+more compact tiles and whole `Δh`/`ΔT` symbols are under Android retest and
+are not yet integrated. None of this establishes the rest of the course.
+
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
 or simple unit paths. A source-bank audit found 125 previously plain `sqrt`
@@ -187,7 +195,8 @@ the final screen; physical-device behaviour remains unverified.
 Diagnostic run 41385394122 observed the original completion selector choosing
 both `LOVEY_DOVEY_DUO` and `SWOON_DUO`. The latter previously had a generic
 fallback. A distinct transparent swoon pose sequence is being tried on a
-separate branch, but its real-screen playback and smoothness are not accepted.
+separate `codex/swoon-animation` branch, but its real-screen playback and
+smoothness are not accepted.
 Run 41384336207 tried schema-checked empty offline social responses and still
 completed and reopened the lesson. Its 40.34 s measurement includes emulator
 and screenshot overhead and does not show a speedup; this experiment has not
