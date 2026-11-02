@@ -28532,13 +28532,13 @@
         ],
         "formula_latex": "T_B=T_A-\\Delta T",
         "answer_blocks": [
-          "temp. at B",
-          "temp. at A",
+          "upper temp",
+          "lower temp",
           "temp. drop"
         ],
         "blocks": [
-          "temp. at B",
-          "temp. at A",
+          "upper temp",
+          "lower temp",
           "temp. drop",
           "pressure",
           "density",
