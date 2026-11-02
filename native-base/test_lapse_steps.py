@@ -27,6 +27,8 @@ for qid in ids:
 assert len(expanded)==14
 assert [q['id'] for q in expanded[:6]]==['ISA-LAPSE-WORDS','ISA-LAPSE-NAMED','ISA-LAPSE-FORMULA','ISA-ALT-TEMP-WORDS','ISA-ALT-TEMP-NAMED','ISA-ALT-TEMP-FORMULA']
 assert len(expanded[1]['answer_blocks'])==len(expanded[4]['answer_blocks'])==3
+assert expanded[2]['answer_blocks']==['Δh'] and expanded[2]['missing_latex']==r'\Delta h'
+assert expanded[5]['answer_blocks']==['ΔT'] and expanded[5]['missing_latex']==r'\Delta T'
 assert len(session([bank[id] for id in ids],'lapse-diagnostic',teach_words=True)['challenges'])==14
 ordered=[q['id'] for n in plan for l in n['lessons'] for q in lesson_questions([bank[id] for id in l['ids']],teach_words=True)]
 assert ordered.index('ISA-LAPSE-FORMULA')<min(ordered.index(id+'-S1') for id in ids)

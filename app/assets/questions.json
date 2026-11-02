@@ -28491,14 +28491,14 @@
         "symbol_prerequisite": true,
         "stem": "Complete the formula with a symbol",
         "before_latex": "\\Delta T=\\Gamma",
-        "after_latex": "h",
-        "missing_latex": "\\Delta",
+        "after_latex": "",
+        "missing_latex": "\\Delta h",
         "formula_latex": "\\Delta T=\\Gamma\\Delta h",
         "answer_blocks": [
-          "Δ"
+          "Δh"
         ],
         "blocks": [
-          "Δ",
+          "Δh",
           "p",
           "V",
           "ρ"
@@ -28551,15 +28551,15 @@
         "type": "formula_named",
         "symbol_prerequisite": true,
         "stem": "Complete the formula with a symbol",
-        "before_latex": "T_B=T_A-\\Delta",
+        "before_latex": "T_B=T_A-",
         "after_latex": "",
-        "missing_latex": "T",
+        "missing_latex": "\\Delta T",
         "formula_latex": "T_B=T_A-\\Delta T",
         "answer_blocks": [
-          "T"
+          "ΔT"
         ],
         "blocks": [
-          "T",
+          "ΔT",
           "p",
           "V",
           "ρ"
