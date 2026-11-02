@@ -201,9 +201,11 @@ Run 41384336207 tried schema-checked empty offline social responses and still
 completed and reopened the lesson. Its 40.34 s measurement includes emulator
 and screenshot overhead and does not show a speedup; this experiment has not
 been enabled in the integrated production path.
-An additional diagnostic skipped 111 original promotion-video prefetches,
-but its OCR process timed out before confirming Claim XP. It therefore does not
-establish successful completion or a speedup, and remains experimental.
+An additional diagnostic skipped 111 original promotion-video prefetches. Its
+first OCR process timed out. After the OCR retry fix, Android run 41390278261
+completed the lesson, claimed XP and reopened the next lesson, but its 36.57 s
+emulator observation does not establish a speedup over the prior 26.66 s run.
+This network experiment remains separate and is not enabled in production.
 
 The latest lapse-rate sequence is integrated in this development branch. Run
 41388461549 graded all 14 staged controls with the original Android screen;
