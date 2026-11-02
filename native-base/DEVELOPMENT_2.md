@@ -58,6 +58,9 @@ exercises and its screenshot showed the four tiles and both multiplication
 signs on an S24-proportioned emulated screen with larger text. Drag/drop,
 wrong-answer feedback and all supported font scales are still unverified. It
 currently covers only the ideal-gas equation, not all formula families.
+The gas sequence is now ordered as a word sentence, the full named-quantity
+equation, the one-quantity symbolic equation and finally the symbolic blocks;
+the revised order still needs Android interaction testing.
 
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes

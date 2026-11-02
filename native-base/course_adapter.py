@@ -136,9 +136,9 @@ def lesson_questions(questions, expand_steps=True, teach_words=False):
             expanded.append(part)
     if teach_words:
         expanded = [part for q in expanded for part in
-                    ([word_introduction(q), named_equation(q)]
+                    ([word_introduction(q)]
                      + ([named_equation_all(q)] if q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2') else [])
-                     + [q] if q['type'] == 'formula_blocks' else [q])]
+                     + [named_equation(q), q] if q['type'] == 'formula_blocks' else [q])]
     ids = [q['id'] for q in expanded]
     if len(ids) != len(set(ids)):
         raise ValueError('Duplicate native challenge IDs in lesson')

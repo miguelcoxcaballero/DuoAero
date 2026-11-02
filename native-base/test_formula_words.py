@@ -25,11 +25,11 @@ for node in plan:
             multi = q['id'] in ('BOOK-V6-01-D1','BOOK-V6-01-D2')
             offset = 1 if multi else 0
             assert i > 1+offset and expanded[i-2-offset]['id'] == q['id']+'-WORDS'
-            assert expanded[i-1-offset]['id'] == q['id']+'-NAMED'
+            assert expanded[i-1]['id'] == q['id']+'-NAMED'
             words = expanded[i-2-offset]
-            named = expanded[i-1-offset]
+            named = expanded[i-1]
             if multi:
-                all_named = expanded[i-1]
+                all_named = expanded[i-2]
                 assert all_named['id'] == q['id']+'-NAMED-ALL'
                 assert all_named['answer_blocks'] == ['pressure','density','gas constant','temperature']
                 assert all_named['inline_latex'] == ['___','=','___',r'\times','___',r'\times','___']
