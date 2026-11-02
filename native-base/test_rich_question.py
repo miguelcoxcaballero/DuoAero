@@ -234,6 +234,9 @@ for units in ('m/s', 'kg/s', 'J/(kg K)', 'km/h'):
     assert parts(units) == [{'text': units}], (units, parts(units))
 assert parts('Use lift/drag comparisons.') == [{'text': 'Use lift/drag comparisons.'}]
 assert symbol('pi²') == r'\pi^{2}'
+assert symbol('CL²') == r'C_{L}^{2}'
+assert symbol('CD^2') == r'C_{D}^{2}'
+assert parts('CD = CD0 + k CL²')[-1] == {'latex': r'C_{L}^{2}'}
 reported = next(q for q in bank if q['id'] == 'TA1-0148')
 shirt = json.loads(choice_blob(reported)['challengeBlob'])['shirt']['value']
 assert r'\frac{p}{R\,T}' in shirt and 'p/(R T)' not in shirt

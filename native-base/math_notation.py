@@ -88,10 +88,10 @@ def symbol(value):
         return base + '_{' + label + '}'
     if '^' in value:
         base, exponent = value.split('^', 1)
-        return base + '^{' + exponent + '}'
+        return symbol(base) + '^{' + exponent + '}'
     match = re.fullmatch(r'(.+?)([⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)', value)
     if match:
-        base = (r'\mathrm{' + match[1] + '}') if len(match[1]) > 1 and match[1] in _UNITS else GREEK.get(match[1], match[1])
+        base = (r'\mathrm{' + match[1] + '}') if len(match[1]) > 1 and match[1] in _UNITS else symbol(match[1])
         return base + '^{' + match[2].translate(SUPERSCRIPTS) + '}'
     return GREEK.get(value, value)
 
