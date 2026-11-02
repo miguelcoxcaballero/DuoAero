@@ -17,6 +17,10 @@ public final class RiveGridProbe extends Instrumentation {
   try {
    Activity activity=startActivitySync(new Intent().setClassName(getTargetContext().getPackageName(),"com.duolingo.splash.LaunchActivity").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
    ClassLoader loader=getTargetContext().getClassLoader();
+   Class<?> rive=Class.forName("app.rive.runtime.kotlin.core.Rive",true,loader);
+   Class<?> renderer=Class.forName("app.rive.runtime.kotlin.core.RendererType",true,loader);
+   rive.getMethod("init$default",rive,android.content.Context.class,renderer,int.class,Object.class)
+       .invoke(null,rive.getField("INSTANCE").get(null),activity,null,2,null);
    Class<?> type=Class.forName("app.rive.runtime.kotlin.RiveAnimationView",true,loader);
    final Object[] view={null};final Throwable[] error={null};
    runOnMainSync(()->{try{
