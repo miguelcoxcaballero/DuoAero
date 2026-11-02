@@ -219,8 +219,9 @@ screenshot showed an operator stranded at the end of a wrapped line. An initial
 grouping change crashed in run 41389101897. After fixing composition flags,
 run 41390137453 graded the hydraulic exercise and run 41391260503 graded all
 14 lapse controls and completed the offset-hint lesson; the inspected screenshot
-keeps the operator with its operand. A separate fast-touch test timed out during
-emulator installation and is being repeated. Run 41388130102
+keeps the operator with its operand. An initial fast-touch retry timed out
+during emulator installation; run 41392738917 subsequently passed the integrated
+fast-touch, word-gap, original formula and approach scenarios. Run 41388130102
 also graded the revised 20 draft rotorcraft/diverse-aircraft questions, but
 they remain research drafts and do not establish a complete second partial.
 
