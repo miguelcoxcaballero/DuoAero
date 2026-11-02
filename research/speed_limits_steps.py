@@ -43,7 +43,7 @@ def draft(source):
             return dict(id=source['id']+suffix,type='choice',difficulty=3,stem=stem,options=options,answer=0,
                         explanation=options[0],formula_hint={'latex':latex,'prerequisite':prerequisite})
         return [
-            step('-M2',f'The Mach limit is {mach}. What is its square?',m2,MACH_SQUARED,'LIMITS-MACH-SQUARED'),
+            step('-M2',f'The Mach limit is {mach}. What is its square?',m2,MACH_PRESSURE,'LIMITS-MACH-PRESSURE'),
             step('-F',f'The pressure is {p} Pa and half of gamma is 0.7. What is 0.7 times pressure?',factor,MACH_FACTOR,'LIMITS-MACH-FACTOR',' Pa'),
             step('-QM',f'The pressure factor is {factor:.6f} Pa and the Mach square is {m2:.6f}. What is the Mach pressure limit?',qmach,MACH_PRESSURE,'LIMITS-MACH-PRESSURE',' Pa'),
             step('-Q',f'The pressure limit is {cap} Pa and the Mach pressure limit is {qmach:.6f} Pa. What is the lower limit?',allowed,LIMIT,'LIMITS-PRESSURE-MIN',' Pa'),
