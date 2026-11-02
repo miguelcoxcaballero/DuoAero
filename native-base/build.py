@@ -660,6 +660,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]
+ if os.environ.get('DUOAERO_ISA_EXP_DIAGNOSTIC')=='1' and not production:
+  # All ten original questions that contain the reviewed isothermal equation.
+  mixed=[q for q in bank if 'exp[-g(h-11000)/(RT)]' in q.get('stem','')]
+  assert len(mixed)==10
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
