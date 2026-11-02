@@ -5,6 +5,21 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
+ private static boolean actualTouch;
+ static String quitPreview(Instrumentation test)throws Exception {
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
+  Thread.sleep(1500);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/quitButton");i++)Thread.sleep(200);
+  click(test,"com.duolingo:id/quitButton",null);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/primaryButton");i++)Thread.sleep(200);
+  if(!hasControl(test,"com.duolingo:id/primaryButton"))
+   throw new IllegalStateException("Original quit keep-going control missing");
+  SessionScreen.capture(test,"static-quit-dialog","static-quit-dialog");
+  click(test,"com.duolingo:id/primaryButton",null);
+  for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
+  if(!hasControl(test,"com.duolingo:id/challengeInstruction"))throw new IllegalStateException("Did not return to original lesson");
+  return "STATIC_QUIT_SCREEN_VERIFIED=true; original quit sheet opened and returned to lesson; inspect image for clipping.\n";
+ }
  static String firstPathNode(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/oval");i++)Thread.sleep(200);
   for(int i=0;i<150&&!contains(test,"Aeronautical organizations");i++){test.getUiAutomation().clearCache();Thread.sleep(200);}
@@ -25,18 +40,24 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test,boolean hintRetry)throws Exception {
+ static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch)throws Exception {
+  actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
   }
   org.json.JSONArray questions=new org.json.JSONArray(bytes.toString("UTF-8"));
+  boolean windScenario=false;
+  for(int i=0;i<questions.length();i++)if(questions.getJSONObject(i).getString("id").equals("TA1-0092-D2-S1"))windScenario=true;
+  String hintId=windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
+  org.json.JSONObject hintedQuestion=null;
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
-   boolean hinted=hintRetry&&q.getString("id").equals("TA1-0107-D2-S1");
+   boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    if(hinted){
+    hintedQuestion=q;
     clickTip(test);Thread.sleep(800);
     if(!contains(test,"a tip")||contains(test,"GOT IT")&&contains(test,"Incorrect"))throw new IllegalStateException("Hint sheet failed or graded before Check");
     SessionScreen.capture(test,"mixed-mach-hint","mixed-mach-hint");
@@ -53,7 +74,7 @@ final class SessionInteraction {
      click(test,null,pair.getString(1));Thread.sleep(700);
     }
    }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
-   else if(kind.equals("formula_blocks")){
+   else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
     for(int j=0;j<tokens.length();j++){clickLast(test,tokens.getString(j));Thread.sleep(500);}
    }else if(kind.equals("choice")){
@@ -87,20 +108,21 @@ final class SessionInteraction {
    click(test,null,"CONTINUE");
   }
   if(hintRetry){
-   for(int attempt=0;attempt<150&&!contains(test,"17.97");attempt++){
+   String retryNeedle=windScenario?"1.4583":"17.97";
+   for(int attempt=0;attempt<150&&!contains(test,retryNeedle);attempt++){
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(!contains(test,"17.97"))throw new IllegalStateException("Hinted Mach calculation did not retry at lesson end");
+   if(!contains(test,retryNeedle)||hintedQuestion==null)throw new IllegalStateException("Hinted calculation did not retry at lesson end");
    SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
-   click(test,"com.duolingo:id/mathCard","\\text{17.97 K}");Thread.sleep(1500);
+   click(test,"com.duolingo:id/mathCard",hintedQuestion.getString("selection"));Thread.sleep(1500);
    click(test,"com.duolingo:id/submitButton",null);
    for(int attempt=0;attempt<150&&!hasContinue(test);attempt++)Thread.sleep(200);
-   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct Mach retry did not grade correctly");
+   if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Correct hinted retry did not grade correctly");
    click(test,null,"CONTINUE");
    for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
-   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Mach retry did not reach lesson completion");
-   return "PASS: native Mach formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
+   if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Hinted retry did not reach lesson completion");
+   return "PASS: native "+(windScenario?"wind":"Mach")+" formula practice preceded each calculation; a viewed hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
   }
   return "All "+questions.length()+" mixed source exercises produced original visible correct feedback through native controls. No course completion or overflow acceptance asserted.\n";
  }
@@ -382,7 +404,21 @@ final class SessionInteraction {
   }
   if(node==null)throw new IllegalStateException("Native bank token not visible: "+text);
   try{for(int i=0;i<8&&!node.isClickable();i++){AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;}
-   if(!own(node)||!node.isEnabled()||!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
+   if(!own(node)||!node.isEnabled())throw new IllegalStateException("Native bank token unavailable: "+text);
+   if(actualTouch){
+    android.graphics.Rect rect=new android.graphics.Rect();node.getBoundsInScreen(rect);
+    if(rect.isEmpty())throw new IllegalStateException("Empty native token touch bounds: "+text);
+    long down=android.os.SystemClock.uptimeMillis();
+    android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,rect.exactCenterX(),rect.exactCenterY(),0);
+    android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+30,android.view.MotionEvent.ACTION_UP,rect.exactCenterX(),rect.exactCenterY(),0);
+    first.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+    last.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+    try{
+     if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Token down event not injected: "+text);
+     Thread.sleep(30);
+     if(!test.getUiAutomation().injectInputEvent(last,true))throw new IllegalStateException("Token up event not injected: "+text);
+    }finally{first.recycle();last.recycle();}
+   }else if(!node.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Native bank token did not accept click: "+text);
   }finally{node.recycle();}
  }
  /** The hosted emulator occasionally shows an ANR for its Pixel Launcher

@@ -24,12 +24,22 @@ assert notation_parts('2.2e+06 m at ce=1.4e-05') == [
     {'latex': r'2.2\times 10^{6}'}, {'text': ' m at '}, {'latex': r'c_{e}=1.4\times 10^{-5}'}]
 assert notation_parts('409.8 mm²') == [{'text': '409.8 '}, {'latex': r'\mathrm{mm}^{2}'}]
 assert notation_parts('mi/mf') == [{'latex': r'\textstyle \frac{m_{i}}{m_{f}}'}]
+assert notation_parts('4 MN/m and 30 kN/m') == [{'text': '4 MN/m and 30 kN/m'}]
+assert notation_parts('Require TAS>=1.3Vs and M<=0.75.') == [
+    {'text': 'Require '}, {'latex': r'\mathrm{TAS}\geq 1.3V_s'},
+    {'text': ' and '}, {'latex': r'M\leq 0.75'}, {'text': '.'}]
+assert notation_parts('Vapp>=1.3 Vs; Vs<=71') == [
+    {'latex': r'V_{\mathrm{app}}\geq 1.3V_s'}, {'text': '; '}, {'latex': r'V_s\leq 71'}]
 assert notation_parts('The camera is fine') == [{'text': 'The camera is fine'}]
 assert not any('latex' in p for p in notation_parts('k=1/(pi e AR)')) or not any(
     p.get('latex') == 'k=1' for p in notation_parts('k=1/(pi e AR)'))
 
 root = Path(__file__).resolve().parents[1]
 bank = json.loads((root / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
+dynamic_pressure = next(q for q in bank if q['id'] == 'TA1-0063-F1')
+assert dynamic_pressure['formula_hint'] == {
+    'latex': r'q=\frac12\rho V^2', 'prerequisite': 'BOOK-V6-02-D1'}
+assert dynamic_pressure['options'][dynamic_pressure['answer']] == '5 kPa'
 fixtures = []
 for question in bank:
     if question['type'] != 'choice' or not question.get('rich_text'):

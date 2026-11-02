@@ -6,7 +6,7 @@ from math_notation import parts as notation_parts
 from course_adapter import session as native_session, lesson_questions
 from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,java,tool
 from build_updater import build as build_updater
-from resource_extension import updater_paths, launcher_mascot, scene_mascot, MASCOT_PATH, SCENE_MASCOT_PATH
+from resource_extension import updater_paths, launcher_mascot, scene_mascot, mood_scenes, MOOD_SCENES, MASCOT_PATH, SCENE_MASCOT_PATH
 from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, LOGO_PATH
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
@@ -70,11 +70,16 @@ E.SubElement(app,'receiver',{A+'name':'com.inhouse.services.updater.InstallRecei
 provider=E.SubElement(app,'provider',{A+'name':'com.inhouse.services.updater.UpdateFileProvider',A+'authorities':package+'.update-provider',A+'exported':'false',A+'grantUriPermissions':'true'})
 E.SubElement(provider,'meta-data',{A+'name':'android.support.FILE_PROVIDER_PATHS',A+'resource':'@xml/inhouse_update_paths'})
 tree.write(WORK/'AndroidManifest.xml',encoding='utf-8',xml_declaration=True)
+def extended_scene_table(table):
+ table,_=updater_paths(table)
+ table,_=scene_mascot(table)
+ return mood_scenes(table)[0]
 with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk','w') as reference:
  for entry in base.infolist():
-  reference.writestr(entry,scene_mascot(updater_paths(base.read(entry))[0])[0] if entry.filename=='resources.arsc' else base.read(entry))
+  reference.writestr(entry,extended_scene_table(base.read(entry)) if entry.filename=='resources.arsc' else base.read(entry))
  reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  reference.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
+ for mood,source in MOOD_SCENES.items():reference.write(ROOT/'app/assets/mascot'/source,'res/drawable/duoaero_scene_'+mood+'.png')
 run(tool('aapt2'),'link','-o',WORK/'resources.apk','--manifest',WORK/'AndroidManifest.xml','-I',JAR,'-I',WORK/'resource-reference.apk','--rename-manifest-package',package,'--no-auto-version')
 # Keep Snoopy's close-up inside Android's adaptive circular safe zone.
 launcher_res=WORK/'launcher-res/mipmap-anydpi/duoaero_launcher.xml'
@@ -349,7 +354,36 @@ picker_hook='''.method public final setSectionPickerTitle(Ljava/lang/String;)V
     if-eqz v0, :duoaero_original_picker_title
     const-string p1, "DuoAero"
     :duoaero_original_picker_title'''
+profile_image_source=SMALI/'smali_classes6/oup.smali'
+profile_image_original=profile_image_source.read_bytes()
+profile_image_text=profile_image_original.decode('utf-8').replace('\r\n','\n')
+# This is the actual drawable passed to Compose's painterResource in the
+# profile-completion card. The h4w score value is a count, not a resource ID.
+profile_image_anchor='    const v4, 0x7f0826dc\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
+assert profile_image_text.count(profile_image_anchor)==1
+profile_image_hook='    const v4, 0x7f0826dc\n\n    invoke-static {v4}, Lcom/duoaero/nativebase/NativeProfileDrawable;->supported(I)I\n\n    move-result v4\n\n    invoke-static {v4, v10, v3}, Ly6o;->m(ILo18;I)La8t;'
+token_touch_source=SMALI/'smali_classes6/kp3.smali'
+token_touch_original=token_touch_source.read_bytes()
+token_touch_text=token_touch_original.decode('utf-8').replace('\r\n','\n')
+token_touch_anchor='    invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setFigure(Lcom/duolingo/core/math/models/figure/MathFigureUiState;)V'
+assert token_touch_text.count(token_touch_anchor)==1
+# The original token is an Android card containing a MathFigureView. Its
+# embedded figure can consume a fast pointer sequence before the card sees
+# it. The original figure supports touch passthrough; enable it only for this
+# local course so both tapping and the parent drag controller receive input.
+token_touch_hook=token_touch_anchor+'''
+
+    invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z
+    move-result v2
+    if-eqz v2, :duoaero_token_touch_done
+    invoke-virtual {v0}, Landroid/view/View;->getImportantForAccessibility()I
+    move-result v3
+    invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setTouchPassthrough(Z)V
+    invoke-virtual {v0, v3}, Landroid/view/View;->setImportantForAccessibility(I)V
+    :duoaero_token_touch_done'''
 try:
+ token_touch_source.write_text(token_touch_text.replace(token_touch_anchor,token_touch_hook),encoding='utf-8')
+ profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
  bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
@@ -361,6 +395,8 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ token_touch_source.write_bytes(token_touch_original)
+ profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
  tabs_source.write_bytes(tabs_original)
  bank_source.write_bytes(bank_original)
@@ -466,6 +502,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   if n=='resources.arsc':
    table,resource_id=updater_paths(base.read(entry))
    table,scene_id=scene_mascot(table)
+   table,mood_ids=mood_scenes(table)
    assert resource_id==0x7f160016
    branded,branding_report=rebrand_table(launcher_mascot(table),mascot_paths)
    (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
@@ -484,6 +521,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  out.write(ROOT/'app/assets/mascot/launcher.png',MASCOT_PATH)
  out.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
+ for mood,source in MOOD_SCENES.items():out.write(ROOT/'app/assets/mascot'/source,'res/drawable/duoaero_scene_'+mood+'.png')
  out.writestr(LOGO_PATH,wordmark_xml_bytes)
  for path,xml in mascot_xml_bytes.items():out.writestr(path,xml)
  for asset in (ROOT/'app/assets/updates').iterdir():
@@ -512,8 +550,27 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  mixed.append(next(q for q in bank if q['type']=='matching' and q['id'].startswith('BOOK-V6')))
  # Exercise the actual alternating formula/choice sequence in the original
  # controller, not just the separately serialized challenge models.
- mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
- mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
+ if os.environ.get('DUOAERO_WIND_DIAGNOSTIC')=='1' and not production:
+  # Exercise the new wind formula blocks and their two one-calculation steps
+  # in the original controller; model conversion alone is not UI acceptance.
+  mixed.extend(lesson_questions([by_id['TA1-0012-F1'],by_id['TA1-0092-D2']]))
+  inequality=dict(by_id['TA1-0012-F1'],id='diagnostic_inequality',
+   stem='For TAS>=1.3Vs and M<=0.75, what is 2 + 2?',
+   options=['4','3','5','6'],answer=0,explanation='2 + 2 = 4.')
+  inequality.pop('lesson_steps',None);inequality.pop('formula_hint',None)
+  mixed.append(inequality)
+  mixed.extend(lesson_questions([by_id['TA1-0041-F1']]))
+ else:
+  mixed.extend(lesson_questions([by_id['TA1-0107-D2']]))
+  mixed.extend(lesson_questions([by_id['TA1-0078-D2']]))
+ if os.environ.get('DUOAERO_WORD_TOUCH_DIAGNOSTIC')=='1' and not production:
+  # Exercise word and named slots before both symbolic and fractional
+  # formulas, including an exponent whose base must remain visible.
+  mixed=lesson_questions([by_id['BOOK-V6-01-D1']],teach_words=True)
+  mixed.extend(lesson_questions([by_id['TA1-0012-F1']],teach_words=True)[:3])
+  mixed.extend(lesson_questions([by_id['TA1-0041-F1']],teach_words=True)[:3])
+  sound=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
+  mixed.extend(q for q in sound if q['id'].startswith('TA1-0107-D2-F3'))
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
@@ -549,7 +606,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   lesson_total+=len(node['lessons'])
   for position,entry in enumerate(node['lessons']):
    selected=[by_id[i] for i in entry['ids']]
-   try: adapted=native_session(selected,entry['id'],stable_id('skill',node['id']))
+   try: adapted=native_session(selected,entry['id'],stable_id('skill',node['id']),teach_words=True)
    except NotImplementedError: continue
    adapted['levelSessionIndex']=position
    catalog[entry['id']]=adapted
@@ -565,6 +622,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
+ # Keep exact published question sets for old on-device and Drive proofs;
+ # later lesson expansions must not invalidate previously completed lessons.
+ for history_version in ('1.3.0','1.3.5','1.3.6'):
+  out.write(ROOT/('native-base/session-history/'+history_version+'.json'),
+            'assets/duoaero/course/history-'+history_version+'.json')
  print('Local original session catalog:',len(catalog),'of',lesson_total,'lessons; runtime navigation and completion require separate acceptance.')
  for source_name,target_name in [('native_course_path_info','path-info'),('native_course_section','section'),('native_lesson_index','lesson-index')]:
   out.write(ROOT/('native-base/tests/fixtures/'+source_name+'.json'),'assets/duoaero/course/'+target_name+'.json')

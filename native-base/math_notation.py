@@ -14,14 +14,15 @@ SUPERSCRIPTS = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', '0123456789-+'
 _NAME = r'[A-Za-z][A-Za-z0-9_]*'
 _POWER = r'(?:\^[+-]?\d+(?:\.\d+)?|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+)'
 FRACTION = re.compile(r'(?<![A-Za-z0-9_,/])(' + _NAME + r')\s*/\s*(\([A-Za-z0-9_ .+*×−-]{1,60}\)|' + _NAME + r')(' + _POWER + r')?(?![A-Za-z0-9_/])')
-_UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
+_UNITS = {'m','km','mm','cm','s','h','kg','g','N','kN','MN','J','W','kW','Pa','kPa','MPa','GPa','K','L','rad','Hz'}
 _SYMBOL_NAMES = {'rho','eta','alpha','beta','gamma','sigma','lambda','pi','delta','mu','ce','cl','cd','isp','mi','mf'}
 _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # Avoid treating English words as products of individual letters. These
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
-    r'(?:rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
+    r'|(?:rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
     r'|(?:p|T|g|V|rho)[012]'
@@ -35,6 +36,13 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    inequality = re.fullmatch(r'(TAS|Vapp|Vs|Pcrit|[A-Z])\s*(>=|<=)\s*((?:\d+(?:\.\d+)?|\.\d+))(?:\s*(Vs))?', value)
+    if inequality:
+        names = {'TAS': r'\mathrm{TAS}', 'Vapp': r'V_{\mathrm{app}}',
+                 'Vs': r'V_s', 'Pcrit': r'P_{\mathrm{crit}}'}
+        lhs = names.get(inequality.group(1), inequality.group(1))
+        op = r'\geq ' if inequality.group(2) == '>=' else r'\leq '
+        return lhs + op + inequality.group(3) + (r'V_s' if inequality.group(4) else '')
     assignment = re.fullmatch(r'(rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
     if assignment:
         rhs = assignment.group(2)

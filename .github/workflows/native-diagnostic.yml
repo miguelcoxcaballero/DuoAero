@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration]
+    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || '["s24","google","lesson","accounts","formula","chests","atmosphere"]') }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -84,11 +84,17 @@ jobs:
           python native-base/test_branding_text.py
           python native-base/test_icon_layout.py
           python native-base/test_mascot_animation.py
+          python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in standalone|s24|atmosphere|atmosphere-hint|chests|chests-native|sections|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]; then export DUOAERO_WORD_TOUCH_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
+          python native-base/test_wind_steps.py
+          python native-base/test_formula_words.py
+          python native-base/test_intro_formulas.py
           python native-base/test_path_structure.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py
@@ -113,11 +119,11 @@ jobs:
           adb shell svc power stayon true
           adb shell settings put system screen_off_timeout 3600000
           adb shell input keyevent KEYCODE_WAKEUP
-          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = s24 || "$DIAGNOSTIC_SCENARIO" = atmosphere || "$DIAGNOSTIC_SCENARIO" = atmosphere-hint || "$DIAGNOSTIC_SCENARIO" = google || "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
           fi
-          if [ "$DIAGNOSTIC_SCENARIO" = gap-s24 ]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = gap-s24 || "$DIAGNOSTIC_SCENARIO" = formula-words-touch ]]; then
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
@@ -237,12 +243,26 @@ jobs:
               ;;
             atmosphere-hint)
               export DUOAERO_TEST_FORMULA_HINT=1
+              export DUOAERO_CAPTURE_COMPLETION=1
               python native-base/test_atmosphere.py
               ;;
             sections)
               python native-base/test_sections.py
               ;;
+            static-mascot)
+              timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
+              grep -q 'STATIC_MOODS_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "${{ runner.temp }}/duoaero-evidence/static-mascot-poses.png"
+              run_probe static-quit MATH_BT native-defaults late native-full aerospace-mixed quit-preview false native-default native-cache true
+              grep -q 'STATIC_QUIT_SCREEN_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/session-static-quit.txt"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.png "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.png"
+              adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-quit-dialog.json "${{ runner.temp }}/duoaero-evidence/static-quit-dialog.json"
+              ;;
             chests)
+              python native-base/test_chests.py
+              ;;
+            chests-native)
+              export DUOAERO_REQUIRE_NATIVE_CHEST=1
               python native-base/test_chests.py
               ;;
             accounts)
@@ -263,6 +283,17 @@ jobs:
               run_probe aerospace-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
               if [ "$DIAGNOSTIC_SCENARIO" = mixed ]; then python native-base/test_match_layout.py; fi
               python native-base/test_gap_alignment.py
+              ;;
+            wind-mixed)
+              run_probe aerospace-wind-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed false native-default native-cache true
+              ;;
+            formula-words-touch)
+              run_probe aerospace-words-touch MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 12 mixed source exercises produced original visible correct feedback' "${{ runner.temp }}/duoaero-evidence/session-aerospace-words-touch.txt"
+              ;;
+            wind-mixed-hint)
+              run_probe aerospace-wind-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true
+              grep -q 'PASS: native wind formula practice preceded each calculation' "${{ runner.temp }}/duoaero-evidence/session-aerospace-wind-hint.txt"
               ;;
             mixed-hint)
               run_probe aerospace-mixed-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true

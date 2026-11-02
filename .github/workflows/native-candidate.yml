@@ -3,8 +3,8 @@ name: Build original runtime production candidate
 on:
   workflow_dispatch:
   push:
-    branches: [codex/original-runtime-integration]
-    paths: ['.github/workflows/native-candidate.yml', '.github/native-candidate-request.json']
+    branches: [codex/original-runtime-integration, codex/integration-137]
+    paths: ['.github/workflows/native-candidate.yml', '.github/native-candidate-request.json', 'native-base/**', 'app/assets/**']
 permissions:
   contents: read
 jobs:
@@ -23,8 +23,8 @@ jobs:
           echo "DUOAERO_APKTOOL=$RUNNER_TEMP/apktool.jar" >> "$GITHUB_ENV"
           echo "DUOAERO_WORK=$RUNNER_TEMP/duoaero-production" >> "$GITHUB_ENV"
           echo 'DUOAERO_PACKAGE=com.duoaero' >> "$GITHUB_ENV"
-          echo 'DUOAERO_VERSION=1.3.6' >> "$GITHUB_ENV"
-          echo 'DUOAERO_VERSION_CODE=10306' >> "$GITHUB_ENV"
+          echo 'DUOAERO_VERSION=1.3.7' >> "$GITHUB_ENV"
+          echo 'DUOAERO_VERSION_CODE=10307' >> "$GITHUB_ENV"
       - name: Verify and decode original APK
         env:
           GH_TOKEN: ${{ github.token }}
@@ -50,12 +50,13 @@ jobs:
           python tests/validate_bank.py
           python native-base/test_session_ids.py
           python native-base/test_mascot_animation.py
+          python native-base/test_static_moods.py
           node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
           python native-base/course_adapter.py
           python native-base/build.py
-          export DUOAERO_VERIFY_APK="$DUOAERO_WORK/DuoAero-1.3.6-unsigned.apk"
+          export DUOAERO_VERIFY_APK="$DUOAERO_WORK/DuoAero-1.3.7-unsigned.apk"
           python native-base/test_integrity.py
-          python native-base/prepare_release.py --apk "$DUOAERO_VERIFY_APK" --version 1.3.6 --code 10306
+          python native-base/prepare_release.py --apk "$DUOAERO_VERIFY_APK" --version 1.3.7 --code 10307
           mkdir -p dist/native-candidate
           cp "$DUOAERO_VERIFY_APK" release-input.json dist/native-candidate/
           python - <<'PY'

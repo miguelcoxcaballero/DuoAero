@@ -4,6 +4,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
 from rich_question import content
+from course_adapter import lesson_questions
 from visual_controls import claim_xp
 
 OUT=Path(os.environ['DUOAERO_EVIDENCE']); PACKAGE='com.duoaero.nativebase'
@@ -92,12 +93,14 @@ try:
     bank={q['id']:q for q in json.loads((ROOT/'app/assets/questions.json').read_text())}
     plan=json.loads((ROOT/'app/assets/lesson_plan.json').read_text())
     source=next(lesson for node in plan for lesson in node['lessons'] if lesson['id']==first)
+    expanded=lesson_questions([bank[qid] for qid in source['ids']],teach_words=True)
+    bank.update({question['id']:question for question in expanded})
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait('atmosphere-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
     open_atmosphere('atmosphere-initial')
     # Reproduce a mistake and its native retry: the reported lesson includes
     # formula/gap controllers and the user's screenshot shows wrong feedback.
-    sequence=[(source['ids'][0],True,False)]+[(qid,False,HINT_TEST and qid=='TA1-0148') for qid in source['ids'][1:]]+[(source['ids'][0],False,False)]
+    sequence=[(expanded[0]['id'],True,False)]+[(q['id'],False,HINT_TEST and q['id']=='TA1-0148') for q in expanded[1:]]+[(expanded[0]['id'],False,False)]
     if HINT_TEST:sequence.append(('TA1-0148',False,False))
     for index,(qid,wrong,hinted) in enumerate(sequence):
         q=bank[qid];kind=q['type']
@@ -106,7 +109,7 @@ try:
             parts=q.get('rich_text',{}).get('options',[None]*len(q['options']))
             needle=content(parts[answer],q['options'][answer]);resource='com.duolingo:id/mathCard'
         elif kind=='gap':needle=q['answer'][0];resource=None
-        elif kind=='formula_blocks':
+        elif kind in ('formula_blocks','formula_named'):
             assert len(q['answer_blocks'])==1
             needle=q['answer_blocks'][0];resource=None
         else:raise AssertionError('Unsupported atmosphere question '+kind)
@@ -155,7 +158,23 @@ try:
             tap_node(matching(tree,'GOT IT')[-1])
         else:
             assert not matching(tree,'GOT IT'),'Answer graded incorrectly for '+qid
+            recorder=None
+            if index == len(sequence)-1 and os.environ.get('DUOAERO_CAPTURE_COMPLETION')=='1':
+                # Start before the final transition so the recording includes
+                # the native celebration rather than just its final frame.
+                recorder=subprocess.Popen(['adb','shell','screenrecord','--time-limit','10',
+                                           '/sdcard/duoaero-lesson-completion.mp4'],
+                                          stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+                time.sleep(.8)
             tap_node(matching(tree,'CONTINUE')[-1])
+            if recorder is not None:
+                try:
+                    recorder.wait(timeout=14)
+                    if recorder.returncode==0:
+                        subprocess.run(['adb','pull','/sdcard/duoaero-lesson-completion.mp4',str(OUT/'lesson-completion.mp4')],
+                                       check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+                except subprocess.TimeoutExpired:
+                    recorder.kill()
     deadline=time.monotonic()+90
     while time.monotonic()<deadline:
         tree=capture('atmosphere-complete')

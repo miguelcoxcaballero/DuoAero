@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
-  "versionCode": 10300,
-  "purpose": "Bind the current lesson acceptance driver and original runtime inputs for permanent signing after runtime verification."
+  "version": "1.3.7",
+  "versionCode": 10307,
+  "purpose": "Build a hash-bound unsigned original-runtime candidate after integrating word-first formulas, touch handling and native rewards. Device acceptance remains separate."
 }

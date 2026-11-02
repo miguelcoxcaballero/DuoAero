@@ -12,6 +12,7 @@ from pathlib import Path
 from rich_question import choice_blob, difficulty_stars, content, text_latex
 from math_notation import parts as notation_parts
 from formula_exercises import formula_challenge
+from formula_words import word_introduction, named_equation, choices_in_stable_order, INLINE_SYMBOLS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -29,15 +30,36 @@ def challenge(question):
         return choice_blob(question, include_formula_hint=bool(question.get('formula_hint')))
     if kind == 'formula_blocks':
         return formula_challenge(question)
+    if kind == 'formula_named':
+        adapter = dict(question, prefix='')
+        result = formula_challenge(adapter, mathematical=False)
+        segments = []
+        if question['before_latex']:
+            segments.append('duoaero-math:formula:' + r'\textstyle ' + question['before_latex'])
+        segments.append('___')
+        if question['after_latex']:
+            segments.append('duoaero-math:formula:' + r'\textstyle ' + question['after_latex'])
+        payload = base64.b64encode(json.dumps(segments, ensure_ascii=False).encode('utf-8')).decode('ascii')
+        prompt = result['promptInputChallenge']['prompt']
+        prompt['body'] = {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {
+            'text': 'duoaero-latex:duoaero-gap:' + payload}}
+        prompt['gradingFeedbackSpecification']['staticFeedback']['gradingFeedback'] = {
+            'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {
+                'text': 'duoaero-latex:' + r'\textstyle ' + question['formula_latex']}}
+        return result
     if kind == 'gap':
         distractors = {
             'INTERACTIVE-1': ['increases', 'stabilizes', 'doubles'],
             'INTERACTIVE-2': ['density', 'material', 'temperature'],
         }
-        if question['id'] not in distractors:
+        choices = question.get('distractors', distractors.get(question['id']))
+        if not choices:
             raise ValueError('Gap word bank needs reviewed distractors: ' + question['id'])
+        blocks = [question['answer'][0], *choices]
+        if question.get('formula_word_symbols'):
+            blocks = choices_in_stable_order(question['id'], blocks)
         adapter = dict(question, prefix='',
-                       blocks=[question['answer'][0], *distractors[question['id']]],
+                       blocks=blocks,
                        answer_blocks=[question['answer'][0]])
         result = formula_challenge(adapter, mathematical=False)
         instruction, separator, sentence = question['stem'].partition(':')
@@ -48,7 +70,19 @@ def challenge(question):
         # when the missing word is the last item in the sentence.
         if len(words)>1 and words[-2]=='___' and words[-1] in ('.','!','?'):
             words.pop()
-        parts = [s if s == '___' else text_latex(s) for s in words]
+        parts = []
+        for word in words:
+            if word == '___':
+                parts.append(word)
+                continue
+            # Formula-word questions explicitly teach the names of these
+            # symbols. Render them as math while leaving ordinary prose alone.
+            match = re.fullmatch(r'(\(?)([A-Za-z][A-Za-z0-9-]*)([),.;]{0,3})', word)
+            if question.get('formula_word_symbols') and match and match.group(2) in INLINE_SYMBOLS:
+                symbol = INLINE_SYMBOLS[match.group(2)]
+                parts.append('duoaero-math:' + match.group(2) + ':' + match.group(1) + symbol + match.group(3))
+            else:
+                parts.append(text_latex(word))
         payload = base64.b64encode(json.dumps(parts, ensure_ascii=False).encode('utf-8')).decode('ascii')
         prompt = result['promptInputChallenge']['prompt']
         prompt['instruction']['text'] = difficulty_stars(question) + ' ' + instruction
@@ -78,7 +112,7 @@ def challenge(question):
         raise NotImplementedError(f"{question['id']}: native grading adapter for {kind} is not implemented")
     return result
 
-def lesson_questions(questions, expand_steps=True):
+def lesson_questions(questions, expand_steps=True, teach_words=False):
     """Turn reviewed multi-step exercises into consecutive original challenges."""
     expanded = []
     for question in questions:
@@ -94,19 +128,22 @@ def lesson_questions(questions, expand_steps=True):
             part = {k: v for k, v in question.items() if k not in ('lesson_steps', 'rich_text', 'formula_hint')}
             part.update(step)
             expanded.append(part)
+    if teach_words:
+        expanded = [part for q in expanded for part in
+                    ([word_introduction(q), named_equation(q), q] if q['type'] == 'formula_blocks' else [q])]
     ids = [q['id'] for q in expanded]
     if len(ids) != len(set(ids)):
         raise ValueError('Duplicate native challenge IDs in lesson')
     return expanded
 
 
-def session(questions, identifier, skill_id='duoaero_aerospace_diagnostic', expand_steps=True):
+def session(questions, identifier, skill_id='duoaero_aerospace_diagnostic', expand_steps=True, teach_words=False):
     # Original MathSessionCoordinator requires a Math skill ID to start the
     # original JS grader. GLOBAL_PRACTICE can display blobs but cannot grade them.
     return {'id': identifier, 'type': 'MATH_LESSON', 'fromLanguage': 'en',
             'skillId': skill_id, 'levelIndex': 0, 'levelSessionIndex': 0,
             'metadata': {'id': identifier, 'type': 'math_lesson'},
-            'challenges': [challenge(q) for q in lesson_questions(questions, expand_steps)]}
+            'challenges': [challenge(q) for q in lesson_questions(questions, expand_steps, teach_words)]}
 
 if __name__ == '__main__':
     bank = json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))

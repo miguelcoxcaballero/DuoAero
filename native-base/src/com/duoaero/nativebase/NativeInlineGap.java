@@ -24,6 +24,8 @@ public final class NativeInlineGap {
    Class<?> callback=Class.forName("qqh",true,l),state=Class.forName("s6p",true,l);
    String encoded=((String)cls.getField("a").get(figure)).substring(MARKER.length());
    JSONArray words=new JSONArray(new String(Base64.decode(encoded,Base64.DEFAULT),StandardCharsets.UTF_8));
+   boolean equation=false;
+   for(int i=0;i<words.length();i++)if(words.getString(i).startsWith("duoaero-math:formula:"))equation=true;
    Object defaultModifier=Class.forName("w5q",true,l).getField("a").get(null);
    Method prompt=Class.forName("jvo",true,l).getMethod("a",ui,mod,Class.forName("cvo",true,l),
        Class.forName("kotlin.jvm.functions.Function0",true,l),callback,callback,
@@ -36,8 +38,15 @@ public final class NativeInlineGap {
      int index=((Integer)args[1]).intValue();Object composition=args[2];String part=words.getString(index);
      if(part.equals("___"))slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
      else{
-      if(!part.startsWith("\\text{")||!part.endsWith("}"))throw new IllegalArgumentException("Invalid gap text");
-      String spoken=part.substring(6,part.length()-1);
+      String spoken;
+      if(part.startsWith("duoaero-math:")){
+       String[] math=part.split(":",3);
+       if(math.length!=3||math[1].isEmpty()||math[2].isEmpty())throw new IllegalArgumentException("Invalid inline math");
+       spoken=math[1];part=math[2];
+      }else{
+       if(!part.startsWith("\\text{")||!part.endsWith("}"))throw new IllegalArgumentException("Invalid gap text");
+       spoken=part.substring(6,part.length()-1);
+      }
       Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l)
        .getConstructor(String.class).newInstance("duoaero:"+spoken);
       Object term=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,
@@ -58,7 +67,7 @@ public final class NativeInlineGap {
    Class<?> iv=Class.forName("iv1",true,l),spacing=Class.forName("hv1",true,l);
    Object vertical=spacing.getConstructor(float.class,boolean.class,iv).newInstance(4f,true,Class.forName("gal",true,l).getConstructor(int.class).newInstance(12));
    Object align=Class.forName("b9z",true,l).getField("o").get(null);
-   Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(10f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
+   Object horizontal=spacing.getConstructor(float.class,boolean.class,iv).newInstance(equation?4f:10f,true,Class.forName("lz",true,l).getConstructor(Object.class,int.class).newInstance(align,2));
    // Align every word and its original answer slot at the centre of its own
    // wrapped line.  The original optimized implementation hardcodes Top;
    // build.py restores its alignment argument for this call.

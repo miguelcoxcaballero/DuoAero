@@ -1,7 +1,7 @@
 """Rebrand displayed Android values without changing IDs or protocol strings."""
 import re
 import struct
-from resource_extension import chunks
+from resource_extension import chunks, MOOD_SCENES
 
 MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
 LOGO_PATH = 'res/drawable/duoaero_wordmark.xml'
@@ -49,7 +49,35 @@ def pool_bytes(pool, values):
 
 def mascot_name(name):
     # Internal vector pieces belong to their parent animated-vector resources.
+    # "Duo Radio" also names playback and answer controls. They are not
+    # pictures of the character and replacing them corrupts the interface.
+    if name.startswith('duo_radio_') and name != 'duo_radio_host_static_bea':
+        return False
+    if any(part in name for part in ('_light_beam','_lightbeam','_glow','_sparkles','_confetti','_shadow','_particle')):return False
     return not name.startswith('$') and bool(re.search(r'(^|_)duo($|_)',name))
+
+
+def static_mood(name):
+    """Select an authored pose only where the original name is unambiguous."""
+    name=name.lower()
+    if name=='duo_radio_host_static_bea':return 'patty'
+    if name.startswith('practice_hub_duo_radio_'):
+        cast={'zari':'sally','falstaff':'charlie','junior':'linus','lily':'lucy',
+              'oscar':'schroeder','bea':'patty','lin':'marcie','vikram':'franklin',
+              'eddy':'pigpen','lucy':'woodstock'}
+        for original,replacement in cast.items():
+            if re.search(r'(^|_)'+original+r'(_|$)',name):return replacement
+    if any(word in name for word in ('sad','cry','fail','noooo')):return 'sad'
+    if any(word in name for word in ('jaw_drop','surprised','shocked','amaze')):return 'surprised'
+    if any(word in name for word in ('flying','_fly','flight','plane')):return 'plane'
+    if any(word in name for word in ('thinking','ponder','detective','smart')):return 'think'
+    if any(word in name for word in ('chef','cooking')):return 'chef'
+    if any(word in name for word in ('lovey','swoon','romantic','heart_throb')):return 'lovey'
+    if any(word in name for word in ('foam_finger','cheer')):return 'foam'
+    if any(word in name for word in ('meditat','breathe','_zen')):return 'zen'
+    if any(word in name for word in ('buff','hero')):return 'hero'
+    if any(word in name for word in ('happy','celebrat','epic','lfg','legendary_complete')):return 'celebrate'
+    return None
 
 def rebrand_table(table,drawable_paths=None):
     top=list(chunks(table,12,len(table))); off,_,_,size=top[0]
@@ -173,8 +201,9 @@ def mascot_drawables(decoded,table):
         w,h=intrinsic
         if w<=0 or h<=0:raise ValueError('Invalid original mascot size: '+path)
         target='res/drawable/duoaero_mascot_'+hashlib.sha256(path.encode()).hexdigest()[:16]+'.xml'
-        # Approved PNG is 1200x1300. Read dimensions from its IHDR at build time.
-        png=(Path(__file__).resolve().parents[1]/'app/assets/mascot/welcome.png').read_bytes()
+        mood=static_mood(name)
+        source=MOOD_SCENES[mood] if mood else 'welcome.png'
+        png=(Path(__file__).resolve().parents[1]/'app/assets/mascot'/source).read_bytes()
         iw,ih=struct.unpack_from('>II',png,16);scale=min(w/iw,h/ih)
         if name == 'duo_eyes':
             # Android applies a circular splash mask; keep the complete face
@@ -183,7 +212,7 @@ def mascot_drawables(decoded,table):
             drawable = '@drawable/ic_launcher_foreground'
         else:
             image_w, image_h = iw*scale, ih*scale
-            drawable = '@drawable/duoaero_scene_mascot'
+            drawable = '@drawable/duoaero_scene_'+mood if mood else '@drawable/duoaero_scene_mascot'
         files[target]=f'<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item><shape><size android:width="{w:g}dp" android:height="{h:g}dp"/><solid android:color="#00000000"/></shape></item><item android:width="{image_w:g}dp" android:height="{image_h:g}dp" android:gravity="center"><bitmap android:src="{drawable}" android:gravity="fill" android:filter="true"/></item></layer-list>'
         paths[path]=target;sizes[path]=[w,h]
     return paths,files,sizes

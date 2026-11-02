@@ -1,0 +1,146 @@
+"""Reviewed word-first introductions for the authored symbolic formulas.
+
+These are deliberately explicit: a symbol can mean different things in
+different fields, so a general symbol-to-name replacement is unsafe.
+Each introduction uses the existing inline word-bank challenge.
+"""
+import hashlib
+
+# A sentence with one missing word, the correct block and three distractors.
+# The other named quantities make the physical relationship explicit before
+# the following exercise asks the learner to build the symbolic formula.
+FORMULAS = {
+ 'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
+ 'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
+ 'time': ('Flight time t equals distance d divided by ground ___ Vg.', 'speed', ['mass', 'pressure', 'area']),
+ 'total_time': ('Total flight time t-total equals outbound time t-out plus ___ time t-back.', 'return', ['takeoff', 'reaction', 'climb']),
+ 'range': ('Range R = (speed V times lift-to-drag ratio E) / (gravity g times fuel consumption cT) times log(initial ___ mi / final mass mf).', 'mass', ['temperature', 'pressure', 'area']),
+ 'axial_stiffness': ('Axial stiffness k equals Young modulus E times area A divided by ___.', 'length', ['pressure', 'density', 'mass']),
+ 'cantilever': ('Cantilever tip stiffness k equals three times Young modulus E times second moment I divided by ___ L cubed.', 'length', ['pressure', 'density', 'mass']),
+ 'buckling': ('Critical load Pcr = pi squared times Young modulus E-Y times second moment I / (factor K times ___ L) squared.', 'length', ['mass', 'pressure', 'temperature']),
+ 'extension': ('Axial extension delta-L equals force F times length L divided by Young modulus E-Y times ___ A.', 'area', ['velocity', 'pressure', 'temperature']),
+ 'aspect': ('Wing aspect ratio AR equals wingspan b squared divided by wing ___ S.', 'area', ['mass', 'density', 'pressure']),
+ 'taper': ('Wing taper ratio lambda equals tip chord c-tip divided by root ___ c-root.', 'chord', ['pressure', 'mass', 'density']),
+ 'hydraulic': ('Hydraulic power P-hyd equals pressure difference delta-p times volume ___ rate Q.', 'flow', ['mass', 'temperature', 'pressure']),
+ 'dynamic_pressure': ('Dynamic pressure q equals one half times density rho times airspeed V ___.', 'squared', ['cubed', 'halved', 'doubled']),
+ 'induced_drag': ('Induced drag coefficient CDi = lift coefficient CL squared / (pi times efficiency e times aspect ___ AR).', 'ratio', ['mass', 'pressure', 'temperature']),
+ 'thrust': ('Ideal thrust T equals mass flow rate m-dot times the difference between exhaust speed Ve and flight ___ V0.', 'speed', ['mass', 'pressure', 'density']),
+ 'kinetic_temperature': ('Temperature rise delta-T equals speed V squared divided by twice specific heat cp at constant ___.', 'pressure', ['area', 'mass', 'velocity']),
+ 'static_temperature': ('Static temperature T equals total temperature Tt minus kinetic temperature ___ delta-T.', 'rise', ['mass', 'area', 'force']),
+ 'sound': ('Speed of sound a squared equals heat capacity ratio gamma times gas constant R times absolute ___ T.', 'temperature', ['altitude', 'area', 'mass']),
+ 'mach': ('Mach number M equals airspeed V divided by the speed of ___ a.', 'sound', ['light', 'gravity', 'rotation']),
+ 'breguet_exponent': ('Exponent x = (range R times gravity g times fuel consumption ce) / (speed V times lift-to-drag ___ E).', 'ratio', ['mass', 'area', 'pressure']),
+ 'fuel_fraction': ('Fuel fraction m-fuel / mi equals one minus the ___ mass fraction r.', 'remaining', ['initial', 'total', 'payload']),
+}
+
+KINDS = {
+ 'BOOK-V6-01-D1':'gas', 'BOOK-V6-01-D2':'gas',
+ 'WIND-TAILWIND-FORMULA':'tailwind', 'WIND-TIME-FORMULA':'time', 'WIND-TOTAL-FORMULA':'total_time',
+ 'BOOK-V6-03-D1':'range', 'BOOK-V6-03-D2':'range',
+ 'INTRO-AXIAL-STIFFNESS':'axial_stiffness', 'INTRO-CANTILEVER-STIFFNESS':'cantilever',
+ 'BOOK-V6-05-D1':'buckling', 'BOOK-V6-05-D2':'buckling',
+ 'BOOK-V6-04-D1':'extension', 'BOOK-V6-04-D2':'extension',
+ 'INTRO-ASPECT-RATIO':'aspect', 'INTRO-TAPER-RATIO':'taper',
+ 'BOOK-V6-08-D1':'hydraulic', 'BOOK-V6-08-D2':'hydraulic',
+ 'BOOK-V6-02-D1':'dynamic_pressure', 'BOOK-V6-02-D2':'dynamic_pressure',
+ 'BOOK-V6-06-D1':'induced_drag', 'BOOK-V6-06-D2':'induced_drag',
+ 'BOOK-V6-07-D1':'thrust', 'BOOK-V6-07-D2':'thrust',
+ 'TA1-0107-D2-F1':'kinetic_temperature', 'TA1-0107-D2-F2':'static_temperature',
+ 'TA1-0107-D2-F3':'sound', 'TA1-0107-D2-F4':'mach',
+ 'TA1-0078-D2-F1':'breguet_exponent', 'TA1-0078-D2-F2':'fuel_fraction',
+}
+
+# Each item is emitted as mathematical LaTeX inside the surrounding sentence.
+# Do not interpret arbitrary course prose as LaTeX: these names are restricted
+# to the explicitly authored word-first exercises above.
+INLINE_SYMBOLS = {
+ 'p':'p', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
+ 'Vg':r'V_g', 'V':'V', 'w':'w', 't':'t', 'd':'d',
+ 't-total':r't_{\mathrm{total}}', 't-out':r't_{\mathrm{out}}', 't-back':r't_{\mathrm{back}}',
+ 'R':'R', 'E':'E', 'g':'g', 'cT':r'c_T', 'mi':r'm_i', 'mf':r'm_f',
+ 'k':'k', 'A':'A', 'L':'L', 'I':'I', 'Pcr':r'P_{cr}', 'E-Y':r'E_Y', 'K':'K',
+ 'delta-L':r'\Delta L', 'F':'F', 'AR':r'\mathrm{AR}', 'b':'b', 'S':'S',
+ 'lambda':r'\lambda', 'c-tip':r'c_t', 'c-root':r'c_r', 'P-hyd':r'P_{\mathrm{hyd}}',
+ 'delta-p':r'\Delta p', 'Q':'Q', 'q':'q', 'pi':r'\pi', 'CDi':r'C_{D,i}',
+ 'CL':r'C_L', 'e':'e', 'm-dot':r'\dot{m}', 'Ve':r'V_e', 'V0':r'V_0',
+ 'delta-T':r'\Delta T', 'cp':r'c_p', 'Tt':r'T_t', 'a':'a',
+ 'gamma':r'\gamma', 'M':'M', 'x':'x', 'ce':r'c_e', 'm-fuel':r'm_{\mathrm{fuel}}', 'r':'r',
+}
+
+# Name of the quantity occupying the hole in the original equation, plus
+# distractors. The rest of each equation comes from the reviewed LaTeX source.
+EQUATION_NAMES = {
+ 'gas':('temperature',['density','pressure','altitude']),
+ 'tailwind':('wind speed',['airspeed','ground speed','flight time']),
+ 'time':('flight time',['distance','ground speed','fuel mass']),
+ 'total_time':('return time',['outbound time','total time','distance']),
+ 'range':('range',['speed','fuel mass','altitude']),
+ 'axial_stiffness':('axial stiffness',['area','length','force']),
+ 'cantilever':('tip stiffness',['length','force','pressure']),
+ 'buckling':('critical load',['length','mass','temperature']),
+ 'extension':('extension',['force','area','density']),
+ 'aspect':('aspect ratio',['wing area','wingspan','taper ratio']),
+ 'taper':('taper ratio',['aspect ratio','wingspan','area']),
+ 'hydraulic':('flow rate',['hydraulic power','pressure','area']),
+ 'dynamic_pressure':('density',['dynamic pressure','airspeed','wing area']),
+ 'induced_drag':('induced drag',['lift coefficient','aspect ratio','efficiency']),
+ 'thrust':('flight speed',['mass flow','exhaust speed','pressure']),
+ 'kinetic_temperature':('temperature rise',['speed','specific heat','pressure']),
+ 'static_temperature':('temperature rise',['total temperature','speed','density']),
+ 'sound':('temperature',['speed','pressure','density']),
+ 'mach':('Mach number',['airspeed','sound speed','pressure']),
+ 'breguet_exponent':('exponent',['range','airspeed','fuel mass']),
+ 'fuel_fraction':('remaining fraction',['fuel fraction','total mass','speed']),
+}
+
+# Where the quantity is an operand at the top level, keep the hole precisely
+# at that operand. The expression on each side remains unchanged. For a nested
+# fraction we instead put the hole on the left of the equality so the fraction
+# and its bar are preserved as one rendered mathematical object.
+IN_PLACE = {
+ 'gas':(r'p=\rho R_a','T',''),
+ 'tailwind':(r'V_g=V+','w',''),
+ 'total_time':(r't_{total}=t_{out}+',r't_{back}',''),
+ 'hydraulic':(r'P_{hyd}=\Delta p\,','Q',''),
+ 'dynamic_pressure':(r'q=\frac12',r'\rho',r' V^2'),
+ 'thrust':(r'T=\dot m(V_e-','V_0',')'),
+ 'static_temperature':(r'T=T_t-',r'\Delta T',''),
+ 'sound':(r'a^2=\gamma R','T',''),
+ 'fuel_fraction':(r'\frac{m_{\mathrm{fuel}}}{m_i}=1-','r',''),
+}
+
+
+def word_introduction(formula):
+    """Return a stable, authored word challenge immediately before a formula."""
+    sentence, answer, distractors = FORMULAS[KINDS[formula['id']]]
+    assert sentence.count('___') == 1 and len({answer, *distractors}) == 4
+    return {'id': formula['id']+'-WORDS', 'type':'gap', 'difficulty':formula['difficulty'],
+            'stem':'Complete the formula in words: '+sentence, 'answer':[answer],
+            'distractors':list(distractors), 'explanation':sentence.replace('___', answer),
+            'formula_word_symbols':True}
+
+
+def choices_in_stable_order(identifier, choices):
+    """Vary answer placement without changing saved challenge identities."""
+    return sorted(choices, key=lambda choice: hashlib.sha256((identifier+'\0'+choice).encode()).digest())
+
+
+def named_equation(formula):
+    """Put a named quantity into its original place in the LaTeX equation."""
+    kind = KINDS[formula['id']]
+    answer, distractors = EQUATION_NAMES[kind]
+    equation = formula['formula_latex']
+    left, separator, right = equation.partition('=')
+    if not separator or not left or not right:
+        raise ValueError('Reviewed named formula needs an equality: '+formula['id'])
+    # An exponent and a fraction are operations that must remain visible. For
+    # these formulas the hole therefore replaces a top-level RHS quantity.
+    before, missing, after = IN_PLACE.get(kind, ('',left,'='+right))
+    if before+missing+after != equation:
+        raise ValueError('Named formula no longer matches reviewed equation: '+formula['id'])
+    assert len({answer,*distractors}) == 4
+    return {'id':formula['id']+'-NAMED', 'type':'formula_named',
+            'difficulty':formula['difficulty'], 'stem':'Complete the formula with a quantity',
+            'before_latex':before, 'after_latex':after, 'missing_latex':missing, 'formula_latex':equation,
+            'answer_blocks':[answer], 'blocks':choices_in_stable_order(formula['id']+'-NAMED',[answer,*distractors]),
+            'explanation':equation}

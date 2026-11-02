@@ -9,11 +9,11 @@ MASCOT_PATH = 'res/drawable/duoaero_launcher_mascot.png'
 SCENE_MASCOT_PATH = 'res/drawable/duoaero_scene_mascot.png'
 
 
-def scene_mascot(table):
-    """Append a distinct scene drawable without changing existing IDs/configs."""
+def append_scene_drawable(table, name, path):
+    """Append a scene bitmap without changing existing resource IDs/configs."""
     top = list(chunks(table, 12, len(table)))
     offset, _, _, size = top[0]
-    pool, path_index = append_string(table[offset:offset+size], SCENE_MASCOT_PATH)
+    pool, path_index = append_string(table[offset:offset+size], path)
     offset, kind, header, size = top[1]
     if kind != 0x200 or header != 288:
         raise ValueError('Unexpected original application package')
@@ -29,7 +29,7 @@ def scene_mascot(table):
             struct.pack_into('<I', output, 268, len(output))
         if start == key_offset:
             struct.pack_into('<I', output, 276, len(output))
-            chunk, key_index = append_string(chunk, 'duoaero_scene_mascot')
+            chunk, key_index = append_string(chunk, name)
         elif kind in (0x201, 0x202) and chunk[8] == 0x08:
             count = struct.unpack_from('<I', chunk, 12)[0]
             if chunk[9] != 0 or (entry_id is not None and count != entry_id):
@@ -62,6 +62,44 @@ def scene_mascot(table):
     result = bytearray(table[:12]) + pool + output
     struct.pack_into('<I', result, 4, len(result))
     return bytes(result), 0x7f080000 | entry_id
+
+
+def scene_mascot(table):
+    return append_scene_drawable(table, 'duoaero_scene_mascot', SCENE_MASCOT_PATH)
+
+
+# Existing transparent character artwork used for the corresponding static
+# original poses. Animation resources still use their own native Rive tracks.
+MOOD_SCENES = {
+    'think': 'think.png',
+    'celebrate': 'overjoyed/frame-00.png',
+    'surprised': 'surprised/frame-00.png',
+    'plane': 'plane/frame-00.png',
+    'foam': 'foam/frame-00.png',
+    'hero': 'hero/frame-00.png',
+    'lovey': 'lovey/frame-00.png',
+    'chef': 'chef/frame-00.png',
+    'zen': 'zen/frame-00.png',
+    'sad': 'sad.png',
+    'sally': 'characters/sally/idle/frame-00.png',
+    'charlie': 'characters/charlie/idle/frame-00.png',
+    'linus': 'characters/linus/idle/frame-00.png',
+    'lucy': 'characters/lucy/idle/frame-00.png',
+    'schroeder': 'characters/schroeder/idle/frame-00.png',
+    'patty': 'characters/patty/idle/frame-00.png',
+    'marcie': 'characters/marcie/idle/frame-00.png',
+    'franklin': 'characters/franklin/idle/frame-00.png',
+    'pigpen': 'characters/pigpen/idle/frame-00.png',
+    'woodstock': 'characters/woodstock/idle/frame-00.png',
+}
+
+
+def mood_scenes(table):
+    ids = {}
+    for mood in MOOD_SCENES:
+        table, ids[mood] = append_scene_drawable(table, 'duoaero_scene_'+mood,
+                                                 'res/drawable/duoaero_scene_'+mood+'.png')
+    return table, ids
 
 
 def launcher_mascot(table):
