@@ -8,7 +8,7 @@
     "review_inventory": {
       "source_questions": 1200,
       "unstaged_stems_over_300_characters": 278,
-      "possible_calculations_without_authored_hints": 559,
+      "possible_calculations_without_authored_hints": 552,
       "authored_formula_exercises_without_full_named_blocks": 10,
       "note": "Review queues, not a count of confirmed errors: the hint heuristic also matches conceptual questions."
     },
@@ -33,7 +33,8 @@
       "Android runs 41520306939 and 41518676490 graded named flight time, Mach, compact static temperature and thrust controls, with screenshots inspected. Run 41520281226 graded named pressure ratio and dynamic pressure, but dynamic pressure displayed an oversized exponent and stranded multiplication sign. Later layout fixes and new lesson migration need Android acceptance.",
       "Android run 41522448593 graded the first two staged cabin problems and passed synthetic account projection. Run 41524834250 showed the short questions and gamma without clipping; run 41526660877 graded and visually verified the subsequently resized exponent on separate power and aspect questions. Real-account path migration is unverified.",
       "Android run 41523145284 crashed in the experimental product-fraction sequence with a SequenceTokenUiState class cast. A native-token wrapper fix is implemented and awaits Android retest; do not treat these exercises as functional yet.",
-      "Android run 41527035707 displayed the axial-extension hint, waited until Check to grade, retried at lesson end and reached Claim XP. Inspected captures show ΔL and the hint fraction. It is a synthetic diagnostic session, not real-account persistence."
+      "Android run 41527035707 displayed the axial-extension hint, waited until Check to grade, retried at lesson end and reached Claim XP. Inspected captures show ΔL and the hint fraction. It is a synthetic diagnostic session, not real-account persistence.",
+      "Android runs 41526287112 and 41527904567 graded the lift and mean-chord sequences; inspected S24-proportioned captures show quantity blocks and the mean-chord fraction. Run 41527421053 graded total thrust, but a bank option was clipped at the right edge; shorter tiles await Android retest."
     ],
     "incomplete": [
       "Full course coverage, reviewed calculation hints and prerequisite ordering, and complete LaTeX/text-layout audit.",

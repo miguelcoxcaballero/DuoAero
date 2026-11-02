@@ -16673,7 +16673,73 @@
       -1.0658141036401503e-14
     ],
     "legacy_id": "TA1-0156",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0156-D2-S1",
+        "stem": "A probe slows air from 199 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "19.71 K",
+          "39.42 K",
+          "9.86 K",
+          "29.71 K"
+        ],
+        "answer": 0,
+        "explanation": "19.71 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0156-D2-S2",
+        "stem": "Total temperature is 284 K and the temperature rise is 19.71 K. What is static temperature?",
+        "options": [
+          "264.29 K",
+          "303.71 K",
+          "284.00 K",
+          "19.71 K"
+        ],
+        "answer": 0,
+        "explanation": "264.29 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0156-D2-S3",
+        "stem": "Static temperature is 264.29 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "325.87 m/s",
+          "651.74 m/s",
+          "162.93 m/s",
+          "375.87 m/s"
+        ],
+        "answer": 0,
+        "explanation": "325.87 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0156-D2",
+        "stem": "Flow speed is 199 m/s and sound speed is 325.87 m/s. What is the Mach number?",
+        "options": [
+          "0.58529",
+          "0.61067",
+          "0.5891",
+          "1.0746"
+        ],
+        "answer": 1,
+        "explanation": "M = 199 / 325.87 ≈ 0.61067.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0339-D2",
@@ -18696,7 +18762,73 @@
       0.0
     ],
     "legacy_id": "TA1-0164",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0164-D2-S1",
+        "stem": "A probe slows air from 208 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "21.54 K",
+          "43.07 K",
+          "10.77 K",
+          "31.54 K"
+        ],
+        "answer": 0,
+        "explanation": "21.54 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0164-D2-S2",
+        "stem": "Total temperature is 288 K and the temperature rise is 21.54 K. What is static temperature?",
+        "options": [
+          "266.46 K",
+          "309.54 K",
+          "288.00 K",
+          "21.54 K"
+        ],
+        "answer": 0,
+        "explanation": "266.46 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0164-D2-S3",
+        "stem": "Static temperature is 266.46 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "327.21 m/s",
+          "654.42 m/s",
+          "163.60 m/s",
+          "377.21 m/s"
+        ],
+        "answer": 0,
+        "explanation": "327.21 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0164-D2",
+        "stem": "Flow speed is 208 m/s and sound speed is 327.21 m/s. What is the Mach number?",
+        "options": [
+          "0.61145",
+          "1.0808",
+          "0.63568",
+          "0.61176"
+        ],
+        "answer": 2,
+        "explanation": "M = 208 / 327.21 ≈ 0.63568.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0509-D2",
@@ -20660,7 +20792,73 @@
       0.0
     ],
     "legacy_id": "TA1-0195",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0195-D2-S1",
+        "stem": "A probe slows air from 217 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "23.44 K",
+          "46.88 K",
+          "11.72 K",
+          "33.44 K"
+        ],
+        "answer": 0,
+        "explanation": "23.44 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0195-D2-S2",
+        "stem": "Total temperature is 292 K and the temperature rise is 23.44 K. What is static temperature?",
+        "options": [
+          "268.56 K",
+          "315.44 K",
+          "292.00 K",
+          "23.44 K"
+        ],
+        "answer": 0,
+        "explanation": "268.56 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0195-D2-S3",
+        "stem": "Static temperature is 268.56 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "328.49 m/s",
+          "656.99 m/s",
+          "164.25 m/s",
+          "378.49 m/s"
+        ],
+        "answer": 0,
+        "explanation": "328.49 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0195-D2",
+        "stem": "Flow speed is 217 m/s and sound speed is 328.49 m/s. What is the Mach number?",
+        "options": [
+          "0.63824",
+          "0.66059",
+          "1.0873",
+          "0.63352"
+        ],
+        "answer": 1,
+        "explanation": "M = 217 / 328.49 ≈ 0.66059.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0651-D2",
@@ -22624,7 +22822,73 @@
       -1.7763568394002505e-14
     ],
     "legacy_id": "TA1-0327",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0327-D2-S1",
+        "stem": "A probe slows air from 226 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "25.42 K",
+          "50.85 K",
+          "12.71 K",
+          "35.42 K"
+        ],
+        "answer": 0,
+        "explanation": "25.42 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0327-D2-S2",
+        "stem": "Total temperature is 296 K and the temperature rise is 25.42 K. What is static temperature?",
+        "options": [
+          "270.58 K",
+          "321.42 K",
+          "296.00 K",
+          "25.42 K"
+        ],
+        "answer": 0,
+        "explanation": "270.58 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0327-D2-S3",
+        "stem": "Static temperature is 270.58 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "329.72 m/s",
+          "659.45 m/s",
+          "164.86 m/s",
+          "379.72 m/s"
+        ],
+        "answer": 0,
+        "explanation": "329.72 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0327-D2",
+        "stem": "Flow speed is 226 m/s and sound speed is 329.72 m/s. What is the Mach number?",
+        "options": [
+          "0.68542",
+          "0.66471",
+          "1.094",
+          "0.65533"
+        ],
+        "answer": 0,
+        "explanation": "M = 226 / 329.72 ≈ 0.68542.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0676-D2",
@@ -24494,7 +24758,73 @@
       7.105427357601002e-15
     ],
     "legacy_id": "TA1-0348",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0348-D2-S1",
+        "stem": "A probe slows air from 235 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "27.49 K",
+          "54.98 K",
+          "13.74 K",
+          "37.49 K"
+        ],
+        "answer": 0,
+        "explanation": "27.49 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0348-D2-S2",
+        "stem": "Total temperature is 300 K and the temperature rise is 27.49 K. What is static temperature?",
+        "options": [
+          "272.51 K",
+          "327.49 K",
+          "300.00 K",
+          "27.49 K"
+        ],
+        "answer": 0,
+        "explanation": "272.51 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0348-D2-S3",
+        "stem": "Static temperature is 272.51 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "330.90 m/s",
+          "661.80 m/s",
+          "165.45 m/s",
+          "380.90 m/s"
+        ],
+        "answer": 0,
+        "explanation": "330.90 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0348-D2",
+        "stem": "Flow speed is 235 m/s and sound speed is 330.90 m/s. What is the Mach number?",
+        "options": [
+          "0.71018",
+          "1.1009",
+          "0.67687",
+          "0.69118"
+        ],
+        "answer": 0,
+        "explanation": "M = 235 / 330.90 ≈ 0.71018.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0778-D2",
@@ -26319,7 +26649,73 @@
       1.7763568394002505e-14
     ],
     "legacy_id": "TA1-0371",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0371-D2-S1",
+        "stem": "A probe slows air from 244 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "29.63 K",
+          "59.27 K",
+          "14.82 K",
+          "39.63 K"
+        ],
+        "answer": 0,
+        "explanation": "29.63 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0371-D2-S2",
+        "stem": "Total temperature is 304 K and the temperature rise is 29.63 K. What is static temperature?",
+        "options": [
+          "274.37 K",
+          "333.63 K",
+          "304.00 K",
+          "29.63 K"
+        ],
+        "answer": 0,
+        "explanation": "274.37 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0371-D2-S3",
+        "stem": "Static temperature is 274.37 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "332.02 m/s",
+          "664.05 m/s",
+          "166.01 m/s",
+          "382.02 m/s"
+        ],
+        "answer": 0,
+        "explanation": "332.02 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0371-D2",
+        "stem": "Flow speed is 244 m/s and sound speed is 332.02 m/s. What is the Mach number?",
+        "options": [
+          "1.108",
+          "0.73489",
+          "0.71765",
+          "0.69815"
+        ],
+        "answer": 1,
+        "explanation": "M = 244 / 332.02 ≈ 0.73489.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0801-D2",
@@ -28178,7 +28574,73 @@
       1.4210854715202004e-14
     ],
     "legacy_id": "TA1-0456",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0456-D2-S1",
+        "stem": "A probe slows air from 253 m/s. With specific heat 1004.5 J/(kg K), what is the temperature rise?",
+        "options": [
+          "31.86 K",
+          "63.72 K",
+          "15.93 K",
+          "41.86 K"
+        ],
+        "answer": 0,
+        "explanation": "31.86 K",
+        "formula_hint": {
+          "latex": "\\Delta T=\\frac{V^2}{2c_p}",
+          "prerequisite": "TA1-0107-D2-F1"
+        }
+      },
+      {
+        "id": "TA1-0456-D2-S2",
+        "stem": "Total temperature is 308 K and the temperature rise is 31.86 K. What is static temperature?",
+        "options": [
+          "276.14 K",
+          "339.86 K",
+          "308.00 K",
+          "31.86 K"
+        ],
+        "answer": 0,
+        "explanation": "276.14 K",
+        "formula_hint": {
+          "latex": "T=T_t-\\Delta T",
+          "prerequisite": "TA1-0107-D2-F2"
+        }
+      },
+      {
+        "id": "TA1-0456-D2-S3",
+        "stem": "Static temperature is 276.14 K. For gamma = 1.4 and R = 287 J/(kg K), what is sound speed?",
+        "options": [
+          "333.10 m/s",
+          "666.19 m/s",
+          "166.55 m/s",
+          "383.10 m/s"
+        ],
+        "answer": 0,
+        "explanation": "333.10 m/s",
+        "formula_hint": {
+          "latex": "a^2=\\gamma RT",
+          "prerequisite": "TA1-0107-D2-F3"
+        }
+      },
+      {
+        "id": "TA1-0456-D2",
+        "stem": "Flow speed is 253 m/s and sound speed is 333.10 m/s. What is the Mach number?",
+        "options": [
+          "1.1154",
+          "0.71918",
+          "0.75954",
+          "0.74412"
+        ],
+        "answer": 2,
+        "explanation": "M = 253 / 333.10 ≈ 0.75954.",
+        "formula_hint": {
+          "latex": "M=\\frac{V}{a}",
+          "prerequisite": "TA1-0107-D2-F4"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0819-D2",

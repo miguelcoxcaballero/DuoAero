@@ -162,5 +162,29 @@
       "TA1-0626-D2",
       "BOOK-V6-04-D3"
     ]
+  },
+  "2.1-0-point-0-lesson-2": {
+    "sourceLesson": "2.1-0-point-0-lesson-0",
+    "requiredQuestions": [
+      "TA1-0327-D2",
+      "TA1-0348-D2",
+      "TA1-0371-D2"
+    ]
+  },
+  "2.1-0-point-0-lesson-3": {
+    "sourceLesson": "2.1-0-point-0-lesson-1",
+    "requiredQuestions": [
+      "TA1-0456-D2",
+      "TA1-0753-D3",
+      "TA1-0846-D3",
+      "TA1-0877-D3",
+      "TA1-0881-D3",
+      "TA1-0907-D3",
+      "TA1-N3-23-06",
+      "TA1-N3-23-07",
+      "TA1-N3-23-08",
+      "TA1-N3-23-09",
+      "TA1-N3-23-10"
+    ]
   }
 }

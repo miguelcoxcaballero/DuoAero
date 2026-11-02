@@ -684,10 +684,22 @@
           "TA1-0053-F1",
           "TA1-0156-D2",
           "TA1-0164-D2",
-          "TA1-0195-D2",
+          "TA1-0195-D2"
+        ],
+        "name": "Kinetic heating · Lesson 2"
+      },
+      {
+        "id": "2.1-0-point-0-lesson-2",
+        "ids": [
           "TA1-0327-D2",
           "TA1-0348-D2",
-          "TA1-0371-D2",
+          "TA1-0371-D2"
+        ],
+        "name": "Kinetic heating · Lesson 3"
+      },
+      {
+        "id": "2.1-0-point-0-lesson-3",
+        "ids": [
           "TA1-0456-D2",
           "TA1-0753-D3",
           "TA1-0846-D3",
@@ -700,7 +712,7 @@
           "TA1-N3-23-09",
           "TA1-N3-23-10"
         ],
-        "name": "Kinetic heating · Lesson 2"
+        "name": "Kinetic heating · Lesson 4"
       }
     ]
   },
