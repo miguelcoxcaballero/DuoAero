@@ -180,21 +180,13 @@ try:
             if index == len(sequence)-1 and os.environ.get('DUOAERO_CAPTURE_COMPLETION')=='1':
                 # Start before the final transition so the recording includes
                 # the native celebration rather than just its final frame.
-                recorder=subprocess.Popen(['adb','shell','screenrecord','--time-limit','10',
+                recorder=subprocess.Popen(['adb','shell','screenrecord','--time-limit','60',
                                            '/sdcard/duoaero-lesson-completion.mp4'],
                                           stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
                 time.sleep(.8)
             if index == len(sequence)-1:
                 final_continue_at=time.monotonic()
             tap_node(matching(tree,'CONTINUE')[-1])
-            if recorder is not None:
-                try:
-                    recorder.wait(timeout=14)
-                    if recorder.returncode==0:
-                        subprocess.run(['adb','pull','/sdcard/duoaero-lesson-completion.mp4',str(OUT/'lesson-completion.mp4')],
-                                       check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
-                except subprocess.TimeoutExpired:
-                    recorder.kill()
     deadline=time.monotonic()+90
     while time.monotonic()<deadline:
         tree=capture('atmosphere-complete')
@@ -209,6 +201,15 @@ try:
             adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(2)
     else:raise AssertionError('Claim XP missing')
+    if os.environ.get('DUOAERO_CAPTURE_COMPLETION')=='1' and recorder is not None:
+        # Stop only once Claim XP is observed. Waiting synchronously for a
+        # fixed recording length distorted timing and could miss the end.
+        subprocess.run(['adb','shell','kill -INT $(pidof screenrecord)'],check=False,
+                       stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=10)
+        try:recorder.wait(timeout=10)
+        except subprocess.TimeoutExpired:recorder.kill();recorder.wait()
+        subprocess.run(['adb','pull','/sdcard/duoaero-lesson-completion.mp4',str(OUT/'lesson-completion.mp4')],
+                       check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
     if final_continue_at is not None and os.environ.get('DUOAERO_CAPTURE_COMPLETION')!='1':
         (OUT/'atmosphere-latency.txt').write_text(
             'Elapsed from initiating final Continue to observing Claim XP: '
