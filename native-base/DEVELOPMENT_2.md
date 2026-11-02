@@ -154,7 +154,10 @@ questions, claimed XP, observed the next node and graded its first question
 after restarting. The latest merged build is being checked separately. The research draft now
 also includes twenty original conceptual questions on diverse aircraft and
 rotorcraft, aligned with the course outline; these are not in the diagnostic
-section or production. All fifty draft questions, the missing topics and
+section or production. Run 41386234650 graded the first version of those
+twenty on Android; the job failed at its final evidence-path check. Their
+distractors were subsequently improved, and that revision needs a fresh UI
+test. All fifty draft questions, the missing topics and
 calculations, rewards, Drive and the complete second-midterm course still need
 editorial review and Android acceptance.
 
