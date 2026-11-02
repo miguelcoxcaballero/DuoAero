@@ -90,9 +90,10 @@ passed four original controls in run 41381254897. The wind sequence passed
 A front-facing Peanuts-style aviator launcher replaces the earlier generic dog.
 Android run 41391211227 rendered the launcher drawable without clipping. A
 later S24-proportioned startup recording in run 41393049952 showed that the
-splash screen still clips the goggles despite the host mask check. A smaller
-splash-specific foreground is under test and is not integrated. The physical
-S24 Ultra remains unverified.
+splash screen clipped the goggles despite the host mask check. A smaller
+splash-specific foreground kept the full face, goggles and ears visible in
+Android run 41394279283 and is integrated. The physical S24 Ultra remains
+unverified.
 
 The original welcome and share-card wordmark resource names now map to the
 DuoAero wordmark instead of the generic mascot. Android run 41385372302
