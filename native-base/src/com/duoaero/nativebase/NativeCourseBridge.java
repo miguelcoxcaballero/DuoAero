@@ -396,6 +396,13 @@ public final class NativeCourseBridge {
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/available-features")){
     code=200;payload="{\"subscriptionFeatures\":[]}";
    }
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/energy-rewards")){
+    // This offline course has unlimited energy; there are no remote
+    // in-lesson energy refills to consume. A valid empty native response
+    // avoids repeatedly retrying a 503 while end-of-lesson UI is loading.
+    // Gem chests are tracked independently by NativeChestRewards.
+    code=200;payload="{\"inLessonRewards\":[]}";
+   }
    else if(method.equals("GET")&&path.equals("/users/1/progress")){
     // GoalsProgressResponse's original empty/default state: no assigned quests.
     code=200;

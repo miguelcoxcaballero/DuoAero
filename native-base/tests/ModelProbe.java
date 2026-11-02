@@ -47,8 +47,8 @@ public final class ModelProbe extends Instrumentation {
      if(failed<=12)report.append(input.getString("id")).append(": ").append(cause).append('\n');
     }
    }
-   String[] types={"com.duolingo.data.subscription.max.SubscriptionFeatureGroup","com.duolingo.data.goals.models.GoalsProgressResponse"};
-   String[] responses={"{\"subscriptionFeatures\":[]}","{}"};
+   String[] types={"com.duolingo.data.subscription.max.SubscriptionFeatureGroup","com.duolingo.data.goals.models.GoalsProgressResponse","com.duolingo.data.energyrewards.EnergyRewardsTemplate"};
+   String[] responses={"{\"subscriptionFeatures\":[]}","{}","{\"inLessonRewards\":[]}"};
    for(int i=0;i<types.length;i++){
     Object c=Class.forName(types[i],true,loader).getField("Companion").get(null);
     Object model=decode.invoke(json,c.getClass().getMethod("serializer").invoke(c),responses[i]);

@@ -114,6 +114,12 @@ this is a sample, not complete lesson or course verification. A subsequent
 full-lesson timing run was interrupted by an unrelated Pixel Launcher ANR
 dialog in the emulator; the test now dismisses only that external dialog.
 
+The original energy-rewards request returned repeated local 503 responses
+during lesson completion. An experimental empty response uses the original
+model's required `inLessonRewards` field for this unlimited-energy course;
+gem chests use a separate store. Model decoding, end-to-end timing and native
+chest rewards must be checked on Android before claiming any speed improvement.
+
 ## Acceptance still required
 
 * Review all calculation families, simplify long questions, author correct
