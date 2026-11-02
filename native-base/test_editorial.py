@@ -9,7 +9,11 @@ previous = json.loads(subprocess.check_output(['git', 'show', 'HEAD:app/assets/q
 original_exams = {q['id']: q for q in previous if q['origin']['kind'] == 'exam'}
 current = {q['id']: q for q in bank}
 def without_presentation(question):
-    return {key: value for key, value in question.items() if key != 'rich_text'}
+    result = {key: value for key, value in question.items() if key != 'rich_text'}
+    # The public bank intentionally omits private source metadata.
+    result['origin'] = {key: value for key, value in result['origin'].items()
+                        if key in ('kind', 'title', 'page', 'pages', 'pdf_page')}
+    return result
 assert all(without_presentation(current[key]) == without_presentation(value)
            for key, value in original_exams.items()), 'An original exam item changed'
 assert len(original_exams) == 106
@@ -30,4 +34,4 @@ for q in bank:
     assert all(ref in original_exams for ref in q['exam_alignment'])
 assert math.isclose(1 / .8, 1.25)
 assert math.isclose(math.sqrt(1.10) / 1.03, 1.018261017640442, rel_tol=1e-6)
-print('PASS: original 106 exam records unchanged except presentation metadata; distractors, rich schema and numeric ratios verified')
+print('PASS: original 106 exam questions unchanged except presentation and source redaction; distractors, rich schema and numeric ratios verified')
