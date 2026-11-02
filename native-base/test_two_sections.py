@@ -30,7 +30,7 @@ def second_active(tree,capture_name):
  if not has(tree,'3.2 · Space flight environment'):return False
  ovals=[n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']
  if len(ovals)<2:return False
- a,b,c,d=map(int,re.findall(r'\d+',ovals[-1].get('bounds')))
+ a,b,c,d=map(int,re.findall(r'\d+',ovals[1].get('bounds')))
  with Image.open(OUT/(capture_name+'.png')) as image:
   red,green,blue=image.convert('RGB').getpixel(((a+c)//2,b+(d-b)//5))
   return green>120 and green>red*1.2 and green>blue*1.2
@@ -89,7 +89,7 @@ try:
   expanded=wait('two-sections-restart-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
   tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
  path=wait('two-sections-restart-path',lambda t:second_active(t,'two-sections-restart-path'),120)
- tap([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval'][-1])
+ tap([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval'][1])
  next_node=wait('two-sections-next-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),45)
  tap(next(n for n in next_node.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
  # The original math renderer draws its question body in a web view without
