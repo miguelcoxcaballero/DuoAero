@@ -588,6 +588,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   # Real native grading of the ordered ratio prerequisite and three short,
   # independently checked pressure calculations from the Aerospace path.
   mixed=lesson_questions([by_id[qid] for qid in ('TA1-0397-D2','TA1-0425-D2','TA1-0463-D2')],teach_words=True)
+ if os.environ.get('DUOAERO_ISA_EXTRA_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id[qid] for qid in ('TA1-0445-D2','TA1-0449-D2','TA1-0592-D2','TA1-0668-D2','TA1-0708-D2')],teach_words=True)
  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
   # Original question with a square root, a nested physical fraction and units.
   mixed=[by_id['TA1-0006-F1']]

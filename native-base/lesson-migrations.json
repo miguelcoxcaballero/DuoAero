@@ -2,11 +2,6 @@
   "2.1-5-point-0-lesson-2": {
     "sourceLesson": "2.1-5-point-0-lesson-1",
     "requiredQuestions": [
-      "TA1-0307",
-      "TA1-0402",
-      "TA1-0439",
-      "TA1-0777",
-      "TA1-0869",
       "TA1-0397-D2",
       "BOOK-V6-01-D2",
       "TA1-0144-D2",
@@ -41,6 +36,21 @@
       "TA1-0238-D2",
       "TA1-0094-D2",
       "TA1-0038-D2"
+    ]
+  },
+  "2.1-5-point-1-lesson-2": {
+    "sourceLesson": "2.1-5-point-1-lesson-0",
+    "requiredQuestions": [
+      "TA1-0668-D2",
+      "TA1-0593-D2",
+      "TA1-0708-D2",
+      "TA1-0832-D3",
+      "TA1-0806-D3",
+      "TA1-0853-D3",
+      "TA1-0857-D3",
+      "TA1-0911-D3",
+      "TA1-0939-D3",
+      "TA1-0867-D3"
     ]
   }
 }
