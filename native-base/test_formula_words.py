@@ -5,11 +5,18 @@ This does not establish Android rendering or touchscreen behavior.
 import base64
 import json
 from pathlib import Path
-from course_adapter import lesson_questions, session
+from course_adapter import challenge, lesson_questions, session
 from formula_words import KINDS, MULTI_NAMED
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
+for source_id,formula_id,expected in (
+    ('TA1-0180-F1','INTRO-TAPER-RATIO',['___','duoaero-math:formula:\\textstyle =','duoaero-fraction-slots']),
+    ('TA1-0078-D2','TA1-0078-D2-F2',['duoaero-fraction-slots','duoaero-math:formula:\\textstyle =','duoaero-math:formula:\\textstyle 1','duoaero-math:formula:\\textstyle -','___']),
+):
+    named=next(q for q in lesson_questions([bank[source_id]],teach_words=True) if q['id']==formula_id+'-NAMED-ALL')
+    text=challenge(named)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+    assert json.loads(base64.b64decode(text.split('duoaero-gap:')[1]))==expected
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 seen = set()
 for node in plan:
