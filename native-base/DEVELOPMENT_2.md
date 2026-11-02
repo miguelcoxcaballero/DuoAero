@@ -3,8 +3,9 @@
 The published signed release remains 1.3.7. This branch is work in progress,
 not a 2.0 release or evidence that the whole course works. The user requested a
 finished 2.0 APK and explicitly authorized signing it with the permanent key
-and publishing it to GitHub. The default policy remains development channel A;
-no B publication was requested. Keep the canonical updater installer frozen.
+and publishing it to GitHub. The planned publication channel is A; installed
+apps default to B, and no B publication was requested. Keep the canonical
+updater installer frozen.
 
 ## Progress and data compatibility
 
