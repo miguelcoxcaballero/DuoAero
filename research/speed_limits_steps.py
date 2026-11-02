@@ -16,6 +16,11 @@ LOAD = r'W_{\max}=\frac{q_{\mathrm{allowed}}S C_{L,\max}}{1.25^2}'
 MASS = r'm_{\max}=\frac{W_{\max}}{g}'
 
 
+def fmt(value):
+    text=f'{value:.6f}'.rstrip('0').rstrip('.')
+    return text if text not in ('','-0') else '0'
+
+
 def draft(source):
     assert source['stem'].startswith(PREFIX)
     m = PATTERN.search(source['stem']); assert m, source['id']
@@ -38,20 +43,20 @@ def draft(source):
         assert distances[0][1] == source['answer'] and distances[0][0] < distances[1][0]
         def step(suffix,stem,value,latex,prerequisite,unit=''):
             offset=max(abs(value)*Decimal('.1'),Decimal('.1'))
-            options=[f'{v:.6f}'+unit for v in (value,value+offset,value-offset,value+2*offset)]
+            options=[f'{fmt(v)}'+unit for v in (value,value+offset,value-offset,value+2*offset)]
             assert len(set(options))==4
             return dict(id=source['id']+suffix,type='choice',difficulty=3,stem=stem,options=options,answer=0,
                         explanation=options[0],formula_hint={'latex':latex,'prerequisite':prerequisite})
         return [
             step('-M2',f'The Mach limit is {mach}. What is its square?',m2,MACH_PRESSURE,'LIMITS-MACH-PRESSURE'),
             step('-F',f'The pressure is {p} Pa and half of gamma is 0.7. What is 0.7 times pressure?',factor,MACH_FACTOR,'LIMITS-MACH-FACTOR',' Pa'),
-            step('-QM',f'The pressure factor is {factor:.6f} Pa and the Mach square is {m2:.6f}. What is the Mach pressure limit?',qmach,MACH_PRESSURE,'LIMITS-MACH-PRESSURE',' Pa'),
-            step('-Q',f'The pressure limit is {cap} Pa and the Mach pressure limit is {qmach:.6f} Pa. What is the lower limit?',allowed,LIMIT,'LIMITS-PRESSURE-MIN',' Pa'),
-            step('-QS',f'The allowed dynamic pressure is {allowed:.6f} Pa and the wing area is {area} m². What is their product?',qa,LOAD,'LIMITS-MAX-WEIGHT',' N'),
-            step('-CL',f'The pressure-area product is {qa:.6f} N and the maximum lift coefficient is {cl}. What is their product?',qalift,LOAD,'LIMITS-MAX-WEIGHT',' N'),
-            step('-W',f'The force product is {qalift:.6f} N. Dividing by 1.25² = 1.5625, what is the maximum weight?',weight,LOAD,'LIMITS-MAX-WEIGHT',' N'),
+            step('-QM',f'The pressure factor is {fmt(factor)} Pa and the Mach square is {m2:.6f}. What is the Mach pressure limit?',qmach,MACH_PRESSURE,'LIMITS-MACH-PRESSURE',' Pa'),
+            step('-Q',f'The pressure limit is {cap} Pa and the Mach pressure limit is {fmt(qmach)} Pa. What is the lower limit?',allowed,LIMIT,'LIMITS-PRESSURE-MIN',' Pa'),
+            step('-QS',f'The allowed dynamic pressure is {fmt(allowed)} Pa and the wing area is {area} m². What is their product?',qa,LOAD,'LIMITS-MAX-WEIGHT',' N'),
+            step('-CL',f'The pressure-area product is {fmt(qa)} N and the maximum lift coefficient is {cl}. What is their product?',qalift,LOAD,'LIMITS-MAX-WEIGHT',' N'),
+            step('-W',f'The force product is {fmt(qalift)} N. Dividing by 1.25² = 1.5625, what is the maximum weight?',weight,LOAD,'LIMITS-MAX-WEIGHT',' N'),
             dict(id=source['id'],type='choice',difficulty=3,
-                 stem=f'The maximum weight is {weight:.6f} N. With g = 9.81 m/s², what is the maximum mass?',
+                 stem=f'The maximum weight is {fmt(weight)} N. With g = 9.81 m/s², what is the maximum mass?',
                  options=list(source['options']),answer=source['answer'],
-                 explanation=f'{weight:.6f} / 9.81 = {shown_mass:.4f} kg; the closest option is {source["options"][source["answer"]]}.',
+                 explanation=f'{fmt(weight)} / 9.81 = {shown_mass:.4f} kg; the closest option is {source["options"][source["answer"]]}.',
                  formula_hint={'latex':MASS,'prerequisite':'LIMITS-MASS'})]

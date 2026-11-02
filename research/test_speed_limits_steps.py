@@ -1,7 +1,9 @@
 """Cross-check seven source answers in an isolated, not-yet-taught draft."""
 import json
 from pathlib import Path
-from speed_limits_steps import PREFIX,draft
+from speed_limits_steps import PREFIX,draft,fmt
+from decimal import Decimal
+assert fmt(Decimal("383968")) == "383968" and fmt(Decimal("0.000001")) == "0.000001"
 
 bank=json.loads((Path(__file__).resolve().parents[1]/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 family=[q for q in bank if q['stem'].startswith(PREFIX)]

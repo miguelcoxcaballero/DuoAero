@@ -15,6 +15,11 @@ APPROACH=r'V_{\mathrm{app}}=1.3V_s'
 CONVERT=r'V_{\mathrm{km/h}}=3.6V_{\mathrm{m/s}}'
 
 
+def fmt(value):
+    text=f'{value:.6f}'.rstrip('0').rstrip('.')
+    return text if text not in ('','-0') else '0'
+
+
 def draft(source):
     assert source['stem'].startswith(PREFIX)
     match=PATTERN.search(source['stem']);assert match,source['id']
@@ -38,22 +43,22 @@ def draft(source):
         assert abs(speed-exact)<Decimal('.001'),(source['id'],speed,exact)
         def step(suffix,stem,value,latex,prerequisite,unit=''):
             delta=max(abs(value)*Decimal('.1'),Decimal('.01'))
-            options=[f'{v:.6f}'+unit for v in (value,value+delta,value-delta,value+2*delta)]
+            options=[f'{fmt(v)}'+unit for v in (value,value+delta,value-delta,value+2*delta)]
             assert len(set(options))==4
             return dict(id=source['id']+suffix,type='choice',difficulty=3,stem=stem,
                         options=options,answer=0,explanation=options[0],
                         formula_hint={'latex':latex,'prerequisite':prerequisite})
         return [
             step('-RT',f'R is 287 J/(kg K) and temperature is {t} K. What is R times temperature?',rt,DENSITY,'APPROACH-DENSITY'),
-            step('-RHO',f'The pressure is {p} Pa and R times temperature is {rt:.6f}. What is the air density?',rho,DENSITY,'APPROACH-DENSITY',' kg/m³'),
+            step('-RHO',f'The pressure is {p} Pa and R times temperature is {fmt(rt)}. What is the air density?',rho,DENSITY,'APPROACH-DENSITY',' kg/m³'),
             step('-2W',f'The aircraft weight is {w} N. What is twice its weight?',twice,STALL,'APPROACH-STALL',' N'),
-            step('-RHOS',f'Density is {rho:.6f} kg/m³ and wing area is {area} m². What is their product?',rhoarea,STALL,'APPROACH-STALL'),
-            step('-DEN',f'The density-area product is {rhoarea:.6f} and the maximum lift coefficient is {cl}. What is their product?',denom,STALL,'APPROACH-STALL'),
-            step('-V2',f'Twice the weight is {twice:.6f} N and the denominator is {denom:.6f}. What is their quotient?',v2,STALL,'APPROACH-STALL'),
+            step('-RHOS',f'Density is {fmt(rho)} kg/m³ and wing area is {area} m². What is their product?',rhoarea,STALL,'APPROACH-STALL'),
+            step('-DEN',f'The density-area product is {fmt(rhoarea)} and the maximum lift coefficient is {cl}. What is their product?',denom,STALL,'APPROACH-STALL'),
+            step('-V2',f'Twice the weight is {fmt(twice)} N and the denominator is {fmt(denom)}. What is their quotient?',v2,STALL,'APPROACH-STALL'),
             step('-VS',f'The squared stall speed is {v2:.6f} m²/s². What is the stall speed?',stall,STALL,'APPROACH-STALL',' m/s'),
-            step('-APP',f'The stall speed is {stall:.6f} m/s. What is 1.3 times that speed?',app,APPROACH,'APPROACH-FACTOR',' m/s'),
+            step('-APP',f'The stall speed is {fmt(stall)} m/s. What is 1.3 times that speed?',app,APPROACH,'APPROACH-FACTOR',' m/s'),
             dict(id=source['id'],type='choice',difficulty=3,
-                 stem=f'The approach speed is {app:.6f} m/s. Multiply by 3.6: what is the closest speed in km/h?',
+                 stem=f'The approach speed is {fmt(app)} m/s. Multiply by 3.6: what is the closest speed in km/h?',
                  options=list(source['options']),answer=source['answer'],
-                 explanation=f'{app:.6f} × 3.6 = {speed:.4f} km/h; the closest option is {source["options"][source["answer"]]}.',
+                 explanation=f'{fmt(app)} × 3.6 = {speed:.4f} km/h; the closest option is {source["options"][source["answer"]]}.',
                  formula_hint={'latex':CONVERT,'prerequisite':'APPROACH-CONVERT'})]
