@@ -238,8 +238,10 @@ all 18 original controls at S24 proportions, dark mode and 1.15 font scale;
 run 41390029749 also passed the historical migration with synthetic accounts.
 The combined lapse, offset and approach course repeated both checks successfully
 in Android run 41391868945, before the later icon and operator patches.
-The operator-grouping fix is integrated and the combined approach case is
-being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
+A subsequent Android run 41392188207 graded all 19 exercises after adding an
+original matching screen for the four stall-speed quantities; its screenshot
+showed all four pairs on the emulated tall display. This matching change and
+the operator-grouping fix are integrated and their combined case is being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
 Other long problems and actual-device tests remain open.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
