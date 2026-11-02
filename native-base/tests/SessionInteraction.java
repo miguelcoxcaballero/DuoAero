@@ -8,9 +8,23 @@ final class SessionInteraction {
  private static boolean actualTouch;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
-  Thread.sleep(1500);
+  // A brand-new session may exit immediately without a confirmation sheet.
+  // Complete its first real question to exercise the in-progress quit dialog.
+  org.json.JSONObject first;
+  try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
+   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();byte[] buffer=new byte[4096];int n;
+   while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
+   first=new org.json.JSONArray(bytes.toString("UTF-8")).getJSONObject(0);
+  }
+  if(!first.getString("type").equals("gap"))throw new IllegalStateException("Quit diagnostic expects the original first word gap");
+  Thread.sleep(1500);clickLast(test,first.getJSONArray("answer").getString(0));Thread.sleep(500);
+  click(test,"com.duolingo:id/submitButton",null);
+  for(int i=0;i<150&&!hasContinue(test);i++)Thread.sleep(200);
+  if(!hasContinue(test)||contains(test,"GOT IT"))throw new IllegalStateException("Quit diagnostic first answer did not grade correctly");
+  click(test,null,"CONTINUE");Thread.sleep(1500);
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/quitButton");i++)Thread.sleep(200);
   click(test,"com.duolingo:id/quitButton",null);
+  SessionScreen.capture(test,"static-quit-after-tap","static-quit-after-tap");
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/primaryButton");i++)Thread.sleep(200);
   if(!hasControl(test,"com.duolingo:id/primaryButton"))
    throw new IllegalStateException("Original quit keep-going control missing");

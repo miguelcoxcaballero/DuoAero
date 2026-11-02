@@ -94,8 +94,11 @@ the frame check proves the attached screen or smooth playback works.
 
 An additional transparent 16-frame sad expression is bound specifically to
 the original `duo_sad` in-app views, including the lesson quit sheet. Its
-atlas seams and Java compilation pass locally. Android resource inflation,
-the actual quit sheet and playback have not yet been tested for this change.
+atlas seams and Java compilation pass locally. Android run 41376134295
+successfully loaded both animations and observed distinct frames, but the
+quit-screen driver returned straight to the path without seeing a dialog when
+it tried to exit an untouched lesson. A revised test answers a question first.
+The actual quit sheet and playback remain unverified.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather
