@@ -40,10 +40,14 @@ public final class NativeFractionSlot {
   return figure;
  }
  public static Object create(Object template,Object scope,Object slot,Method render,int first) throws Exception {
-  return createFraction(template,scope,slot,render,first,false);
+  return createFraction(template,scope,slot,render,first,false,false);
  }
  public static Object createSquaredNumerator(Object template,Object scope,Object slot,Method render,int first) throws Exception {
-  return createFraction(template,scope,slot,render,first,true);
+  return createFraction(template,scope,slot,render,first,true,false);
+ }
+ /** Numerator squared; fixed two multiplying the denominator quantity. */
+ public static Object createSquaredOverTwice(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  return createFraction(template,scope,slot,render,first,true,true);
  }
  /** Original fraction and horizontal sequences with two or three factors. */
  public static Object createProduct(Object template,Object scope,Object slot,Method render,int first,int numeratorCount,int denominatorCount) throws Exception {
@@ -76,7 +80,7 @@ public final class NativeFractionSlot {
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
   return fraction;
  }
- private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator) throws Exception {
+ private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator,boolean twiceDenominator) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
   Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,
@@ -100,6 +104,14 @@ public final class NativeFractionSlot {
   Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l);
   Class<?> scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
   Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
+  if(twiceDenominator){
+   Class<?> placement=Class.forName("com.duolingo.core.math.models.figure.MathFigurePlacement",true,l),orientation=Class.forName("com.duolingo.core.math.models.network.challenge.MathFigureOrientation",true,l),promptType=Class.forName("com.duolingo.core.math.models.figure.MathPromptType",true,l);
+   Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:fixed-two");
+   Object two=latex.newInstance("2\\times",cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+   Constructor<?> token=Class.forName("com.duolingo.core.math.models.figure.SequenceTokenUiState",true,l).getConstructor(float.class,ui);
+   java.util.ArrayList<Object> tokens=new java.util.ArrayList<>();tokens.add(token.newInstance(2f,two));tokens.add(token.newInstance(2f,contents[1]));
+   contents[1]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Sequence",true,l).getConstructor(placement,java.util.List.class,orientation,scale,boolean.class,promptType).newInstance(placement.getField("PROMPT").get(null),tokens,orientation.getField("HORIZONTAL").get(null),scaleInfo,false,promptType.getField("NON_IDENTITY").get(null));
+  }
   float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
   Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l)
      .getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass)

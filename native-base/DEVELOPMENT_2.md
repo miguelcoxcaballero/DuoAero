@@ -527,3 +527,5 @@ scene is reachable in the Aerospace path or that it still needs replacement.
   test the signed APK, publish immutable bytes and then update channel A.
 
 Seven kinetic-heating source questions now have four shorter calculation steps each, with previously taught formulas and independently checked original answers. Two new lesson IDs use exact historical source-question proofs; local checks cover 95 lessons and sixteen path-only migrations. Android rendering, touch and real-account migration remain to be verified. Run 41526287112 graded the lift sequence and 41527904567 the mean-chord sequence; the latter shows a proper interactive fraction in inspected screenshots. Run 41527421053 graded total thrust but its bank was clipped at the right edge, so shorter quantity tiles require a new Android review.
+
+The kinetic-temperature formula now has all three named quantities, a fixed squared numerator and fixed factor two in its denominator. Its new native composition and one-tap operation need Android visual and interaction tests; the historical first lesson question moved to its existing next lesson with snapshot checks.

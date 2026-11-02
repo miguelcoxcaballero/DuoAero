@@ -214,6 +214,8 @@ MULTI_NAMED = {
                     ['temperature','density','altitude'], ['___','=','___/___']),
  'mach': (r'M=\frac{V}{a}', ['Mach number','airspeed','sound speed'],
           ['pressure','density','altitude'], ['___','=','___/___']),
+ 'kinetic_temperature': (r'\Delta T=\frac{V^2}{2c_p}', ['temp rise','airspeed','specific heat'],
+                         ['pressure','density','altitude'], ['___','=','___^2/2*___']),
  'static_temperature': (r'T=T_t-\Delta T', ['static temp','total temp','temp rise'],
                         ['airspeed','pressure','density'], ['___','=','___','-','___']),
  'sound': (r'a^2=\gamma RT', ['sound speed','heat cap. ratio','gas constant','temperature'],
@@ -261,7 +263,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
