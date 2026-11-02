@@ -41,8 +41,15 @@ public final class NativeInlineGap {
    ArrayList<String> parts=new ArrayList<>();
    for(int i=0;i<words.length();i++){
     String part=words.getString(i);
-    if(i+1<words.length()&&("___".equals(words.getString(i+1))||words.getString(i+1).startsWith(POWER)||words.getString(i+1).equals(NEGATIVE_EXPONENT))
-       &&(part.equals("duoaero-math:formula:\\textstyle +")
+    // Keep division and the opening parenthesis with the first denominator
+    // slot, so neither symbol is stranded at the end of a wrapped line.
+    if(i+2<words.length()&&part.equals("duoaero-math:formula:\\textstyle \\div")
+       &&words.getString(i+1).equals("duoaero-math:formula:\\textstyle (")
+       &&words.getString(i+2).equals("___")){
+     parts.add(OPERATOR_GAP+"duoaero-math:formula:\\textstyle \\div(");i+=2;
+    }else if(i+1<words.length()&&("___".equals(words.getString(i+1))||words.getString(i+1).startsWith(POWER)||words.getString(i+1).equals(NEGATIVE_EXPONENT))
+       &&(part.equals("duoaero-math:formula:\\textstyle (")
+          ||part.equals("duoaero-math:formula:\\textstyle +")
           ||part.equals("duoaero-math:formula:\\textstyle -")
           ||part.equals("duoaero-math:formula:\\textstyle \\times")
           ||part.equals("duoaero-math:formula:\\textstyle \\div"))){
