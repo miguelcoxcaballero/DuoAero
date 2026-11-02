@@ -72,7 +72,9 @@ that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
 it covers questions omitted from the new shorter source lesson. Local tests
 verify mapping coverage in every published 1.3.x snapshot and the pure
-projection boundaries. The Android account, chest, replay, export/import and
+projection boundaries. A submitted in-flight older lesson is now checked
+against exact historical snapshots as well; current-version submissions use
+a fast path without loading those snapshots. The Android account, chest, replay, export/import and
 real path tests for this split are still required; no real Google or Drive
 migration has been established.
 

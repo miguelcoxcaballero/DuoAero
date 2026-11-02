@@ -31,6 +31,8 @@ public final class NativeSessionStore {
  }
  private static boolean validStoredProof(Application app,JSONObject proof,JSONObject lesson)throws Exception {
   if(proof==null)return false;
+  // The normal current-version completion needs no historical catalog I/O.
+  if(NativeCourseProgress.isCompleted(proof,lesson))return true;
   // Assets cannot change during the life of an installed app. Cache the
   // immutable catalog objects: rebuilding them for every lesson makes a
   // full progress refresh increasingly expensive as the course grows.
@@ -54,7 +56,10 @@ public final class NativeSessionStore {
   AtomicFile file=new AtomicFile(new File(folder,sessionId+".json"));
   JSONObject catalog=new JSONObject(NativeCourseBridge.asset(app,"duoaero/course/session-catalog.json"));
   JSONObject lesson=catalog.getJSONObject(sessionId);
-  boolean completed=NativeCourseProgress.isCompleted(submission,lesson);
+  // An update can arrive while a published older lesson is in progress.
+  // Accept its exact preserved historical question set on final submission;
+  // a partial or foreign set still fails the same native completion checks.
+  boolean submissionValid=validStoredProof(app,submission,lesson),completed=submissionValid;
   JSONObject proof=completed?submission:null;
   org.json.JSONArray days=new org.json.JSONArray();
   if(completed)days.put(java.time.LocalDate.now().toString());
@@ -82,7 +87,7 @@ public final class NativeSessionStore {
   JSONObject saved=read(file);
   if(!sessionId.equals(saved.getString("sessionId"))||!saved.has("nativeSubmission")||saved.getBoolean("completedOnce")!=completed)throw new IOException("Invalid stored native session");
   if(completed)NativeSessionResume.completed(app,sessionId);
-  android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+NativeCourseProgress.completionIssue(submission,lesson));
+  android.util.Log.i("DuoAeroNative","Durable lesson completion "+sessionId+": "+completed+"; latest submission issue="+(submissionValid?null:NativeCourseProgress.completionIssue(submission,lesson)));
   // The original home may keep its path resource cached when SessionActivity
   // closes. Publish the committed local progress instead of relying on a
   // subsequent native network refresh or an app restart.

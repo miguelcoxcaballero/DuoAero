@@ -273,6 +273,13 @@ public final class AccountProgressProbe extends Instrumentation {
    check(((java.util.Set<?>)projectedMethod.invoke(null,app)).contains(firstTarget));
    check(!new JSONObject((String)read.invoke(null,app,"synthetic-split-old")).getJSONObject("completedLessons").has(firstTarget));
    check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==oldCompletions.length()*10);
+   // A real old-version lesson can finish after the update, rather than
+   // already being present in the store before migration.
+   check(prefs.edit().putString("account","synthetic-split-inflight").commit());
+   recordMethod.invoke(null,app,firstSource,oldCompletions.getJSONObject(firstSource).getJSONObject("nativeCompletion"));
+   check(((java.util.Set<?>)actualMethod.invoke(null,app)).contains(firstSource));
+   check(((java.util.Set<?>)projectedMethod.invoke(null,app)).contains(firstTarget));
+   check(((JSONObject)rewardProfile.invoke(null,app,new JSONObject())).getJSONObject("gemsConfig").getInt("gems")==10);
    check(prefs.edit().putString("account","synthetic-split-current").commit());
    check(Boolean.TRUE.equals(apply.invoke(null,app,"synthetic-split-current",new JSONObject().put("nativeSchema",1).put("completedLessons",newCompletions).toString())));
    java.util.Set<?> newProjected=(java.util.Set<?>)projectedMethod.invoke(null,app);
