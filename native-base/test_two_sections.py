@@ -92,7 +92,17 @@ try:
  tap([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval'][-1])
  next_node=wait('two-sections-next-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),45)
  tap(next(n for n in next_node.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
- wait('two-sections-next-question',lambda t:has(t,'Why do astronauts in an orbiting spacecraft'),90)
- (OUT/'two-sections-result.txt').write_text('PASS: 10 drafted questions graded, first second-section lesson saved, next node unlocked and opened after restart. Full course, rewards and Drive remain unverified.\n')
+ # The original math renderer draws its question body in a web view without
+ # accessibility text. The answer cards do expose their content, so identify
+ # the expected first exercise through its unique correct answer.
+ answer='Spacecraft and occupants are continually falling around Earth together.'
+ exercise=wait('two-sections-next-question',lambda t:has(t,answer),90)
+ cards=[n for n in exercise.iter('node') if answer in n.get('content-desc','') and n.get('resource-id')=='com.duolingo:id/mathCard']
+ assert cards,'The expected original answer card is missing';tap(cards[-1])
+ ready=wait('two-sections-next-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
+ tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
+ feedback=wait('two-sections-next-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
+ assert not has(feedback,'GOT IT'),'The correct second-topic answer was rejected'
+ (OUT/'two-sections-result.txt').write_text('PASS: 10 drafted questions graded, first second-section lesson saved, next node unlocked and its first answer graded after restart. Full course, rewards and Drive remain unverified.\n')
 finally:
  (OUT/'two-sections-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
