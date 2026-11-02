@@ -286,6 +286,9 @@ still need review; this one animation does not establish a complete cast.
 Android run 41395067195 passed the tall-window check on an emulated display
 with S24 Ultra proportions, using the course before the later splash and
 character additions. It is not a physical-device check.
+Run 41395923743 subsequently passed the first Atmosphere lesson with a formula
+hint, retry and saved progress, plus the synthetic account checks, after the
+splash and Swoon changes. Earlier path nodes were seeded for this diagnostic.
 
 Android run 41392335036 repeated three integrated scenarios before the later
 icon and formula patches: a seeded original chest showed +25 gems and retained
