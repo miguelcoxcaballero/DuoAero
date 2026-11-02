@@ -736,8 +736,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert len(mixed)==10
  if os.environ.get('DUOAERO_ORBIT_DRAFT_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
-  from orbit_lesson import lesson as orbit_lesson
-  mixed=orbit_lesson()
+  mixed=json.loads((ROOT/'research/midterm2_spacecraft_extra.json').read_text(encoding='utf-8'))['questions']
   assert len(mixed)==10
  if os.environ.get('DUOAERO_BUCKLING_NOTATION_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0234-F1'],by_id['TA1-0057']],teach_words=True)
