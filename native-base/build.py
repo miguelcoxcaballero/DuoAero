@@ -625,10 +625,16 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  two_section_test=os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' and not production
  if two_section_test:
-  diagnostic_id='second-partial-diagnostic-lesson-0'
-  diagnostic_skill=stable_id('skill','second-partial-diagnostic')
-  catalog[diagnostic_id]=native_session([by_id['TA1-0182-F1']],diagnostic_id,diagnostic_skill,teach_words=True)
-  catalog[diagnostic_id]['levelSessionIndex']=0
+  draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
+  assert draft['status']=='draft_not_connected_to_course'
+  diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment')]
+  for topic,title in diagnostic_topics:
+   diagnostic_id='second-partial-'+topic+'-lesson-0'
+   diagnostic_skill=stable_id('skill','second-partial-'+topic)
+   selected=[dict(q,difficulty=1) for q in draft['questions'] if q['topic']==topic]
+   assert len(selected)==10
+   catalog[diagnostic_id]=native_session(selected,diagnostic_id,diagnostic_skill,teach_words=True)
+   catalog[diagnostic_id]['levelSessionIndex']=0
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
  # Keep exact published question sets for old on-device and Drive proofs;
@@ -643,19 +649,23 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    out.write(source,'assets/duoaero/course/'+target_name+'.json');continue
   data=json.loads(source.read_text())
   if target_name=='path-info':
-   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Diagnostic second midterm',completedUnits=0,totalUnits=1,totalLevelsPerUnit=[1],completedLevelsPerUnit=[0])
+   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Diagnostic second midterm',completedUnits=0,totalUnits=2,totalLevelsPerUnit=[1,1],completedLevelsPerUnit=[0,0])
    data['pathSectionsSummary'].append(summary)
-   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Diagnostic second midterm',subtitle='Diagnostic only',iconText='2',completedUnits=0,totalUnits=1,sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
+   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Diagnostic second midterm',subtitle='Diagnostic only',iconText='2',completedUnits=0,totalUnits=2,sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
    data['pathTabsSummary'][0]['pathSectionGroups'].append(group)
   else:
    section=copy.deepcopy(data);section['id']='DUOAERO_MIDTERM2';section['index']=1
-   unit=section['units'][0];unit['teachingObjective']='Diagnostic second partial';unit['unitIndex']=0;unit['levels']=unit['levels'][:1]
-   level=unit['levels'][0];level['id']=stable_id('level','second-partial-diagnostic');level['debugName']='Diagnostic second partial';level['totalSessions']=1
-   level['pathLevelClientData']['title']='Diagnostic second partial';level['pathLevelClientData']['skillId']=diagnostic_skill
-   metadata=[{'id':diagnostic_id,'type':'math_lesson'}]
-   level['pathLevelClientData']['sessionMetadatas']=metadata;level['pathLevelClientData']['practiceSessionMetadatas']=metadata
-   level['pathLevelMetadata']['skillId']=diagnostic_skill
-   section['units']=[unit]
+   template=section['units'][0];units=[]
+   for index,(topic,title) in enumerate(diagnostic_topics):
+    unit=copy.deepcopy(template);unit['teachingObjective']=topic+' · '+title;unit['unitIndex']=index;unit['levels']=unit['levels'][:1]
+    level=unit['levels'][0];diagnostic_skill=stable_id('skill','second-partial-'+topic)
+    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=1
+    level['absoluteNodeIndex']=index;level['pathLevelMetadata']['unitIndex']=index
+    level['pathLevelClientData']['title']=title;level['pathLevelClientData']['skillId']=diagnostic_skill
+    metadata=[{'id':'second-partial-'+topic+'-lesson-0','type':'math_lesson'}]
+    level['pathLevelClientData']['sessionMetadatas']=metadata;level['pathLevelClientData']['practiceSessionMetadatas']=metadata
+    level['pathLevelMetadata']['skillId']=diagnostic_skill;units.append(unit)
+   section['units']=units
    out.writestr('assets/duoaero/course/section-2.json',json.dumps(section,ensure_ascii=False))
   out.writestr('assets/duoaero/course/'+target_name+'.json',json.dumps(data,ensure_ascii=False))
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
