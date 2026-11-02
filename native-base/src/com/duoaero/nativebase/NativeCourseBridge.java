@@ -403,6 +403,13 @@ public final class NativeCourseBridge {
     // Gem chests are tracked independently by NativeChestRewards.
     code=200;payload="{\"inLessonRewards\":[]}";
    }
+   else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/energy-info")){
+    // Diagnostic only: establish the original EnergyConfig response and
+    // observe the unlimited-energy UI before enabling any release behavior.
+    try(java.io.InputStream marker=app.getAssets().open("duoaero/energy-info-diagnostic")){
+     code=200;payload="{\"energy\":5,\"maxEnergy\":5,\"secondsPerEnergyUnit\":3600,\"secondsUntilNextEnergyUnit\":0,\"lastEnergyUnitRegeneratedDatetime\":0,\"regeneratedEnergyUnit\":0,\"hasFullEnergy\":true}";
+    }catch(java.io.FileNotFoundException absent){}
+   }
    else if(method.equals("GET")&&path.equals("/users/1/progress")){
     // GoalsProgressResponse's original empty/default state: no assigned quests.
     code=200;

@@ -542,6 +542,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  update_config.pop('installedVersionCode',None)
  out.writestr('assets/updates/config.json',json.dumps(update_config))
  if production or os.environ.get('DUOAERO_STANDALONE')=='1':out.writestr('assets/duoaero/standalone-bootstrap','1')
+ if not production and os.environ.get('DUOAERO_ENERGY_INFO_DIAGNOSTIC')=='1':out.writestr('assets/duoaero/energy-info-diagnostic','1')
  if production or os.environ.get('DUOAERO_GOOGLE_GATE')=='1':out.writestr('assets/duoaero/google-required','1')
  for shared in (ROOT/'shared').rglob('*'):
   if shared.is_file():out.write(shared,'assets/shared/'+shared.relative_to(ROOT/'shared').as_posix())
