@@ -16497,7 +16497,7 @@
         "type": "formula_blocks",
         "difficulty": 1,
         "stem": "Complete the model chord formula",
-        "prefix": "c_2=c_1",
+        "prefix": "c_2=c_1\\times",
         "blocks": [
           "k",
           "p",

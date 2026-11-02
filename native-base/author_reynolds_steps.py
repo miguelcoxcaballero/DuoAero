@@ -19,7 +19,7 @@ intro=[
  dict(id='REYNOLDS-SCALE-FORMULA',type='formula_blocks',difficulty=1,stem='Complete the chord scale formula',prefix='',
       blocks=['μ_r','ρ_r','V_r','T','p'],answer_blocks=['μ_r','ρ_r','V_r'],
       inline_latex=['k','=','___',r'\div','(', '___',r'\times','___',')'],formula_latex=scale,explanation=scale),
- dict(id='REYNOLDS-CHORD-FORMULA',type='formula_blocks',difficulty=1,stem='Complete the model chord formula',prefix=r'c_2=c_1',
+ dict(id='REYNOLDS-CHORD-FORMULA',type='formula_blocks',difficulty=1,stem='Complete the model chord formula',prefix=r'c_2=c_1\times',
       blocks=['k','p','T','V'],answer_blocks=['k'],formula_latex=chord,explanation=chord),
 ]
 pattern=re.compile(r'chord ([0-9.]+) m.*?rho2/rho1=([0-9.]+), V2/V1=([0-9.]+), mu2/mu1=([0-9.]+)\.')
