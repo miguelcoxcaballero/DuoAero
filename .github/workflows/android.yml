@@ -8,7 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate course
-        run: python3 tests/validate_bank.py
+        run: |
+          python3 tests/validate_bank.py
+          python3 native-base/test_kinetic_steps.py
+          python3 native-base/test_payload_steps.py
+          python3 native-base/test_simple_calculation_hints.py
+          python3 native-base/test_rich_question.py
       - name: Check account and Drive boundaries
         run: node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
       - name: Verify frozen updater sources
