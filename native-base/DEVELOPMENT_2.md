@@ -444,9 +444,11 @@ equations in addition to their verbal and symbolic exercises. Three conceptual
 questions were moved to the next existing lesson in their same topics to keep
 all lessons within 10–20 exercises; lesson IDs and the migration rules remain
 unchanged. Historical snapshots confirm those questions were present in the
-earlier lesson in each reviewed release. Local ordering, migration and progress
-tests pass; Android touch and layout acceptance is still pending. The two
-thrust formulas also have named equations. A third thrust lesson holds ten
+earlier lesson in each reviewed release. Android run 41520306939 graded all
+12 controls with short taps; inspected screenshots show the compact temperature
+labels and the flight-time and Mach fractions. Run 41518676490 graded the two
+thrust formulas and their inspected screenshots show the operators and tiles.
+A third thrust lesson holds ten
 questions formerly in the second, with path credit limited to exact historical
 coverage and no new completion rewards; Android migration remains unverified.
 The speed-of-sound equation additionally has an experimental named base with
@@ -467,17 +469,19 @@ has exact historical path-only credit. All 93 lessons pass the local size and
 migration checks, but the new fraction layout and Android migration still need
 device diagnostics.
 The pressure ratio and three dynamic-pressure formulas now also have named
-equations. The atmosphere lesson split retains exact historical source proof;
-90 native lessons meet the local size check. Android migration and the new
-equations are not yet accepted.
+equations. Run 41520281226 graded the pressure ratio and one dynamic-pressure
+sequence; the inspected ratio fits, but its dynamic-pressure screenshot showed
+an oversized exponent and a multiplication sign stranded at a line end. A
+subsequent fix requires Android review. The atmosphere lesson split retains
+exact historical source proof; Android migration remains unverified.
 
 Run 41517680035 graded all ten unsplit cabin-pressure problems and rendered
 the exponential as a power and fraction. Inspected screenshots show long
 stems clipped, and a separate p11 was not subscripted. These exercises still
 needed to be broken into short, taught calculation steps. They now have three
 prior formulas and three or four short questions each, with original answers
-independently recalculated. The course has 92 lessons with exact historical
-path-only migration; local validation passes. The new questions, p11 token fix,
+independently recalculated. Their split uses exact historical path-only
+migration and passes local validation. The new questions, p11 token fix,
 and the migrated path still need Android UI and persistence validation.
 
 The original APK contains 67 Rive resources named after the ten mapped
