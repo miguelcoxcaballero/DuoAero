@@ -187,6 +187,9 @@ Run 41384336207 tried schema-checked empty offline social responses and still
 completed and reopened the lesson. Its 40.34 s measurement includes emulator
 and screenshot overhead and does not show a speedup; this experiment has not
 been enabled in the integrated production path.
+An additional diagnostic skipped 111 original promotion-video prefetches,
+but its OCR process timed out before confirming Claim XP. It therefore does not
+establish successful completion or a speedup, and remains experimental.
 
 ## Acceptance still required
 
