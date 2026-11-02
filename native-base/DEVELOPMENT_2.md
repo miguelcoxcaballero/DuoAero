@@ -454,8 +454,8 @@ coverage and no new completion rewards; Android migration remains unverified.
 The speed-of-sound equation additionally has an experimental named base with
 a fixed squared exponent, using the original exponentiation figure. Adapter
 and ordering checks pass, and the modified Java helpers compile against the
-Android SDK with a stub course bridge. Full APK compilation, Android rendering
-and touch of that prototype remain acceptance requirements. Android run
+Android SDK with a stub course bridge. The diagnostic APK also compiles;
+acceptable Android rendering remains required. Android run
 41519217015 graded the four controls but its screenshot showed an oversized
 exponent and a single-column word bank cutting off options. The exponent and
 labels were subsequently compacted; the revised layout still needs Android QA.
@@ -486,8 +486,10 @@ and the migrated path still need Android UI and persistence validation.
 Run 41522448593 graded the 19 controls of the first two staged problems and
 passed synthetic account projection. The inspected short question screens
 fit, but the gamma symbol was missing from one prompt. A subsequent authored
-text fix and exponent font-range change need another visual Android run; no
-real account or path migration was exercised in this diagnostic.
+text fix was visually checked in run 41524834250, which graded the same 19
+controls and showed gamma correctly. Its exponent was too small, so a later
+font-size adjustment needs another Android visual run. No real account or path
+migration was exercised in these diagnostic sessions.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names
