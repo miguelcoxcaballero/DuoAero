@@ -110,6 +110,7 @@ jobs:
           python native-base/test_path_structure.py
           python native-base/test_lesson_migrations.py
           python native-base/test_lapse_steps.py
+          python native-base/test_isa_offset.py
           python native-base/test_course_progress.py
           python native-base/test_rewards.py
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
