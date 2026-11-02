@@ -74,6 +74,11 @@ the revised order passed Android run 41380455084. The hydraulic sequence
 passed four original controls in run 41381254897. The wind sequence passed
 14 native touch-driven challenges in run 41380642719.
 
+The original welcome and share-card wordmark resource names now map to the
+DuoAero wordmark instead of the generic mascot. Android run 41385372302
+showed the correct wordmark in the actual welcome view; share cards and icon
+display-name variants need separate UI verification.
+
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
@@ -169,6 +174,10 @@ indicator visible throughout. Its 26.66 s emulator timing versus 28.84 s in a
 different run is insufficient to establish a speedup. A completion recording
 shows a visible wait on the emulator and the fallback Snoopy standing still on
 the final screen; physical-device behaviour remains unverified.
+Run 41384336207 tried schema-checked empty offline social responses and still
+completed and reopened the lesson. Its 40.34 s measurement includes emulator
+and screenshot overhead and does not show a speedup; this experiment has not
+been enabled in the integrated production path.
 
 ## Acceptance still required
 
