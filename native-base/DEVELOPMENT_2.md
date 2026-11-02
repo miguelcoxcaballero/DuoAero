@@ -551,3 +551,5 @@ A separate second-midterm ideal-rocket draft now contains ten native-model exerc
 The structural job of run 41531467765 additionally graded cantilever and both buckling named sequences. Inspected captures show the cubed length, squared effective length and pi squared, with choices and Check visible in the S24-proportioned emulator.
 
 An additional isolated ten-exercise circular-orbit draft introduces circumference and period in words, named quantities and symbols before checked calculations with hints. It remains outside the production path pending syllabus review, Android and progression tests.
+
+Run 41532833785 graded the experimental negative-exponent sequence, but its inspected screen shows the exponent slot too low and the preceding multiplication stranded at a line break. A taller invisible base metric and operator grouping are now implemented; they require a new Android rendering and touch test. The earlier run is not visual acceptance.

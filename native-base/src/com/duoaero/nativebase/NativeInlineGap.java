@@ -11,6 +11,7 @@ public final class NativeInlineGap {
  private static final String MARKER="duoaero-gap:";
  private static final String OPERATOR_GAP="duoaero-operator-gap:";
  private static final String OPERATOR_POWER="duoaero-operator-power:";
+ private static final String OPERATOR_NEGATIVE="duoaero-operator-negative:";
  private static final String FRACTION="duoaero-fraction-slots";
  private static final String SQUARED_FRACTION="duoaero-squared-fraction-slots";
  private static final String SQUARED_TWICE="duoaero-squared-over-twice";
@@ -18,7 +19,7 @@ public final class NativeInlineGap {
  private static final String PRODUCT_FRACTION_22="duoaero-product-fraction-22";
  private static final String POWER="duoaero-power-slot:";
  private static final String NEGATIVE_EXPONENT="duoaero-negative-exponent";
- private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(POWER)?1:0;}
+ private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -40,13 +41,13 @@ public final class NativeInlineGap {
    ArrayList<String> parts=new ArrayList<>();
    for(int i=0;i<words.length();i++){
     String part=words.getString(i);
-    if(i+1<words.length()&&("___".equals(words.getString(i+1))||words.getString(i+1).startsWith(POWER))
+    if(i+1<words.length()&&("___".equals(words.getString(i+1))||words.getString(i+1).startsWith(POWER)||words.getString(i+1).equals(NEGATIVE_EXPONENT))
        &&(part.equals("duoaero-math:formula:\\textstyle +")
           ||part.equals("duoaero-math:formula:\\textstyle -")
           ||part.equals("duoaero-math:formula:\\textstyle \\times")
           ||part.equals("duoaero-math:formula:\\textstyle \\div"))){
      String next=words.getString(i+1);
-     parts.add(next.startsWith(POWER)?OPERATOR_POWER+part+"|"+next.substring(POWER.length()):OPERATOR_GAP+part);i++;
+     parts.add(next.startsWith(POWER)?OPERATOR_POWER+part+"|"+next.substring(POWER.length()):next.equals(NEGATIVE_EXPONENT)?OPERATOR_NEGATIVE+part:OPERATOR_GAP+part);i++;
     }else parts.add(part);
    }
    boolean equation=false;
@@ -75,12 +76,13 @@ public final class NativeInlineGap {
    Object function=Proxy.newProxyInstance(l,new Class<?>[]{irh},(proxy,method,args)->{
     if(method.getName().equals("invoke")){
      int index=((Integer)args[1]).intValue();Object composition=args[2];String part=parts.get(index);
-     boolean powerPaired=part.startsWith(OPERATOR_POWER);
+     boolean powerPaired=part.startsWith(OPERATOR_POWER),negativePaired=part.startsWith(OPERATOR_NEGATIVE);
      String pairedPower=null;
      if(powerPaired){String value=part.substring(OPERATOR_POWER.length());int separator=value.lastIndexOf('|');if(separator<0)throw new IllegalStateException("Invalid grouped power");pairedPower=value.substring(separator+1);part=value.substring(0,separator);}
-     boolean paired=powerPaired||part.startsWith(OPERATOR_GAP);
+     boolean paired=powerPaired||negativePaired||part.startsWith(OPERATOR_GAP);
      if(paired){
-      if(!powerPaired)part=part.substring(OPERATOR_GAP.length());
+      if(negativePaired)part=part.substring(OPERATOR_NEGATIVE.length());
+      else if(!powerPaired)part=part.substring(OPERATOR_GAP.length());
       if(!NativeInlineFormula.begin(figure,composition))throw new IllegalStateException("Cannot group operator and operand");
      }
      if(part.equals("___")){
@@ -135,7 +137,11 @@ public final class NativeInlineGap {
       prompt.invoke(null,term,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
      if(paired){
-      if(powerPaired){
+      if(negativePaired){
+       Object power=NativeFractionSlot.createNegativeExponent(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+       prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+      }
+      else if(powerPaired){
        if(gapCount<=1)throw new IllegalStateException("Power slot requires a multi-slot equation");
        Object power=NativeFractionSlot.createPower(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),pairedPower);
        prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
