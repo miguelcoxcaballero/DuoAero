@@ -623,6 +623,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_COLUMN_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0961-D3']],teach_words=True)
   assert len(mixed)==11
+ if os.environ.get('DUOAERO_RATIO_WORDS_DIAGNOSTIC')=='1' and not production:
+  mixed=[q for q in lesson_questions([by_id['TA1-0180-F1']],teach_words=True) if q['id'].startswith('INTRO-TAPER-RATIO')]
+  mixed.extend(q for q in lesson_questions([by_id['TA1-0078-D2']],teach_words=True) if q['id'].startswith('TA1-0078-D2-F2'))
+  assert len(mixed)==8
  if os.environ.get('DUOAERO_SPAR_DIAGNOSTIC')=='intro' and not production:
   mixed=lesson_questions([by_id['TA1-0737-D3']],teach_words=True)
   assert len(mixed)==17
