@@ -367,7 +367,7 @@ jobs:
             approach-mixed)
               python native-base/test_approach_steps.py
               run_probe aerospace-approach MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 18 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-approach.txt"
+              grep -q 'All 19 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-approach.txt"
               ;;
             sqrt-mixed)
               run_probe aerospace-sqrt-mixed MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

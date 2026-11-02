@@ -6,7 +6,10 @@ root=Path(__file__).resolve().parents[1]
 bank=json.loads((root/'app/assets/questions.json').read_text())
 q=next(q for q in bank if q['id']=='TA1-0806-D3')
 a=lesson_questions([q],teach_words=True)
-assert len(a)==18 and a[-1]['id']==q['id']
+assert len(a)==19 and a[-1]['id']==q['id']
+matching=next(x for x in a if x['id']=='APPROACH-STALL-QUANTITIES')
+assert matching['type']=='matching' and len(matching['pairs'])==4
+assert a.index(matching) < next(i for i,x in enumerate(a) if x['id']=='APPROACH-STALL-SQUARED-WORDS')
 seen={'ISA-DENSITY'}
 for item in a:
  if item.get('symbol_prerequisite'): seen.add(item['id'])
@@ -26,4 +29,4 @@ for name in ('APPROACH-SPEED-NAMED','APPROACH-CONVERT-NAMED'):
  item=next(x for x in a if x['id']==name)
  assert item['inline_latex'].count('___') == len(item['answer_blocks']) == 2
  assert r'\times' in item['inline_latex']
-print('PASS: 18 staged exercises, formula order and numerical answers; Android UI remains unverified.')
+print('PASS: 19 staged exercises, formula order and numerical answers; Android UI remains unverified.')
