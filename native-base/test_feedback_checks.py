@@ -15,6 +15,7 @@ class FeedbackChecksTest(unittest.TestCase):
     def test_observed_positive_banner(self):
         assert_native_correct(screen(' Awesome!', 'CONTINUE'), 'test')
         assert_native_correct(screen(' Correct!', 'CONTINUE'), 'test')
+        assert_native_correct(screen(' Excellent!', 'CONTINUE'), 'test')
 
     def test_continue_alone_is_not_success(self):
         with self.assertRaises(AssertionError):

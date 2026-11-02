@@ -1,5 +1,6 @@
 # Exact positive banners observed in the original controller's Android dumps.
-POSITIVE_BANNERS={'awesome!', 'good job!', 'amazing!', 'nice job!', 'great!', 'correct!'}
+POSITIVE_BANNERS={'awesome!', 'good job!', 'amazing!', 'nice job!', 'great!', 'correct!',
+                  'excellent!', 'great job!', 'nice!', 'nicely done!', 'wow!'}
 def assert_native_correct(tree, context):
     labels={n.get('text','').strip().casefold() for n in tree.iter('node')}
     errors={'got it', 'incorrect', 'incorrect!', 'skip', 'skipped', 'error', 'something went wrong'}
