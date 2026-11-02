@@ -16212,7 +16212,213 @@
       0.0
     ],
     "legacy_id": "TA1-0045",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "LIFT-TEMP-RATIO-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: temperature ratio equals final temperature divided by initial ___.",
+        "answer": [
+          "temperature"
+        ],
+        "distractors": [
+          "pressure",
+          "density",
+          "speed"
+        ],
+        "explanation": "Temperature ratio equals final temperature divided by initial temperature."
+      },
+      {
+        "id": "LIFT-TEMP-RATIO-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\div",
+          "___"
+        ],
+        "formula_latex": "r_T=\\frac{T_B}{T_A}",
+        "answer_blocks": [
+          "temp ratio",
+          "final temp",
+          "initial temp"
+        ],
+        "blocks": [
+          "final temp",
+          "density",
+          "temp ratio",
+          "initial temp",
+          "pressure",
+          "speed"
+        ],
+        "explanation": "r_T=\\frac{T_B}{T_A}"
+      },
+      {
+        "id": "LIFT-TEMP-RATIO",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "",
+        "after_latex": "=\\frac{T_B}{T_A}",
+        "missing_latex": "r_T",
+        "formula_latex": "r_T=\\frac{T_B}{T_A}",
+        "answer_blocks": [
+          "rₜ"
+        ],
+        "blocks": [
+          "T",
+          "rₜ",
+          "p",
+          "V"
+        ],
+        "explanation": "r_T=\\frac{T_B}{T_A}"
+      },
+      {
+        "id": "LIFT-TEMP-UPDATE-WORDS",
+        "type": "gap",
+        "stem": "Complete in words: final lift coefficient equals initial lift coefficient times temperature ___.",
+        "answer": [
+          "ratio"
+        ],
+        "distractors": [
+          "pressure",
+          "density",
+          "speed"
+        ],
+        "explanation": "Final lift coefficient equals initial lift coefficient times temperature ratio."
+      },
+      {
+        "id": "LIFT-TEMP-UPDATE-NAMED",
+        "type": "formula_named",
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "C_{L,B}=C_{L,A}r_T",
+        "answer_blocks": [
+          "final CL",
+          "initial CL",
+          "temp ratio"
+        ],
+        "blocks": [
+          "final CL",
+          "pressure",
+          "initial CL",
+          "temp ratio",
+          "density",
+          "speed"
+        ],
+        "explanation": "C_{L,B}=C_{L,A}r_T"
+      },
+      {
+        "id": "LIFT-TEMP-UPDATE",
+        "type": "formula_named",
+        "symbol_prerequisite": true,
+        "stem": "Complete the formula with a symbol",
+        "before_latex": "C_{L,B}=C_{L,A}\\times",
+        "after_latex": "",
+        "missing_latex": "r_T",
+        "formula_latex": "C_{L,B}=C_{L,A}r_T",
+        "answer_blocks": [
+          "rₜ"
+        ],
+        "blocks": [
+          "T",
+          "rₜ",
+          "p",
+          "V"
+        ],
+        "explanation": "C_{L,B}=C_{L,A}r_T"
+      },
+      {
+        "id": "TA1-0045-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 250 K and final temperature is 268 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "0.9328358",
+          "1.0720000",
+          "1.0000000",
+          "1.0360000"
+        ],
+        "answer": 1,
+        "explanation": "Divide 268 by 250 to get 1.0720000.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=250\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=268\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{268}{250}\\approx1.0720000"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0045-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.48 and temperature ratio is 1.0720000. What is final lift coefficient?",
+        "options": [
+          "0.48",
+          "0.44776",
+          "0.51456",
+          "0.49698"
+        ],
+        "answer": 2,
+        "explanation": "Multiply initial coefficient 0.48 by temperature ratio 1.0720000; the result is approximately 0.51456.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.48"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0720000"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.48\\times1.0720000\\approx0.51456"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "topic": "2.6",
@@ -17829,7 +18035,91 @@
       0.0
     ],
     "legacy_id": "TA1-0339",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0339-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 253 K and final temperature is 272 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "1.0750988",
+          "1.0375494",
+          "1.0000000",
+          "0.9301471"
+        ],
+        "answer": 0,
+        "explanation": "Divide 272 by 253 to get 1.0750988.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=253\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=272\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{272}{253}\\approx1.0750988"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0339-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.5 and temperature ratio is 1.0750988. What is final lift coefficient?",
+        "options": [
+          "0.5",
+          "0.51843",
+          "0.46507",
+          "0.53755"
+        ],
+        "answer": 3,
+        "explanation": "Multiply initial coefficient 0.5 by temperature ratio 1.0750988; the result is approximately 0.53755.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.5"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0750988"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.5\\times1.0750988\\approx0.53755"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0144-D2",
@@ -19689,7 +19979,91 @@
       0.0
     ],
     "legacy_id": "TA1-0509",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0509-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 256 K and final temperature is 276 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "1.0781250",
+          "1.0000000",
+          "1.0390625",
+          "0.9275362"
+        ],
+        "answer": 0,
+        "explanation": "Divide 276 by 256 to get 1.0781250.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=256\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=276\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{276}{256}\\approx1.0781250"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0509-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.52 and temperature ratio is 1.0781250. What is final lift coefficient?",
+        "options": [
+          "0.53993",
+          "0.48232",
+          "0.56063",
+          "0.52"
+        ],
+        "answer": 2,
+        "explanation": "Multiply initial coefficient 0.52 by temperature ratio 1.0781250; the result is approximately 0.56063.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.52"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0781250"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.52\\times1.0781250\\approx0.56063"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0224-D2",
@@ -21490,7 +21864,91 @@
       0.0
     ],
     "legacy_id": "TA1-0651",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0651-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 259 K and final temperature is 280 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "1.0405405",
+          "1.0000000",
+          "0.9250000",
+          "1.0810811"
+        ],
+        "answer": 3,
+        "explanation": "Divide 280 by 259 to get 1.0810811.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=259\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=280\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{280}{259}\\approx1.0810811"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0651-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.54 and temperature ratio is 1.0810811. What is final lift coefficient?",
+        "options": [
+          "0.54",
+          "0.56147",
+          "0.4995",
+          "0.58378"
+        ],
+        "answer": 3,
+        "explanation": "Multiply initial coefficient 0.54 by temperature ratio 1.0810811; the result is approximately 0.58378.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.54"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0810811"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.54\\times1.0810811\\approx0.58378"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0310-D2",
@@ -23243,7 +23701,91 @@
       0.0
     ],
     "legacy_id": "TA1-0676",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0676-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 262 K and final temperature is 284 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "1.0000000",
+          "1.0839695",
+          "0.9225352",
+          "1.0419847"
+        ],
+        "answer": 1,
+        "explanation": "Divide 284 by 262 to get 1.0839695.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=262\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=284\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{284}{262}\\approx1.0839695"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0676-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.56 and temperature ratio is 1.0839695. What is final lift coefficient?",
+        "options": [
+          "0.51662",
+          "0.60702",
+          "0.58304",
+          "0.56"
+        ],
+        "answer": 1,
+        "explanation": "Multiply initial coefficient 0.56 by temperature ratio 1.0839695; the result is approximately 0.60702.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.56"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0839695"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.56\\times1.0839695\\approx0.60702"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0473-D2",
@@ -24902,7 +25444,91 @@
       0.0
     ],
     "legacy_id": "TA1-0778",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0778-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 265 K and final temperature is 288 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "0.9201389",
+          "1.0433962",
+          "1.0000000",
+          "1.0867925"
+        ],
+        "answer": 3,
+        "explanation": "Divide 288 by 265 to get 1.0867925.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=265\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=288\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{288}{265}\\approx1.0867925"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0778-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.58 and temperature ratio is 1.0867925. What is final lift coefficient?",
+        "options": [
+          "0.58",
+          "0.60465",
+          "0.63034",
+          "0.53368"
+        ],
+        "answer": 2,
+        "explanation": "Multiply initial coefficient 0.58 by temperature ratio 1.0867925; the result is approximately 0.63034.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.58"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0867925"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.58\\times1.0867925\\approx0.63034"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0474-D2",
@@ -26564,7 +27190,91 @@
       0.0
     ],
     "legacy_id": "TA1-0801",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0801-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 268 K and final temperature is 292 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "0.9178082",
+          "1.0895522",
+          "1.0000000",
+          "1.0447761"
+        ],
+        "answer": 1,
+        "explanation": "Divide 292 by 268 to get 1.0895522.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=268\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=292\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{292}{268}\\approx1.0895522"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0801-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.6 and temperature ratio is 1.0895522. What is final lift coefficient?",
+        "options": [
+          "0.6",
+          "0.55068",
+          "0.62629",
+          "0.65373"
+        ],
+        "answer": 3,
+        "explanation": "Multiply initial coefficient 0.6 by temperature ratio 1.0895522; the result is approximately 0.65373.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.6"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0895522"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.6\\times1.0895522\\approx0.65373"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0581-D2",
@@ -28260,7 +28970,91 @@
       0.0
     ],
     "legacy_id": "TA1-0819",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0819-D2-S1",
+        "type": "choice",
+        "stem": "Initial temperature is 271 K and final temperature is 296 K. What is the final-to-initial temperature ratio?",
+        "options": [
+          "1.0000000",
+          "1.0461255",
+          "0.9155405",
+          "1.0922509"
+        ],
+        "answer": 3,
+        "explanation": "Divide 296 by 271 to get 1.0922509.",
+        "formula_hint": {
+          "latex": "r_T=\\frac{T_B}{T_A}",
+          "prerequisite": "LIFT-TEMP-RATIO"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "Initial temperature is "
+            },
+            {
+              "latex": "T_A=271\\,\\mathrm K"
+            },
+            {
+              "text": " and final temperature is "
+            },
+            {
+              "latex": "T_B=296\\,\\mathrm K"
+            },
+            {
+              "text": ". What is the final-to-initial temperature ratio?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "r_T=\\frac{296}{271}\\approx1.0922509"
+            }
+          ]
+        }
+      },
+      {
+        "id": "TA1-0819-D2",
+        "type": "choice",
+        "stem": "At fixed pressure, speed, weight and wing area, initial lift coefficient is 0.62 and temperature ratio is 1.0922509. What is final lift coefficient?",
+        "options": [
+          "0.6772",
+          "0.64797",
+          "0.62",
+          "0.56764"
+        ],
+        "answer": 0,
+        "explanation": "Multiply initial coefficient 0.62 by temperature ratio 1.0922509; the result is approximately 0.6772.",
+        "formula_hint": {
+          "latex": "C_{L,B}=C_{L,A}r_T",
+          "prerequisite": "LIFT-TEMP-UPDATE"
+        },
+        "rich_text": {
+          "stem": [
+            {
+              "text": "At fixed pressure, speed, weight and wing area, "
+            },
+            {
+              "latex": "C_{L,A}=0.62"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "latex": "r_T=1.0922509"
+            },
+            {
+              "text": ". What is the final lift coefficient?"
+            }
+          ],
+          "explanation": [
+            {
+              "latex": "C_{L,B}=0.62\\times1.0922509\\approx0.6772"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0593-D2",
