@@ -23,7 +23,7 @@ TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
     r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*(?:Vapp|Vstall|Vs|Vmd))?(?![A-Za-z0-9_]|\.\d)'
-    r'|(?:rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
+    r'|(?:rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
     r'|exp\([A-Za-z0-9+*./-]+\)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)'
@@ -55,7 +55,7 @@ def symbol(value):
         lhs = names.get(inequality.group(1), inequality.group(1))
         op = r'\geq ' if inequality.group(2) == '>=' else r'\leq '
         return lhs + op + inequality.group(3) + (r'V_s' if inequality.group(4) else '')
-    assignment = re.fullmatch(r'(rho[012]?|gamma|cp|ce|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
+    assignment = re.fullmatch(r'(rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)', value)
     if assignment:
         rhs = assignment.group(2)
         scientific = re.fullmatch(r'(.+)[eE]([+-]?\d+)', rhs)
