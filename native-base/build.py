@@ -733,6 +733,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   from rocket_lesson import lesson as rocket_lesson
   mixed=rocket_lesson()
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_ORBIT_DRAFT_DIAGNOSTIC')=='1' and not production:
+  sys.path.insert(0,str(ROOT/'research'))
+  from orbit_lesson import lesson as orbit_lesson
+  mixed=orbit_lesson()
+  assert len(mixed)==10
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

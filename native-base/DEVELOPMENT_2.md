@@ -549,3 +549,5 @@ Run 41530759898 graded the three parenthesized product equations and the kinetic
 A separate second-midterm ideal-rocket draft now contains ten native-model exercises: word and named-quantity introductions, symbolic equations, then two independently checked calculations with earlier formula hints. It is not in the production path and still requires Android, editorial, full-curriculum and progression acceptance. Runs 41530945821, 41531120853 and 41531467765 graded the Breguet exponent, induced-drag and range word/named/symbol sequences; inspected S24-proportioned screenshots fit, with inline division for product fractions.
 
 The structural job of run 41531467765 additionally graded cantilever and both buckling named sequences. Inspected captures show the cubed length, squared effective length and pi squared, with choices and Check visible in the S24-proportioned emulator.
+
+An additional isolated ten-exercise circular-orbit draft introduces circumference and period in words, named quantities and symbols before checked calculations with hints. It remains outside the production path pending syllabus review, Android and progression tests.
