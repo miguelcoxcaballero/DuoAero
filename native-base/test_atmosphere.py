@@ -26,6 +26,13 @@ def wait(name,predicate,timeout=90,continue_interstitial=False):
     deadline=time.monotonic()+timeout
     while time.monotonic()<deadline:
         tree=capture(name)
+        # The hosted emulator sometimes reports an ANR for its background
+        # Pixel Launcher while DuoAero is already open. Dismiss only that
+        # external system dialog; never hide an ANR from the app under test.
+        if tree is not None and any("Pixel Launcher isn't responding" in n.get('text','') for n in tree.iter('node')):
+            close=[n for n in tree.iter('node') if n.get('text','')=='Close app']
+            if close:
+                tap_node(close[0]);time.sleep(1);continue
         if tree is not None and predicate(tree):return tree
         if tree is not None and continue_interstitial:
             buttons=[n for n in tree.iter('node') if n.get('text','').strip()=='CONTINUE' and n.get('enabled')=='true']

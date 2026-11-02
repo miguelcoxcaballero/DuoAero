@@ -41,7 +41,9 @@ is experimental. Android diagnostic run 41370981586, commit df1af26, passed
 13 actual exercises including four word slots and rapid touch at emulated S24
 Ultra proportions, dark mode and 1.15 font scale. Its screenshot showed a
 two-line product with no explicit multiplication signs; the next source
-revision adds signs for clarity and needs Android re-testing. Drag/drop,
+revision adds signs for clarity. Android run 41372273142 graded all 13
+exercises and its screenshot showed the four tiles and both multiplication
+signs on an S24-proportioned emulated screen with larger text. Drag/drop,
 wrong-answer feedback and all supported font scales are still unverified. It
 currently covers only the ideal-gas equation, not all formula families.
 
@@ -60,6 +62,18 @@ Run 41372032864 failed to load the drawable because its intrinsic bounds or
 atlas could not be read. The attribute IDs supplied to `obtainAttributes`
 were unsorted; the follow-up orders height before width and reports failures
 separately. This suspected fix still requires a fresh Android run.
+
+The separate two-section diagnostic shows both section cards in the original
+picker. Its first test tapped the second card only once, expanding it rather
+than opening the inner row, so navigation was not established. A corrected
+two-tap diagnostic is running on the separate research branch. It contains no
+production content for the second midterm.
+
+Android run 41372273142 also graded the five-step isothermal pressure-ratio
+diagnostic. Its screenshot shows the final ratio question and the hint button;
+this is a sample, not complete lesson or course verification. A subsequent
+full-lesson timing run was interrupted by an unrelated Pixel Launcher ANR
+dialog in the emulator; the test now dismisses only that external dialog.
 
 ## Acceptance still required
 
