@@ -13,7 +13,7 @@ MACH_FACTOR = r'f=\frac{\gamma p}{2}'
 MACH_PRESSURE = r'q_M=fM^2'
 LIMIT = r'q_{\mathrm{allowed}}=\min(q_{\mathrm{cap}},q_M)'
 LOAD = r'W_{\max}=\frac{q_{\mathrm{allowed}}S C_{L,\max}}{1.25^2}'
-MASS = r'm_{\max}=W_{\max}/g'
+MASS = r'm_{\max}=\frac{W_{\max}}{g}'
 
 
 def draft(source):
