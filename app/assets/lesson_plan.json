@@ -414,21 +414,7 @@
           "TA1-0212-D2",
           "EX-2019-10-23-3",
           "EX-2023-11-06-4",
-          "EX-2025-11-06-3",
-          "TH-2026-OTHER-4",
-          "TA1-0113",
-          "TA1-0290",
-          "TA1-0502",
-          "TA1-0776-D3",
-          "TA1-0790-D3",
-          "TA1-0848-D3",
-          "TA1-0921-D3",
-          "TA1-0949-D3",
-          "TA1-N3-38-06",
-          "TA1-N3-38-07",
-          "TA1-N3-38-08",
-          "TA1-N3-38-09",
-          "TA1-N3-38-10"
+          "TA1-0776-D3"
         ],
         "name": "Take-off and landings at high altitudes or temperatures · Lesson 1"
       },
@@ -438,6 +424,32 @@
           "TA1-0806-D3"
         ],
         "name": "Take-off and landings at high altitudes or temperatures · Lesson 2"
+      },
+      {
+        "id": "2.1-4-point-0-lesson-2",
+        "ids": [
+          "EX-2025-11-06-3",
+          "TH-2026-OTHER-4",
+          "TA1-0113",
+          "TA1-0290",
+          "TA1-0502",
+          "TA1-0790-D3",
+          "TA1-0848-D3",
+          "TA1-0921-D3",
+          "TA1-0949-D3"
+        ],
+        "name": "Take-off and landings at high altitudes or temperatures · Lesson 3"
+      },
+      {
+        "id": "2.1-4-point-0-lesson-3",
+        "ids": [
+          "TA1-N3-38-06",
+          "TA1-N3-38-07",
+          "TA1-N3-38-08",
+          "TA1-N3-38-09",
+          "TA1-N3-38-10"
+        ],
+        "name": "Take-off and landings at high altitudes or temperatures · Lesson 4"
       }
     ]
   },

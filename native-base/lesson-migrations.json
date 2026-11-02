@@ -123,5 +123,29 @@
       "TA1-0144-D2",
       "TA1-0224-D2"
     ]
+  },
+  "2.1-4-point-0-lesson-2": {
+    "sourceLesson": "2.1-4-point-0-lesson-0",
+    "requiredQuestions": [
+      "EX-2025-11-06-3",
+      "TH-2026-OTHER-4",
+      "TA1-0113",
+      "TA1-0290",
+      "TA1-0502",
+      "TA1-0790-D3",
+      "TA1-0848-D3",
+      "TA1-0921-D3",
+      "TA1-0949-D3"
+    ]
+  },
+  "2.1-4-point-0-lesson-3": {
+    "sourceLesson": "2.1-4-point-0-lesson-0",
+    "requiredQuestions": [
+      "TA1-N3-38-06",
+      "TA1-N3-38-07",
+      "TA1-N3-38-08",
+      "TA1-N3-38-09",
+      "TA1-N3-38-10"
+    ]
   }
 }

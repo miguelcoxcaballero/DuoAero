@@ -8,7 +8,7 @@ bank=json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig
 course, section, index=build_path(plan,bank)
 units=section['units']
 assert [unit['teachingObjective'].split(' · ')[0] for unit in units]==['1','2.1','2.2','2.3','2.4','2.5','2.6']
-assert len(index)==90 and len({qid for lesson in index.values() for qid in lesson['questionIds']})==1200
+assert len(index)==92 and len({qid for lesson in index.values() for qid in lesson['questionIds']})==1200
 for unit in units:
     levels=unit['levels']; assert levels[-1]['type']=='chest'
     assert sum(level['type']=='chest' for level in levels)==1
@@ -18,4 +18,4 @@ assert course['pathTabsSummary'][0]['pathSectionGroups'][0]['sectionIds']==[sect
 assert len(course['pathSectionsSummary'])==1 and course['pathSectionsSummary'][0]['title']=='Midterm 1'
 assert course['pathSectionsSummary'][0]['totalLevelsPerUnit']==[len(u['levels']) for u in units]
 assert [l['absoluteNodeIndex'] for u in units for l in u['levels']]==list(range(50))
-print('PASS: 7 large topics, 43 stable subtopic nodes, 7 chests, 90 lessons and first-midterm section; native UI remains unverified.')
+print('PASS: 7 large topics, 43 stable subtopic nodes, 7 chests, 92 lessons and first-midterm section; native UI remains unverified.')

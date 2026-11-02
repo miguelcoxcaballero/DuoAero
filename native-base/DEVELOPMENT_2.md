@@ -465,8 +465,11 @@ equations are not yet accepted.
 Run 41517680035 graded all ten unsplit cabin-pressure problems and rendered
 the exponential as a power and fraction. Inspected screenshots show long
 stems clipped, and a separate p11 was not subscripted. These exercises still
-need to be broken into short, taught calculation steps; the p11 token fix has
-local tests but has not yet been visually checked in Android.
+needed to be broken into short, taught calculation steps. They now have three
+prior formulas and three or four short questions each, with original answers
+independently recalculated. The course has 92 lessons with exact historical
+path-only migration; local validation passes. The new questions, p11 token fix,
+and the migrated path still need Android UI and persistence validation.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names

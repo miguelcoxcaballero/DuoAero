@@ -39,6 +39,9 @@ FORMULAS = {
  'mach': ('Mach number M equals airspeed V divided by the speed of ___ a.', 'sound', ['light', 'gravity', 'rotation']),
  'breguet_exponent': ('Exponent x = (range R times gravity g times fuel consumption ce) / (speed V times lift-to-drag ___ E).', 'ratio', ['mass', 'area', 'pressure']),
  'fuel_fraction': ('Fuel fraction m-fuel / mi equals one minus the ___ mass fraction r.', 'remaining', ['initial', 'total', 'payload']),
+ 'cabin_pressure': ('Outside pressure p equals cabin pressure p-c minus the pressure ___.', 'difference', ['speed', 'area', 'temperature']),
+ 'mach_pressure': ('Dynamic pressure q equals one half times heat capacity ratio gamma times pressure p times Mach number M ___.', 'squared', ['cubed', 'halved', 'unchanged']),
+ 'wing_loading': ('Weight W divided by wing area S equals dynamic pressure q times lift ___.', 'coefficient', ['temperature', 'altitude', 'density']),
 }
 
 KINDS = {
@@ -61,13 +64,14 @@ KINDS = {
  'TA1-0107-D2-F1':'kinetic_temperature', 'TA1-0107-D2-F2':'static_temperature',
  'TA1-0107-D2-F3':'sound', 'TA1-0107-D2-F4':'mach',
  'TA1-0078-D2-F1':'breguet_exponent', 'TA1-0078-D2-F2':'fuel_fraction',
+ 'CABIN-PRESSURE-FORMULA':'cabin_pressure', 'CABIN-MACH-PRESSURE':'mach_pressure', 'CABIN-WING-LOADING':'wing_loading',
 }
 
 # Each item is emitted as mathematical LaTeX inside the surrounding sentence.
 # Do not interpret arbitrary course prose as LaTeX: these names are restricted
 # to the explicitly authored word-first exercises above.
 INLINE_SYMBOLS = {
- 'p':'p', 'p-b':r'p_b', 'p-A':r'p_A', 'p-B':r'p_B', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
+ 'p':'p', 'p-b':r'p_b', 'p-c':r'p_c', 'p-A':r'p_A', 'p-B':r'p_B', 'rho':r'\rho', 'R-air':r'R_a', 'T':'T',
  'm-p':r'm_p', 'm-to':r'm_{to}', 'm-oem':r'm_{oem}', 'm-f':r'm_f',
  'I-stress':r'I_\sigma', 'I-deflection':r'I_\delta', 'F':'F', 'c':'c', 'sigma-a':r'\sigma_a', 'delta-a':r'\delta_a',
  'P-y':r'P_y', 'sigma-y':r'\sigma_y', 'n':'n', 'P':'P',
@@ -115,6 +119,9 @@ EQUATION_NAMES = {
  'mach':('Mach number',['airspeed','sound speed','pressure']),
  'breguet_exponent':('exponent',['range','airspeed','fuel mass']),
  'fuel_fraction':('remaining fraction',['fuel fraction','total mass','speed']),
+ 'cabin_pressure':('outside pressure',['cabin pressure','difference','temperature']),
+ 'mach_pressure':('dynamic pressure',['cabin pressure','density','area']),
+ 'wing_loading':('lift coefficient',['wing area','weight','airspeed']),
 }
 
 # Where the quantity is an operand at the top level, keep the hole precisely
@@ -134,6 +141,8 @@ IN_PLACE = {
  'static_temperature':(r'T=T_t-',r'\Delta T',''),
  'sound':(r'a^2=\gamma R','T',''),
  'fuel_fraction':(r'\frac{m_{\mathrm{fuel}}}{m_i}=1-','r',''),
+ 'cabin_pressure':('','p',r'=p_c-\Delta p'),
+ 'wing_loading':(r'\frac{W}{S}=q',r'C_L',''),
 }
 
 
@@ -198,6 +207,12 @@ MULTI_NAMED = {
            ['pressure','density','altitude'], ['___^2','=','___',r'\times','___',r'\times','___']),
  'dynamic_pressure': (r'q=\frac12\rho V^2', ['dynamic pressure','density','airspeed'],
                       ['temperature','area','mass'], ['___','=',r'\frac12',r'\times','___',r'\times','___^2']),
+ 'cabin_pressure': (r'p=p_c-\Delta p', ['outside p','cabin p','pressure diff'],
+                    ['temperature','speed','area'], ['___','=','___','-','___']),
+ 'mach_pressure': (r'q=\frac12\gamma pM^2', ['dynamic p','heat cap. ratio','outside p','Mach number'],
+                   ['temperature','area','mass'], ['___','=',r'\frac12',r'\times','___',r'\times','___',r'\times','___^2']),
+ 'wing_loading': (r'\frac{W}{S}=qC_L', ['weight','wing area','dynamic p','lift coeff'],
+                  ['temperature','altitude','mass'], ['___/___','=','___',r'\times','___']),
  'thrust': (r'T=\dot m(V_e-V_0)', ['thrust','mass flow','exhaust speed','flight speed'],
             ['pressure','density','altitude'], ['___','=','___',r'\times','(','___','-','___',')']),
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],

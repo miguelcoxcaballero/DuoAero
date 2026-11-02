@@ -681,6 +681,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   formula_ids=('ISA-PRESSURE-RATIO','ISA-DYNAMIC')
   mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
   assert len(mixed)==8
+ if os.environ.get('DUOAERO_CABIN_STEPS_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0776-D3'],by_id['TA1-0790-D3']],teach_words=True)
+  assert len(mixed)==19
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

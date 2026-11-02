@@ -29780,7 +29780,133 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0776",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "CABIN-PRESSURE-FORMULA",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the outside-pressure formula",
+        "prefix": "p =",
+        "blocks": [
+          "p_c",
+          "−",
+          "Δp",
+          "+",
+          "p"
+        ],
+        "answer_blocks": [
+          "p_c",
+          "−",
+          "Δp"
+        ],
+        "formula_latex": "p=p_c-\\Delta p",
+        "explanation": "p=p_c-\\Delta p",
+        "literal_operator_blocks": true
+      },
+      {
+        "id": "CABIN-MACH-PRESSURE",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete dynamic pressure using Mach",
+        "prefix": "q = ½ γ",
+        "blocks": [
+          "p",
+          "M²",
+          "M",
+          "S",
+          "T"
+        ],
+        "answer_blocks": [
+          "p",
+          "M²"
+        ],
+        "formula_latex": "q=\\frac12\\gamma pM^2",
+        "explanation": "q=\\frac12\\gamma pM^2"
+      },
+      {
+        "id": "CABIN-WING-LOADING",
+        "type": "formula_blocks",
+        "difficulty": 1,
+        "stem": "Complete the level-flight wing-loading formula",
+        "prefix": "\\frac{W}{S} = q",
+        "blocks": [
+          "C_L",
+          "C_D",
+          "M",
+          "V"
+        ],
+        "answer_blocks": [
+          "C_L"
+        ],
+        "formula_latex": "\\frac{W}{S}=qC_L",
+        "explanation": "\\frac{W}{S}=qC_L"
+      },
+      {
+        "id": "TA1-0776-D3-S1",
+        "stem": "At the limit, cabin pressure is 54000 Pa and the pressure difference is 35000 Pa. What is outside pressure?",
+        "options": [
+          "19000 Pa",
+          "89000 Pa",
+          "54000 Pa",
+          "35000 Pa"
+        ],
+        "answer": 0,
+        "explanation": "54000 − 35000 = 19000 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0776-D3-S2",
+        "stem": "Mach number is 0.72. What is its square?",
+        "options": [
+          "0.518400",
+          "0.720000",
+          "1.036800",
+          "0.259200"
+        ],
+        "answer": 0,
+        "explanation": "0.72 × 0.72 = 0.518400.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0776-D3-S3",
+        "stem": "Outside pressure is 19000 Pa and Mach squared is 0.518400. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "6894.72 Pa",
+          "13789.44 Pa",
+          "3447.36 Pa",
+          "8273.66 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 19000 × 0.518400 = 6894.72 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0776-D3",
+        "stem": "Weight is 4.4E+5 N, wing area is 115 m² and dynamic pressure is 6894.72 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.55493",
+          "0.28768",
+          "0.41788",
+          "0.19525"
+        ],
+        "answer": 0,
+        "explanation": "C_L = 4.4E+5 / (6894.72 × 115) ≈ 0.55493.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0806-D3",
@@ -31973,7 +32099,57 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0790",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0790-D3-S1",
+        "stem": "At the limit, cabin pressure is 54500 Pa and the pressure difference is 35700 Pa. What is outside pressure?",
+        "options": [
+          "18800 Pa",
+          "90200 Pa",
+          "54500 Pa",
+          "35700 Pa"
+        ],
+        "answer": 0,
+        "explanation": "54500 − 35700 = 18800 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0790-D3-S3",
+        "stem": "Outside pressure is 18800 Pa and Mach is 0.728. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "6974.59 Pa",
+          "13949.18 Pa",
+          "3487.30 Pa",
+          "8369.51 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 18800 × 0.529984 = 6974.59 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0790-D3",
+        "stem": "Weight is 4.52E+5 N, wing area is 118 m² and dynamic pressure is 6974.59 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.18945",
+          "0.54921",
+          "0.41357",
+          "0.29107"
+        ],
+        "answer": 1,
+        "explanation": "C_L = 4.52E+5 / (6974.59 × 118) ≈ 0.54921.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0857-D3",
@@ -33763,7 +33939,73 @@
       0.0
     ],
     "legacy_id": "TA1-0848",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0848-D3-S1",
+        "stem": "At the limit, cabin pressure is 55000 Pa and the pressure difference is 36400 Pa. What is outside pressure?",
+        "options": [
+          "18600 Pa",
+          "91400 Pa",
+          "55000 Pa",
+          "36400 Pa"
+        ],
+        "answer": 0,
+        "explanation": "55000 − 36400 = 18600 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0848-D3-S2",
+        "stem": "Mach number is 0.736. What is its square?",
+        "options": [
+          "0.541696",
+          "0.736000",
+          "1.083392",
+          "0.270848"
+        ],
+        "answer": 0,
+        "explanation": "0.736 × 0.736 = 0.541696.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0848-D3-S3",
+        "stem": "Outside pressure is 18600 Pa and Mach squared is 0.541696. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7052.88 Pa",
+          "14105.76 Pa",
+          "3526.44 Pa",
+          "8463.46 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 18600 × 0.541696 = 7052.88 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0848-D3",
+        "stem": "Weight is 4.64E+5 N, wing area is 121 m² and dynamic pressure is 7052.88 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.29452",
+          "0.18387",
+          "0.40943",
+          "0.54371"
+        ],
+        "answer": 3,
+        "explanation": "C_L = 4.64E+5 / (7052.88 × 121) ≈ 0.54371.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0939-D3",
@@ -35394,7 +35636,73 @@
       0.0
     ],
     "legacy_id": "TA1-0921",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0921-D3-S1",
+        "stem": "At the limit, cabin pressure is 55500 Pa and the pressure difference is 37100 Pa. What is outside pressure?",
+        "options": [
+          "18400 Pa",
+          "92600 Pa",
+          "55500 Pa",
+          "37100 Pa"
+        ],
+        "answer": 0,
+        "explanation": "55500 − 37100 = 18400 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0921-D3-S2",
+        "stem": "Mach number is 0.744. What is its square?",
+        "options": [
+          "0.553536",
+          "0.744000",
+          "1.107072",
+          "0.276768"
+        ],
+        "answer": 0,
+        "explanation": "0.744 × 0.744 = 0.553536.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0921-D3-S3",
+        "stem": "Outside pressure is 18400 Pa and Mach squared is 0.553536. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7129.54 Pa",
+          "14259.08 Pa",
+          "3564.77 Pa",
+          "8555.45 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 18400 × 0.553536 = 7129.54 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0921-D3",
+        "stem": "Weight is 4.76E+5 N, wing area is 124 m² and dynamic pressure is 7129.54 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.40545",
+          "0.29804",
+          "0.1785",
+          "0.53842"
+        ],
+        "answer": 3,
+        "explanation": "C_L = 4.76E+5 / (7129.54 × 124) ≈ 0.53842.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0941-D3",
@@ -37053,7 +37361,73 @@
       2.220446049250313e-16
     ],
     "legacy_id": "TA1-0949",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-0949-D3-S1",
+        "stem": "At the limit, cabin pressure is 56000 Pa and the pressure difference is 37800 Pa. What is outside pressure?",
+        "options": [
+          "18200 Pa",
+          "93800 Pa",
+          "56000 Pa",
+          "37800 Pa"
+        ],
+        "answer": 0,
+        "explanation": "56000 − 37800 = 18200 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-0949-D3-S2",
+        "stem": "Mach number is 0.752. What is its square?",
+        "options": [
+          "0.565504",
+          "0.752000",
+          "1.131008",
+          "0.282752"
+        ],
+        "answer": 0,
+        "explanation": "0.752 × 0.752 = 0.565504.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0949-D3-S3",
+        "stem": "Outside pressure is 18200 Pa and Mach squared is 0.565504. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7204.52 Pa",
+          "14409.04 Pa",
+          "3602.26 Pa",
+          "8645.42 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 18200 × 0.565504 = 7204.52 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-0949-D3",
+        "stem": "Weight is 4.88E+5 N, wing area is 127 m² and dynamic pressure is 7204.52 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.17334",
+          "0.53335",
+          "0.40163",
+          "0.30161"
+        ],
+        "answer": 1,
+        "explanation": "C_L = 4.88E+5 / (7204.52 × 127) ≈ 0.53335.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-0965-D3",
@@ -38712,7 +39086,73 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-38-06-S1",
+        "stem": "At the limit, cabin pressure is 56500 Pa and the pressure difference is 38500 Pa. What is outside pressure?",
+        "options": [
+          "18000 Pa",
+          "95000 Pa",
+          "56500 Pa",
+          "38500 Pa"
+        ],
+        "answer": 0,
+        "explanation": "56500 − 38500 = 18000 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-N3-38-06-S2",
+        "stem": "Mach number is 0.76. What is its square?",
+        "options": [
+          "0.577600",
+          "0.760000",
+          "1.155200",
+          "0.288800"
+        ],
+        "answer": 0,
+        "explanation": "0.76 × 0.76 = 0.577600.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-06-S3",
+        "stem": "Outside pressure is 18000 Pa and Mach squared is 0.577600. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7277.76 Pa",
+          "14555.52 Pa",
+          "3638.88 Pa",
+          "8733.31 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 18000 × 0.577600 = 7277.76 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-06",
+        "stem": "Weight is 5E+5 N, wing area is 130 m² and dynamic pressure is 7277.76 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.39796",
+          "0.30525",
+          "0.52848",
+          "0.16837"
+        ],
+        "answer": 2,
+        "explanation": "C_L = 5E+5 / (7277.76 × 130) ≈ 0.52848.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-22-06",
@@ -40371,7 +40811,73 @@
       2.220446049250313e-16
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-38-07-S1",
+        "stem": "At the limit, cabin pressure is 57000 Pa and the pressure difference is 39200 Pa. What is outside pressure?",
+        "options": [
+          "17800 Pa",
+          "96200 Pa",
+          "57000 Pa",
+          "39200 Pa"
+        ],
+        "answer": 0,
+        "explanation": "57000 − 39200 = 17800 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-N3-38-07-S2",
+        "stem": "Mach number is 0.768. What is its square?",
+        "options": [
+          "0.589824",
+          "0.768000",
+          "1.179648",
+          "0.294912"
+        ],
+        "answer": 0,
+        "explanation": "0.768 × 0.768 = 0.589824.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-07-S3",
+        "stem": "Outside pressure is 17800 Pa and Mach squared is 0.589824. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7349.21 Pa",
+          "14698.42 Pa",
+          "3674.60 Pa",
+          "8819.05 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 17800 × 0.589824 = 7349.21 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-07",
+        "stem": "Weight is 5.12E+5 N, wing area is 133 m² and dynamic pressure is 7349.21 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.30896",
+          "0.39445",
+          "0.52381",
+          "0.16358"
+        ],
+        "answer": 2,
+        "explanation": "C_L = 5.12E+5 / (7349.21 × 133) ≈ 0.52381.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-22-07",
@@ -42030,7 +42536,73 @@
       2.220446049250313e-16
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-38-08-S1",
+        "stem": "At the limit, cabin pressure is 57500 Pa and the pressure difference is 39900 Pa. What is outside pressure?",
+        "options": [
+          "17600 Pa",
+          "97400 Pa",
+          "57500 Pa",
+          "39900 Pa"
+        ],
+        "answer": 0,
+        "explanation": "57500 − 39900 = 17600 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-N3-38-08-S2",
+        "stem": "Mach number is 0.776. What is its square?",
+        "options": [
+          "0.602176",
+          "0.776000",
+          "1.204352",
+          "0.301088"
+        ],
+        "answer": 0,
+        "explanation": "0.776 × 0.776 = 0.602176.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-08-S3",
+        "stem": "Outside pressure is 17600 Pa and Mach squared is 0.602176. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7418.81 Pa",
+          "14837.62 Pa",
+          "3709.40 Pa",
+          "8902.57 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 17600 × 0.602176 = 7418.81 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-08",
+        "stem": "Weight is 5.24E+5 N, wing area is 136 m² and dynamic pressure is 7418.81 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.39108",
+          "0.31274",
+          "0.15897",
+          "0.51935"
+        ],
+        "answer": 3,
+        "explanation": "C_L = 5.24E+5 / (7418.81 × 136) ≈ 0.51935.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-22-08",
@@ -43689,7 +44261,73 @@
       0.0
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-38-09-S1",
+        "stem": "At the limit, cabin pressure is 58000 Pa and the pressure difference is 40600 Pa. What is outside pressure?",
+        "options": [
+          "17400 Pa",
+          "98600 Pa",
+          "58000 Pa",
+          "40600 Pa"
+        ],
+        "answer": 0,
+        "explanation": "58000 − 40600 = 17400 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-N3-38-09-S2",
+        "stem": "Mach number is 0.784. What is its square?",
+        "options": [
+          "0.614656",
+          "0.784000",
+          "1.229312",
+          "0.307328"
+        ],
+        "answer": 0,
+        "explanation": "0.784 × 0.784 = 0.614656.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-09-S3",
+        "stem": "Outside pressure is 17400 Pa and Mach squared is 0.614656. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7486.51 Pa",
+          "14973.02 Pa",
+          "3743.26 Pa",
+          "8983.81 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 17400 × 0.614656 = 7486.51 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-09",
+        "stem": "Weight is 5.36E+5 N, wing area is 139 m² and dynamic pressure is 7486.51 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.31659",
+          "0.51508",
+          "0.38787",
+          "0.15452"
+        ],
+        "answer": 1,
+        "explanation": "C_L = 5.36E+5 / (7486.51 × 139) ≈ 0.51508.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-22-09",
@@ -45348,7 +45986,73 @@
       2.220446049250313e-16
     ],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TA1-N3-38-10-S1",
+        "stem": "At the limit, cabin pressure is 58500 Pa and the pressure difference is 41300 Pa. What is outside pressure?",
+        "options": [
+          "17200 Pa",
+          "99800 Pa",
+          "58500 Pa",
+          "41300 Pa"
+        ],
+        "answer": 0,
+        "explanation": "58500 − 41300 = 17200 Pa.",
+        "formula_hint": {
+          "latex": "p=p_c-\\Delta p",
+          "prerequisite": "CABIN-PRESSURE-FORMULA"
+        }
+      },
+      {
+        "id": "TA1-N3-38-10-S2",
+        "stem": "Mach number is 0.792. What is its square?",
+        "options": [
+          "0.627264",
+          "0.792000",
+          "1.254528",
+          "0.313632"
+        ],
+        "answer": 0,
+        "explanation": "0.792 × 0.792 = 0.627264.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-10-S3",
+        "stem": "Outside pressure is 17200 Pa and Mach squared is 0.627264. For γ = 1.4, what is dynamic pressure?",
+        "options": [
+          "7552.26 Pa",
+          "15104.52 Pa",
+          "3776.13 Pa",
+          "9062.71 Pa"
+        ],
+        "answer": 0,
+        "explanation": "0.7 × 17200 × 0.627264 = 7552.26 Pa.",
+        "formula_hint": {
+          "latex": "q=\\frac12\\gamma pM^2",
+          "prerequisite": "CABIN-MACH-PRESSURE"
+        }
+      },
+      {
+        "id": "TA1-N3-38-10",
+        "stem": "Weight is 5.48E+5 N, wing area is 142 m² and dynamic pressure is 7552.26 Pa. What lift coefficient maintains level flight?",
+        "options": [
+          "0.15024",
+          "0.32053",
+          "0.38479",
+          "0.51099"
+        ],
+        "answer": 3,
+        "explanation": "C_L = 5.48E+5 / (7552.26 × 142) ≈ 0.51099.",
+        "formula_hint": {
+          "latex": "\\frac{W}{S}=qC_L",
+          "prerequisite": "CABIN-WING-LOADING"
+        }
+      }
+    ]
   },
   {
     "id": "TA1-N3-22-10",
