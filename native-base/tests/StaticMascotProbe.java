@@ -26,8 +26,11 @@ public final class StaticMascotProbe extends Instrumentation {
     if(drawable.getIntrinsicWidth()<=0||drawable.getIntrinsicHeight()<=0)throw new IllegalStateException("Invalid original bounds: "+names[i]);
     if(names[i].equals("duo_happy")||names[i].equals("duo_sad")){
      String animationName=names[i].equals("duo_happy")?"wave":"sad";
-     NativeWaveDrawable animated=names[i].equals("duo_happy")?new NativeWaveDrawable():new NativeSadDrawable();
-     animated.initialize(context.getResources(),drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
+     String type=names[i].equals("duo_happy")?"NativeWaveDrawable":"NativeSadDrawable";
+     Class<?> animationClass=Class.forName("com.duoaero.nativebase."+type,true,context.getClassLoader());
+     Drawable animated=(Drawable)animationClass.getConstructor().newInstance();
+     animationClass.getMethod("initialize",android.content.res.Resources.class,int.class,int.class)
+       .invoke(animated,context.getResources(),drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
      Drawable original=drawable;drawable=animated;
      drawable.setBounds(0,0,240,240);
      Bitmap first=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888),later=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888);
