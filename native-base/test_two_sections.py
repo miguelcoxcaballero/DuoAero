@@ -2,9 +2,10 @@
 
 This does not add second-midterm educational content to production.
 """
-import os,re,subprocess,time
+import json,os,re,subprocess,time
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from visual_controls import claim_xp
 PACKAGE='com.duoaero.nativebase';OUT=Path(os.environ['DUOAERO_EVIDENCE'])
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=30)
 def capture(name):
@@ -23,7 +24,7 @@ def wait(name,predicate,seconds=90):
  raise AssertionError('Not observed: '+name)
 def has(tree,value):return any(value.casefold() in (n.get('text','')+' '+n.get('content-desc','')).casefold() for n in tree.iter('node'))
 def tap(n):
- a,b,c,d=map(int,re.findall(r'\d+',n.get('bounds')));adb('shell','input','tap',str((a+c)//2),str((b+d)//2))
+ a,b,c,d=map(int,re.findall(r'\d+',n.get('bounds')));x=str((a+c)//2);y=str((b+d)//2);adb('shell','input','swipe',x,y,x,y,'100')
 try:
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
@@ -38,12 +39,35 @@ try:
  expanded=wait('two-sections-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
  rows=[n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2']
  tap(rows[-1])
- second=wait('two-sections-returned',lambda t:has(t,'Diagnostic second partial') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
+ second=wait('two-sections-returned',lambda t:has(t,'3.1 · Launch vehicles') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
  oval=next(n for n in second.iter('node') if n.get('resource-id')=='com.duolingo:id/oval')
  tap(oval)
  popup=wait('two-sections-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')))
  tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
- wait('two-sections-exercise',lambda t:any(n.get('resource-id')=='com.duolingo:id/mathCard' for n in t.iter('node')),90)
- (OUT/'two-sections-result.txt').write_text('PASS: diagnostic second section selected, title shown and its synthetic lesson opened in the original UI. No real second-midterm content, grading, progress or restart is asserted.\n')
+ draft=json.loads((Path(__file__).resolve().parents[1]/'research/midterm2_concepts.json').read_text())
+ questions=[q for q in draft['questions'] if q['topic']=='3.1'];assert len(questions)==10
+ for index,q in enumerate(questions):
+  answer=q['options'][q['answer']]
+  question=wait('two-sections-exercise-'+str(index),lambda t:has(t,answer),90)
+  choices=[n for n in question.iter('node') if answer in (n.get('text','')+' '+n.get('content-desc','')) and n.get('resource-id')=='com.duolingo:id/mathCard']
+  assert choices,'Missing original answer card '+q['id'];tap(choices[-1])
+  ready=wait('two-sections-ready-'+str(index),lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
+  tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
+  feedback=wait('two-sections-feedback-'+str(index),lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
+  assert not has(feedback,'GOT IT'),'Correct answer rejected: '+q['id']
+  tap(next(n for n in feedback.iter('node') if n.get('text','')=='CONTINUE' and n.get('enabled')=='true'))
+ end=time.monotonic()+90
+ while time.monotonic()<end:
+  complete=capture('two-sections-complete')
+  buttons=[] if complete is None else [n for n in complete.iter('node') if n.get('text','')=='CLAIM XP']
+  if buttons:tap(buttons[-1]);break
+  point=claim_xp(OUT/'two-sections-complete.png',OUT/'two-sections-claim-ocr.png')
+  if point:adb('shell','input','tap',str(point[0]),str(point[1]));break
+  time.sleep(2)
+ else:raise AssertionError('Second-section Claim XP missing')
+ wait('two-sections-after-completion',lambda t:any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
+ saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/submissions/second-partial-3.1-lesson-0.json'))
+ assert saved.get('completedOnce') is True,'Second-section completion not durably recorded'
+ (OUT/'two-sections-result.txt').write_text('PASS: selected the second diagnostic section, graded 10 drafted questions and saved the first lesson. Complete course, restart, rewards and Drive remain unverified.\n')
 finally:
  (OUT/'two-sections-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
