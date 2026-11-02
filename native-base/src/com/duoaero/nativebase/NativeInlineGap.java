@@ -9,6 +9,7 @@ import org.json.JSONArray;
 /** Uses the original Math figures and build-slot controller in a wrapping row. */
 public final class NativeInlineGap {
  private static final String MARKER="duoaero-gap:";
+ private static final String OPERATOR_GAP="duoaero-operator-gap:";
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
   if(!NativeCourseBridge.hasLocalCourse()||figure==null||!figure.getClass().getName().endsWith("MathFigureUiState$LatexString"))return false;
@@ -24,6 +25,18 @@ public final class NativeInlineGap {
    Class<?> callback=Class.forName("qqh",true,l),state=Class.forName("s6p",true,l);
    String encoded=((String)cls.getField("a").get(figure)).substring(MARKER.length());
    JSONArray words=new JSONArray(new String(Base64.decode(encoded,Base64.DEFAULT),StandardCharsets.UTF_8));
+   // Keep a binary operator together with the next interactive operand.
+   // Otherwise FlowRow may leave '+' or '×' stranded at the end of a line.
+   ArrayList<String> parts=new ArrayList<>();
+   for(int i=0;i<words.length();i++){
+    String part=words.getString(i);
+    if(i+1<words.length()&&"___".equals(words.getString(i+1))
+       &&(part.equals("duoaero-math:formula:\\textstyle +")
+          ||part.equals("duoaero-math:formula:\\textstyle -")
+          ||part.equals("duoaero-math:formula:\\textstyle \\times"))){
+     parts.add(OPERATOR_GAP+part);i++;
+    }else parts.add(part);
+   }
    boolean equation=false;
    for(int i=0;i<words.length();i++)if(words.getString(i).startsWith("duoaero-math:formula:"))equation=true;
    Object defaultModifier=Class.forName("w5q",true,l).getField("a").get(null);
@@ -33,7 +46,7 @@ public final class NativeInlineGap {
        Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
    Method slot=Class.forName("fz0",true,l).getMethod("d",List.class,callback,callback,boolean.class,boolean.class,mod,float.class,boolean.class,state,o18,int.class);
    Class<?> irh=Class.forName("irh",true,l);
-   int gaps=0;for(int i=0;i<words.length();i++)if("___".equals(words.getString(i)))gaps++;
+   int gaps=0;for(String part:parts)if("___".equals(part)||part.startsWith(OPERATOR_GAP))gaps++;
    final int gapCount=gaps;
    // The original BuildSpace composable lays out the whole list. For several
    // separated inline holes, invoke its original per-slot composable with the
@@ -49,11 +62,16 @@ public final class NativeInlineGap {
    }else{originalSlot=null;renderSlot=null;}
    Object function=Proxy.newProxyInstance(l,new Class<?>[]{irh},(proxy,method,args)->{
     if(method.getName().equals("invoke")){
-     int index=((Integer)args[1]).intValue();Object composition=args[2];String part=words.getString(index);
+     int index=((Integer)args[1]).intValue();Object composition=args[2];String part=parts.get(index);
+     boolean paired=part.startsWith(OPERATOR_GAP);
+     if(paired){
+      part=part.substring(OPERATOR_GAP.length());
+      if(!NativeInlineFormula.begin(figure,composition))throw new IllegalStateException("Cannot group operator and operand");
+     }
      if(part.equals("___")){
       if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
       else{
-       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(words.getString(i)))ordinal++;
+       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(parts.get(i))||parts.get(i).startsWith(OPERATOR_GAP))ordinal++;
        renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,args[3]);
       }
      }
@@ -76,6 +94,14 @@ public final class NativeInlineGap {
           cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
       prompt.invoke(null,term,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
+     if(paired){
+      if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
+      else{
+       int ordinal=0;for(int i=0;i<index;i++)if("___".equals(parts.get(i))||parts.get(i).startsWith(OPERATOR_GAP))ordinal++;
+       renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,args[3]);
+      }
+      NativeInlineFormula.end(true,composition);
+     }
      return Class.forName("xv80",true,l).getField("a").get(null);
     }
     if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
@@ -94,7 +120,7 @@ public final class NativeInlineGap {
    Object lineCenter=Class.forName("b9z",true,l).getField("l").get(null);
    Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
-    .invoke(null,words.length(),defaultModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
+    .invoke(null,parts.size(),defaultModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
  }
 }
