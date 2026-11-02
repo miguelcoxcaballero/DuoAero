@@ -22,6 +22,8 @@ def capture(name):
 
 def has(tree,value):
     return any(value.casefold() in (n.get('text','')+' '+n.get('content-desc','')).casefold() for n in tree.iter('node'))
+from feedback_checks import assert_native_correct
+
 def wait(name,predicate,seconds=90):
     end=time.monotonic()+seconds
     while time.monotonic()<end:
@@ -85,7 +87,7 @@ try:
         ready=wait('extra-section-ready-'+str(index),lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
         tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
         feedback=wait('extra-section-feedback-'+str(index),lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
-        assert not has(feedback,'GOT IT'),'Correct answer rejected: '+q['id']
+        assert_native_correct(feedback, 'Question '+q['id'])
         tap(next(n for n in feedback.iter('node') if n.get('text','')=='CONTINUE' and n.get('enabled')=='true'))
     end=time.monotonic()+100
     while time.monotonic()<end:
@@ -117,7 +119,7 @@ try:
     ready=wait('extra-section-next-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
     tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
     feedback=wait('extra-section-next-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
-    assert not has(feedback,'GOT IT'),'Correct next-topic answer was rejected'
+    assert_native_correct(feedback, 'First next-topic question')
     (OUT/'extra-section-result.txt').write_text('PASS: seeded prior diagnostic lessons, completed extra 3.2 lesson, restarted and graded the first 3.3 question; real accounts and remaining course unverified.\n')
 finally:
     (OUT/'extra-section-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))

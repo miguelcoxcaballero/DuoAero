@@ -136,6 +136,7 @@ jobs:
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
           python native-base/test_formula_words.py
+          python native-base/test_feedback_checks.py
           python native-base/test_isothermal_formula.py
           python native-base/test_rich_question.py
           python native-base/test_intro_formulas.py
