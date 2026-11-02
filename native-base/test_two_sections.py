@@ -5,6 +5,7 @@ This does not add second-midterm educational content to production.
 import json,os,re,subprocess,time
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from PIL import Image
 from visual_controls import claim_xp
 PACKAGE='com.duoaero.nativebase';OUT=Path(os.environ['DUOAERO_EVIDENCE'])
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=30)
@@ -25,6 +26,14 @@ def wait(name,predicate,seconds=90):
 def has(tree,value):return any(value.casefold() in (n.get('text','')+' '+n.get('content-desc','')).casefold() for n in tree.iter('node'))
 def tap(n):
  a,b,c,d=map(int,re.findall(r'\d+',n.get('bounds')));x=str((a+c)//2);y=str((b+d)//2);adb('shell','input','swipe',x,y,x,y,'100')
+def second_active(tree,capture_name):
+ if not has(tree,'3.2 · Space flight environment'):return False
+ ovals=[n for n in tree.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']
+ if len(ovals)<2:return False
+ a,b,c,d=map(int,re.findall(r'\d+',ovals[-1].get('bounds')))
+ with Image.open(OUT/(capture_name+'.png')) as image:
+  red,green,blue=image.convert('RGB').getpixel(((a+c)//2,b+(d-b)//5))
+  return green>120 and green>red*1.2 and green>blue*1.2
 try:
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
@@ -67,8 +76,7 @@ try:
  else:raise AssertionError('Second-section Claim XP missing')
  # A saved JSON file alone is insufficient: the original path must actually
  # expose the next node, both before and after a process restart.
- wait('two-sections-after-completion',lambda t:has(t,'3.2 · Space flight environment') and has(t,'START') and
-      sum(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node'))>=2,120)
+ wait('two-sections-after-completion',lambda t:second_active(t,'two-sections-after-completion'),120)
  saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat','files/duoaero-course/local-test/submissions/second-partial-3.1-lesson-0.json'))
  assert saved.get('completedOnce') is True,'Second-section completion not durably recorded'
  adb('shell','am','force-stop',PACKAGE)
@@ -80,8 +88,7 @@ try:
   labels=[n for n in picker.iter('node') if n.get('text','').casefold()=='midterm 2'];tap(labels[-1])
   expanded=wait('two-sections-restart-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
   tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
- path=wait('two-sections-restart-path',lambda t:has(t,'3.2 · Space flight environment') and has(t,'START') and
-           sum(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node'))>=2,120)
+ path=wait('two-sections-restart-path',lambda t:second_active(t,'two-sections-restart-path'),120)
  tap([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval'][-1])
  next_node=wait('two-sections-next-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')),45)
  tap(next(n for n in next_node.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'))
