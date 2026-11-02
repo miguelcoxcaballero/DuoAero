@@ -29189,7 +29189,7 @@
     "steps": [
       "At fixed pressure and Mach, q=rho V²/2=gamma p M²/2 is unchanged.",
       "Thus CL and L/D are unchanged.",
-      "Speed ratio is sqrt(T2/T1), so R2/R1=sqrt(T2/T1)×ce1/ce2=1.0126.."
+      "Speed ratio is sqrt(T2/T1), so R2/R1=sqrt(1.10)/1.03≈1.0183."
     ],
     "checks": [
       -3.3306690738754696e-16
