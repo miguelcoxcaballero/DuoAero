@@ -88,6 +88,7 @@ def static_mood(name):
     if name=='duo_radio_host_static_bea':return 'patty'
     if name=='duo_happy':return 'wave'
     if name=='duo_wave':return 'wave_static'
+    if name=='duo_welcome':return 'phone_static'
     if name.startswith('practice_hub_duo_radio_'):
         cast={'zari':'sally','falstaff':'charlie','junior':'linus','lily':'lucy',
               'oscar':'schroeder','bea':'patty','lin':'marcie','vikram':'franklin',
