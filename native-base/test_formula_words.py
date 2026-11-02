@@ -85,4 +85,17 @@ for q in lesson_questions(list(bank.values()), teach_words=True):
         assert q['answer_blocks'] == ['induced drag coefficient']
     if q['id'] == 'BOOK-V6-02-D1-WORDS':
         assert q['answer'] == ['density'] and 'rho' in q['stem']
+# These longer names are intentional teaching content, not abbreviations that
+# may be shortened to make a card fit. Native rendering is checked separately.
+from formula_words import MULTI_NAMED
+for kind, expected in {
+    'static_temperature': ['static temperature', 'total temperature', 'temperature rise'],
+    'sound': ['sound speed', 'heat capacity ratio', 'gas constant', 'temperature'],
+    'cabin_pressure': ['outside pressure', 'cabin pressure', 'pressure difference'],
+    'mach_pressure': ['dynamic pressure', 'heat capacity ratio', 'outside pressure', 'Mach number'],
+    'wing_loading': ['weight', 'wing area', 'dynamic pressure', 'lift coefficient'],
+    'lift': ['lift', 'dynamic pressure', 'wing area', 'lift coefficient'],
+    'induced_drag': ['induced drag coefficient', 'lift coefficient', 'efficiency', 'aspect ratio'],
+}.items():
+    assert MULTI_NAMED[kind][1] == expected
 print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')
