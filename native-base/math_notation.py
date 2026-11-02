@@ -162,6 +162,7 @@ _ROOT_SYMBOLS = {
     'Pjet':r'P_{\mathrm{jet}}',
 }
 _ROOT_ASSIGNMENT = re.compile(r'(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]{0,20})\s*=\s*$')
+_ROOT_DENOMINATOR = re.compile(r'(?<![A-Za-z0-9_./])((?:\d+(?:\.\d+)?|[A-Za-z][A-Za-z0-9_]*))\s*/\s*$')
 
 
 def _root_symbol(value):
@@ -269,6 +270,17 @@ def parts(value):
         if body is None:
             continue
         prefix = value[offset:match.start()]
+        # In 1/sqrt(CL) or 280/sqrt(2), the radical is the denominator of
+        # the fraction, not a separate square root following a literal slash.
+        fraction = _ROOT_DENOMINATOR.search(prefix)
+        numerator = fraction.group(1) if fraction else None
+        if numerator and (numerator[0].isdigit() or (_symbolic(numerator) and numerator not in _UNITS)):
+            before = prefix[:fraction.start()]
+            if before:
+                result.extend(_parts_without_roots(before))
+            result.append({'latex': r'\textstyle \frac{' + _root_symbol(numerator) + r'}{\sqrt{' + body + '}}'})
+            offset = close_at + 1
+            continue
         assignment = _ROOT_ASSIGNMENT.search(prefix)
         lhs = assignment.group(1) if assignment else None
         if lhs and _symbolic(lhs) and lhs not in _UNITS:

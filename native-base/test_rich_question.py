@@ -45,6 +45,12 @@ assert notation_parts('Apply sqrt(2) at fixed load.') == [
     {'text':'Apply '}, {'latex':r'\sqrt{2}'}, {'text':' at fixed load.'}]
 assert notation_parts('sqrt(1/sqrt(CL))') == [
     {'latex':r'\sqrt{\frac{1}{\sqrt{C_{L}}}}'}]
+assert notation_parts('1/sqrt(CLmax)') == [
+    {'latex':r'\textstyle \frac{1}{\sqrt{C_{L,\max}}}'}]
+assert notation_parts('280/sqrt(2) = 198 km/h') == [
+    {'latex':r'\textstyle \frac{280}{\sqrt{2}}'}, {'text':' = 198 km/h'}]
+assert notation_parts('weight/sqrt(2)') == [
+    {'text':'weight/'}, {'latex':r'\sqrt{2}'}]
 assert notation_parts('sqrt(weight)') == [{'text':'sqrt(weight)'}]
 assert notation_parts('sqrt(m/s)') == [{'text':'sqrt(m/s)'}]
 assert notation_parts('2W/(rho S CL_opt) = 6400 m²/s²') == [

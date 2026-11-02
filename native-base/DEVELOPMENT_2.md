@@ -24,15 +24,22 @@ lesson proofs, though actual migration must still be tested on Android.
 Run 41371193797 reached the isothermal formula with LaTeX options visible,
 then the driver failed because its adb instrumentation argument was not shell
 quoted. The driver now quotes formula labels; this does not by itself prove
-completion or rule out other problems. A second pressure-ratio question has
-also been divided into reviewed steps and needs native grading evidence.
+completion or rule out other problems. Android run 41372728007 subsequently
+completed the first Atmosphere lesson, claimed XP, observed durable completion
+and opened the next lesson before and after restart; earlier nodes were seeded.
+This is synthetic local progress, not a Google or Drive roundtrip. A second
+pressure-ratio question has also been divided into reviewed steps and graded
+in a standalone Android diagnostic. Run 41373085468 also passed the complete
+Atmosphere lesson after showing a formula hint: it verified the extra retry,
+claimed XP, persisted completion and opened the next lesson after restart.
 
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
 or simple unit paths. A source-bank audit found 125 previously plain `sqrt`
 occurrences converted; this is not a complete LaTeX audit. The `sqrt-mixed`
 Android diagnostic must render and grade a representative original question
-before device acceptance is claimed.
+before device acceptance is claimed. The later denominator case such as
+`1/sqrt(CLmax)` is covered by a host assertion, not yet Android UI evidence.
 
 A four-slot named ideal-gas exercise is under test: pressure, density, gas
 constant and temperature occupy their positions with the original equality
