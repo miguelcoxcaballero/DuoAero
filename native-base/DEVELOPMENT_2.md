@@ -21,6 +21,11 @@ first step of the previously split pressure-ratio question. One radiation
 question moves to the radiation/visibility node to keep the source lesson
 within its existing size limit. Historical completion snapshots preserve old
 lesson proofs, though actual migration must still be tested on Android.
+Run 41371193797 reached the isothermal formula with LaTeX options visible,
+then the driver failed because its adb instrumentation argument was not shell
+quoted. The driver now quotes formula labels; this does not by itself prove
+completion or rule out other problems. A second pressure-ratio question has
+also been divided into reviewed steps and needs native grading evidence.
 
 A four-slot named ideal-gas exercise is under test: pressure, density, gas
 constant and temperature occupy their positions with the original equality

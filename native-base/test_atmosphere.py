@@ -1,5 +1,5 @@
 """Seed prior lessons only, then really complete the first Atmosphere lesson."""
-import json, os, re, subprocess, time, zipfile
+import json, os, re, shlex, subprocess, time, zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
@@ -47,7 +47,9 @@ def choose(node,kind,label):
     if kind=='formula_blocks':
         # Independent instrumentation targets the test APK, not the running
         # lesson process, and performs the visible original accessibility click.
-        output=adb('shell','am','instrument','-w','-e','label',label,
+        # adb passes a command string through the device shell. Formula labels
+        # can contain spaces, braces or minus signs; preserve one literal extra.
+        output=adb('shell','am','instrument','-w','-e','label',shlex.quote(label),
                    'com.duoaero.nativebase.tests/com.duoaero.nativebase.IndependentClickProbe')
         assert b'INDEPENDENT_CLICK_VERIFIED=true' in output,output.decode(errors='replace')
     else:tap_node(node)
@@ -71,6 +73,7 @@ def open_atmosphere(prefix):
     raise AssertionError('Cannot open first Atmosphere path node')
 
 try:
+    final_continue_at=None
     adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
     with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as apk:
         section=json.loads(apk.read('assets/duoaero/course/section.json'))
@@ -174,6 +177,8 @@ try:
                                            '/sdcard/duoaero-lesson-completion.mp4'],
                                           stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
                 time.sleep(.8)
+            if index == len(sequence)-1:
+                final_continue_at=time.monotonic()
             tap_node(matching(tree,'CONTINUE')[-1])
             if recorder is not None:
                 try:
@@ -187,13 +192,20 @@ try:
     while time.monotonic()<deadline:
         tree=capture('atmosphere-complete')
         if tree is not None and matching(tree,'CLAIM XP'):
+            claim_seen_at=time.monotonic()
             tap_node(matching(tree,'CLAIM XP')[-1]);break
         # Some original Rive summaries expose neither text nor a special ID.
         # OCR verifies the visible button before tapping it.
         point=claim_xp(OUT/'atmosphere-complete.png',OUT/'atmosphere-claim-ocr.png')
-        if point:adb('shell','input','tap',str(point[0]),str(point[1]));break
+        if point:
+            claim_seen_at=time.monotonic()
+            adb('shell','input','tap',str(point[0]),str(point[1]));break
         time.sleep(2)
     else:raise AssertionError('Claim XP missing')
+    if final_continue_at is not None and os.environ.get('DUOAERO_CAPTURE_COMPLETION')!='1':
+        (OUT/'atmosphere-latency.txt').write_text(
+            'Elapsed from initiating final Continue to observing Claim XP: '
+            +str(round(claim_seen_at-final_continue_at,2))+' s. Includes adb and screenshot/OCR detection overhead; emulator only.\n')
     tree=wait('atmosphere-returned-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),90)
     saved=json.loads(adb('exec-out','run-as',PACKAGE,'cat',folder+'/'+first+'.json'))
     assert saved.get('completedOnce') is True,'Atmosphere completion was not accepted and stored'
