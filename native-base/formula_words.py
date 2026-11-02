@@ -192,6 +192,8 @@ MULTI_NAMED = {
           ['pressure','density','altitude'], ['___','=','___/___']),
  'static_temperature': (r'T=T_t-\Delta T', ['static temperature','total temperature','temperature rise'],
                         ['airspeed','pressure','density'], ['___','=','___','-','___']),
+ 'sound': (r'a^2=\gamma RT', ['sound speed','heat capacity ratio','gas constant','temperature'],
+           ['pressure','density','altitude'], ['___^2','=','___',r'\times','___',r'\times','___']),
  'thrust': (r'T=\dot m(V_e-V_0)', ['thrust','mass flow','exhaust speed','flight speed'],
             ['pressure','density','altitude'], ['___','=','___',r'\times','(','___','-','___',')']),
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],
@@ -214,7 +216,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(2 if p == '___/___' else 1 if p == '___' else 0 for p in parts) == len(answers)
+    assert sum(2 if p == '___/___' else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],

@@ -432,7 +432,7 @@ so smoothness cannot be established. This prototype is not integrated.
 ## Acceptance still required
 
 The current authored bank has 38 symbolic formula exercises with a word-first
-introduction; 19 still lack the separate exercise with all named quantities
+introduction; 18 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
 equations express a fraction with division symbols or put an exponent into a
@@ -449,6 +449,11 @@ tests pass; Android touch and layout acceptance is still pending. The two
 thrust formulas also have named equations. A third thrust lesson holds ten
 questions formerly in the second, with path credit limited to exact historical
 coverage and no new completion rewards; Android migration remains unverified.
+The speed-of-sound equation additionally has an experimental named base with
+a fixed squared exponent, using the original exponentiation figure. Adapter
+and ordering checks pass, and the modified Java helpers compile against the
+Android SDK with a stub course bridge. Full APK compilation, Android rendering
+and touch of that prototype remain acceptance requirements.
 
 The original APK contains 67 Rive resources named after the ten mapped
 supporting characters, including the ten in-lesson rigs. The other 57 names

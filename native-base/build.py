@@ -672,6 +672,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_NAMED_THRUST_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['BOOK-V6-07-D1'],by_id['BOOK-V6-07-D2']],teach_words=True)
   assert len(mixed)==8
+ if os.environ.get('DUOAERO_POWER_SLOT_DIAGNOSTIC')=='1' and not production:
+  introduced=lesson_questions([by_id['TA1-0107-D2']],teach_words=True)
+  mixed=[q for q in introduced if q['id']=='TA1-0107-D2-F3' or q['id'].startswith('TA1-0107-D2-F3-')]
+  assert len(mixed)==4
  if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
   mixed=[by_id['TH-2026-OTHER-1']]
  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:

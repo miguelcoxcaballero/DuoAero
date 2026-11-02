@@ -13,6 +13,7 @@ bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_te
 for source_id,formula_id,expected in (
     ('TA1-0180-F1','INTRO-TAPER-RATIO',['___','duoaero-math:formula:\\textstyle =','duoaero-fraction-slots']),
     ('TA1-0078-D2','TA1-0078-D2-F2',['duoaero-fraction-slots','duoaero-math:formula:\\textstyle =','duoaero-math:formula:\\textstyle 1','duoaero-math:formula:\\textstyle -','___']),
+    ('TA1-0107-D2','TA1-0107-D2-F3',['duoaero-power-slot:2','duoaero-math:formula:\\textstyle =','___','duoaero-math:formula:\\textstyle \\times','___','duoaero-math:formula:\\textstyle \\times','___']),
 ):
     named=next(q for q in lesson_questions([bank[source_id]],teach_words=True) if q['id']==formula_id+'-NAMED-ALL')
     text=challenge(named)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']

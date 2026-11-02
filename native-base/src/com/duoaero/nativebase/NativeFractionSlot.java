@@ -19,6 +19,25 @@ public final class NativeFractionSlot {
   Context(Object scope,Object slot,Method render,int first){this.scope=scope;this.slot=slot;this.render=render;this.first=first;}
  }
  private NativeFractionSlot(){}
+ /** Original exponentiation figure with an interactive base and fixed power. */
+ public static Object createPower(Object template,Object scope,Object slot,Method render,int first,String power) throws Exception {
+  if(!power.matches("[0-9]{1,2}"))throw new IllegalArgumentException("Unsupported fixed power");
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,
+      Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  String key=Long.toString(NEXT.incrementAndGet());
+  Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l)
+      .getConstructor(String.class).newInstance("duoaero:power-slot");
+  Object base=latex.newInstance(PREFIX+key+":0",cls.getField("b").getFloat(template),cls.getField("c").get(template),
+      cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object exponent=latex.newInstance(power,cls.getField("b").getFloat(template),cls.getField("c").get(template),
+      cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  Object figure=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
+      .getConstructor(ui,ui,String.class,entityClass).newInstance(base,exponent,"power",null);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(figure,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(figure));}
+  return figure;
+ }
  public static Object create(Object template,Object scope,Object slot,Method render,int first) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);

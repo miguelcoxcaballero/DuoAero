@@ -40,4 +40,9 @@ for source, target, moved in (
     for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
         snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
         assert set(moved) <= {q['id'] for q in snapshot[source]['challenges']}
+assert 'TA1-0053-F1' not in lessons['2.1-0-point-0-lesson-0']['ids']
+assert 'TA1-0053-F1' in lessons['2.1-0-point-0-lesson-1']['ids']
+for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
+    snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
+    assert 'TA1-0053-F1' in {q['id'] for q in snapshot['2.1-0-point-0-lesson-0']['challenges']}
 print('PASS: 89 lessons have 10–20 native exercises; ten path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
