@@ -101,7 +101,11 @@ atlas seams and Java compilation pass locally. Android run 41376134295
 successfully loaded both animations and observed distinct frames, but the
 quit-screen driver returned straight to the path without seeing a dialog when
 it tried to exit an untouched lesson. A revised test answers a question first.
-The actual quit sheet and playback remain unverified.
+Run 41377932982 revealed that opening the real quit sheet crashed: Android's
+framework drawable inflater could not see the application class from the XML.
+The original resource is now a safe static drawable and a hook installs the
+animated drawable after the original quit layout inflates. This fix requires
+another Android run and a screen recording; feedback remains static.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather

@@ -479,13 +479,27 @@ chest_hook="""
     :duoaero_original_chest_claim
 """
 chest_text=chest_text.replace(chest_anchor,chest_anchor+'\n'+chest_hook)
+quit_sources=[]
+for orientation in ('Portrait','Landscape'):
+ quit_source=SMALI/('smali_classes7/com/duolingo/session/SessionQuitDialog'+orientation+'Fragment.smali')
+ quit_original=quit_source.read_bytes()
+ quit_text=quit_original.decode('utf-8').replace('\r\n','\n')
+ start=quit_text.index('.method public final F(Landroid/view/LayoutInflater;Landroid/view/ViewGroup;)Lnha0;')
+ end=quit_text.index('.end method',start)
+ method=quit_text[start:end]
+ anchor='    invoke-virtual {p1, p0, p2, v0}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;Z)Landroid/view/View;\n\n    move-result-object p0\n'
+ assert method.count(anchor)==1
+ method=method.replace(anchor,anchor+'\n    invoke-static {p0}, Lcom/duoaero/nativebase/NativeMascotView;->animateQuit(Landroid/view/View;)V\n',1)
+ quit_sources.append((quit_source,quit_original,quit_text[:start]+method+quit_text[end:]))
 try:
+ for source,original,modified in quit_sources:source.write_text(modified,encoding='utf-8')
  chest_source.write_text(chest_text,encoding='utf-8')
  inline_source.write_text(inline_text,encoding='utf-8')
  settings_source.write_text(settings_text,encoding='utf-8')
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
 finally:
+ for source,original,modified in quit_sources:source.write_bytes(original)
  chest_source.write_bytes(chest_original)
  inline_source.write_bytes(inline_original)
  grade_source.write_bytes(grade_original)

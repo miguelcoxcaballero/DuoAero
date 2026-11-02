@@ -26,7 +26,9 @@ public final class StaticMascotProbe extends Instrumentation {
     if(drawable.getIntrinsicWidth()<=0||drawable.getIntrinsicHeight()<=0)throw new IllegalStateException("Invalid original bounds: "+names[i]);
     if(names[i].equals("duo_happy")||names[i].equals("duo_sad")){
      String animationName=names[i].equals("duo_happy")?"wave":"sad";
-     if(!(drawable instanceof android.graphics.drawable.Animatable))throw new IllegalStateException(animationName+" does not expose native animation");
+     NativeWaveDrawable animated=names[i].equals("duo_happy")?new NativeWaveDrawable():new NativeSadDrawable();
+     animated.initialize(context.getResources(),drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
+     Drawable original=drawable;drawable=animated;
      drawable.setBounds(0,0,240,240);
      Bitmap first=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888),later=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888);
      drawable.draw(new Canvas(first));Thread.sleep(660);drawable.draw(new Canvas(later));
@@ -36,7 +38,7 @@ public final class StaticMascotProbe extends Instrumentation {
        if(!(frame==0?first:later).compress(Bitmap.CompressFormat.PNG,100,outputFrame))throw new IllegalStateException("Cannot capture "+animationName+" frame");
       }
      }
-     ((android.graphics.drawable.Animatable)drawable).stop();first.recycle();later.recycle();
+     ((android.graphics.drawable.Animatable)drawable).stop();first.recycle();later.recycle();drawable=original;
      report.append(animationName.equals("wave")?"WAVE_FRAMES_CHANGED=true":"SAD_FRAMES_CHANGED=true").append("; original screen playback and smoothness are unverified.\n");
     }
     // An ImageView's fit-centre policy scales the canvas around the
@@ -68,13 +70,13 @@ public final class StaticMascotProbe extends Instrumentation {
       if(event==org.xmlpull.v1.XmlPullParser.END_DOCUMENT)throw new IllegalStateException("Original image element missing");
       android.view.View child=android.view.LayoutInflater.from(context).createView(parser.getName(),null,android.util.Xml.asAttributeSet(parser));
       android.widget.ImageView image=(android.widget.ImageView)child;
-      if(image.getDrawable()==null||!(image.getDrawable() instanceof android.graphics.drawable.Animatable))
-       throw new IllegalStateException("Original feedback image cannot display animated mascot");
+      if(image.getDrawable()==null)
+       throw new IllegalStateException("Original feedback image cannot display mascot");
      }
     }catch(Throwable failure){layoutError[0]=failure;}
    });
    if(layoutError[0]!=null)throw new IllegalStateException("Original feedback image inflation failed",layoutError[0]);
-   report.append("WAVE_IMAGE_INFLATED=true; full layout and attached fragment are unverified.\n");
+   report.append("WAVE_IMAGE_INFLATED=true; static original image inflated; animated feedback is unverified.\n");
    try(FileOutputStream stream=new FileOutputStream(new File(context.getExternalFilesDir(null),"static-mascot-poses.png"))){
     if(!grid.compress(Bitmap.CompressFormat.PNG,100,stream))throw new IllegalStateException("Cannot capture poses");
    }finally{grid.recycle();}

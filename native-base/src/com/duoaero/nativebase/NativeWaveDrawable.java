@@ -33,6 +33,16 @@ public class NativeWaveDrawable extends Drawable implements Animatable, Runnable
  private long startedAt,stoppedAt;
  public NativeWaveDrawable(){}
  protected String atlasResourceName(){return "duoaero_scene_wave";}
+ /** Construct from app code, whose class loader can see our APK classes.
+  * Framework resource XML inflation may instead use the boot class loader. */
+ public final void initialize(Resources resources,int width,int height) throws IOException {
+  intrinsicWidth=width;intrinsicHeight=height;
+  int id=resources.getIdentifier(atlasResourceName(),"drawable","com.duolingo");
+  BitmapFactory.Options options=new BitmapFactory.Options();options.inScaled=false;
+  atlas=id==0?null:BitmapFactory.decodeResource(resources,id,options);
+  if(atlas==null||atlas.getWidth()<COLUMNS||atlas.getHeight()<COLUMNS||width<=0||height<=0)
+   throw new IOException("Invalid mascot atlas or original dimensions: "+atlasResourceName());
+ }
  @Override public void inflate(Resources resources,XmlPullParser parser,AttributeSet attrs,Resources.Theme theme)
    throws XmlPullParserException,IOException {
   super.inflate(resources,parser,attrs,theme);
