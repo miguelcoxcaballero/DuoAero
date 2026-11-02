@@ -1,0 +1,34 @@
+diff --git a/native-base/build.py b/native-base/build.py
+index 2f617b0..145a07e 100644
+--- a/native-base/build.py
++++ b/native-base/build.py
+@@ -633,6 +633,8 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
+  if os.environ.get('DUOAERO_SQRT_DIAGNOSTIC')=='1' and not production:
+   # Original question with a square root, a nested physical fraction and units.
+   mixed=[by_id['TA1-0006-F1']]
++ if os.environ.get('DUOAERO_GRAVITY_DIAGNOSTIC')=='1' and not production:
++  mixed=[by_id['TH-2026-OTHER-1']]
+  if os.environ.get('DUOAERO_APPROACH_DIAGNOSTIC')=='1' and not production:
+   # The full staged approach problem, including named and symbolic formulas.
+   mixed=lesson_questions([by_id['TA1-0806-D3']],teach_words=True)
+diff --git a/native-base/test_gravity_notation.py b/native-base/test_gravity_notation.py
+new file mode 100644
+index 0000000..9ec57ce
+--- /dev/null
++++ b/native-base/test_gravity_notation.py
+@@ -0,0 +1,15 @@
++"""Check the reported gravity answer and its authored mathematical options."""
++import json
++from pathlib import Path
++from rich_question import choice_blob, content
++
++root=Path(__file__).resolve().parents[1]
++bank=json.loads((root/'app/assets/questions.json').read_text())
++q=next(q for q in bank if q['id']=='TH-2026-OTHER-1')
++assert q['options'][q['answer']]=='g=g0(RE/(RE+h))²'
++correct=content(q['rich_text']['options'][q['answer']],q['options'][q['answer']])
++assert correct == r'g=g_0\left(\frac{R_E}{R_E+h}\right)^2'
++assert len(q['rich_text']['options'])==len(q['options'])==4
++blob=json.loads(choice_blob(q)['challengeBlob'])
++assert json.dumps({'type':'text','value':r'\textstyle '+correct}) in blob['grading_function']
++print('PASS: inverse-square gravity answer and authored LaTeX; Android rendering unverified.')
