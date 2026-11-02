@@ -103,7 +103,7 @@ The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
 were rebalanced between their existing session IDs. Four more nodes are now
 split into three lessons, keeping prior IDs and introducing four new IDs;
-a fifth lesson was later added for the staged approach problem; all 84 lessons
+a fifth lesson was later added for the staged approach problem; all 85 lessons
 have 10–20 visible exercises in host validation. For each new ID, path-only credit is derived only from an exact stored historical proof
 that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
@@ -245,8 +245,14 @@ in Android run 41391868945, before the later icon and operator patches.
 A subsequent Android run 41392188207 graded all 19 exercises after adding an
 original matching screen for the four stall-speed quantities; its screenshot
 showed all four pairs on the emulated tall display. This matching change and
-the operator-grouping fix are integrated and their combined case is being tested. The integrated bank has 84 lessons and five evidence-based path migrations.
+the operator-grouping fix are integrated and their combined case is being tested. The integrated bank has 85 lessons and six evidence-based path migrations.
 Other long problems and actual-device tests remain open.
+
+Eight fixed-pressure temperature/lift-coefficient problems now use two short
+calculations after named and symbolic formula exercises. Run 41393361188
+graded all 22 staged controls and passed account migration on the emulator.
+The division sign was left at a line end in a screenshot; a grouping fix is
+under Android test. These checks do not cover every numerical problem.
 
 Local browser previews loaded all ten replacement in-lesson Rive rigs and
 triggered their original correct and incorrect inputs: each preview visibly
