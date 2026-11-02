@@ -35,8 +35,10 @@ claimed XP, persisted completion and opened the next lesson after restart.
 After that run, the pressure-ratio prerequisite was moved before the first
 ratio calculation and another long ISA problem was split into two short
 steps with formula hints. Local tests check their order and rounded results;
-the revised nine-exercise Android diagnostic and changed lesson migrations
-must run before this later change is accepted.
+Android run 41377210380 graded the revised nine-exercise diagnostic. Five
+further ratio problems are now split into two calculations; run 41381978642
+graded all ten in Android and verified synthetic account migration. Its full
+Atmosphere progression test also passed, with earlier nodes seeded.
 
 The notation converter now recognizes balanced square roots, nested simple
 fractions and several lift/drag subscripts without converting ordinary prose
@@ -57,16 +59,19 @@ revision adds signs for clarity. Android run 41372273142 graded all 13
 exercises and its screenshot showed the four tiles and both multiplication
 signs on an S24-proportioned emulated screen with larger text. Drag/drop,
 wrong-answer feedback and all supported font scales are still unverified. It
-currently covers only the ideal-gas equation, not all formula families.
+also covers reviewed hydraulic-power and wind/time equations; it does not
+cover all formula families.
 The gas sequence is now ordered as a word sentence, the full named-quantity
 equation, the one-quantity symbolic equation and finally the symbolic blocks;
-the revised order still needs Android interaction testing.
+the revised order passed Android run 41380455084. The hydraulic sequence
+passed four original controls in run 41381254897. The wind sequence passed
+14 native touch-driven challenges in run 41380642719.
 
 The old path check counted source items but missed word and named-formula
 expansion: nine lessons therefore exceeded 20 visible exercises. Four nodes
-were rebalanced between their existing session IDs. Three more nodes are now
-split into three lessons, keeping prior IDs and introducing three new IDs;
-all 82 lessons have 10–20 visible exercises in host validation. For each new
+were rebalanced between their existing session IDs. Four more nodes are now
+split into three lessons, keeping prior IDs and introducing four new IDs;
+all 83 lessons have 10–20 visible exercises in host validation. For each new
 ID, path-only credit is derived only from an exact stored historical proof
 that includes every question moved there. No synthetic completion, XP or gem
 award is created. A replay or Drive import retains the historical proof when
@@ -74,9 +79,11 @@ it covers questions omitted from the new shorter source lesson. Local tests
 verify mapping coverage in every published 1.3.x snapshot and the pure
 projection boundaries. A submitted in-flight older lesson is now checked
 against exact historical snapshots as well; current-version submissions use
-a fast path without loading those snapshots. The Android account, chest, replay, export/import and
-real path tests for this split are still required; no real Google or Drive
-migration has been established.
+a fast path without loading those snapshots. Android run 41380252027 passed
+150 synthetic account checks, including replay, in-flight completion, import
+and export. Run 41379312441 passed the original chest and first Atmosphere
+path tests; run 41381978642 passed the further split's account, path and
+question diagnostics. No real Google or Drive migration has been established.
 
 Two static, transparent Snoopy illustrations target explicitly identified
 reading and gem-holding resources. A diagnostic drew the reading resource IDs;
@@ -84,8 +91,8 @@ that is not evidence of the actual screen or of animation. The gem pose and the
 original screens still need inspection. Many generic mascot scenes and the
 articulation and smoothness of animations remain unfinished.
 
-An experimental 16-frame transparent wave is bound to the original
-`duo_happy` ImageView without modifying notification RemoteViews. It uses
+An experimental 16-frame transparent wave exists but the original
+`duo_happy` ImageView currently uses a static fallback. The wave uses
 drawn arm poses rather than translating one still image. This needs real
 Android inflation, screen placement and smooth playback checks; a generated
 sprite sheet alone is not an animation acceptance test.
@@ -110,8 +117,11 @@ it tried to exit an untouched lesson. A revised test answers a question first.
 Run 41377932982 revealed that opening the real quit sheet crashed: Android's
 framework drawable inflater could not see the application class from the XML.
 The original resource is now a safe static drawable and a hook installs the
-animated drawable after the original quit layout inflates. This fix requires
-another Android run and a screen recording; feedback remains static.
+sad animation after the original quit state binds its image. Android run
+41382612045 opened the real sheet and returned to the lesson; the actual
+recording showed 18 distinct frames when checked locally. The hosted video
+check lacked ffmpeg and was retried with a pinned decoder. Other feedback
+remains static and smoothness remains unverified.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather
@@ -119,10 +129,12 @@ than opening the inner row. Android run 41374119769 tapped the inner row and
 actually showed the second section's diagnostic path; the test failed only
 because it expected a topic title where the original header showed Midterm 2.
 The follow-up on the separate research branch passed Android run 41375262771:
-the second topic title appeared and its synthetic lesson opened. There is no
-production second-midterm content, nor evidence yet for grading, persistence,
-rewards or a real course there. Twenty conceptual questions exist only as an
-isolated draft on that research branch.
+the second topic title appeared and its synthetic lesson opened. Run
+41380416094 graded ten draft questions, saved their lesson and graded the
+first question of the next topic after restarting. Run 41382266509 repeated
+the route with a third draft topic present. Thirty conceptual questions exist
+only on that research branch: production content, rewards, Drive and the
+complete second-midterm course remain unverified.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
@@ -133,8 +145,11 @@ dialog in the emulator; the test now dismisses only that external dialog.
 The original energy-rewards request returned repeated local 503 responses
 during lesson completion. An experimental empty response uses the original
 model's required `inLessonRewards` field for this unlimited-energy course;
-gem chests use a separate store. Model decoding, end-to-end timing and native
-chest rewards must be checked on Android before claiming any speed improvement.
+gem chests use a separate store. Android decoded the response and a native
+chest still awarded 25 gems, but the elapsed time remains too variable to
+claim an improvement. Other energy-info requests also retry and are under
+diagnostic investigation. A completion recording shows a visible wait on the
+emulator and the fallback Snoopy standing still on the final screen.
 
 ## Acceptance still required
 
