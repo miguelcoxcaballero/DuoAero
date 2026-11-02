@@ -99,6 +99,11 @@ The original welcome and share-card wordmark resource names now map to the
 DuoAero wordmark instead of the generic mascot. Android run 41385372302
 showed the correct wordmark in the actual welcome view; share cards and icon
 display-name variants need separate UI verification.
+Two additional original code literals are now changed in their specific UI
+methods: a visible Compose label and the fallback shortcut title. Run
+41451903286 built the altered runtime, opened the welcome screen and passed
+synthetic accounts. It did not open those two specific screens; other original
+visible text and the original provider's legal attribution still need review.
 
 Two original static poses now have distinct transparent Snoopy artwork:
 `duo_wave` waves, while `duo_welcome` holds up a phone, matching the original

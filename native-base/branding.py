@@ -17,6 +17,17 @@ def rebrand_app_display_names(smali):
         raise ValueError('Unexpected original AppDisplayName layout: '+str(count))
     return result
 
+def rebrand_visible_literal(smali, method_signature, instruction):
+    """Change a verified visible literal within one original method only."""
+    if smali.count(method_signature) != 1 or '"Duolingo"' not in instruction:
+        raise ValueError('Unexpected original visible-label method')
+    start = smali.index(method_signature)
+    end = smali.index('.end method', start)
+    method = smali[start:end]
+    if method.count(instruction) != 1:
+        raise ValueError('Unexpected original visible-label instruction')
+    return smali[:start] + method.replace(instruction, instruction.replace('"Duolingo"', '"DuoAero"'), 1) + smali[end:]
+
 def display_text(text):
     if text.startswith(('res/','com.duolingo')):return text
     # URLs, email addresses, resource paths and package names keep their routing.
