@@ -228,7 +228,10 @@ MULTI_NAMED = {
                   ['temperature','altitude','mass'], ['___/___','=','___',r'\times','___']),
  'lift': (r'L=qSC_L', ['lift','dynamic p','wing area','lift coeff'],
           ['temperature','altitude','mass'], ['___','=','___',r'\times','___',r'\times','___']),
- 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum thrust','pressure thrust'],
+ # The preceding word challenge names both contributions as thrust. Keep the
+ # tiles compact enough that the original two-column bank and Check stay on
+ # screen at large font sizes.
+ 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum','pressure'],
                   ['temperature','altitude','mass'], ['___','=','___','+','___']),
  'mean_chord': (r'\bar{c}=\frac{S}{b}', ['mean chord','wing area','wingspan'],
                 ['temperature','density','mass'], ['___','=','___/___']),
