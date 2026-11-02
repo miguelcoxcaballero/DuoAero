@@ -28471,14 +28471,14 @@
         ],
         "formula_latex": "\\Delta T=\\Gamma\\Delta h",
         "answer_blocks": [
-          "temperature decrease",
+          "temp. drop",
           "lapse rate",
-          "altitude increase"
+          "height gain"
         ],
         "blocks": [
-          "temperature decrease",
+          "temp. drop",
           "lapse rate",
-          "altitude increase",
+          "height gain",
           "pressure",
           "density",
           "speed"
@@ -28532,14 +28532,14 @@
         ],
         "formula_latex": "T_B=T_A-\\Delta T",
         "answer_blocks": [
-          "higher temperature",
-          "lower temperature",
-          "temperature decrease"
+          "temp. at B",
+          "temp. at A",
+          "temp. drop"
         ],
         "blocks": [
-          "higher temperature",
-          "lower temperature",
-          "temperature decrease",
+          "temp. at B",
+          "temp. at A",
+          "temp. drop",
           "pressure",
           "density",
           "speed"
