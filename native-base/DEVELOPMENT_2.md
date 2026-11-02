@@ -77,7 +77,11 @@ sprite sheet alone is not an animation acceptance test.
 Run 41372032864 failed to load the drawable because its intrinsic bounds or
 atlas could not be read. The attribute IDs supplied to `obtainAttributes`
 were unsorted; the follow-up orders height before width and reports failures
-separately. This suspected fix still requires a fresh Android run.
+separately. Run 41374041351 then loaded the original drawable and confirmed
+different frames. Inflating the complete fragment from an instrumentation
+application context failed on an unrelated themed text widget; the revised
+probe inflates the original image element in isolation. Neither this nor the
+frame check proves the attached screen or smooth playback works.
 
 The separate two-section diagnostic shows both section cards in the original
 picker. Its first test tapped the second card only once, expanding it rather

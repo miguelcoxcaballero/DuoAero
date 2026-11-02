@@ -231,12 +231,12 @@ public final class AccountProgressProbe extends Instrumentation {
     for(int index=0;index<2;index++){
      String id=node+"-lesson-"+index;
      JSONArray old=histories[3].getJSONObject(id).getJSONArray("challenges");
-     JSONObject proof=new JSONObject().put("id",id).put("type","MATH_LESSON").put("failed",false)
+     JSONObject movedProof=new JSONObject().put("id",id).put("type","MATH_LESSON").put("failed",false)
       .put("shouldLearnThings",true).put("startTime",1).put("endTime",2).put("challenges",new JSONArray(old.toString()));
      JSONObject revised=catalog.getJSONObject(id);
-     check(Boolean.FALSE.equals(completed.invoke(null,proof,revised)));
-     check(Boolean.TRUE.equals(storedProof.invoke(null,app,proof,revised)));
-     JSONObject partial=new JSONObject(proof.toString());partial.getJSONArray("challenges").remove(0);
+     check(Boolean.FALSE.equals(completed.invoke(null,movedProof,revised)));
+     check(Boolean.TRUE.equals(storedProof.invoke(null,app,movedProof,revised)));
+     JSONObject partial=new JSONObject(movedProof.toString());partial.getJSONArray("challenges").remove(0);
      check(Boolean.FALSE.equals(storedProof.invoke(null,app,partial,revised)));
     }
    }

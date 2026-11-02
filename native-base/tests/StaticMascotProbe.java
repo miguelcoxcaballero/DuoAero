@@ -53,22 +53,27 @@ public final class StaticMascotProbe extends Instrumentation {
     report.append(names[i]).append(" original resource resolved and drawn\n");
    }
    if(variants.size()<11)throw new IllegalStateException("Distinct poses were not rendered");
-   // Inflate the original fragment layout through its AppCompat ImageView,
-   // so a raw Resources.getDrawable success does not hide layout inflation
-   // or drawable-compatibility failures. The fragment is not attached here.
+   // Inflate the actual AppCompatImageView element with its original binary
+   // layout attributes. Other views in this fragment require a live activity
+   // theme and cannot be inflated from this instrumentation-only context.
    final Throwable[] layoutError={null};
    runOnMainSync(()->{
     try{
      int layout=context.getResources().getIdentifier("fragment_feedback_message","layout","com.duolingo");
-     int imageId=context.getResources().getIdentifier("duoImage","id","com.duolingo");
-     android.view.View root=android.view.LayoutInflater.from(context).inflate(layout,null,false);
-     android.widget.ImageView image=root.findViewById(imageId);
-     if(image==null||image.getDrawable()==null||!(image.getDrawable() instanceof android.graphics.drawable.Animatable))
-      throw new IllegalStateException("Original feedback layout cannot display animated mascot");
+     try(android.content.res.XmlResourceParser parser=context.getResources().getLayout(layout)){
+      int event;
+      do{event=parser.next();}while(event!=org.xmlpull.v1.XmlPullParser.END_DOCUMENT &&
+        !(event==org.xmlpull.v1.XmlPullParser.START_TAG && parser.getName().equals("androidx.appcompat.widget.AppCompatImageView")));
+      if(event==org.xmlpull.v1.XmlPullParser.END_DOCUMENT)throw new IllegalStateException("Original image element missing");
+      android.view.View child=android.view.LayoutInflater.from(context).createView(parser.getName(),null,android.util.Xml.asAttributeSet(parser));
+      android.widget.ImageView image=(android.widget.ImageView)child;
+      if(image.getDrawable()==null||!(image.getDrawable() instanceof android.graphics.drawable.Animatable))
+       throw new IllegalStateException("Original feedback image cannot display animated mascot");
+     }
     }catch(Throwable failure){layoutError[0]=failure;}
    });
-   if(layoutError[0]!=null)throw new IllegalStateException("Original feedback layout inflation failed",layoutError[0]);
-   report.append("WAVE_LAYOUT_INFLATED=true; fragment was not attached.\n");
+   if(layoutError[0]!=null)throw new IllegalStateException("Original feedback image inflation failed",layoutError[0]);
+   report.append("WAVE_IMAGE_INFLATED=true; full layout and attached fragment are unverified.\n");
    try(FileOutputStream stream=new FileOutputStream(new File(context.getExternalFilesDir(null),"static-mascot-poses.png"))){
     if(!grid.compress(Bitmap.CompressFormat.PNG,100,stream))throw new IllegalStateException("Cannot capture poses");
    }finally{grid.recycle();}

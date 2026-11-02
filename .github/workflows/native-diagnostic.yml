@@ -261,7 +261,7 @@ jobs:
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
               grep -q 'STATIC_MOODS_VERIFIED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
               grep -q 'WAVE_FRAMES_CHANGED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
-              grep -q 'WAVE_LAYOUT_INFLATED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
+              grep -q 'WAVE_IMAGE_INFLATED=true' "${{ runner.temp }}/duoaero-evidence/static-mascot.txt"
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/static-mascot-poses.png "${{ runner.temp }}/duoaero-evidence/static-mascot-poses.png"
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-0.png "${{ runner.temp }}/duoaero-evidence/wave-frame-0.png"
               adb pull /sdcard/Android/data/com.duoaero.nativebase/files/wave-frame-1.png "${{ runner.temp }}/duoaero-evidence/wave-frame-1.png"
