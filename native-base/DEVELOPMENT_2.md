@@ -140,9 +140,13 @@ The follow-up on the separate research branch passed Android run 41375262771:
 the second topic title appeared and its synthetic lesson opened. Run
 41380416094 graded ten draft questions, saved their lesson and graded the
 first question of the next topic after restarting. Run 41382266509 repeated
-the route with a third draft topic present. Thirty conceptual questions exist
-only on that research branch: production content, rewards, Drive and the
-complete second-midterm course remain unverified.
+the route with a third draft topic present, and run 41383706755 graded its ten
+draft questions. The combined branch passed synthetic accounts and the first
+Atmosphere progression test in run 41384151374; its second-section test first
+opened the welcome screen because the diagnostic bootstrap was not enabled.
+That setup is corrected, and the rerun remains pending. Thirty conceptual
+questions are kept as diagnostic-only draft content: production content,
+rewards, Drive and the complete second-midterm course remain unverified.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
