@@ -176,10 +176,11 @@ also includes twenty original conceptual questions on diverse aircraft and
 rotorcraft, aligned with the course outline; these are not in the diagnostic
 section or production. Run 41386234650 graded the first version of those
 twenty on Android; the job failed at its final evidence-path check. Their
-distractors were subsequently improved, and that revision needs a fresh UI
-test. All fifty draft questions, the missing topics and
-calculations, rewards, Drive and the complete second-midterm course still need
-editorial review and Android acceptance.
+distractors were subsequently improved, and run 41388130102 graded the revised
+twenty. Ten introductory topic-4 questions were added as a research draft and
+graded in run 41393093143. All sixty questions remain draft content; coverage
+of the syllabus, calculations, rewards, Drive and the complete second-midterm
+course still need editorial review and Android acceptance.
 
 Android run 41372273142 also graded the five-step isothermal pressure-ratio
 diagnostic. Its screenshot shows the final ratio question and the hint button;
