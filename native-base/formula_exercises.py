@@ -28,7 +28,8 @@ def math_latex(value):
     # Explicit compound identifiers keep every index inside one subscript.
     indexed = {'q_allowed': r'q_{\mathrm{allowed}}', 'q_cap': r'q_{\mathrm{cap}}',
                'W_max': r'W_{\max}', 'm_max': r'm_{\max}',
-               'C_Lmax': r'C_{L,\max}'}
+               'C_Lmax': r'C_{L,\max}', 'V_app': r'V_{\mathrm{app}}',
+               'V_kmh': r'V_{\mathrm{km/h}}', 'V_ms': r'V_{\mathrm{m/s}}'}
     if value in indexed:
         return r'\textstyle ' + indexed[value]
     symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',

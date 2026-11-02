@@ -15,6 +15,7 @@ jobs:
           python3 native-base/test_reynolds_steps.py
           python3 research/test_breguet_ratio_steps.py
           python3 research/test_approach_speed_steps.py
+          python3 research/test_approach_prerequisites.py
           python3 research/test_speed_limits_steps.py
           python3 research/test_speed_limits_lesson.py
           python3 native-base/test_simple_calculation_hints.py

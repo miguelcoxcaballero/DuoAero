@@ -18,7 +18,7 @@ def introduce(identifier, sentence, answer, distractors, latex, quantities, quan
                 answer_blocks=[quantities[0]],blocks=[quantities[0]]+quantity_distractors[:3],explanation=latex)
     symbolic=dict(id=identifier,type='formula_named',difficulty=1,
                   stem='Complete the formula with symbols',inline_latex=symbol_parts,formula_latex=latex,
-                  answer_blocks=symbols,blocks=symbols+['T','h'],explanation=latex,mathematical_blocks=True)
+                  answer_blocks=symbols,blocks=symbols+[x for x in ['T','h','p','m'] if x not in symbols][:2],explanation=latex,mathematical_blocks=True)
     return [word,named,single,symbolic]
 
 
