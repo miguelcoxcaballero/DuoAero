@@ -22,4 +22,8 @@ for step,value,tol in zip([x for x in a if x.get('formula_hint')],expected,toler
 for prefix in ('APPROACH-STALL-SQUARED','APPROACH-STALL-ROOT','APPROACH-SPEED','APPROACH-CONVERT'):
  indices=[next(i for i,x in enumerate(a) if x['id']==prefix+suffix) for suffix in ('-WORDS','-NAMED','')]
  assert indices==sorted(indices)
+for name in ('APPROACH-SPEED-NAMED','APPROACH-CONVERT-NAMED'):
+ item=next(x for x in a if x['id']==name)
+ assert item['inline_latex'].count('___') == len(item['answer_blocks']) == 2
+ assert r'\times' in item['inline_latex']
 print('PASS: 18 staged exercises, formula order and numerical answers; Android UI remains unverified.')
