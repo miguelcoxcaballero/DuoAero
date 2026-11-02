@@ -266,10 +266,13 @@ switched between its idle, happy and sad Peanuts poses. This is a preview of
 the source rigs, not evidence that every scene, transition or animation is
 smooth and reachable in the Android app.
 
-A distinct Swoon pose appeared on a completion screen in run 41387776940,
-but the recording showed it practically motionless. A revised state-machine
-entry starts the sprite loop in a browser preview; Android playback and smoothness
-are being checked separately and the animation is not integrated.
+A distinct Swoon pose first appeared motionless in run 41387776940; forcing
+its original state machine to start the loop initially exposed overlapping
+poses. Android run 41393926752 forced this character for diagnostics and
+recorded moving transparent frames without the observed overlap. Only the
+artwork and state-machine change are integrated, not the diagnostic selector.
+Its appearance on a physical phone, other selectors and all remaining scenes
+still need review; this one animation does not establish a complete cast.
 
 Android run 41392335036 repeated three integrated scenarios before the later
 icon and formula patches: a seeded original chest showed +25 gems and retained
