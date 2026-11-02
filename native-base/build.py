@@ -381,7 +381,14 @@ token_touch_hook=token_touch_anchor+'''
     invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setTouchPassthrough(Z)V
     invoke-virtual {v0, v3}, Landroid/view/View;->setImportantForAccessibility(I)V
     :duoaero_token_touch_done'''
+complete_source=SMALI/'smali_classes6/zk00.smali'
+complete_original=complete_source.read_bytes()
+complete_text=complete_original.decode('utf-8').replace('\r\n','\n')
+complete_anchor='    iget-object v11, v1, Lpm00;->d:Lcom/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteCharacterAnimation;'
+assert complete_text.count(complete_anchor)==1
+complete_hook=complete_anchor+'\n\n    invoke-static {v11}, Lcom/duoaero/nativebase/NativeCompletionObservation;->selected(Ljava/lang/Object;)V'
 try:
+ complete_source.write_text(complete_text.replace(complete_anchor,complete_hook),encoding='utf-8')
  token_touch_source.write_text(token_touch_text.replace(token_touch_anchor,token_touch_hook),encoding='utf-8')
  profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
@@ -395,6 +402,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ complete_source.write_bytes(complete_original)
  token_touch_source.write_bytes(token_touch_original)
  profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
