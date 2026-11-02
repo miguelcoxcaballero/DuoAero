@@ -432,7 +432,7 @@ so smoothness cannot be established. This prototype is not integrated.
 ## Acceptance still required
 
 The current authored bank has 38 symbolic formula exercises with a word-first
-introduction; 14 still lack the separate exercise with all named quantities
+introduction; 13 still lack the separate exercise with all named quantities
 in the equation. This count covers authored formula blocks only, not every
 formula that may be needed by the rest of the course. Some existing named
 equations express a fraction with division symbols or put an exponent into a
@@ -457,6 +457,9 @@ and touch of that prototype remain acceptance requirements. Android run
 41519217015 graded the four controls but its screenshot showed an oversized
 exponent and a single-column word bank cutting off options. The exponent and
 labels were subsequently compacted; the revised layout still needs Android QA.
+The aspect-ratio equation now has an experimental squared numerator in the
+original fraction figure. Data validation and Java helper compilation pass;
+its actual layout and short-tap behavior require Android acceptance.
 The pressure ratio and three dynamic-pressure formulas now also have named
 equations. The atmosphere lesson split retains exact historical source proof;
 90 native lessons meet the local size check. Android migration and the new

@@ -39,6 +39,12 @@ public final class NativeFractionSlot {
   return figure;
  }
  public static Object create(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  return createFraction(template,scope,slot,render,first,false);
+ }
+ public static Object createSquaredNumerator(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  return createFraction(template,scope,slot,render,first,true);
+ }
+ private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
   Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,
@@ -49,6 +55,14 @@ public final class NativeFractionSlot {
        .getConstructor(String.class).newInstance("duoaero:fraction-slot");
    contents[i]=latex.newInstance(PREFIX+key+":"+i,cls.getField("b").getFloat(template),cls.getField("c").get(template),
        cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  }
+  if(squaredNumerator){
+   Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l)
+       .getConstructor(String.class).newInstance("duoaero:fixed-square");
+   Object exponent=latex.newInstance("2",Math.max(12f,cls.getField("b").getFloat(template)*.42f),cls.getField("c").get(template),
+       cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+   contents[0]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l)
+       .getConstructor(ui,ui,String.class,entityClass).newInstance(contents[0],exponent,"power",null);
   }
   Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l);
   Class<?> scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);

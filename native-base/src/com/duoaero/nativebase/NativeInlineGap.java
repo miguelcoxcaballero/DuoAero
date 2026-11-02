@@ -11,8 +11,9 @@ public final class NativeInlineGap {
  private static final String MARKER="duoaero-gap:";
  private static final String OPERATOR_GAP="duoaero-operator-gap:";
  private static final String FRACTION="duoaero-fraction-slots";
+ private static final String SQUARED_FRACTION="duoaero-squared-fraction-slots";
  private static final String POWER="duoaero-power-slot:";
- private static int countSlots(String part){return part.equals(FRACTION)?2:part.equals("___")||part.startsWith(OPERATOR_GAP)||part.startsWith(POWER)?1:0;}
+ private static int countSlots(String part){return part.equals(FRACTION)||part.equals(SQUARED_FRACTION)?2:part.equals("___")||part.startsWith(OPERATOR_GAP)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -82,6 +83,10 @@ public final class NativeInlineGap {
      }
      else if(part.equals(FRACTION)){
       Object fraction=NativeFractionSlot.create(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
+     else if(part.equals(SQUARED_FRACTION)){
+      Object fraction=NativeFractionSlot.createSquaredNumerator(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
       prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
      else if(part.startsWith(POWER)){

@@ -195,6 +195,8 @@ MULTI_NAMED = {
                  ['temperature','area','speed'], ['___','=','___/___']),
  'taper': (r'\lambda=\frac{c_t}{c_r}', ['taper ratio','tip chord','root chord'],
            ['area','speed','mass'], ['___','=','___/___']),
+ 'aspect': (r'\mathrm{AR}=\frac{b^2}{S}', ['aspect ratio','wingspan','wing area'],
+            ['speed','mass','density'], ['___','=','___^2/___']),
  'time': (r't=\frac{d}{V_g}', ['flight time','distance','ground speed'],
           ['altitude','mass','pressure'], ['___','=','___/___']),
  'pressure_ratio': (r'r=\frac{p_B}{p_A}', ['pressure ratio','pressure B','pressure A'],
@@ -235,7 +237,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(2 if p == '___/___' else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(2 if p in ('___/___','___^2/___') else 1 if p == '___' or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
