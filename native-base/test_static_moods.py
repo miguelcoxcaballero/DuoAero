@@ -6,7 +6,7 @@ from resource_extension import MOOD_SCENES, mood_scenes, scene_mascot, updater_p
 from runtime_config import APK, ROOT, BASE
 import zipfile
 
-for name,expected in {'duo_happy':'wave','duo_flying':'plane','duo_thinking':'think',
+for name,expected in {'duo_wave':'wave_static','duo_happy':'wave','duo_flying':'plane','duo_thinking':'think',
                       'jaw_drop_duo':'surprised','lovey_dovey_duo':'lovey',
                       'foam_finger_duo':'foam','duo_breathe':'zen',
                       'practice_hub_duo_radio_falstaff_1':'charlie',
