@@ -66,6 +66,7 @@ jobs:
           curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.12.1/apktool_2.12.1.jar -o "$DUOAERO_APKTOOL"
           java -jar "$DUOAERO_APKTOOL" d "$DUOAERO_APK" -o "$DUOAERO_SMALI"
           python -m pip install fonttools==4.61.1 Pillow==11.3.0
+          if [ "$DIAGNOSTIC_SCENARIO" = static-poses-only ]; then python -m pip install imageio-ffmpeg==0.6.0; fi
           if ! command -v tesseract >/dev/null; then
             sudo apt-get update -qq
             sudo apt-get install -y tesseract-ocr

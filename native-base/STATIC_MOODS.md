@@ -36,3 +36,8 @@ that original layout inflates; attached-screen playback and smoothness still
 require Android evidence. Run 41380455084 opened the sheet, but its screen
 recording showed a static image. The next probe checks the attached drawable
 and actual changing pixels rather than considering an open sheet sufficient.
+Run 41382612045 applied the drawable after the original state binding. Its
+four-second attached-screen recording contained 18 distinct frames when
+checked locally, and the original keep-learning button returned to the lesson.
+The hosted job failed only because ffmpeg was missing; its dependency is now
+pinned for the follow-up. Smoothness and other screens remain unverified.

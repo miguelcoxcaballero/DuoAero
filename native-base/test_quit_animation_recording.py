@@ -1,6 +1,7 @@
 """Check changing pixels in the mascot area of the actual quit-sheet video."""
 import hashlib
 import os
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -9,9 +10,13 @@ from PIL import Image, ImageChops
 video = Path(os.environ['DUOAERO_EVIDENCE']) / 'sad-quit.mp4'
 if not video.is_file():
     raise SystemExit('Missing original quit sheet recording')
+ffmpeg=shutil.which('ffmpeg')
+if ffmpeg is None:
+    import imageio_ffmpeg
+    ffmpeg=imageio_ffmpeg.get_ffmpeg_exe()
 with tempfile.TemporaryDirectory() as folder:
     pattern = str(Path(folder) / '%03d.png')
-    subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-i', str(video),
+    subprocess.run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-i', str(video),
                     '-vf', 'fps=6,scale=360:-1', pattern], check=True, timeout=30)
     frames = sorted(Path(folder).glob('*.png'))
     if len(frames) < 8:
