@@ -29,6 +29,13 @@ final class SessionInteraction {
   if(!hasControl(test,"com.duolingo:id/primaryButton"))
    throw new IllegalStateException("Original quit keep-going control missing");
   SessionScreen.capture(test,"static-quit-dialog","static-quit-dialog");
+  // Record the attached original sheet, rather than treating two isolated
+  // drawable frames as proof of smooth animation in the real view.
+  try(android.os.ParcelFileDescriptor.AutoCloseInputStream stream=
+      new android.os.ParcelFileDescriptor.AutoCloseInputStream(test.getUiAutomation().executeShellCommand(
+       "screenrecord --time-limit 4 /sdcard/duoaero-sad-quit.mp4"))){
+   byte[] buffer=new byte[1024];while(stream.read(buffer)!=-1){}
+  }
   click(test,"com.duolingo:id/primaryButton",null);
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
   if(!hasControl(test,"com.duolingo:id/challengeInstruction"))throw new IllegalStateException("Did not return to original lesson");
