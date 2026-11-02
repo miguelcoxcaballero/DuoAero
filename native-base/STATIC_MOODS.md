@@ -22,6 +22,9 @@ animation, and its placement in the original Android screens needs inspection.
 An additional gem-holding Snoopy targets two explicit static gem poses; it too
 requires original-screen inspection and is not evidence of chest animation.
 
-The `duo_happy` ImageView has an experimental transparent 16-frame wave.
-The original layout and intrinsic size remain in use. Android inflation,
-actual-screen placement, playback and smoothness require device evidence.
+The `duo_happy` original ImageView now has a static celebration fallback;
+its experimental transparent 16-frame wave is not yet attached to that
+screen. Direct XML references to custom application drawables crashed the
+original quit sheet. A targeted hook instead installs the sad animation after
+that original layout inflates; attached-screen playback and smoothness still
+require Android evidence.
