@@ -422,7 +422,12 @@ public final class NativeCourseBridge {
    else if(method.equals("GET")&&path.matches("/(?:[0-9-]+/)?users/1/courses/MATH_BT(?:/sections/DUOAERO_MIDTERM[12])?")){
     boolean second=path.endsWith("DUOAERO_MIDTERM2");
     JSONObject info=new JSONObject(asset(app,"duoaero/course/path-info.json")),section=new JSONObject(asset(app,second?"duoaero/course/section-2.json":"duoaero/course/section.json"));
-    NativeCourseProgress.project(info,section,NativeSessionStore.projectedCompletedLessons(app),NativeChestRewards.ids(NativeChestRewards.snapshot(app)));
+    java.util.Set<String> completed=NativeSessionStore.projectedCompletedLessons(app),chests=NativeChestRewards.ids(NativeChestRewards.snapshot(app));
+    NativeCourseProgress.project(info,section,completed,chests);
+    if(path.endsWith("MATH_BT"))try{
+     JSONObject other=new JSONObject(asset(app,"duoaero/course/section-2.json"));
+     NativeCourseProgress.project(info,other,completed,chests);
+    }catch(java.io.FileNotFoundException absent){}
     code=200;payload=(path.endsWith("MATH_BT")?info:section).toString();
    }
    else if(method.equals("PUT")&&path.matches("/(?:[0-9-]+/)?sessions/[A-Za-z0-9_.-]+")){
