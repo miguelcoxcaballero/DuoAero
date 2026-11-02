@@ -33,6 +33,11 @@ try:
  labels=[n for n in picker.iter('node') if 'midterm 2' in n.get('text','').casefold()]
  assert labels,'Second section row was not found'
  tap(labels[-1])
+ # A first tap expands the section card; the original picker requires a
+ # second tap on its child row to navigate to that section's path.
+ expanded=wait('two-sections-expanded',lambda t:len([n for n in t.iter('node') if n.get('text','').casefold()=='midterm 2'])>=2)
+ rows=[n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2']
+ tap(rows[-1])
  wait('two-sections-returned',lambda t:has(t,'Diagnostic second partial') and any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')),90)
  (OUT/'two-sections-result.txt').write_text('PASS: diagnostic second section selected in original picker and original path showed its title. No real second-midterm content, progress or restart is asserted.\n')
 finally:
