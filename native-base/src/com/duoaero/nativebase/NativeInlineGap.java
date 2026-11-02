@@ -98,7 +98,7 @@ public final class NativeInlineGap {
       if(gapCount<=1)slot.invoke(null,slots,onSelect,onDrop,enabled,checked,defaultModifier,width,measured,interaction,composition,flags);
       else{
        int ordinal=0;for(int i=0;i<index;i++)if("___".equals(parts.get(i))||parts.get(i).startsWith(OPERATOR_GAP))ordinal++;
-       renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,args[3]);
+       renderSlot.invoke(originalSlot,args[0],Integer.valueOf(ordinal),composition,Integer.valueOf(0));
       }
       NativeInlineFormula.end(true,composition);
      }
