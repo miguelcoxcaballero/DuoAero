@@ -85,7 +85,17 @@ final class SessionInteraction {
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    trackSlotState=kind.equals("formula_named");
-   Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
+   String observedId=null,observedGrade=null;
+   for(int wait=0;wait<150;wait++){
+    dismissPixelLauncherAnr(test);
+    observedId=NativeChallengeIdentity.read(test,activity);
+    observedGrade=NativeChallengeIdentity.gradingState(test,activity);
+    if(q.getString("id").equals(observedId)&&observedGrade!=null&&observedGrade.endsWith("GradingState$Input"))break;
+    Thread.sleep(200);
+   }
+   SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
+   if(!q.getString("id").equals(observedId)||observedGrade==null||!observedGrade.endsWith("GradingState$Input"))
+    throw new IllegalStateException("Expected original input challenge "+q.getString("id")+"; observed id="+observedId+" grading="+observedGrade);
    boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
    if(hinted){

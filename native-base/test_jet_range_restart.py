@@ -58,6 +58,7 @@ while time.monotonic()<end:
  if routes:selected=routes[-1];break
  time.sleep(1)
 assert selected==NEXT,('Unexpected lesson after restart',selected)
-assert proof().get('completedOnce') is True
+after=proof();assert after.get('completedOnce') is True
+assert {x['id'] for x in after['completionSubmission']['challenges']}==ids
 screenshot('range-restart-next')
-(OUT/'range-restart-result.txt').write_text('PASS: seeded synthetic account reopened the next native range lesson after restart; real accounts and remaining lessons not tested.\n')
+(OUT/'range-restart-result.txt').write_text('PASS: seeded synthetic account retained the exact completion challenge IDs and reopened the next native range lesson after restart; real accounts and remaining lessons not tested.\n')
