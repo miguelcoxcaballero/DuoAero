@@ -882,3 +882,11 @@ isolated control keeps the offline local service and authentication intact,
 uses an unchanged original unmarked expression, and reports only that limited
 rendering scope; it also checks unmarked original token sizing and reuse on the
 original model. This control and visual layout still await Android validation.
+
+In unseeded attempt 41581428051 the touchscreen picker correction opened the
+original lesson activity, but the driver immediately searched for an answer
+card while the inspected screen still showed its loading animation. No answer
+or completion was recorded, and the natural mid-lesson scene was not observed.
+The next driver waits for the first original exercise control after each real
+session opens, without altering lesson state; the journey itself remains
+unverified.
