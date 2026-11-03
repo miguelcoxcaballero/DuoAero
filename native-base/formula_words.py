@@ -10,7 +10,7 @@ import hashlib
 # The other named quantities make the physical relationship explicit before
 # the following exercise asks the learner to build the symbolic formula.
 FORMULAS = {
- 'gas': ('Pressure p equals density rho times gas constant R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
+ 'gas': ('Pressure p equals density rho times specific gas constant for air R-air times T, the absolute ___.', 'temperature', ['velocity', 'altitude', 'mass']),
  'payload_mass': ('Payload mass m-p equals takeoff mass m-to minus operating empty mass m-oem minus fuel ___ m-f.', 'mass', ['speed', 'pressure', 'area']),
  'fuel_remaining': ('Landing fuel equals takeoff fuel minus fuel ___.', 'burned', ['loaded','stored','added']),
  'landing_payload': ('Payload equals the landing mass limit minus operating empty mass minus landing ___.', 'fuel', ['wing','area','speed']),
@@ -28,7 +28,7 @@ FORMULAS = {
  'tailwind': ('Ground speed Vg equals airspeed V plus tailwind ___ w.', 'speed', ['mass', 'pressure', 'area']),
  'time': ('Flight time t equals distance d divided by ground ___ Vg.', 'speed', ['mass', 'pressure', 'area']),
  'total_time': ('Total flight time t-total equals outbound time t-out plus ___ time t-back.', 'return', ['takeoff', 'reaction', 'climb']),
- 'range': ('Range R = (speed V times lift-to-drag ratio E) / (gravity g times thrust-specific fuel consumption cT) times log(initial ___ mi / final mass mf).', 'mass', ['temperature', 'pressure', 'area']),
+ 'range': ('Range R = (speed V times lift-to-drag ratio E) / (gravitational acceleration g times thrust-specific fuel consumption cT) times log(initial ___ mi / final mass mf).', 'mass', ['temperature', 'pressure', 'area']),
  'axial_stiffness': ('Axial stiffness k equals Young modulus E times area A divided by ___.', 'length', ['pressure', 'density', 'mass']),
  'cantilever': ('Cantilever tip stiffness k equals three times Young modulus E times second moment of area I divided by ___ L cubed.', 'length', ['pressure', 'density', 'mass']),
  'buckling': ('Critical load Pcr = pi squared times Young modulus E-Y times second moment of area I / (factor K times ___ L) squared.', 'length', ['mass', 'pressure', 'temperature']),
@@ -41,9 +41,9 @@ FORMULAS = {
  'thrust': ('Ideal thrust T equals mass flow rate m-dot times the difference between exhaust speed Ve and flight ___ V0.', 'speed', ['mass', 'pressure', 'density']),
  'kinetic_temperature': ('Temperature rise delta-T equals speed V squared divided by twice specific heat cp at constant ___.', 'pressure', ['area', 'mass', 'velocity']),
  'static_temperature': ('Static temperature T equals total temperature Tt minus kinetic temperature ___ delta-T.', 'rise', ['mass', 'area', 'force']),
- 'sound': ('Speed of sound a squared equals heat capacity ratio gamma times gas constant R times absolute ___ T.', 'temperature', ['altitude', 'area', 'mass']),
+ 'sound': ('Speed of sound a squared equals heat capacity ratio gamma times specific gas constant for air R times absolute ___ T.', 'temperature', ['altitude', 'area', 'mass']),
  'mach': ('Mach number M equals airspeed V divided by the speed of ___ a.', 'sound', ['light', 'gravity', 'rotation']),
- 'breguet_exponent': ('Exponent x = (range R times gravity g times thrust-specific fuel consumption ce) / (speed V times lift-to-drag ___ E).', 'ratio', ['mass', 'area', 'pressure']),
+ 'breguet_exponent': ('Exponent x = (range R times gravitational acceleration g times thrust-specific fuel consumption ce) / (speed V times lift-to-drag ___ E).', 'ratio', ['mass', 'area', 'pressure']),
  'fuel_fraction': ('Fuel fraction m-fuel / mi equals one minus the ___ mass fraction r.', 'remaining', ['initial', 'total', 'payload']),
  'cabin_pressure': ('Outside pressure p equals cabin pressure p-c minus the pressure ___.', 'difference', ['speed', 'area', 'temperature']),
  'mach_pressure': ('Dynamic pressure q equals one half times heat capacity ratio gamma times pressure p times Mach number M ___.', 'squared', ['cubed', 'halved', 'unchanged']),
@@ -103,7 +103,7 @@ INLINE_SYMBOLS = {
 # Name of the quantity occupying the hole in the original equation, plus
 # distractors. The rest of each equation comes from the reviewed LaTeX source.
 EQUATION_NAMES = {
- 'gas':('temperature',['density','pressure','altitude']),
+ 'gas':('absolute temperature',['density','pressure','altitude']),
  'payload_mass':('fuel mass',['payload mass','takeoff mass','empty mass']),
  'fuel_remaining':('landing fuel',['takeoff fuel','fuel burned','payload']),
  'landing_payload':('payload',['empty mass','landing fuel','landing limit']),
@@ -134,7 +134,7 @@ EQUATION_NAMES = {
  'thrust':('flight speed',['mass flow','exhaust speed','pressure']),
  'kinetic_temperature':('temperature rise',['speed','specific heat','pressure']),
  'static_temperature':('temperature rise',['total temperature','speed','density']),
- 'sound':('temperature',['speed','pressure','density']),
+ 'sound':('static temperature',['speed','pressure','density']),
  'mach':('Mach number',['airspeed','sound speed','pressure']),
  'breguet_exponent':('exponent',['range','airspeed','fuel mass']),
  'fuel_fraction':('remaining fraction',['fuel fraction','total mass','speed']),
@@ -213,7 +213,7 @@ def named_equation(formula):
 
 
 MULTI_NAMED = {
- 'gas': (r'p=\rho R_aT', ['pressure','density','gas constant','temperature'],
+ 'gas': (r'p=\rho R_aT', ['pressure','density','specific gas constant for air','absolute temperature'],
          ['velocity','altitude','mass','area'], ['___','=','___',r'\times','___',r'\times','___']),
  'isothermal_pressure': (r'p=p_b e^{-X}', ['pressure','base pressure','exponent'],
                          ['temperature','density','area'], ['___','=','___',r'\times','e^-___']),
@@ -247,11 +247,11 @@ MULTI_NAMED = {
                     ['temperature','density','altitude'], ['___','=','___/___']),
  'mach': (r'M=\frac{V}{a}', ['Mach number','airspeed','sound speed'],
           ['pressure','density','altitude'], ['___','=','___/___']),
- 'kinetic_temperature': (r'\Delta T=\frac{V^2}{2c_p}', ['temperature rise','airspeed','specific heat'],
+ 'kinetic_temperature': (r'\Delta T=\frac{V^2}{2c_p}', ['temperature rise','airspeed','specific heat capacity at constant pressure'],
                          ['pressure','density','altitude'], ['___','=','___^2/2*___']),
- 'breguet_exponent': (r'x=\frac{Rgc_e}{VE}', ['exponent','range','gravity','thrust-specific fuel consumption','airspeed','lift-to-drag ratio'],
+ 'breguet_exponent': (r'x=\frac{Rgc_e}{VE}', ['exponent','range','gravitational acceleration','thrust-specific fuel consumption','airspeed','lift-to-drag ratio'],
                       ['mass','altitude'], ['___','=','(', '___',r'\times','___',r'\times','___',')',r'\div','(', '___',r'\times','___',')']),
- 'range': (r'R=\frac{VE}{gc_T}\ln\frac{m_i}{m_f}', ['range','airspeed','lift-to-drag ratio','gravity','thrust-specific fuel consumption','initial mass','final mass'],
+ 'range': (r'R=\frac{VE}{gc_T}\ln\frac{m_i}{m_f}', ['range','airspeed','lift-to-drag ratio','gravitational acceleration','thrust-specific fuel consumption','initial mass','final mass'],
            ['density','pressure'], ['___','=','(', '___',r'\times','___',')',r'\div','(', '___',r'\times','___',')',r'\times',r'\ln','___/___']),
  'induced_drag': (r'C_{D,i}=\frac{C_L^2}{\pi e AR}', ['induced drag coefficient','lift coefficient','efficiency','aspect ratio'],
                   ['mass','speed','pressure'], ['___','=','___^2',r'\div','(',r'\pi',r'\times','___',r'\times','___',')']),
@@ -261,7 +261,7 @@ MULTI_NAMED = {
               ['mass','pressure'], ['___','=','(',r'\pi^2',r'\times','___',r'\times','___',')',r'\div','(', '___',r'\times','___',r')^2']),
  'static_temperature': (r'T=T_t-\Delta T', ['static temperature','total temperature','temperature rise'],
                         ['airspeed','pressure','density'], ['___','=','___','-','___']),
- 'sound': (r'a^2=\gamma RT', ['sound speed','heat capacity ratio','gas constant','temperature'],
+ 'sound': (r'a^2=\gamma RT', ['sound speed','heat capacity ratio','specific gas constant for air','static temperature'],
            ['pressure','density','altitude'], ['___^2','=','___',r'\times','___',r'\times','___']),
  'dynamic_pressure': (r'q=\frac12\rho V^2', ['dynamic pressure','density','airspeed'],
                       ['temperature','area','mass'], ['___','=',r'\frac12',r'\times','___',r'\times','___^2']),

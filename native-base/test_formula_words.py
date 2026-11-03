@@ -93,7 +93,7 @@ for q in lesson_questions(list(bank.values()), teach_words=True):
 from formula_words import MULTI_NAMED
 for kind, expected in {
     'static_temperature': ['static temperature', 'total temperature', 'temperature rise'],
-    'sound': ['sound speed', 'heat capacity ratio', 'gas constant', 'temperature'],
+    'sound': ['sound speed', 'heat capacity ratio', 'specific gas constant for air', 'static temperature'],
     'cabin_pressure': ['outside pressure', 'cabin pressure', 'pressure difference'],
     'mach_pressure': ['dynamic pressure', 'heat capacity ratio', 'outside pressure', 'Mach number'],
     'wing_loading': ['weight', 'wing area', 'dynamic pressure', 'lift coefficient'],
@@ -105,6 +105,8 @@ assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'spar length'
 assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
 
 # I is an area property; both jet Breguet models use mass-based TSFC.
+assert MULTI_NAMED['gas'][1][2:] == ['specific gas constant for air', 'absolute temperature']
+assert MULTI_NAMED['kinetic_temperature'][1][2] == 'specific heat capacity at constant pressure'
 assert MULTI_NAMED['cantilever'][1][2] == 'second moment of area'
 assert MULTI_NAMED['buckling'][1][2] == 'second moment of area'
 assert MULTI_NAMED['spar_stress_inertia'][1][0] == 'stress-limit second moment of area'
