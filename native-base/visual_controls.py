@@ -52,11 +52,15 @@ def native_positive_banner(screenshot, evidence):
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError):
         return False
     evidence.with_suffix('.tsv').write_text(result.stdout)
-    words = [r['text'].strip().upper().strip('!.,')
+    words = [(r['text'].strip().upper().strip('!.,'), float(r['conf']))
              for r in csv.DictReader(io.StringIO(result.stdout), delimiter='\t')
-             if r.get('text', '').strip() and float(r['conf']) >= 80]
+             if r.get('text', '').strip() and float(r['conf']) >= 60]
     positive = {('AMAZING',), ('AWESOME',), ('CORRECT',), ('EXCELLENT',),
                 ('GREAT',), ('NICE',), ('WOW',), ('GOOD', 'JOB'),
                 ('GREAT', 'JOB'), ('NICE', 'JOB'), ('NICELY', 'DONE')}
-    return any(tuple(words[i:i+len(phrase)]) == phrase
+    # Single-word matches require stronger confidence; two exact words plus
+    # the independently checked green panel are distinctive together.
+    return any(tuple(word for word, _ in words[i:i+len(phrase)]) == phrase
+               and all(conf >= (80 if len(phrase)==1 else 60)
+                       for _, conf in words[i:i+len(phrase)])
                for phrase in positive for i in range(len(words)))
