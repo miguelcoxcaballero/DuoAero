@@ -158,6 +158,7 @@ jobs:
           python research/test_taper_domain.py
           python research/test_taper_prerequisites.py
           python research/test_taper_stages.py
+          python research/test_taper_distribution.py
           python research/test_spacecraft_typology.py
           python research/test_space_environment_systems.py
           python native-base/test_slot_probe_guard.py

@@ -80,6 +80,7 @@ def draft(source):
         'options': ['0', f'{lower:.10g}', 'Use the upper bound', 'There is no lower bound'],
         'answer': 0 if lower < 0 else 1,
         'explanation': 'Use the greater of the algebraic lower bound and zero.',
+        'draft_formula_prerequisite': 'TAPER-DOMAIN',
     })
     feasible = upper >= lower_choice
     decision = {
@@ -89,6 +90,7 @@ def draft(source):
                     'Only negative taper ratios are allowed', 'The lower bound does not matter'],
         'answer': 0 if feasible else 1,
         'explanation': 'A feasible interval exists when its upper bound is at least its lower bound.',
+        'draft_formula_prerequisite': 'TAPER-DOMAIN',
     }
     questions.append(decision)
     if feasible:
@@ -97,5 +99,6 @@ def draft(source):
     final['stem'] = (f'The physical lower bound is {lower_choice:.10g} and the upper bound is {upper:.10g}. '
                      'Choose the interval width, or no feasible taper ratio.')
     final.pop('rich_text', None)
+    final['draft_formula_prerequisite'] = 'TAPER-WIDTH' if feasible else 'TAPER-DOMAIN'
     questions.append(final)
     return questions, lower, upper

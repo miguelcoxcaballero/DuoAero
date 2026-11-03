@@ -8,7 +8,7 @@ from prerequisite_validation import multi_symbol_prerequisite
 from taper_prerequisites import prerequisites
 
 qs=prerequisites()
-assert len(qs)==24 and len({q['id'] for q in qs})==24
+assert len(qs)==28 and len({q['id'] for q in qs})==28
 for i in range(0,len(qs),4):
     word,named,single,symbol=qs[i:i+4]
     assert [q['type'] for q in (word,named,single,symbol)]==['gap','formula_named','formula_named','formula_named']
@@ -19,4 +19,4 @@ for i in range(0,len(qs),4):
         assert all('\\\\' not in value for values in q.values() if isinstance(values,list)
                    for value in values if isinstance(value,str))
     assert len(named['answer_blocks'])==len(symbol['answer_blocks'])
-print('PASS: six draft taper prerequisite models; vertical layout, lesson order and Android remain pending.')
+print('PASS: seven draft taper prerequisite models; vertical layout, lesson order and Android remain pending.')

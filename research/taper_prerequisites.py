@@ -41,13 +41,19 @@ def prerequisites():
          ['taper interval width','upper taper bound','lower taper bound'],
          ['w_t','λ_max','λ_min'], ['___','=','___','-','___'],
          r'=\lambda_{\max}-\lambda_{\min}'),
+        ('DOMAIN', 'The physical lower taper bound is the greater of the algebraic lower bound and ___.', 'zero',
+         r'\lambda_{\min}=\max(0,\lambda_{\mathrm{low}})',
+         ['physical lower taper bound','algebraic lower taper bound'],
+         ['λ_min','λ_low'], ['___','=',r'\max','(','0',',','___',')'],
+         r'=\max(0,\lambda_{\mathrm{low}})'),
     ]
     result=[]
     for key,sentence,word,latex,names,symbols,parts,after in specs:
         distractors={'squared':['cubed','halved','unchanged'],
                      'coefficient':['force','area','pressure'],
                      'one':['zero','two','three'],
-                     'bound':['speed','area','pressure']}[word]
+                     'bound':['speed','area','pressure'],
+                     'zero':['one','two','three']}[word]
         result.extend(introduce('TAPER-'+key,sentence,word,distractors,latex,names,
                                 ['temperature','altitude','mass'],parts,symbols,parts,after))
     return result

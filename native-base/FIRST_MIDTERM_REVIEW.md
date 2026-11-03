@@ -82,12 +82,16 @@ and the emulator killed the app under memory pressure after nine graded cases.
 each of the ten variants and checks their resulting algebraic bounds against
 the independent domain calculation. The draft also includes choices and a
 physical-domain decision, retaining each original ID for the final answer.
-`research/taper_prerequisites.py` provides six model-only word/quantity/symbol
+`research/taper_prerequisites.py` provides seven model-only word/quantity/symbol
 introductions and associates the arithmetic drafts with their intended
 prerequisites. Several use inline division in place of the required verified
 vertical compound fraction. They have no accepted hints, course sessions,
 migration or Android validation. This does not fix the live
 clipped prompt until that remaining work is completed and integrated.
+`research/taper_distribution.py` partitions the drafts into 22 unconnected
+sessions of 12–16 questions, with all seven formulas before their calculations.
+Tests confirm that these session IDs were absent from published histories;
+they do not implement or validate migration and grant no completion credit.
 
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,

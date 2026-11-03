@@ -13,6 +13,7 @@ jobs:
           python3 research/test_taper_domain.py
           python3 research/test_taper_prerequisites.py
           python3 research/test_taper_stages.py
+          python3 research/test_taper_distribution.py
           python3 research/test_wind_budget_steps.py
           python3 research/test_wind_budget_prerequisites.py
           python3 native-base/test_kinetic_steps.py
