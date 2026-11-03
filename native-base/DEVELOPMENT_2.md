@@ -1024,3 +1024,12 @@ corrected cases now have a compact rich-text prompt that puts the question and
 physical domain first and renders the given equations in LaTeX. Its layout and
 the full one-operation decomposition remain unverified. The range screenshots
 are from before the subsequent correction to zero-fuel-mass terminology.
+
+On integrated candidate 7e500ef7, the range-formula job in 41587456344
+reported eight original CORRECT results and logged successful unmarked token,
+local symbolic token, empty named-scope and card-padding isolation controls.
+The inspected equation capture allows scrolling between the named operands;
+this does not cover every formula or prove the three-factor vertical fraction.
+The product-fraction job on the same SHA failed its swipe harness before full
+coverage, as recorded above. Later candidate changes still need their own APK
+and Android checks.
