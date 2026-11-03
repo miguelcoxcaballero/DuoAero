@@ -162,7 +162,12 @@ jobs:
           sudo chmod 666 /dev/kvm
           mkdir -p "$ANDROID_AVD_HOME"
           echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name DuoAeroDiagnostic --path "$ANDROID_AVD_HOME/DuoAeroDiagnostic.avd" --package 'system-images;android-36;google_apis;x86_64' --device pixel_2
-          "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > $RUNNER_TEMP/duoaero-evidence/emulator.txt 2>&1 &
+          # The original app disables motion in LOWEST mode on low-memory devices.
+          # Use a representative 4+ GiB emulator for the paired motion test;
+          # do not override application animation preferences or its manager.
+          emulator_memory=()
+          if [ "$DIAGNOSTIC_SCENARIO" = wave-lottie ]; then emulator_memory=(-memory 4608); fi
+          "$ANDROID_HOME/emulator/emulator" -avd DuoAeroDiagnostic "${emulator_memory[@]}" -no-window -no-audio -no-boot-anim -no-snapshot -gpu swangle -accel on > $RUNNER_TEMP/duoaero-evidence/emulator.txt 2>&1 &
           emulator_pid=$!
           ready=false
           for attempt in $(seq 1 150); do
