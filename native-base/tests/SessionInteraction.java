@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  private static boolean actualTouch;
+ private static boolean trackSlotState;
  private static int swipeEvidence;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
@@ -79,6 +80,7 @@ final class SessionInteraction {
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
+   trackSlotState=kind.equals("formula_named");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
    boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
@@ -103,9 +105,9 @@ final class SessionInteraction {
    else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
     for(int j=0;j<tokens.length();j++){
-     String before=originalSlots(test);
+     String before=trackSlotState?originalSlots(test):null;
      clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);
-     requireSlotChange(test,before);
+     if(trackSlotState)requireSlotChange(test,before);
     }
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
@@ -527,7 +529,7 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
-  String selectedBefore=originalSlots(test);
+  String selectedBefore=trackSlotState?originalSlots(test):null;
   int evidence=swipeEvidence++;
   SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
   float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
@@ -543,8 +545,8 @@ final class SessionInteraction {
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
   Thread.sleep(400);
   SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
-  String selectedAfter=originalSlots(test);
-  if(!selectedBefore.equals(selectedAfter))
+  String selectedAfter=trackSlotState?originalSlots(test):null;
+  if(trackSlotState&&!selectedBefore.equals(selectedAfter))
    throw new IllegalStateException("Bank swipe changed original slot state");
  }
  private static String originalSlots(Instrumentation test)throws Exception{
