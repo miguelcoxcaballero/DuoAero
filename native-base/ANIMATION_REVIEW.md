@@ -111,3 +111,12 @@ The paired isolated probe additionally samples immediately after the original
 entrance callback: its prior first sample occurred more than one original
 5.149-second animation duration after that callback, so early playback is a
 specific unresolved hypothesis rather than evidence that it never started.
+
+Run 41580680880 sampled from immediately after entrance. Both compositions
+were already loaded and both original and atlas started with their animators
+running. The original advanced from frame 0 to 21, 46 and 229 before it was
+observed stopped at frame 0; the atlas continued across multiple loops. This
+resolves the earlier question of whether the unchanged resource started, but
+does not establish a continuously smooth atlas or acceptance of the actual
+message-card scene. The later stopped state and difference in looping remain
+observable limitations of the isolated comparison.
