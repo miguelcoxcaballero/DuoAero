@@ -53,6 +53,7 @@ public final class NativeInlineGap {
      parts.add(OPERATOR_GAP+"duoaero-math:formula:\\textstyle \\div(");i+=2;
     }else if(i+1<words.length()&&("___".equals(words.getString(i+1))||words.getString(i+1).startsWith(POWER)||words.getString(i+1).equals(NEGATIVE_EXPONENT))
        &&(part.equals("duoaero-math:formula:\\textstyle (")
+          ||part.equals("duoaero-math:formula:\\textstyle =")
           ||part.equals("duoaero-math:formula:\\textstyle +")
           ||part.equals("duoaero-math:formula:\\textstyle -")
           ||part.equals("duoaero-math:formula:\\textstyle \\times")

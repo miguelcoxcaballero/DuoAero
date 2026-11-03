@@ -47,7 +47,7 @@ def number_latex(value):
     if 'e' not in text:
         return text
     mantissa, exponent=text.split('e')
-    return mantissa+r'\times 10^{'+str(int(exponent))+'}'
+    return r'\left('+mantissa+r'\times 10^{'+str(int(exponent))+r'}\right)'
 
 def draft(source):
     result = audit(source)

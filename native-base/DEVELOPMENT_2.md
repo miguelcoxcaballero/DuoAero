@@ -970,3 +970,14 @@ the passive memory observer records screenshot count, total/native/Dalvik PSS,
 native heap and diagnostic-flow count, plus activity destruction. It does not
 force collection, mutate the session, or establish the cause by itself. No
 conclusion about a physical phone follows from this emulator run.
+
+Isolated range draft 41585264899 at 10ae103 graded all 16 native controls
+CORRECT, including four dry-mass formula variants and the 12 steps of
+TA1-0798-D3. It did not test the other 52 formula models, hint retry, course
+integration or persistence. In the inspected `mixed-prompt-13.png`, scientific
+notation wrapped between its mantissa and power; the next draft groups the
+number in parentheses and requires another Android visual check. In
+`mixed-prompt-1.png`, the equals sign was stranded at the end of a line; the
+integrated inline renderer now groups it with the next slot and likewise needs
+runtime validation. No result from the earlier APK establishes acceptance of
+the subsequently integrated named-equation renderer.

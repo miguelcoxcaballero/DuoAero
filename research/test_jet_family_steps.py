@@ -4,7 +4,7 @@ import re
 from decimal import Decimal
 from pathlib import Path
 from audit_jet_families import audit
-from jet_family_steps import draft
+from jet_family_steps import draft,number_latex
 
 bank=json.loads((Path(__file__).resolve().parents[1]/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 counts={'range':0,'payload':0}
@@ -30,6 +30,7 @@ for source in bank:
             assert abs(shown-independent)<=max(Decimal('1e-9'),abs(independent)*Decimal('1e-9')),step['id']
 
 assert counts=={'range':10,'payload':10},counts
+assert number_latex(1.4e-5)==r'\left(1.4\times 10^{-5}\right)'
 positions={step['answer'] for q in bank if audit(q) for step in draft(q)[:-1]}
 assert positions=={0,1,2,3},positions
 for q in bank:
