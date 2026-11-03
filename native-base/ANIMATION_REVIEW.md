@@ -138,3 +138,14 @@ were visually inspected at 00 and 09; edge contact alone does not establish
 how much artwork, if any, is cropped. These frames require source/playback
 review before declaring uncropped animation; padding the PNG would not restore
 missing artwork. This audit does not assess motion smoothness.
+
+The Lucy happy source sheet was located in the original generated-image
+workspace and compared with the shipped frames. Playback frames 08–11 use
+source cells 12–15, and 12–13 reuse cells 14 and 12. These are all in the
+sheet's bottom row, whose opaque shoe pixels reach the source canvas edge
+(223 pixels above alpha 128 on the final row). The previous gutter extraction
+therefore cannot recover the missing lower outlines. An image-generation edit
+of the complete sheet was attempted, but its output still has opaque shoe
+pixels at the lower boundary and cannot yet be accepted as an uncropped source.
+Neither the edited candidate nor a padded copy has been integrated; full-frame
+reconstruction, registration and timed playback review remain necessary.

@@ -37,7 +37,9 @@ def open_target():
     if dialog is not None and any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()=='range formulas' for n in dialog.iter('node')):
      buttons=[n for n in dialog.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true']
      if buttons:tap(buttons[-1]);return
-    adb('shell','input','keyevent','4');time.sleep(.2)
+    # A missed tap must not send Back from the path and leave the app.
+    if dialog is not None and any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in dialog.iter('node')):
+     adb('shell','input','keyevent','4');time.sleep(.2)
   adb('shell','input','swipe','700','2300','700','900','500');time.sleep(.5)
  raise AssertionError('Range formulas node unavailable after restart')
 assert adb('shell','getprop','ro.kernel.qemu').strip()==b'1'

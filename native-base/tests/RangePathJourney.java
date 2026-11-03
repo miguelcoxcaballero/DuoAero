@@ -45,7 +45,11 @@ final class RangePathJourney {
     finally{for(AccessibilityNodeInfo n:ovals)n.recycle();root.recycle();}
     for(int j=0;j<20&&!popup(test,"Range formulas")&&!SessionInteraction.hasControl(test,ID+"learnButton");j++)Thread.sleep(150);
     if(popup(test,"Range formulas")){SessionInteraction.click(test,ID+"learnButton",null);return;}
-    test.getUiAutomation().performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK);Thread.sleep(300);
+    // A tap can miss or land on a noninteractive path decoration. Back is
+    // only safe after a path popup actually appeared; otherwise it exits Home.
+    if(SessionInteraction.hasControl(test,ID+"learnButton")){
+     test.getUiAutomation().performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK);Thread.sleep(300);
+    }
    }
    android.util.DisplayMetrics dm=test.getTargetContext().getResources().getDisplayMetrics();
    android.os.ParcelFileDescriptor fd=test.getUiAutomation().executeShellCommand("input swipe "+(dm.widthPixels/2)+" "+(int)(dm.heightPixels*.75)+" "+(dm.widthPixels/2)+" "+(int)(dm.heightPixels*.30)+" 500");
