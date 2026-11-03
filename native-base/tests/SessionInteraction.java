@@ -527,6 +527,23 @@ final class SessionInteraction {
    try{return button.isEnabled()&&button.getText()!=null&&button.getText().toString().equalsIgnoreCase("CONTINUE");}finally{button.recycle();}
   }finally{root.recycle();}
  }
+ private static boolean visibleBankCandidate(AccessibilityNodeInfo root,AccessibilityNodeInfo label,AccessibilityNodeInfo equation){
+  if(label==null||equation==null)return false;
+  android.graphics.Rect item=new android.graphics.Rect(),viewport=new android.graphics.Rect();
+  label.getBoundsInScreen(item);equation.getBoundsInScreen(viewport);
+  AccessibilityNodeInfo submit=find(root,"com.duolingo:id/submitButton",null,0);
+  int bottom=Integer.MAX_VALUE;
+  if(submit!=null)try{android.graphics.Rect r=new android.graphics.Rect();submit.getBoundsInScreen(r);bottom=r.top;}finally{submit.recycle();}
+  if(item.isEmpty()||item.top<viewport.bottom||item.bottom>bottom)return false;
+  AccessibilityNodeInfo node=AccessibilityNodeInfo.obtain(label);
+  try{
+   for(int depth=0;depth<8;depth++){
+    if("com.duolingo:id/mathCard".equals(node.getViewIdResourceName()) && node.isVisibleToUser() && node.isEnabled())return true;
+    AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;
+   }
+   return false;
+  }finally{node.recycle();}
+ }
  // The same label may already be in an answer slot. The bank is the last
  // matching native control in traversal order; select it rather than removing
  // a previously selected token. This only performs native accessibility taps.
@@ -539,7 +556,15 @@ final class SessionInteraction {
     AccessibilityNodeInfo bank=lastScrollable(root,0);
     try{
      if(bank==null)node=findLast(root,text,0);
-     else{
+     else if("android.widget.ScrollView".contentEquals(bank.getClassName()==null?"":bank.getClassName())){
+      // The equation remains scrollable after the answer bank has shrunk
+      // to fit. Search the visible bank below that viewport, never swipe the
+      // equation while looking for an answer tile.
+      AccessibilityNodeInfo candidate=findLast(root,text,0);
+      if(visibleBankCandidate(root,candidate,bank))node=candidate;
+      else {if(candidate!=null)candidate.recycle();SessionScreen.capture(test,"bank-token-missing","bank-token-missing");
+       throw new IllegalStateException("Visible non-scrolling answer bank lacks token: "+text);}
+     }else{
       node=findLast(bank,text,0);
       if(node!=null){
        android.graphics.Rect item=new android.graphics.Rect(),visible=new android.graphics.Rect();

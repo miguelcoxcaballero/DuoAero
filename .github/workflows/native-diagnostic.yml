@@ -99,7 +99,7 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|second-journey|aircraft-extra|rotor-extra|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|second-journey|jet-range-navigation|aircraft-extra|rotor-extra|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = column-wrong || "$DIAGNOSTIC_SCENARIO" = column-mixed ]]; then export DUOAERO_COLUMN_DIAGNOSTIC=1; fi
@@ -148,6 +148,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion ]; then export DUOAERO_TSFC_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = jet-range-draft ]; then export DUOAERO_JET_RANGE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = jet-range-path ]; then export DUOAERO_JET_RANGE_DIAGNOSTIC=1 DUOAERO_JET_RANGE_PATH_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = jet-range-navigation ]; then export DUOAERO_JET_RANGE_PATH_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = taper-domain ]; then export DUOAERO_TAPER_DOMAIN_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
@@ -161,7 +162,7 @@ jobs:
           python native-base/test_scientific_notation.py
           python tests/validate_bank.py
           python native-base/build.py
-          if [ "$DIAGNOSTIC_SCENARIO" = jet-range-path ]; then python native-base/test_jet_range_packaged.py; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = jet-range-path || "$DIAGNOSTIC_SCENARIO" = jet-range-navigation ]]; then python native-base/test_jet_range_packaged.py; fi
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
           python native-base/test_formula_words.py
@@ -209,7 +210,7 @@ jobs:
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
-          if [[ "$DIAGNOSTIC_SCENARIO" = capture-memory || "$DIAGNOSTIC_SCENARIO" = jet-range-path || "$DIAGNOSTIC_SCENARIO" = taper-domain || "$DIAGNOSTIC_SCENARIO" = jet-range-draft || "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology || "$DIAGNOSTIC_SCENARIO" = scientific-notation || "$DIAGNOSTIC_SCENARIO" = environment-systems ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = jet-range-navigation || "$DIAGNOSTIC_SCENARIO" = capture-memory || "$DIAGNOSTIC_SCENARIO" = jet-range-path || "$DIAGNOSTIC_SCENARIO" = taper-domain || "$DIAGNOSTIC_SCENARIO" = jet-range-draft || "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology || "$DIAGNOSTIC_SCENARIO" = scientific-notation || "$DIAGNOSTIC_SCENARIO" = environment-systems ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
             adb shell settings put system font_scale 1.15
@@ -237,6 +238,7 @@ jobs:
             if [[ "$probe_interact" = mixed* ]]; then probe_timeout=420; fi
             if [ "$probe_interact" = formula ]; then probe_timeout=600; fi
             if [ "$probe_interact" = second-journey ]; then probe_timeout=1800; fi
+            if [ "$probe_interact" = range-path ]; then probe_timeout=1200; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
@@ -289,7 +291,7 @@ jobs:
                 done
               done
             fi
-            if [[ "$probe_interact" = mixed* || "$probe_interact" = second-journey ]]; then
+            if [[ "$probe_interact" = mixed* || "$probe_interact" = second-journey || "$probe_interact" = range-path ]]; then
               for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* 2>/dev/null' | tr -d '\r'); do
                 adb pull "$evidence_file" "$RUNNER_TEMP/duoaero-evidence/" || true
               done
@@ -621,6 +623,15 @@ jobs:
             taper-domain)
               run_probe aerospace-taper-domain MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-taper-domain.txt"
+              ;;
+            jet-range-navigation)
+              python native-base/seed_jet_range_history.py
+              run_probe range-path MATH_BT native-defaults late native-full math range-path false native-default native-cache true
+              grep -q 'PASS: seeded synthetic prior history, opened the original range path and saved all 12 native controls' "$RUNNER_TEMP/duoaero-evidence/session-range-path.txt"
+              for name in range-path-before range-path-after; do
+                adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$name.png" "$RUNNER_TEMP/duoaero-evidence/" || true
+                adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$name.json" "$RUNNER_TEMP/duoaero-evidence/" || true
+              done
               ;;
             jet-range-path)
               run_probe aerospace-jet-range-path MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

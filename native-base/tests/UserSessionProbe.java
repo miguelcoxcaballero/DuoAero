@@ -36,7 +36,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed","original-expression").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-hint-touch","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie","second-journey","capture-memory").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-hint-touch","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie","second-journey","capture-memory","range-path").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -88,6 +88,12 @@ public final class UserSessionProbe extends Instrumentation {
   if(launch==null)throw new IllegalStateException("Missing original launcher");
   getTargetContext().startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
   Thread.sleep(6000);
+  if(interaction.equals("range-path")){
+   report.append(RangePathJourney.run(this,resumed));
+   report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. Seeded prior lessons and synthetic chests are not real history.\n");
+   report.append(playback.report());playback.close();
+   output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",true);finish(-1,output);return;
+  }
   if(interaction.equals("capture-memory")){
    report.append(ScreenshotMemoryProbe.run(this,resumed));
    report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. Memory measurements do not establish application behavior.\n");

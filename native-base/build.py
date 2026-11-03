@@ -984,6 +984,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   if released_second and not production:
    assert len(journey_answers)==7
    out.writestr('assets/duoaero/journey-diagnostic-answers.json',json.dumps(journey_answers,ensure_ascii=False))
+ if os.environ.get('DUOAERO_JET_RANGE_PATH_DIAGNOSTIC')=='1' and not production:
+  first=next(l for n in course_plan for l in n['lessons'] if l['id']=='2.2-range-draft-formula-lesson-0')
+  path_answers=lesson_questions([by_id[q] for q in first['ids']],teach_words=True)
+  assert len(path_answers)==12 and path_answers[0]['id']=='JET-DRY-WORDS'
+  out.writestr('assets/duoaero/jet-range-path-answers.json',json.dumps(path_answers,ensure_ascii=False))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
  out.write(ROOT/'native-base/lesson-migrations.json','assets/duoaero/course/lesson-migrations.json')

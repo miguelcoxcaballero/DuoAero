@@ -1067,3 +1067,35 @@ returned 200 for every URL in the lock; this does not prove the runner saw the
 same availability. Build tooling now logs only the locked filename before each
 fetch, with sources, hashes, retry conditions and frozen updater unchanged; a
 single same-source retry is in progress.
+
+The isolated range-path job 125761824791 in 41589222663 succeeded: its
+packaged-catalog check requires all 13 new lesson IDs, original question IDs,
+no new migration credit and the original legacy-chest requirements, and its
+separate fixture graded 16 controls CORRECT. The fixture opens a hardcoded
+session directly; it does not demonstrate reaching the new path node,
+completing its lessons, persistence or restart. The first compact taper prompt
+at that SHA was inspected in `mixed-prompt-7.png` and fits with feedback at
+emulator fontScale 1.15; its later clarified interval and density units are a
+new, longer revision requiring another visual check.
+
+Product job 125761824711 got past the first swipe but failed looking for
+`bar length`. The recorded before/after hierarchies show the first bank swipe
+changed card positions, subsequent forward swipes reached the end, and a
+reverse swipe changed them back: this was not simply an unresponsive gesture.
+At the eventual failure, `bar length` was visible in a card below the equation,
+but the answer bank no longer reported itself scrollable; the only remaining
+scrollable node was the equation. The previous selector treated that equation
+as the bank and searched the wrong subtree. The next diagnostic first accepts
+a fully visible native `mathCard` below the equation and above Check when the
+bank fits, and otherwise retains the original guarded swipe and slot-state
+comparison. This selection change still requires Android verification.
+
+An isolated range-path navigation diagnostic is prepared but not yet run. Its
+emulator-only seeder uses exact 1.3.7 challenge sets for earlier published
+lessons, verifies migration requirements against those sets, and explicitly
+simulates the one prior TSFC lesson and prior chest claims. It must not be
+reported as a continuous fresh-account journey or a real-account migration.
+The target lesson starts uncompleted; the original path and native controls
+must grade all twelve questions, Claim XP must be reached, and the saved native
+proof must contain exactly those challenge IDs. A separate restart test is
+still needed even if this diagnostic passes.
