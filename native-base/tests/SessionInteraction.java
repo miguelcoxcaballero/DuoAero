@@ -543,21 +543,25 @@ final class SessionInteraction {
   if(!selectedBefore.equals(selectedAfter))
    throw new IllegalStateException("Bank swipe changed visible prompt/slot labels: "+selectedBefore+" -> "+selectedAfter);
  }
- private static java.util.List<String> visibleAboveBank(Instrumentation test,int bankTop){
+ private static java.util.List<String> visibleAboveBank(Instrumentation test,int ignoredTop){
   java.util.List<String> labels=new java.util.ArrayList<>();
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)throw new IllegalStateException("No accessibility root during bank swipe");
-  try{collectVisibleAbove(root,bankTop,labels,0);}finally{root.recycle();}
+  AccessibilityNodeInfo bank=null;
+  try{
+   bank=lastScrollable(root,0);
+   if(bank==null)throw new IllegalStateException("No answer bank during swipe comparison");
+   collectOutsideBank(root,bank,labels,0);
+  }finally{if(bank!=null)bank.recycle();root.recycle();}
   java.util.Collections.sort(labels);return labels;
  }
- private static void collectVisibleAbove(AccessibilityNodeInfo node,int bankTop,java.util.List<String> labels,int depth){
-  if(depth>50||!node.isVisibleToUser())return;
-  android.graphics.Rect r=new android.graphics.Rect();node.getBoundsInScreen(r);
+ private static void collectOutsideBank(AccessibilityNodeInfo node,AccessibilityNodeInfo bank,java.util.List<String> labels,int depth){
+  if(depth>50||!node.isVisibleToUser()||!own(node)||node.equals(bank))return;
   CharSequence value=node.getText();
-  if(r.bottom<=bankTop && value!=null && value.length()>0)labels.add(value.toString());
+  if(value!=null && value.length()>0)labels.add(value.toString());
   for(int i=0;i<node.getChildCount();i++){
    AccessibilityNodeInfo child=node.getChild(i);
-   if(child!=null)try{collectVisibleAbove(child,bankTop,labels,depth+1);}finally{child.recycle();}
+   if(child!=null)try{collectOutsideBank(child,bank,labels,depth+1);}finally{child.recycle();}
   }
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
