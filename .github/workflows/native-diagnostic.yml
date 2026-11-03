@@ -147,6 +147,8 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
           python research/test_tsfc_conversion_draft.py
+          python native-base/test_tsfc_prerequisites.py
+          python tests/validate_bank.py
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py

@@ -3,6 +3,7 @@ import json,collections,sys
 root=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(root/'native-base'))
 from course_adapter import lesson_questions
+from prerequisite_validation import multi_symbol_prerequisite, validate_hint_prerequisites
 bank=json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 nodes=json.loads((root/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
 assert len(bank)==1200
@@ -42,15 +43,10 @@ for node in nodes:
   for question in expanded:
    qid=question['id']
    assert qid not in seen, ('duplicate expanded id',qid)
-   hint=question.get('formula_hint')
-   if hint:
-    assert question['type']=='choice' and isinstance(hint.get('latex'),str) and hint['latex'].strip()
-    prerequisites=[hint.get('prerequisite')]+hint.get('additional_prerequisites',[])
-    assert len(prerequisites)==len(set(prerequisites)), (qid,prerequisites)
-    for prerequisite in prerequisites:
-     assert prerequisite in formula_prerequisites, (qid,prerequisite)
+   validate_hint_prerequisites(question,formula_prerequisites)
    seen[qid]=question['type']
    if question['type']=='formula_blocks':formula_prerequisites.add(qid)
+   elif multi_symbol_prerequisite(question):formula_prerequisites.add(qid)
    elif question['type']=='formula_named' and question.get('symbol_prerequisite') is True:
     assert len(question['answer_blocks'])==1 and question.get('formula_latex')
     answer=question['answer_blocks'][0]
