@@ -34,6 +34,7 @@ class FeedbackChecksTest(unittest.TestCase):
 
     def test_continue_alone_is_not_success(self):
         self.assertFalse(feedback_terminal(screen('CONTINUE')))
+        assert_native_correct(screen('CONTINUE'), 'verified image', visual_positive=True)
         self.assertTrue(feedback_terminal(screen(' Amazing!', 'CONTINUE')))
         self.assertTrue(feedback_terminal(screen('Oops! Something went wrong', 'CONTINUE')))
         with self.assertRaises(AssertionError):
@@ -42,7 +43,7 @@ class FeedbackChecksTest(unittest.TestCase):
     def test_incorrect_or_error_cannot_be_overridden_by_positive(self):
         for error in ('GOT IT', 'Incorrect', 'Error', 'Skip', 'Oops! Something went wrong', 'Let’s skip this exercise for now'):
             with self.subTest(error=error), self.assertRaises(AssertionError):
-                assert_native_correct(screen(' Correct!', error, 'CONTINUE'), 'test')
+                assert_native_correct(screen(' Correct!', error, 'CONTINUE'), 'test', visual_positive=True)
 
 
 if __name__ == '__main__':

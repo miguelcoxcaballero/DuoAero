@@ -7,7 +7,7 @@ import json, os, re, subprocess, time, zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
-from visual_controls import claim_xp
+from visual_controls import claim_xp, native_positive_banner
 
 OUT=Path(os.environ['DUOAERO_EVIDENCE']); PACKAGE='com.duoaero.nativebase'
 def adb(*args): return subprocess.check_output(['adb',*args],timeout=35)
@@ -31,6 +31,26 @@ def wait(name,predicate,seconds=90):
         if tree is not None and predicate(tree):return tree
         time.sleep(2)
     raise AssertionError('Not observed: '+name)
+def wait_correct(name, context, seconds=60):
+    end=time.monotonic()+seconds
+    while time.monotonic()<end:
+        tree=capture(name)
+        if tree is None:
+            time.sleep(2);continue
+        if feedback_terminal(tree):
+            assert_native_correct(tree, context)
+            return tree
+        # The original final-question celebration is drawn, but absent from the
+        # accessibility dump. Verify its actual positive banner via OCR only
+        # when an enabled Continue is present, and still reject error/skip.
+        if any(n.get('text','')=='CONTINUE' and n.get('enabled')=='true' for n in tree.iter('node')):
+            visual=native_positive_banner(OUT/(name+'.png'), OUT/(name+'-banner.png'))
+            if visual:
+                assert_native_correct(tree, context, visual_positive=True)
+                return tree
+        time.sleep(2)
+    raise AssertionError('Positive native feedback not observed: '+context)
+
 def tap(node):
     a,b,c,d=map(int,re.findall(r'\d+',node.get('bounds')))
     x=str((a+c)//2);y=str((b+d)//2)
@@ -86,8 +106,7 @@ try:
         assert choices,'Expected draft answer card '+q['id'];tap(choices[-1])
         ready=wait('extra-section-ready-'+str(index),lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
         tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
-        feedback=wait('extra-section-feedback-'+str(index),feedback_terminal,60)
-        assert_native_correct(feedback, 'Question '+q['id'])
+        feedback=wait_correct('extra-section-feedback-'+str(index), 'Question '+q['id'])
         tap(next(n for n in feedback.iter('node') if n.get('text','')=='CONTINUE' and n.get('enabled')=='true'))
     end=time.monotonic()+100
     while time.monotonic()<end:
@@ -118,8 +137,7 @@ try:
     assert choices,'Next topic did not open its first question';tap(choices[-1])
     ready=wait('extra-section-next-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
     tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
-    feedback=wait('extra-section-next-feedback',feedback_terminal,60)
-    assert_native_correct(feedback, 'First next-topic question')
+    feedback=wait_correct('extra-section-next-feedback', 'First next-topic question')
     (OUT/'extra-section-result.txt').write_text('PASS: seeded prior diagnostic lessons, completed extra 3.2 lesson, restarted and graded the first 3.3 question; real accounts and remaining course unverified.\n')
 finally:
     (OUT/'extra-section-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
