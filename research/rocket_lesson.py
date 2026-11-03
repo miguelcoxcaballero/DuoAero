@@ -1,4 +1,4 @@
-"""Isolated second-midterm rocket calculation draft; not production content.
+"""Second-midterm rocket foundation used by the development release path.
 
 The ideal rocket equation neglects external forces and assumes constant
 effective exhaust speed. Keep its teaching and hint before the calculation.

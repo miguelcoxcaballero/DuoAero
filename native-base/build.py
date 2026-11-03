@@ -836,11 +836,17 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   legacy_chests[stable_id('chest', node['id'])] = list(prerequisites)
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  extended_section_test=os.environ.get('DUOAERO_EXTENDED_SECTION_DIAGNOSTIC')=='1' and not production
- two_section_test=(os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' or extended_section_test) and not production
+ # The first reviewed second-midterm block enters the development release path
+ # with new stable IDs and no historical completion credit. Further topics
+ # stay in the extended diagnostic until their content and progression pass.
+ released_second=production or (os.environ.get('DUOAERO_RELEASED_SECOND_DIAGNOSTIC')=='1' and not production)
+ extended_second=extended_section_test or released_second
+ two_section_test=released_second or ((os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' or extended_section_test) and not production)
  if two_section_test:
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
   diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft'),('4','Missiles'),('5.1','Diverse aircraft'),('5.2','Rotorcraft')]
+  if released_second:diagnostic_topics=diagnostic_topics[:1]
   for topic,title in diagnostic_topics:
    diagnostic_id='second-partial-'+topic+'-lesson-0'
    diagnostic_skill=stable_id('skill','second-partial-'+topic)
@@ -848,7 +854,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    assert len(selected)==10
    catalog[diagnostic_id]=native_session(selected,diagnostic_id,diagnostic_skill,teach_words=True)
    catalog[diagnostic_id]['levelSessionIndex']=0
-   if extended_section_test and topic=='3.1':
+   if extended_second and topic=='3.1':
     sys.path.insert(0,str(ROOT/'research'))
     from rocket_lesson import lesson as rocket_lesson
     from orbit_lesson import lesson as orbit_lesson
@@ -879,9 +885,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    out.write(source,'assets/duoaero/course/'+target_name+'.json');continue
   data=json.loads(source.read_text())
   if target_name=='path-info':
-   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Diagnostic second midterm',completedUnits=0,totalUnits=len(diagnostic_topics),totalLevelsPerUnit=[1]*len(diagnostic_topics),completedLevelsPerUnit=[0]*len(diagnostic_topics))
+   summary=copy.deepcopy(data['pathSectionsSummary'][0]);summary.update(id='DUOAERO_MIDTERM2',index=1,title='Midterm 2',debugName='Second midterm' if released_second else 'Diagnostic second midterm',completedUnits=0,totalUnits=len(diagnostic_topics),totalLevelsPerUnit=[1]*len(diagnostic_topics),completedLevelsPerUnit=[0]*len(diagnostic_topics))
    data['pathSectionsSummary'].append(summary)
-   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Diagnostic second midterm',subtitle='Diagnostic only',iconText='2',completedUnits=0,totalUnits=len(diagnostic_topics),sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
+   group=copy.deepcopy(data['pathTabsSummary'][0]['pathSectionGroups'][0]);group.update(id='DUOAERO_SECOND_MIDTERM',title='Midterm 2',debugName='Second midterm' if released_second else 'Diagnostic second midterm',subtitle='' if released_second else 'Diagnostic only',iconText='2',completedUnits=0,totalUnits=len(diagnostic_topics),sectionIds=['DUOAERO_MIDTERM2'],state='unlocked')
    data['pathTabsSummary'][0]['pathSectionGroups'].append(group)
   else:
    section=copy.deepcopy(data);section['id']='DUOAERO_MIDTERM2';section['index']=1
@@ -889,11 +895,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    for index,(topic,title) in enumerate(diagnostic_topics):
     unit=copy.deepcopy(template);unit['teachingObjective']=topic+' · '+title;unit['unitIndex']=index;unit['levels']=unit['levels'][:1]
     level=unit['levels'][0];diagnostic_skill=stable_id('skill','second-partial-'+topic)
-    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=(3 if topic=='3.1' else 2 if topic in ('3.2','3.3','5.1','5.2') else 1) if extended_section_test else 1
+    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=(3 if topic=='3.1' else 2 if topic in ('3.2','3.3','5.1','5.2') else 1) if extended_second else 1
     level['absoluteNodeIndex']=index;level['pathLevelMetadata']['unitIndex']=index
     level['pathLevelClientData']['title']=title;level['pathLevelClientData']['skillId']=diagnostic_skill
     metadata=[{'id':'second-partial-'+topic+'-lesson-0','type':'math_lesson'}]
-    if extended_section_test and topic=='3.1':
+    if extended_second and topic=='3.1':
      metadata.extend({'id':'second-partial-3.1-lesson-'+str(i),'type':'math_lesson'} for i in (1,2))
     elif extended_section_test and topic in ('3.2','3.3','5.1','5.2'):
      metadata.append({'id':'second-partial-'+topic+'-lesson-1','type':'math_lesson'})

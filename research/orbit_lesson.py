@@ -1,4 +1,4 @@
-"""Isolated circular-orbit calculation draft, not a production lesson."""
+"""Circular-orbit foundation used by the development release path."""
 
 def lesson():
     def words(identifier, sentence, answer, distractors):

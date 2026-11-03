@@ -2,12 +2,13 @@
 
 This does not add second-midterm educational content to production.
 """
-import json,os,re,subprocess,time
+import json,os,re,subprocess,time,zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from PIL import Image
 from visual_controls import claim_xp, native_positive_banner
 from feedback_checks import assert_native_correct, feedback_terminal
+from runtime_config import WORK
 PACKAGE='com.duoaero.nativebase';OUT=Path(os.environ['DUOAERO_EVIDENCE'])
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=30)
 def capture(name):
@@ -49,6 +50,18 @@ def second_active(tree,capture_name):
   # The original second-section active level is blue; locked levels are grey.
   return blue>140 and blue>red*1.2 and blue>=green
 try:
+ if os.environ.get('DUOAERO_TEST_RELEASED_SECOND')=='1':
+  with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as apk:
+   section=json.loads(apk.read('assets/duoaero/course/section-2.json'))
+   catalog=json.loads(apk.read('assets/duoaero/course/session-catalog.json'))
+   migrations=json.loads(apk.read('assets/duoaero/course/lesson-migrations.json'))
+  assert len(section['units'])==1 and section['units'][0]['teachingObjective']=='3.1 · Launch vehicles'
+  level=section['units'][0]['levels'][0]
+  ids=['second-partial-3.1-lesson-'+str(i) for i in range(3)]
+  assert level['finishedSessions']==0 and level['totalSessions']==3
+  assert [m['id'] for m in level['pathLevelClientData']['sessionMetadatas']]==ids
+  assert all(identifier in catalog for identifier in ids)
+  assert not any(identifier.startswith('second-partial-') for identifier in migrations)
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
  home=wait('two-sections-home',lambda t:has(t,'1 · Aerospace industry') and any(n.get('resource-id')=='com.duolingo:id/primaryCardView' for n in t.iter('node')))

@@ -748,43 +748,43 @@
       "id": "M2-MIS-004",
       "topic": "4",
       "type": "choice",
-      "stem": "What is the role of guidance in a flight vehicle?",
+      "stem": "How do guidance and navigation differ in a flight vehicle?",
       "options": [
-        "Carry out actuator commands without reference to a desired path",
-        "Store electrical energy for all sensors",
-        "Provide the structural support for the payload",
-        "Determine how the desired path should change"
+        "Navigation sets the desired path; guidance estimates current position.",
+        "Both terms mean only moving the control surfaces.",
+        "Guidance estimates position without deciding a desired path.",
+        "Navigation estimates the current state; guidance determines a desired trajectory."
       ],
       "answer": 3,
-      "explanation": "Guidance uses information about the motion and a desired path to determine commands."
+      "explanation": "Navigation estimates position and motion; guidance uses that information to determine the desired trajectory."
     },
     {
       "id": "M2-MIS-005",
       "topic": "4",
       "type": "choice",
-      "stem": "What is the role of the flight control system?",
+      "stem": "How does flight control differ from guidance?",
       "options": [
-        "Specify the target path without operating actuators",
-        "Supply the propellant stored onboard",
-        "Measure air density without any sensors",
-        "Carry out commands by adjusting vehicle motion"
+        "Control estimates position; guidance measures acceleration.",
+        "Control determines a destination without commanding the vehicle.",
+        "Guidance moves the actuators directly without a control system.",
+        "Control acts on the vehicle to follow commands derived from guidance."
       ],
       "answer": 3,
-      "explanation": "The control system acts on the vehicle to change its motion in response to commands."
+      "explanation": "Guidance determines a desired trajectory; control uses actuators to regulate vehicle motion toward the commands."
     },
     {
       "id": "M2-MIS-006",
       "topic": "4",
       "type": "choice",
-      "stem": "What force can an aerodynamic control surface produce in air?",
+      "stem": "What must be present for an aerodynamic control surface to generate aerodynamic force?",
       "options": [
-        "An aerodynamic force",
-        "A force that requires no interaction with the air",
-        "A force only when the vehicle is in vacuum",
-        "A force independent of surface orientation"
+        "Airflow relative to the surface",
+        "A vacuum around the surface",
+        "A perfectly stationary surrounding fluid with no relative flow",
+        "A change in the gravitational field"
       ],
       "answer": 0,
-      "explanation": "A control surface interacts with the airflow and produces an aerodynamic force and moment."
+      "explanation": "An aerodynamic surface relies on relative airflow to produce aerodynamic force."
     },
     {
       "id": "M2-MIS-007",
