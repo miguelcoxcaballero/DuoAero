@@ -130,6 +130,18 @@ growth on their own. The ongoing journey samples native/Dalvik PSS, native
 heap, screenshots and flow-count over time; check those measurements and Rive
 lifecycle evidence before selecting a memory correction.
 
+Run 41591755993 compared the same ten-question synthetic session in separate
+processes on one emulator. With intermediate evidence captures *and their
+accessibility-tree dumps* suppressed, native allocated heap rose from roughly
+81 MB to 715 MB by the eighth new prompt, while flow count stayed 195. With
+full evidence it rose from roughly 92 MB to 840 MB by capture 30. The fixed
+home-screen screenshot control had returned near baseline after each capture.
+Thus intermediate evidence collection is not necessary for the growth; this
+comparison does not isolate session rendering from the driver's repeated
+accessibility reads/taps, or establish behavior on a physical phone. It also
+precedes the lesson-completion Rive scene. Both ten-question controls graded
+correctly; neither establishes a fix or a complete-lesson journey.
+
 `research/audit_cast_frame_edges.py` examined 480 Peanuts character frames:
 74 have alpha above 128 at an image edge (Charlie 1, Franklin 7, Linus 7,
 Lucy 10, Patty 27, Pigpen 5, Sally 17). In particular, Lucy happy frames 08–13

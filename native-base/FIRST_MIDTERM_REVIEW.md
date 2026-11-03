@@ -80,9 +80,10 @@ Run 41591175636 rendered the clarified taper stem with its last formula clipped
 and the emulator killed the app under memory pressure after nine graded cases.
 `research/taper_stages.py` now scaffolds 24 single-operation calculations for
 each of the ten variants and checks their resulting algebraic bounds against
-the independent domain calculation. These are arithmetic drafts only: they
-have no answer choices, taught prerequisites, domain-decision steps, hints,
-course sessions, migration or Android validation. They do not fix the live
+the independent domain calculation. The draft also includes choices and a
+physical-domain decision, retaining each original ID for the final answer.
+It has no taught prerequisites, hints, course sessions, migration or Android
+validation. It does not fix the live
 clipped prompt until that remaining work is completed and integrated.
 
 The round-trip fuel-budget family now has a parametrized arithmetic draft in

@@ -5,6 +5,7 @@ symbol exercises. Formula hints, lesson partitioning, migration and native
 interaction are intentionally not claimed by this arithmetic scaffold.
 """
 import math
+import hashlib
 from taper_domain import PATTERN
 from jet_family_steps import number_latex
 
@@ -20,11 +21,20 @@ def draft(source):
         left, right = float(f'{left:.10g}'), float(f'{right:.10g}')
         value = {'+': lambda: left + right, '-': lambda: left - right,
                  '×': lambda: left * right, '÷': lambda: left / right}[symbol]()
-        question = {'id': source['id']+'-'+name, 'type': 'choice',
+        question_id = source['id']+'-'+name
+        delta = max(abs(value)*.1, 1e-12)
+        options = [f'{x:.10g}' for x in (value, value+delta, value-delta, value+2*delta)]
+        if len(set(options)) != 4:
+            raise ValueError('Arithmetic options are not distinct')
+        shift = int.from_bytes(hashlib.sha256(question_id.encode()).digest()[:2], 'big') % 4
+        if shift:
+            options = options[-shift:] + options[:-shift]
+        question = {'id': question_id, 'type': 'choice', 'difficulty': 1,
                     'stem': f'{label} Calculate {left:.10g} {symbol} {right:.10g}.',
                     'rich_text': {'stem': [{'text': label+' Calculate '},
                         {'latex': number_latex(left)+{'+':'+','-':'-','×':r'\times','÷':r'\div'}[symbol]+number_latex(right)},
-                        {'text': '.'}]}, 'expected': value}
+                        {'text': '.'}]}, 'options': options, 'answer': shift,
+                    'explanation': f'{value:.10g}', 'expected': value}
         questions.append(question)
         return value
 
@@ -52,4 +62,30 @@ def draft(source):
     y = operation('TWO-SMAX', 'Twice the maximum wing area:', 2, '×', max_area)
     y = operation('UPRATIO', 'Divide by wingspan times root chord:', y, '÷', geometry)
     upper = operation('UP', 'Subtract one for the upper taper bound:', y, '-', 1)
+    physical_lower = max(0.0, lower)
+    lower_choice = float(f'{physical_lower:.10g}')
+    questions.append({
+        'id': source['id']+'-DOMAIN-LOWER', 'type': 'choice', 'difficulty': 1,
+        'stem': f'The algebraic lower bound is {lower:.10g}. Which lower bound also satisfies a nonnegative taper ratio?',
+        'options': ['0', f'{lower:.10g}', 'Use the upper bound', 'There is no lower bound'],
+        'answer': 0 if lower < 0 else 1,
+        'explanation': 'Use the greater of the algebraic lower bound and zero.',
+    })
+    feasible = upper >= lower_choice
+    decision = {
+        'id': source['id']+'-DOMAIN', 'type': 'choice', 'difficulty': 1,
+        'stem': f'The physical lower bound is {lower_choice:.10g} and the upper bound is {upper:.10g}. Is there a feasible interval?',
+        'options': ['A feasible interval exists', 'No feasible interval exists',
+                    'Only negative taper ratios are allowed', 'The lower bound does not matter'],
+        'answer': 0 if feasible else 1,
+        'explanation': 'A feasible interval exists when its upper bound is at least its lower bound.',
+    }
+    questions.append(decision)
+    if feasible:
+        operation('WIDTH', 'Subtract the physical lower bound from the upper bound:', upper, '-', lower_choice)
+    final = dict(source)
+    final['stem'] = (f'The physical lower bound is {lower_choice:.10g} and the upper bound is {upper:.10g}. '
+                     'Choose the interval width, or no feasible taper ratio.')
+    final.pop('rich_text', None)
+    questions.append(final)
     return questions, lower, upper
