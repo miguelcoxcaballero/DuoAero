@@ -115,6 +115,20 @@ patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nat
 flow_row_source=SMALI/'smali_classes4/iz0.smali'
 flow_row_original=flow_row_source.read_bytes()
 flow_row_text=flow_row_original.decode('utf-8').replace('\r\n','\n')
+# Diagnostic only: bound token width to observe full multiline native labels.
+token_start=flow_row_text.index('.method public static final d(Lqqh;Lrp3;Lcom/duolingo/feature/math/ui/expressionbuild/TokenSource;ZIZLz5q;FLqqh;ZLs6p;Lo18;II)V')
+token_end=flow_row_text.index('.end method',token_start)
+token_method=flow_row_text[token_start:token_end]
+token_anchor='    move/from16 v8, p7'
+assert token_method.count(token_anchor)==1
+token_hook=token_anchor+'''
+
+    const v0, 0x43200000
+
+    invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F
+
+    move-result v8'''
+flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
 flow_row_end=flow_row_text.index('.end method',flow_row_start)
 flow_row_method=flow_row_text[flow_row_start:flow_row_end]
@@ -410,6 +424,8 @@ assert token_touch_text.count(token_touch_anchor)==1
 # local course so both tapping and the parent drag controller receive input.
 token_touch_hook=token_touch_anchor+'''
 
+    invoke-static {v1, v0, v2}, Lcom/duoaero/nativebase/NativeFullNameProbe;->apply(Landroid/view/View;Landroid/view/View;Ljava/lang/Object;)V
+
     invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z
     move-result v2
     if-eqz v2, :duoaero_token_touch_done
@@ -690,9 +706,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert len(mixed)==5
  if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
   introduced=lesson_questions([by_id['TA1-0041-F1'],by_id['BOOK-V6-04-D1'],by_id['TA1-0737-D3']],teach_words=True)
-  formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA')
+  formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA','SPAR-DEFLECTION-FORMULA')
   mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
-  assert len(mixed)==12
+  assert len(mixed)==16
  if os.environ.get('DUOAERO_DIRECT_HINT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0106-F1']],teach_words=True)
   assert len(mixed)==1 and mixed[0].get('formula_hint')
