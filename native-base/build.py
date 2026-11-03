@@ -76,7 +76,7 @@ def extended_scene_table(table):
  return mood_scenes(table)[0]
 with zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'resource-reference.apk','w') as reference:
  for entry in base.infolist():
-  reference.writestr(entry,extended_scene_table(base.read(entry)) if entry.filename=='resources.arsc' else base.read(entry))
+  reference.writestr(copy.copy(entry),extended_scene_table(base.read(entry)) if entry.filename=='resources.arsc' else base.read(entry))
  reference.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
  reference.write(ROOT/'app/assets/mascot/welcome.png',SCENE_MASCOT_PATH)
  for mood,source in MOOD_SCENES.items():reference.write(ROOT/'app/assets/mascot'/source,'res/drawable/duoaero_scene_'+mood+'.png')
@@ -556,6 +556,8 @@ run(sys.executable,ROOT/'native-base/extend_math_fonts.py')
 run(sys.executable,ROOT/'native-base/path_adapter.py')
 run(sys.executable,ROOT/'native-base/formula_exercises.py')
 with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,zipfile.ZipFile(WORK/'unsigned.apk','w') as out:
+ original_math_path='assets/hardcoded_sessions/math/math_lesson.json'
+ original_math_bytes=base.read(original_math_path)
  animation_files,animation_report=animation_overlays(base,(ROOT/'app/assets/mascot/welcome.png').read_bytes())
  (WORK/'mascot-report.json').write_text(json.dumps(animation_report,indent=2)+'\n')
  out.writestr('AndroidManifest.xml',res.read('AndroidManifest.xml'))
@@ -568,16 +570,17 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    assert resource_id==0x7f160016
    branded,branding_report=rebrand_table(launcher_mascot(table),mascot_paths)
    (WORK/'branding-report.json').write_text(json.dumps(branding_report,indent=2)+'\n')
-   out.writestr(entry,branded)
-  elif n in animation_files:out.writestr(entry,animation_files[n])
-  elif n=='res/mipmap-anydpi-v21/ic_launcher.xml':out.writestr(entry,launcher_xml)
-  elif n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(entry,(WORK/'font-overlays'/Path(n).name).read_bytes())
-  elif n=='classes.dex':out.writestr(entry,(WORK/'classes.dex').read_bytes())
-  elif n=='classes3.dex':out.writestr(entry,(WORK/'classes3.dex').read_bytes())
-  elif n=='classes4.dex':out.writestr(entry,(WORK/'classes4.dex').read_bytes())
-  elif n=='classes6.dex':out.writestr(entry,(WORK/'classes6.dex').read_bytes())
-  elif n=='classes7.dex':out.writestr(entry,(WORK/'classes7.dex').read_bytes())
-  elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(entry,base.read(entry))
+   out.writestr(copy.copy(entry),branded)
+  elif n in animation_files:out.writestr(copy.copy(entry),animation_files[n])
+  elif n=='res/mipmap-anydpi-v21/ic_launcher.xml':out.writestr(copy.copy(entry),launcher_xml)
+  elif n.startswith('res/font/duolingosansmath_') and n.endswith('.ttf'):out.writestr(copy.copy(entry),(WORK/'font-overlays'/Path(n).name).read_bytes())
+  elif n=='classes.dex':out.writestr(copy.copy(entry),(WORK/'classes.dex').read_bytes())
+  elif n=='classes3.dex':out.writestr(copy.copy(entry),(WORK/'classes3.dex').read_bytes())
+  elif n=='classes4.dex':out.writestr(copy.copy(entry),(WORK/'classes4.dex').read_bytes())
+  elif n=='classes6.dex':out.writestr(copy.copy(entry),(WORK/'classes6.dex').read_bytes())
+  elif n=='classes7.dex':out.writestr(copy.copy(entry),(WORK/'classes7.dex').read_bytes())
+  elif n!='AndroidManifest.xml' and not n.startswith('META-INF/'):out.writestr(copy.copy(entry),base.read(entry))
+ assert base.read(original_math_path)==original_math_bytes, 'Source ZIP entry changed while writing the output'
  out.write(WORK/'dex/classes.dex','classes12.dex')
  out.write(updater/'dex/classes.dex','classes13.dex')
  out.write(updater/'inhouse_update_paths.xml','res/xml/inhouse_update_paths.xml')
@@ -899,10 +902,16 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    section['units']=units
    out.writestr('assets/duoaero/course/section-2.json',json.dumps(section,ensure_ascii=False))
   out.writestr('assets/duoaero/course/'+target_name+'.json',json.dumps(data,ensure_ascii=False))
+with zipfile.ZipFile(WORK/'unsigned.apk') as check:
+ assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in unsigned APK'
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
+with zipfile.ZipFile(WORK/'aligned.apk') as check:
+ assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in aligned APK'
 if production:
  target=WORK/('DuoAero-'+version+'-unsigned.apk');shutil.copyfile(WORK/'aligned.apk',target)
  print('Original runtime unsigned production candidate (requires acceptance and permanent signing):',target)
 else:
  run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
+ with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as check:
+  assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in signed test APK'
  print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')
