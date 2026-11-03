@@ -3,7 +3,7 @@
 Rive wire field metadata is recorded in rive-schema.json; its upstream runtime
 is MIT licensed (vendor/rive/LICENSE). Images are the approved, unchanged PNGs.
 """
-import base64,json,re,struct
+import base64,json,os,re,struct
 from pathlib import Path
 from branding import display_text
 SCHEMA=json.loads(Path(__file__).with_name('rive-schema.json').read_text())
@@ -343,6 +343,7 @@ def lottie(data,name,png,width,height):
     doc=json.loads(data)
     if not isinstance(doc,dict) or 'layers' not in doc:return data,False
     if name=='duo_waving':
+        if os.environ.get('DUOAERO_WAVE_ORIGINAL')=='1':return data,False
         import sys
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'research'))
         from lottie_wave import replace_wave

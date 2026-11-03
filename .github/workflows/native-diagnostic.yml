@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/wave-lottie-probe' && '["wave-lottie"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
@@ -133,6 +133,12 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           python native-base/build.py
+          if [ "$DIAGNOSTIC_SCENARIO" = wave-lottie ]; then
+            cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/wave-candidate.apk"
+            DUOAERO_WAVE_ORIGINAL=1 python native-base/build.py
+            cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/wave-original.apk"
+            cp "$DUOAERO_WORK/wave-candidate.apk" "$DUOAERO_WORK/DuoAero-native-base-test.apk"
+          fi
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
           python native-base/test_formula_words.py
@@ -150,7 +156,7 @@ jobs:
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
-        timeout-minutes: 16
+        timeout-minutes: 25
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
@@ -357,12 +363,19 @@ jobs:
               python native-base/test_two_sections.py
               ;;
             wave-lottie)
-              run_probe wave-original-hole MATH_BT native-defaults late native-full aerospace-mixed wave-lottie false native-default native-cache true
-              grep -q 'delivered completion callback' "$RUNNER_TEMP/duoaero-evidence/session-wave-original-hole.txt"
-              adb pull /sdcard/duoaero-wave-preview.mp4 "$RUNNER_TEMP/duoaero-evidence/wave-lottie-preview.mp4"
-              for i in $(seq 0 19); do
-                adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-$i.png" "$RUNNER_TEMP/duoaero-evidence/wave-lottie-$i.png" || true
+              wave_result=0
+              for phase in original candidate; do
+                adb shell am force-stop com.duoaero.nativebase || true
+                timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/wave-$phase.apk"
+                adb shell rm -f /sdcard/duoaero-wave-preview.mp4 /sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-*.png /sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-*.json
+                run_probe "wave-$phase" MATH_BT native-defaults late native-full aerospace-mixed wave-lottie false native-default native-cache true || wave_result=1
+                adb pull /sdcard/duoaero-wave-preview.mp4 "$RUNNER_TEMP/duoaero-evidence/wave-$phase.mp4" || true
+                for i in $(seq 0 19); do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-$i.png" "$RUNNER_TEMP/duoaero-evidence/wave-$phase-$i.png" || true
+                done
+                grep -q 'Original hole entrance callback delivered and looping wave advanced' "$RUNNER_TEMP/duoaero-evidence/session-wave-$phase.txt" || wave_result=1
               done
+              test "$wave_result" = 0
               ;;
             static-poses-only)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"
