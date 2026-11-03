@@ -97,3 +97,17 @@ Snoopy poses. This isolated harness does not explain the stopped original,
 prove smooth motion, or validate the real mid-lesson message-card scene. Its
 standalone view also places the lower body at the bottom edge, so the screenshot
 is not acceptance of final scene composition.
+
+The real view's `oxm` branch is selected by the original
+`LessonCoachViewModel.H0` for the Duo timed-session character theme. Its
+callers include the original bonus-gem dialogue and character-sidequest
+dialogue, whose respective original state converter supplies the theme. This
+static route does not show that either dialogue is reachable in the local
+math course. The unseeded course journey now passively observes the real
+`MidLessonAnimationView`, saves frames if it becomes visible, and leaves its
+original navigation and callbacks untouched. An observed different coach
+scene or the absence of this view would not establish wave-scene acceptance.
+The paired isolated probe additionally samples immediately after the original
+entrance callback: its prior first sample occurred more than one original
+5.149-second animation duration after that callback, so early playback is a
+specific unresolved hypothesis rather than evidence that it never started.
