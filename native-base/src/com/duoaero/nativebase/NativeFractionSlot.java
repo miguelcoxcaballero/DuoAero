@@ -100,7 +100,7 @@ public final class NativeFractionSlot {
   contents[1]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l).getConstructor(ui,ui,String.class,entityClass).newInstance(contents[1],exponent,"power",null);
   Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
   Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
-  float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
+  float padding=Math.max(10f,cls.getField("b").getFloat(template)*.40f);
   Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,null);
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
   return fraction;
