@@ -78,3 +78,11 @@ regression or smooth playback. The next paired diagnostic gives the emulator
 4.5 GiB RAM so the original device classification can select its normal mode;
 it does not override the app's performance manager or motion preference. The
 real mid-lesson scene and its message-card callback remain to be verified.
+
+In 41574272357 the 4.5 GiB emulator reported NORMAL, motion enabled, animator
+scale 1.0, and attached/shown views for both original and replacement. Both
+still failed the progress check; the low-memory setting alone is not the
+explanation. The next comparison records the original drawable's composition,
+frame, progress and animator-running state without starting or modifying it
+outside the original entrance callback. Neither resource is accepted as smooth
+or as a real-scene integration on this evidence.
