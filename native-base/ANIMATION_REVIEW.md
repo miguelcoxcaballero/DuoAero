@@ -154,6 +154,12 @@ native flow count remained 178. This controls repeated fixed-screen search,
 not taps, question transitions, JavaScript grading or renderer lifecycle, so
 those remain candidates for further isolation. It does not establish a leak
 in a real account or on a physical device.
+The subsequent fixed-question selection probe 41595394143 selected the first
+correct answer but failed to locate a different option because its driver used
+raw text while the original math-card accessibility label uses a LaTeX text
+wrapper. Its screenshot and original state show the same unsubmitted question;
+this is not a product failure or a usable memory comparison. The driver now
+uses the known synthetic fixture's encoded option and waits for visible cards.
 
 `research/audit_cast_frame_edges.py` examined 480 Peanuts character frames:
 74 have alpha above 128 at an image edge (Charlie 1, Franklin 7, Linus 7,

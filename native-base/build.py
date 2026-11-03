@@ -8,6 +8,8 @@ from runtime_config import ROOT,HOME,BASE,SMALI,WORK,SDK,BT,JAR,APK,APKTOOL,KEY,
 from build_updater import build as build_updater
 from resource_extension import updater_paths, launcher_mascot, scene_mascot, mood_scenes, MOOD_SCENES, MASCOT_PATH, SCENE_MASCOT_PATH
 from branding import rebrand_table, wordmark_xml, animation_overlays, mascot_drawables, rebrand_app_display_names, rebrand_visible_literal, LOGO_PATH
+if os.environ.get('DUOAERO_PACKAGE','com.duoaero.nativebase')=='com.duoaero' and os.environ.get('DUOAERO_WIDE_FRACTION_DIAGNOSTIC')=='1':
+ raise SystemExit('Wide fraction fixture is isolated diagnostic only')
 updater=build_updater()
 for d in [WORK/'classes',WORK/'dex']:
  if d.exists():shutil.rmtree(d)
@@ -827,6 +829,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert draft['status']=='draft_not_connected_to_course'
   mixed=draft['questions']
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_WIDE_FRACTION_DIAGNOSTIC')=='1' and not production:
+  sys.path.insert(0,str(ROOT/'research'))
+  from wide_fraction_fixture import fixture as wide_fraction_fixture
+  mixed=wide_fraction_fixture()
+  assert len(mixed)==4
  if os.environ.get('DUOAERO_TAPER_DOMAIN_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
   from taper_domain import bounds as taper_bounds

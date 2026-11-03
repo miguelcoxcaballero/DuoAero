@@ -19,9 +19,10 @@ public final class NativeInlineGap {
  private static final String CANTILEVER_FRACTION="duoaero-cantilever-fraction";
  private static final String PRODUCT_FRACTION_21="duoaero-product-fraction-21";
  private static final String PRODUCT_FRACTION_22="duoaero-product-fraction-22";
+ private static final String PRODUCT_FRACTION_32="duoaero-product-fraction-32";
  private static final String POWER="duoaero-power-slot:";
  private static final String NEGATIVE_EXPONENT="duoaero-negative-exponent";
- private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)||part.equals(DEFLECTION_FRACTION)?4:part.equals(PRODUCT_FRACTION_21)||part.equals(CANTILEVER_FRACTION)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
+ private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_32)?5:part.equals(PRODUCT_FRACTION_22)||part.equals(DEFLECTION_FRACTION)?4:part.equals(PRODUCT_FRACTION_21)||part.equals(CANTILEVER_FRACTION)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -131,9 +132,11 @@ public final class NativeInlineGap {
       Object fraction=NativeFractionSlot.createCantilever(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
       prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
-     else if(part.equals(PRODUCT_FRACTION_21)||part.equals(PRODUCT_FRACTION_22)){
-      Object fraction=NativeFractionSlot.createProduct(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),2,part.equals(PRODUCT_FRACTION_21)?1:2);
-      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     else if(part.equals(PRODUCT_FRACTION_21)||part.equals(PRODUCT_FRACTION_22)||part.equals(PRODUCT_FRACTION_32)){
+      boolean wide=part.equals(PRODUCT_FRACTION_32);
+      Object fraction=NativeFractionSlot.createProduct(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),wide?3:2,part.equals(PRODUCT_FRACTION_21)?1:2);
+      Object fractionModifier=wide?wideFractionModifier(defaultModifier,composition):null;
+      prompt.invoke(null,fraction,fractionModifier,null,null,null,null,null,null,null,null,composition,0x8000000,wide?0x2fc:0x2fe);
      }
      else if(part.startsWith(POWER)){
       if(gapCount<=1)throw new IllegalStateException("Power slot requires a multi-slot equation");
@@ -205,6 +208,17 @@ public final class NativeInlineGap {
      .invoke(null,parts.size(),equationModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
    }finally{NativeNamedTokenSizing.exit(priorSizing);}
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
+ }
+ /** Diagnostic-only marker: scroll numerator and denominator together. */
+ private static Object wideFractionModifier(Object modifier,Object composer)throws Exception {
+  ClassLoader l=composer.getClass().getClassLoader();
+  Class<?> compose=Class.forName("cuh",true,l),scroll=Class.forName("kqp",true,l);
+  compose.getMethod("f0",int.class).invoke(composer,0x44554157);
+  try{
+   Object position=scroll.getMethod("R",int.class,Class.forName("o18",true,l),int.class).invoke(null,0,composer,0);
+   return scroll.getMethod("N",Class.forName("z5q",true,l),Class.forName("qxz",true,l),int.class)
+     .invoke(null,modifier,position,2);
+  }finally{compose.getMethod("q",boolean.class).invoke(composer,false);}
  }
 }
 

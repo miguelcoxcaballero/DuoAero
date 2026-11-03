@@ -92,11 +92,12 @@ final class SessionInteraction {
     dismissPixelLauncherAnr(test);
     observedId=NativeChallengeIdentity.read(test,activity);
     observedGrade=NativeChallengeIdentity.gradingState(test,activity);
-    if(q.getString("id").equals(observedId)&&observedGrade!=null&&observedGrade.endsWith("GradingState$Input"))break;
+    boolean visiblePrompt=!kind.equals("formula_named")||contains(test,q.getString("stem"));
+    if(q.getString("id").equals(observedId)&&observedGrade!=null&&observedGrade.endsWith("GradingState$Input")&&visiblePrompt)break;
     Thread.sleep(200);
    }
    SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
-   if(!q.getString("id").equals(observedId)||observedGrade==null||!observedGrade.endsWith("GradingState$Input"))
+   if(!q.getString("id").equals(observedId)||observedGrade==null||!observedGrade.endsWith("GradingState$Input")||(kind.equals("formula_named")&&!contains(test,q.getString("stem"))))
     throw new IllegalStateException("Expected original input challenge "+q.getString("id")+"; observed id="+observedId+" grading="+observedGrade);
    boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
@@ -196,6 +197,8 @@ final class SessionInteraction {
     if(!hasControl(test,"com.duolingo:id/submitButton"))throw new IllegalStateException("Check unavailable after equation scroll");
     SessionScreen.capture(test,"mixed-equation-bottom-"+i,"mixed-equation-bottom-"+i);
    }
+   if(kind.equals("formula_named")&&q.optJSONArray("inline_latex")!=null&&q.optJSONArray("inline_latex").toString().contains("___*___*___/___*___"))
+    swipeWideFraction(test);
    SessionScreen.capture(test,"mixed-selected-"+i,"mixed-selected-"+i);
    // Matching can grade automatically after the final pair. Other native
    // controllers use their original Check action.
@@ -731,6 +734,42 @@ final class SessionInteraction {
   SessionScreen.capture(test,evidencePrefix+"-after-"+evidence,evidencePrefix+"-after-"+evidence);
   String selectedAfter=trackSlotState?originalSlots(test):null;
   if(trackSlotState&&!selectedBefore.equals(selectedAfter))throw new IllegalStateException("Swipe changed original slot state");
+ }
+ private static AccessibilityNodeInfo horizontalScroll(AccessibilityNodeInfo node,int depth,int actionId){
+  if(depth>50||!own(node))return null;
+  for(AccessibilityNodeInfo.AccessibilityAction action:node.getActionList())
+   if(node.isVisibleToUser()&&node.isScrollable()&&action.getId()==actionId)return AccessibilityNodeInfo.obtain(node);
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{AccessibilityNodeInfo found=horizontalScroll(child,depth+1,actionId);if(found!=null)return found;}finally{child.recycle();}
+  }
+  return null;
+ }
+ private static void swipeWideFraction(Instrumentation test)throws Exception{
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No screen for wide fraction");
+  AccessibilityNodeInfo scroller;try{scroller=horizontalScroll(root,0,AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_RIGHT.getId());}finally{root.recycle();}
+  if(scroller==null){SessionScreen.capture(test,"wide-fraction-no-scroll","wide-fraction-no-scroll");throw new IllegalStateException("Wide fraction has no native horizontal scroll control");}
+  android.graphics.Rect r=new android.graphics.Rect();try{scroller.getBoundsInScreen(r);}finally{scroller.recycle();}
+  if(r.width()<100||r.height()<60)throw new IllegalStateException("Wide fraction scroll bounds unusable: "+r);
+  String before=originalSlots(test);SessionScreen.capture(test,"wide-fraction-before","wide-fraction-before");
+  float x1=r.right-30,x2=r.left+30,y=r.top+12;long down=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x1,y,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Wide fraction swipe down failed");}finally{event.recycle();}
+  for(int i=1;i<=8;i++){
+   Thread.sleep(35);event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_MOVE,x1+(x2-x1)*i/8f,y,0);
+   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Wide fraction swipe move failed");}finally{event.recycle();}
+  }
+  event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x2,y,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Wide fraction swipe up failed");}finally{event.recycle();}
+  Thread.sleep(400);SessionScreen.capture(test,"wide-fraction-after","wide-fraction-after");
+  if(!before.equals(originalSlots(test)))throw new IllegalStateException("Wide fraction swipe changed original slots");
+  root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No screen after wide fraction swipe");
+  AccessibilityNodeInfo moved;try{moved=horizontalScroll(root,0,AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_LEFT.getId());}finally{root.recycle();}
+  if(moved==null)throw new IllegalStateException("Wide fraction swipe did not expose reverse scrolling");
+  try{android.graphics.Rect actual=new android.graphics.Rect();moved.getBoundsInScreen(actual);if(!android.graphics.Rect.intersects(r,actual))throw new IllegalStateException("Reverse scrolling belongs to a different viewport");}finally{moved.recycle();}
+  if(!hasControl(test,"com.duolingo:id/submitButton"))throw new IllegalStateException("Check unavailable after wide fraction swipe");
  }
 
  private static void touchFirst(Instrumentation test,String text)throws Exception{

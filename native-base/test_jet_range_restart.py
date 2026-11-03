@@ -67,5 +67,6 @@ while time.monotonic()<end:
 assert selected==NEXT,('Unexpected lesson after restart',selected)
 after=proof();assert after.get('completedOnce') is True
 assert Counter(x['id'] for x in after['completionSubmission']['challenges'])==ids
+wait(lambda t: has(t,'Complete the formula in words') and has(t,'burn') and has(t,'CHECK'),timeout=120)
 screenshot('range-restart-next')
-(OUT/'range-restart-result.txt').write_text('PASS: seeded synthetic account retained the exact completion challenge IDs and reopened the next native range lesson after restart; real accounts and remaining lessons not tested.\n')
+(OUT/'range-restart-result.txt').write_text('PASS: seeded synthetic account retained the exact completion challenge IDs and displayed the next native range lesson question after restart; real accounts and remaining lessons not tested.\n')

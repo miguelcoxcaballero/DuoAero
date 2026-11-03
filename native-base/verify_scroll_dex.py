@@ -5,6 +5,7 @@ This validates binary descriptors, not layout or runtime behavior.
 import struct
 import sys
 import zipfile
+import os
 
 OWNER='Lcom/duoaero/nativebase/NativeCourseBridge;'
 NAME='scrollLongBuildSpace'
@@ -40,10 +41,10 @@ def parse(data):
         cls,proto,name=struct.unpack_from('<HHI',data,method_off+8*i)
         methods.append((types[cls],strings[name],protos[proto]))
     references={p for owner,name,p in methods if owner==OWNER and name==NAME}
-    definitions=set()
+    definitions=set();wide_definitions=set()
     for i in range(class_count):
         at=class_off+32*i;cls=u32(at);p=u32(at+24)
-        if types[cls]!=OWNER or not p:continue
+        if types[cls] not in (OWNER,'Lkqp;') or not p:continue
         counts=[]
         for _ in range(4):v,p=uleb(data,p);counts.append(v)
         for _ in range(counts[0]+counts[1]):_,p=uleb(data,p);_,p=uleb(data,p)
@@ -54,13 +55,18 @@ def parse(data):
                 _,p=uleb(data,p);_,p=uleb(data,p)
                 owner,name,proto=methods[index]
                 if owner==OWNER and name==NAME:definitions.add(proto)
-    return references,definitions
+                if owner=='Lkqp;' and name in ('N','R'):wide_definitions.add((name,proto))
+    return references,definitions,wide_definitions
 
-refs=set();defs=set()
+refs=set();defs=set();wide_defs=set()
 with zipfile.ZipFile(sys.argv[1]) as apk:
     for name in apk.namelist():
         if name.startswith('classes') and name.endswith('.dex') and '/' not in name:
-            r,d=parse(apk.read(name));refs.update(r);defs.update(d)
+            r,d,w=parse(apk.read(name));refs.update(r);defs.update(d);wide_defs.update(w)
 if not EXPECTED<=refs or not refs<=defs or not EXPECTED<=defs:
     raise SystemExit('Scroll DEX descriptor mismatch: refs='+repr(sorted(refs))+' definitions='+repr(sorted(defs)))
 print('PASS: assembled APK scroll-helper references match both DEX definitions')
+if os.environ.get('DUOAERO_WIDE_FRACTION_DIAGNOSTIC')=='1':
+    required={('N','(Lz5q;Lqxz;I)Lz5q;'),('R','(ILo18;I)Lqxz;')}
+    if not required<=wide_defs:raise SystemExit('Wide horizontal scroll DEX definitions missing: '+repr(sorted(required-wide_defs)))
+    print('PASS: original horizontal scroll method descriptors exist in assembled DEX')

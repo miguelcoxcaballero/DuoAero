@@ -63,9 +63,9 @@ public final class NativeFractionSlot {
  public static Object createSquaredOverTwice(Object template,Object scope,Object slot,Method render,int first) throws Exception {
   return createFraction(template,scope,slot,render,first,true,true);
  }
- /** Original fraction and horizontal sequences with two or three factors. */
+ /** Original fraction with interactive factor rows; wide 3/2 is diagnostic. */
  public static Object createProduct(Object template,Object scope,Object slot,Method render,int first,int numeratorCount,int denominatorCount) throws Exception {
-  if(numeratorCount<1||numeratorCount>2||denominatorCount<1||denominatorCount>2||numeratorCount+denominatorCount<3)throw new IllegalArgumentException("Unsupported fraction product");
+  if(numeratorCount<1||numeratorCount>3||denominatorCount<1||denominatorCount>2||numeratorCount+denominatorCount<3)throw new IllegalArgumentException("Unsupported fraction product");
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
   Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
@@ -185,7 +185,7 @@ public final class NativeFractionSlot {
    String position=(twice||triple||cube)?part[1].substring(0,part[1].length()-2):part[1];
    String[] spec=position.split("\\+",2);
    int offset=Integer.parseInt(spec[0]),count=spec.length==2?Integer.parseInt(spec[1]):1;
-   if(offset<0||offset>3||count<1||count>2||offset+count>4)throw new IllegalStateException("Invalid fraction slot position");
+   if(offset<0||offset>4||count<1||count>3||offset+count>5)throw new IllegalStateException("Invalid fraction slot position");
    if(count>1||twice||triple){
     if(context.negativeExponent||!NativeInlineFormula.begin(figure,composer,modifier))throw new IllegalStateException("Cannot compose fraction factors");
     ClassLoader l=figure.getClass().getClassLoader();Class<?> cls=figure.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);

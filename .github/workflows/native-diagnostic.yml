@@ -146,6 +146,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = environment-systems ]; then export DUOAERO_SPACE_ENV_SYSTEMS_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = spacecraft-typology ]; then export DUOAERO_SPACECRAFT_TYPOLOGY_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = render-memory || "$DIAGNOSTIC_SCENARIO" = accessibility-memory || "$DIAGNOSTIC_SCENARIO" = selection-memory ]]; then export DUOAERO_SPACECRAFT_TYPOLOGY_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = wide-fraction ]; then export DUOAERO_WIDE_FRACTION_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion ]; then export DUOAERO_TSFC_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = jet-range-draft ]; then export DUOAERO_JET_RANGE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = jet-range-path ]; then export DUOAERO_JET_RANGE_DIAGNOSTIC=1 DUOAERO_JET_RANGE_PATH_DIAGNOSTIC=1; fi
@@ -159,6 +160,7 @@ jobs:
           python research/test_taper_prerequisites.py
           python research/test_taper_stages.py
           python research/test_taper_distribution.py
+          python research/test_wide_fraction_fixture.py
           python research/test_spacecraft_typology.py
           python research/test_space_environment_systems.py
           python native-base/test_slot_probe_guard.py
@@ -296,7 +298,7 @@ jobs:
               done
             fi
             if [[ "$probe_interact" = mixed* || "$probe_interact" = render-memory-* || "$probe_interact" = second-journey || "$probe_interact" = range-path ]]; then
-              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/range-popup-* 2>/dev/null' | tr -d '\r'); do
+              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/range-popup-* /sdcard/Android/data/com.duoaero.nativebase/files/wide-fraction-* 2>/dev/null' | tr -d '\r'); do
                 adb pull "$evidence_file" "$RUNNER_TEMP/duoaero-evidence/" || true
               done
               for phase in prompt selected graded; do
@@ -636,6 +638,10 @@ jobs:
             selection-memory)
               run_probe selection-memory MATH_BT native-defaults late native-full aerospace-mixed selection-memory false native-default native-cache true
               grep -q 'PASS: 20 alternating native answer selections on one question' "$RUNNER_TEMP/duoaero-evidence/session-selection-memory.txt"
+              ;;
+            wide-fraction)
+              run_probe aerospace-wide-fraction MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 4 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-wide-fraction.txt"
               ;;
             capture-memory)
               run_probe capture-memory MATH_BT native-defaults late native-full math capture-memory false native-default native-cache true

@@ -104,6 +104,19 @@ scrolling to see its top or bottom, with Check remaining reachable. This is
 evidence for that diagnostic build, not acceptance of all fractions or of
 the subsequently narrowed single-slot bank shortcut. In particular the
 three-numerator/two-denominator layout remains an unaccepted inline fallback.
+The narrowed shortcut was then exercised by 41595394143: all 17 controls
+graded correctly and the unmarked original expression opened with offline
+local service. The long selected quantity and Check fit in the inspected
+capture. One captured prompt showed the preceding question's feedback because
+the original model advanced before the view finished changing; the driver now
+also waits for the named question's visible instruction. These results do not
+establish real-account behavior or complete-course acceptance.
+An isolated `wide-fraction` fixture now encodes that layout as a native
+fraction with a shared horizontal scroll viewport. The original Android
+`kqp.N` delegates to the horizontal orientation in the decoded app; this is
+only a static contract check. The marker is rejected without the diagnostic
+flag, and the release builder rejects that flag. Android interaction, visible
+alignment, slot preservation, font sizes and symbolic isolation remain untested.
 
 The seeded range navigation run 41594222841 did not reach its target. Its
 captured original path popup remained open after one Back action; the earlier
@@ -111,6 +124,13 @@ attempt sent Back again and left the app. The next diagnostic tries a real
 outside-margin touch and waits for dismissal, preserving the proof and restart
 checks. Neither failure establishes a product-path regression or a successful
 range journey.
+Run 41595610883 then completed and saved all 12 controls through the original
+path on a deliberately seeded synthetic account. After restart, the exact
+submission challenge IDs persisted and the service selected the next lesson;
+the subsequent UI hierarchy contained its word question and `burn` option.
+The screenshot was taken earlier during a white loading frame, so the restart
+probe now waits for those visible controls before capturing. This does not
+validate the remaining sessions, unseeded progression or a real account.
 
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,

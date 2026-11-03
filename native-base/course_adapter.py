@@ -8,6 +8,7 @@ import html
 import json
 import base64
 import re
+import os
 from pathlib import Path
 from rich_question import choice_blob, difficulty_stars, content, text_latex
 from math_notation import parts as notation_parts
@@ -45,8 +46,10 @@ def challenge(question):
         segments = []
         if 'inline_latex' in question:
             for part in question['inline_latex']:
-                segments.append('___' if part == '___' else 'duoaero-negative-exponent' if part == 'e^-___' else 'duoaero-fraction-slots' if part == '___/___' else 'duoaero-squared-fraction-slots' if part == '___^2/___' else 'duoaero-squared-over-twice' if part == '___^2/2*___' else 'duoaero-deflection-fraction' if part == '___*___^3/3*___*___' else 'duoaero-cantilever-fraction' if part == '3*___*___/___^3' else 'duoaero-product-fraction-21' if part == '___*___/___' else 'duoaero-product-fraction-22' if part == '___*___/___*___' else 'duoaero-power-slot:' + part[4:] if re.fullmatch(r'___\^\d{1,2}',part) else 'duoaero-math:formula:' + r'\textstyle ' + part)
-            if segments.count('___') + segments.count('duoaero-negative-exponent') + 2*(segments.count('duoaero-fraction-slots')+segments.count('duoaero-squared-fraction-slots')+segments.count('duoaero-squared-over-twice')) + 3*(segments.count('duoaero-product-fraction-21')+segments.count('duoaero-cantilever-fraction')) + 4*(segments.count('duoaero-product-fraction-22')+segments.count('duoaero-deflection-fraction')) + sum(p.startswith('duoaero-power-slot:') for p in segments) != len(question['answer_blocks']):
+                if part == '___*___*___/___*___' and os.environ.get('DUOAERO_WIDE_FRACTION_DIAGNOSTIC') != '1':
+                    raise ValueError('Wide fraction is available only in the isolated diagnostic')
+                segments.append('___' if part == '___' else 'duoaero-negative-exponent' if part == 'e^-___' else 'duoaero-fraction-slots' if part == '___/___' else 'duoaero-squared-fraction-slots' if part == '___^2/___' else 'duoaero-squared-over-twice' if part == '___^2/2*___' else 'duoaero-deflection-fraction' if part == '___*___^3/3*___*___' else 'duoaero-cantilever-fraction' if part == '3*___*___/___^3' else 'duoaero-product-fraction-21' if part == '___*___/___' else 'duoaero-product-fraction-22' if part == '___*___/___*___' else 'duoaero-product-fraction-32' if part == '___*___*___/___*___' else 'duoaero-power-slot:' + part[4:] if re.fullmatch(r'___\^\d{1,2}',part) else 'duoaero-math:formula:' + r'\textstyle ' + part)
+            if segments.count('___') + segments.count('duoaero-negative-exponent') + 2*(segments.count('duoaero-fraction-slots')+segments.count('duoaero-squared-fraction-slots')+segments.count('duoaero-squared-over-twice')) + 3*(segments.count('duoaero-product-fraction-21')+segments.count('duoaero-cantilever-fraction')) + 4*(segments.count('duoaero-product-fraction-22')+segments.count('duoaero-deflection-fraction')) + 5*segments.count('duoaero-product-fraction-32') + sum(p.startswith('duoaero-power-slot:') for p in segments) != len(question['answer_blocks']):
                 raise ValueError('Named equation slots do not match answers: ' + question['id'])
         else:
             if question['before_latex']:
