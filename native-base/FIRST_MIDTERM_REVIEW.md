@@ -82,8 +82,11 @@ and the emulator killed the app under memory pressure after nine graded cases.
 each of the ten variants and checks their resulting algebraic bounds against
 the independent domain calculation. The draft also includes choices and a
 physical-domain decision, retaining each original ID for the final answer.
-It has no taught prerequisites, hints, course sessions, migration or Android
-validation. It does not fix the live
+`research/taper_prerequisites.py` provides six model-only word/quantity/symbol
+introductions and associates the arithmetic drafts with their intended
+prerequisites. Several use inline division in place of the required verified
+vertical compound fraction. They have no accepted hints, course sessions,
+migration or Android validation. This does not fix the live
 clipped prompt until that remaining work is completed and integrated.
 
 The round-trip fuel-budget family now has a parametrized arithmetic draft in

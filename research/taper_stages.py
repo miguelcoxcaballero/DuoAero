@@ -9,6 +9,15 @@ import hashlib
 from taper_domain import PATTERN
 from jet_family_steps import number_latex
 
+FORMULA_BY_STEP = {
+    **dict.fromkeys(('VCR2','RHOV2','Q'), 'TAPER-Q'),
+    **dict.fromkeys(('VS2','RVS2','STALLDEN','TWOW','SMIN'), 'TAPER-SMIN'),
+    **dict.fromkeys(('B2','QPI','QE','QB2','W2','DI'), 'TAPER-DI'),
+    **dict.fromkeys(('REMAINING','QCD','SMAX'), 'TAPER-SMAX'),
+    **dict.fromkeys(('BCR','TWO-SMIN','LOWRATIO','LOW','TWO-SMAX','UPRATIO','UP'), 'TAPER-BOUND'),
+    'WIDTH': 'TAPER-WIDTH',
+}
+
 
 def draft(source):
     match = PATTERN.match(source['stem'])
@@ -34,7 +43,8 @@ def draft(source):
                     'rich_text': {'stem': [{'text': label+' Calculate '},
                         {'latex': number_latex(left)+{'+':'+','-':'-','×':r'\times','÷':r'\div'}[symbol]+number_latex(right)},
                         {'text': '.'}]}, 'options': options, 'answer': shift,
-                    'explanation': f'{value:.10g}', 'expected': value}
+                    'explanation': f'{value:.10g}', 'expected': value,
+                    'draft_formula_prerequisite': FORMULA_BY_STEP.get(name)}
         questions.append(question)
         return value
 

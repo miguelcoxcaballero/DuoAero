@@ -3,9 +3,11 @@ import json, math
 from pathlib import Path
 from taper_domain import bounds
 from taper_stages import draft
+from taper_prerequisites import prerequisites
 
 bank = json.loads((Path(__file__).resolve().parents[1]/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 family = [q for q in bank if bounds(q) is not None]
+symbol_ids={q['id'] for q in prerequisites() if q.get('mathematical_blocks')}
 assert len(family) == 10
 for source in family:
     steps, lower, upper = draft(source)
@@ -16,6 +18,7 @@ for source in family:
     assert all(q['id'].startswith(source['id']+'-') and 'formula_hint' not in q for q in steps[:-1])
     assert all(len(q['options'])==len(set(q['options'])) and 0 <= q['answer'] < len(q['options']) for q in steps)
     for step in steps[:24]:
+        assert step['draft_formula_prerequisite'] in symbol_ids
         distances=[abs(float(x)-step['expected']) for x in step['options']]
         assert distances.index(min(distances)) == step['answer']
         assert distances.count(min(distances)) == 1
