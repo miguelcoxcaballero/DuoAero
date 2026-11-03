@@ -546,6 +546,16 @@ timing_summary_hook=timing_summary_anchor+'''
     invoke-static {v0, v1}, Lcom/duoaero/nativebase/NativeCompletionTiming;->observeSummary(Landroid/view/View;Landroid/view/View;)V
 '''
 timing_summary_text=timing_summary_text.replace(timing_summary_anchor,timing_summary_hook)
+
+for timing_call,timing_wrapper,timing_type in (
+ ('    invoke-virtual {v0, v4}, Lcom/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteAnimationView;->setOnAnimationLoaded(Lkotlin/jvm/functions/Function0;)V','wrapLoaded','kotlin/jvm/functions/Function0'),
+ ('    invoke-virtual {v0, v4}, Lcom/duolingo/core/sessionend/ui/sessioncomplete/SessionCompleteAnimationView;->setPlayCtaAnimation(Lqqh;)V','wrapCta','qqh')):
+ assert timing_summary_text.count(timing_call)==1
+ timing_prefix=('    invoke-static {v4}, Lcom/duoaero/nativebase/NativeCompletionTiming;->'+timing_wrapper+'(Ljava/lang/Object;)Ljava/lang/Object;\n'
+                '    move-result-object v4\n'
+                '    check-cast v4, L'+timing_type+';\n\n')
+ timing_summary_text=timing_summary_text.replace(timing_call,timing_prefix+timing_call)
+
 try:
  timing_summary_source.write_text(timing_summary_text,encoding='utf-8')
  quit_source.write_text(quit_text,encoding='utf-8')

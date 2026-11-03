@@ -31,6 +31,21 @@ public final class NativeCompletionTiming {
   if(callback==null || Proxy.isProxyClass(callback.getClass()) && Proxy.getInvocationHandler(callback) instanceof Observer)return;
   window.setCallback((Window.Callback)Proxy.newProxyInstance(Window.Callback.class.getClassLoader(),new Class<?>[]{Window.Callback.class},new Observer(callback)));
  }
+ public static Object wrapLoaded(Object original){return wrap(original,"kotlin.jvm.functions.Function0","animation_loaded");}
+ public static Object wrapCta(Object original){return wrap(original,"qqh","cta_animation");}
+ private static Object wrap(Object original,String typeName,String category){
+  if(original==null)return null;
+  try{
+   ClassLoader loader=original.getClass().getClassLoader();Class<?> type=Class.forName(typeName,true,loader);
+   return Proxy.newProxyInstance(loader,new Class<?>[]{type},(proxy,method,args)->{
+    if(method.getName().equals("invoke")){
+     long touch=lastTouchUptime;
+     Log.i("DuoAeroCompletionTiming",category+"_after_last_touch_ms="+(touch>0?SystemClock.uptimeMillis()-touch:-1));
+    }
+    try{return method.invoke(original,args);}catch(InvocationTargetException error){throw error.getCause();}
+   });
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot observe completion animation callback",error);}
+ }
  public static void stage(String stage){
   if(!stage.equals("before_persist")&&!stage.equals("after_persist"))throw new IllegalArgumentException("Unknown timing stage");
   long touch=lastTouchUptime;
