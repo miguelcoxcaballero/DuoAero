@@ -235,8 +235,11 @@ def rive(data,name,png,width,height):
         w,h=art.get(7,600.),art.get(8,600.)
         if art.get(4) in frame_sets:
             frames,anchors,offset,_=frame_sets[art.get(4)]
+            # Keep the same scale throughout a sprite sequence; varying image
+            # dimensions should not make a character grow and shrink per frame.
+            dimensions=[struct.unpack_from('>II',frame,16) for frame in frames]
+            scale=min(w/max(x[0] for x in dimensions),h/max(x[1] for x in dimensions))*.90
             for i,frame in enumerate(frames):
-                fw,fh=struct.unpack_from('>II',frame,16);scale=min(w/fw,h/fh)*.90
                 x=(anchors[0][0]-anchors[i][0])*scale
                 y=(anchors[0][1]-anchors[i][1])*scale
                 output.extend(encode(100,{4:f'DuoAero Snoopy frame {i}',5:motion_parent,206:asset_index+offset+i,
