@@ -867,3 +867,18 @@ then still requires native CORRECT on the retry. The screenshot also exposed
 scientific notation rendered as plain text; the authored options now carry
 explicit LaTeX for the multiplication sign, exponent and units, and the hint
 uses upright unit subscripts. These changes still require fresh Android review.
+
+In 41579795660 the equation-specific touch gesture enabled the range job to
+pass all eight native answers; after three swipes its inspected final mass
+fraction is fully visible above the bank and Check remains available. Product
+passed all 17 local answers, with the filled-to-empty, replacement and restored
+native slot evidence retained; the inspected deflection denominator becomes
+visible after scrolling, while part of the bank remains outside its viewport.
+The job then failed its separate purported nonlocal check because that test
+turned off `localCourseInstalled`, which also turns off the local profile/course
+service and led to the original welcome flow. This does not establish either a
+remote rendering regression or successful nonlocal rendering. A revised
+isolated control keeps the offline local service and authentication intact,
+uses an unchanged original unmarked expression, and reports only that limited
+rendering scope; it also checks unmarked original token sizing and reuse on the
+original model. This control and visual layout still await Android validation.
