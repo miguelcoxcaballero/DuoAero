@@ -105,6 +105,13 @@ evidence for that diagnostic build, not acceptance of all fractions or of
 the subsequently narrowed single-slot bank shortcut. In particular the
 three-numerator/two-denominator layout remains an unaccepted inline fallback.
 
+The seeded range navigation run 41594222841 did not reach its target. Its
+captured original path popup remained open after one Back action; the earlier
+attempt sent Back again and left the app. The next diagnostic tries a real
+outside-margin touch and waits for dismissal, preserving the proof and restart
+checks. Neither failure establishes a product-path regression or a successful
+range journey.
+
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,
 uses one displayed arithmetic operation per step, and enforces a real wind

@@ -39,7 +39,10 @@ def open_target():
      if buttons:tap(buttons[-1]);return
     # A missed tap must not send Back from the path and leave the app.
     if dialog is not None and any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in dialog.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/titleText' for n in dialog.iter('node')):
-     adb('shell','input','keyevent','4')
+     dimensions=re.findall(r'(\d+)x(\d+)',adb('shell','wm','size').decode())
+     assert dimensions,'No emulator display dimensions'
+     width,height=map(int,dimensions[-1])
+     adb('shell','input','tap',str(max(3,int(width*.01))),str(int(height*.5)))
      wait(lambda t:not (any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in t.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/titleText' for n in t.iter('node'))),timeout=15)
   adb('shell','input','swipe','700','2300','700','900','500');time.sleep(.5)
  raise AssertionError('Range formulas node unavailable after restart')

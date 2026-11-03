@@ -24,6 +24,15 @@ final class RangePathJourney {
   a.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);b.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
   try{if(!test.getUiAutomation().injectInputEvent(a,true))throw new IllegalStateException("Path down failed");Thread.sleep(40);if(!test.getUiAutomation().injectInputEvent(b,true))throw new IllegalStateException("Path up failed");}finally{a.recycle();b.recycle();}
  }
+ private static void dismissPopup(Instrumentation test)throws Exception{
+  android.util.DisplayMetrics dm=test.getTargetContext().getResources().getDisplayMetrics();
+  float x=Math.max(3,dm.widthPixels*.01f),y=dm.heightPixels*.5f;
+  long now=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent down=android.view.MotionEvent.obtain(now,now,android.view.MotionEvent.ACTION_DOWN,x,y,0);
+  android.view.MotionEvent up=android.view.MotionEvent.obtain(now,now+40,android.view.MotionEvent.ACTION_UP,x,y,0);
+  down.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);up.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+  try{if(!test.getUiAutomation().injectInputEvent(down,true))throw new IllegalStateException("Popup dismiss down failed");Thread.sleep(40);if(!test.getUiAutomation().injectInputEvent(up,true))throw new IllegalStateException("Popup dismiss up failed");}finally{down.recycle();up.recycle();}
+ }
  private static boolean popup(Instrumentation test,String title){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();if(root==null)return false;
   List<AccessibilityNodeInfo> titles=new ArrayList<>(),buttons=new ArrayList<>();
@@ -45,11 +54,11 @@ final class RangePathJourney {
     finally{for(AccessibilityNodeInfo n:ovals)n.recycle();root.recycle();}
     for(int j=0;j<20&&!popup(test,"Range formulas")&&!SessionInteraction.hasControl(test,ID+"learnButton");j++)Thread.sleep(150);
     if(popup(test,"Range formulas")){SessionInteraction.click(test,ID+"learnButton",null);return;}
-    // A tap can miss or land on a noninteractive path decoration. Back is
-    // only safe after a path popup actually appeared; otherwise it exits Home.
+    // Back does not dismiss these native path popups and can exit Home.
+    // Touch a clear outside margin and verify the popup really closed.
     if(SessionInteraction.hasControl(test,ID+"learnButton")&&SessionInteraction.hasControl(test,ID+"titleText")){
-     SessionScreen.capture(test,"range-popup-before-back","range-popup-before-back");
-     test.getUiAutomation().performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK);Thread.sleep(300);
+     SessionScreen.capture(test,"range-popup-before-outside","range-popup-before-outside");
+     dismissPopup(test);Thread.sleep(300);
      for(int wait=0;wait<30;wait++){
       test.getUiAutomation().clearCache();
       if(!SessionInteraction.hasControl(test,ID+"learnButton")||!SessionInteraction.hasControl(test,ID+"titleText"))break;
@@ -57,7 +66,7 @@ final class RangePathJourney {
      }
      if(SessionInteraction.hasControl(test,ID+"learnButton")&&SessionInteraction.hasControl(test,ID+"titleText")){
       SessionScreen.capture(test,"range-popup-dismiss-failed","range-popup-dismiss-failed");
-      throw new IllegalStateException("Original path popup remained after one Back action");
+      throw new IllegalStateException("Original path popup remained after outside touch");
      }
     }
    }
