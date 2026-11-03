@@ -944,3 +944,15 @@ challenge reappeared as Previous mistake and was correctly answered; Claim XP
 then appeared. Reviewed hint/retry captures show legible stacked unit fractions
 and superscript powers on the emulator. This isolated run did not test course
 persistence or a physical device.
+
+Visual review of 41582326533 product-fraction (candidate 5315fdc): the
+17 locally marked exercises graded CORRECT and the unmarked original-model
+control passed, but `equation-swipe-after-74.png`/`mixed-selected-13.png` show
+the numerator cropped above the equation viewport after scrolling to the
+denominator; the bank also has a partially visible lower tile. Scroll allows
+access, but this image does not show the entire formula at once and is not
+acceptance of a readable complete layout. Full-name measurement for the
+stress/deflection area-second-moment label was 15.155 sp at fontScale 1.15
+with three lines inside 224 px. Further review must include the range candidate,
+recomposition/isolation and a product layout that preserves the requested
+fraction/operator presentation; this result is not proof that all layouts pass.
