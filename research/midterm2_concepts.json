@@ -150,8 +150,8 @@
       "options": [
         "Earth's gravity is exactly zero in low orbit.",
         "Spacecraft and occupants are continually falling around Earth together.",
-        "The spacecraft has no mass while orbiting.",
-        "The atmosphere pushes them upward."
+        "Orbital motion removes the mass of the occupants.",
+        "Cabin pressure cancels the gravitational force."
       ],
       "answer": 1,
       "explanation": "The spacecraft and its occupants share approximately the same free-fall trajectory; gravity remains significant in low Earth orbit."
@@ -163,9 +163,9 @@
       "stem": "Why are handholds useful inside a spacecraft?",
       "options": [
         "They help crew control their position in microgravity.",
-        "They increase Earth's gravitational field.",
-        "They stop all solar radiation.",
-        "They create breathable oxygen."
+        "They replace the cabin pressure-control system.",
+        "They provide thrust for an orbital manoeuvre.",
+        "They regulate the temperature of exterior radiators."
       ],
       "answer": 0,
       "explanation": "Without the usual weight-supported contact with the floor, crew need ways to position and stabilize themselves."
@@ -177,9 +177,9 @@
       "stem": "Which risk must a life-support system address in vacuum?",
       "options": [
         "The absence of breathable external air",
-        "An externally maintained cabin pressure",
-        "An unlimited supply of liquid water",
-        "Permanent protection from radiation"
+        "The need to determine orbital position",
+        "The need to point a communications antenna",
+        "The need to deploy a solar array"
       ],
       "answer": 0,
       "explanation": "A spacecraft or pressure suit must provide a controlled breathable environment and suitable pressure."
@@ -190,9 +190,9 @@
       "type": "choice",
       "stem": "What is outgassing?",
       "options": [
-        "A method of steering with aerodynamic lift",
-        "Conversion of sunlight directly into mass",
-        "Deliberately increasing the orbital inclination",
+        "A spacecraft manoeuvre to avoid orbital debris",
+        "Storage of heat inside an electrical battery",
+        "The emission of light by a solar panel",
         "Release of trapped or volatile substances from a material"
       ],
       "answer": 3,
@@ -205,9 +205,9 @@
       "stem": "Why can a small debris fragment be dangerous to a spacecraft?",
       "options": [
         "Its relative impact speed can be very high.",
-        "It always has the mass of a launch vehicle.",
-        "It instantly removes Earth's gravity.",
-        "It cannot be detected by any means."
+        "A small fragment always travels at low relative speed.",
+        "Every small fragment is harmless to external equipment.",
+        "Impact risk depends on size alone, never relative speed."
       ],
       "answer": 0,
       "explanation": "High relative speed can give even a small particle substantial impact energy."
@@ -218,10 +218,10 @@
       "type": "choice",
       "stem": "Which combination helps manage collision risk in orbit?",
       "options": [
-        "Turning off cabin lights only",
-        "Pointing the antenna at the ground",
+        "Assuming small fragments cannot cause damage",
+        "Using shielding as a substitute for all tracking",
         "Tracking, avoidance manoeuvres and appropriate shielding",
-        "Removing all thermal insulation"
+        "Pointing a communications antenna toward the ground"
       ],
       "answer": 2,
       "explanation": "Tracking supports avoidance for detectable objects, while shielding helps protect against some smaller impacts."
@@ -234,8 +234,8 @@
       "options": [
         "A spacecraft cannot emit infrared energy.",
         "There is essentially no surrounding gas to provide normal external convection.",
-        "Thermal radiation requires dense air.",
-        "Every surface in space has the same temperature."
+        "Dense air is needed for thermal radiation to leave a surface.",
+        "Thermal conduction through the vacuum dominates heat rejection."
       ],
       "answer": 1,
       "explanation": "External convection is negligible in vacuum; surfaces can exchange heat by radiation and conduct heat through structures."
@@ -246,10 +246,10 @@
       "type": "choice",
       "stem": "What is the main purpose of multilayer insulation on a spacecraft?",
       "options": [
-        "To stop a rocket's combustion",
-        "To create atmospheric lift",
+        "To supply electrical power during an eclipse",
+        "To increase normal external air convection",
         "To reduce unwanted radiative heat exchange",
-        "To generate drinking water directly"
+        "To provide propellant for attitude control"
       ],
       "answer": 2,
       "explanation": "Multilayer insulation limits radiative exchange and is one part of a broader thermal-control design."
@@ -260,10 +260,10 @@
       "type": "choice",
       "stem": "Which source can expose a spacecraft to energetic particles?",
       "options": [
-        "Only reflected sound waves",
+        "Only atmospheric sound waves",
         "Solar events and trapped radiation belts",
-        "Only the cabin ventilation fan",
-        "A shadow that has no particles"
+        "Only radio signals from the spacecraft antenna",
+        "Thermal conduction through a radiator"
       ],
       "answer": 1,
       "explanation": "Space radiation can include energetic particles from solar activity, trapped belts and cosmic sources."
@@ -275,9 +275,9 @@
       "stem": "Which practice helps reduce the physical effects of long stays in microgravity?",
       "options": [
         "A planned exercise programme",
-        "Turning off life support",
-        "Removing the pressure suit during an EVA",
-        "Avoiding all movement"
+        "Eliminating all scheduled exercise",
+        "Relying only on cabin air pressure",
+        "Keeping the crew stationary for the entire mission"
       ],
       "answer": 0,
       "explanation": "Regular exercise is one countermeasure used to mitigate changes to muscles and bones during extended spaceflight."
@@ -302,10 +302,10 @@
       "type": "choice",
       "stem": "What does a spacecraft attitude control system regulate?",
       "options": [
-        "The colour of the launch pad",
-        "The chemical composition of Earth’s atmosphere",
+        "Its orbital position rather than its orientation",
+        "The rate at which cabin carbon dioxide is removed",
         "Its orientation in space",
-        "The date of the next solar eclipse"
+        "The electrical charge stored in its batteries"
       ],
       "answer": 2,
       "explanation": "Attitude is the spacecraft’s orientation; orbit control addresses its trajectory."
@@ -316,10 +316,10 @@
       "type": "choice",
       "stem": "What is the role of a spacecraft thermal control system?",
       "options": [
-        "Make every component exactly 0 °C",
-        "Make sunlight the same intensity everywhere",
+        "Keep every component at exactly the same temperature",
+        "Point the antenna toward the ground station",
         "Keep equipment within acceptable temperature limits",
-        "Remove the need for electrical power"
+        "Store energy for periods of eclipse"
       ],
       "answer": 2,
       "explanation": "Thermal control keeps equipment within the temperature ranges needed for operation."
@@ -331,9 +331,9 @@
       "stem": "What is telemetry used for in a space mission?",
       "options": [
         "Sending measurements and status information to the ground",
-        "Opening the payload fairing before launch",
-        "Moving the spacecraft by expelling propellant",
-        "Generating oxygen from sunlight"
+        "Sending commands from the ground to a spacecraft",
+        "Changing the orbit by firing a thruster",
+        "Storing energy from solar panels"
       ],
       "answer": 0,
       "explanation": "Telemetry carries measurements and spacecraft status back to mission controllers."
@@ -344,10 +344,10 @@
       "type": "choice",
       "stem": "What is an uplink in spacecraft communications?",
       "options": [
-        "The exhaust from an onboard thruster",
+        "A signal sent from the spacecraft to the ground",
         "A signal sent from the ground to the spacecraft",
-        "A signal sent only between two ground antennas",
-        "A measurement of solar panel area"
+        "A measurement stored only within the spacecraft",
+        "A mechanical connection between spacecraft and ground"
       ],
       "answer": 1,
       "explanation": "An uplink carries information or commands toward the spacecraft."
@@ -360,8 +360,8 @@
       "options": [
         "A flyby must land on the target",
         "A flyby passes the target without entering an orbit around it",
-        "A flyby remains fixed above the same surface point indefinitely",
-        "An orbiter never observes its target"
+        "A flyby remains in a bound orbit around the target",
+        "An orbiter observes the target only before arrival"
       ],
       "answer": 1,
       "explanation": "A flyby makes observations while passing; an orbiter remains in orbit for repeated observations."
@@ -372,10 +372,10 @@
       "type": "choice",
       "stem": "Which vehicle is designed to move across a planetary surface?",
       "options": [
-        "A flyby probe",
+        "A spacecraft that observes only during a flyby",
         "A rover",
-        "A communications antenna",
-        "A launch escape tower"
+        "A fixed lander with no surface mobility",
+        "An orbiter operating above the atmosphere"
       ],
       "answer": 1,
       "explanation": "A rover travels over a surface to make measurements at different locations."
@@ -386,9 +386,9 @@
       "type": "choice",
       "stem": "What is the purpose of a lander?",
       "options": [
-        "Replace all ground communication equipment",
-        "Measure only the Sun from Earth",
-        "Remain permanently in Earth orbit",
+        "Remain in a bound orbit without reaching the surface",
+        "Pass the target without entering orbit or landing",
+        "Operate only during the cruise between planets",
         "Reach the surface and operate there"
       ],
       "answer": 3,
@@ -400,9 +400,9 @@
       "type": "choice",
       "stem": "Why can an atmospheric entry probe need a heat shield?",
       "options": [
-        "To increase the strength of its radio signal",
-        "To produce thrust in a vacuum",
-        "To make gravity disappear",
+        "To maintain the cabin radio frequency",
+        "To shield solar cells from darkness",
+        "To increase orbital velocity without propulsion",
         "To protect it from intense heating during entry"
       ],
       "answer": 3,
@@ -414,9 +414,9 @@
       "type": "choice",
       "stem": "What can a balloon drifting in a planetary atmosphere help study?",
       "options": [
-        "The mechanical strength of a launch tower",
-        "The exhaust of every rocket on Earth",
-        "The inside of a solid planetary core directly",
+        "The conditions of an airless surface only",
+        "The internal structure of a solid core directly",
+        "The properties of an orbit without entering the atmosphere",
         "Atmospheric conditions and circulation"
       ],
       "answer": 3,
