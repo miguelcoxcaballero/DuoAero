@@ -86,3 +86,14 @@ explanation. The next comparison records the original drawable's composition,
 frame, progress and animator-running state without starting or modifying it
 outside the original entrance callback. Neither resource is accepted as smooth
 or as a real-scene integration on this evidence.
+
+Main-thread observer run 41577674317 found the composition already loaded at
+both original entrance callbacks, with NORMAL performance mode and motion
+enabled. The unchanged original remained at frame 0 and reported its animator
+stopped throughout the sampled interval, so the paired job failed. The atlas
+candidate did advance and loop (frames 81, 174, 260, 27 among the first
+samples) with its animator running; inspected frames show different transparent
+Snoopy poses. This isolated harness does not explain the stopped original,
+prove smooth motion, or validate the real mid-lesson message-card scene. Its
+standalone view also places the lower body at the bottom edge, so the screenshot
+is not acceptance of final scene composition.
