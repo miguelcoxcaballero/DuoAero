@@ -156,6 +156,8 @@ jobs:
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
           python research/test_tsfc_conversion_draft.py
           python research/test_taper_domain.py
+          python research/test_taper_prerequisites.py
+          python research/test_taper_stages.py
           python research/test_spacecraft_typology.py
           python research/test_space_environment_systems.py
           python native-base/test_slot_probe_guard.py
