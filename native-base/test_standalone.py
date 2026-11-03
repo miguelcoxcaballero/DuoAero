@@ -95,6 +95,12 @@ def capture_completion_motion():
     for frame in range(6):
         (OUT/('standalone-celebration-%02d.png'%frame)).write_bytes(adb('exec-out','screencap','-p'))
         time.sleep(.5)
+    adb('shell','rm','-f','/sdcard/duoaero-celebration.mp4')
+    adb('shell','screenrecord','--time-limit','5','/sdcard/duoaero-celebration.mp4')
+    (OUT/'standalone-celebration-motion.mp4').write_bytes(adb('exec-out','cat','/sdcard/duoaero-celebration.mp4'))
+    trace=adb('logcat','-d','-s','DuoAeroCharacterTrace:I','*:S')
+    (OUT/'completion-character-trace.txt').write_bytes(trace)
+    assert b'FORCED_FOAM_FINGER_DUO' in trace, 'Forced native scene not observed'
 
 try:
     adb('shell','am','force-stop',PACKAGE)
