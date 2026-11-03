@@ -1104,3 +1104,22 @@ restart probe: it checks the exact saved target proof, restarts the original
 launcher, opens the same path node and requires the original service to select
 the next lesson ID. It will run only after all twelve controls and the save
 succeed. It still uses seeded synthetic prior history and has not run yet.
+
+Capture-memory run 41590187108 succeeded on one foreground home activity.
+Idle native heap was about 72 MB; each measured screenshot temporarily added
+about 18 MB, then returned to about 57–73 MB after compression/recycle and
+view-tree collection. At captures 10 and 20, post-tree native heap was about
+57 MB with 195 diagnostic flows. This bounded control does not reproduce the
+multi-gigabyte growth seen while advancing exercises, so screenshots on that
+home view alone are not sufficient to explain it. It does not rule out an
+interaction between capture and the changing session renderer. Compare the
+same short lesson with and without intermediate captures before changing app
+resources, and retain independent completion/feedback checks.
+
+A follow-up `render-memory` diagnostic is prepared: in one emulator it runs
+the same ten-choice native fixture twice, restarting and clearing only the
+synthetic test package between runs. The first records memory but skips only
+intermediate routine screenshots (keeping first, last and failure captures);
+the second takes the usual captures. Both require ten native CORRECT results.
+The two processes and warm-up order limit causal inference, and this comparison
+has not yet run. It is not a continuous-course or completion test.

@@ -10,6 +10,8 @@ import org.json.*;
 /** Screen evidence from the isolated, synthetic-profile instrumentation only. */
 final class SessionScreen {
  private static int captures;
+ private static boolean reducedCaptures;
+ static void reduceIntermediateCaptures(){reducedCaptures=true;}
  static void sampleMemory(Instrumentation test,String phase){
   android.os.Debug.MemoryInfo info=new android.os.Debug.MemoryInfo();
   android.os.Debug.getMemoryInfo(info);
@@ -27,6 +29,10 @@ final class SessionScreen {
   capture(test,"session-diagnostic","session-view-tree");
  }
  static void capture(Instrumentation test,String screenshotName,String treeName)throws Exception {
+  if(reducedCaptures && screenshotName.matches("mixed-(prompt|selected|graded)-[0-9]+") &&
+     !screenshotName.endsWith("-0") && !screenshotName.endsWith("-9")){
+   sampleMemory(test,"without-screenshot-"+screenshotName);return;
+  }
   File directory=test.getTargetContext().getExternalFilesDir(null);
   boolean measure=captures<3 || (captures+1)%10==0;
   if(measure)sampleMemory(test,"before-screenshot");
