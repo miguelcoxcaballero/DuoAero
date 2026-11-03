@@ -108,6 +108,29 @@ final class SessionInteraction {
      String before=trackSlotState?originalSlots(test):null;
      clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);
      if(trackSlotState)requireSlotChange(test,before);
+     if(trackSlotState && j==0 && q.getString("id").equals("INTRO-AXIAL-STIFFNESS-NAMED-ALL")){
+      String correct=tokens.getString(0), distractor=null;
+      org.json.JSONArray choices=q.getJSONArray("blocks");
+      for(int k=0;k<choices.length()&&distractor==null;k++){
+       String candidate=choices.getString(k);boolean answer=false;
+       for(int n=0;n<tokens.length();n++)if(candidate.equals(tokens.getString(n)))answer=true;
+       if(!answer)distractor=candidate;
+      }
+      if(distractor==null)throw new IllegalStateException("No substitution distractor");
+      String filledCorrect=originalSlots(test);
+      SessionScreen.capture(test,"slot-substitution-correct","slot-substitution-correct");
+      touchFirst(test,correct);Thread.sleep(500);requireSlotChange(test,filledCorrect);
+      String empty=originalSlots(test);
+      clickLast(test,distractor);Thread.sleep(500);requireSlotChange(test,empty);
+      String filledWrong=originalSlots(test);
+      if(filledCorrect.equals(filledWrong))throw new IllegalStateException("Observer missed filled-to-filled token replacement");
+      SessionScreen.capture(test,"slot-substitution-other","slot-substitution-other");
+      touchFirst(test,distractor);Thread.sleep(500);requireSlotChange(test,filledWrong);
+      String emptiedAgain=originalSlots(test);
+      clickLast(test,correct);Thread.sleep(500);requireSlotChange(test,emptiedAgain);
+      if(!filledCorrect.equals(originalSlots(test)))throw new IllegalStateException("Original token was not restored");
+      SessionScreen.capture(test,"slot-substitution-restored","slot-substitution-restored");
+     }
     }
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
@@ -559,6 +582,29 @@ final class SessionInteraction {
   String selectedAfter=trackSlotState?originalSlots(test):null;
   if(trackSlotState&&!selectedBefore.equals(selectedAfter))
    throw new IllegalStateException("Bank swipe changed original slot state");
+ }
+ private static void touchFirst(Instrumentation test,String text)throws Exception{
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No screen for selected token touch");
+  AccessibilityNodeInfo node;try{node=find(root,null,text,0);}finally{root.recycle();}
+  if(node==null)throw new IllegalStateException("Selected token is not visible");
+  try{
+   for(int i=0;i<8&&!node.isClickable();i++){
+    AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;
+   }
+   if(!own(node)||!node.isEnabled()||!node.isClickable())throw new IllegalStateException("Selected token is not tappable");
+   android.graphics.Rect r=new android.graphics.Rect();node.getBoundsInScreen(r);
+   if(r.isEmpty())throw new IllegalStateException("Selected token has empty bounds");
+   long down=android.os.SystemClock.uptimeMillis();
+   android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,r.exactCenterX(),r.exactCenterY(),0);
+   android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+30,android.view.MotionEvent.ACTION_UP,r.exactCenterX(),r.exactCenterY(),0);
+   first.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);last.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+   try{
+    if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Selected token down failed");
+    Thread.sleep(30);
+    if(!test.getUiAutomation().injectInputEvent(last,true))throw new IllegalStateException("Selected token up failed");
+   }finally{first.recycle();last.recycle();}
+  }finally{node.recycle();}
  }
  private static String originalSlots(Instrumentation test)throws Exception{
   Class<?> probe=Class.forName("com.duoaero.nativebase.NativeSlotProbe",true,test.getTargetContext().getClassLoader());
