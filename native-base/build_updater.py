@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 import subprocess
+import time
+import urllib.error
 import urllib.request
 import zipfile
 from runtime_config import ROOT, WORK, JAR, BT, java, tool
@@ -11,6 +13,28 @@ from runtime_config import ROOT, WORK, JAR, BT, java, tool
 
 def run(*args):
     subprocess.run([str(a) for a in args], check=True)
+
+
+def fetch_dependency(item, destination):
+    """Retry transient repository errors without caching incomplete artifacts."""
+    partial = destination.with_name(destination.name + '.part')
+    try:
+        for attempt in range(3):
+            try:
+                urllib.request.urlretrieve(item['url'], partial)
+                break
+            except urllib.error.HTTPError as error:
+                if attempt == 2 or (error.code not in (404, 429) and error.code < 500):
+                    raise
+            except urllib.error.URLError:
+                if attempt == 2:
+                    raise
+            time.sleep(attempt + 1)
+        if hashlib.sha256(partial.read_bytes()).hexdigest() != item['sha256']:
+            raise ValueError('Updater dependency checksum mismatch: '+item['file'])
+        os.replace(partial, destination)
+    finally:
+        partial.unlink(missing_ok=True)
 
 
 def build():
@@ -23,7 +47,7 @@ def build():
     for item in json.loads((ROOT/'native-base/updater-dependencies.json').read_text()):
         file = dependencies/item['file']
         if not file.exists():
-            urllib.request.urlretrieve(item['url'], file)
+            fetch_dependency(item, file)
         if hashlib.sha256(file.read_bytes()).hexdigest() != item['sha256']:
             raise ValueError('Updater dependency checksum mismatch: '+item['file'])
     with zipfile.ZipFile(dependencies/'core.aar') as archive:

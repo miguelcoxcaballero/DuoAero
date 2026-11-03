@@ -27,6 +27,7 @@ jobs:
           python3 research/test_diverse_aircraft_extra.py
           python3 native-base/test_simple_calculation_hints.py
           python3 native-base/test_rich_question.py
+          python3 native-base/test_updater_dependency_fetch.py
       - name: Check account and Drive boundaries
         run: node --test tests/auth.test.cjs tests/native-auth-storage.test.cjs
       - name: Verify frozen updater sources
