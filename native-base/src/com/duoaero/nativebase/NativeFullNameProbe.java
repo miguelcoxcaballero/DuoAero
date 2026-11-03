@@ -37,9 +37,9 @@ public final class NativeFullNameProbe {
   else {
    label=new TextView(host.getContext());label.setTag(TAG);
    label.setGravity(Gravity.CENTER);label.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-   label.setMaxLines(3);label.setClickable(false);label.setFocusable(false);
-   int pad=Math.round(4*host.getResources().getDisplayMetrics().density);
-   label.setPadding(pad,pad,pad,pad);
+   label.setMaxLines(3);label.setIncludeFontPadding(false);label.setClickable(false);label.setFocusable(false);
+   int pad=Math.round(2*host.getResources().getDisplayMetrics().density);
+   label.setPadding(pad,0,pad,0);
    label.setAutoSizeTextTypeUniformWithConfiguration(14,18,1,TypedValue.COMPLEX_UNIT_SP);
    host.addView(label,new FrameLayout.LayoutParams(-1,-1));
   }
