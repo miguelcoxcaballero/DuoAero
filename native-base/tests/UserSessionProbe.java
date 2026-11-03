@@ -158,6 +158,7 @@ public final class UserSessionProbe extends Instrumentation {
   java.util.Map<?,?> executionContexts=(java.util.Map<?,?>)javascript.getClass().getField("f").get(javascript);
   report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
+  if(interaction.equals("wave-lottie"))report.append(WaveLottieProbe.run(this,current));
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.equals("quit-preview"))report.append(SessionInteraction.quitPreview(this));
   if(interaction.equals("mixed")||interaction.equals("mixed-hint")||interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"))report.append(SessionInteraction.mixedAnswers(this,current,interaction.equals("mixed-hint"),interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"),interaction.equals("mixed-fraction-wrong")));
