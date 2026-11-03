@@ -13,13 +13,13 @@ def prerequisites():
         'initial',['highest','average','outside'],TEMP_RATIO,
         ['temperature ratio','final temperature','initial temperature'],['mass','area','pressure'],
         ['___','=','___/___'],['r_T','T_2','T_1'],['___','=','___/___'],r'=\frac{T_2}{T_1}'),
-      introduce('BREGUET-FUEL-RATIO','The consumption ratio is the initial coefficient divided by the ___ coefficient.',
+      introduce('BREGUET-FUEL-RATIO','The thrust-specific fuel consumption ratio is the initial coefficient divided by the ___ coefficient.',
         'final',['largest','average','outside'],FUEL_RATIO,
-        ['consumption ratio','initial consumption','final consumption'],['mass','area','pressure'],
+        ['thrust-specific fuel consumption ratio','initial thrust-specific fuel consumption','final thrust-specific fuel consumption'],['mass','area','pressure'],
         ['___','=','___/___'],['r_c','c_1','c_2'],['___','=','___/___'],r'=\frac{c_1}{c_2}'),
-      introduce('BREGUET-RANGE-RATIO','At equal pressure and Mach, the range ratio is the speed ratio times the inverse ___ ratio.',
+      introduce('BREGUET-RANGE-RATIO','At equal pressure and Mach, the range ratio is the speed ratio times the inverse thrust-specific fuel ___ ratio.',
         'consumption',['temperature','pressure','mass'],RANGE_RATIO,
-        ['final range','initial range','speed ratio','consumption ratio'],['mass','area','pressure'],
+        ['final range','initial range','speed ratio','thrust-specific fuel consumption ratio'],['mass','area','pressure'],
         ['___/___','=','___',r'\times','___'],['R_2','R_1','r_V','r_c'],['___/___','=','___',r'\times','___'],
         r'=R_1 r_V r_c')
     ],[])
@@ -29,5 +29,5 @@ def prerequisites():
     single=next(q for q in questions if q['id']=='BREGUET-RANGE-RATIO-NAMED')
     single.update(before_latex=r'\frac{R_2}{R_1}=', after_latex=r'r_c',
                   missing_latex=r'r_V', answer_blocks=['speed ratio'],
-                  blocks=['speed ratio','consumption ratio','mass','area'])
+                  blocks=['speed ratio','thrust-specific fuel consumption ratio','mass','area'])
     return questions

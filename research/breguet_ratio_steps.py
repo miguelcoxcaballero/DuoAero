@@ -52,7 +52,7 @@ def draft(source):
         return [
             question('-TEMP', f'The initial temperature is {t1} K and the final temperature is {t2} K. What is the final-to-initial temperature ratio?', temp, TEMP_RATIO, 'BREGUET-TEMP-RATIO'),
             question('-SPEED', f'The temperature ratio is {temp_display}. At equal Mach, what is the speed ratio?', temp_display.sqrt(), SPEED_RATIO, 'BREGUET-SPEED-RATIO'),
-            question('-FUEL', f'The initial consumption coefficient is {c1} and the final coefficient is {c2}. What is the initial-to-final coefficient ratio?', fuel, FUEL_RATIO, 'BREGUET-FUEL-RATIO'),
+            question('-FUEL', f'The initial thrust-specific fuel consumption is {c1} and the final value is {c2}. What is the initial-to-final coefficient ratio?', fuel, FUEL_RATIO, 'BREGUET-FUEL-RATIO'),
             dict(id=source['id'], type='choice', difficulty=3,
                  stem=f'At equal pressure, Mach, weight, area, polar and mass ratio, the speed ratio is {speed_display} and the inverse consumption ratio is {fuel_display}. What is the range ratio?',
                  options=list(source['options']), answer=source['answer'],
