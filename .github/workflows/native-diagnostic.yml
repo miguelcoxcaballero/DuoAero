@@ -550,6 +550,7 @@ jobs:
               adb logcat -d -s DuoAeroProbe:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
               grep -q 'NAMED_CARD_PADDING_RESTORED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
               grep -q 'ORIGINAL_UNMARKED_TOKEN_UNCHANGED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              grep -q 'LOCAL_SYMBOLS_AND_EMPTY_SCOPE_UNCHANGED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
               adb logcat -d -s DuoAeroTokenMeasure:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
               grep -q 'name=deflection-limit second moment of area' "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
               # Original APK expression, synthetic profile and networking disabled.

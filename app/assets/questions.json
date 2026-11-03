@@ -37287,7 +37287,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": "TA1-0520",
@@ -38983,7 +38984,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": "TA1-0693",
@@ -40707,7 +40709,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": "TA1-0847",
@@ -42431,7 +42434,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": null,
@@ -44155,7 +44159,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": null,
@@ -45879,7 +45884,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": null,
@@ -47603,7 +47609,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": null,
@@ -49327,7 +49334,8 @@
       "Derive a minimum area from stall",
       "Recognise the cancellation of S in induced drag",
       "Derive a maximum area from drag",
-      "Map both area limits to taper ratio"
+      "Map both area limits to taper ratio",
+      "Intersect the taper bounds with a nonnegative tip chord"
     ],
     "checks": [],
     "legacy_id": null,

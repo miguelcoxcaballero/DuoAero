@@ -37,8 +37,24 @@ final class NativeFullNameReuseProbe {
     Class<?> scope=Class.forName("com.duoaero.nativebase.NativeNamedTokenSizing",true,context.getClassLoader());
     Method enter=scope.getDeclaredMethod("enter",boolean.class),exit=scope.getDeclaredMethod("exit",boolean.class),active=scope.getDeclaredMethod("active");
     enter.setAccessible(true);exit.setAccessible(true);active.setAccessible(true);
+    for(String symbol:new String[]{"duoaero:k","duoaero:mu","duoaero:m_i","duoaero:c_e"}){
+     Object localEntity=entityClass.getConstructor(String.class).newInstance(symbol);
+     Object localFigure=attributed.getConstructor(java.util.List.class,style,scale,boolean.class,String.class,mathEntity)
+       .newInstance(java.util.Collections.emptyList(),textStyle,scaleInfo,false,null,localEntity);
+     Object localToken=Class.forName("qp3",true,loader).getConstructor(int.class,figureBase,color).newInstance(1,localFigure,color.getField("DEFAULT").get(null));
+     if(((Float)scope.getMethod("width",Object.class,float.class).invoke(null,localToken,300f))!=300f ||
+        ((Float)scope.getMethod("height",Object.class,float.class).invoke(null,localToken,43f))!=43f)
+       throw new IllegalStateException("Local symbolic token sizing changed");
+    }
+    Object untouchedModifier=new Object();
+    Object originalScroll=bridge.getMethod("scrollLongBuildSpace",java.util.List.class,Object.class,Object.class)
+      .invoke(null,java.util.Arrays.asList(token,token,token,token),untouchedModifier,null);
+    if(originalScroll!=untouchedModifier)throw new IllegalStateException("Unmarked expression unexpectedly scrolled");
     boolean outer=(Boolean)enter.invoke(null,true);
     if(!((Boolean)active.invoke(null)))throw new IllegalStateException("Named scope did not enter");
+    if(((Float)scope.getMethod("width",Object.class,float.class).invoke(null,null,300f))!=160f ||
+       ((Float)scope.getMethod("height",Object.class,float.class).invoke(null,null,43f))!=96f)
+      throw new IllegalStateException("Empty named slot sizing not scoped");
     boolean inner=(Boolean)enter.invoke(null,false);
     if((Boolean)active.invoke(null))throw new IllegalStateException("Non-named nested scope inherited named sizing");
     exit.invoke(null,inner);
@@ -67,5 +83,6 @@ final class NativeFullNameReuseProbe {
   if(failure.get()!=null)throw new IllegalStateException("Named-card reuse isolation failed",failure.get());
   android.util.Log.i("DuoAeroProbe","NAMED_CARD_PADDING_RESTORED=true");
   android.util.Log.i("DuoAeroProbe","ORIGINAL_UNMARKED_TOKEN_UNCHANGED=true");
+  android.util.Log.i("DuoAeroProbe","LOCAL_SYMBOLS_AND_EMPTY_SCOPE_UNCHANGED=true");
  }
 }

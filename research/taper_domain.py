@@ -23,6 +23,9 @@ def repair(question):
     q=dict(question)
     q['stem']=q['stem'].replace('Ignoring any additional geometric cap,',
       'Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap;')
+    q['steps']=list(question.get('steps',[]))
+    if 'Intersect the taper bounds with a nonnegative tip chord' not in q['steps']:
+        q['steps'].append('Intersect the taper bounds with a nonnegative tip chord')
     q['content_revision']=2
     # Earlier residual checks validated the unphysical algebra only.
     q['checks']=[]

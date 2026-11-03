@@ -981,3 +981,14 @@ number in parentheses and requires another Android visual check. In
 integrated inline renderer now groups it with the next slot and likewise needs
 runtime validation. No result from the earlier APK establishes acceptance of
 the subsequently integrated named-equation renderer.
+
+Review of the integrated named-sizing candidate found that `duoaero:` also
+marks symbolic tokens. The sizing predicate now requires an actual multiword
+label outside the named row; the three-argument scroll helper leaves an
+unmarked or symbolic expression unchanged unless already inside a named row.
+The isolated card probe now checks local symbolic entities (`k`, `mu`, `m_i`,
+`c_e`), original unmarked tokens, an empty slot in named scope, nesting and
+padding restoration. This is a new candidate: compilation and host checks do
+not establish the behavior on Android, and the ongoing previous-SHA runs do
+not validate this change. Preserve the DEX descriptor check and rerun the
+integrated interaction and isolation controls on this candidate.

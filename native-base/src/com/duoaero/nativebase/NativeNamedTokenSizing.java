@@ -18,7 +18,7 @@ public final class NativeNamedTokenSizing {
    Object entity=figure.getClass().getField("f").get(figure);
    if(entity==null||!entity.getClass().getName().endsWith("MathEntity$Algebraic"))return false;
    Object raw=entity.getClass().getField("a").get(entity);
-   return raw instanceof String && ((String)raw).startsWith("duoaero:");
+   return raw instanceof String && ((String)raw).startsWith("duoaero:") && ((String)raw).indexOf(' ')>=0;
   }catch(ReflectiveOperationException ignored){return false;}
  }
  public static float height(Object token,float original){return named(token)?96f:original;}

@@ -13,6 +13,7 @@ for q in family:
   corrected+=1
   assert q.get('content_revision')==2 and 'lambda >= 0' in q['stem']
   assert q['origin']['kind']=='practice'
+  assert 'Intersect the taper bounds with a nonnegative tip chord' in q['steps']
   if upper<0:
    empty+=1;assert chosen=='No feasible taper ratio' and 'No taper ratio satisfies' in q['explanation']
   else:

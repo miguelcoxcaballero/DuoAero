@@ -323,7 +323,8 @@ public final class NativeCourseBridge {
  }
  /** Experimental: retain original build controls while limiting very long local equations. */
  public static Object scrollLongBuildSpace(java.util.List<?> items,Object modifier,Object composer){
-  return scrollLongBuildSpace(items,modifier,composer,false);
+  if(!NativeNamedTokenSizing.active())return modifier;
+  return scrollLongBuildSpace(items,modifier,composer,true);
  }
  public static Object scrollLongBuildSpace(java.util.List<?> items,Object modifier,Object composer,boolean named){
   if(!hasLocalCourse()||items==null||items.size()<4)return modifier;
