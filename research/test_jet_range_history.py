@@ -13,6 +13,9 @@ new={l['id']:l for n in cp for l in n['lessons']}
 changed=[k for k,v in old.items() if v['ids']!=new[k]['ids']]
 target=[k for k in new if k.startswith('2.2-range-draft')]
 assert len(changed)==3 and len(target)==13
+migrations=json.loads((root/'native-base/lesson-migrations.json').read_text())
+assert not set(target).intersection(migrations), 'New lessons must not receive migration credit'
+assert all(item in new for item in changed), 'Original lesson identity must remain present'
 jar=WORK/'json-20250517.jar';assert jar.is_file()
 with tempfile.TemporaryDirectory() as tmp:
  tmp=Path(tmp);src=tmp/'RangeHistory.java'
