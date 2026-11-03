@@ -81,7 +81,7 @@
       "topic": "3.2",
       "type": "choice",
       "difficulty": 1,
-      "stem": "What can a spacecraft fluid loop do?",
+      "stem": "What can a spacecraft thermal-control fluid loop do?",
       "options": [
         "Generate electrical power from sunlight",
         "Measure the spacecraft attitude",
@@ -96,7 +96,7 @@
       "topic": "3.2",
       "type": "choice",
       "difficulty": 1,
-      "stem": "What do solar panels supply to a spacecraft?",
+      "stem": "What is the main energy-conversion function of spacecraft solar panels?",
       "options": [
         "Thermal energy only, without electricity",
         "Electrical energy regardless of illumination",
