@@ -141,6 +141,11 @@ comparison does not isolate session rendering from the driver's repeated
 accessibility reads/taps, or establish behavior on a physical phone. It also
 precedes the lesson-completion Rive scene. Both ten-question controls graded
 correctly; neither establishes a fix or a complete-lesson journey.
+In the reduced-evidence run, native allocated heap rose from about 185 MB
+after grading question 1 to 256 MB at question 2's prompt, and from 267 MB
+after grading question 2 to 336 MB at question 3's prompt. Those intervals
+include the original Continue action and transition, so the samples suggest
+where to instrument next but do not isolate its allocator or prove a leak.
 
 The follow-up 41593787408 performed 300 pairs of accessibility searches on
 one unchanged synthetic choice question without tapping an answer. Native
