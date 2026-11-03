@@ -42,7 +42,7 @@ public final class NativeFullNameProbe {
    label.setMaxLines(3);label.setIncludeFontPadding(false);label.setClickable(false);label.setFocusable(false);
    int pad=Math.round(2*host.getResources().getDisplayMetrics().density);
    label.setPadding(pad,0,pad,0);
-   label.setAutoSizeTextTypeUniformWithConfiguration(12,18,1,TypedValue.COMPLEX_UNIT_SP);
+   label.setAutoSizeTextTypeUniformWithConfiguration(14,18,1,TypedValue.COMPLEX_UNIT_SP);
    host.addView(label,new FrameLayout.LayoutParams(-1,-1));
   }
   boolean night=(host.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)==Configuration.UI_MODE_NIGHT_YES;
@@ -61,7 +61,8 @@ public final class NativeFullNameProbe {
       " fontScale="+measured.getResources().getConfiguration().fontScale+
       " bounds="+point[0]+","+point[1]+","+(point[0]+measured.getWidth())+","+(point[1]+measured.getHeight())+
       " lines="+lines+" lastBottom="+(lines==0?0:layout.getLineBottom(lines-1))+
-      " innerHeight="+(measured.getHeight()-measured.getPaddingTop()-measured.getPaddingBottom()));
+      " innerHeight="+(measured.getHeight()-measured.getPaddingTop()-measured.getPaddingBottom())+
+      " hostSize="+host.getWidth()+"x"+host.getHeight()+" hostPadding="+host.getPaddingLeft()+","+host.getPaddingTop()+","+host.getPaddingRight()+","+host.getPaddingBottom());
    });
   }
  }

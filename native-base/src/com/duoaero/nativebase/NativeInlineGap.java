@@ -31,6 +31,7 @@ public final class NativeInlineGap {
  }
  public static void render(Object figure,List<?> slots,Object onSelect,Object onDrop,boolean enabled,boolean checked,
                            Object modifier,float width,boolean measured,Object interaction,Object composer,int flags){
+  NativeSlotProbe.capture(slots);
   try{
    ClassLoader l=figure.getClass().getClassLoader();
    Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);

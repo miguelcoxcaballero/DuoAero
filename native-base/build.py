@@ -122,7 +122,7 @@ token_method=flow_row_text[token_start:token_end]
 token_anchor='    move/from16 v8, p7'
 token_height='    const/high16 v6, 0x42600000    # 56.0f'
 assert token_method.count(token_height)==1
-token_method=token_method.replace(token_height,'    const/high16 v6, 0x42a00000    # 80.0f')
+token_method=token_method.replace(token_height,'    const/high16 v6, 0x42c00000    # 96.0f')
 assert token_method.count(token_anchor)==1
 token_hook=token_anchor+'''
 
