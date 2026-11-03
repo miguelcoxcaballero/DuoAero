@@ -765,7 +765,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic'] in ('5.1','5.2')]
   assert len(mixed)==20
- out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
+ # The isothermal renderer probe intentionally drives the ten original source
+ # questions. Expanding their staged lessons here would desynchronise the
+ # source-answer driver from the actual native session.
+ expand_mixed=os.environ.get('DUOAERO_ISA_EXP_DIAGNOSTIC')!='1'
+ out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic',expand_steps=expand_mixed),ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
   if question['type']=='matching':

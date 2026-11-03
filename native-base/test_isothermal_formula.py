@@ -11,6 +11,12 @@ from rich_question import choice_blob
 
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_text())}
+# The rendering diagnostic drives these original questions, not their expanded
+# lesson steps. The native session must have exactly the same IDs and order.
+originals = [q for q in bank.values() if 'exp[-g(h-11000)/(RT)]' in q.get('stem', '')]
+native_originals = session(originals, 'isothermal-render-probe', expand_steps=False)['challenges']
+assert len(originals) == 10
+assert [q['id'] for q in native_originals] == [q['id'] for q in originals]
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lesson = next(lesson for node in plan for lesson in node['lessons']
               if lesson['id'] == '2.1-5-point-0-lesson-0')
