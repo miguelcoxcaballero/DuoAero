@@ -923,3 +923,13 @@ existing 3.1 introductory and equation sessions. It was checked against the
 supplied launch material and passes isolated native-model and answer checks;
 no course node, completion or reward is changed by the draft. Editorial,
 Android and progression acceptance are still pending.
+
+Journey diagnostic 41582682403 (unseeded, original controls): four sessions
+were completed and recorded (3.1 lessons 0–2 and 3.2 lesson 0). The fifth
+reached M2-ENV-015 after four CORRECT answers but failed when the original
+Math grader reported `sandbox dead`, after its Android JavaScript engine
+service disconnected. This is neither an incorrect answer nor proof of the
+remaining three sessions or restart; the mid-lesson animation was not
+observed. Keep the original grading check and inspect service/process failure
+before changing the product or retrying. Android lowmemorykiller explicitly killed the WebView JavaScript sandbox at 05:27:50 due to low swap and thrashing; this establishes memory pressure in that emulator, not the cause of that pressure. Evidence: `session-second-journey.txt`
+and `probe-second-journey.txt` in the run artifact.
