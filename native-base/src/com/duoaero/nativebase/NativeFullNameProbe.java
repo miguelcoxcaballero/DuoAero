@@ -42,7 +42,7 @@ public final class NativeFullNameProbe {
    label.setMaxLines(3);label.setIncludeFontPadding(false);label.setClickable(false);label.setFocusable(false);
    int pad=Math.round(2*host.getResources().getDisplayMetrics().density);
    label.setPadding(pad,0,pad,0);
-   label.setAutoSizeTextTypeUniformWithConfiguration(14,18,1,TypedValue.COMPLEX_UNIT_SP);
+   label.setAutoSizeTextTypeUniformWithConfiguration(12,18,1,TypedValue.COMPLEX_UNIT_SP);
    host.addView(label,new FrameLayout.LayoutParams(-1,-1));
   }
   boolean night=(host.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)==Configuration.UI_MODE_NIGHT_YES;
