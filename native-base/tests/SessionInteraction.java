@@ -76,6 +76,7 @@ final class SessionInteraction {
  }
  static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong,org.json.JSONArray questions)throws Exception {
   actualTouch=touch;
+  Class.forName("com.duoaero.nativebase.NativeSlotProbe",true,test.getTargetContext().getClassLoader()).getMethod("enable").invoke(null);
   boolean windScenario=false,directHintScenario=false,rocketScenario=false,payloadScenario=false,tsfcScenario=false;
   for(int i=0;i<questions.length();i++){String id=questions.getJSONObject(i).getString("id");if(id.equals("TA1-0092-D2-S1"))windScenario=true;if(id.equals("TA1-0106-F1"))directHintScenario=true;if(id.equals("M2-ROCKET-DELTA-CALC"))rocketScenario=true;if(id.equals("TA1-0083-D2"))payloadScenario=true;if(id.equals("TA1-0173-F1"))tsfcScenario=true;}
   String hintId=tsfcScenario?"TA1-0173-F1":payloadScenario?"TA1-0083-D2":rocketScenario?"M2-ROCKET-DELTA-CALC":directHintScenario?"TA1-0106-F1":windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";

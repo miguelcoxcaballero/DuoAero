@@ -5,8 +5,11 @@ import java.util.List;
 /** Diagnostic only: copy the original controller's ordered slot identities. */
 public final class NativeSlotProbe {
  private static volatile String last;
+ private static volatile boolean enabled;
  private NativeSlotProbe(){}
+ public static void enable(){enabled=true;}
  public static void capture(List<?> slots){
+  if(!enabled)return;
   if(slots==null){last=null;return;}
   StringBuilder result=new StringBuilder();
   try{
