@@ -141,6 +141,21 @@ flow_row_hook=flow_row_anchor+'''\n    if-eqz p4, :duoaero_flow_default_alignmen
     move-object/from16 v15, p4
     :duoaero_flow_default_alignment'''
 flow_row_text=flow_row_text[:flow_row_start]+flow_row_method.replace(flow_row_anchor,flow_row_hook)+flow_row_text[flow_row_end:]
+# Isolated diagnostic: bound and scroll the original long build-space region.
+build_space_source=SMALI/'smali_classes4/fz0.smali'
+build_space_original=build_space_source.read_bytes()
+build_space_text=build_space_original.decode('utf-8').replace('\\r\\n','\\n')
+build_space_start=build_space_text.index('.method public static final d(Ljava/util/List;Lqqh;Lqqh;ZZLz5q;FZLs6p;Lo18;I)V')
+build_space_end=build_space_text.index('.end method',build_space_start)
+build_space_method=build_space_text[build_space_start:build_space_end]
+build_space_anchor='    invoke-static {v4, v3, v1}, Landroidx/compose/foundation/layout/b;->B(Lz5q;Lo73;I)Lz5q;\\n\\n    move-result-object v1'
+assert build_space_method.count(build_space_anchor)==1
+build_space_hook=build_space_anchor+'''
+    invoke-static {v12, v1, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->scrollLongBuildSpace(Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v1
+    check-cast v1, Lz5q;
+'''
+build_space_text=build_space_text[:build_space_start]+build_space_method.replace(build_space_anchor,build_space_hook)+build_space_text[build_space_end:]
 visible_brand_source=SMALI/'smali_classes4/wxp.smali'
 visible_brand_original=visible_brand_source.read_bytes()
 visible_brand_text=rebrand_visible_literal(visible_brand_original.decode('utf-8').replace('\r\n','\n'),
@@ -149,12 +164,14 @@ visible_brand_text=rebrand_visible_literal(visible_brand_original.decode('utf-8'
 try:
  p.write_text(patched,encoding='utf-8')
  flow_row_source.write_text(flow_row_text,encoding='utf-8')
+ build_space_source.write_text(build_space_text,encoding='utf-8')
  visible_brand_source.write_text(visible_brand_text,encoding='utf-8')
  run(java('javac'),'-cp',APKTOOL,'-d',WORK,ROOT/'native-base/AssembleDex.java')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes4',WORK/'classes4.dex')
 finally:
  p.write_bytes(old)
  flow_row_source.write_bytes(flow_row_original)
+ build_space_source.write_bytes(build_space_original)
  visible_brand_source.write_bytes(visible_brand_original)
 # Retain original named dependency flows for opt-in synthetic diagnostics.
 # The hook records references only; it never changes an emission or result.

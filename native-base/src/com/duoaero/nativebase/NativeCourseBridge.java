@@ -319,6 +319,23 @@ public final class NativeCourseBridge {
    }finally{compose.getMethod("q",boolean.class).invoke(composer,false);}
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind original prompt scrolling",error);}
  }
+ /** Experimental: retain original build controls while limiting very long local equations. */
+ public static Object scrollLongBuildSpace(java.util.List<?> items,Object modifier,Object composer){
+  if(!hasLocalCourse()||items==null||items.size()<7)return modifier;
+  try{
+   ClassLoader loader=composer.getClass().getClassLoader();
+   Class<?> compose=Class.forName("cuh",true,loader);
+   compose.getMethod("f0",int.class).invoke(composer,0x44554146);
+   try{
+    Application app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+    float maximum=Math.max(160f,Math.min(300f,app.getResources().getConfiguration().screenHeightDp*0.38f));
+    Class<?> mod=Class.forName("z5q",true,loader),state=Class.forName("qxz",true,loader),scroll=Class.forName("kqp",true,loader);
+    Object bounded=Class.forName("androidx.compose.foundation.layout.b",true,loader).getMethod("i",mod,float.class,float.class).invoke(null,modifier,Float.NaN,maximum);
+    Object position=scroll.getMethod("R",int.class,Class.forName("o18",true,loader),int.class).invoke(null,0,composer,0);
+    return scroll.getMethod("d0",mod,state,boolean.class,int.class).invoke(null,bounded,position,true,0);
+   }finally{compose.getMethod("q",boolean.class).invoke(composer,false);}
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind experimental build-space scrolling",error);}
+ }
  private static final Map<String,Object> namedFlows=new LinkedHashMap<>();
  public static synchronized void recordFlow(Object flow,String name){
   if(!localOnly||!captureNativeFlows||flow==null||name==null||!name.matches("[A-Za-z][A-Za-z0-9_.-]{0,100}"))return;
