@@ -26,7 +26,9 @@ with zipfile.ZipFile(args.apk) as archive:
     for name in ('classes12.dex', 'classes13.dex', 'assets/duoaero/standalone-bootstrap',
                  'assets/duoaero/google-required', 'assets/duoaero/course/session-catalog.json'):
         assert name in archive.namelist(), name
-    assert len(json.loads(archive.read('assets/duoaero/course/session-catalog.json'))) == 79
+    catalog=json.loads(archive.read('assets/duoaero/course/session-catalog.json'))
+    assert len(catalog) == 108
+    assert all('second-partial-'+topic+'-lesson-'+str(index) in catalog for topic,count in (('3.1',3),('3.2',2),('3.3',2)) for index in range(count))
 reference = next(item for item in json.loads((ROOT/'native-base/handoff-artifacts.json').read_text())['artifacts'] if item['name'] == APK.name)
 assert hashlib.sha256(APK.read_bytes()).hexdigest() == reference['sha256']
 tracked = subprocess.check_output(['git', 'ls-files', '-z', 'native-base', 'app/assets', 'shared', 'vendor', 'inhouse-updater.lock.json', 'scripts/ShadeDependencies.java', 'original/res/xml/inhouse_update_paths.xml'], cwd=ROOT).decode().split('\0')
