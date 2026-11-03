@@ -27,9 +27,9 @@ def replace_wave(data):
     start,end=doc.get('ip',0),doc['op']
     if int(start)!=start or int(end)!=end or end<=start:raise ValueError('Unexpected Lottie frame range')
     start,end=int(start),int(end)
-    # Original uses 60 fps. Each pose lasts six original frames (10 drawings/s),
+    # Original uses 60 fps. Each pose lasts four original frames (15 drawings/s),
     # preserving the existing full animation duration and completion event.
-    frame_length=max(1,round(doc['fr']/10))
+    frame_length=max(1,round(doc['fr']/15))
     layers=[]
     for i in range(16):
         row,col=divmod(i,4)
