@@ -101,9 +101,19 @@ public final class NativeFractionSlot {
   Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
   Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
   float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
-  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,null);
+  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,entity);
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
   return fraction;
+ }
+ public static Object denominatorPadding(Object fraction,Object modifier){
+  if(fraction==null||modifier==null||!NativeCourseBridge.hasLocalCourse())return modifier;
+  try {
+   Object entity=fraction.getClass().getField("h").get(fraction);
+   if(entity==null||!entity.getClass().getName().endsWith("MathEntity$Algebraic")||
+      !"duoaero:cantilever-factor".equals(entity.getClass().getField("a").get(entity)))return modifier;
+   ClassLoader loader=fraction.getClass().getClassLoader();Class<?> mod=Class.forName("z5q",true,loader);
+   return Class.forName("kxo",true,loader).getMethod("y",mod,float.class,float.class).invoke(null,modifier,0f,12f);
+  } catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot pad cantilever denominator",failure);}
  }
  private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator,boolean twiceDenominator) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
