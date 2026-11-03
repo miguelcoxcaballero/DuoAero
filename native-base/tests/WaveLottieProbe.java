@@ -47,7 +47,7 @@ public final class WaveLottieProbe {
   for(int i=0;i<20;i++){
    Thread.sleep(300);SessionScreen.capture(test,"wave-lottie-"+i,"wave-lottie-"+i);
   }
-  if(video!=null)video.close();
+  if(video!=null)try(java.io.InputStream stream=new android.os.ParcelFileDescriptor.AutoCloseInputStream(video)){while(stream.read()!=-1){}}
   if(!ended.await(8,TimeUnit.SECONDS))throw new IllegalStateException("Original Lottie completion callback missing");
   test.runOnMainSync(()->{View view=overlay.get();if(view!=null&&view.getParent() instanceof ViewGroup)((ViewGroup)view.getParent()).removeView(view);});
   return "Original character-in-hole view played waving resource and delivered completion callback; assess captured frames visually.\n";

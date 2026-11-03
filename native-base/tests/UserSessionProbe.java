@@ -34,7 +34,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-touch","mixed-fraction-wrong","quit-preview").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
