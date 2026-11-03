@@ -671,3 +671,5 @@ An isolated foam-loop diagnostic inserts an initial transition to the existing F
 Visual inspection of the sixteen source hero poses found abrupt scarf visibility/shape changes between adjacent frames. Transparent assets and a valid Rive loop alone do not satisfy the requested smooth animation; this source sequence needs correction and playback review before acceptance.
 
 Run 41553322145 graded the long-label controls after targeting the scrollable bank, but inspected range and spar captures still cut the quantity names. Run 41553694369 graded the experimental vertical cantilever controls; its screenshot shows the fixed 3 and cubic exponent, but cuts the second-moment name and places the exponent too close to the bar. Neither result is visual acceptance or integration. The taller-card variant is still being tested.
+
+A newly generated transparent hero sprite-sheet concept keeps the scarf visible, but the output canvas is not a divisible 4-by-4 grid and the poses have not been aligned or reviewed as a timed loop. It remains an unintegrated visual reference, not an accepted animation asset.
