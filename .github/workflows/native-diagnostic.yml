@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/wave-lottie-probe, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/wave-lottie-probe' && '["wave-lottie"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -197,6 +197,7 @@ jobs:
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then probe_timeout=300; fi
             if [[ "$probe_interact" = mixed* ]]; then probe_timeout=420; fi
             if [ "$probe_interact" = formula ]; then probe_timeout=600; fi
+            if [ "$probe_interact" = wave-lottie ]; then probe_timeout=420; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
@@ -354,6 +355,14 @@ jobs:
               ;;
             two-sections)
               python native-base/test_two_sections.py
+              ;;
+            wave-lottie)
+              run_probe wave-original-hole MATH_BT native-defaults late native-full aerospace-mixed wave-lottie false native-default native-cache true
+              grep -q 'delivered completion callback' "$RUNNER_TEMP/duoaero-evidence/session-wave-original-hole.txt"
+              adb pull /sdcard/duoaero-wave-preview.mp4 "$RUNNER_TEMP/duoaero-evidence/wave-lottie-preview.mp4"
+              for i in $(seq 0 19); do
+                adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-$i.png" "$RUNNER_TEMP/duoaero-evidence/wave-lottie-$i.png" || true
+              done
               ;;
             static-poses-only)
               timeout 120 adb shell am instrument -w com.duoaero.nativebase.tests/com.duoaero.nativebase.StaticMascotProbe > "$RUNNER_TEMP/duoaero-evidence/static-mascot.txt"

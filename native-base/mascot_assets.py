@@ -342,6 +342,11 @@ def rive(data,name,png,width,height):
 def lottie(data,name,png,width,height):
     doc=json.loads(data)
     if not isinstance(doc,dict) or 'layers' not in doc:return data,False
+    if name=='duo_waving':
+        import sys
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'research'))
+        from lottie_wave import replace_wave
+        return replace_wave(data),True
     if name=='duo_flying_up':
         # Keep the original heart, sparkles, trail, transforms, timing and
         # callbacks. Replace only the two character precompositions with a
