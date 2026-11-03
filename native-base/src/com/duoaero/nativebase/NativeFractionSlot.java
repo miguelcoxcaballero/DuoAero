@@ -15,9 +15,9 @@ public final class NativeFractionSlot {
  private static final WeakHashMap<Object,Context> LIVE=new WeakHashMap<>();
  private static final Map<String,WeakReference<Object>> KEYS=new HashMap<>();
  private static final class Context {
-  final Object scope,slot;final Method render;final int first;final boolean negativeExponent;
+  final Object scope,slot;final Method render;final int first;final boolean negativeExponent,namedSizing;
   Context(Object scope,Object slot,Method render,int first){this(scope,slot,render,first,false);}
-  Context(Object scope,Object slot,Method render,int first,boolean negativeExponent){this.scope=scope;this.slot=slot;this.render=render;this.first=first;this.negativeExponent=negativeExponent;}
+  Context(Object scope,Object slot,Method render,int first,boolean negativeExponent){this.scope=scope;this.slot=slot;this.render=render;this.first=first;this.negativeExponent=negativeExponent;this.namedSizing=NativeNamedTokenSizing.active();}
  }
  private NativeFractionSlot(){}
  /** Keep e and the minus sign fixed while placing a quantity in its exponent. */
@@ -130,6 +130,8 @@ public final class NativeFractionSlot {
    Context context;
    synchronized(LIVE){WeakReference<Object> reference=KEYS.get(part[0]);Object key=reference==null?null:reference.get();context=key==null?null:LIVE.get(key);}
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
+   boolean nestedSizing=NativeNamedTokenSizing.enter(context.namedSizing);
+   try{
    boolean twice=part[1].endsWith("*2");
    String position=twice?part[1].substring(0,part[1].length()-2):part[1];
    String[] spec=position.split("\\+",2);
@@ -169,6 +171,7 @@ public final class NativeFractionSlot {
    context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset),composer,Integer.valueOf(0));
    if(context.negativeExponent)NativeInlineFormula.end(true,composer);
    return true;
+   }finally{NativeNamedTokenSizing.exit(nestedSizing);}
   }catch(Exception failure){throw new IllegalStateException("Cannot render native fraction slot",failure);}
  }
 }

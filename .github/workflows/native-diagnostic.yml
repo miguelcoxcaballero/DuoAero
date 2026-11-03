@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/named-only-card-sizing' && '["range-formula","product-fraction"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/named-slot-evidence-fix' && '["product-fraction"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -246,11 +246,6 @@ jobs:
                   adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-equation-bottom-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-equation-bottom-$item.$extension" || true
                 done
               done
-              for phase in correct other restored; do
-                for extension in png json; do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/slot-substitution-$phase.$extension" || true
-                done
-              done
               for phase in prompt selected graded; do
                 for item in $(seq 0 23); do
                   for extension in png json; do
@@ -260,6 +255,11 @@ jobs:
               done
             fi
             if [[ "$probe_interact" = mixed* ]]; then
+              for phase in correct empty other restored; do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/slot-substitution-$phase.$extension" || true
+                done
+              done
               # These files contain only this synthetic diagnostic account.
               # Preserve the gesture evidence even when a later token fails.
               for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* 2>/dev/null' | tr -d '\r'); do

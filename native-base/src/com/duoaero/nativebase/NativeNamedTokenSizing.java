@@ -4,6 +4,7 @@ package com.duoaero.nativebase;
 public final class NativeNamedTokenSizing {
  private static final ThreadLocal<Boolean> NAMED_ROW=new ThreadLocal<>();
  private NativeNamedTokenSizing(){}
+ static boolean active(){return Boolean.TRUE.equals(NAMED_ROW.get());}
  static boolean enter(boolean named){boolean old=Boolean.TRUE.equals(NAMED_ROW.get());if(named)NAMED_ROW.set(Boolean.TRUE);return old;}
  static void exit(boolean old){if(old)NAMED_ROW.set(Boolean.TRUE);else NAMED_ROW.remove();}
  private static boolean named(Object token){

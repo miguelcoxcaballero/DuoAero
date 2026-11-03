@@ -121,6 +121,7 @@ final class SessionInteraction {
       SessionScreen.capture(test,"slot-substitution-correct","slot-substitution-correct");
       touchFirst(test,correct);Thread.sleep(500);requireSlotChange(test,filledCorrect);
       String empty=originalSlots(test);
+      SessionScreen.capture(test,"slot-substitution-empty","slot-substitution-empty");
       clickLast(test,distractor);Thread.sleep(500);requireSlotChange(test,empty);
       String filledWrong=originalSlots(test);
       if(filledCorrect.equals(filledWrong))throw new IllegalStateException("Observer missed filled-to-filled token replacement");

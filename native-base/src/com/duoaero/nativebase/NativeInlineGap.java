@@ -69,6 +69,7 @@ public final class NativeInlineGap {
    Class<?> irh=Class.forName("irh",true,l);
    int gaps=0;for(String part:parts)gaps+=countSlots(part);
    final int gapCount=gaps;
+   final boolean namedEquation=equation&&gapCount>1;
    // The original BuildSpace composable lays out the whole list. For several
    // separated inline holes, invoke its original per-slot composable with the
    // full list and real slot index, preserving drag/drop and selection IDs.
@@ -83,6 +84,8 @@ public final class NativeInlineGap {
    }else{originalSlot=null;renderSlot=null;}
    Object function=Proxy.newProxyInstance(l,new Class<?>[]{irh},(proxy,method,args)->{
     if(method.getName().equals("invoke")){
+     boolean nestedSizing=NativeNamedTokenSizing.enter(namedEquation);
+     try{
      int index=((Integer)args[1]).intValue();Object composition=args[2];String part=parts.get(index);
      boolean powerPaired=part.startsWith(OPERATOR_POWER),negativePaired=part.startsWith(OPERATOR_NEGATIVE);
      String pairedPower=null;
@@ -162,6 +165,7 @@ public final class NativeInlineGap {
       NativeInlineFormula.end(true,composition);
      }
      return Class.forName("xv80",true,l).getField("a").get(null);
+     }finally{NativeNamedTokenSizing.exit(nestedSizing);}
     }
     if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
     if(method.getName().equals("equals"))return proxy==args[0];
