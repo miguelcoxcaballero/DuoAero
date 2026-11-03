@@ -11,11 +11,12 @@ final class NativeChallengeIdentity {
   test.runOnMainSync(()->{
    try{
     Object vm=activity.getClass().getMethod("J").invoke(activity);
-    Object engine=vm.getClass().getField("t2").get(vm);
-    Object flow=engine.getClass().getField("k").get(engine);
+    if(vm==null)return;
+    Object engine=vm.getClass().getField("t2").get(vm);if(engine==null)return;
+    Object flow=engine.getClass().getField("k").get(engine);if(flow==null)return;
     Object state=flow.getClass().getMethod("getValue").invoke(flow);
     if(state==null||!state.getClass().getName().equals("eo10"))return;
-    Object persisted=state.getClass().getField("a").get(state);
+    Object persisted=state.getClass().getField("a").get(state);if(persisted==null)return;
     Object visual=persisted.getClass().getField("c").get(persisted);
     if(visual==null||!visual.getClass().getName().equals("com.duolingo.data.session.state.SessionVisualState$Challenge"))return;
     Object index=visual.getClass().getField("a").get(visual),session=state.getClass().getField("e").get(state);

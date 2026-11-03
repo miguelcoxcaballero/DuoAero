@@ -118,6 +118,7 @@ final class SecondSectionJourney {
    Activity current=resumed.get();JSONArray questions=answers.getJSONArray(id);
    JSONObject first=questions.getJSONObject(0);String kind=first.getString("type");
    await(test,"first original exercise "+id,()->{
+    if(!first.getString("id").equals(NativeChallengeIdentity.read(test,current)))return false;
     if(kind.equals("choice"))return SessionInteraction.hasControl(test,ID+"mathCard");
     if(kind.equals("gap"))return SessionInteraction.contains(test,first.getJSONArray("answer").getString(0));
     if(kind.equals("formula_named")||kind.equals("formula_blocks"))return SessionInteraction.contains(test,first.getJSONArray("answer_blocks").getString(0));
