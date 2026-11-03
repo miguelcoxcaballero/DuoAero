@@ -116,6 +116,14 @@ final class SecondSectionJourney {
    resumed.set(null);openTopic(test,topics[i],titles[i]);
    await(test,"original lesson activity",()->{Activity a=resumed.get();return a!=null&&a.getClass().getName().equals("com.duolingo.session.SessionActivity");},90000);
    Activity current=resumed.get();JSONArray questions=answers.getJSONArray(id);
+   JSONObject first=questions.getJSONObject(0);String kind=first.getString("type");
+   await(test,"first original exercise "+id,()->{
+    if(!first.getString("id").equals(NativeChallengeIdentity.read(test,current)))return false;
+    if(kind.equals("choice"))return SessionInteraction.hasControl(test,ID+"mathCard");
+    if(kind.equals("gap"))return SessionInteraction.contains(test,first.getJSONArray("answer").getString(0));
+    if(kind.equals("formula_named")||kind.equals("formula_blocks"))return SessionInteraction.contains(test,first.getJSONArray("answer_blocks").getString(0));
+    throw new IllegalStateException("Unsupported first exercise type: "+kind);
+   },120000);
    report.append("SESSION ").append(id).append("\n");
    report.append(SessionInteraction.mixedAnswers(test,current,false,true,false,questions));
    report.append(SessionInteraction.claimXp(test));
