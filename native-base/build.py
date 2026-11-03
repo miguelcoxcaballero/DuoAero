@@ -144,11 +144,11 @@ flow_row_text=flow_row_text[:flow_row_start]+flow_row_method.replace(flow_row_an
 # Isolated diagnostic: bound and scroll the original long build-space region.
 build_space_source=SMALI/'smali_classes4/fz0.smali'
 build_space_original=build_space_source.read_bytes()
-build_space_text=build_space_original.decode('utf-8').replace('\\r\\n','\\n')
+build_space_text=build_space_original.decode('utf-8').replace('\r\n','\n')
 build_space_start=build_space_text.index('.method public static final d(Ljava/util/List;Lqqh;Lqqh;ZZLz5q;FZLs6p;Lo18;I)V')
 build_space_end=build_space_text.index('.end method',build_space_start)
 build_space_method=build_space_text[build_space_start:build_space_end]
-build_space_anchor='    invoke-static {v4, v3, v1}, Landroidx/compose/foundation/layout/b;->B(Lz5q;Lo73;I)Lz5q;\\n\\n    move-result-object v1'
+build_space_anchor='    invoke-static {v4, v3, v1}, Landroidx/compose/foundation/layout/b;->B(Lz5q;Lo73;I)Lz5q;\n\n    move-result-object v1'
 assert build_space_method.count(build_space_anchor)==1
 build_space_hook=build_space_anchor+'''
     invoke-static {v12, v1, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->scrollLongBuildSpace(Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
