@@ -11,6 +11,7 @@ from formula_words import KINDS, MULTI_NAMED
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
 for source_id,formula_id,expected in (
+    ('TA1-0068-F1','INTRO-CANTILEVER-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-cantilever-fraction']),
     ('TA1-0041-F1','INTRO-AXIAL-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
     ('BOOK-V6-04-D1','BOOK-V6-04-D1',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-22']),
     ('TA1-0737-D3','SPAR-STRESS-FORMULA',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
@@ -98,13 +99,16 @@ for kind, expected in {
     'mach_pressure': ['dynamic pressure', 'heat capacity ratio', 'outside pressure', 'Mach number'],
     'wing_loading': ['weight', 'wing area', 'dynamic pressure', 'lift coefficient'],
     'lift': ['lift', 'dynamic pressure', 'wing area', 'lift coefficient'],
-    'induced_drag': ['induced drag coefficient', 'lift coefficient', 'efficiency', 'aspect ratio'],
+    'induced_drag': ['induced drag coefficient', 'lift coefficient', 'efficiency factor', 'aspect ratio'],
 }.items():
     assert MULTI_NAMED[kind][1] == expected
 assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'spar length'
-assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
+assert '___*___^3/3*___*___' in MULTI_NAMED['spar_deflection_inertia'][3]
 
 # I is an area property; both jet Breguet models use mass-based TSFC.
+assert MULTI_NAMED['reynolds'][1] == ['Reynolds number','density','flow speed','chord length','dynamic viscosity']
+assert MULTI_NAMED['load_factor'][1] == ['load factor','load capacity','applied force']
+assert MULTI_NAMED['extension'][1] == ['axial extension','axial force','bar length','Young modulus','cross-sectional area']
 assert MULTI_NAMED['gas'][1][2:] == ['specific gas constant for air', 'absolute temperature']
 assert MULTI_NAMED['kinetic_temperature'][1][2] == 'specific heat capacity at constant pressure'
 assert MULTI_NAMED['cantilever'][1][2] == 'second moment of area'

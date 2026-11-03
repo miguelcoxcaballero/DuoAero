@@ -84,6 +84,55 @@ public final class NativeFractionSlot {
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
   return fraction;
  }
+ /** Diagnostic composition: 3 times two quantities over a cubed quantity. */
+ public static Object createCantilever(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:cantilever-factor");
+  String key=Long.toString(NEXT.incrementAndGet());Object[] contents=new Object[2];
+  for(int i=0;i<2;i++){
+   String marker=PREFIX+key+":"+(i==0?"0+2*3":"2");
+   contents[i]=latex.newInstance(marker,cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  }
+  Object exponentRange=Class.forName("b8t",true,l).getConstructor(Object.class,Object.class).newInstance(Float.valueOf(22f),Float.valueOf(22f));
+  Object exponent=latex.newInstance("\\scriptstyle 3",22f,exponentRange,cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  contents[1]=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Exponentiation",true,l).getConstructor(ui,ui,String.class,entityClass).newInstance(contents[1],exponent,"power",null);
+  Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
+  Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
+  float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
+  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,entity);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
+  return fraction;
+ }
+ /** Diagnostic: force times cubed length over three times two quantities. */
+ public static Object createSparDeflection(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:spar-deflection-factor");
+  String key=Long.toString(NEXT.incrementAndGet());Object[] contents=new Object[2];
+  for(int i=0;i<2;i++){
+   String marker=PREFIX+key+":"+(i==0?"0+2^3":"2+2*3");
+   contents[i]=latex.newInstance(marker,cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  }
+  Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
+  Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
+  float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
+  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,entity);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
+  return fraction;
+ }
+ public static Object denominatorPadding(Object fraction,Object modifier){
+  if(fraction==null||modifier==null||!NativeCourseBridge.hasLocalCourse())return modifier;
+  try {
+   Object entity=fraction.getClass().getField("h").get(fraction);
+   if(entity==null||!entity.getClass().getName().endsWith("MathEntity$Algebraic")||
+      !java.util.Arrays.asList("duoaero:cantilever-factor","duoaero:spar-deflection-factor").contains(entity.getClass().getField("a").get(entity)))return modifier;
+   ClassLoader loader=fraction.getClass().getClassLoader();Class<?> mod=Class.forName("z5q",true,loader);
+   return Class.forName("kxo",true,loader).getMethod("y",mod,float.class,float.class).invoke(null,modifier,0f,12f);
+  } catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot pad cantilever denominator",failure);}
+ }
  private static Object createFraction(Object template,Object scope,Object slot,Method render,int first,boolean squaredNumerator,boolean twiceDenominator) throws Exception {
   ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
   Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
@@ -132,25 +181,28 @@ public final class NativeFractionSlot {
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
    boolean nestedSizing=NativeNamedTokenSizing.enter(context.namedSizing);
    try{
-   boolean twice=part[1].endsWith("*2");
-   String position=twice?part[1].substring(0,part[1].length()-2):part[1];
+   boolean twice=part[1].endsWith("*2"), triple=part[1].endsWith("*3"), cube=part[1].endsWith("^3");
+   String position=(twice||triple||cube)?part[1].substring(0,part[1].length()-2):part[1];
    String[] spec=position.split("\\+",2);
    int offset=Integer.parseInt(spec[0]),count=spec.length==2?Integer.parseInt(spec[1]):1;
    if(offset<0||offset>3||count<1||count>2||offset+count>4)throw new IllegalStateException("Invalid fraction slot position");
-   if(count>1||twice){
+   if(count>1||twice||triple){
     if(context.negativeExponent||!NativeInlineFormula.begin(figure,composer,modifier))throw new IllegalStateException("Cannot compose fraction factors");
     ClassLoader l=figure.getClass().getClassLoader();Class<?> cls=figure.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l),ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
     Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:factor-times");
     Object times=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("\\times",cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
     Class<?> mod=Class.forName("z5q",true,l),callback=Class.forName("qqh",true,l),state=Class.forName("s6p",true,l),o18=Class.forName("o18",true,l);
     Method prompt=Class.forName("jvo",true,l).getMethod("a",ui,mod,Class.forName("cvo",true,l),Class.forName("kotlin.jvm.functions.Function0",true,l),callback,callback,Class.forName("kotlin.jvm.functions.Function0",true,l),Integer.class,state,Class.forName("com.duolingo.feature.math.ui.figure.WebViewInteractionState",true,l),o18,int.class,int.class);
-    if(twice){
-     Object two=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance("2\\times",cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
+    if(twice||triple){
+     Object two=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class).newInstance((twice?"2":"3")+"\\times",cls.getField("b").getFloat(figure),cls.getField("c").get(figure),cls.getField("d").getBoolean(figure),cls.getField("e").get(figure),entity,cls.getField("g").getBoolean(figure));
      prompt.invoke(null,two,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
     }
     for(int i=0;i<count;i++){
      if(i>0)prompt.invoke(null,times,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
-     context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset+i),composer,Integer.valueOf(0));
+     if(cube && i==1){
+      Object power=createPower(figure,context.scope,context.slot,context.render,context.first+offset+i,"3");
+      prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
+     }else context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset+i),composer,Integer.valueOf(0));
     }
     NativeInlineFormula.end(true,composer);
     return true;
@@ -175,3 +227,4 @@ public final class NativeFractionSlot {
   }catch(Exception failure){throw new IllegalStateException("Cannot render native fraction slot",failure);}
  }
 }
+

@@ -15,11 +15,13 @@ public final class NativeInlineGap {
  private static final String FRACTION="duoaero-fraction-slots";
  private static final String SQUARED_FRACTION="duoaero-squared-fraction-slots";
  private static final String SQUARED_TWICE="duoaero-squared-over-twice";
+ private static final String DEFLECTION_FRACTION="duoaero-deflection-fraction";
+ private static final String CANTILEVER_FRACTION="duoaero-cantilever-fraction";
  private static final String PRODUCT_FRACTION_21="duoaero-product-fraction-21";
  private static final String PRODUCT_FRACTION_22="duoaero-product-fraction-22";
  private static final String POWER="duoaero-power-slot:";
  private static final String NEGATIVE_EXPONENT="duoaero-negative-exponent";
- private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
+ private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)||part.equals(DEFLECTION_FRACTION)?4:part.equals(PRODUCT_FRACTION_21)||part.equals(CANTILEVER_FRACTION)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -119,6 +121,14 @@ public final class NativeInlineGap {
       Object power=NativeFractionSlot.createNegativeExponent(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
       prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
+     else if(part.equals(DEFLECTION_FRACTION)){
+      Object fraction=NativeFractionSlot.createSparDeflection(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
+     else if(part.equals(CANTILEVER_FRACTION)){
+      Object fraction=NativeFractionSlot.createCantilever(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
      else if(part.equals(PRODUCT_FRACTION_21)||part.equals(PRODUCT_FRACTION_22)){
       Object fraction=NativeFractionSlot.createProduct(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),2,part.equals(PRODUCT_FRACTION_21)?1:2);
       prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
@@ -184,10 +194,9 @@ public final class NativeInlineGap {
    // wrapped line.  The original optimized implementation hardcodes Top;
    // build.py restores its alignment argument for this call.
    Object lineCenter=Class.forName("b9z",true,l).getField("l").get(null);
-   // Isolated probe: limit the actual wrapping row, not per-slot BuildSpace.
    Object equationModifier=equation && gapCount>=4
     ?NativeCourseBridge.scrollLongBuildSpace(slots,defaultModifier,composer):defaultModifier;
-   boolean priorSizing=NativeNamedTokenSizing.enter(equation&&gapCount>1);
+   boolean priorSizing=NativeNamedTokenSizing.enter(namedEquation);
    try{
     Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
@@ -196,3 +205,4 @@ public final class NativeInlineGap {
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
  }
 }
+

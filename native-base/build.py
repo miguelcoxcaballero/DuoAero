@@ -453,7 +453,20 @@ token_touch_hook=token_touch_anchor+'''
     invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setTouchPassthrough(Z)V
     invoke-virtual {v0, v3}, Landroid/view/View;->setImportantForAccessibility(I)V
     :duoaero_token_touch_done'''
+fraction_padding_source=SMALI/'smali_classes6/svo.smali'
+fraction_padding_original=fraction_padding_source.read_bytes()
+fraction_padding_text=fraction_padding_original.decode('utf-8').replace('\r\n','\n')
+fraction_padding_anchor='    invoke-static {v8, v0, v14, v6}, Lkxo;->z(Lz5q;FFI)Lz5q;\n\n    move-result-object v6'
+assert fraction_padding_text.count(fraction_padding_anchor)==1
+fraction_padding_hook=fraction_padding_anchor+'''
+
+    invoke-interface/range {v19 .. v19}, Lre40;->getValue()Ljava/lang/Object;
+    move-result-object v0
+    invoke-static {v0, v6}, Lcom/duoaero/nativebase/NativeFractionSlot;->denominatorPadding(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v6
+    check-cast v6, Lz5q;'''
 try:
+ fraction_padding_source.write_text(fraction_padding_text.replace(fraction_padding_anchor,fraction_padding_hook),encoding='utf-8')
  token_touch_source.write_text(token_touch_text.replace(token_touch_anchor,token_touch_hook),encoding='utf-8')
  profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
@@ -467,6 +480,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ fraction_padding_source.write_bytes(fraction_padding_original)
  token_touch_source.write_bytes(token_touch_original)
  profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
@@ -922,3 +936,4 @@ if production:
 else:
  run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
  print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')
+

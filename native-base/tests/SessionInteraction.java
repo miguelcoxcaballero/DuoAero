@@ -568,7 +568,7 @@ final class SessionInteraction {
   String selectedBefore=trackSlotState?originalSlots(test):null;
   int evidence=swipeEvidence++;
   SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
-  float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  float x=bounds.exactCenterX(),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
   long down=android.os.SystemClock.uptimeMillis();
   android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
@@ -634,7 +634,8 @@ final class SessionInteraction {
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
   for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=lastScrollable(child,depth+1);if(found!=null)return found;}finally{child.recycle();}}
-  return node.isVisibleToUser()&&node.isScrollable()?AccessibilityNodeInfo.obtain(node):null;
+  android.graphics.Rect bounds=new android.graphics.Rect();node.getBoundsInScreen(bounds);
+  return node.isVisibleToUser()&&node.isScrollable()&&bounds.height()>=80?AccessibilityNodeInfo.obtain(node):null;
  }
  private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
   if(depth>50||!own(node))return false;
@@ -678,3 +679,4 @@ final class SessionInteraction {
   return null;
  }
 }
+
