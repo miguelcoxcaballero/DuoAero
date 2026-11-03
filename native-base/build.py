@@ -836,7 +836,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   legacy_chests[stable_id('chest', node['id'])] = list(prerequisites)
  out.writestr('assets/duoaero/course/legacy-chest-requirements.json',json.dumps(legacy_chests))
  extended_section_test=os.environ.get('DUOAERO_EXTENDED_SECTION_DIAGNOSTIC')=='1' and not production
- # The first reviewed second-midterm block enters the development release path
+ # Reviewed space foundations enter the development release-shaped path
  # with new stable IDs and no historical completion credit. Further topics
  # stay in the extended diagnostic until their content and progression pass.
  released_second=production or (os.environ.get('DUOAERO_RELEASED_SECOND_DIAGNOSTIC')=='1' and not production)
@@ -846,7 +846,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
   diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft'),('4','Missiles'),('5.1','Diverse aircraft'),('5.2','Rotorcraft')]
-  if released_second:diagnostic_topics=diagnostic_topics[:1]
+  if released_second:diagnostic_topics=diagnostic_topics[:3]
   for topic,title in diagnostic_topics:
    diagnostic_id='second-partial-'+topic+'-lesson-0'
    diagnostic_skill=stable_id('skill','second-partial-'+topic)
@@ -862,7 +862,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
      identifier='second-partial-3.1-lesson-'+str(index)
      catalog[identifier]=native_session(selected,identifier,diagnostic_skill)
      catalog[identifier]['levelSessionIndex']=index
-   if extended_section_test and topic in ('3.2','3.3','5.1','5.2'):
+   if extended_second and topic in ('3.2','3.3','5.1','5.2'):
     filename={'3.2':'midterm2_space_environment_extra.json','3.3':'midterm2_spacecraft_extra.json',
               '5.1':'midterm2_diverse_aircraft_extra.json','5.2':'midterm2_rotorcraft_extra.json'}[topic]
     extra=json.loads((ROOT/'research'/filename).read_text(encoding='utf-8'))
@@ -901,7 +901,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
     metadata=[{'id':'second-partial-'+topic+'-lesson-0','type':'math_lesson'}]
     if extended_second and topic=='3.1':
      metadata.extend({'id':'second-partial-3.1-lesson-'+str(i),'type':'math_lesson'} for i in (1,2))
-    elif extended_section_test and topic in ('3.2','3.3','5.1','5.2'):
+    elif extended_second and topic in ('3.2','3.3','5.1','5.2'):
      metadata.append({'id':'second-partial-'+topic+'-lesson-1','type':'math_lesson'})
     level['pathLevelClientData']['sessionMetadatas']=metadata;level['pathLevelClientData']['practiceSessionMetadatas']=metadata
     level['pathLevelMetadata']['skillId']=diagnostic_skill;units.append(unit)

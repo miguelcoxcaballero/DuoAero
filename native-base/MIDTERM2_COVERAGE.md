@@ -3,8 +3,8 @@
 The course-outline order is launch vehicles, space-flight environment,
 space vehicles, the topic-4 introduction, diverse aircraft and rotorcraft.
 The items below are a finite review checklist, not a claim that a section is
-complete. The current development release-shaped path includes only the
-first launch-vehicle node; no 2.0 release is authorized by this file.
+complete. The current development release-shaped path includes the three
+space nodes; no 2.0 release is authorized by this file.
 
 | Block | Reviewed foundation | Remaining before full coverage |
 | --- | --- | --- |
@@ -15,9 +15,9 @@ first launch-vehicle node; no 2.0 release is authorized by this file.
 | 5.1 Diverse aircraft | Base and extra questions cover VTOL/STOL, tiltrotors, tiltwing, ground effect, air cushions and hydrofoils. The revised extra lesson passed native grading, next-node opening and restart. | Check all listed vehicle categories and comparisons against the course material and test the complete path without synthetic prior proofs. |
 | 5.2 Rotorcraft | Base and extra questions cover collective/cyclic control, torque, autorotation, retreating-side stall and rotor loading. The revised extra lesson passed native grading and restart. | Complete the remaining rotorcraft aerodynamics and controls, check the base-to-extra ordering and test the complete path without synthetic prior proofs. |
 
-The new launch node uses `second-partial-3.1-lesson-0` through `-2` and its
-existing stable level and skill IDs. No published first-midterm proof covers
-these new exercises; no migration, completion, gems or XP is granted for them.
+The space nodes use stable `second-partial-<topic>-lesson-<index>` IDs and
+their existing stable level and skill IDs. No published first-midterm proof
+covers these new exercises; no migration, completion, gems or XP is granted for them.
 The release-shaped diagnostic checks those invariants before walking the path.
 Production publication remains blocked on the complete course, original UI,
 progress/reward behavior, animation and update acceptance described elsewhere.

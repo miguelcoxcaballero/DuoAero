@@ -1,6 +1,6 @@
 """Exercise progression to the rocket draft within a diagnostic section.
 
-This does not add second-midterm educational content to production.
+This synthetic run does not establish complete course or real-account behavior.
 """
 import json,os,re,subprocess,time,zipfile
 from pathlib import Path
@@ -55,12 +55,15 @@ try:
    section=json.loads(apk.read('assets/duoaero/course/section-2.json'))
    catalog=json.loads(apk.read('assets/duoaero/course/session-catalog.json'))
    migrations=json.loads(apk.read('assets/duoaero/course/lesson-migrations.json'))
-  assert len(section['units'])==1 and section['units'][0]['teachingObjective']=='3.1 · Launch vehicles'
-  level=section['units'][0]['levels'][0]
-  ids=['second-partial-3.1-lesson-'+str(i) for i in range(3)]
-  assert level['finishedSessions']==0 and level['totalSessions']==3
-  assert [m['id'] for m in level['pathLevelClientData']['sessionMetadatas']]==ids
-  assert all(identifier in catalog for identifier in ids)
+  topics=[('3.1','Launch vehicles',3),('3.2','Space flight environment',2),('3.3','Spacecraft',2)]
+  assert len(section['units'])==len(topics)
+  for unit,(topic,title,count) in zip(section['units'],topics):
+   assert unit['teachingObjective']==topic+' · '+title
+   level=unit['levels'][0]
+   ids=['second-partial-'+topic+'-lesson-'+str(i) for i in range(count)]
+   assert level['finishedSessions']==0 and level['totalSessions']==count
+   assert [m['id'] for m in level['pathLevelClientData']['sessionMetadatas']]==ids
+   assert all(identifier in catalog for identifier in ids)
   assert not any(identifier.startswith('second-partial-') for identifier in migrations)
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
