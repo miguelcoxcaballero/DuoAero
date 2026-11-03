@@ -178,7 +178,7 @@ def rive(data,name,png,width,height):
     lovey=('lovey',('LoveyDoveyDuo_Intro_animation','LoveyDoveyDuo_Loop_animation'))
     swoon=('swoon',('SwoonDuo_Loop_animation',))
     chef=('chef',('ChefsKissDuo_Intro_animation','ChefsKissDuo_Loop_animation'))
-    foam=('foam',('FoamFingerDuo_Intro_animation','FoamFingerDuo_Loop_animation'))
+    foam=('foam',('FoamFingerDuo_Loop_animation',))
     zen=('zen',('duo_zen','duo_meditate','duo_meditate_loop'))
     targets={'duo_perfect_epic_03':{'lc_character_artboard':epic},
              'duo_perfect_jaw_drop_04':{'lc_character_artboard':surprised},

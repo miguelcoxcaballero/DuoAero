@@ -131,6 +131,12 @@ with zipfile.ZipFile(APK) as original:
                 elif b == target and kind == 57: layer_name = values.get(138)
                 elif b == target and layer_name == 'idleLoop' and kind in (61,62,63,64): states.append((kind,values))
             assert states[2][0] == 61 and animations[states[2][1][149]] == 'FoamFingerDuo_Loop_animation'
+            b = anim = None
+            for kind, values, _ in objects:
+                if kind == 1: b = values.get(4); anim = None
+                elif b == target and kind == 31: anim = values.get(55)
+                elif b == target and anim == 'FoamFingerDuo_Intro_animation' and kind == 25:
+                    assert not (original_count + 1 <= values.get(51, -1) <= original_count + 16)
         assert len(poses) == len(tracks) == 16
         if (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
                               ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),
