@@ -535,7 +535,7 @@ jobs:
               ;;
             rocket-draft)
               run_probe aerospace-rocket-draft MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-rocket-draft.txt"
+              grep -q 'All 11 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-rocket-draft.txt"
               ;;
             negative-exponent)
               run_probe aerospace-negative-exponent MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
