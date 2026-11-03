@@ -40,8 +40,11 @@ public final class NativeCompletionTiming {
     if(!root.isShown()||!button.isShown())return true;
     android.graphics.Rect visible=new android.graphics.Rect();
     if(!button.getGlobalVisibleRect(visible)||visible.width()<1||visible.height()<1)return true;
-    for(android.view.ViewParent p=button;p instanceof View;p=p.getParent())
-     if(((View)p).getAlpha()<0.5f)return true;
+    for(View current=button;current!=null;){
+     if(current.getAlpha()<0.5f)return true;
+     android.view.ViewParent parent=current.getParent();
+     current=parent instanceof View?(View)parent:null;
+    }
     root.getViewTreeObserver().removeOnPreDrawListener(this);
     long now=SystemClock.uptimeMillis();
     Log.i("DuoAeroCompletionTiming","summary_predraw_after_last_touch_ms="+(touch>0?now-touch:-1)+" button_enabled="+button.isEnabled());
