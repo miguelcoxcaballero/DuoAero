@@ -31,6 +31,11 @@ public final class NativeCompletionTiming {
   if(callback==null || Proxy.isProxyClass(callback.getClass()) && Proxy.getInvocationHandler(callback) instanceof Observer)return;
   window.setCallback((Window.Callback)Proxy.newProxyInstance(Window.Callback.class.getClassLoader(),new Class<?>[]{Window.Callback.class},new Observer(callback)));
  }
+ public static void stage(String stage){
+  if(!stage.equals("before_persist")&&!stage.equals("after_persist"))throw new IllegalArgumentException("Unknown timing stage");
+  long touch=lastTouchUptime;
+  Log.i("DuoAeroCompletionTiming",stage+"_after_last_touch_ms="+(touch>0?SystemClock.uptimeMillis()-touch:-1));
+ }
  public static void observeSummary(View root,View button){
   if(root==null||button==null)return;
   final long touch=lastTouchUptime;

@@ -458,7 +458,9 @@ public final class NativeCourseBridge {
     JSONObject catalog=sessionCatalog(app);
     if(NativeSessionId.valid(sessionId)&&catalog.has(sessionId)){
      JSONObject submission=requestJson(request);
+     NativeCompletionTiming.stage("before_persist");
      NativeSessionStore.record(app,sessionId,submission);
+     NativeCompletionTiming.stage("after_persist");
      code=200;
      Log.i("DuoAeroNative","Native session submission durably stored: "+sessionId+"; field names="+submission.names());
     }else if(NativeReviewStore.lookup(app,sessionId)!=null){
