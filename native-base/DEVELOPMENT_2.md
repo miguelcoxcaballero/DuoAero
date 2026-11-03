@@ -837,3 +837,11 @@ The regenerated first-midterm heuristic reports 278 unstaged source stems over 3
 The original TA1-0173-F1 TSFC conversion is now staged into one-operation grams-to-kilograms and per-kilonewton-to-per-newton calculations. Three preceding word, full-quantity and symbol sequences teach the actual relations; the last hint shows the consumption conversion instead of the related thrust conversion. The original question ID, options and answer remain intact. Its 14 exercises form a new fourth session in the adjacent node of the same subtopic, keeping every node within four sessions and every lesson within 10–20 controls. The new session has no migration or historical completion credit. Historical snapshots establish that the source belonged to the former lesson, while its old exact proof remains recognized by the existing history validator; no extra rewards are written. Host arithmetic, path, ID, migration and original completion-boundary checks pass. Touch, long quantity labels, hint retry, old-account transition and UI rendering still need Android verification.
 
 Run 41578714323 explicitly inspected the packaged seven-session section, catalog, diagnostic answer ordering and absence of historical credits. In Android it then completed the first 3.1 session, verified its saved completion and path after restart, and received original positive feedback on the first rocket word exercise; the inspected capture fits. It did not complete the remaining six sessions or test a real account.
+
+A further source-reviewed 3.3 mission-typology draft distinguishes flyby,
+orbiter, atmospheric probe and balloon, penetrator, rover and station roles;
+it also covers solar/Earth occultation and rover communications delay. Ten
+unique native-model questions pass their host checks. They remain an isolated
+draft: the current seven-session path and historical rewards are untouched,
+and Android grading, layout, lesson placement and complete course coverage
+remain pending.

@@ -1,0 +1,155 @@
+{
+  "status": "draft_not_connected_to_course",
+  "questions": [
+    {
+      "id": "M2-SC-021",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which mission profile passes a target without entering a sustained orbit around it?",
+      "options": [
+        "Surface lander",
+        "Atmospheric balloon",
+        "Orbiter",
+        "Flyby"
+      ],
+      "answer": 3,
+      "explanation": "A flyby observes while following a passing trajectory; an orbiter is captured into orbit."
+    },
+    {
+      "id": "M2-SC-022",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What distinguishes an orbiter from a flyby spacecraft at its target?",
+      "options": [
+        "It enters an orbit around the target body",
+        "It passes the target without entering a sustained orbit",
+        "It floats and drifts through the target atmosphere",
+        "It measures the surface from a stationary landing site"
+      ],
+      "answer": 0,
+      "explanation": "An orbiter enters a sustained orbit; a flyby travels past the target."
+    },
+    {
+      "id": "M2-SC-023",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "During solar occultation by a target body, what must a solar-powered orbiter plan for?",
+      "options": [
+        "Reduced solar generation and cooling",
+        "Loss of all onboard stored data",
+        "Automatic loss of orbital capture",
+        "Permanent elimination of thermal stresses"
+      ],
+      "answer": 0,
+      "explanation": "When the target blocks the Sun, solar generation falls and the spacecraft cools; stored energy and thermal control can be needed."
+    },
+    {
+      "id": "M2-SC-024",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What can interrupt direct communication between an orbiter and Earth?",
+      "options": [
+        "A short period of stored battery power",
+        "Deployment of a thermal shield",
+        "A change in the spacecraft internal temperature alone",
+        "Earth occultation by the target body"
+      ],
+      "answer": 3,
+      "explanation": "If the target body blocks the line of sight to Earth, direct communication is temporarily interrupted."
+    },
+    {
+      "id": "M2-SC-025",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is the main purpose of an atmospheric probe released at a planet?",
+      "options": [
+        "Remain permanently in orbit around the planet",
+        "Provide launch thrust to the carrier spacecraft",
+        "Measure atmospheric conditions during descent",
+        "Travel across the solid surface for years"
+      ],
+      "answer": 2,
+      "explanation": "An instrumented atmospheric probe studies atmospheric conditions as it descends."
+    },
+    {
+      "id": "M2-SC-026",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why does an atmospheric entry probe carry a heat shield?",
+      "options": [
+        "To maintain buoyancy after parachute deployment",
+        "To protect it from entry heating",
+        "To generate thrust for orbital capture",
+        "To store radio signals for later transmission"
+      ],
+      "answer": 1,
+      "explanation": "The shield protects the probe against thermal loads during atmospheric entry."
+    },
+    {
+      "id": "M2-SC-027",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which vehicle is designed to drift in an atmosphere while collecting information?",
+      "options": [
+        "An orbiter",
+        "An atmospheric balloon",
+        "A surface penetrator",
+        "A space station"
+      ],
+      "answer": 1,
+      "explanation": "A balloon floats and drifts in an atmosphere and can return position and atmospheric measurements."
+    },
+    {
+      "id": "M2-SC-028",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What distinguishes a surface penetrator from a rover?",
+      "options": [
+        "It is designed to travel continuously on the surface",
+        "It remains in orbit to map the surface",
+        "It floats through the upper atmosphere",
+        "It is designed to enter the surface through impact"
+      ],
+      "answer": 3,
+      "explanation": "A penetrator survives impact and enters the surface to investigate material there; a rover moves over the surface."
+    },
+    {
+      "id": "M2-SC-029",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why is semi-autonomous operation useful for a Mars rover?",
+      "options": [
+        "A Mars rover remains within a fixed laboratory",
+        "Radio communication travels instantly at every distance",
+        "Signals can take minutes to travel between Earth and Mars",
+        "A rover never exchanges commands with Earth"
+      ],
+      "answer": 2,
+      "explanation": "The communication delay makes immediate remote steering impractical, so onboard autonomy can assist operations."
+    },
+    {
+      "id": "M2-SC-030",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which description best matches a space station?",
+      "options": [
+        "A vehicle that must pass a target without orbiting it",
+        "A spacecraft designed primarily for a single atmospheric descent",
+        "An inhabited orbital structure supported by visiting transport vehicles",
+        "A surface vehicle designed to penetrate ground on impact"
+      ],
+      "answer": 2,
+      "explanation": "A space station is designed for habitation in space; visiting spacecraft provide transport to and from it."
+    }
+  ]
+}

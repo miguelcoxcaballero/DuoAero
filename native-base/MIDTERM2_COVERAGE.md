@@ -27,3 +27,10 @@ A strict diagnostic is prepared for the current base lessons of topics 4,
 positive feedback plus saved completion after restart. It seeds the earlier
 diagnostic sessions and therefore cannot establish an unseeded whole-course
 traversal. These current base versions still need that Android run.
+
+A third 3.3 mission-typology lesson is now authored as an isolated draft:
+flybys, orbiters and occultations, atmospheric probes and balloons, penetrators,
+rovers and space stations. The selected distinctions were checked against the
+provided course material. Its ten native-model questions preserve unique IDs;
+ordering, actual path integration, Android grading and visual review are still
+pending, and it grants no completion or rewards.
