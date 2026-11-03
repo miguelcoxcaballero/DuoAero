@@ -142,6 +142,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = temp-lift-mixed ]; then export DUOAERO_TEMP_LIFT_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = two-sections || "$DIAGNOSTIC_SCENARIO" = section-tail ]]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = aircraft-extra || "$DIAGNOSTIC_SCENARIO" = rotor-extra ]]; then export DUOAERO_EXTENDED_SECTION_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = scientific-notation ]; then export DUOAERO_SCIENTIFIC_NOTATION_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = spacecraft-typology ]; then export DUOAERO_SPACECRAFT_TYPOLOGY_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion ]; then export DUOAERO_TSFC_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
@@ -150,6 +151,7 @@ jobs:
           python research/test_tsfc_conversion_draft.py
           python research/test_spacecraft_typology.py
           python native-base/test_tsfc_prerequisites.py
+          python native-base/test_scientific_notation.py
           python tests/validate_bank.py
           python native-base/build.py
           python native-base/test_symbolic_grading.py
@@ -197,7 +199,7 @@ jobs:
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
-          if [[ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology || "$DIAGNOSTIC_SCENARIO" = scientific-notation ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
             adb shell settings put system font_scale 1.15
@@ -566,6 +568,10 @@ jobs:
             orbit-draft)
               run_probe aerospace-orbit-draft MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-orbit-draft.txt"
+              ;;
+            scientific-notation)
+              run_probe aerospace-scientific-notation MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 1 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-scientific-notation.txt"
               ;;
             spacecraft-typology)
               run_probe aerospace-spacecraft-typology MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

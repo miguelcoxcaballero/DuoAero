@@ -21,7 +21,8 @@ _BODY = re.compile(r'[A-Za-z][A-Za-z0-9_]*|\d+(?:\.\d+)?|\s+|[^A-Za-z0-9_\s]+')
 # matches require notation that is unambiguous in the source question bank.
 TOKEN = re.compile(
     r'(?<![A-Za-z0-9_])(?:'
-    r'(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
+    r'(?:\d+(?:\.\d+)?|\.\d+)\s*×\s*10\s*\^[+-]?\d+(?![A-Za-z0-9_])'
+    r'|(?:TAS|Vapp|Vs|Pcrit|[A-Z])\s*(?:>=|<=)\s*(?:\d+(?:\.\d+)?|\.\d+)(?:\s*Vs)?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:Vapp|Vstall|Vs|Vmd|CLmax|CLopt|Pjet)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*(?:Vapp|Vstall|Vs|Vmd))?(?![A-Za-z0-9_]|\.\d)'
     r'|(?:OEM|MTOM|TAS|Isp|Vcr|Pcr|p11|rho[012]?|gamma|cp|ce|CL0|CD0|CL|CD|mi|mf|Tt|[A-Za-z](?:[012]|_[A-Za-z0-9]+)?)\s*=\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?(?![A-Za-z0-9_./*^])'
     r'|(?:\d+(?:\.\d+)?|\.\d+)[eE][+-]?\d+(?![A-Za-z0-9_.])'
@@ -38,6 +39,9 @@ TOKEN = re.compile(
 
 
 def symbol(value):
+    scientific_times = re.fullmatch(r'((?:\d+(?:\.\d+)?|\.\d+))\s*×\s*10\s*\^([+-]?\d+)', value)
+    if scientific_times:
+        return scientific_times.group(1) + r'\times 10^{' + str(int(scientific_times.group(2))) + '}'
     if value == 'deltaL':
         return r'\Delta L'
     if value in ('Pcr','Pcr_new','Pcr_old'):

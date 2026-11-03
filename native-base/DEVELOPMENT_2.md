@@ -890,3 +890,11 @@ or completion was recorded, and the natural mid-lesson scene was not observed.
 The next driver waits for the first original exercise control after each real
 session opens, without altering lesson state; the journey itself remains
 unverified.
+
+A narrow notation audit found 44 source fields containing explicit
+`number × 10^integer` notation. The shared text converter now emits each such
+expression as one LaTeX number with a multiplication sign and exponent; ordinary
+prose remains text and explicitly authored rich text still takes precedence.
+A bank-wide host regression checks all 44 occurrences. A one-question Android
+fixture using an original scientific-notation question is prepared, but its
+rendering, selection and layout have not yet been observed on Android.
