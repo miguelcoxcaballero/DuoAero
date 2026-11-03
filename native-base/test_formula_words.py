@@ -104,3 +104,11 @@ for kind, expected in {
 assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'length'
 assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
 print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')
+
+# I is an area property; both jet Breguet models use mass-based TSFC.
+assert MULTI_NAMED['cantilever'][1][2] == 'second moment of area'
+assert MULTI_NAMED['buckling'][1][2] == 'second moment of area'
+assert MULTI_NAMED['spar_stress_inertia'][1][0] == 'stress-limit second moment of area'
+assert MULTI_NAMED['spar_deflection_inertia'][1][0] == 'deflection-limit second moment of area'
+assert MULTI_NAMED['range'][1][4] == 'thrust-specific fuel consumption'
+assert MULTI_NAMED['breguet_exponent'][1][3] == 'thrust-specific fuel consumption'
