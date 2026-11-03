@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/completion-paired-timing, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/completion-factory-timing, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/completion-paired-timing' && '["paired-timing"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/completion-factory-timing' && '["paired-timing"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
     timeout-minutes: 45
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -135,8 +135,6 @@ jobs:
           python native-base/build.py
           if [ "$DIAGNOSTIC_SCENARIO" = paired-timing ]; then
             cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/paired-candidate.apk"
-            DUOAERO_SUMMARY_BASELINE=1 python native-base/build.py
-            cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/paired-baseline.apk"
             cp "$DUOAERO_WORK/paired-candidate.apk" "$DUOAERO_WORK/DuoAero-native-base-test.apk"
           fi
           python native-base/test_symbolic_grading.py
@@ -594,7 +592,7 @@ jobs:
               ;;
             paired-timing)
               export DUOAERO_EVIDENCE_ROOT="$DUOAERO_EVIDENCE"
-              for phase in baseline candidate; do
+              for phase in candidate; do
                 export DUOAERO_EVIDENCE="$DUOAERO_EVIDENCE_ROOT/$phase"
                 mkdir -p "$DUOAERO_EVIDENCE"
                 timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/paired-$phase.apk"

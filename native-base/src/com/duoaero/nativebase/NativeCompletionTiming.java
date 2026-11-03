@@ -46,6 +46,10 @@ public final class NativeCompletionTiming {
    });
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot observe completion animation callback",error);}
  }
+ public static void summaryFactory(){
+  long touch=lastTouchUptime;
+  Log.i("DuoAeroCompletionTiming","summary_factory_after_last_touch_ms="+(touch>0?SystemClock.uptimeMillis()-touch:-1));
+ }
  public static void stage(String stage){
   if(!stage.equals("before_persist")&&!stage.equals("after_persist"))throw new IllegalArgumentException("Unknown timing stage");
   long touch=lastTouchUptime;

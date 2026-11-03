@@ -556,6 +556,14 @@ for timing_call,timing_wrapper,timing_type in (
                 '    check-cast v4, L'+timing_type+';\n\n')
  timing_summary_text=timing_summary_text.replace(timing_call,timing_prefix+timing_call)
 
+# Diagnostic-only lifecycle stage: original summary fragment factory.
+timing_factory_source=SMALI/'smali_classes7/ym00.smali'
+timing_factory_original=timing_factory_source.read_bytes()
+timing_factory_text=timing_factory_original.decode('utf-8').replace('\\r\\n','\\n')
+timing_factory_anchor='.method public final a(Lcom/duolingo/core/sessionend/api/BaseSessionEndScreenData$PagerSlide;)Landroidx/fragment/app/p;\\n    .locals 4'
+assert timing_factory_text.count(timing_factory_anchor)==1
+timing_factory_text=timing_factory_text.replace(timing_factory_anchor,timing_factory_anchor+'\\n\\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCompletionTiming;->summaryFactory()V')
+
 summary_pause_source=SMALI/'smali_classes7/com/duolingo/sessionend/sessioncomplete/ShortLessonStatCardView.smali'
 summary_pause_original=summary_pause_source.read_bytes()
 summary_pause_text=summary_pause_original.decode('utf-8').replace('\r\n','\n')
@@ -572,6 +580,7 @@ summary_pause_text=summary_pause_text[:summary_pause_start]+summary_pause_method
 if os.environ.get('DUOAERO_SUMMARY_BASELINE')=='1':
  summary_pause_text=summary_pause_original.decode('utf-8').replace('\r\n','\n')
 try:
+ timing_factory_source.write_text(timing_factory_text,encoding='utf-8')
  summary_pause_source.write_text(summary_pause_text,encoding='utf-8')
  timing_summary_source.write_text(timing_summary_text,encoding='utf-8')
  quit_source.write_text(quit_text,encoding='utf-8')
@@ -581,6 +590,7 @@ try:
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
 finally:
+ timing_factory_source.write_bytes(timing_factory_original)
  summary_pause_source.write_bytes(summary_pause_original)
  timing_summary_source.write_bytes(timing_summary_original)
  quit_source.write_bytes(quit_original)
