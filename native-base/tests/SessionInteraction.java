@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  private static boolean actualTouch;
+ private static int swipeEvidence;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
   // A brand-new session may exit immediately without a confirmation sheet.
@@ -515,7 +516,9 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
-  float x=bounds.exactCenterX(),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  int evidence=swipeEvidence++;
+  SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
+  float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
   long down=android.os.SystemClock.uptimeMillis();
   android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
@@ -527,6 +530,7 @@ final class SessionInteraction {
   event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x,to,0);
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
   Thread.sleep(400);
+  SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;

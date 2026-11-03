@@ -48,5 +48,21 @@ public final class NativeFullNameProbe {
   boolean night=(host.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)==Configuration.UI_MODE_NIGHT_YES;
   label.setTextColor(night?Color.WHITE:Color.rgb(60,60,60));
   label.setText(name);label.setVisibility(View.VISIBLE);figure.setVisibility(View.INVISIBLE);
+  final TextView measured=label; final String measuredName=name;
+  if(name.equals("deflection-limit second moment of area") || name.equals("stress-limit second moment of area") ||
+     name.equals("second moment of area") || name.equals("thrust-specific fuel consumption") ||
+     name.equals("gravitational acceleration") || name.equals("specific heat capacity at constant pressure")) {
+   measured.post(() -> {
+    android.text.Layout layout=measured.getLayout(); if(layout==null)return;
+    int[] point=new int[2];measured.getLocationOnScreen(point);
+    int lines=layout.getLineCount();
+    android.util.Log.i("DuoAeroTokenMeasure","name="+measuredName+
+      " sp="+(measured.getTextSize()/measured.getResources().getDisplayMetrics().scaledDensity)+
+      " fontScale="+measured.getResources().getConfiguration().fontScale+
+      " bounds="+point[0]+","+point[1]+","+(point[0]+measured.getWidth())+","+(point[1]+measured.getHeight())+
+      " lines="+lines+" lastBottom="+(lines==0?0:layout.getLineBottom(lines-1))+
+      " innerHeight="+(measured.getHeight()-measured.getPaddingTop()-measured.getPaddingBottom()));
+   });
+  }
  }
 }
