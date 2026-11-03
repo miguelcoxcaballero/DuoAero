@@ -80,7 +80,9 @@ def draft(source):
         ratio=op('RATIO','Initial cruise mass divided by final cruise mass:',initial,'÷',final,'ratio')
         shown_ratio=float(f'{ratio:.10g}')
         logarithm=math.log(shown_ratio)
-        parts.append(choice(source,'-LOG',f'Calculate the natural logarithm of {shown_ratio:.10g}.',logarithm,'','log'))
+        log_question=choice(source,'-LOG',f'Calculate the natural logarithm of {shown_ratio:.10g}.',logarithm,'','log')
+        log_question['rich_text']={'stem':[{'text':'Calculate '}, {'latex':r'\ln\left('+number_latex(shown_ratio)+r'\right)'}, {'text':'.'}]}
+        parts.append(log_question)
         numerator=op('VE','Speed times aerodynamic efficiency:',speed,'×',eff,'range')
         numerator=op('VEL','Multiply the previous result by the logarithm:',numerator,'×',logarithm,'range')
         denominator=op('GC','Gravity times specific fuel consumption:',g,'×',ce,'range')
@@ -95,7 +97,9 @@ def draft(source):
         y=op('VE','Speed times aerodynamic efficiency:',speed,'×',eff,'k')
         exponent=op('EXPONENT','Divide the numerator by the denominator:',x,'÷',y,'k')
         shown_exponent=float(f'{exponent:.10g}'); k=math.exp(shown_exponent)
-        parts.append(choice(source,'-K',f'Calculate the exponential of {shown_exponent:.10g}.',k,'','k'))
+        k_question=choice(source,'-K',f'Calculate the exponential of {shown_exponent:.10g}.',k,'','k')
+        k_question['rich_text']={'stem':[{'text':'Calculate '}, {'latex':r'e^{'+number_latex(shown_exponent)+'}'}, {'text':'.'}]}
+        parts.append(k_question)
         takeoff=op('TAKEOFF-A','Maximum takeoff mass divided by the mass ratio:',mt,'÷',k,'takeoff_limit','kg')
         takeoff=op('TAKEOFF-B','Subtract operating empty mass:',takeoff,'-',o,'takeoff_limit','kg')
         takeoff=op('TAKEOFF-C','Subtract reserve:',takeoff,'-',reserve,'takeoff_limit','kg')
