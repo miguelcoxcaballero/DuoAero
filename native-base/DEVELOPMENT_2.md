@@ -688,7 +688,7 @@ Run 41555256162 increased the experimental cantilever fraction padding and still
 
 A further isolated cantilever probe identifies the original fraction padding as horizontal and applies scoped vertical padding to the marked denominator instead. The helper compiles against the Android SDK; the original renderer hook and scaled-marker preservation must be exercised on Android. Neither exponent spacing nor full-label layout is accepted yet.
 
-Run 41555884296 graded all ten isolated rotorcraft draft controls in the original Android controller; inspected cyclic-control and swashplate screenshots show readable prompts, options and controls at the diagnostic text size. This is not a production-path, full-curriculum or real-account test; the draft remains isolated pending editorial and progression acceptance.
+Run 41555884296 completed all ten isolated rotorcraft draft controls with the earlier mixed driver; inspected cyclic-control and swashplate screenshots show readable prompts, options and controls at the diagnostic text size. That driver accepted Continue as a success proxy, so the run does not by itself prove that every answer was graded correctly. This is not a production-path, full-curriculum or real-account test; the draft remains isolated pending a strict grading rerun, editorial and progression acceptance.
 
 Further review of run 41554344300 shows the three-line deflection-limit second-moment label is still cut at the bottom even though the shorter stress-limit label fits. The 80 dp result is therefore rejected for full-name acceptance. A new isolated probe allows adaptive type sizing inside those cards, with Android readability and touch tests still required.
 
