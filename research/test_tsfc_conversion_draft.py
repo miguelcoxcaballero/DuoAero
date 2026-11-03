@@ -18,6 +18,8 @@ assert [q['type'] for q in questions[:12]]==['gap','formula_named','formula_name
 assert Decimal('20')*Decimal('.001')==Decimal('.02')
 assert Decimal('.02')/Decimal('1000')==Decimal('2e-5')
 assert questions[-1]['formula_hint']['prerequisite']=='TSFC-PER-NEWTON'
+assert all('\\times 10^{' in option[0]['latex'] for option in questions[-1]['rich_text']['options'])
+assert r'\mathrm{kN}' in questions[-1]['formula_hint']['latex']
 assert questions[-1]['id']==source['id'] and questions[-1]['options']==source['options'] and questions[-1]['answer']==source['answer']
 assert [q['id'] for q in session(questions,'isolated-tsfc-draft')['challenges']]==[q['id'] for q in questions]
 print('PASS: split TSFC conversion arithmetic and native models; Android and historical-device acceptance remain pending.')

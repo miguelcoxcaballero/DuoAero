@@ -854,3 +854,16 @@ and first-session test or prove a product navigation defect. The journey
 operator now uses a touchscreen tap at the exact visible row bounds, as the
 successful picker driver did, and retains picker captures; all seven-session,
 real-scene and restart claims remain unverified until rerun.
+
+TSFC run 41580628330 reached the hint, retained the calculation until Check,
+and displayed incorrect feedback. Its later failure screenshot shows the
+same-looking conversion screen with the original “Previous mistake” banner;
+the accessibility tree does not expose the rich prompt as a continuous string,
+so the old text predicate could not recognize it. That image supports, but does
+not by itself prove by identity, that the original question was requeued. The
+next probe reads the original session visual state's challenge index and resolves
+its exact challenge ID, checks it before and after the hint and again on retry,
+then still requires native CORRECT on the retry. The screenshot also exposed
+scientific notation rendered as plain text; the authored options now carry
+explicit LaTeX for the multiplication sign, exponent and units, and the hint
+uses upright unit subscripts. These changes still require fresh Android review.

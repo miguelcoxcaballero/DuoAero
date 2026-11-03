@@ -86,10 +86,15 @@ final class SessionInteraction {
    boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
    if(hinted){
     hintedQuestion=q;
+    String beforeHint=NativeChallengeIdentity.read(test,activity);
+    if(!q.getString("id").equals(beforeHint))throw new IllegalStateException("Hint opened on unexpected original challenge");
     clickTip(test);Thread.sleep(800);
     if(!contains(test,"a tip")||contains(test,"GOT IT")&&contains(test,"Incorrect"))throw new IllegalStateException("Hint sheet failed or graded before Check");
     SessionScreen.capture(test,"mixed-mach-hint","mixed-mach-hint");
     test.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);Thread.sleep(700);
+    String afterHint=NativeChallengeIdentity.read(test,activity);
+    if(!beforeHint.equals(afterHint)||"INCORRECT".equals(NativeMathGrade.read(test,activity)))
+     throw new IllegalStateException("Hint changed challenge or produced incorrect grading before Check");
    }
    if(kind.equals("multi")){
     org.json.JSONArray answer=q.getJSONArray("answer"),options=q.getJSONArray("options");
@@ -165,12 +170,20 @@ final class SessionInteraction {
    return "PASS: wrong native fraction graded at Check and retried at lesson end, then Claim XP appeared. Course persistence not tested.\n";
   }
   if(hintRetry){
-   String retryNeedle=tsfcScenario?"A consumption is 0.02":payloadScenario?"10100":rocketScenario?"3297":directHintScenario?"1.0 mm":windScenario?"1.4583":"17.97";
-   for(int attempt=0;attempt<150&&(contains(test,"GOT IT")||!contains(test,retryNeedle)||!hasControl(test,"com.duolingo:id/mathCard"));attempt++){
+   if(hintedQuestion==null)throw new IllegalStateException("Hinted source question missing");
+   String expectedId=hintedQuestion.getString("id"),activeId=null;
+   for(int attempt=0;attempt<150;attempt++){
+    activeId=NativeChallengeIdentity.read(test,activity);
+    if(expectedId.equals(activeId)&&!contains(test,"GOT IT")&&hasControl(test,"com.duolingo:id/mathCard"))break;
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
    }
-   if(contains(test,"GOT IT")||!contains(test,retryNeedle)||!hasControl(test,"com.duolingo:id/mathCard")||hintedQuestion==null)throw new IllegalStateException("Hinted calculation did not retry at lesson end");
+   activeId=NativeChallengeIdentity.read(test,activity);
+   if(!expectedId.equals(activeId)||contains(test,"GOT IT")||!hasControl(test,"com.duolingo:id/mathCard")){
+    SessionScreen.capture(test,"mixed-hint-retry-failure","mixed-hint-retry-failure");
+    throw new IllegalStateException("Hinted calculation did not retry with original challenge identity; expected="+expectedId+" observed="+activeId);
+   }
+   android.util.Log.i("DuoAeroProbe","Hinted original challenge identity observed again: "+activeId);
    SessionScreen.capture(test,"mixed-mach-retry","mixed-mach-retry");
    click(test,"com.duolingo:id/mathCard",hintedQuestion.getString("selection"));Thread.sleep(1500);
    click(test,"com.duolingo:id/submitButton",null);

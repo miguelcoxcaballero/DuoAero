@@ -9,7 +9,7 @@ from speed_limits_lesson import introduce
 GRAM = r'm_{\mathrm{kg}}=10^{-3}m_{\mathrm{g}}'
 THRUST = r'F_{\mathrm{N}}=10^3F_{\mathrm{kN}}'
 TSFC = r'c_{\mathrm{kg/(N\,s)}}=10^{-6}c_{\mathrm{g/(kN\,s)}}'
-PER_NEWTON = r'c_{N}=c_{kN}\div 1000'
+PER_NEWTON = r'c_{\mathrm{N}}=c_{\mathrm{kN}}\div 1000'
 
 
 def draft(source):
@@ -38,5 +38,8 @@ def draft(source):
         dict(id=source['id'],type='choice',difficulty=1,
              stem='A consumption is 0.02 kg/(kN s). Divide by 1000 to express it in kg/(N s).',
              options=list(source['options']),answer=source['answer'],
+             rich_text={'stem':[{'text':'A consumption is '},{'latex':r'0.02\,\frac{\mathrm{kg}}{\mathrm{kN}\,\mathrm{s}}'},
+                       {'text':'. Divide by 1000 to express it in '},{'latex':r'\frac{\mathrm{kg}}{\mathrm{N}\,\mathrm{s}}'},{'text':'.'}],
+                        'options':[[{'latex':r'2.0\times 10^{'+str(power)+r'}\,\frac{\mathrm{kg}}{\mathrm{N}\,\mathrm{s}}'}] for power in (-2,-8,-5,-4)]},
              explanation='0.02 / 1000 = 0.00002 kg/(N s).',
              formula_hint={'latex':PER_NEWTON,'prerequisite':'TSFC-PER-NEWTON'})]

@@ -5753,7 +5753,7 @@
           "\\div",
           "1000"
         ],
-        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "formula_latex": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000",
         "answer_blocks": [
           "specific fuel consumption per newton",
           "specific fuel consumption per kilonewton"
@@ -5765,7 +5765,7 @@
           "time",
           "pressure"
         ],
-        "explanation": "c_{N}=c_{kN}\\div 1000"
+        "explanation": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000"
       },
       {
         "id": "TSFC-PER-NEWTON-NAMED",
@@ -5774,8 +5774,8 @@
         "stem": "Complete the formula with a quantity",
         "before_latex": "",
         "after_latex": "=c_{\\mathrm{kN}}\\div1000",
-        "missing_latex": "c_{N}",
-        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "missing_latex": "c_{\\mathrm{N}}",
+        "formula_latex": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000",
         "answer_blocks": [
           "specific fuel consumption per newton"
         ],
@@ -5785,7 +5785,7 @@
           "time",
           "pressure"
         ],
-        "explanation": "c_{N}=c_{kN}\\div 1000"
+        "explanation": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000"
       },
       {
         "id": "TSFC-PER-NEWTON",
@@ -5799,7 +5799,7 @@
           "\\div",
           "1000"
         ],
-        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "formula_latex": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000",
         "answer_blocks": [
           "c_N",
           "c_kN"
@@ -5810,7 +5810,7 @@
           "T",
           "h"
         ],
-        "explanation": "c_{N}=c_{kN}\\div 1000",
+        "explanation": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000",
         "mathematical_blocks": true
       },
       {
@@ -5843,9 +5843,50 @@
           "2.0 × 10^-4 kg/(N s)"
         ],
         "answer": 2,
+        "rich_text": {
+          "stem": [
+            {
+              "text": "A consumption is "
+            },
+            {
+              "latex": "0.02\\,\\frac{\\mathrm{kg}}{\\mathrm{kN}\\,\\mathrm{s}}"
+            },
+            {
+              "text": ". Divide by 1000 to express it in "
+            },
+            {
+              "latex": "\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+            },
+            {
+              "text": "."
+            }
+          ],
+          "options": [
+            [
+              {
+                "latex": "2.0\\times 10^{-2}\\,\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+              }
+            ],
+            [
+              {
+                "latex": "2.0\\times 10^{-8}\\,\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+              }
+            ],
+            [
+              {
+                "latex": "2.0\\times 10^{-5}\\,\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+              }
+            ],
+            [
+              {
+                "latex": "2.0\\times 10^{-4}\\,\\frac{\\mathrm{kg}}{\\mathrm{N}\\,\\mathrm{s}}"
+              }
+            ]
+          ]
+        },
         "explanation": "0.02 / 1000 = 0.00002 kg/(N s).",
         "formula_hint": {
-          "latex": "c_{N}=c_{kN}\\div 1000",
+          "latex": "c_{\\mathrm{N}}=c_{\\mathrm{kN}}\\div 1000",
           "prerequisite": "TSFC-PER-NEWTON"
         }
       }
