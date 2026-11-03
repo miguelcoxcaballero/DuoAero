@@ -58,3 +58,14 @@ sixteen clipped Lottie compositions. Its host test checks that one pose is
 active and original timing/markers survive. It does not prove that Android
 clips the atlas correctly, that the real mid-lesson view plays or finishes, or
 that the wave is smooth and free from halos.
+
+Wave run 41568910162 rendered a replacement pose but failed its original
+`onAnimationEnd` expectation. Static inspection shows the expectation was
+wrong for this scene: the original hole entrance uses a 500 ms translation,
+then its callback calls `LottieAnimationView.u()`, which resets progress to
+zero past 98.5% and loops. The same entrance callback also starts the original
+message-card animation; the looping wave does not signal scene completion by
+`onAnimationEnd`. The probe now follows that entrance/start contract and
+checks progress, rather than expecting a terminal callback. A control with the
+unchanged original Lottie and the replacement on the same view is still
+required; neither one has passed this revised probe yet.
