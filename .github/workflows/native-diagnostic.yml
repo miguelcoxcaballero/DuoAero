@@ -78,7 +78,19 @@ jobs:
           mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
           echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platform-tools'  'platforms;android-36' 'build-tools;35.0.0' 'emulator' 'system-images;android-36;google_apis;x86_64'
+          # Retry one transient download failure using the same SDK packages.
+          # Only the temporary directory belonging to this attempt is removed.
+          for attempt in 1 2; do
+            sdk_tmp="$RUNNER_TEMP/duoaero-sdk-download-$attempt"
+            mkdir -p "$sdk_tmp"
+            if TMPDIR="$sdk_tmp" "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platform-tools' 'platforms;android-36' 'build-tools;35.0.0' 'emulator' 'system-images;android-36;google_apis;x86_64' && test -x "$ANDROID_HOME/emulator/emulator" && test -f "$ANDROID_HOME/system-images/android-36/google_apis/x86_64/source.properties"; then
+              rm -rf "$sdk_tmp"
+              break
+            fi
+            rm -rf "$sdk_tmp"
+            if [ "$attempt" = 2 ]; then exit 1; fi
+            echo 'SDK installation failed; retrying once with the same packages.' >&2
+          done
       - name: Build diagnostic APKs, preserving original runtime
         run: |
           python native-base/test_session_ids.py
