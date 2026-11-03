@@ -122,14 +122,13 @@ token_method=flow_row_text[token_start:token_end]
 token_anchor='    move/from16 v8, p7'
 token_height='    const/high16 v6, 0x42600000    # 56.0f'
 assert token_method.count(token_height)==1
-token_method=token_method.replace(token_height,'    const/high16 v6, 0x42c00000    # 96.0f')
+token_method=token_method.replace(token_height,token_height+'''
+    invoke-static {v2, v6}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->height(Ljava/lang/Object;F)F
+    move-result v6''')
 assert token_method.count(token_anchor)==1
 token_hook=token_anchor+'''
 
-    const v0, 0x43200000
-
-    invoke-static {v8, v0}, Ljava/lang/Math;->min(FF)F
-
+    invoke-static {v2, v8}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->width(Ljava/lang/Object;F)F
     move-result v8'''
 flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')

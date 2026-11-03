@@ -183,9 +183,12 @@ public final class NativeInlineGap {
    // Isolated probe: limit the actual wrapping row, not per-slot BuildSpace.
    Object equationModifier=equation && gapCount>=4
     ?NativeCourseBridge.scrollLongBuildSpace(slots,defaultModifier,composer):defaultModifier;
-   Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
+   boolean priorSizing=NativeNamedTokenSizing.enter(equation&&gapCount>1);
+   try{
+    Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
-    .invoke(null,parts.size(),equationModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
+     .invoke(null,parts.size(),equationModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
+   }finally{NativeNamedTokenSizing.exit(priorSizing);}
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
  }
 }
