@@ -73,7 +73,9 @@ public final class UserSessionProbe extends Instrumentation {
   Thread.sleep(6000);
   Class<?> activity=Class.forName("com.duolingo.session.SessionActivity",true,loader);
   if(interaction.equals("second-journey")){
-   report.append(SecondSectionJourney.run(this,resumed));
+   MidLessonSceneObserver scene=new MidLessonSceneObserver(this,resumed);
+   try{report.append(SecondSectionJourney.run(this,resumed));}
+   finally{scene.close();report.append(scene.report());}
    report.append("DIAGNOSTIC_COLLECTION_COMPLETED=true. Restart persistence is separately verified.\n");
    report.append(playback.report());playback.close();
    output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",true);finish(-1,output);return;

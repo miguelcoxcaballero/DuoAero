@@ -381,6 +381,11 @@ jobs:
                   adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/journey-after-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/journey-after-$item.$extension" || true
                 done
               done
+              for item in $(seq 0 2); do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/journey-midlesson-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/journey-midlesson-$item.$extension" || true
+                done
+              done
               grep -q 'PASS: seven native path sessions graded and saved in order without seeded completion' "$RUNNER_TEMP/duoaero-evidence/session-second-journey.txt"
               python native-base/test_journey_restart.py
               ;;
