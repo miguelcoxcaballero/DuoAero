@@ -445,8 +445,19 @@ final class SessionInteraction {
    dismissPixelLauncherAnr(test);
    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
    if(root!=null)try{
-    node=findLast(root,text,0);
-    if(node==null)scrollBank(root,attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD,0);
+    AccessibilityNodeInfo bank=lastScrollable(root,0);
+    try{
+     if(bank==null)node=findLast(root,text,0);
+     else{
+      node=findLast(bank,text,0);
+      if(node!=null){
+       android.graphics.Rect item=new android.graphics.Rect(),visible=new android.graphics.Rect();
+       node.getBoundsInScreen(item);bank.getBoundsInScreen(visible);
+       if(item.bottom>=visible.bottom-2 || item.top<=visible.top+2){node.recycle();node=null;}
+      }
+      if(node==null)bank.performAction(attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+     }
+    }finally{if(bank!=null)bank.recycle();}
    }finally{root.recycle();}
    if(node==null)Thread.sleep(300);
   }
@@ -500,6 +511,11 @@ final class SessionInteraction {
     }finally{button.recycle();}
    }
   }finally{root.recycle();}
+ }
+ private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
+  if(depth>50||!own(node))return null;
+  for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=lastScrollable(child,depth+1);if(found!=null)return found;}finally{child.recycle();}}
+  return node.isVisibleToUser()&&node.isScrollable()?AccessibilityNodeInfo.obtain(node):null;
  }
  private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
   if(depth>50||!own(node))return false;
