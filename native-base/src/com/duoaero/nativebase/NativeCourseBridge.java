@@ -509,7 +509,7 @@ public final class NativeCourseBridge {
        route.contains("/streak")?"streak":route.contains("/leaderboards")?"leaderboards":
        route.contains("/shop")?"shop":route.contains("/friends")?"friends":
        route.contains("/goals")?"goals":route.contains("/events")||route.contains("/tracking")||route.contains("/analytics")?"events":
-       route.contains("/users/")?"other-user":"other";
+       route.matches(".*/users/[^/]+/?")?"user-root":route.contains("/users/")?"other-user":"other";
    String method=item.optString("method","").toUpperCase(java.util.Locale.ROOT);
    if(!java.util.Arrays.asList("GET","POST","PUT","PATCH","DELETE").contains(method))method="UNKNOWN";
    String key=method+":"+category;counts.put(key,counts.containsKey(key)?counts.get(key)+1:1);
