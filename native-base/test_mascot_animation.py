@@ -113,6 +113,24 @@ with zipfile.ZipFile(APK) as original:
                     entries.append(objects[index+1])
             assert len(entries)==1 and entries[0][0]==65
             assert entries[0][1].get(151)==(1 if name=='duo_normal_swoon_03' else 3)
+        if (name,target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
+                             ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard')):
+            b = layer_name = None
+            entries = []
+            for index, (kind, values, _) in enumerate(objects):
+                if kind == 1: b = values.get(4)
+                elif b == target and kind == 57: layer_name = values.get(138)
+                elif b == target and layer_name == 'idleLoop' and kind == 63:
+                    entries.append(objects[index+1])
+            assert len(entries)==1 and entries[0][0]==65 and entries[0][1].get(151)==2
+            b = layer_name = None
+            states, animations = [], []
+            for kind, values, _ in objects:
+                if kind == 1: b = values.get(4); layer_name = None
+                elif b == target and kind == 31: animations.append(values.get(55))
+                elif b == target and kind == 57: layer_name = values.get(138)
+                elif b == target and layer_name == 'idleLoop' and kind in (61,62,63,64): states.append((kind,values))
+            assert states[2][0] == 61 and animations[states[2][1][149]] == 'FoamFingerDuo_Loop_animation'
         assert len(poses) == len(tracks) == 16
         if (name, target) in (('duo_normal_foam_finger_02','lc_character_artboard'),
                               ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'),

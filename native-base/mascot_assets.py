@@ -324,6 +324,12 @@ def rive(data,name,png,width,height):
                 if isinstance(v,str) and PROPS[k][1]=='textPropertyKey':update[k]=display_text(v)
         output.extend(raw if update==values else encode(kind,update,props))
         if (kind==63 and art is not None and state_layer=='idleLoop'
+            and (name,art.get(4)) in (('duo_normal_foam_finger_02','lc_character_artboard'),
+                                      ('lesson_complete_redesign_v72','25_duo_normal_foam_finger_artboard'))):
+            # Diagnostic: enter the original FoamFingerDuo_Loop state, whose
+            # state index is 2 in both original artboards.
+            output.extend(encode(65,{151:2}))
+        if (kind==63 and art is not None and state_layer=='idleLoop'
             and (name,art.get(4)) in (('duo_normal_swoon_03','lc_character_artboard'),
                                       ('lesson_complete_redesign_v72','21_duo_normal_swoon_artboard'))):
             # The original entry has no initial transition: select its existing
