@@ -1,5 +1,5 @@
 """Candidate path checks; not a migration or Android acceptance."""
-import json,sys
+import json,sys,os,subprocess
 from pathlib import Path
 root=Path(__file__).resolve().parents[1];sys.path.insert(0,str(root/'native-base'))
 from audit_jet_families import audit
@@ -30,4 +30,6 @@ for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
  h=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
  assert not new_ids.intersection(h)
  assert all(any(q['id'] in {x['id'] for old in h.values() for x in old['challenges']} for q in [source]) for source in original if audit(source) and audit(source)[0]=='range')
+guard=subprocess.run([sys.executable,str(root/'native-base/path_adapter.py')],env={**os.environ,'DUOAERO_JET_RANGE_PATH_DIAGNOSTIC':'1','DUOAERO_PACKAGE':'com.duoaero'},capture_output=True,text=True)
+assert guard.returncode!=0 and 'isolated diagnostic only' in guard.stderr
 print('PASS: isolated path preserves ten source IDs, 13 new session IDs and 10–20 controls; historical projection and Android are pending.')
