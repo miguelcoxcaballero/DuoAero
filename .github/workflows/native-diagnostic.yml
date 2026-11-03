@@ -145,6 +145,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
+          python research/test_tsfc_conversion_draft.py
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -160,6 +161,7 @@ jobs:
           python native-base/test_lapse_steps.py
           python native-base/test_isa_offset.py
           python native-base/test_course_progress.py
+          python native-base/test_tsfc_history.py
           python native-base/test_rewards.py
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only

@@ -8,7 +8,7 @@ bank = {q['id']: q for q in json.loads((root/'app/assets/questions.json').read_t
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 lessons = {lesson['id']: lesson for node in plan for lesson in node['lessons']}
 migrations = json.loads((root/'native-base/lesson-migrations.json').read_text())
-assert len(lessons) == 100 and len(migrations) == 21
+assert len(lessons) == 101 and len(migrations) == 21
 for target, migration in migrations.items():
     source = migration['sourceLesson']
     required = migration['requiredQuestions']
@@ -62,4 +62,13 @@ assert 'TA1-0150-F1' not in lessons['2.5-5-point-0-lesson-0']['ids']
 assert 'TA1-0150-F1' in lessons['2.5-5-point-0-lesson-1']['ids']
 assert 'TA1-0031-F1' not in lessons['2.4-11-point-0-lesson-0']['ids']
 assert 'TA1-0031-F1' in lessons['2.4-11-point-0-lesson-1']['ids']
-print('PASS: 100 lessons have 10–20 native exercises; twenty-one path-only credits require exact historical coverage. Android UI and persistence remain unverified.')
+# The new TSFC lesson has newly taught equations. Historical completion of
+# the original source lesson must not award its completion or rewards.
+new_tsfc='2.2-3-point-1-lesson-3'
+assert lessons[new_tsfc]['ids']==['TA1-0173-F1'] and new_tsfc not in migrations
+assert 'TA1-0173-F1' not in lessons['2.2-3-point-0-lesson-0']['ids']
+for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
+    snapshot=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
+    assert new_tsfc not in snapshot
+    assert 'TA1-0173-F1' in {q['id'] for q in snapshot['2.2-3-point-0-lesson-0']['challenges']}
+print('PASS: 101 lessons have 10–20 native exercises; existing migrations require exact historical coverage and new TSFC lesson has no historical credit. Android UI and persistence remain unverified.')

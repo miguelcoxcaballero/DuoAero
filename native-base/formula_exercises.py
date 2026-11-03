@@ -31,7 +31,8 @@ def math_latex(value):
                'C_Lmax': r'C_{L,\max}', 'V_app': r'V_{\mathrm{app}}',
                'V_kmh': r'V_{\mathrm{km/h}}', 'V_ms': r'V_{\mathrm{m/s}}',
                'm_kg': r'm_{\mathrm{kg}}', 'm_g': r'm_{\mathrm{g}}',
-               'F_N': r'F_{\mathrm{N}}', 'F_kN': r'F_{\mathrm{kN}}'}
+               'F_N': r'F_{\mathrm{N}}', 'F_kN': r'F_{\mathrm{kN}}',
+               'c_N': r'c_{\mathrm{N}}', 'c_kN': r'c_{\mathrm{kN}}'}
     if value in indexed:
         return r'\textstyle ' + indexed[value]
     symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',

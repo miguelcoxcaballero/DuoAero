@@ -5547,7 +5547,309 @@
       "2.0 × 10^-4 kg/(N s)": "Incorrect: This introduces a factor-of-ten error in the two metric conversions."
     },
     "legacy_id": "TA1-0173",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "lesson_steps": [
+      {
+        "id": "TSFC-GRAM-WORDS",
+        "type": "gap",
+        "difficulty": 1,
+        "stem": "Complete the formula in words: Mass in kilograms is mass in grams multiplied by ___.",
+        "answer": [
+          "0.001"
+        ],
+        "distractors": [
+          "1000",
+          "100",
+          "10"
+        ],
+        "explanation": "Mass in kilograms is mass in grams multiplied by 0.001.",
+        "formula_word_symbols": true
+      },
+      {
+        "id": "TSFC-GRAM-NAMED-ALL",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "0.001",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}",
+        "answer_blocks": [
+          "mass in kilograms",
+          "mass in grams"
+        ],
+        "blocks": [
+          "mass in kilograms",
+          "mass in grams",
+          "thrust",
+          "time",
+          "pressure"
+        ],
+        "explanation": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}"
+      },
+      {
+        "id": "TSFC-GRAM-NAMED",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=10^{-3}m_{\\mathrm g}",
+        "missing_latex": "m_{\\mathrm{kg}}",
+        "formula_latex": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}",
+        "answer_blocks": [
+          "mass in kilograms"
+        ],
+        "blocks": [
+          "mass in kilograms",
+          "thrust",
+          "time",
+          "pressure"
+        ],
+        "explanation": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}"
+      },
+      {
+        "id": "TSFC-GRAM",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with symbols",
+        "inline_latex": [
+          "___",
+          "=",
+          "0.001",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}",
+        "answer_blocks": [
+          "m_kg",
+          "m_g"
+        ],
+        "blocks": [
+          "m_kg",
+          "m_g",
+          "T",
+          "h"
+        ],
+        "explanation": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}",
+        "mathematical_blocks": true
+      },
+      {
+        "id": "TSFC-THRUST-WORDS",
+        "type": "gap",
+        "difficulty": 1,
+        "stem": "Complete the formula in words: Thrust in newtons is thrust in kilonewtons multiplied by ___.",
+        "answer": [
+          "1000"
+        ],
+        "distractors": [
+          "0.001",
+          "100",
+          "10"
+        ],
+        "explanation": "Thrust in newtons is thrust in kilonewtons multiplied by 1000.",
+        "formula_word_symbols": true
+      },
+      {
+        "id": "TSFC-THRUST-NAMED-ALL",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "1000",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}",
+        "answer_blocks": [
+          "thrust in newtons",
+          "thrust in kilonewtons"
+        ],
+        "blocks": [
+          "thrust in newtons",
+          "thrust in kilonewtons",
+          "mass",
+          "time",
+          "pressure"
+        ],
+        "explanation": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}"
+      },
+      {
+        "id": "TSFC-THRUST-NAMED",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=10^3F_{\\mathrm{kN}}",
+        "missing_latex": "F_{\\mathrm{N}}",
+        "formula_latex": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}",
+        "answer_blocks": [
+          "thrust in newtons"
+        ],
+        "blocks": [
+          "thrust in newtons",
+          "mass",
+          "time",
+          "pressure"
+        ],
+        "explanation": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}"
+      },
+      {
+        "id": "TSFC-THRUST",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with symbols",
+        "inline_latex": [
+          "___",
+          "=",
+          "1000",
+          "\\times",
+          "___"
+        ],
+        "formula_latex": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}",
+        "answer_blocks": [
+          "F_N",
+          "F_kN"
+        ],
+        "blocks": [
+          "F_N",
+          "F_kN",
+          "T",
+          "h"
+        ],
+        "explanation": "F_{\\mathrm{N}}=10^3F_{\\mathrm{kN}}",
+        "mathematical_blocks": true
+      },
+      {
+        "id": "TSFC-PER-NEWTON-WORDS",
+        "type": "gap",
+        "difficulty": 1,
+        "stem": "Complete the formula in words: Specific fuel consumption per newton equals consumption per kilonewton divided by ___.",
+        "answer": [
+          "1000"
+        ],
+        "distractors": [
+          "0.001",
+          "100",
+          "10"
+        ],
+        "explanation": "Specific fuel consumption per newton equals consumption per kilonewton divided by 1000.",
+        "formula_word_symbols": true
+      },
+      {
+        "id": "TSFC-PER-NEWTON-NAMED-ALL",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with quantities",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\div",
+          "1000"
+        ],
+        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "answer_blocks": [
+          "specific fuel consumption per newton",
+          "specific fuel consumption per kilonewton"
+        ],
+        "blocks": [
+          "specific fuel consumption per newton",
+          "specific fuel consumption per kilonewton",
+          "mass",
+          "time",
+          "pressure"
+        ],
+        "explanation": "c_{N}=c_{kN}\\div 1000"
+      },
+      {
+        "id": "TSFC-PER-NEWTON-NAMED",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with a quantity",
+        "before_latex": "",
+        "after_latex": "=c_{\\mathrm{kN}}\\div1000",
+        "missing_latex": "c_{N}",
+        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "answer_blocks": [
+          "specific fuel consumption per newton"
+        ],
+        "blocks": [
+          "specific fuel consumption per newton",
+          "mass",
+          "time",
+          "pressure"
+        ],
+        "explanation": "c_{N}=c_{kN}\\div 1000"
+      },
+      {
+        "id": "TSFC-PER-NEWTON",
+        "type": "formula_named",
+        "difficulty": 1,
+        "stem": "Complete the formula with symbols",
+        "inline_latex": [
+          "___",
+          "=",
+          "___",
+          "\\div",
+          "1000"
+        ],
+        "formula_latex": "c_{N}=c_{kN}\\div 1000",
+        "answer_blocks": [
+          "c_N",
+          "c_kN"
+        ],
+        "blocks": [
+          "c_N",
+          "c_kN",
+          "T",
+          "h"
+        ],
+        "explanation": "c_{N}=c_{kN}\\div 1000",
+        "mathematical_blocks": true
+      },
+      {
+        "id": "TA1-0173-F1-GRAM",
+        "type": "choice",
+        "difficulty": 1,
+        "stem": "Convert 20 g to kilograms.",
+        "options": [
+          "0.02 kg",
+          "20 kg",
+          "2000 kg",
+          "0.2 kg"
+        ],
+        "answer": 0,
+        "explanation": "20 × 0.001 = 0.02 kg.",
+        "formula_hint": {
+          "latex": "m_{\\mathrm{kg}}=10^{-3}m_{\\mathrm{g}}",
+          "prerequisite": "TSFC-GRAM"
+        }
+      },
+      {
+        "id": "TA1-0173-F1",
+        "type": "choice",
+        "difficulty": 1,
+        "stem": "A consumption is 0.02 kg/(kN s). Divide by 1000 to express it in kg/(N s).",
+        "options": [
+          "2.0 × 10^-2 kg/(N s)",
+          "2.0 × 10^-8 kg/(N s)",
+          "2.0 × 10^-5 kg/(N s)",
+          "2.0 × 10^-4 kg/(N s)"
+        ],
+        "answer": 2,
+        "explanation": "0.02 / 1000 = 0.00002 kg/(N s).",
+        "formula_hint": {
+          "latex": "c_{N}=c_{kN}\\div 1000",
+          "prerequisite": "TSFC-PER-NEWTON"
+        }
+      }
+    ]
   },
   {
   "id": "TA1-0041-F1",

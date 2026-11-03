@@ -761,7 +761,6 @@
       "TA1-0391",
       "TA1-0024-F1",
       "TA1-0284",
-      "TA1-0173-F1",
       "TA1-0424",
       "TA1-0084",
       "TA1-0437",
@@ -795,7 +794,6 @@
           "TA1-0391",
           "TA1-0024-F1",
           "TA1-0284",
-          "TA1-0173-F1",
           "TA1-0424",
           "TA1-0084",
           "TA1-0437",
@@ -875,7 +873,8 @@
       "TA1-N3-09-09",
       "TA1-N3-36-09",
       "TA1-N3-09-10",
-      "TA1-N3-36-10"
+      "TA1-N3-36-10",
+      "TA1-0173-F1"
     ],
     "lessons": [
       {
@@ -924,6 +923,13 @@
           "TA1-0851-D3"
         ],
         "name": "Initial analysis / Refined sizing and optimization · 2 · Lesson 3"
+      },
+      {
+        "id": "2.2-3-point-1-lesson-3",
+        "ids": [
+          "TA1-0173-F1"
+        ],
+        "name": "Initial analysis / Refined sizing and optimization · 2 · Lesson 4"
       }
     ]
   },
