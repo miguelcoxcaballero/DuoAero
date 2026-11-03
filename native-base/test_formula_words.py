@@ -101,7 +101,7 @@ for kind, expected in {
     'induced_drag': ['induced drag coefficient', 'lift coefficient', 'efficiency', 'aspect ratio'],
 }.items():
     assert MULTI_NAMED[kind][1] == expected
-assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'length'
+assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'spar length'
 assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
 
 # I is an area property; both jet Breguet models use mass-based TSFC.

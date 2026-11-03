@@ -273,10 +273,8 @@ MULTI_NAMED = {
                   ['temperature','altitude','mass'], ['___/___','=','___',r'\times','___']),
  'lift': (r'L=qSC_L', ['lift','dynamic pressure','wing area','lift coefficient'],
           ['temperature','altitude','mass'], ['___','=','___',r'\times','___',r'\times','___']),
- # The preceding word challenge names both contributions as thrust. Keep the
- # tiles compact enough that the original two-column bank and Check stay on
- # screen at large font sizes.
- 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum part','pressure part'],
+ # Name both contributions as thrust; full-length labels need UI validation.
+ 'total_thrust': (r'T=T_m+T_p', ['total thrust','momentum thrust','pressure thrust'],
                   ['temperature','altitude','mass'], ['___','=','___','+','___']),
  'mean_chord': (r'\bar{c}=\frac{S}{b}', ['mean chord','wing area','wingspan'],
                 ['temperature','density','mass'], ['___','=','___/___']),
@@ -284,13 +282,13 @@ MULTI_NAMED = {
             ['pressure','density','altitude'], ['___','=','___',r'\times','(','___','-','___',')']),
  'fuel_fraction': (r'\frac{m_{\mathrm{fuel}}}{m_i}=1-r', ['fuel mass','initial mass','fraction left'],
                    ['temperature','pressure','area'], ['___/___','=','1','-','___']),
- 'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['stress-limit second moment of area','moment','distance','stress'],
+ 'spar_stress_inertia': (r'I_\sigma=\frac{Mc}{\sigma_a}', ['stress-limit second moment of area','bending moment','outer-fibre distance','allowable stress'],
                          ['pressure','speed','temperature'], ['___','=','___*___/___']),
  'axial_stiffness': (r'k=\frac{EA}{L}', ['stiffness','Young modulus','area','length'],
                      ['pressure','temperature','speed'], ['___','=','___*___/___']),
  'extension': (r'\Delta L=\frac{FL}{E_Y A}', ['extension','force','length','Young modulus','area'],
                ['pressure','temperature','speed'], ['___','=','___*___/___*___']),
- 'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['deflection-limit second moment of area','force','length','Young modulus','deflection'],
+ 'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['deflection-limit second moment of area','tip force','spar length','Young modulus','allowable deflection'],
                              ['pressure','speed','temperature'], ['___','=','(', '___',r'\times','___^3',')',r'\div','(', '3',r'\times','___',r'\times','___',')']),
  'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
               ['distance','flight time','altitude'], ['___','=','___','+','___']),

@@ -17,8 +17,8 @@ for name in names:
                  for suffix in ('-WORDS', '-NAMED-ALL', '-NAMED', '')]
     assert positions == sorted(positions)
     assert sum(part.count('___') for part in first[positions[1]]['inline_latex']) == len(first[positions[1]]['answer_blocks'])
-assert next(q for q in first if q['id']=='SPAR-STRESS-FORMULA-NAMED-ALL')['answer_blocks'] == ['stress-limit second moment of area','moment','distance','stress']
-assert next(q for q in first if q['id']=='SPAR-DEFLECTION-FORMULA-NAMED-ALL')['answer_blocks'] == ['deflection-limit second moment of area','force','length','Young modulus','deflection']
+assert next(q for q in first if q['id']=='SPAR-STRESS-FORMULA-NAMED-ALL')['answer_blocks'] == ['stress-limit second moment of area','bending moment','outer-fibre distance','allowable stress']
+assert next(q for q in first if q['id']=='SPAR-DEFLECTION-FORMULA-NAMED-ALL')['answer_blocks'] == ['deflection-limit second moment of area','tip force','spar length','Young modulus','allowable deflection']
 assert max(i for i,q in enumerate(first) if q['id'] in names) < next(i for i,q in enumerate(first) if q['id'].endswith('-M'))
 for qid in ids:
     original = bank[qid]
