@@ -256,7 +256,7 @@ MULTI_NAMED = {
  'induced_drag': (r'C_{D,i}=\frac{C_L^2}{\pi e AR}', ['induced drag coefficient','lift coefficient','efficiency','aspect ratio'],
                   ['mass','speed','pressure'], ['___','=','___^2',r'\div','(',r'\pi',r'\times','___',r'\times','___',')']),
  'cantilever': (r'k=\frac{3EI}{L^3}', ['stiffness','Young modulus','second moment of area','length'],
-                ['mass','pressure','speed'], ['___','=','(', '3',r'\times','___',r'\times','___',')',r'\div','___^3']),
+                ['mass','pressure','speed'], ['___','=','3*___*___/___^3']),
  'buckling': (r'P_{cr}=\frac{\pi^2 E_Y I}{(KL)^2}', ['critical load','Young modulus','second moment of area','end factor','length'],
               ['mass','pressure'], ['___','=','(',r'\pi^2',r'\times','___',r'\times','___',')',r'\div','(', '___',r'\times','___',r')^2']),
  'static_temperature': (r'T=T_t-\Delta T', ['static temperature','total temperature','temperature rise'],
@@ -304,7 +304,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(4 if p == '___*___/___*___' else 3 if p == '___*___/___' else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p in ('___','e^-___') or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(4 if p == '___*___/___*___' else 3 if p in ('___*___/___','3*___*___/___^3') else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p in ('___','e^-___') or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],

@@ -11,6 +11,7 @@ from formula_words import KINDS, MULTI_NAMED
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
 for source_id,formula_id,expected in (
+    ('TA1-0068-F1','INTRO-CANTILEVER-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-cantilever-fraction']),
     ('TA1-0041-F1','INTRO-AXIAL-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
     ('BOOK-V6-04-D1','BOOK-V6-04-D1',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-22']),
     ('TA1-0737-D3','SPAR-STRESS-FORMULA',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
