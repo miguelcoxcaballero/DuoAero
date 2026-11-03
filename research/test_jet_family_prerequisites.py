@@ -39,5 +39,7 @@ for source in json.loads((root/'app/assets/questions.json').read_text(encoding='
  if audit(source):
   for q in draft(source):
    assert q['formula_hint']['prerequisite'] in symbolic
-   challenge(q)
+   model=challenge(q)
+   if 'rich_text' in q:
+    assert json.loads(model['challengeBlob'])['shirt']['value']
 print('PASS: 56 prerequisite models and all 20 calculation drafts decode; placement, grading and display remain unverified.')
