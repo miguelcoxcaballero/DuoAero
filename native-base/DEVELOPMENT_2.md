@@ -992,3 +992,13 @@ padding restoration. This is a new candidate: compilation and host checks do
 not establish the behavior on Android, and the ongoing previous-SHA runs do
 not validate this change. Preserve the DEX descriptor check and rerun the
 integrated interaction and isolation controls on this candidate.
+
+Integrated diagnostic runs 41586663207 (all four scenarios) and 41586726020
+built the instrumented APK but stopped before Android at the same stale host
+assertion in `test_isothermal_formula.py`: the new explicit named-row marker
+was missing from the expected decoded segments. The expectation now includes
+that marker while retaining the exact formula check; the remaining host tests
+were run locally. These runs provide no interaction or persistence result.
+The current candidate additionally restricts sizing to full names, leaves the
+unmarked three-argument scroll call untouched, and enables the slot observer
+only in instrumentation; its own assembled APK and Android tests remain due.

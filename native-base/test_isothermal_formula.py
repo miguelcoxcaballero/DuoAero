@@ -75,5 +75,5 @@ assert [q['id'] for q in native['challenges']] == ids
 named_native = next(q for q in native['challenges'] if q['id']==formula_id+'-NAMED')
 text = named_native['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
 parts = json.loads(base64.b64decode(text.split('duoaero-gap:',1)[1]))
-assert parts == ['___', r'duoaero-math:formula:\textstyle =p_b e^{-X}']
+assert parts == ['duoaero-named-equation','___', r'duoaero-math:formula:\textstyle =p_b e^{-X}']
 print('PASS: reviewed isothermal formula before the pressure calculation; 20 kPa × 0.50 = 10 kPa. Android UI remains unverified.')
