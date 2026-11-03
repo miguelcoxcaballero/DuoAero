@@ -37293,7 +37293,44 @@
     "checks": [],
     "legacy_id": "TA1-0520",
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=23\\,\\mathrm m,\\ c_r=4.4\\,\\mathrm m,\\ W=200000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 64\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 20008\\,\\mathrm N,\\ V_{cr}=149\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "BOOK-V6-SYS-01-D3",
@@ -38990,7 +39027,44 @@
     "checks": [],
     "legacy_id": "TA1-0693",
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=23.5\\,\\mathrm m,\\ c_r=4.5\\,\\mathrm m,\\ W=205000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 65\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 20470\\,\\mathrm N,\\ V_{cr}=151\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-0854-D3",
@@ -40715,7 +40789,44 @@
     "checks": [],
     "legacy_id": "TA1-0847",
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=24\\,\\mathrm m,\\ c_r=4.6\\,\\mathrm m,\\ W=210000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 66\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 20938\\,\\mathrm N,\\ V_{cr}=153\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-0974-D3",
@@ -42440,7 +42551,44 @@
     "checks": [],
     "legacy_id": null,
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=24.5\\,\\mathrm m,\\ c_r=4.7\\,\\mathrm m,\\ W=215000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 67\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 21412\\,\\mathrm N,\\ V_{cr}=155\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-N3-03-06",
@@ -44165,7 +44313,44 @@
     "checks": [],
     "legacy_id": null,
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=25\\,\\mathrm m,\\ c_r=4.8\\,\\mathrm m,\\ W=220000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 68\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 21892\\,\\mathrm N,\\ V_{cr}=157\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-N3-03-07",
@@ -45890,7 +46075,44 @@
     "checks": [],
     "legacy_id": null,
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=25.5\\,\\mathrm m,\\ c_r=4.9\\,\\mathrm m,\\ W=225000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 69\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 22378\\,\\mathrm N,\\ V_{cr}=159\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-N3-03-08",
@@ -47615,7 +47837,44 @@
     "checks": [],
     "legacy_id": null,
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=26\\,\\mathrm m,\\ c_r=5\\,\\mathrm m,\\ W=230000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 70\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 22870\\,\\mathrm N,\\ V_{cr}=161\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-N3-03-09",
@@ -49340,7 +49599,44 @@
     "checks": [],
     "legacy_id": null,
     "section": "Midterm 1",
-    "content_revision": 2
+    "content_revision": 2,
+    "rich_text": {
+      "stem": [
+        {
+          "text": "Find the feasible taper-width with "
+        },
+        {
+          "latex": "\\lambda\\ge 0"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "b=26.5\\,\\mathrm m,\\ c_r=5.1\\,\\mathrm m,\\ W=235000\\,\\mathrm N,\\ \\rho=1.05"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "V_s\\le 71\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "D\\le 23368\\,\\mathrm N,\\ V_{cr}=163\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+        },
+        {
+          "text": ". "
+        },
+        {
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+        },
+        {
+          "text": "."
+        }
+      ]
+    }
   },
   {
     "id": "TA1-N3-03-10",

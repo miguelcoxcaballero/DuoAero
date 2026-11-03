@@ -26,6 +26,15 @@ def repair(question):
     q['steps']=list(question.get('steps',[]))
     if 'Intersect the taper bounds with a nonnegative tip chord' not in q['steps']:
         q['steps'].append('Intersect the taper bounds with a nonnegative tip chord')
+    # Keep the complete source stem for audit; the compact rich prompt puts
+    # the question and physical domain first, followed by the stated inputs.
+    b,root,weight,rho,vs,cl,drag,speed,e,cd=PATTERN.match(question['stem']).groups()
+    q['rich_text']={'stem':[
+      {'text':'Find the feasible taper-width with '}, {'latex':r'\lambda\ge 0'}, {'text':'. '},
+      {'latex':r'b='+b+r'\,\mathrm m,\ c_r='+root+r'\,\mathrm m,\ W='+weight+r'\,\mathrm N,\ \rho='+rho}, {'text':'. '},
+      {'latex':r'V_s\le '+vs+r'\,\mathrm{m/s},\ C_{L,\max}='+cl}, {'text':'. '},
+      {'latex':r'D\le '+drag+r'\,\mathrm N,\ V_{cr}='+speed+r'\,\mathrm{m/s},\ e='+e+r',\ C_{D0}='+cd}, {'text':'. '},
+      {'latex':r'S=\frac{bc_r(1+\lambda)}{2},\ q=\frac12\rho V_{cr}^{2},\ D_i=\frac{W^2}{q\pi e b^2}'}, {'text':'.'}]}
     q['content_revision']=2
     # Earlier residual checks validated the unphysical algebra only.
     q['checks']=[]

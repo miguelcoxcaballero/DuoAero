@@ -1002,3 +1002,25 @@ were run locally. These runs provide no interaction or persistence result.
 The current candidate additionally restricts sizing to full names, leaves the
 unmarked three-argument scroll call untouched, and enables the slot observer
 only in instrumentation; its own assembled APK and Android tests remain due.
+
+Product-fraction job 125756172463 in 41587456344 passed the unmarked and
+local-symbol/empty-slot model isolation probes, but stopped at the second
+exercise with `No visible gap for safe native bank swipe`; it did not grade
+all 17 controls. The last saved hierarchy shows the answer viewport spanning
+x=56..1384 and the visible cards x=447..993, leaving broad side lanes even
+though the old gesture selector searched only vertical gaps on the center
+line. The next diagnostic attempts a real swipe from a viewport side lane
+outside all visible clickable cards and retains before/after original-slot
+checks; when no lane or center gap exists it saves a failure capture. This is
+an unverified harness change, not evidence that scrolling or layout passed.
+
+Run 41587456344 reported native CORRECT for all 10 revised taper problems,
+all 16 isolated range controls and all 8 existing range-formula controls.
+The reviewed range screenshots show the equals sign grouped with its next
+slot and the scientific number kept together. The taper capture
+`mixed-prompt-7.png`, however, cuts off the long stem around “nonnegative tip”
+when feedback is visible; native grading is not visual acceptance. The eight
+corrected cases now have a compact rich-text prompt that puts the question and
+physical domain first and renders the given equations in LaTeX. Its layout and
+the full one-operation decomposition remain unverified. The range screenshots
+are from before the subsequent correction to zero-fuel-mass terminology.

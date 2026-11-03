@@ -647,7 +647,24 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
-  float x=bounds.exactCenterX(),from=safeBankSwipeStart(bank,bounds,forward),to=forward?bounds.top+25:bounds.bottom-25;
+  java.util.ArrayList<android.graphics.Rect> cards=new java.util.ArrayList<>();collectBankCards(bank,bounds,cards,0);
+  // Prefer a vertical lane inside the actual scroll viewport but outside all
+  // visible clickable cards. The previous centre-line gap search can fail
+  // when card rows fill that column, even when a side lane is available.
+  float x=Float.NaN,from=Float.NaN,to=forward?bounds.top+25:bounds.bottom-25;
+  if(!cards.isEmpty())for(int inset:new int[]{16,32,64}){
+   for(int side=0;side<2;side++){
+    int candidate=side==0?bounds.left+inset:bounds.right-inset;
+    boolean occupied=false;for(android.graphics.Rect card:cards)if(candidate>=card.left&&candidate<card.right){occupied=true;break;}
+    if(!occupied){x=candidate;from=forward?bounds.bottom-35:bounds.top+35;break;}
+   }
+   if(!Float.isNaN(x))break;
+  }
+  if(Float.isNaN(x)){
+   x=bounds.exactCenterX();
+   try{from=safeBankSwipeStart(bank,bounds,forward);}
+   catch(IllegalStateException error){SessionScreen.capture(test,"bank-no-safe-lane","bank-no-safe-lane");throw error;}
+  }
   swipeRegion(test,x,from,to,"bank-swipe");
  }
  private static void swipeRegion(Instrumentation test,float x,float from,float to,String evidencePrefix)throws Exception{
