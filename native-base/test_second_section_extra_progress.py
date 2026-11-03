@@ -22,7 +22,7 @@ def capture(name):
 
 def has(tree,value):
     return any(value.casefold() in (n.get('text','')+' '+n.get('content-desc','')).casefold() for n in tree.iter('node'))
-from feedback_checks import assert_native_correct
+from feedback_checks import assert_native_correct, feedback_terminal
 
 def wait(name,predicate,seconds=90):
     end=time.monotonic()+seconds
@@ -86,7 +86,7 @@ try:
         assert choices,'Expected draft answer card '+q['id'];tap(choices[-1])
         ready=wait('extra-section-ready-'+str(index),lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
         tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
-        feedback=wait('extra-section-feedback-'+str(index),lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
+        feedback=wait('extra-section-feedback-'+str(index),feedback_terminal,60)
         assert_native_correct(feedback, 'Question '+q['id'])
         tap(next(n for n in feedback.iter('node') if n.get('text','')=='CONTINUE' and n.get('enabled')=='true'))
     end=time.monotonic()+100
@@ -118,7 +118,7 @@ try:
     assert choices,'Next topic did not open its first question';tap(choices[-1])
     ready=wait('extra-section-next-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
     tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
-    feedback=wait('extra-section-next-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
+    feedback=wait('extra-section-next-feedback',feedback_terminal,60)
     assert_native_correct(feedback, 'First next-topic question')
     (OUT/'extra-section-result.txt').write_text('PASS: seeded prior diagnostic lessons, completed extra 3.2 lesson, restarted and graded the first 3.3 question; real accounts and remaining course unverified.\n')
 finally:

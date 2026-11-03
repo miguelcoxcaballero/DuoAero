@@ -3,7 +3,7 @@ import unittest
 import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
-from feedback_checks import assert_native_correct
+from feedback_checks import assert_native_correct, feedback_terminal
 
 
 def screen(*texts):
@@ -33,6 +33,9 @@ class FeedbackChecksTest(unittest.TestCase):
             assert_native_correct(recorded('interaction-aerospace-rich-correct-submitted.json'), 'historical technical skip')
 
     def test_continue_alone_is_not_success(self):
+        self.assertFalse(feedback_terminal(screen('CONTINUE')))
+        self.assertTrue(feedback_terminal(screen(' Amazing!', 'CONTINUE')))
+        self.assertTrue(feedback_terminal(screen('Oops! Something went wrong', 'CONTINUE')))
         with self.assertRaises(AssertionError):
             assert_native_correct(screen('CONTINUE'), 'test')
 
