@@ -53,3 +53,12 @@ uses exp rather than a verified superscript arrangement, the multi-factor
 fraction layouts are not accepted, and neither selection nor hint/retry has
 been exercised for these drafts on Android. Session distribution and exact
 historical progress preservation are also still required before integration.
+
+`research/jet_family_distribution.py` now partitions the draft into four
+formula sessions and twenty case sessions (six nodes of four), each with
+10–20 native challenges and prerequisites preceding every linked hint.
+The draft session IDs are absent from all four published session histories;
+the original 20 question IDs are retained in the case finales. This simulation
+does not alter the course or assign historical completions. Integrating it
+still requires resolving old sessions after removing the original questions,
+exact proof migration, native interaction and the unaccepted formula layouts.
