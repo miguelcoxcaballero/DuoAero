@@ -38,7 +38,7 @@ try:
     welcome('fresh-welcome')
     adb('shell','am','force-stop','com.duoaero')
     welcome('fresh-restarted')
-    (out/'result.txt').write_text('PASS: exact permanently signed production APK installed over 1.3.0 and fresh; PackageManager confirms 1.4.0/10400; original Google-only welcome visible before and after force-stop in both cases. No real OAuth, Drive, prior user data migration or in-app installer acceptance asserted.\n')
+    (out/'result.txt').write_text('PASS: exact permanently signed production APK installed over 1.3.7 and fresh; PackageManager confirms 1.4.0/10400; original Google-only welcome visible before and after force-stop in both cases. No real OAuth, Drive, prior user data migration or in-app installer acceptance asserted.\n')
 finally:
     (out/'crashes.txt').write_bytes(adb('logcat','-d','-b','crash'))
     (out/'last-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))
