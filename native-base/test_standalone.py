@@ -38,7 +38,7 @@ def capture(name):
     except ET.ParseError:
         # Android can temporarily expose no root during a real screen change.
         # Preserve that observation and keep waiting; never treat it as a pass.
-        with (OUT/'standalone-capture-retries.txt').open('ab') as log:log.write(dump+b'\n'+xml+b'\n')
+        with (OUT/'standalone-capture-retries.txt').open('ab') as log:log.write(b'UI hierarchy temporarily unavailable.\n')
         return None
     # Capture after the hierarchy query; the previous pre-query image could
     # still show splash while the later XML already described the home.
@@ -203,7 +203,7 @@ try:
     routes=adb('logcat','-d','-s','DuoAeroNative:I').decode()
     selected=re.findall(r'Local original session selected: ([A-Za-z0-9_-]+)',routes)
     assert selected and selected[-1]==second_id, 'Live path did not select its next lesson before restart'
-    (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
+    (OUT/'standalone-before-restart-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroCompletionTiming:I','*:S'))
     adb('shell','am','force-stop',PACKAGE)
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     tree=wait_for('standalone-restored-home',lambda t:earned_rewards(t) and any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
@@ -218,5 +218,5 @@ try:
     assert selected and selected[-1]==second_id, 'Restored path did not select its next lesson'
     (OUT/'standalone-result.txt').write_text('PASS: cold start, 19 correct native answers, Claim XP, return to path, committed completion plus visible10gems/1day streak after process restart, and next lesson selected through the original node. This does not establish the entire course or account/Drive behavior.\n')
 finally:
-    (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E','chromium:E'))
-    (OUT/'standalone-anr.txt').write_bytes(adb('shell','dumpsys','activity','lastanr'))
+    (OUT/'standalone-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroCompletionTiming:I','*:S'))
+    (OUT/'standalone-anr.txt').write_text('Omitted from synthetic timing evidence to avoid exporting identifiers.\n')

@@ -277,7 +277,15 @@ fraction_hook='''
     return-void
     :duoaero_original_figure
 '''
+# Diagnostic only: observe actual activity input without consuming it.
+timing_activity_source=SMALI/'smali_classes3/com/duolingo/session/SessionActivity.smali'
+timing_activity_original=timing_activity_source.read_bytes()
+timing_activity_text=timing_activity_original.decode('utf-8').replace('\r\n','\n')
+timing_activity_anchor='    invoke-super {p0}, Landroidx/fragment/app/FragmentActivity;->onResume()V'
+assert timing_activity_text.count(timing_activity_anchor)==1
+timing_activity_text=timing_activity_text.replace(timing_activity_anchor,timing_activity_anchor+'\n\n    invoke-static {p0}, Lcom/duoaero/nativebase/NativeCompletionTiming;->attach(Landroid/app/Activity;)V')
 try:
+ timing_activity_source.write_text(timing_activity_text,encoding='utf-8')
  fraction_source.write_text(fraction_text.replace(fraction_anchor,fraction_anchor+'\n'+fraction_hook),encoding='utf-8')
  app_name_source.write_text(app_name_text,encoding='utf-8')
  shortcut_source.write_text(shortcut_text,encoding='utf-8')
@@ -293,6 +301,7 @@ try:
  welcome_source.write_text(welcome_text.replace(welcome_anchor,welcome_anchor+welcome_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes3',WORK/'classes3.dex')
 finally:
+ timing_activity_source.write_bytes(timing_activity_original)
  fraction_source.write_bytes(fraction_original)
  app_name_source.write_bytes(app_name_original)
  shortcut_source.write_bytes(shortcut_original)
@@ -525,7 +534,20 @@ for binding in ('bkg','ckg'):
          '    invoke-static {v2, v3}, La7k;->w(Landroid/widget/ImageView;Ltt80;)V')
  assert quit_text.count(anchor)==1
  quit_text=quit_text.replace(anchor,anchor+'\n\n    invoke-static {v2}, Lcom/duoaero/nativebase/NativeMascotView;->animateQuitImage(Landroid/widget/ImageView;)V',1)
+# Diagnostic only: mark the real original completion view and its first drawn CTA.
+timing_summary_source=SMALI/'smali_classes7/com/duolingo/sessionend/sessioncomplete/SessionCompleteFragment.smali'
+timing_summary_original=timing_summary_source.read_bytes()
+timing_summary_text=timing_summary_original.decode('utf-8').replace('\r\n','\n')
+timing_summary_anchor='    check-cast v5, Lqjg;'
+assert timing_summary_text.count(timing_summary_anchor)==1
+timing_summary_hook=timing_summary_anchor+'''
+    iget-object v0, v5, Lqjg;->a:Landroidx/constraintlayout/widget/ConstraintLayout;
+    iget-object v1, v5, Lqjg;->e:Lcom/duolingo/core/design/juicy/ui/JuicyButton;
+    invoke-static {v0, v1}, Lcom/duoaero/nativebase/NativeCompletionTiming;->observeSummary(Landroid/view/View;Landroid/view/View;)V
+'''
+timing_summary_text=timing_summary_text.replace(timing_summary_anchor,timing_summary_hook)
 try:
+ timing_summary_source.write_text(timing_summary_text,encoding='utf-8')
  quit_source.write_text(quit_text,encoding='utf-8')
  chest_source.write_text(chest_text,encoding='utf-8')
  inline_source.write_text(inline_text,encoding='utf-8')
@@ -533,6 +555,7 @@ try:
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
 finally:
+ timing_summary_source.write_bytes(timing_summary_original)
  quit_source.write_bytes(quit_original)
  chest_source.write_bytes(chest_original)
  inline_source.write_bytes(inline_original)
