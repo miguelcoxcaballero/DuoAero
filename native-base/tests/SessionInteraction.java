@@ -538,13 +538,13 @@ final class SessionInteraction {
   }finally{root.recycle();}
  }
  private static boolean visibleBankCandidate(AccessibilityNodeInfo root,AccessibilityNodeInfo label,AccessibilityNodeInfo equation){
-  if(label==null||equation==null)return false;
+  if(label==null)return false;
   android.graphics.Rect item=new android.graphics.Rect(),viewport=new android.graphics.Rect();
-  label.getBoundsInScreen(item);equation.getBoundsInScreen(viewport);
+  label.getBoundsInScreen(item);if(equation!=null)equation.getBoundsInScreen(viewport);
   AccessibilityNodeInfo submit=find(root,"com.duolingo:id/submitButton",null,0);
   int bottom=Integer.MAX_VALUE;
   if(submit!=null)try{android.graphics.Rect r=new android.graphics.Rect();submit.getBoundsInScreen(r);bottom=r.top;}finally{submit.recycle();}
-  if(item.isEmpty()||item.top<viewport.bottom||item.bottom>bottom)return false;
+  if(item.isEmpty()||(equation!=null&&item.top<viewport.bottom)||item.bottom>bottom)return false;
   AccessibilityNodeInfo node=AccessibilityNodeInfo.obtain(label);
   try{
    for(int depth=0;depth<8;depth++){
@@ -563,6 +563,12 @@ final class SessionInteraction {
    dismissPixelLauncherAnr(test);
    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
    if(root!=null)try{
+    // Some individual long text cards expose themselves as scrollable.
+    // Prefer an already visible bank card before looking for a scroll view.
+    AccessibilityNodeInfo visibleLabel=findLast(root,text,0),equation=findEquationScroll(root,0);
+    try{if(visibleBankCandidate(root,visibleLabel,equation)){node=visibleLabel;visibleLabel=null;}}
+    finally{if(visibleLabel!=null)visibleLabel.recycle();if(equation!=null)equation.recycle();}
+    if(node!=null)break;
     AccessibilityNodeInfo bank=lastScrollable(root,0);
     try{
      if(bank==null)node=findLast(root,text,0);

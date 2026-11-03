@@ -76,6 +76,15 @@ provides a repeatable repair and the test rejects reintroduced invalid output.
 Published historical completions are not altered by this editorial repair;
 Android grading/layout of the revised questions remains unverified.
 
+Run 41591175636 rendered the clarified taper stem with its last formula clipped
+and the emulator killed the app under memory pressure after nine graded cases.
+`research/taper_stages.py` now scaffolds 24 single-operation calculations for
+each of the ten variants and checks their resulting algebraic bounds against
+the independent domain calculation. These are arithmetic drafts only: they
+have no answer choices, taught prerequisites, domain-decision steps, hints,
+course sessions, migration or Android validation. They do not fix the live
+clipped prompt until that remaining work is completed and integrated.
+
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,
 uses one displayed arithmetic operation per step, and enforces a real wind
