@@ -3,9 +3,10 @@ package com.duoaero.nativebase;
 /** Isolated diagnostic: size named tokens, preserving default symbolic tokens. */
 public final class NativeNamedTokenSizing {
  private static final ThreadLocal<Boolean> NAMED_ROW=new ThreadLocal<>();
+ private static Object bankClipBlock;
  private NativeNamedTokenSizing(){}
  static boolean active(){return Boolean.TRUE.equals(NAMED_ROW.get());}
- static boolean enter(boolean named){boolean old=Boolean.TRUE.equals(NAMED_ROW.get());if(named)NAMED_ROW.set(Boolean.TRUE);return old;}
+ static boolean enter(boolean named){boolean old=Boolean.TRUE.equals(NAMED_ROW.get());if(named)NAMED_ROW.set(Boolean.TRUE);else NAMED_ROW.remove();return old;}
  static void exit(boolean old){if(old)NAMED_ROW.set(Boolean.TRUE);else NAMED_ROW.remove();}
  private static boolean named(Object token){
   if(!NativeCourseBridge.hasLocalCourse())return false;
@@ -30,16 +31,20 @@ public final class NativeNamedTokenSizing {
   try{
    ClassLoader loader=modifier.getClass().getClassLoader();
    Class<?> callback=Class.forName("qqh",true,loader),mod=Class.forName("z5q",true,loader);
-   Object block=java.lang.reflect.Proxy.newProxyInstance(loader,new Class<?>[]{callback},(proxy,method,args)->{
-    if(method.getName().equals("invoke")){
-     Object scope=args[0];scope.getClass().getMethod("d",boolean.class).invoke(scope,true);
-     return Class.forName("xv80",true,loader).getField("a").get(null);
-    }
-    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
-    if(method.getName().equals("equals"))return proxy==args[0];
-    if(method.getName().equals("toString"))return "DuoAero named bank clip";
-    return null;
-   });
+   Object block;
+   synchronized(NativeNamedTokenSizing.class){
+    if(bankClipBlock==null)bankClipBlock=java.lang.reflect.Proxy.newProxyInstance(loader,new Class<?>[]{callback},(proxy,method,args)->{
+     if(method.getName().equals("invoke")){
+      Object scope=args[0];scope.getClass().getMethod("d",boolean.class).invoke(scope,true);
+      return Class.forName("xv80",true,loader).getField("a").get(null);
+     }
+     if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
+     if(method.getName().equals("equals"))return proxy==args[0];
+     if(method.getName().equals("toString"))return "DuoAero named bank clip";
+     return null;
+    });
+    block=bankClipBlock;
+   }
    return Class.forName("yuk",true,loader).getMethod("j",mod,callback).invoke(null,modifier,block);
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot clip named answer bank",error);}
  }

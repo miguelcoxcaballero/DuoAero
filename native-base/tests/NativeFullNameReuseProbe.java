@@ -13,6 +13,17 @@ final class NativeFullNameReuseProbe {
   test.runOnMainSync(()->{
    try{
     android.content.Context context=test.getTargetContext();
+    Class<?> scope=Class.forName("com.duoaero.nativebase.NativeNamedTokenSizing",true,context.getClassLoader());
+    Method enter=scope.getDeclaredMethod("enter",boolean.class),exit=scope.getDeclaredMethod("exit",boolean.class),active=scope.getDeclaredMethod("active");
+    enter.setAccessible(true);exit.setAccessible(true);active.setAccessible(true);
+    boolean outer=(Boolean)enter.invoke(null,true);
+    if(!((Boolean)active.invoke(null)))throw new IllegalStateException("Named scope did not enter");
+    boolean inner=(Boolean)enter.invoke(null,false);
+    if((Boolean)active.invoke(null))throw new IllegalStateException("Non-named nested scope inherited named sizing");
+    exit.invoke(null,inner);
+    if(!((Boolean)active.invoke(null)))throw new IllegalStateException("Named scope not restored after nesting");
+    exit.invoke(null,outer);
+    if((Boolean)active.invoke(null))throw new IllegalStateException("Named scope leaked after rendering");
     Class<?> helper=Class.forName("com.duoaero.nativebase.NativeFullNameProbe",true,context.getClassLoader());
     Method named=helper.getDeclaredMethod("setNamedPadding",FrameLayout.class);named.setAccessible(true);
     Method apply=helper.getMethod("apply",View.class,View.class,Object.class);

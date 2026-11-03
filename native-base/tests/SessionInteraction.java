@@ -653,9 +653,15 @@ final class SessionInteraction {
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
-  for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=lastScrollable(child,depth+1);if(found!=null)return found;}finally{child.recycle();}}
+  AccessibilityNodeInfo descendant=null;
+  for(int i=node.getChildCount()-1;i>=0&&descendant==null;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{descendant=lastScrollable(child,depth+1);}finally{child.recycle();}}
   android.graphics.Rect bounds=new android.graphics.Rect();node.getBoundsInScreen(bounds);
-  return node.isVisibleToUser()&&node.isScrollable()&&bounds.height()>=80?AccessibilityNodeInfo.obtain(node):null;
+  if(node.isVisibleToUser()&&node.isScrollable()&&bounds.height()>=80){
+   if(descendant==null)return AccessibilityNodeInfo.obtain(node);
+   android.graphics.Rect inner=new android.graphics.Rect();descendant.getBoundsInScreen(inner);
+   if(bounds.contains(inner)&&bounds.height()>inner.height()){descendant.recycle();return AccessibilityNodeInfo.obtain(node);}
+  }
+  return descendant;
  }
  private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
   if(depth>50||!own(node))return false;
