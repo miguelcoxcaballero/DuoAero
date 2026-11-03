@@ -120,3 +120,12 @@ resolves the earlier question of whether the unchanged resource started, but
 does not establish a continuously smooth atlas or acceptance of the actual
 message-card scene. The later stopped state and difference in looping remain
 observable limitations of the isolated comparison.
+
+A static size inventory of the ten completion artboards sums their 160 RGBA
+frame dimensions to 59.94 MiB if each image is decoded once. Two artboards
+use the same sixteen `overjoyed` files; sharing those bytes would make that
+sum 53.94 MiB without dropping poses. These are theoretical uncompressed
+sizes, not measured Rive allocations, and do not explain the emulator memory
+growth on their own. The ongoing journey samples native/Dalvik PSS, native
+heap, screenshots and flow-count over time; check those measurements and Rive
+lifecycle evidence before selecting a memory correction.
