@@ -525,7 +525,20 @@ for binding in ('bkg','ckg'):
          '    invoke-static {v2, v3}, La7k;->w(Landroid/widget/ImageView;Ltt80;)V')
  assert quit_text.count(anchor)==1
  quit_text=quit_text.replace(anchor,anchor+'\n\n    invoke-static {v2}, Lcom/duoaero/nativebase/NativeMascotView;->animateQuitImage(Landroid/widget/ImageView;)V',1)
+summary_pause_source=SMALI/'smali_classes7/com/duolingo/sessionend/sessioncomplete/ShortLessonStatCardView.smali'
+summary_pause_original=summary_pause_source.read_bytes()
+summary_pause_text=summary_pause_original.decode('utf-8').replace('\r\n','\n')
+summary_pause_start=summary_pause_text.index('.method public static w(')
+summary_pause_end=summary_pause_text.index('.end method',summary_pause_start)
+summary_pause_method=summary_pause_text[summary_pause_start:summary_pause_end]
+for register in ('v5','v22'):
+ anchor='    const-wide/16 '+register+', 0x258'
+ assert summary_pause_method.count(anchor)==1
+ call=('    invoke-static {v5, v6}' if register=='v5' else '    invoke-static/range {v22 .. v23}')
+ summary_pause_method=summary_pause_method.replace(anchor,anchor+'\n\n'+call+', Lcom/duoaero/nativebase/NativeCourseBridge;->summaryPause(J)J\n\n    move-result-wide '+register)
+summary_pause_text=summary_pause_text[:summary_pause_start]+summary_pause_method+summary_pause_text[summary_pause_end:]
 try:
+ summary_pause_source.write_text(summary_pause_text,encoding='utf-8')
  quit_source.write_text(quit_text,encoding='utf-8')
  chest_source.write_text(chest_text,encoding='utf-8')
  inline_source.write_text(inline_text,encoding='utf-8')
@@ -533,6 +546,7 @@ try:
  grade_source.write_text(grade_text.replace(grade_anchor,grade_hook),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes7',WORK/'classes7.dex')
 finally:
+ summary_pause_source.write_bytes(summary_pause_original)
  quit_source.write_bytes(quit_original)
  chest_source.write_bytes(chest_original)
  inline_source.write_bytes(inline_original)
