@@ -92,6 +92,10 @@ clipped prompt until that remaining work is completed and integrated.
 sessions of 12–16 questions, with all seven formulas before their calculations.
 Tests confirm that these session IDs were absent from published histories;
 they do not implement or validate migration and grant no completion credit.
+Simply removing the ten original items from the current path would leave
+`2.4-2-point-1-lesson-0` and `2.4-2-point-1-lesson-1` with only nine native
+controls each. The distribution test records this exact integration issue;
+any redistribution must also preserve historical proof semantics.
 
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,

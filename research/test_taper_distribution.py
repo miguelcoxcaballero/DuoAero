@@ -5,6 +5,7 @@ root=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(root/'native-base'))
 from prerequisite_validation import multi_symbol_prerequisite
 from taper_distribution import distribution
+from course_adapter import lesson_questions
 
 bank=json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 lessons=distribution(bank)
@@ -21,6 +22,16 @@ for lesson in lessons:
     if lesson['id'].startswith('taper-practice-') and lesson['id'].endswith('-2'):
         sources.append(lesson['questions'][-1]['id'])
 assert len(sources)==len(set(sources))==10
+by_id={q['id']:q for q in bank}
+plan=json.loads((root/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
+underfilled={}
+for node in plan:
+    for lesson in node['lessons']:
+        if set(lesson['ids']).intersection(sources):
+            remaining=[by_id[i] for i in lesson['ids'] if i not in sources]
+            size=len(lesson_questions(remaining,teach_words=True))
+            if size<10:underfilled[lesson['id']]=size
+assert underfilled=={'2.4-2-point-1-lesson-0':9,'2.4-2-point-1-lesson-1':9},underfilled
 session_ids={lesson['id'] for lesson in lessons}
 for version in ('1.3.0','1.3.5','1.3.6','1.3.7'):
     history=json.loads((root/'native-base/session-history'/f'{version}.json').read_text())
