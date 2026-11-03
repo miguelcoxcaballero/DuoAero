@@ -70,6 +70,27 @@ def open_second_section(prefix):
     tap([n for n in expanded.iter('node') if n.get('text','').casefold()=='midterm 2'][-1])
     return wait(prefix+'-path',lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')),120)
 
+def open_topic(topic,title,prefix):
+    for attempt in range(10):
+        path=capture(prefix+'-path-'+str(attempt))
+        if path is not None:
+            headers=[n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/headerText']
+            target=next((n for n in headers if n.get('text','').casefold().startswith(topic.casefold()+' ·')),None)
+            if target is not None:
+                top=int(re.findall(r'\d+',target.get('bounds'))[3])
+                later=[int(re.findall(r'\d+',n.get('bounds'))[1]) for n in headers if int(re.findall(r'\d+',n.get('bounds'))[1])>top]
+                end=min(later) if later else 99999
+                levels=[n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval' and top<int(re.findall(r'\d+',n.get('bounds'))[1])<end]
+                if levels:
+                    tap(levels[0])
+                    popup=wait(prefix+'-node',lambda t:any(n.get('resource-id')=='com.duolingo:id/titleText' for n in t.iter('node')),30)
+                    assert any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()==title.casefold() for n in popup.iter('node')), 'Wrong node opened: '+topic
+                    buttons=[n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true']
+                    assert buttons,'Target node is locked: '+topic
+                    tap(buttons[0]);return
+        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
+    raise AssertionError('Diagnostic node not visible: '+topic)
+
 try:
     adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
     with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as apk:
@@ -91,20 +112,7 @@ try:
                       'nativeSubmission':proof,'completionSubmission':proof,'completedOnce':True})
     adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     path=open_second_section('extra-section')
-    # Locate the original 5.1 path node by its popup title after scrolling.
-    for attempt in range(10):
-        path=capture('aircraft-path-'+str(attempt))
-        if path is not None and has(path,'5.1'):
-            ovals=[n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']
-            for oval in reversed(ovals):
-                tap(oval);time.sleep(1);popup=capture('aircraft-node')
-                if popup is not None and any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()=='diverse aircraft' for n in popup.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in popup.iter('node')):
-                    tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true'));break
-                adb('shell','input','keyevent','4')
-            else:continue
-            break
-        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
-    else:raise AssertionError('5.1 diagnostic node not opened')
+    open_topic('5.1','Diverse aircraft','aircraft')
     questions=json.loads((Path(__file__).resolve().parents[1]/'research/midterm2_diverse_aircraft_extra.json').read_text())['questions']
     for index,q in enumerate(questions):
         answer=q['options'][q['answer']]
@@ -129,18 +137,7 @@ try:
     assert saved.get('completedOnce') is True
     adb('shell','am','force-stop',PACKAGE);adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
     open_second_section('extra-section-restart')
-    for attempt in range(10):
-        path=capture('aircraft-next-path-'+str(attempt))
-        if path is not None and has(path,'5.2'):
-            for oval in reversed([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']):
-                tap(oval);time.sleep(1);popup=capture('aircraft-next-node')
-                if popup is not None and any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()=='rotorcraft' for n in popup.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in popup.iter('node')):
-                    tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true'));break
-                adb('shell','input','keyevent','4')
-            else:continue
-            break
-        adb('shell','input','swipe','700','2200','700','700','500');time.sleep(1)
-    else:raise AssertionError('Next 5.2 diagnostic node not opened after restart')
+    open_topic('5.2','Rotorcraft','aircraft-next')
     draft=json.loads((Path(__file__).resolve().parents[1]/'research/midterm2_concepts.json').read_text())
     first=next(q for q in draft['questions'] if q['topic']=='5.2');answer=first['options'][first['answer']]
     question=wait('extra-section-next-question',lambda t:has(t,answer),90)
