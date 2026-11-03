@@ -23,6 +23,7 @@ jobs:
           python3 research/test_speed_limits_lesson.py
           python3 research/test_space_environment_extra.py
           python3 research/test_spacecraft_extra.py
+          python3 research/test_rotorcraft_extra.py
           python3 native-base/test_simple_calculation_hints.py
           python3 native-base/test_rich_question.py
       - name: Check account and Drive boundaries
