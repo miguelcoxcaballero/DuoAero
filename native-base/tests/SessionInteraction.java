@@ -142,9 +142,11 @@ final class SessionInteraction {
     org.json.JSONArray sequence=q.getJSONArray("answer"),items=q.getJSONArray("items");
     for(int j=0;j<sequence.length();j++){clickLast(test,items.getString(sequence.getInt(j)));Thread.sleep(300);}
    }else throw new IllegalStateException("No mixed driver for "+kind);
-   if(kind.equals("formula_named") && q.getString("id").startsWith("BOOK-V6-03-") && q.getString("id").endsWith("-NAMED-ALL")){
+   if(kind.equals("formula_named") && q.getString("id").endsWith("-NAMED-ALL") &&
+      (q.getString("id").startsWith("BOOK-V6-03-") || q.getString("id").startsWith("SPAR-DEFLECTION-"))){
     AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();AccessibilityNodeInfo equation=null;
     if(root==null)throw new IllegalStateException("No screen to scroll the equation");
+    SessionScreen.capture(test,"mixed-equation-before-"+i,"mixed-equation-before-"+i);
     try{
      equation=findEquationScroll(root,0);
      if(equation==null)throw new IllegalStateException("Long equation has no scrollable original row");

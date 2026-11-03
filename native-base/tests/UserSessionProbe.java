@@ -54,6 +54,17 @@ public final class UserSessionProbe extends Instrumentation {
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
   }
   if(nonLocalRender){
+   // Record exception types and code locations only, never exception messages,
+   // request contents or identifiers. Preserve the original uncaught handler.
+   Thread.UncaughtExceptionHandler original=Thread.getDefaultUncaughtExceptionHandler();
+   Thread.setDefaultUncaughtExceptionHandler((thread,failure)->{
+    for(Throwable cause=failure;cause!=null;cause=cause.getCause()){
+     android.util.Log.e("DuoAeroNonlocalProbe", "cause="+cause.getClass().getName());
+     for(StackTraceElement frame:cause.getStackTrace())
+      android.util.Log.e("DuoAeroNonlocalProbe", "at="+frame.getClassName()+"."+frame.getMethodName());
+    }
+    if(original!=null)original.uncaughtException(thread,failure);
+   });
    // Synthetic offline fixture only. The workflow disables emulator networking
    // before requesting the app's ordinary non-local rendering branch.
    Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);

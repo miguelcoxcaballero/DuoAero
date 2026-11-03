@@ -196,7 +196,7 @@ public final class NativeInlineGap {
    // build.py restores its alignment argument for this call.
    Object lineCenter=Class.forName("b9z",true,l).getField("l").get(null);
    Object equationModifier=equation && gapCount>=4
-    ?NativeCourseBridge.scrollLongBuildSpace(slots,defaultModifier,composer):defaultModifier;
+    ?NativeCourseBridge.scrollLongBuildSpace(slots,defaultModifier,composer,namedEquation):defaultModifier;
    boolean priorSizing=NativeNamedTokenSizing.enter(namedEquation);
    try{
     Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
