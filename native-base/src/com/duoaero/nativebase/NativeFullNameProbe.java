@@ -32,6 +32,8 @@ public final class NativeFullNameProbe {
    if(existing!=null)existing.setVisibility(View.GONE);
    figure.setVisibility(View.VISIBLE);return;
   }
+  int hostPad=Math.round(3*host.getResources().getDisplayMetrics().density);
+  host.setPaddingRelative(hostPad,hostPad,hostPad,hostPad);
   TextView label;
   if(existing instanceof TextView) label=(TextView)existing;
   else {
