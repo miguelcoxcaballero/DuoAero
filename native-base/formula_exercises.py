@@ -32,7 +32,10 @@ def math_latex(value):
                'V_kmh': r'V_{\mathrm{km/h}}', 'V_ms': r'V_{\mathrm{m/s}}',
                'm_kg': r'm_{\mathrm{kg}}', 'm_g': r'm_{\mathrm{g}}',
                'F_N': r'F_{\mathrm{N}}', 'F_kN': r'F_{\mathrm{kN}}',
-               'c_N': r'c_{\mathrm{N}}', 'c_kN': r'c_{\mathrm{kN}}'}
+               'c_N': r'c_{\mathrm{N}}', 'c_kN': r'c_{\mathrm{kN}}',
+               'mu': r'\mu', 'm_tt': r'm_{t,\mathrm{tank}}',
+               'm_tm': r'm_{t,\max}', 'm_lm': r'm_{l,\max}',
+               'm_fm': r'm_{f,\max}', 'c_e': r'c_e'}
     if value in indexed:
         return r'\textstyle ' + indexed[value]
     symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',

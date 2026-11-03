@@ -66,7 +66,7 @@
       "topic": "3.1",
       "type": "choice",
       "difficulty": 1,
-      "stem": "Why does a chemical rocket carry an oxidizer for operation in space?",
+      "stem": "Why does a bipropellant chemical rocket carry an oxidizer for operation in space?",
       "options": [
         "The oxidizer replaces the need to expel exhaust",
         "The fuel can burn only when atmospheric oxygen is supplied",
@@ -74,7 +74,7 @@
         "There is no surrounding atmosphere to supply it"
       ],
       "answer": 3,
-      "explanation": "A rocket carries its own oxidizer, allowing its chemical propulsion system to operate without atmospheric oxygen."
+      "explanation": "A bipropellant rocket carries fuel and oxidizer, allowing it to operate without atmospheric oxygen."
     },
     {
       "id": "M2-LV-016",
@@ -115,11 +115,11 @@
       "options": [
         "All components must be replaced after every flight regardless of condition",
         "Inspection is unnecessary because flight cannot wear components",
-        "Inspection and refurbishment may be needed after operation",
+        "Thermal and mechanical loads can wear components",
         "A landing restores consumed engine life automatically"
       ],
       "answer": 2,
-      "explanation": "Recovered hardware can require inspection, repair and refurbishment before another flight."
+      "explanation": "Thermal and mechanical loads can wear components, requiring inspection or refurbishment before reuse."
     },
     {
       "id": "M2-LV-019",

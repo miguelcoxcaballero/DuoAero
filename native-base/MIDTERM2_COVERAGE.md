@@ -74,3 +74,12 @@ oxidizer in vacuum, long-term storage, recovery mass trade-offs, refurbishment,
 re-entry heating and landing logistics. It was compared with the supplied
 launch material. The ten questions remain outside the path until editorial,
 Android and progression checks are complete.
+
+The launch-propulsion draft explicitly scopes M2-LV-015 to bipropellant
+rockets, since monopropellants can decompose catalytically. M2-LV-018 teaches
+thermal/mechanical loading and wear as reasons recovered engines require
+inspection. Public checks: NASA SmallSat propulsion state of the art
+(https://www.nasa.gov/smallsat-institute/sst-soa/in-space_propulsion/) and
+NASA reusable-engine thermomechanical fatigue report
+(https://ntrs.nasa.gov/api/citations/19950016778/downloads/19950016778.pdf).
+These editorial checks do not establish native UI or course integration.
