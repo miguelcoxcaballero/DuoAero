@@ -45,7 +45,7 @@ def native_positive_banner(screenshot, evidence):
                    for x in (.03, .5, .97) for y in (.80, .84)]
         if sum(g > r * 1.05 and g > b * 1.10 for r,g,b in samples) < 3:
             return False
-        source.crop((0, int(height * .77), width, int(height * .86))).save(evidence)
+        source.crop((0, int(height * .77), width, int(height * .91))).save(evidence)
     try:
         result = subprocess.run(['tesseract', str(evidence), 'stdout', '--psm', '6', 'tsv'],
                                 capture_output=True, text=True, check=True, timeout=15)
