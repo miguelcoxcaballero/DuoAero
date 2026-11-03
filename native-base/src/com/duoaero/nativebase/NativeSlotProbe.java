@@ -8,6 +8,7 @@ public final class NativeSlotProbe {
  private static volatile boolean enabled;
  private NativeSlotProbe(){}
  public static void enable(){enabled=true;}
+ public static boolean isEnabled(){return enabled;}
  public static void capture(List<?> slots){
   if(!enabled)return;
   if(slots==null){last=null;return;}

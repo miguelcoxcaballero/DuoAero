@@ -64,9 +64,9 @@ public final class NativeFullNameProbe {
   label.setTextColor(night?Color.WHITE:Color.rgb(60,60,60));
   label.setText(name);label.setVisibility(View.VISIBLE);figure.setVisibility(View.INVISIBLE);
   final TextView measured=label; final String measuredName=name;
-  if(name.equals("deflection-limit second moment of area") || name.equals("stress-limit second moment of area") ||
+  if(NativeSlotProbe.isEnabled() && (name.equals("deflection-limit second moment of area") || name.equals("stress-limit second moment of area") ||
      name.equals("second moment of area") || name.equals("thrust-specific fuel consumption") ||
-     name.equals("gravitational acceleration") || name.equals("specific heat capacity at constant pressure")) {
+     name.equals("gravitational acceleration") || name.equals("specific heat capacity at constant pressure"))) {
    measured.post(() -> {
     android.text.Layout layout=measured.getLayout(); if(layout==null)return;
     int[] point=new int[2];measured.getLocationOnScreen(point);

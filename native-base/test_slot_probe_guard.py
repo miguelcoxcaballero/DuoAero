@@ -8,9 +8,10 @@ with tempfile.TemporaryDirectory() as tmp:
  (p/'qp3.java').write_text('public class qp3 { public String getId(){ return "synthetic-b"; } }')
  (p/'SlotGuard.java').write_text('''import java.util.*; import com.duoaero.nativebase.NativeSlotProbe;
 public class SlotGuard { public static void main(String[] a) {
+ if(NativeSlotProbe.isEnabled())throw new AssertionError("observer defaults on");
  NativeSlotProbe.capture(Arrays.asList(new pp3()));
  if(NativeSlotProbe.snapshot()!=null)throw new AssertionError("observer active before opt-in");
- NativeSlotProbe.enable();NativeSlotProbe.capture(Arrays.asList(new pp3()));
+ NativeSlotProbe.enable();if(!NativeSlotProbe.isEnabled())throw new AssertionError("observer did not enable");NativeSlotProbe.capture(Arrays.asList(new pp3()));
  String first=NativeSlotProbe.snapshot();if(first==null||!first.startsWith("pp3:"))throw new AssertionError("missing capture");
  NativeSlotProbe.capture(Arrays.asList(new qp3()));
  if(first.equals(NativeSlotProbe.snapshot()))throw new AssertionError("changed state not captured");
