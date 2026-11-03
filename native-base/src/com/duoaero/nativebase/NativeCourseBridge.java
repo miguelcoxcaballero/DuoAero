@@ -404,6 +404,10 @@ public final class NativeCourseBridge {
   // Opt-in synthetic diagnostics only: report route categories and counts,
   // never batch bodies, query strings, identifiers or user data. The request
   // and its response stay unchanged; some batched operations can be stateful.
+  // Synthetic timing probe only: aggregate pre-approved field categories.
+  if(localOnly&&method.equals("POST")&&path.equals("/2017-06-30/batch")){
+   try{diagnosticUserPatchShape(request);}catch(Exception ignored){Log.i("DuoAeroBatchShape","inspection_unavailable");}
+  }
   if(localOnly&&captureLocalRequests&&method.equals("POST")&&path.equals("/2017-06-30/batch")){
    try{diagnosticBatchCategories(request);}catch(Exception ignored){Log.i("DuoAeroNative","Synthetic batch categories unavailable");}
   }
@@ -515,6 +519,36 @@ public final class NativeCourseBridge {
    String key=method+":"+category;counts.put(key,counts.containsKey(key)?counts.get(key)+1:1);
   }
   Log.i("DuoAeroNative","Synthetic batch route categories: "+counts);
+ }
+ private static int syntheticUserPatches;
+ private static final java.util.Map<String,Integer> syntheticPatchCategories=new java.util.TreeMap<>();
+ private static synchronized void diagnosticUserPatchShape(Object request)throws Exception {
+  org.json.JSONArray requests=requestJson(request).optJSONArray("requests");if(requests==null)return;
+  for(int i=0;i<requests.length();i++){
+   JSONObject item=requests.optJSONObject(i);if(item==null||!"PATCH".equalsIgnoreCase(item.optString("method")))continue;
+   String route;try{route=new java.net.URI(item.optString("url","")).getPath();}catch(Exception invalid){continue;}
+   if(route==null||!route.matches("/(?:[0-9-]+/)?users/1"))continue;
+   syntheticUserPatches++;
+   Object raw=item.opt("body");JSONObject body=raw instanceof JSONObject?(JSONObject)raw:null;
+   if(body==null&&raw instanceof String)try{body=new JSONObject((String)raw);}catch(org.json.JSONException ignored){}
+   if(body==null){countSyntheticPatchCategory("unparsed");continue;}
+   java.util.Set<String> seen=new java.util.HashSet<>();
+   java.util.Iterator<String> keys=body.keys();
+   while(keys.hasNext()){
+    String key=keys.next();
+    if(key.equals("streak")||key.equals("streakData")||key.equals("timezone"))seen.add("streak");
+    else if(key.equals("xpGains")||key.equals("xpGoal"))seen.add("xp");
+    else if(key.equals("currentCourseId")||key.equals("fromLanguage")||key.equals("learningLanguage"))seen.add("course");
+    else seen.add("other");
+   }
+   if(seen.isEmpty())seen.add("empty");for(String category:seen)countSyntheticPatchCategory(category);
+  }
+  if(syntheticUserPatches>0&&(syntheticUserPatches<=3||syntheticUserPatches%50==0))
+   Log.i("DuoAeroBatchShape","user_patch_count="+syntheticUserPatches+" categories="+syntheticPatchCategories);
+ }
+ private static void countSyntheticPatchCategory(String category){
+  Integer current=syntheticPatchCategories.get(category);
+  syntheticPatchCategories.put(category,current==null?1:current+1);
  }
  static JSONObject requestJson(Object request)throws Exception {
   Object body=call(request,"body");if(body==null)throw new IllegalArgumentException("Missing local session request");
