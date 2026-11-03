@@ -75,3 +75,13 @@ this family was located in tracked Python source; `author_taper_domain.py`
 provides a repeatable repair and the test rejects reintroduced invalid output.
 Published historical completions are not altered by this editorial repair;
 Android grading/layout of the revised questions remains unverified.
+
+The round-trip fuel-budget family now has a parametrized arithmetic draft in
+`research/wind_budget_steps.py`. It keeps the original final IDs and options,
+uses one displayed arithmetic operation per step, and enforces a real wind
+speed below the stated airspeed. The ten source IDs are TA1-0420-D3,
+TA1-0484-D3, TA1-0523-D3, TA1-0627-D3, TA1-0936-D3, TA1-N3-06-06,
+TA1-N3-06-07, TA1-N3-06-08, TA1-N3-06-09 and TA1-N3-06-10. Their calculated
+closest options and intermediate displayed operands pass host tests. The
+formula introductions do not yet exist, so the hints must not be connected to
+the course; migration, Android layout, touch and retry remain unverified.
