@@ -73,6 +73,8 @@ public final class NativeCourseBridge {
   return diagnosticProfile;
  }
  public static boolean hasLocalCourse(){return localOnly && localCourseInstalled;}
+ /** Shortens fixed idle pauses only; original transition animators and callbacks still run. */
+ public static long summaryPause(long millis){return hasLocalCourse()?Math.min(millis,200L):millis;}
  /** Keep the original bank's rows/cards, but fit long Aerospace word blocks. */
  public static int bankColumns(java.util.List<?> tokens,float measuredWidth,int original){
   if(!hasLocalCourse())return original;

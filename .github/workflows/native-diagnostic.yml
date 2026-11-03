@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/completion-animation-timing, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/completion-shorter-pauses, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
