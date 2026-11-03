@@ -338,8 +338,8 @@ public final class NativeCourseBridge {
     Object scrolled=scroll.getMethod("d0",mod,state,boolean.class,int.class).invoke(null,bounded,position,true,0);
     // Reserve the measured height of the last named tile inside the scroll
     // content, so the final fraction operand can move clear of the bank.
-    if(named)scrolled=Class.forName("androidx.compose.foundation.layout.b",true,loader)
-      .getMethod("t",mod,float.class,float.class,float.class,float.class)
+    if(named)scrolled=Class.forName("kxo",true,loader)
+      .getMethod("A",mod,float.class,float.class,float.class,float.class)
       .invoke(null,scrolled,0f,0f,0f,96f);
     return scrolled;
    }finally{compose.getMethod("q",boolean.class).invoke(composer,false);}

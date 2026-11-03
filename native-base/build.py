@@ -957,11 +957,13 @@ if original_math_fixture is not None:
   check_expression=json.loads(check.read('assets/hardcoded_sessions/duoaero/original_expression_diagnostic.json'))
   assert len(check_expression['challenges'])==1 and check_expression['challenges'][0]==original_expression
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
+run(sys.executable,ROOT/'native-base/verify_scroll_dex.py',WORK/'aligned.apk')
 if production:
  target=WORK/('DuoAero-'+version+'-unsigned.apk');shutil.copyfile(WORK/'aligned.apk',target)
  print('Original runtime unsigned production candidate (requires acceptance and permanent signing):',target)
 else:
  run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
+ run(sys.executable,ROOT/'native-base/verify_scroll_dex.py',WORK/'DuoAero-native-base-test.apk')
  if original_math_fixture is not None:
   with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as check:
    assert check.read('assets/hardcoded_sessions/math/math_lesson.json')==original_math_fixture
