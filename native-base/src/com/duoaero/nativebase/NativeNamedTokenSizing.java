@@ -22,4 +22,27 @@ public final class NativeNamedTokenSizing {
  }
  public static float height(Object token,float original){return named(token)?96f:original;}
  public static float width(Object token,float original){return named(token)?Math.min(original,160f):original;}
+ /** Clip only the named answer bank to its own bounds while it scrolls. */
+ public static Object clipBank(java.util.List<?> tokens,Object modifier){
+  if(!NativeCourseBridge.hasLocalCourse()||tokens==null||modifier==null)return modifier;
+  boolean any=false;for(Object token:tokens)if(named(token)){any=true;break;}
+  if(!any)return modifier;
+  try{
+   ClassLoader loader=modifier.getClass().getClassLoader();
+   Class<?> callback=Class.forName("qqh",true,loader),mod=Class.forName("z5q",true,loader);
+   Object block=java.lang.reflect.Proxy.newProxyInstance(loader,new Class<?>[]{callback},(proxy,method,args)->{
+    if(method.getName().equals("invoke")){
+     Object scope=args[0];scope.getClass().getMethod("d",boolean.class).invoke(scope,true);
+     return Class.forName("xv80",true,loader).getField("a").get(null);
+    }
+    if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
+    if(method.getName().equals("equals"))return proxy==args[0];
+    if(method.getName().equals("toString"))return "DuoAero named bank clip";
+    return null;
+   });
+   return Class.forName("yuk",true,loader).getMethod("j",mod,callback).invoke(null,modifier,block);
+  }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot clip named answer bank",error);}
+ }
+
 }
+

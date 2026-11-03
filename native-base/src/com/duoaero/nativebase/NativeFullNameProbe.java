@@ -12,6 +12,21 @@ import android.widget.TextView;
 /** Isolated diagnostic: full text in the existing native token card. */
 public final class NativeFullNameProbe {
  private static final String TAG="duoaero-full-name-probe";
+ private static final java.util.WeakHashMap<FrameLayout,Padding> ORIGINAL_PADDING=new java.util.WeakHashMap<>();
+ private static final class Padding {
+  final int left,top,right,bottom,start,end;final boolean relative;
+  Padding(FrameLayout host){left=host.getPaddingLeft();top=host.getPaddingTop();right=host.getPaddingRight();bottom=host.getPaddingBottom();
+   start=host.getPaddingStart();end=host.getPaddingEnd();relative=host.isPaddingRelative();}
+  void restore(FrameLayout host){if(relative)host.setPaddingRelative(start,top,end,bottom);else host.setPadding(left,top,right,bottom);}
+ }
+ private static void setNamedPadding(FrameLayout host){
+  if(!ORIGINAL_PADDING.containsKey(host))ORIGINAL_PADDING.put(host,new Padding(host));
+  int hostPad=Math.round(3*host.getResources().getDisplayMetrics().density);
+  host.setPaddingRelative(hostPad,hostPad,hostPad,hostPad);
+ }
+ private static void restorePadding(FrameLayout host){
+  Padding original=ORIGINAL_PADDING.remove(host);if(original!=null)original.restore(host);
+ }
  public static void apply(View card, View figure, Object state) {
   if(!(card instanceof FrameLayout) || figure==null)return;
   FrameLayout host=(FrameLayout)card;
@@ -30,10 +45,10 @@ public final class NativeFullNameProbe {
   } catch(ReflectiveOperationException ignored) {}
   if(name==null){
    if(existing!=null)existing.setVisibility(View.GONE);
+   restorePadding(host);
    figure.setVisibility(View.VISIBLE);return;
   }
-  int hostPad=Math.round(3*host.getResources().getDisplayMetrics().density);
-  host.setPaddingRelative(hostPad,hostPad,hostPad,hostPad);
+  setNamedPadding(host);
   TextView label;
   if(existing instanceof TextView) label=(TextView)existing;
   else {
@@ -67,3 +82,4 @@ public final class NativeFullNameProbe {
   }
  }
 }
+

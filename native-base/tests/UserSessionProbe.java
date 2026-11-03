@@ -15,6 +15,7 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean seedConfig=false;
  private boolean nativeProfileCache=false;
  private boolean localService=false;
+ private boolean nonLocalRender=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
@@ -26,6 +27,7 @@ public final class UserSessionProbe extends Instrumentation {
   seedConfig=args!=null&&"native-default".equals(args.getString("config_cache"));
   nativeProfileCache=args!=null&&"native-cache".equals(args.getString("profile_mode"));
   localService=args!=null&&"true".equals(args.getString("local_service"));
+  nonLocalRender=args!=null&&"true".equals(args.getString("nonlocal_render"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);}catch(Throwable error){setupError=error;}
@@ -33,7 +35,8 @@ public final class UserSessionProbe extends Instrumentation {
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
-  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
+  if(interaction.equals("mixed-touch"))NativeFullNameReuseProbe.verify(this);
+  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed","original-expression").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
   if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-touch","mixed-fraction-wrong","quit-preview").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
@@ -49,6 +52,14 @@ public final class UserSessionProbe extends Instrumentation {
    report.append(LocalFeatureInputs.goals(getTargetContext()));
    LocalFeatureInputs.social(getTargetContext());
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
+  }
+  if(nonLocalRender){
+   // Synthetic offline fixture only. The workflow disables emulator networking
+   // before requesting the app's ordinary non-local rendering branch.
+   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
+   bridge.getField("localOnly").setBoolean(null,false);
+   if((Boolean)bridge.getMethod("hasLocalCourse").invoke(null))throw new IllegalStateException("Non-local rendering gate still enabled");
+   report.append("Original non-local rendering gate observed; synthetic offline session.\n");
   }
   Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("formulaHintRetryEnabled").setBoolean(null,interaction.equals("math-hint")||interaction.equals("mixed-hint"));
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
@@ -99,6 +110,7 @@ public final class UserSessionProbe extends Instrumentation {
   }
 
   String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":lesson.equals("aerospace")?"hardcoded_sessions/duoaero/aerospace_lesson.json":"hardcoded_sessions/duoaero/aerospace_rich_lesson.json";
+  if(lesson.equals("original-expression"))lessonAsset="hardcoded_sessions/duoaero/original_expression_diagnostic.json";
   if(lesson.equals("aerospace-formula"))lessonAsset="hardcoded_sessions/duoaero/aerospace_formula_lesson.json";
   if(lesson.equals("aerospace-mixed"))lessonAsset="hardcoded_sessions/duoaero/aerospace_mixed_lesson.json";
   report.append("Lesson input: ").append(lessonAsset).append('\n');
@@ -115,6 +127,8 @@ public final class UserSessionProbe extends Instrumentation {
   android.app.Activity current=resumed.get();
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
   if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
+  if(nonLocalRender && (Boolean)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("hasLocalCourse").invoke(null))
+   throw new IllegalStateException("Original non-local rendering gate changed after startup");
   Object observedVm=activity.getMethod("J").invoke(current);
   try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
    Thread.sleep(5000);
@@ -207,3 +221,4 @@ public final class UserSessionProbe extends Instrumentation {
  report.append(playback.report());playback.close();
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }
+

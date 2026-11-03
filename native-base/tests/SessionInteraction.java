@@ -562,13 +562,33 @@ final class SessionInteraction {
    }
   }finally{root.recycle();}
  }
+ private static void collectBankCards(AccessibilityNodeInfo node,android.graphics.Rect bank,java.util.List<android.graphics.Rect> cards,int depth){
+  if(depth>50||!own(node)||!node.isVisibleToUser())return;
+  android.graphics.Rect bounds=new android.graphics.Rect();node.getBoundsInScreen(bounds);
+  if(node.isClickable() && "android.widget.FrameLayout".contentEquals(node.getClassName()==null?"":node.getClassName()) && android.graphics.Rect.intersects(bounds,bank))cards.add(bounds);
+  for(int i=0;i<node.getChildCount();i++){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{collectBankCards(child,bank,cards,depth+1);}finally{child.recycle();}}
+ }
+ private static float safeBankSwipeStart(AccessibilityNodeInfo bank,android.graphics.Rect bounds,boolean forward){
+  java.util.ArrayList<android.graphics.Rect> cards=new java.util.ArrayList<>();collectBankCards(bank,bounds,cards,0);
+  java.util.Collections.sort(cards,(a,b)->Integer.compare(a.top,b.top));
+  float chosen=Float.NaN;
+  for(int i=1;i<cards.size();i++){
+   int top=Math.max(bounds.top,cards.get(i-1).bottom),bottom=Math.min(bounds.bottom,cards.get(i).top);
+   if(bottom-top<8)continue;
+   float y=(top+bottom)/2f;
+   if(forward && y>bounds.top+80)chosen=Float.isNaN(chosen)?y:Math.max(chosen,y);
+   if(!forward && y<bounds.bottom-80)chosen=Float.isNaN(chosen)?y:Math.min(chosen,y);
+  }
+  if(Float.isNaN(chosen))throw new IllegalStateException("No visible gap for safe native bank swipe");
+  return chosen;
+ }
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
   String selectedBefore=trackSlotState?originalSlots(test):null;
   int evidence=swipeEvidence++;
   SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
-  float x=bounds.exactCenterX(),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  float x=bounds.exactCenterX(),from=safeBankSwipeStart(bank,bounds,forward),to=forward?bounds.top+25:bounds.bottom-25;
   long down=android.os.SystemClock.uptimeMillis();
   android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}

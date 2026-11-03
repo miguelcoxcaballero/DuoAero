@@ -54,6 +54,8 @@ def challenge(question):
             segments.append('___')
             if question['after_latex']:
                 segments.append('duoaero-math:formula:' + r'\textstyle ' + question['after_latex'])
+        if not question.get('mathematical_blocks'):
+            segments.insert(0, 'duoaero-named-equation')
         payload = base64.b64encode(json.dumps(segments, ensure_ascii=False).encode('utf-8')).decode('ascii')
         prompt = result['promptInputChallenge']['prompt']
         prompt['body'] = {'underlyingEntity': {'noEntity': {}}, 'taggedTextElement': {

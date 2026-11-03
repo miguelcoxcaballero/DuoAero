@@ -397,6 +397,13 @@ bank_original=bank_source.read_bytes()
 bank_text=bank_original.decode('utf-8').replace('\r\n','\n')
 bank_anchor='    invoke-static {v14, v3, v3, v9}, Loe7;->p1(Ljava/lang/Iterable;IIZ)Ljava/util/ArrayList;'
 assert bank_text.count(bank_anchor)==1
+bank_clip_anchor='    invoke-static {v14, v15}, Landroidx/compose/foundation/layout/b;->z(ILz5q;)Lz5q;\n\n    move-result-object v14'
+assert bank_text.count(bank_clip_anchor)==1
+bank_clip_hook=bank_clip_anchor+'''
+
+    invoke-static {v1, v14}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->clipBank(Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v14
+    check-cast v14, Lz5q;'''
 bank_hook='    invoke-static {v1, v10, v3}, Lcom/duoaero/nativebase/NativeCourseBridge;->bankColumns(Ljava/util/List;FI)I\n\n    move-result v3\n\n'
 tabs_source=SMALI/'smali_classes6/qu80.smali'
 tabs_original=tabs_source.read_bytes()
@@ -471,7 +478,7 @@ try:
  profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
- bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
+ bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor).replace(bank_clip_anchor,bank_clip_hook),encoding='utf-8')
  factory_source.write_text(factory_text.replace(factory_anchor,factory_hook).replace(factory_timeout,factory_timeout_hook),encoding='utf-8')
  retry_source.write_text(retry_text.replace(retry_anchor,retry_hook),encoding='utf-8')
  sandbox_source.write_text(sandbox_text.replace(sandbox_anchor,sandbox_hook),encoding='utf-8')
@@ -742,6 +749,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA','SPAR-DEFLECTION-FORMULA')
   mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
   assert len(mixed)==16
+  # Also exercise a genuinely symbolic multi-slot inline equation in the
+  # same run, to verify it does not inherit the named-quantity sizing.
+  sys.path.insert(0,str(ROOT/'research'))
+  from speed_limits_lesson import prerequisites as speed_limit_prerequisites
+  mixed.append(next(q for q in speed_limit_prerequisites() if q['id']=='LIMITS-MACH-PRESSURE'))
+  assert len(mixed)==17 and mixed[-1].get('mathematical_blocks')
  if os.environ.get('DUOAERO_DIRECT_HINT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0106-F1']],teach_words=True)
   assert len(mixed)==1 and mixed[0].get('formula_hint')
@@ -815,6 +828,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   mixed=[dict(q,difficulty=1) for q in draft['questions'] if q['topic'] in ('5.1','5.2')]
   assert len(mixed)==20
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic'),ensure_ascii=False))
+ if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
+  original_math=json.loads(base.read('assets/hardcoded_sessions/math/math_lesson.json'))
+  original_expression=next(q for q in original_math['challenges'] if 'expressionBuildInput' in q.get('promptInputChallenge',{}).get('input',{}))
+  original_math['challenges']=[original_expression]
+  out.writestr('assets/hardcoded_sessions/duoaero/original_expression_diagnostic.json',json.dumps(original_math,ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
  for question in mixed_driver:
   if question['type']=='matching':

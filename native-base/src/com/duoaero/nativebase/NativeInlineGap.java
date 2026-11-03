@@ -42,7 +42,8 @@ public final class NativeInlineGap {
    // Keep a binary operator together with the next interactive operand.
    // Otherwise FlowRow may leave '+' or '×' stranded at the end of a line.
    ArrayList<String> parts=new ArrayList<>();
-   for(int i=0;i<words.length();i++){
+   boolean namedMarker=words.length()>0 && words.getString(0).equals("duoaero-named-equation");
+   for(int i=namedMarker?1:0;i<words.length();i++){
     String part=words.getString(i);
     // Keep division and the opening parenthesis with the first denominator
     // slot, so neither symbol is stranded at the end of a wrapped line.
@@ -71,7 +72,7 @@ public final class NativeInlineGap {
    Class<?> irh=Class.forName("irh",true,l);
    int gaps=0;for(String part:parts)gaps+=countSlots(part);
    final int gapCount=gaps;
-   final boolean namedEquation=equation&&gapCount>1;
+   final boolean namedEquation=namedMarker&&equation&&gapCount>1;
    // The original BuildSpace composable lays out the whole list. For several
    // separated inline holes, invoke its original per-slot composable with the
    // full list and real slot index, preserving drag/drop and selection IDs.
