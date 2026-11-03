@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 final class SessionInteraction {
  private static boolean actualTouch;
  private static boolean trackSlotState;
+ private static boolean singleNamedSlot;
  private static int swipeEvidence;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
@@ -85,6 +86,7 @@ final class SessionInteraction {
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
    trackSlotState=kind.equals("formula_named");
+   singleNamedSlot=trackSlotState&&q.getJSONArray("answer_blocks").length()==1;
    String observedId=null,observedGrade=null;
    for(int wait=0;wait<150;wait++){
     dismissPixelLauncherAnr(test);
@@ -569,7 +571,7 @@ final class SessionInteraction {
     // Some individual long text cards expose themselves as scrollable.
     // Prefer an already visible bank card before looking for a scroll view.
     AccessibilityNodeInfo visibleLabel=findLast(root,text,0),equation=findEquationScroll(root,0);
-    try{if(visibleBankCandidate(root,visibleLabel,equation)){node=visibleLabel;visibleLabel=null;}}
+    try{if((equation!=null||singleNamedSlot)&&visibleBankCandidate(root,visibleLabel,equation)){node=visibleLabel;visibleLabel=null;}}
     finally{if(visibleLabel!=null)visibleLabel.recycle();if(equation!=null)equation.recycle();}
     if(node!=null)break;
     AccessibilityNodeInfo bank=lastScrollable(root,0);
