@@ -98,8 +98,8 @@ try:
             ovals=[n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']
             for oval in reversed(ovals):
                 tap(oval);time.sleep(1);popup=capture('aircraft-node')
-                if popup is not None and has(popup,'Diverse aircraft') and any(n.get('resource-id')=='com.duolingo:id/learnButton' for n in popup.iter('node')):
-                    tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton'));break
+                if popup is not None and any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()=='diverse aircraft' for n in popup.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in popup.iter('node')):
+                    tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true'));break
                 adb('shell','input','keyevent','4')
             else:continue
             break
@@ -134,7 +134,7 @@ try:
         if path is not None and has(path,'5.2'):
             for oval in reversed([n for n in path.iter('node') if n.get('resource-id')=='com.duolingo:id/oval']):
                 tap(oval);time.sleep(1);popup=capture('aircraft-next-node')
-                if popup is not None and has(popup,'Rotorcraft') and any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in popup.iter('node')):
+                if popup is not None and any(n.get('resource-id')=='com.duolingo:id/titleText' and n.get('text','').casefold()=='rotorcraft' for n in popup.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true' for n in popup.iter('node')):
                     tap(next(n for n in popup.iter('node') if n.get('resource-id')=='com.duolingo:id/learnButton' and n.get('enabled')=='true'));break
                 adb('shell','input','keyevent','4')
             else:continue
