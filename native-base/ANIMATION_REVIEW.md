@@ -69,3 +69,12 @@ message-card animation; the looping wave does not signal scene completion by
 checks progress, rather than expecting a terminal callback. A control with the
 unchanged original Lottie and the replacement on the same view is still
 required; neither one has passed this revised probe yet.
+
+The paired control in 41572357663 established why both earlier attempts were
+static: the original performance manager reported LOWEST and motion disabled
+in both the original and replacement view, while Android animator scale was
+1.0 and both views were attached and shown. This does not establish an atlas
+regression or smooth playback. The next paired diagnostic gives the emulator
+4.5 GiB RAM so the original device classification can select its normal mode;
+it does not override the app's performance manager or motion preference. The
+real mid-lesson scene and its message-card callback remain to be verified.
