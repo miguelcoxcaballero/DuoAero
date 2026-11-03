@@ -917,3 +917,9 @@ field caused failure. The next observer reads the original visual state's
 dismissed-state capture, and reports both fields separately if they differ.
 It still requires the same original ID on retry and native correct grading
 before Claim XP. The complete hint/retry behavior is not yet accepted.
+
+A ten-question launch-propulsion and recovery draft now complements the
+existing 3.1 introductory and equation sessions. It was checked against the
+supplied launch material and passes isolated native-model and answer checks;
+no course node, completion or reward is changed by the draft. Editorial,
+Android and progression acceptance are still pending.

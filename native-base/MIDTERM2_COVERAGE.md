@@ -67,3 +67,10 @@ The other five environment concepts have an independent public-source check:
 and [NASA on thermal stresses](https://ntrs.nasa.gov/api/citations/19890014159/downloads/19890014159.pdf).
 ENV-023 specifies a safety tether to distinguish it from an air-supply line.
 These checks do not establish course completeness or Android acceptance.
+
+An additional 3.1 propulsion and recovery draft covers solid-motor grain
+geometry, liquid-engine throttling, cryogenic and hypergolic propellants,
+oxidizer in vacuum, long-term storage, recovery mass trade-offs, refurbishment,
+re-entry heating and landing logistics. It was compared with the supplied
+launch material. The ten questions remain outside the path until editorial,
+Android and progression checks are complete.

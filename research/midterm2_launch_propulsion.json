@@ -1,0 +1,155 @@
+{
+  "status": "draft_not_connected_to_course",
+  "questions": [
+    {
+      "id": "M2-LV-011",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What mainly sets the changing thrust profile of a conventional solid rocket motor?",
+      "options": [
+        "Continuous adjustment of liquid-propellant valves",
+        "The vehicle flight angle alone",
+        "The size of an emptied propellant tank after burnout",
+        "The exposed burning surface and propellant characteristics"
+      ],
+      "answer": 3,
+      "explanation": "The grain geometry changes the exposed burning surface and therefore influences the thrust history."
+    },
+    {
+      "id": "M2-LV-012",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Compared with many solid motors, what control can a suitable liquid rocket engine offer?",
+      "options": [
+        "Changing propellant flow to adjust thrust",
+        "Reshaping the solid propellant grain during a burn",
+        "Guaranteeing immediate restart for every engine design",
+        "Removing the need to control the fuel-to-oxidizer mixture"
+      ],
+      "answer": 0,
+      "explanation": "Suitable liquid engines can throttle by adjusting propellant flow; the capability depends on the engine design."
+    },
+    {
+      "id": "M2-LV-013",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is a characteristic of a cryogenic liquid propellant?",
+      "options": [
+        "It must always ignite on contact with any other liquid",
+        "It must be stored at a very low temperature",
+        "It is necessarily a solid fuel-oxidizer mixture",
+        "It can always be stored near room temperature without insulation"
+      ],
+      "answer": 1,
+      "explanation": "Cryogenic propellants are stored at very low temperatures, imposing tank and thermal-management requirements."
+    },
+    {
+      "id": "M2-LV-014",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What does hypergolic mean for a propellant combination?",
+      "options": [
+        "Both components must be stored as solids before mixing",
+        "Atmospheric oxygen is required for the mixture to ignite",
+        "The fuel and oxidizer ignite on contact",
+        "An external electric spark is always required for ignition"
+      ],
+      "answer": 2,
+      "explanation": "A hypergolic fuel and oxidizer ignite spontaneously when brought into contact."
+    },
+    {
+      "id": "M2-LV-015",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why does a chemical rocket carry an oxidizer for operation in space?",
+      "options": [
+        "The oxidizer replaces the need to expel exhaust",
+        "The fuel can burn only when atmospheric oxygen is supplied",
+        "A rocket can obtain all oxidizer from the surrounding vacuum",
+        "There is no surrounding atmosphere to supply it"
+      ],
+      "answer": 3,
+      "explanation": "A rocket carries its own oxidizer, allowing its chemical propulsion system to operate without atmospheric oxygen."
+    },
+    {
+      "id": "M2-LV-016",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which property can make a suitable solid propellant useful for long-term storage?",
+      "options": [
+        "It can remain stable for long periods under suitable storage conditions",
+        "It must remain cryogenic throughout storage",
+        "It is continuously pumped into the chamber during storage",
+        "It always burns spontaneously without ignition"
+      ],
+      "answer": 0,
+      "explanation": "Suitable solid propellants can be stored for long periods, subject to their formulation and storage conditions."
+    },
+    {
+      "id": "M2-LV-017",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What trade-off can recovery equipment impose on a launch stage?",
+      "options": [
+        "Recovery removes the need to reserve propellant for landing",
+        "Its mass and recovery propellant can reduce payload capability",
+        "Recovery guarantees a lower cost for every mission",
+        "Recovery hardware never changes the available payload mass"
+      ],
+      "answer": 1,
+      "explanation": "Recovery hardware and any reserved propellant add mass or reduce the resources available for payload delivery."
+    },
+    {
+      "id": "M2-LV-018",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why might a recovered engine still require work before reuse?",
+      "options": [
+        "All components must be replaced after every flight regardless of condition",
+        "Inspection is unnecessary because flight cannot wear components",
+        "Inspection and refurbishment may be needed after operation",
+        "A landing restores consumed engine life automatically"
+      ],
+      "answer": 2,
+      "explanation": "Recovered hardware can require inspection, repair and refurbishment before another flight."
+    },
+    {
+      "id": "M2-LV-019",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why is thermal protection important for a returning launch vehicle?",
+      "options": [
+        "Thermal protection is needed only while the vehicle is in deep vacuum",
+        "Thermal protection removes the need for trajectory control",
+        "Thermal protection eliminates all mechanical landing loads",
+        "Re-entry and atmospheric flight can produce high heating"
+      ],
+      "answer": 3,
+      "explanation": "A returning vehicle can face significant aerodynamic heating, so its design must manage thermal loads."
+    },
+    {
+      "id": "M2-LV-020",
+      "topic": "3.1",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is one operational challenge of recovering a first stage far from its launch site?",
+      "options": [
+        "Planning transport and recovery at the landing location",
+        "Eliminating the need to navigate toward the landing site",
+        "Making transport logistics independent of landing location",
+        "Avoiding all atmospheric loads during the return"
+      ],
+      "answer": 0,
+      "explanation": "Recovery away from the launch site requires a suitable landing and retrieval plan."
+    }
+  ]
+}
