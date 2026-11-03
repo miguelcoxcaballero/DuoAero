@@ -37,7 +37,14 @@ public final class WaveLottieProbe {
     Class<?> function=Class.forName("kotlin.jvm.functions.Function0",true,loader);
     Object onEntrance=java.lang.reflect.Proxy.newProxyInstance(loader,new Class<?>[]{function},(proxy,method,args)->{
      if(method.getName().equals("invoke")){
-      try{lottie.getClass().getMethod("u").invoke(lottie);entered.countDown();}
+      try{
+       Object manager=lottie.getClass().getMethod("getBasePerformanceModeManager").invoke(lottie);
+       Object mode=manager.getClass().getMethod("a").invoke(manager);
+       Object motionDisabled=manager.getClass().getMethod("b").invoke(manager);
+       float animatorScale=android.provider.Settings.Global.getFloat(activity.getContentResolver(), "animator_duration_scale", 1f);
+       android.util.Log.i("DuoAeroWaveProbe", "mode="+mode+" motionDisabled="+motionDisabled+" animatorScale="+animatorScale+" attached="+lottie.isAttachedToWindow()+" shown="+lottie.isShown());
+       lottie.getClass().getMethod("u").invoke(lottie);entered.countDown();
+      }
       catch(Throwable problem){error.set(problem);entered.countDown();}
       return Class.forName("xv80",true,loader).getField("a").get(null);
      }
