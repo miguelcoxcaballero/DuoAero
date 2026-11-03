@@ -821,6 +821,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert draft['status']=='draft_not_connected_to_course'
   mixed=draft['questions']
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_TAPER_DOMAIN_DIAGNOSTIC')=='1' and not production:
+  sys.path.insert(0,str(ROOT/'research'))
+  from taper_domain import bounds as taper_bounds
+  mixed=[q for q in bank if taper_bounds(q) is not None]
+  assert len(mixed)==10 and sum(q.get('content_revision')==2 for q in mixed)==8
  if os.environ.get('DUOAERO_JET_RANGE_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
   from jet_family_prerequisites import prerequisites as jet_prerequisites
