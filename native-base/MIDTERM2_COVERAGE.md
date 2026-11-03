@@ -21,3 +21,9 @@ covers these new exercises; no migration, completion, gems or XP is granted for 
 The release-shaped diagnostic checks those invariants before walking the path.
 Production publication remains blocked on the complete course, original UI,
 progress/reward behavior, animation and update acceptance described elsewhere.
+
+A strict diagnostic is prepared for the current base lessons of topics 4,
+5.1 and 5.2, using their actual original path nodes and requiring native
+positive feedback plus saved completion after restart. It seeds the earlier
+diagnostic sessions and therefore cannot establish an unseeded whole-course
+traversal. These current base versions still need that Android run.
