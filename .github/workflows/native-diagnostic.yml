@@ -364,16 +364,18 @@ jobs:
               ;;
             wave-lottie)
               wave_result=0
-              for phase in original candidate; do
+              for wave_kind in original candidate; do
                 adb shell am force-stop com.duoaero.nativebase || true
-                timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/wave-$phase.apk"
+                timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/wave-$wave_kind.apk"
                 adb shell rm -f /sdcard/duoaero-wave-preview.mp4 /sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-*.png /sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-*.json
-                run_probe "wave-$phase" MATH_BT native-defaults late native-full aerospace-mixed wave-lottie false native-default native-cache true || wave_result=1
-                adb pull /sdcard/duoaero-wave-preview.mp4 "$RUNNER_TEMP/duoaero-evidence/wave-$phase.mp4" || true
+                adb logcat -c
+                run_probe "wave-$wave_kind" MATH_BT native-defaults late native-full aerospace-mixed wave-lottie false native-default native-cache true || wave_result=1
+                adb logcat -d -s DuoAeroWaveProbe:I > "$RUNNER_TEMP/duoaero-evidence/wave-$wave_kind-mode.txt"
+                adb pull /sdcard/duoaero-wave-preview.mp4 "$RUNNER_TEMP/duoaero-evidence/wave-$wave_kind.mp4" || true
                 for i in $(seq 0 19); do
-                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-$i.png" "$RUNNER_TEMP/duoaero-evidence/wave-$phase-$i.png" || true
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/wave-lottie-$i.png" "$RUNNER_TEMP/duoaero-evidence/wave-$wave_kind-$i.png" || true
                 done
-                grep -q 'Original hole entrance callback delivered and looping wave advanced' "$RUNNER_TEMP/duoaero-evidence/session-wave-$phase.txt" || wave_result=1
+                grep -q 'Original hole entrance callback delivered and looping wave advanced' "$RUNNER_TEMP/duoaero-evidence/session-wave-$wave_kind.txt" || wave_result=1
               done
               test "$wave_result" = 0
               ;;
