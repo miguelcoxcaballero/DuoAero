@@ -30,7 +30,7 @@ def repair(question):
     # the question and physical domain first, followed by the stated inputs.
     b,root,weight,rho,vs,cl,drag,speed,e,cd=PATTERN.match(question['stem']).groups()
     q['rich_text']={'stem':[
-      {'text':'Find the feasible taper-width with '}, {'latex':r'\lambda\ge 0'}, {'text':'. '},
+      {'text':'Find the feasible taper-width with '}, {'latex':r'\lambda\geq 0'}, {'text':'. '},
       {'latex':r'b='+b+r'\,\mathrm m,\ c_r='+root+r'\,\mathrm m,\ W='+weight+r'\,\mathrm N,\ \rho='+rho}, {'text':'. '},
       {'latex':r'V_s\le '+vs+r'\,\mathrm{m/s},\ C_{L,\max}='+cl}, {'text':'. '},
       {'latex':r'D\le '+drag+r'\,\mathrm N,\ V_{cr}='+speed+r'\,\mathrm{m/s},\ e='+e+r',\ C_{D0}='+cd}, {'text':'. '},

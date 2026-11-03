@@ -13,7 +13,7 @@ for q in family:
   corrected+=1
   assert q.get('content_revision')==2 and 'lambda >= 0' in q['stem']
   assert q['rich_text']['stem'][0]['text'].startswith('Find the feasible')
-  assert any(r'\lambda\ge 0' in part.get('latex','') for part in q['rich_text']['stem'])
+  assert any(r'\lambda\geq 0' in part.get('latex','') for part in q['rich_text']['stem'])
   assert q['origin']['kind']=='practice'
   assert 'Intersect the taper bounds with a nonnegative tip chord' in q['steps']
   if upper<0:
