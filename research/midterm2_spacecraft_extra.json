@@ -1,15 +1,155 @@
 {
   "status": "draft_not_connected_to_course",
   "questions": [
-    {"id": "M2-SC-011", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "What does a spacecraft structure support?", "options": ["Equipment and mechanical loads during launch", "Only radio signals", "Gravity itself", "The surrounding vacuum"], "answer": 0, "explanation": "The structure holds the hardware and must withstand loads such as launch vibration and acceleration."},
-    {"id": "M2-SC-012", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "Why does a spacecraft use batteries?", "options": ["To replace every scientific instrument", "To eliminate all thermal control", "To create an atmosphere outside the vehicle", "To store electrical energy for periods when generation is insufficient"], "answer": 3, "explanation": "Batteries store electrical energy and can supply loads during an eclipse or other low-generation period."},
-    {"id": "M2-SC-013", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "What does a spacecraft reaction wheel help control?", "options": ["The wavelength of all sunlight", "The surrounding atmospheric pressure", "The orientation of the spacecraft", "The mass of a planet"], "answer": 2, "explanation": "Changing the rotational momentum of a reaction wheel produces an opposing rotational effect on the spacecraft."},
-    {"id": "M2-SC-014", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "Why may a spacecraft need to manage reaction-wheel momentum?", "options": ["Wheel speed never changes.", "A wheel has a finite operating-speed range.", "A wheel creates unlimited propellant.", "Wheels stop gravity from acting."], "answer": 1, "explanation": "Wheels have operational limits; a spacecraft may use another actuator to remove accumulated momentum."},
-    {"id": "M2-SC-015", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "What is the purpose of an attitude sensor?", "options": ["Help determine the orientation of the spacecraft", "Measure the mass of Earth exactly", "Store the propellant of the vehicle", "Generate lift in vacuum"], "answer": 0, "explanation": "Attitude sensors provide measurements used to estimate orientation and support control."},
-    {"id": "M2-SC-016", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "What is the job of the communications subsystem of a spacecraft?", "options": ["Keep the rocket attached after separation", "Create sunlight during eclipse", "Eliminate the need for onboard software", "Exchange information with another station"], "answer": 3, "explanation": "Communications equipment handles links such as command uplink and telemetry downlink."},
-    {"id": "M2-SC-017", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "Why is thermal control needed for onboard electronics?", "options": ["Electronics never produce heat.", "Electrical power cannot become heat.", "Components have acceptable operating-temperature ranges.", "Vacuum keeps every component at the same temperature."], "answer": 2, "explanation": "Thermal control helps keep equipment within its permitted temperature range despite changing inputs and internal heat."},
-    {"id": "M2-SC-018", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "What can a spacecraft deployment mechanism do?", "options": ["Prevent every possible component failure", "Unfold an antenna or solar array", "Replace the gravity of Earth", "Turn all waste heat into propellant"], "answer": 1, "explanation": "Deployment mechanisms move equipment from a launch configuration into its operational position."},
-    {"id": "M2-SC-019", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "How do a scientific payload and the spacecraft bus differ?", "options": ["The payload performs mission-specific measurements; the bus provides supporting services.", "The payload is always the launch rocket.", "The bus is the planet being studied.", "A payload never needs electrical power."], "answer": 0, "explanation": "The bus supplies shared functions such as power and communications while the payload carries out the mission purpose."},
-    {"id": "M2-SC-020", "topic": "3.3", "type": "choice", "difficulty": 1, "stem": "Which subsystem manages the cabin environment for a crew?", "options": ["An external antenna alone", "A reaction wheel alone", "A launch clamp", "Life support"], "answer": 3, "explanation": "Crew life support manages needs such as breathable air and other cabin conditions."}
+    {
+      "id": "M2-SC-011",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What does a spacecraft structure support?",
+      "options": [
+        "Equipment and mechanical loads during launch",
+        "Only the mission data sent by radio",
+        "Electrical energy during an eclipse",
+        "The measurement of spacecraft attitude"
+      ],
+      "answer": 0,
+      "explanation": "The structure holds the hardware and must withstand loads such as launch vibration and acceleration."
+    },
+    {
+      "id": "M2-SC-012",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why does a spacecraft use batteries?",
+      "options": [
+        "To provide the primary mechanical structure",
+        "To point an antenna toward a ground station",
+        "To reject heat directly into space",
+        "To store electrical energy for periods when generation is insufficient"
+      ],
+      "answer": 3,
+      "explanation": "Batteries store electrical energy and can supply loads during an eclipse or other low-generation period."
+    },
+    {
+      "id": "M2-SC-013",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What does a spacecraft reaction wheel help control?",
+      "options": [
+        "The spacecraft position through continuous linear thrust",
+        "The temperature of a radiator",
+        "The orientation of the spacecraft",
+        "The amount of propellant stored in a tank"
+      ],
+      "answer": 2,
+      "explanation": "Changing the rotational momentum of a reaction wheel produces an opposing rotational effect on the spacecraft."
+    },
+    {
+      "id": "M2-SC-014",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why may a spacecraft need to manage reaction-wheel momentum?",
+      "options": [
+        "A wheel can store unlimited angular momentum.",
+        "A wheel has a finite operating-speed range.",
+        "Wheel speed has no effect on angular momentum.",
+        "Attitude control removes all external disturbance torques."
+      ],
+      "answer": 1,
+      "explanation": "Wheels have operational limits; a spacecraft may use another actuator to remove accumulated momentum."
+    },
+    {
+      "id": "M2-SC-015",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is the purpose of an attitude sensor?",
+      "options": [
+        "Help determine the orientation of the spacecraft",
+        "Provide thrust for an orbital manoeuvre",
+        "Store energy during sunlight",
+        "Transmit telemetry to the ground"
+      ],
+      "answer": 0,
+      "explanation": "Attitude sensors provide measurements used to estimate orientation and support control."
+    },
+    {
+      "id": "M2-SC-016",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is the job of the communications subsystem of a spacecraft?",
+      "options": [
+        "Store electrical energy during sunlight",
+        "Measure the temperature of the cabin",
+        "Change the orientation using angular momentum",
+        "Exchange information with another station"
+      ],
+      "answer": 3,
+      "explanation": "Communications equipment handles links such as command uplink and telemetry downlink."
+    },
+    {
+      "id": "M2-SC-017",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why is thermal control needed for onboard electronics?",
+      "options": [
+        "Electronic equipment has no lower temperature limit.",
+        "External heating is the only source of heat.",
+        "Components have acceptable operating-temperature ranges.",
+        "The same thermal design works at every operating condition."
+      ],
+      "answer": 2,
+      "explanation": "Thermal control helps keep equipment within its permitted temperature range despite changing inputs and internal heat."
+    },
+    {
+      "id": "M2-SC-018",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What can a spacecraft deployment mechanism do?",
+      "options": [
+        "Measure angular velocity",
+        "Unfold an antenna or solar array",
+        "Store electrical energy",
+        "Remove carbon dioxide from the cabin"
+      ],
+      "answer": 1,
+      "explanation": "Deployment mechanisms move equipment from a launch configuration into its operational position."
+    },
+    {
+      "id": "M2-SC-019",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "How do a scientific payload and the spacecraft bus differ?",
+      "options": [
+        "The payload performs mission-specific measurements; the bus provides supporting services.",
+        "The bus performs all mission measurements and the payload supplies only power.",
+        "The payload always provides the launch vehicle propulsion.",
+        "The bus can never communicate with the payload."
+      ],
+      "answer": 0,
+      "explanation": "The bus supplies shared functions such as power and communications while the payload carries out the mission purpose."
+    },
+    {
+      "id": "M2-SC-020",
+      "topic": "3.3",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which subsystem manages the cabin environment for a crew?",
+      "options": [
+        "Attitude determination and control",
+        "Electrical power generation",
+        "Telemetry and command",
+        "Life support"
+      ],
+      "answer": 3,
+      "explanation": "Crew life support manages needs such as breathable air and other cabin conditions."
+    }
   ]
 }
