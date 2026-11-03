@@ -687,3 +687,5 @@ A follow-up foam probe confines the replacement sprite-pose tracks to the existi
 Run 41555256162 increased the experimental cantilever fraction padding and still showed the cubic exponent touching the bar; the long name was also clipped. Although the controller graded the exercise, this spacing change is rejected and the fallback remains unaccepted as a vertical fraction.
 
 A further isolated cantilever probe identifies the original fraction padding as horizontal and applies scoped vertical padding to the marked denominator instead. The helper compiles against the Android SDK; the original renderer hook and scaled-marker preservation must be exercised on Android. Neither exponent spacing nor full-label layout is accepted yet.
+
+Run 41555884296 graded all ten isolated rotorcraft draft controls in the original Android controller; inspected cyclic-control and swashplate screenshots show readable prompts, options and controls at the diagnostic text size. This is not a production-path, full-curriculum or real-account test; the draft remains isolated pending editorial and progression acceptance.
