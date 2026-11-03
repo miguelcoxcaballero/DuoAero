@@ -6,6 +6,7 @@ Android playback and the native scene's completion callback must be verified.
 """
 import base64
 import json
+import math
 from pathlib import Path
 from PIL import Image
 
@@ -27,9 +28,12 @@ def replace_wave(data):
     start,end=doc.get('ip',0),doc['op']
     if int(start)!=start or int(end)!=end or end<=start:raise ValueError('Unexpected Lottie frame range')
     start,end=int(start),int(end)
-    # Original uses 60 fps. Each pose lasts four original frames (15 drawings/s),
-    # preserving the existing full animation duration and completion event.
-    frame_length=max(1,round(doc['fr']/15))
+    # The original view restarts when progress exceeds 0.985. Fit an integer
+    # number of sixteen-pose cycles before that boundary so it returns from
+    # the last pose to the first, rather than jumping from an arbitrary pose.
+    loop_frames=max(16,math.floor((end-start)*0.985)+1)
+    cycles=max(1,round(loop_frames/(16*doc['fr']/15)))
+    def pose(t):return (((t-start)*16*cycles)//loop_frames)%16
     layers=[]
     for i in range(16):
         row,col=divmod(i,4)
@@ -44,8 +48,8 @@ def replace_wave(data):
                 's':{'a':0,'k':[100,100,100]},'p':{'a':0,'k':[-x0,-y0,0]}}}]})
         keys=[]
         for t in range(start,end):
-            current=((t-start)//frame_length)%16
-            previous=((t-start-1)//frame_length)%16
+            current=pose(t)
+            previous=pose(t-1)
             if t==start or current!=previous:
                 keys.append({'t':t,'s':[100 if current==i else 0],'h':1})
         scale=min(doc['w']/w,doc['h']/h)*90
