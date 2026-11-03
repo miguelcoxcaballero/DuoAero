@@ -293,7 +293,7 @@ jobs:
               done
             fi
             if [[ "$probe_interact" = mixed* || "$probe_interact" = render-memory-* || "$probe_interact" = second-journey || "$probe_interact" = range-path ]]; then
-              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* 2>/dev/null' | tr -d '\r'); do
+              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/range-popup-* 2>/dev/null' | tr -d '\r'); do
                 adb pull "$evidence_file" "$RUNNER_TEMP/duoaero-evidence/" || true
               done
               for phase in prompt selected graded; do

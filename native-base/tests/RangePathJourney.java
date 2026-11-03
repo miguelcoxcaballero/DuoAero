@@ -47,8 +47,18 @@ final class RangePathJourney {
     if(popup(test,"Range formulas")){SessionInteraction.click(test,ID+"learnButton",null);return;}
     // A tap can miss or land on a noninteractive path decoration. Back is
     // only safe after a path popup actually appeared; otherwise it exits Home.
-    if(SessionInteraction.hasControl(test,ID+"learnButton")){
+    if(SessionInteraction.hasControl(test,ID+"learnButton")&&SessionInteraction.hasControl(test,ID+"titleText")){
+     SessionScreen.capture(test,"range-popup-before-back","range-popup-before-back");
      test.getUiAutomation().performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK);Thread.sleep(300);
+     for(int wait=0;wait<30;wait++){
+      test.getUiAutomation().clearCache();
+      if(!SessionInteraction.hasControl(test,ID+"learnButton")||!SessionInteraction.hasControl(test,ID+"titleText"))break;
+      Thread.sleep(100);
+     }
+     if(SessionInteraction.hasControl(test,ID+"learnButton")&&SessionInteraction.hasControl(test,ID+"titleText")){
+      SessionScreen.capture(test,"range-popup-dismiss-failed","range-popup-dismiss-failed");
+      throw new IllegalStateException("Original path popup remained after one Back action");
+     }
     }
    }
    android.util.DisplayMetrics dm=test.getTargetContext().getResources().getDisplayMetrics();

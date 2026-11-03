@@ -172,7 +172,10 @@ final class SessionInteraction {
     }
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
-    Thread.sleep(1500); // Original JS grading completes asynchronously.
+    // Native evaluation is asynchronous. Wait for the actual selected
+    // answer's original grade, rather than racing a fixed sleep into Check.
+    if(!hinted)NativeMathGrade.awaitSelection(test,activity,"CORRECT");
+    else Thread.sleep(1500); // The hint retry is judged separately at Check.
    }
    else if(kind.equals("order")){
     org.json.JSONArray sequence=q.getJSONArray("answer"),items=q.getJSONArray("items");

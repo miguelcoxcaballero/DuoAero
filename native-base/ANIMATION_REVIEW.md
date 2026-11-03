@@ -161,3 +161,8 @@ of the complete sheet was attempted, but its output still has opaque shoe
 pixels at the lower boundary and cannot yet be accepted as an uncropped source.
 Neither the edited candidate nor a padded copy has been integrated; full-frame
 reconstruction, registration and timed playback review remain necessary.
+A second image-generation attempt produced four full-body figures with clear
+transparent lower margins, but changed the fourth expression to closed eyes
+and changed details of the other frames. It is a reference, not a registered
+replacement: inserting it into the existing sequence could create abrupt
+changes, so it has not been integrated or counted as a smooth animation.
