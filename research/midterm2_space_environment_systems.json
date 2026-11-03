@@ -145,11 +145,11 @@
       "options": [
         "Satellite and ground clocks run at identical rates in every orbit",
         "Relativistic corrections affect only propellant consumption",
-        "Satellite and ground clocks accumulate different timing effects",
+        "Motion and gravity change clock rates by different amounts",
         "Knowing the satellite position makes precise timing unnecessary"
       ],
       "answer": 2,
-      "explanation": "Precise navigation requires accounting for clock-rate effects associated with motion and gravity."
+      "explanation": "Satellite motion and the different gravitational field affect clock rates, so precise navigation must account for both."
     }
   ]
 }

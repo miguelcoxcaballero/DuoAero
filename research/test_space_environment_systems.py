@@ -13,7 +13,7 @@ answers=['Natural buoyancy-driven convection is greatly reduced','Reduced loadin
  'Help prevent the astronaut or tools drifting away from the spacecraft','Material can outgas or sublime',
  'Shielding and mission planning','Temperature changes can cause differential expansion and contraction',
  'Convert part of radioactive decay heat into electrical power','It can reduce resupply needs but does not recover everything perfectly',
- 'By electrolysis of water','Satellite and ground clocks accumulate different timing effects']
+ 'By electrolysis of water','Motion and gravity change clock rates by different amounts']
 for q,expected in zip(qs,answers):
  assert q['topic']=='3.2' and q['type']=='choice' and q['stem'].endswith('?')
  assert len(q['options'])==len(set(q['options']))==4 and q['options'][q['answer']]==expected

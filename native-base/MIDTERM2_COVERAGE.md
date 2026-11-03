@@ -41,3 +41,20 @@ mitigation, thermal stress, radioisotope electrical power, water recycling,
 oxygen production and navigation clocks. It is not yet connected to the
 path or credited; its native interaction, source editorial review beyond the
 selected course material and visual layout are pending.
+
+A separate source check covers five of the new environment questions:
+ENV-021 (ventilation), ENV-027 (radioisotope generation), ENV-028–029
+(water recovery and electrolysis), and ENV-030 (navigation clocks). Public
+references: [ESA ventilation](https://blogs.esa.int/astronauts/2012/04/29/no-molecule-shall-stand-still/),
+[NASA life support](https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/),
+[NASA radioisotope power](https://ntrs.nasa.gov/api/citations/20160001769/downloads/20160001769.pdf),
+and [NIST clocks](https://www.nist.gov/atomic-clocks/a-powerful-tool-for-science/putting-einstein-test).
+The water item does not assert a fixed recovery percentage. This partial source
+check does not accept the other five questions, full coverage or Android UI.
+
+The remaining five draft items have also been compared with the supplied
+course outline: ENV-022 concerns reduced loading and deconditioning; ENV-023
+concerns EVA tether attachment; ENV-024 concerns vacuum-sensitive materials;
+ENV-025 concerns radiation mitigation; ENV-026 concerns thermal deformation.
+Their distractors and exact wording still require classroom-level editorial
+and Android review before the lesson is connected.
