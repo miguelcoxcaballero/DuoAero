@@ -6,7 +6,8 @@ import json,os,re,subprocess,time
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from PIL import Image
-from visual_controls import claim_xp
+from visual_controls import claim_xp, native_positive_banner
+from feedback_checks import assert_native_correct, feedback_terminal
 PACKAGE='com.duoaero.nativebase';OUT=Path(os.environ['DUOAERO_EVIDENCE'])
 def adb(*args):return subprocess.check_output(['adb',*args],timeout=30)
 def capture(name):
@@ -23,6 +24,18 @@ def wait(name,predicate,seconds=90):
   if tree is not None and predicate(tree):return tree
   time.sleep(2)
  raise AssertionError('Not observed: '+name)
+def wait_correct(name,context,seconds=60):
+ end=time.monotonic()+seconds
+ while time.monotonic()<end:
+  tree=capture(name)
+  if tree is not None:
+   if feedback_terminal(tree):
+    assert_native_correct(tree,context);return tree
+   if any(n.get('text','')=='CONTINUE' and n.get('enabled')=='true' for n in tree.iter('node')):
+    if native_positive_banner(OUT/(name+'.png'),OUT/(name+'-banner.png')):
+     assert_native_correct(tree,context,visual_positive=True);return tree
+  time.sleep(2)
+ raise AssertionError('Positive native feedback not observed: '+context)
 def has(tree,value):return any(value.casefold() in (n.get('text','')+' '+n.get('content-desc','')).casefold() for n in tree.iter('node'))
 def tap(n):
  a,b,c,d=map(int,re.findall(r'\d+',n.get('bounds')));x=str((a+c)//2);y=str((b+d)//2);adb('shell','input','swipe',x,y,x,y,'100')
@@ -63,8 +76,7 @@ try:
   assert choices,'Missing original answer card '+q['id'];tap(choices[-1])
   ready=wait('two-sections-ready-'+str(index),lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
   tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
-  feedback=wait('two-sections-feedback-'+str(index),lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
-  assert not has(feedback,'GOT IT'),'Correct answer rejected: '+q['id']
+  feedback=wait_correct('two-sections-feedback-'+str(index),q['id'])
   tap(next(n for n in feedback.iter('node') if n.get('text','')=='CONTINUE' and n.get('enabled')=='true'))
  end=time.monotonic()+90
  while time.monotonic()<end:
@@ -100,8 +112,7 @@ try:
  assert cards,'The rocket draft answer block was not visible';tap(cards[-1])
  ready=wait('two-sections-rocket-ready',lambda t:any(n.get('text','')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')),30)
  tap(next(n for n in ready.iter('node') if n.get('text','')=='CHECK' and n.get('enabled')=='true'))
- feedback=wait('two-sections-rocket-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'),60)
- assert not has(feedback,'GOT IT'),'The correct rocket word was rejected'
+ feedback=wait_correct('two-sections-rocket-feedback','First rocket word')
  (OUT/'two-sections-result.txt').write_text('PASS: diagnostic first second-section lesson saved, rocket session opened after restart and its first word was graded. Remaining lessons and real-account progression unverified.\n')
 
 finally:
