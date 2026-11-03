@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/completion-shorter-pauses, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/completion-paired-timing, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/completion-shorter-pauses' && '["standalone"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
-    timeout-minutes: 30
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/completion-paired-timing' && '["paired-timing"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
+    timeout-minutes: 45
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
@@ -87,7 +87,7 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|paired-timing|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = column-wrong || "$DIAGNOSTIC_SCENARIO" = column-mixed ]]; then export DUOAERO_COLUMN_DIAGNOSTIC=1; fi
@@ -133,6 +133,12 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           python native-base/build.py
+          if [ "$DIAGNOSTIC_SCENARIO" = paired-timing ]; then
+            cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/paired-candidate.apk"
+            DUOAERO_SUMMARY_BASELINE=1 python native-base/build.py
+            cp "$DUOAERO_WORK/DuoAero-native-base-test.apk" "$DUOAERO_WORK/paired-baseline.apk"
+            cp "$DUOAERO_WORK/paired-candidate.apk" "$DUOAERO_WORK/DuoAero-native-base-test.apk"
+          fi
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
           python native-base/test_formula_words.py
@@ -150,7 +156,7 @@ jobs:
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
-        timeout-minutes: 16
+        timeout-minutes: 30
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
@@ -585,6 +591,18 @@ jobs:
             mixed-hint)
               run_probe aerospace-mixed-hint MATH_BT native-defaults late native-full aerospace-mixed mixed-hint false native-default native-cache true
               grep -q 'PASS: native Mach formula practice preceded each calculation' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-mixed-hint.txt"
+              ;;
+            paired-timing)
+              export DUOAERO_EVIDENCE_ROOT="$DUOAERO_EVIDENCE"
+              for phase in baseline candidate; do
+                export DUOAERO_EVIDENCE="$DUOAERO_EVIDENCE_ROOT/$phase"
+                mkdir -p "$DUOAERO_EVIDENCE"
+                timeout 360 adb install --no-incremental -r "$DUOAERO_WORK/paired-$phase.apk"
+                adb logcat -c
+                python native-base/test_standalone.py
+                adb logcat -d -s DuoAeroCompletionTiming:I DuoAeroBatchShape:I '*:S' > "$DUOAERO_EVIDENCE/timing.txt"
+              done
+              export DUOAERO_EVIDENCE="$DUOAERO_EVIDENCE_ROOT"
               ;;
             standalone|s24|resume|mistakes|review)
               if [ "$DIAGNOSTIC_SCENARIO" = resume ]; then export DUOAERO_TEST_RESUME=1; fi

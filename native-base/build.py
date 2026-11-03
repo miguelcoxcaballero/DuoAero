@@ -569,6 +569,8 @@ for register in ('v5','v22'):
  call=('    invoke-static {v5, v6}' if register=='v5' else '    invoke-static/range {v22 .. v23}')
  summary_pause_method=summary_pause_method.replace(anchor,anchor+'\n\n'+call+', Lcom/duoaero/nativebase/NativeCourseBridge;->summaryPause(J)J\n\n    move-result-wide '+register)
 summary_pause_text=summary_pause_text[:summary_pause_start]+summary_pause_method+summary_pause_text[summary_pause_end:]
+if os.environ.get('DUOAERO_SUMMARY_BASELINE')=='1':
+ summary_pause_text=summary_pause_original.decode('utf-8').replace('\r\n','\n')
 try:
  summary_pause_source.write_text(summary_pause_text,encoding='utf-8')
  timing_summary_source.write_text(timing_summary_text,encoding='utf-8')
