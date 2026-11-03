@@ -18,6 +18,7 @@ A='{http://schemas.android.com/apk/res/android}';E.register_namespace('android',
 tree=E.parse(BASE/'AndroidManifest.xml');root=tree.getroot();package=os.environ.get('DUOAERO_PACKAGE','com.duoaero.nativebase');root.set('package','com.duolingo')
 if package not in ('com.duoaero.nativebase','com.duoaero'):raise ValueError('Unsupported APK identity')
 production=package=='com.duoaero'
+if production and os.environ.get('DUOAERO_JET_RANGE_PATH_DIAGNOSTIC')=='1':raise ValueError('Jet range path diagnostic cannot enter production')
 if production:
  version=os.environ['DUOAERO_VERSION'];version_code=int(os.environ['DUOAERO_VERSION_CODE'])
  if not __import__('re').fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',version) or version_code<=10200:raise ValueError('Production version must advance the published APK')
@@ -662,6 +663,11 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.write(lesson,'assets/hardcoded_sessions/duoaero/aerospace_lesson.json')
  out.write(ROOT/'native-base/tests/fixtures/aerospace_formula_lesson.json','assets/hardcoded_sessions/duoaero/aerospace_formula_lesson.json')
  bank=json.loads((ROOT/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
+ course_plan=json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
+ if os.environ.get('DUOAERO_JET_RANGE_PATH_DIAGNOSTIC')=='1' and not production:
+  sys.path.insert(0,str(ROOT/'research'))
+  from jet_range_path_draft import candidate as jet_range_path_candidate
+  bank,course_plan=jet_range_path_candidate(bank,course_plan)
  by_id={question['id']:question for question in bank}
  # Exercise word gaps first, so their native interaction and screenshots are
  # observed even if an unrelated matching-card regression aborts the probe.
@@ -917,7 +923,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_rich_lesson.json',json.dumps(rich_session,ensure_ascii=False))
  catalog={};legacy_catalog={}
  lesson_total=0
- for node in json.loads((ROOT/'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig')):
+ for node in course_plan:
   from path_adapter import stable_id
   lesson_total+=len(node['lessons'])
   for position,entry in enumerate(node['lessons']):

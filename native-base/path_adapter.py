@@ -4,6 +4,8 @@ This supplies data only. Native decoding and original home/path rendering
 must be verified separately; generated JSON is not proof of a working path.
 """
 import hashlib
+import os
+import sys
 import json
 from pathlib import Path
 from course_adapter import lesson_questions
@@ -128,6 +130,12 @@ def build_path(plan, bank):
 if __name__ == '__main__':
     bank = json.loads((ROOT / 'app/assets/questions.json').read_text(encoding='utf-8-sig'))
     plan = json.loads((ROOT / 'app/assets/lesson_plan.json').read_text(encoding='utf-8-sig'))
+    if os.environ.get('DUOAERO_JET_RANGE_PATH_DIAGNOSTIC')=='1':
+        if os.environ.get('DUOAERO_PACKAGE','com.duoaero.nativebase')!='com.duoaero.nativebase':
+            raise ValueError('Jet range path is an isolated diagnostic only')
+        sys.path.insert(0,str(ROOT/'research'))
+        from jet_range_path_draft import candidate
+        bank,plan=candidate(bank,plan)
     course, section, lessons = build_path(plan, bank)
     destination = ROOT / 'native-base/tests/fixtures'
     destination.mkdir(exist_ok=True, parents=True)
