@@ -708,10 +708,10 @@
       "type": "choice",
       "stem": "What distinguishes a guided missile from an unguided rocket?",
       "options": [
-        "It must have a human pilot",
+        "It must carry an onboard human pilot",
         "A guidance system can adjust its flight path",
-        "It cannot travel through the atmosphere",
-        "It never uses a rocket motor"
+        "It is required to use aerodynamic lift for the entire flight",
+        "It cannot use a rocket motor"
       ],
       "answer": 1,
       "explanation": "A guided vehicle can adjust its flight path using a guidance and control system."
@@ -722,10 +722,10 @@
       "type": "choice",
       "stem": "What does a propulsion system produce to accelerate a vehicle?",
       "options": [
-        "Cabin pressure",
-        "Wing span",
+        "Aerodynamic drag",
+        "Electrical resistance",
         "Thrust",
-        "Orbital inclination"
+        "Heat capacity"
       ],
       "answer": 2,
       "explanation": "Propulsion produces thrust; the vehicle accelerates according to the net force acting on it."
@@ -750,9 +750,9 @@
       "type": "choice",
       "stem": "What is the role of guidance in a flight vehicle?",
       "options": [
-        "Replace all of the vehicle structure",
-        "Measure the material density of a wing",
-        "Generate electricity for cabin lighting",
+        "Carry out actuator commands without reference to a desired path",
+        "Store electrical energy for all sensors",
+        "Provide the structural support for the payload",
         "Determine how the desired path should change"
       ],
       "answer": 3,
@@ -764,9 +764,9 @@
       "type": "choice",
       "stem": "What is the role of the flight control system?",
       "options": [
-        "Provide the entire payload mass",
-        "Define sea-level pressure",
-        "Make gravity disappear",
+        "Specify the target path without operating actuators",
+        "Supply the propellant stored onboard",
+        "Measure air density without any sensors",
         "Carry out commands by adjusting vehicle motion"
       ],
       "answer": 3,
@@ -779,9 +779,9 @@
       "stem": "What force can an aerodynamic control surface produce in air?",
       "options": [
         "An aerodynamic force",
-        "A permanent change in Earth mass",
-        "A force without interacting with air",
-        "A change in gravity"
+        "A force that requires no interaction with the air",
+        "A force only when the vehicle is in vacuum",
+        "A force independent of surface orientation"
       ],
       "answer": 0,
       "explanation": "A control surface interacts with the airflow and produces an aerodynamic force and moment."
@@ -792,10 +792,10 @@
       "type": "choice",
       "stem": "During an unpowered ballistic coast, which force still acts on the vehicle?",
       "options": [
-        "A constant force from the battery",
+        "A constant thrust from an engine that is shut down",
         "Gravity",
-        "Thrust from an operating engine",
-        "A mandatory force from the launch pad"
+        "A lift force that is present in every vacuum coast",
+        "A force supplied by a launch pad throughout the coast"
       ],
       "answer": 1,
       "explanation": "Gravity continues to act after engine cutoff; aerodynamic force may also act in an atmosphere."
@@ -806,9 +806,9 @@
       "type": "choice",
       "stem": "What does a sensor provide to a guidance system?",
       "options": [
-        "An automatic removal of aerodynamic drag",
-        "A guarantee of perfect knowledge",
-        "A replacement for the vehicle mass",
+        "Exact knowledge without measurement error",
+        "Propellant for the propulsion system",
+        "Actuator motion in place of a measurement",
         "Measurements with possible uncertainty"
       ],
       "answer": 3,
@@ -834,9 +834,9 @@
       "type": "choice",
       "stem": "Why can a vehicle use more than one propulsion stage?",
       "options": [
-        "To avoid any need for energy",
+        "To avoid carrying a power source",
         "To keep total mass constant after burning propellant",
-        "To make gravity vanish",
+        "To preserve an empty stage for the rest of flight",
         "To discard mass that is no longer needed"
       ],
       "answer": 3,
