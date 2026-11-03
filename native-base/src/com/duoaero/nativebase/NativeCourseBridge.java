@@ -543,7 +543,11 @@ public final class NativeCourseBridge {
     else if(key.equals("timezone"))seen.add("timezone");
     else if(key.equals("xpGains")||key.equals("xpGoal"))seen.add("xp");
     else if(key.equals("currentCourseId")||key.equals("fromLanguage")||key.equals("learningLanguage"))seen.add("course");
-    else seen.add("other");
+    else if(key.startsWith("push")||key.startsWith("email")||key.startsWith("sms")||key.startsWith("whatsapp")||key.equals("universalPracticeNotifyTime"))seen.add("notifications_or_contact");
+    else if(java.util.Arrays.asList("id","userId","username","name","firstName","lastName","password","currentPassword","parentEmail","phoneNumber","googleIdToken","facebookToken","wechatCode","verificationId","anonymous","age").contains(key))seen.add("account");
+    else if(java.util.Arrays.asList("enableSpeaker","shakeToReportEnabled","showJapaneseTransliterations","zhTw","lssEnabled","deanonymizedSpeechShareEnabled","waiveCoppaCountries","xpGoal").contains(key))seen.add("preferences");
+    else if(java.util.Arrays.asList("acquisitionSurveyReason","resurrectedAcquisitionSurveyReason","adjustId","distinctId","googleAdid","adjustTrackerToken","inviteCode","inviteCodeSource","inviteSharingChannel","motivation","betaStatus","lastResurrectionTimestamp").contains(key))seen.add("account_metadata");
+    else seen.add("unclassified");
    }
    if(seen.isEmpty())seen.add("empty_or_null");for(String category:seen)countSyntheticPatchCategory(category);
   }
