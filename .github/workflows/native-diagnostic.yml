@@ -205,7 +205,7 @@ jobs:
             probe_config="${9:-none}"
             probe_profile="${10:-diagnostic-flows}"
             probe_service="${11:-false}"
-            probe_nonlocal="${12:-false}"
+            probe_original_unmarked="${12:-false}"
             probe_timeout=180
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then probe_timeout=300; fi
             if [[ "$probe_interact" = mixed* ]]; then probe_timeout=420; fi
@@ -215,7 +215,7 @@ jobs:
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
             probe_status=0
-            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" -e nonlocal_render "$probe_nonlocal" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" -e original_unmarked "$probe_original_unmarked" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
             echo "Instrumentation command exit: $probe_status" >> "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "$RUNNER_TEMP/duoaero-evidence/views-$probe_label.json" || true
@@ -303,7 +303,7 @@ jobs:
                 done
               done
             fi
-            adb logcat -d -s DuoAeroProbe:I DuoAeroNonlocalProbe:E DuoAeroNative:I AndroidRuntime:E chromium:E > "$RUNNER_TEMP/duoaero-evidence/probe-$probe_label.txt"
+            adb logcat -d -s DuoAeroProbe:I DuoAeroTokenMeasure:I DuoAeroOriginalProbe:E DuoAeroNative:I AndroidRuntime:E chromium:E > "$RUNNER_TEMP/duoaero-evidence/probe-$probe_label.txt"
             adb logcat -d -s Rive:D rive:D RiveRenderer:D OpenGLRenderer:W libEGL:W > "$RUNNER_TEMP/duoaero-evidence/render-$probe_label.txt"
             adb shell dumpsys power > "$RUNNER_TEMP/duoaero-evidence/power-$probe_label.txt"
             adb shell dumpsys activity lastanr > "$RUNNER_TEMP/duoaero-evidence/anr-$probe_label.txt"
@@ -508,11 +508,14 @@ jobs:
               grep -q 'All 17 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-product-fraction.txt"
               adb logcat -d -s DuoAeroProbe:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
               grep -q 'NAMED_CARD_PADDING_RESTORED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              grep -q 'ORIGINAL_UNMARKED_TOKEN_UNCHANGED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              adb logcat -d -s DuoAeroTokenMeasure:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
+              grep -q 'name=deflection-limit second moment of area' "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
               # Original APK expression, synthetic profile and networking disabled.
               adb shell svc wifi disable
               adb shell svc data disable
-              run_probe original-nonlocal-expression MATH_BT native-defaults late native-full original-expression none false native-default native-cache false true
-              grep -q 'Original non-local rendering gate observed' "$RUNNER_TEMP/duoaero-evidence/session-original-nonlocal-expression.txt"
+              run_probe original-unmarked-expression MATH_BT native-defaults late native-full original-expression none false native-default native-cache true true
+              grep -q 'Original unmarked expression and submit control observed with offline local service' "$RUNNER_TEMP/duoaero-evidence/session-original-unmarked-expression.txt"
               adb shell svc wifi enable
 
               ;;
@@ -568,6 +571,8 @@ jobs:
             range-formula)
               run_probe aerospace-range-formula MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 8 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-range-formula.txt"
+              adb logcat -d -s DuoAeroTokenMeasure:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/range-token-measure.txt"
+              grep -q 'name=thrust-specific fuel consumption' "$RUNNER_TEMP/duoaero-evidence/range-token-measure.txt"
               ;;
             structural-formula)
               run_probe aerospace-structural-formula MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true

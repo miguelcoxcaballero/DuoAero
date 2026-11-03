@@ -835,6 +835,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
   original_math=json.loads(original_math_fixture)
   original_expression=next(q for q in original_math['challenges'] if 'expressionBuildInput' in q.get('promptInputChallenge',{}).get('input',{}))
+  assert 'duoaero:' not in json.dumps(original_expression), 'Original expression unexpectedly has local marker'
   original_math['challenges']=[original_expression]
   out.writestr('assets/hardcoded_sessions/duoaero/original_expression_diagnostic.json',json.dumps(original_math,ensure_ascii=False))
  mixed_driver=copy.deepcopy(mixed)
