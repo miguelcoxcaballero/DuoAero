@@ -42,7 +42,8 @@ public final class WaveLottieProbe {
        Object mode=manager.getClass().getMethod("a").invoke(manager);
        Object motionDisabled=manager.getClass().getMethod("b").invoke(manager);
        float animatorScale=android.provider.Settings.Global.getFloat(activity.getContentResolver(), "animator_duration_scale", 1f);
-       android.util.Log.i("DuoAeroWaveProbe", "mode="+mode+" motionDisabled="+motionDisabled+" animatorScale="+animatorScale+" attached="+lottie.isAttachedToWindow()+" shown="+lottie.isShown());
+       boolean loaded=lottie.getClass().getMethod("getComposition").invoke(lottie)!=null;
+       android.util.Log.i("DuoAeroWaveProbe", "mode="+mode+" motionDisabled="+motionDisabled+" animatorScale="+animatorScale+" attached="+lottie.isAttachedToWindow()+" shown="+lottie.isShown()+" compositionAtEntrance="+loaded);
        lottie.getClass().getMethod("u").invoke(lottie);entered.countDown();
       }
       catch(Throwable problem){error.set(problem);entered.countDown();}
@@ -63,12 +64,18 @@ public final class WaveLottieProbe {
   float min=1f,max=0f;
   for(int i=0;i<20;i++){
    Thread.sleep(300);SessionScreen.capture(test,"wave-lottie-"+i,"wave-lottie-"+i);
-   float progress=((Number)animation.get().getClass().getMethod("getProgress").invoke(animation.get())).floatValue();
-   min=Math.min(min,progress);max=Math.max(max,progress);
-   View sample=(View)animation.get();Object drawable=sample.getClass().getField("e").get(sample);
-   android.animation.Animator animator=(android.animation.Animator)drawable.getClass().getField("b").get(drawable);
-   Object composition=sample.getClass().getMethod("getComposition").invoke(sample);
-   android.util.Log.i("DuoAeroWaveProbe","sample="+i+" progress="+progress+" frame="+sample.getClass().getMethod("getFrame").invoke(sample)+" duration="+sample.getClass().getMethod("getDuration").invoke(sample)+" composition="+(composition!=null)+" running="+animator.isRunning()+" attached="+sample.isAttachedToWindow()+" shown="+sample.isShown());
+   final int sampleIndex=i;final float[] progress={0f};
+   test.runOnMainSync(()->{
+    try{
+     View sample=(View)animation.get();Object drawable=sample.getClass().getField("e").get(sample);
+     android.animation.Animator animator=(android.animation.Animator)drawable.getClass().getField("b").get(drawable);
+     Object composition=sample.getClass().getMethod("getComposition").invoke(sample);
+     progress[0]=((Number)sample.getClass().getMethod("getProgress").invoke(sample)).floatValue();
+     android.util.Log.i("DuoAeroWaveProbe","sample="+sampleIndex+" progress="+progress[0]+" frame="+sample.getClass().getMethod("getFrame").invoke(sample)+" duration="+sample.getClass().getMethod("getDuration").invoke(sample)+" composition="+(composition!=null)+" running="+animator.isRunning()+" attached="+sample.isAttachedToWindow()+" shown="+sample.isShown());
+    }catch(Throwable failure){error.set(failure);}
+   });
+   if(error.get()!=null)throw new IllegalStateException("Cannot observe original wave animator",error.get());
+   min=Math.min(min,progress[0]);max=Math.max(max,progress[0]);
   }
   if(video!=null)try(java.io.InputStream stream=new android.os.ParcelFileDescriptor.AutoCloseInputStream(video)){while(stream.read()!=-1){}}
   if(max-min<.05f)throw new IllegalStateException("Original looping wave did not advance");
@@ -76,3 +83,4 @@ public final class WaveLottieProbe {
   return "Original hole entrance callback delivered and looping wave advanced; inspect captured frames.\n";
  }
 }
+
