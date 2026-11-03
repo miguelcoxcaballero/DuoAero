@@ -11,11 +11,11 @@ import hashlib
 from audit_jet_families import RANGE, PAYLOAD, audit
 
 FORMULAS = {
- 'dry': (r'm_d=m_o+m_p', 'Operating empty mass plus payload is dry mass.'),
- 'tank': (r'm_{t,\mathrm{tank}}=m_d+m_f', 'Dry mass plus fuel capacity is the tank-limited takeoff mass.'),
+ 'dry': (r'm_{\mathrm{zf}}=m_o+m_p', 'Operating empty mass plus payload is zero-fuel mass.'),
+ 'tank': (r'm_{t,\mathrm{tank}}=m_{\mathrm{zf}}+m_f', 'Zero-fuel mass plus fuel capacity is the tank-limited takeoff mass.'),
  'minimum': (r'm_t=\min(m_{t,\max},m_{t,\mathrm{tank}})', 'The takeoff mass is the smaller takeoff limit.'),
  'burn': (r'm_i=m_t-m_b', 'Initial cruise mass is takeoff mass minus fuel burned before cruise.'),
- 'reserve': (r'm_e=m_d+m_r', 'Final cruise mass is dry mass plus reserve fuel.'),
+ 'reserve': (r'm_e=m_{\mathrm{zf}}+m_r', 'Final cruise mass is zero-fuel mass plus reserve fuel.'),
  'ratio': (r'\mu=m_i/m_e', 'The mass ratio is initial cruise mass divided by final cruise mass.'),
  'log': (r'L=\ln\mu', 'The logarithm is the natural logarithm of the mass ratio.'),
  'range': (r'R=VE L/(gc_e)', 'Cruise range is speed times aerodynamic efficiency times logarithm, divided by gravity and specific fuel consumption.'),
@@ -72,11 +72,11 @@ def draft(source):
     if family == 'range':
         o,p,mt,tank,burn,reserve,speed,eff,ce,g=map(float,RANGE.match(source['stem']).groups())
         dry=op('DRY','Operating empty mass plus payload:',o,'+',p,'dry','kg')
-        tank_mass=op('TANK','Dry mass plus fuel capacity:',dry,'+',tank,'tank','kg')
+        tank_mass=op('TANK','Zero-fuel mass plus fuel capacity:',dry,'+',tank,'tank','kg')
         takeoff=min(mt,tank_mass)
         parts.append(choice(source,'-LIMIT',f'Takeoff limits are {fmt(mt)} kg and {fmt(tank_mass)} kg. Which is smaller?',takeoff,'kg','minimum'))
         initial=op('BURN','Takeoff mass less pre-cruise burn:',takeoff,'-',burn,'burn','kg')
-        final=op('RESERVE','Dry mass plus reserve:',dry,'+',reserve,'reserve','kg')
+        final=op('RESERVE','Zero-fuel mass plus reserve:',dry,'+',reserve,'reserve','kg')
         ratio=op('RATIO','Initial cruise mass divided by final cruise mass:',initial,'÷',final,'ratio')
         shown_ratio=float(f'{ratio:.10g}')
         logarithm=math.log(shown_ratio)

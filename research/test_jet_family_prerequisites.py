@@ -35,6 +35,8 @@ try: multi_symbol_prerequisite(repeated)
 except ValueError: pass
 else: raise AssertionError('Unmarked repeated symbols must be rejected')
 assert math_latex('mu')==r'\textstyle \mu'
+assert math_latex('m_zf')==r'\textstyle m_{\mathrm{zf}}'
+assert 'zero-fuel mass' in next(q for q in items if q['id']=='JET-DRY-WORDS')['stem'].casefold()
 for source in json.loads((root/'app/assets/questions.json').read_text(encoding='utf-8-sig')):
  if audit(source):
   for q in draft(source):

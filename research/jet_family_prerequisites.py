@@ -9,11 +9,11 @@ from speed_limits_lesson import introduce
 # Each tuple is (id, sentence, missing word, full quantity names, symbols,
 # fixed operators). All formula components are authored explicitly.
 SPECS = [
- ('dry','Dry mass is operating empty mass plus ___.','payload', ['dry mass','operating empty mass','payload'],['m_d','m_o','m_p'],['___','=','___','+','___']),
- ('tank','Tank-limited takeoff mass is dry mass plus fuel ___.','capacity',['tank-limited takeoff mass','dry mass','fuel capacity'],['m_tt','m_d','m_f'],['___','=','___','+','___']),
+ ('dry','Zero-fuel mass is operating empty mass plus ___.','payload', ['zero-fuel mass','operating empty mass','payload'],['m_zf','m_o','m_p'],['___','=','___','+','___']),
+ ('tank','Tank-limited takeoff mass is zero-fuel mass plus fuel ___.','capacity',['tank-limited takeoff mass','zero-fuel mass','fuel capacity'],['m_tt','m_zf','m_f'],['___','=','___','+','___']),
  ('minimum','Takeoff mass is the smaller takeoff ___.','limit',['takeoff mass','maximum takeoff mass','tank-limited takeoff mass'],['m_t','m_tm','m_tt'],['___','=',r'\min','(','___',',','___',')']),
  ('burn','Initial cruise mass is takeoff mass minus the pre-cruise fuel ___.','burn',['initial cruise mass','takeoff mass','fuel burned before cruise'],['m_i','m_t','m_b'],['___','=','___','-','___']),
- ('reserve','Final cruise mass is dry mass plus reserve ___.','fuel',['final cruise mass','dry mass','reserve fuel'],['m_e','m_d','m_r'],['___','=','___','+','___']),
+ ('reserve','Final cruise mass is zero-fuel mass plus reserve ___.','fuel',['final cruise mass','zero-fuel mass','reserve fuel'],['m_e','m_zf','m_r'],['___','=','___','+','___']),
  ('ratio','Mass ratio is initial mass divided by final cruise ___.','mass',['mass ratio','initial cruise mass','final cruise mass'],['mu','m_i','m_e'],['___','=','___/___']),
  ('log','The logarithm is the natural logarithm of the mass ___.','ratio',['natural logarithm of mass ratio','mass ratio'],['L','mu'],['___','=',r'\ln','(','___',')']),
  ('range','Cruise range uses aerodynamic efficiency, speed, mass ratio logarithm, gravity and specific fuel ___.','consumption',['cruise range','cruise speed','aerodynamic efficiency','natural logarithm of mass ratio','gravitational acceleration','thrust specific fuel consumption'],['R','V','E','L','g','c_e'],['___','=','(', '___',r'\times','___',r'\times','___',')',r'\div','(', '___',r'\times','___',')']),
