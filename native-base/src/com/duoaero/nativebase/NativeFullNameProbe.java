@@ -23,7 +23,7 @@ public final class NativeFullNameProbe {
     Object entity=state.getClass().getField("f").get(state);
     if(entity!=null && entity.getClass().getName().endsWith("MathEntity$Algebraic")) {
      String raw=(String)entity.getClass().getField("a").get(entity);
-     if(raw!=null && raw.startsWith("duoaero:") && raw.length()>23 && raw.indexOf(' ')>=0)
+     if(raw!=null && raw.startsWith("duoaero:") && raw.indexOf(' ')>=0)
       name=raw.substring(8);
     }
    }
