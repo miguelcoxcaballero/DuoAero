@@ -1,8 +1,8 @@
 {
-  "mode": "unsigned",
+  "mode": "signed",
   "version": "1.4.0",
   "versionCode": 10400,
-  "artifactId": 13213660937,
-  "sourceSha": "5d300875f8d0f6f3ef181a7afe780bdee4a31295",
-  "apkSha256": "93caf0a3677ca73b51486f47517bac2335675798be9f7b0085757a3918e63ca3"
+  "artifactId": 13213876245,
+  "sourceSha": "0244f09e7e3d013fb75f929b51b1e3c739f84b2f",
+  "apkSha256": "d9baa9b04298f13ca5d564a38a1c5aacb1eb26066feb2207ae8f6bbab16c4623"
 }
