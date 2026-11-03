@@ -1,7 +1,7 @@
 """Prevent algebraic taper solutions outside the physical chord domain."""
 import json,math
 from pathlib import Path
-from taper_domain import bounds
+from taper_domain import bounds,PATTERN,repair
 bank=json.loads((Path(__file__).resolve().parents[1]/'app/assets/questions.json').read_text(encoding='utf-8-sig'))
 family=[q for q in bank if bounds(q) is not None]
 assert len(family)==10
@@ -16,6 +16,11 @@ for q in family:
   assert any(r'\lambda\geq 0' in part.get('latex','') for part in q['rich_text']['stem'])
   assert any(r'\lambda_{\max}-\lambda_{\min}' in part.get('latex','') for part in q['rich_text']['stem'])
   assert any(r'\mathrm{kg}/\mathrm{m}^{3}' in part.get('latex','') for part in q['rich_text']['stem'])
+  rendered=' '.join(part.get('latex',part.get('text','')) for part in q['rich_text']['stem'])
+  for value in PATTERN.match(q['stem']).groups():assert value in rendered,(q['id'],value)
+  assert r'q=\frac12\rho V_{cr}^{2}' in rendered and r'D_i=\frac' in rendered
+
+  assert repair(q)==q, q['id']
   assert q['origin']['kind']=='practice'
   assert 'Intersect the taper bounds with a nonnegative tip chord' in q['steps']
   if upper<0:
