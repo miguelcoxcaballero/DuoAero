@@ -150,7 +150,7 @@ final class SessionInteraction {
     try{
      equation=findEquationScroll(root,0);
      if(equation==null)throw new IllegalStateException("Long equation has no scrollable original row");
-     swipeBank(test,equation,true);
+     for(int scroll=0;scroll<3;scroll++)swipeEquation(test,equation);
     }finally{if(equation!=null)equation.recycle();root.recycle();}
     if(!hasControl(test,"com.duolingo:id/submitButton"))throw new IllegalStateException("Check unavailable after equation scroll");
     SessionScreen.capture(test,"mixed-equation-bottom-"+i,"mixed-equation-bottom-"+i);
@@ -584,29 +584,53 @@ final class SessionInteraction {
   if(Float.isNaN(chosen))throw new IllegalStateException("No visible gap for safe native bank swipe");
   return chosen;
  }
+ private static void swipeEquation(Instrumentation test,AccessibilityNodeInfo equation)throws Exception{
+  android.graphics.Rect bounds=new android.graphics.Rect();equation.getBoundsInScreen(bounds);
+  java.util.ArrayList<android.graphics.Rect> cards=new java.util.ArrayList<>();collectBankCards(equation,bounds,cards,0);
+  // Find a free point within the equation viewport itself; the answer-bank
+  // row-gap algorithm is invalid here because this is a different container.
+  float x=Float.NaN,from=Float.NaN;
+  for(int inset:new int[]{12,24,40,64}){
+   for(int side=0;side<2;side++){
+    int candidateX=side==0?bounds.left+inset:bounds.right-inset;
+    for(int y=bounds.bottom-30;y>bounds.top+100;y-=20){
+     boolean covered=false;for(android.graphics.Rect card:cards)if(card.contains(candidateX,y)){covered=true;break;}
+     if(!covered){x=candidateX;from=y;break;}
+    }
+    if(!Float.isNaN(x))break;
+   }
+   if(!Float.isNaN(x))break;
+  }
+  if(Float.isNaN(x))throw new IllegalStateException("No free start point in equation viewport");
+  if(from-bounds.top<80)throw new IllegalStateException("Equation viewport has no usable swipe travel");
+  swipeRegion(test,x,from,bounds.top+25,"equation-swipe");
+ }
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
+  float x=bounds.exactCenterX(),from=safeBankSwipeStart(bank,bounds,forward),to=forward?bounds.top+25:bounds.bottom-25;
+  swipeRegion(test,x,from,to,"bank-swipe");
+ }
+ private static void swipeRegion(Instrumentation test,float x,float from,float to,String evidencePrefix)throws Exception{
   String selectedBefore=trackSlotState?originalSlots(test):null;
   int evidence=swipeEvidence++;
-  SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
-  float x=bounds.exactCenterX(),from=safeBankSwipeStart(bank,bounds,forward),to=forward?bounds.top+25:bounds.bottom-25;
+  SessionScreen.capture(test,evidencePrefix+"-before-"+evidence,evidencePrefix+"-before-"+evidence);
   long down=android.os.SystemClock.uptimeMillis();
   android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
-  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe down failed");}finally{event.recycle();}
   for(int i=1;i<=6;i++){
    Thread.sleep(35);long now=android.os.SystemClock.uptimeMillis();
    event=android.view.MotionEvent.obtain(down,now,android.view.MotionEvent.ACTION_MOVE,x,from+(to-from)*i/6f,0);
-   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe move failed");}finally{event.recycle();}
+   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe move failed");}finally{event.recycle();}
   }
   event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x,to,0);
-  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe up failed");}finally{event.recycle();}
   Thread.sleep(400);
-  SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
+  SessionScreen.capture(test,evidencePrefix+"-after-"+evidence,evidencePrefix+"-after-"+evidence);
   String selectedAfter=trackSlotState?originalSlots(test):null;
-  if(trackSlotState&&!selectedBefore.equals(selectedAfter))
-   throw new IllegalStateException("Bank swipe changed original slot state");
+  if(trackSlotState&&!selectedBefore.equals(selectedAfter))throw new IllegalStateException("Swipe changed original slot state");
  }
+
  private static void touchFirst(Instrumentation test,String text)throws Exception{
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)throw new IllegalStateException("No screen for selected token touch");

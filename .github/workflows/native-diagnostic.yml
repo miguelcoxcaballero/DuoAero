@@ -282,7 +282,7 @@ jobs:
               done
               # These files contain only this synthetic diagnostic account.
               # Preserve the gesture evidence even when a later token fails.
-              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* 2>/dev/null' | tr -d '\r'); do
+              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* 2>/dev/null' | tr -d '\r'); do
                 adb pull "$evidence_file" "$RUNNER_TEMP/duoaero-evidence/" || true
               done
               for phase in prompt selected graded; do
