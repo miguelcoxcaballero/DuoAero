@@ -845,3 +845,12 @@ unique native-model questions pass their host checks. They remain an isolated
 draft: the current seven-session path and historical rewards are untouched,
 and Android grading, layout, lesson placement and complete course coverage
 remain pending.
+
+The unseeded journey attempt 41580217194 built its diagnostic APK and started
+Android, but stopped before any lesson when the picker label rejected an
+accessibility click. Its passive mid-lesson observer saw no scene before that
+failure. This does not invalidate the earlier independently successful picker
+and first-session test or prove a product navigation defect. The journey
+operator now uses a touchscreen tap at the exact visible row bounds, as the
+successful picker driver did, and retains picker captures; all seven-session,
+real-scene and restart claims remain unverified until rerun.

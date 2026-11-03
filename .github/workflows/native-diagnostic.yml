@@ -386,6 +386,11 @@ jobs:
             second-journey)
               adb shell pm clear com.duoaero.nativebase
               run_probe second-journey MATH_BT native-defaults late native-full aerospace-mixed second-journey false native-default native-cache true
+              for phase in picker picker-expanded; do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/journey-$phase.$extension" "$RUNNER_TEMP/duoaero-evidence/journey-$phase.$extension" || true
+                done
+              done
               for item in $(seq 0 6); do
                 for extension in png json; do
                   adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/journey-after-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/journey-after-$item.$extension" || true

@@ -39,9 +39,9 @@
       "stem": "During solar occultation by a target body, what must a solar-powered orbiter plan for?",
       "options": [
         "Reduced solar generation and cooling",
-        "Loss of all onboard stored data",
-        "Automatic loss of orbital capture",
-        "Permanent elimination of thermal stresses"
+        "Increased solar generation and warming",
+        "Unchanged solar generation without thermal adjustment",
+        "Reduced solar generation while sunlight continues uninterrupted"
       ],
       "answer": 0,
       "explanation": "When the target blocks the Sun, solar generation falls and the spacecraft cools; stored energy and thermal control can be needed."
@@ -51,11 +51,11 @@
       "topic": "3.3",
       "type": "choice",
       "difficulty": 1,
-      "stem": "What can interrupt direct communication between an orbiter and Earth?",
+      "stem": "Which geometric event places the target body between an orbiter and Earth, blocking their direct line of sight?",
       "options": [
-        "A short period of stored battery power",
-        "Deployment of a thermal shield",
-        "A change in the spacecraft internal temperature alone",
+        "Solar occultation while Earth remains visible",
+        "The orbiter turns its solar array away while Earth remains visible",
+        "The target blocks a background star while Earth remains visible",
         "Earth occultation by the target body"
       ],
       "answer": 3,
@@ -128,10 +128,10 @@
       "difficulty": 1,
       "stem": "Why is semi-autonomous operation useful for a Mars rover?",
       "options": [
-        "A Mars rover remains within a fixed laboratory",
-        "Radio communication travels instantly at every distance",
+        "It shortens the radio signal travel time",
+        "It removes the need to plan rover activities",
         "Signals can take minutes to travel between Earth and Mars",
-        "A rover never exchanges commands with Earth"
+        "It makes the rover independent of onboard navigation"
       ],
       "answer": 2,
       "explanation": "The communication delay makes immediate remote steering impractical, so onboard autonomy can assist operations."

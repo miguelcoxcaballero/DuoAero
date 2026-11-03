@@ -32,6 +32,26 @@ final class SecondSectionJourney {
   for(int i=0;i<node.getChildCount();i++){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{n+=exactTextCount(child,text);}finally{child.recycle();}}
   return n;
  }
+ private static void collectTextNodes(AccessibilityNodeInfo node,String text,ArrayList<AccessibilityNodeInfo> found){
+  if(node==null)return;
+  if(node.isVisibleToUser()&&node.getText()!=null&&text.equalsIgnoreCase(node.getText().toString()))found.add(AccessibilityNodeInfo.obtain(node));
+  for(int i=0;i<node.getChildCount();i++){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{collectTextNodes(child,text,found);}finally{child.recycle();}}
+ }
+ private static void tapBounds(Instrumentation test,AccessibilityNodeInfo node)throws Exception{
+  Rect rect=new Rect();node.getBoundsInScreen(rect);if(rect.isEmpty())throw new IllegalStateException("Empty native path control bounds");
+  long down=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,rect.exactCenterX(),rect.exactCenterY(),0);
+  android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+40,android.view.MotionEvent.ACTION_UP,rect.exactCenterX(),rect.exactCenterY(),0);
+  first.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);last.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+  try{if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Path touch down failed");Thread.sleep(40);if(!test.getUiAutomation().injectInputEvent(last,true))throw new IllegalStateException("Path touch up failed");}
+  finally{first.recycle();last.recycle();}
+ }
+ private static void tapLastText(Instrumentation test,String text)throws Exception{
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();if(root==null)throw new IllegalStateException("Section picker missing");
+  ArrayList<AccessibilityNodeInfo> found=new ArrayList<>();
+  try{collectTextNodes(root,text,found);if(found.isEmpty())throw new IllegalStateException("Section row missing: "+text);tapBounds(test,found.get(found.size()-1));}
+  finally{for(AccessibilityNodeInfo n:found)n.recycle();root.recycle();}
+ }
  private static boolean topicPopup(Instrumentation test,String title){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();if(root==null)return false;
   ArrayList<AccessibilityNodeInfo> titles=new ArrayList<>(),buttons=new ArrayList<>();
@@ -54,7 +74,7 @@ final class SecondSectionJourney {
      if(top>=0){
       for(AccessibilityNodeInfo h:headers){Rect r=new Rect();h.getBoundsInScreen(r);if(r.top>top)bottom=Math.min(bottom,r.top);}
       for(AccessibilityNodeInfo oval:ovals){Rect r=new Rect();oval.getBoundsInScreen(r);if(r.top>top&&r.top<bottom){
-       if(!oval.performAction(AccessibilityNodeInfo.ACTION_CLICK))throw new IllegalStateException("Cannot open native path node");
+       tapBounds(test,oval);
        await(test,"topic popup",()->topicPopup(test,title),30000);
        SessionInteraction.click(test,ID+"learnButton",null);return;
       }}
@@ -85,9 +105,11 @@ final class SecondSectionJourney {
   await(test,"course home",()->SessionInteraction.hasControl(test,ID+"primaryCardView"),120000);
   SessionInteraction.click(test,ID+"primaryCardView",null);
   await(test,"second section picker",()->SessionInteraction.contains(test,"Midterm 2"),60000);
-  SessionInteraction.clickLast(test,"Midterm 2");Thread.sleep(1000);
+  SessionScreen.capture(test,"journey-picker","journey-picker");
+  tapLastText(test,"Midterm 2");Thread.sleep(1000);
   await(test,"expanded second section",()->{AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();if(root==null)return false;try{return exactTextCount(root,"Midterm 2")>=2;}finally{root.recycle();}},60000);
-  SessionInteraction.clickLast(test,"Midterm 2");
+  SessionScreen.capture(test,"journey-picker-expanded","journey-picker-expanded");
+  tapLastText(test,"Midterm 2");
   await(test,"second section path",()->SessionInteraction.contains(test,"Launch vehicles")&&SessionInteraction.hasControl(test,ID+"oval"),120000);
   for(int i=0;i<topics.length;i++){
    final int step=i;String id="second-partial-"+topics[i]+"-lesson-"+indices[i];
