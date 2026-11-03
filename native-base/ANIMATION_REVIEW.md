@@ -174,3 +174,9 @@ transparent lower margins, but changed the fourth expression to closed eyes
 and changed details of the other frames. It is a reference, not a registered
 replacement: inserting it into the existing sequence could create abrupt
 changes, so it has not been integrated or counted as a smooth animation.
+A further edit opened the fourth figure's eyes and retained complete shoes,
+but the four generated poses are nearly identical and are not registered
+against the other twelve original frames. It likewise remains an unintegrated
+reference; a body-part motion and continuity review is still needed.
+The original sheet and this rejected candidate are preserved under
+`research/animation-sources/`, outside the packaged mascot assets.
