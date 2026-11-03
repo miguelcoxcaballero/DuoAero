@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/space-foundation-integration, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))))) }}
-    timeout-minutes: 30
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/space-foundation-integration' && '["extended-section"]' || github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))))) }}
+    timeout-minutes: 45
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
@@ -142,6 +142,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = temp-lift-mixed ]; then export DUOAERO_TEMP_LIFT_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = two-sections || "$DIAGNOSTIC_SCENARIO" = section-tail ]]; then export DUOAERO_TWO_SECTION_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = aircraft-extra || "$DIAGNOSTIC_SCENARIO" = rotor-extra ]]; then export DUOAERO_EXTENDED_SECTION_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = extended-section ]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1 DUOAERO_TEST_RELEASED_SECOND=1 DUOAERO_ROCKET_DRAFT_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           python native-base/build.py
@@ -368,6 +369,8 @@ jobs:
             extended-section)
               python native-base/test_two_sections_extended.py
               grep -q 'rocket session opened after restart' "$RUNNER_TEMP/duoaero-evidence/two-sections-result.txt"
+              run_probe aerospace-rocket-draft MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 11 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-rocket-draft.txt"
               ;;
             two-sections)
               python native-base/test_two_sections.py
