@@ -8,9 +8,9 @@
       "type": "choice",
       "stem": "What must a launch vehicle provide to place a payload in orbit?",
       "options": [
-        "Only height above sea level",
-        "A continuous connection to the ground",
-        "A wing-generated lift force throughout the orbit",
+        "Altitude alone, regardless of horizontal speed",
+        "Vertical speed alone at any altitude",
+        "A suitable altitude with zero horizontal velocity",
         "A suitable position and orbital velocity"
       ],
       "answer": 3,
@@ -22,9 +22,9 @@
       "type": "choice",
       "stem": "Which statement about the Kármán line is correct?",
       "options": [
-        "It marks the point where gravity becomes zero.",
+        "It marks the altitude at which Earth gravity becomes zero.",
         "It is the altitude of every geostationary satellite.",
-        "It is the boundary between Earth's inner and outer radiation belts.",
+        "It separates all atmosphere from a perfect vacuum.",
         "It is a commonly used 100 km boundary, not a sharp end to all atmospheric particles."
       ],
       "answer": 3,
@@ -36,10 +36,10 @@
       "type": "choice",
       "stem": "What reaction produces the thrust of a rocket in vacuum?",
       "options": [
-        "The payload repels the atmosphere.",
+        "The atmosphere pushes the rocket upward.",
         "The rocket accelerates expelled propellant rearward.",
-        "Gravity pulls on the wings.",
-        "Air pushes against the nozzle."
+        "The nozzle needs surrounding air to create thrust.",
+        "The vehicle gains momentum without expelling mass."
       ],
       "answer": 1,
       "explanation": "The vehicle gains momentum in the opposite direction to the exhaust; it does not need air to push against."
@@ -52,7 +52,7 @@
       "options": [
         "It has no effect on the mass ratio.",
         "It decreases the ideal velocity change.",
-        "It always makes the velocity change zero.",
+        "It decreases the exhaust velocity by definition.",
         "It increases the ideal velocity change."
       ],
       "answer": 3,
@@ -64,10 +64,10 @@
       "type": "choice",
       "stem": "Why can discarding an empty stage help a launch vehicle?",
       "options": [
-        "It makes the remaining propellant weightless.",
-        "It eliminates gravity everywhere.",
+        "It increases the mass remaining to be accelerated.",
+        "It makes aerodynamic drag the only remaining force.",
         "The remaining stages no longer accelerate that discarded mass.",
-        "It guarantees that no aerodynamic drag occurs."
+        "It removes the need to carry any propellant."
       ],
       "answer": 2,
       "explanation": "Staging reduces the mass carried by later stages, although the discarded structure must first be accelerated."
@@ -79,8 +79,8 @@
       "stem": "Which propulsion system usually offers controlled throttling during a burn?",
       "options": [
         "A liquid-propellant engine designed for throttling",
-        "An unpowered fairing",
-        "A detached empty tank",
+        "A conventional solid motor with no throttling mechanism",
+        "A spent stage after engine cutoff",
         "Every solid rocket motor"
       ],
       "answer": 0,
@@ -93,8 +93,8 @@
       "stem": "Why is a near-equatorial site useful for a launch toward the east?",
       "options": [
         "All desired orbital inclinations become equally accessible without manoeuvres.",
-        "The atmosphere disappears at the equator.",
-        "Earth's rotation cancels gravitational attraction.",
+        "Earth rotation gives the same eastward surface speed at every latitude.",
+        "Earth rotation directly cancels the gravitational attraction.",
         "Earth's rotation supplies an initial eastward velocity."
       ],
       "answer": 3,
@@ -108,7 +108,7 @@
       "options": [
         "It opposes motion relative to the surrounding air.",
         "It always points vertically upward.",
-        "It replaces the need for propulsion.",
+        "It acts in the direction of motion relative to the air.",
         "It vanishes at every altitude below 100 km."
       ],
       "answer": 0,
@@ -120,9 +120,9 @@
       "type": "choice",
       "stem": "Why can practical launch velocity requirements exceed an ideal orbital-speed estimate?",
       "options": [
-        "An orbit requires the atmosphere to stop rotating.",
-        "The exhaust cannot leave a rocket in vacuum.",
-        "Payload mass becomes negative during flight.",
+        "The ideal orbital speed already includes every ascent loss.",
+        "Only payload mass, never trajectory, affects ascent requirements.",
+        "Atmospheric drag assists ascent throughout the flight.",
         "Gravity and atmospheric drag cause losses during ascent."
       ],
       "answer": 3,
@@ -134,10 +134,10 @@
       "type": "choice",
       "stem": "What does the payload fairing mainly protect during atmospheric ascent?",
       "options": [
-        "The rocket equation from gravity",
-        "The Sun from exhaust gases",
+        "The onboard propellant from engine combustion",
+        "The empty stage from separation forces",
         "The payload from aerodynamic and thermal loads",
-        "The ground station from orbital debris"
+        "The launch site from all rocket exhaust"
       ],
       "answer": 2,
       "explanation": "A fairing encloses the payload during the dense-atmosphere phase and is normally discarded once it is no longer needed."
