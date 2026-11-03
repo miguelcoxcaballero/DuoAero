@@ -455,7 +455,7 @@ final class SessionInteraction {
        node.getBoundsInScreen(item);bank.getBoundsInScreen(visible);
        if(item.bottom>=visible.bottom-2 || item.top<=visible.top+2){node.recycle();node=null;}
       }
-      if(node==null)bank.performAction(attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+      if(node==null)swipeBank(test,bank,attempt<9);
      }
     }finally{if(bank!=null)bank.recycle();}
    }finally{root.recycle();}
@@ -511,6 +511,22 @@ final class SessionInteraction {
     }finally{button.recycle();}
    }
   }finally{root.recycle();}
+ }
+ private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
+  android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
+  if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
+  float x=bounds.exactCenterX(),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  long down=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
+  for(int i=1;i<=6;i++){
+   Thread.sleep(35);long now=android.os.SystemClock.uptimeMillis();
+   event=android.view.MotionEvent.obtain(down,now,android.view.MotionEvent.ACTION_MOVE,x,from+(to-from)*i/6f,0);
+   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe move failed");}finally{event.recycle();}
+  }
+  event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x,to,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
+  Thread.sleep(400);
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
