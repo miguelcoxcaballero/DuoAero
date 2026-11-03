@@ -523,6 +523,7 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
+  java.util.List<String> selectedBefore=visibleAboveBank(test,bounds.top);
   int evidence=swipeEvidence++;
   SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
   float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
@@ -538,6 +539,26 @@ final class SessionInteraction {
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
   Thread.sleep(400);
   SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
+  java.util.List<String> selectedAfter=visibleAboveBank(test,bounds.top);
+  if(!selectedBefore.equals(selectedAfter))
+   throw new IllegalStateException("Bank swipe changed visible prompt/slot labels: "+selectedBefore+" -> "+selectedAfter);
+ }
+ private static java.util.List<String> visibleAboveBank(Instrumentation test,int bankTop){
+  java.util.List<String> labels=new java.util.ArrayList<>();
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No accessibility root during bank swipe");
+  try{collectVisibleAbove(root,bankTop,labels,0);}finally{root.recycle();}
+  java.util.Collections.sort(labels);return labels;
+ }
+ private static void collectVisibleAbove(AccessibilityNodeInfo node,int bankTop,java.util.List<String> labels,int depth){
+  if(depth>50||!node.isVisibleToUser())return;
+  android.graphics.Rect r=new android.graphics.Rect();node.getBoundsInScreen(r);
+  CharSequence value=node.getText();
+  if(r.bottom<=bankTop && value!=null && value.length()>0)labels.add(value.toString());
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{collectVisibleAbove(child,bankTop,labels,depth+1);}finally{child.recycle();}
+  }
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
