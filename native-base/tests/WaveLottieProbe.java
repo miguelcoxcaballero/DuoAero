@@ -60,8 +60,24 @@ public final class WaveLottieProbe {
   });
   if(!entered.await(15,TimeUnit.SECONDS))throw new IllegalStateException("Original hole entrance callback missing");
   if(error.get()!=null)throw new IllegalStateException("Cannot start original wave view",error.get());
-  android.os.ParcelFileDescriptor video=test.getUiAutomation().executeShellCommand("screenrecord --time-limit 12 /sdcard/duoaero-wave-preview.mp4");
+  // Sampling after screen recording setup and screenshots missed the first
+  // seven seconds in the paired control, longer than the source animation.
+  // Observe the original animator immediately, without changing its state.
   float min=1f,max=0f;
+  for(int i=0;i<25;i++){
+   final int early=i;final float[] value={0f};
+   test.runOnMainSync(()->{
+    try{
+     View sample=(View)animation.get();Object drawable=sample.getClass().getField("e").get(sample);
+     android.animation.Animator animator=(android.animation.Animator)drawable.getClass().getField("b").get(drawable);
+     value[0]=((Number)sample.getClass().getMethod("getProgress").invoke(sample)).floatValue();
+     android.util.Log.i("DuoAeroWaveProbe","early="+early+" progress="+value[0]+" frame="+sample.getClass().getMethod("getFrame").invoke(sample)+" running="+animator.isRunning());
+    }catch(Throwable failure){error.set(failure);}
+   });
+   if(error.get()!=null)throw new IllegalStateException("Cannot observe original wave animator",error.get());
+   min=Math.min(min,value[0]);max=Math.max(max,value[0]);Thread.sleep(200);
+  }
+  android.os.ParcelFileDescriptor video=test.getUiAutomation().executeShellCommand("screenrecord --time-limit 12 /sdcard/duoaero-wave-preview.mp4");
   for(int i=0;i<20;i++){
    Thread.sleep(300);SessionScreen.capture(test,"wave-lottie-"+i,"wave-lottie-"+i);
    final int sampleIndex=i;final float[] progress={0f};
