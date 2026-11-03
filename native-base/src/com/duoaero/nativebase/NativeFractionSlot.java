@@ -105,12 +105,30 @@ public final class NativeFractionSlot {
   synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
   return fraction;
  }
+ /** Diagnostic: force times cubed length over three times two quantities. */
+ public static Object createSparDeflection(Object template,Object scope,Object slot,Method render,int first) throws Exception {
+  ClassLoader l=template.getClass().getClassLoader();Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
+  Class<?> cls=template.getClass(),entityClass=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity",true,l);
+  Constructor<?> latex=cls.getConstructor(String.class,float.class,Class.forName("b8t",true,l),boolean.class,Class.forName("com.duolingo.core.math.models.network.LatexColorConfig",true,l),entityClass,boolean.class);
+  Object entity=Class.forName("com.duolingo.core.math.models.network.challenge.MathEntity$Algebraic",true,l).getConstructor(String.class).newInstance("duoaero:spar-deflection-factor");
+  String key=Long.toString(NEXT.incrementAndGet());Object[] contents=new Object[2];
+  for(int i=0;i<2;i++){
+   String marker=PREFIX+key+":"+(i==0?"0+2^3":"2+2*3");
+   contents[i]=latex.newInstance(marker,cls.getField("b").getFloat(template),cls.getField("c").get(template),cls.getField("d").getBoolean(template),cls.getField("e").get(template),entity,cls.getField("g").getBoolean(template));
+  }
+  Class<?> state=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleState",true,l),scale=Class.forName("com.duolingo.core.math.models.figure.MathFigureScaleInfo",true,l);
+  Object scaleInfo=scale.getConstructor(state,boolean.class).newInstance(state.getField("PROMPT_DEFAULT").get(null),false);
+  float padding=Math.max(2f,cls.getField("b").getFloat(template)*.14f);
+  Object fraction=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState$Fraction",true,l).getConstructor(ui,ui,float.class,float.class,String.class,scale,boolean.class,entityClass).newInstance(contents[0],contents[1],padding,padding,"fraction",scaleInfo,false,entity);
+  synchronized(LIVE){KEYS.entrySet().removeIf(e->e.getValue().get()==null);LIVE.put(fraction,new Context(scope,slot,render,first));KEYS.put(key,new WeakReference<>(fraction));}
+  return fraction;
+ }
  public static Object denominatorPadding(Object fraction,Object modifier){
   if(fraction==null||modifier==null||!NativeCourseBridge.hasLocalCourse())return modifier;
   try {
    Object entity=fraction.getClass().getField("h").get(fraction);
    if(entity==null||!entity.getClass().getName().endsWith("MathEntity$Algebraic")||
-      !"duoaero:cantilever-factor".equals(entity.getClass().getField("a").get(entity)))return modifier;
+      !java.util.Arrays.asList("duoaero:cantilever-factor","duoaero:spar-deflection-factor").contains(entity.getClass().getField("a").get(entity)))return modifier;
    ClassLoader loader=fraction.getClass().getClassLoader();Class<?> mod=Class.forName("z5q",true,loader);
    return Class.forName("kxo",true,loader).getMethod("y",mod,float.class,float.class).invoke(null,modifier,0f,12f);
   } catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot pad cantilever denominator",failure);}
@@ -161,8 +179,8 @@ public final class NativeFractionSlot {
    Context context;
    synchronized(LIVE){WeakReference<Object> reference=KEYS.get(part[0]);Object key=reference==null?null:reference.get();context=key==null?null:LIVE.get(key);}
    if(context==null)throw new IllegalStateException("Fraction slot context no longer exists");
-   boolean twice=part[1].endsWith("*2"), triple=part[1].endsWith("*3");
-   String position=(twice||triple)?part[1].substring(0,part[1].length()-2):part[1];
+   boolean twice=part[1].endsWith("*2"), triple=part[1].endsWith("*3"), cube=part[1].endsWith("^3");
+   String position=(twice||triple||cube)?part[1].substring(0,part[1].length()-2):part[1];
    String[] spec=position.split("\\+",2);
    int offset=Integer.parseInt(spec[0]),count=spec.length==2?Integer.parseInt(spec[1]):1;
    if(offset<0||offset>3||count<1||count>2||offset+count>4)throw new IllegalStateException("Invalid fraction slot position");
@@ -179,7 +197,10 @@ public final class NativeFractionSlot {
     }
     for(int i=0;i<count;i++){
      if(i>0)prompt.invoke(null,times,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
-     context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset+i),composer,Integer.valueOf(0));
+     if(cube && i==1){
+      Object power=createPower(figure,context.scope,context.slot,context.render,context.first+offset+i,"3");
+      prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composer,0x8000000,0x2fe);
+     }else context.render.invoke(context.slot,context.scope,Integer.valueOf(context.first+offset+i),composer,Integer.valueOf(0));
     }
     NativeInlineFormula.end(true,composer);
     return true;

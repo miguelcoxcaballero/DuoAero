@@ -289,7 +289,7 @@ MULTI_NAMED = {
  'extension': (r'\Delta L=\frac{FL}{E_Y A}', ['extension','force','length','Young modulus','area'],
                ['pressure','temperature','speed'], ['___','=','___*___/___*___']),
  'spar_deflection_inertia': (r'I_\delta=\frac{FL^3}{3E\delta_a}', ['deflection-limit second moment of area','tip force','spar length','Young modulus','allowable deflection'],
-                             ['pressure','speed','temperature'], ['___','=','(', '___',r'\times','___^3',')',r'\div','(', '3',r'\times','___',r'\times','___',')']),
+                             ['pressure','speed','temperature'], ['___','=','___*___^3/3*___*___']),
  'tailwind': (r'V_g=V+w', ['ground speed','airspeed','wind speed'],
               ['distance','flight time','altitude'], ['___','=','___','+','___']),
  'total_time': (r't_{total}=t_{out}+t_{back}', ['total time','outbound time','return time'],
@@ -304,7 +304,7 @@ def named_equation_all(formula):
     expected, answers, distractors, parts = MULTI_NAMED[KINDS[formula['id']]]
     if formula['formula_latex'] != expected:
         raise ValueError('Multi-slot equation no longer matches reviewed formula: ' + formula['id'])
-    assert sum(4 if p == '___*___/___*___' else 3 if p in ('___*___/___','3*___*___/___^3') else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p in ('___','e^-___') or p.startswith('___^') else 0 for p in parts) == len(answers)
+    assert sum(4 if p in ('___*___/___*___','___*___^3/3*___*___') else 3 if p in ('___*___/___','3*___*___/___^3') else 2 if p in ('___/___','___^2/___','___^2/2*___') else 1 if p in ('___','e^-___') or p.startswith('___^') else 0 for p in parts) == len(answers)
     assert len(set(answers+distractors)) == len(answers+distractors)
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
