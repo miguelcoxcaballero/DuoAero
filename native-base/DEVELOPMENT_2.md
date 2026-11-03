@@ -1058,3 +1058,12 @@ bitmap (https://github.com/aosp-mirror/platform_frameworks_base/blob/android-16.
 The harness also recycles the returned bitmap in `finally`. This does not
 prove the exact emulator image's behavior or rule out a platform allocation;
 the phase control is needed before changing capture frequency or the app.
+
+Memory control 41589793199 failed before Android: the locked-updater build
+received HTTP 404 after its existing retries while fetching a dependency. The
+old fetch log did not identify which filename failed, so that cannot be
+reconstructed from the available output. HEAD checks from this workspace
+returned 200 for every URL in the lock; this does not prove the runner saw the
+same availability. Build tooling now logs only the locked filename before each
+fetch, with sources, hashes, retry conditions and frozen updater unchanged; a
+single same-source retry is in progress.

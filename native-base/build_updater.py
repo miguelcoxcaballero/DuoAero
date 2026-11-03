@@ -18,6 +18,7 @@ def run(*args):
 def fetch_dependency(item, destination):
     """Retry transient repository errors without caching incomplete artifacts."""
     partial = destination.with_name(destination.name + '.part')
+    print('Fetching locked updater dependency:', item['file'], flush=True)
     try:
         for attempt in range(3):
             try:
