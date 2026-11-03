@@ -130,6 +130,7 @@ final class SessionInteraction {
       clickLast(test,correct);Thread.sleep(500);requireSlotChange(test,emptiedAgain);
       if(!filledCorrect.equals(originalSlots(test)))throw new IllegalStateException("Original token was not restored");
       SessionScreen.capture(test,"slot-substitution-restored","slot-substitution-restored");
+      android.util.Log.i("DuoAeroProbe","Filled-slot replacement and restoration verified");
      }
     }
    }else if(kind.equals("choice")){
