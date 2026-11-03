@@ -659,3 +659,5 @@ A separate experimental native fraction composes the cantilever stiffness numera
 Follow-up diagnostic branches are `codex/full-name-card-padding-verify`, `codex/full-name-bank-touch-probe`, `codex/cantilever-vertical-probe`, `codex/full-lesson-positive-feedback` and `codex/completion-foam-motion-review`. They are isolated probes, not release candidates; their workflow artifacts and screenshots must be reviewed before applying any implementation to the working branch.
 
 The follow-up font-padding-only probe 41552394084 still clips multi-line text inside native cards in the inspected spar fraction; it is rejected. Reducing only the overlay's own padding is insufficient because the original card's padding also constrains the content. The separate card-padding experiment remains under test.
+
+Additional named operands now distinguish dynamic viscosity, flow speed and chord length, load capacity and applied force, mass flow rate, efficiency factor, and axial/cross-sectional quantities. These retain the source equations; model and lesson-size checks pass. Their full-length Android layout and touch behavior remain unverified.
