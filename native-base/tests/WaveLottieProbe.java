@@ -65,6 +65,10 @@ public final class WaveLottieProbe {
    Thread.sleep(300);SessionScreen.capture(test,"wave-lottie-"+i,"wave-lottie-"+i);
    float progress=((Number)animation.get().getClass().getMethod("getProgress").invoke(animation.get())).floatValue();
    min=Math.min(min,progress);max=Math.max(max,progress);
+   View sample=animation.get();Object drawable=sample.getClass().getField("e").get(sample);
+   android.animation.Animator animator=(android.animation.Animator)drawable.getClass().getField("b").get(drawable);
+   Object composition=sample.getClass().getMethod("getComposition").invoke(sample);
+   android.util.Log.i("DuoAeroWaveProbe","sample="+i+" progress="+progress+" frame="+sample.getClass().getMethod("getFrame").invoke(sample)+" duration="+sample.getClass().getMethod("getDuration").invoke(sample)+" composition="+(composition!=null)+" running="+animator.isRunning()+" attached="+sample.isAttachedToWindow()+" shown="+sample.isShown());
   }
   if(video!=null)try(java.io.InputStream stream=new android.os.ParcelFileDescriptor.AutoCloseInputStream(video)){while(stream.read()!=-1){}}
   if(max-min<.05f)throw new IllegalStateException("Original looping wave did not advance");
