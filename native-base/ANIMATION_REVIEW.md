@@ -17,3 +17,44 @@ playback after manually firing the trigger no longer showed the same overlapping
 poses in the sampled frames. This has not been verified through the completion
 screen on Android, and the samples do not establish smoothness. The original
 screen may choose a static state, which is a separate issue.
+
+## Lottie scenes still using a single swaying bitmap
+
+The generic replacement in `mascot_assets.lottie` replaces every matching
+JSON scene except `duo_flying_up` with one image and vertical movement. That is
+not an accepted character animation. Static inspection of the original APK
+identified these named call sites; a resource reference alone does not prove
+that a particular course/account can reach the screen:
+
+- `duo_waving`: `MidLessonAnimationView` and the session showcase renderer.
+- `duo_normal_mid_lesson`, `duo_in_lesson_reaching_crown`: session showcase selection.
+- `duo_funboarding_wave`, `duo_funboarding_selection`,
+  `duo_funboarding_pencil_raise`, `duo_funboarding_celebration`,
+  `duo_funboarding_final`, `duo_funboarding_splash`: onboarding views.
+- `path_duo_ball`, `path_duo_books`, `path_duo_butterfly`, `path_duo_cheer`,
+  `path_duo_gem`, `path_duo_globe`, `path_duo_headphones`,
+  `path_duo_jumpflap`, `path_duo_potion`, `path_duo_sunglasses`,
+  `path_duo_twirl`, `path_duo_whistling`: original path-animation enum.
+- `session_complete_bea_duo`, `session_complete_eddy_duo`,
+  `session_complete_junior_duo`, `session_complete_lily_duo`,
+  `session_complete_lin_duo`, `session_complete_lucy_duo`,
+  `session_complete_oscar_duo`, `session_complete_vikram_duo`,
+  `session_complete_zari_duo`: original lesson-completion animation enum.
+  Several original scenes contain multiple characters and effects, so replacing
+  the whole composition with one Snoopy also loses those roles and effects.
+- `duo_books`, `duo_hop`, `duo_hover`, `duo_super_jumping`,
+  `daily_refresh_duo_cheer`, `loading_state_duo_ball`,
+  `milestone_calendar_icon_duo`, `resurrected_duo_animation`,
+  `super_duo_bell`, `super_welcome_duo`, and the four `longscroll_*duo*`
+  assets have original code references in their respective features.
+- `duo_holding_det_certificate` and its dark variant are referenced by the
+  original certificate-promotion fragment; accessibility in DuoAero is unknown.
+
+Resources without an identified direct call must not be called unreachable:
+resource lookup can be indirect. Real screen reachability, original callbacks
+and motion remain to be tested. `research/lottie_wave.py` is an unintegrated
+prototype for `duo_waving`, using the existing transparent wave atlas as
+sixteen clipped Lottie compositions. Its host test checks that one pose is
+active and original timing/markers survive. It does not prove that Android
+clips the atlas correctly, that the real mid-lesson view plays or finishes, or
+that the wave is smooth and free from halos.
