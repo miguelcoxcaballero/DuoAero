@@ -1099,3 +1099,8 @@ The target lesson starts uncompleted; the original path and native controls
 must grade all twelve questions, Claim XP must be reached, and the saved native
 proof must contain exactly those challenge IDs. A separate restart test is
 still needed even if this diagnostic passes.
+The prepared range navigation scenario now also has a separate host-driven
+restart probe: it checks the exact saved target proof, restarts the original
+launcher, opens the same path node and requires the original service to select
+the next lesson ID. It will run only after all twelve controls and the save
+succeed. It still uses seeded synthetic prior history and has not run yet.

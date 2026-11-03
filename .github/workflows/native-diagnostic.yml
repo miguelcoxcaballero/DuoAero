@@ -632,6 +632,7 @@ jobs:
                 adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$name.png" "$RUNNER_TEMP/duoaero-evidence/" || true
                 adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/$name.json" "$RUNNER_TEMP/duoaero-evidence/" || true
               done
+              python native-base/test_jet_range_restart.py
               ;;
             jet-range-path)
               run_probe aerospace-jet-range-path MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
