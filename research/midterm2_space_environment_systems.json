@@ -1,0 +1,155 @@
+{
+  "status": "draft_not_connected_to_course",
+  "questions": [
+    {
+      "id": "M2-ENV-021",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why is forced ventilation useful inside a spacecraft in microgravity?",
+      "options": [
+        "Buoyancy-driven convection becomes stronger in free fall",
+        "Natural buoyancy-driven convection is greatly reduced",
+        "Heat cannot be exchanged between air and cabin equipment",
+        "Fans function only when installed outside the spacecraft"
+      ],
+      "answer": 1,
+      "explanation": "Without normal buoyancy-driven convection, fans can help circulate cabin air."
+    },
+    {
+      "id": "M2-ENV-022",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why can long exposure to microgravity affect astronauts?",
+      "options": [
+        "The body is exposed to greater weight-bearing loads throughout the stay",
+        "Gravity disappears completely throughout Earth orbit",
+        "Reduced loading can contribute to muscle and bone loss",
+        "Only equipment, not the human body, changes in microgravity"
+      ],
+      "answer": 2,
+      "explanation": "Reduced mechanical loading can contribute to muscle and bone loss; exercise helps mitigate these effects."
+    },
+    {
+      "id": "M2-ENV-023",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is the role of a tether attachment during an external spacewalk?",
+      "options": [
+        "Supply breathing gas through the attachment itself",
+        "Automatically dock the spacecraft with a station",
+        "Produce independent manoeuvring thrust for the astronaut",
+        "Help prevent the astronaut or tools drifting away from the spacecraft"
+      ],
+      "answer": 3,
+      "explanation": "Tethers and attachment points help keep crew and equipment connected during an EVA."
+    },
+    {
+      "id": "M2-ENV-024",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What can happen to some materials exposed to the vacuum of space?",
+      "options": [
+        "Material can outgas or sublime",
+        "Materials react with abundant surrounding atmospheric oxygen",
+        "Materials condense liquid water from the surrounding vacuum",
+        "External pressure rises until it equals cabin pressure"
+      ],
+      "answer": 0,
+      "explanation": "Vacuum may promote outgassing or sublimation in susceptible materials."
+    },
+    {
+      "id": "M2-ENV-025",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which combination is used to reduce radiation risk during a mission?",
+      "options": [
+        "Mission planning removes any need to consider shielding",
+        "Shielding and mission planning",
+        "Thermal insulation always provides equivalent radiation shielding",
+        "Solar panels alone prevent particle radiation exposure"
+      ],
+      "answer": 1,
+      "explanation": "Shielding and planning around the radiation environment help reduce exposure and damage."
+    },
+    {
+      "id": "M2-ENV-026",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why can repeated changes between sunlight and shadow stress a spacecraft?",
+      "options": [
+        "Thermal expansion cannot occur in vacuum",
+        "An eclipse always heats the exterior surface",
+        "Temperature changes can cause differential expansion and contraction",
+        "Exterior temperature remains constant without thermal management"
+      ],
+      "answer": 2,
+      "explanation": "Temperature changes can create thermal deformation and stress in materials and joints."
+    },
+    {
+      "id": "M2-ENV-027",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "What is the main purpose of a radioisotope thermoelectric generator?",
+      "options": [
+        "Convert sunlight directly through photovoltaic cells",
+        "Convert stored electricity solely into heat",
+        "Use a fuel and oxidizer reaction as its primary source",
+        "Convert part of radioactive decay heat into electrical power"
+      ],
+      "answer": 3,
+      "explanation": "An RTG converts some heat from radioactive decay into electricity through thermoelectric elements."
+    },
+    {
+      "id": "M2-ENV-028",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Which statement describes water recycling for crew life support?",
+      "options": [
+        "It can reduce resupply needs but does not recover everything perfectly",
+        "It guarantees a completely closed water loop in every condition",
+        "It produces potable water without treatment or energy",
+        "It is used only when resupply is physically impossible"
+      ],
+      "answer": 0,
+      "explanation": "Water recovery reduces demand for resupply, but recycling systems have losses and operational limits."
+    },
+    {
+      "id": "M2-ENV-029",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "How can a life-support system produce oxygen from stored water?",
+      "options": [
+        "Recover oxygen solely by absorbing carbon dioxide",
+        "By electrolysis of water",
+        "Convert nitrogen into oxygen by compression",
+        "Extract atmospheric oxygen from the surrounding vacuum"
+      ],
+      "answer": 1,
+      "explanation": "Electrolysis separates water into hydrogen and oxygen using electrical energy."
+    },
+    {
+      "id": "M2-ENV-030",
+      "topic": "3.2",
+      "type": "choice",
+      "difficulty": 1,
+      "stem": "Why do global navigation satellite systems account for relativistic effects?",
+      "options": [
+        "Satellite and ground clocks run at identical rates in every orbit",
+        "Relativistic corrections affect only propellant consumption",
+        "Satellite and ground clocks accumulate different timing effects",
+        "Knowing the satellite position makes precise timing unnecessary"
+      ],
+      "answer": 2,
+      "explanation": "Precise navigation requires accounting for clock-rate effects associated with motion and gravity."
+    }
+  ]
+}

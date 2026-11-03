@@ -34,3 +34,10 @@ rovers and space stations. The selected distinctions were checked against the
 provided course material. Its ten native-model questions preserve unique IDs;
 ordering, actual path integration, Android grading and visual review are still
 pending, and it grants no completion or rewards.
+
+A third 3.2 environment draft covers buoyancy-driven convection in
+microgravity, crew and EVA effects, vacuum-sensitive materials, radiation
+mitigation, thermal stress, radioisotope electrical power, water recycling,
+oxygen production and navigation clocks. It is not yet connected to the
+path or credited; its native interaction, source editorial review beyond the
+selected course material and visual layout are pending.

@@ -898,3 +898,10 @@ prose remains text and explicitly authored rich text still takes precedence.
 A bank-wide host regression checks all 44 occurrences. A one-question Android
 fixture using an original scientific-notation question is prepared, but its
 rendering, selection and layout have not yet been observed on Android.
+
+A further ten-item 3.2 environment-systems draft now covers additional
+microgravity, vacuum, radiation, thermal, electrical, life-support and
+relativistic-clock concepts. Its host model and answer checks pass against the
+selected course material, but it is not in the course and does not grant
+progress. Detailed editorial and original-controller Android checks remain
+pending.
