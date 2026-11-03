@@ -129,3 +129,12 @@ sizes, not measured Rive allocations, and do not explain the emulator memory
 growth on their own. The ongoing journey samples native/Dalvik PSS, native
 heap, screenshots and flow-count over time; check those measurements and Rive
 lifecycle evidence before selecting a memory correction.
+
+`research/audit_cast_frame_edges.py` examined 480 Peanuts character frames:
+74 have alpha above 128 at an image edge (Charlie 1, Franklin 7, Linus 7,
+Lucy 10, Patty 27, Pigpen 5, Sally 17). In particular, Lucy happy frames 08–13
+have more than 50 such pixels along the lower edge. The supplied frame images
+were visually inspected at 00 and 09; edge contact alone does not establish
+how much artwork, if any, is cropped. These frames require source/playback
+review before declaring uncropped animation; padding the PNG would not restore
+missing artwork. This audit does not assess motion smoothness.
