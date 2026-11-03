@@ -36,7 +36,7 @@
       "topic": "3.2",
       "type": "choice",
       "difficulty": 1,
-      "stem": "What is the role of a tether attachment during an external spacewalk?",
+      "stem": "What is the role of a safety tether during an external spacewalk?",
       "options": [
         "Supply breathing gas through the attachment itself",
         "Automatically dock the spacecraft with a station",
@@ -44,7 +44,7 @@
         "Help prevent the astronaut or tools drifting away from the spacecraft"
       ],
       "answer": 3,
-      "explanation": "Tethers and attachment points help keep crew and equipment connected during an EVA."
+      "explanation": "A safety tether helps keep crew or equipment connected to the spacecraft during an EVA."
     },
     {
       "id": "M2-ENV-024",

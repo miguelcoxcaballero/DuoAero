@@ -58,3 +58,12 @@ concerns EVA tether attachment; ENV-024 concerns vacuum-sensitive materials;
 ENV-025 concerns radiation mitigation; ENV-026 concerns thermal deformation.
 Their distractors and exact wording still require classroom-level editorial
 and Android review before the lesson is connected.
+
+The other five environment concepts have an independent public-source check:
+[NASA on bone and muscle](https://www.nasa.gov/missions/station/iss-research/counteracting-bone-and-muscle-loss-in-microgravity/),
+[NASA on spacewalk tethers](https://starchild.gsfc.nasa.gov/docs/StarChild/space_level2/spacewalk.html),
+[NASA on vacuum-sensitive materials](https://ntrs.nasa.gov/api/citations/19720016263/downloads/19720016263.pdf),
+[NASA on radiation mitigation](https://ntrs.nasa.gov/api/citations/20210009760/downloads/Clowdsley_Lunar_Radiation_Talk_v2.pdf),
+and [NASA on thermal stresses](https://ntrs.nasa.gov/api/citations/19890014159/downloads/19890014159.pdf).
+ENV-023 specifies a safety tether to distinguish it from an air-supply line.
+These checks do not establish course completeness or Android acceptance.
