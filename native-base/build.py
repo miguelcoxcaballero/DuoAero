@@ -759,6 +759,15 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert draft['status']=='draft_not_connected_to_course'
   mixed=draft['questions']
   assert len(mixed)==10
+ if os.environ.get('DUOAERO_JET_RANGE_DIAGNOSTIC')=='1' and not production:
+  sys.path.insert(0,str(ROOT/'research'))
+  from jet_family_prerequisites import prerequisites as jet_prerequisites
+  from jet_family_steps import draft as jet_draft
+  # Isolated interaction only: this does not claim prerequisite order or
+  # path migration; the complete formula set is not in this fixture.
+  mixed=[q for q in jet_prerequisites() if q['id'].startswith('JET-DRY')]
+  mixed+=jet_draft(by_id['TA1-0798-D3'])
+  assert len(mixed)==16 and mixed[-1]['id']=='TA1-0798-D3'
  if os.environ.get('DUOAERO_TSFC_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0173-F1']])
   assert len(mixed)==14 and mixed[-1]['id']=='TA1-0173-F1'

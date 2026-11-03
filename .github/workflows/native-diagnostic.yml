@@ -146,6 +146,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = environment-systems ]; then export DUOAERO_SPACE_ENV_SYSTEMS_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = spacecraft-typology ]; then export DUOAERO_SPACECRAFT_TYPOLOGY_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion ]; then export DUOAERO_TSFC_DIAGNOSTIC=1; fi
+          if [ "$DIAGNOSTIC_SCENARIO" = jet-range-draft ]; then export DUOAERO_JET_RANGE_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
@@ -203,7 +204,7 @@ jobs:
             adb shell cmd uimode night yes
             adb shell settings put system font_scale 1.15
           fi
-          if [[ "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology || "$DIAGNOSTIC_SCENARIO" = scientific-notation || "$DIAGNOSTIC_SCENARIO" = environment-systems ]]; then
+          if [[ "$DIAGNOSTIC_SCENARIO" = jet-range-draft || "$DIAGNOSTIC_SCENARIO" = tsfc-conversion || "$DIAGNOSTIC_SCENARIO" = spacecraft-typology || "$DIAGNOSTIC_SCENARIO" = scientific-notation || "$DIAGNOSTIC_SCENARIO" = environment-systems ]]; then
             adb shell wm size 1440x3120
             adb shell wm density 560
             adb shell settings put system font_scale 1.15
@@ -589,6 +590,10 @@ jobs:
             spacecraft-typology)
               run_probe aerospace-spacecraft-typology MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
               grep -q 'All 10 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-spacecraft-typology.txt"
+              ;;
+            jet-range-draft)
+              run_probe aerospace-jet-range MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
+              grep -q 'All 16 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-jet-range.txt"
               ;;
             tsfc-conversion)
               run_probe aerospace-tsfc MATH_BT native-defaults late native-full aerospace-mixed mixed-hint-touch false native-default native-cache true
