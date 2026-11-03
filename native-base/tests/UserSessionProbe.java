@@ -65,12 +65,9 @@ public final class UserSessionProbe extends Instrumentation {
     }
     if(original!=null)original.uncaughtException(thread,failure);
    });
-   // Synthetic offline fixture only. The workflow disables emulator networking
-   // before requesting the app's ordinary non-local rendering branch.
-   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
-   bridge.getField("localOnly").setBoolean(null,false);
-   if((Boolean)bridge.getMethod("hasLocalCourse").invoke(null))throw new IllegalStateException("Non-local rendering gate still enabled");
-   report.append("Original non-local rendering gate observed; synthetic offline session.\n");
+   // Keep the offline interceptor active throughout startup. The drawing
+   // isolation check switches only the local-course rendering gate immediately
+   // before the original expression session is opened below.
   }
   Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("formulaHintRetryEnabled").setBoolean(null,interaction.equals("math-hint")||interaction.equals("mixed-hint"));
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
@@ -128,6 +125,12 @@ public final class UserSessionProbe extends Instrumentation {
   Object params=Class.forName("com.duolingo.data.session.start.SessionStartParams$Hardcoded",true,loader)
    .getConstructor(String.class,boolean.class).newInstance(lessonAsset,false);
   Object via=Class.forName("com.duolingo.data.onboarding.OnboardingVia",true,loader).getField("HOME").get(null);
+  if(nonLocalRender){
+   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
+   bridge.getField("localCourseInstalled").setBoolean(null,false);
+   if((Boolean)bridge.getMethod("hasLocalCourse").invoke(null))throw new IllegalStateException("Non-local rendering gate still enabled");
+   report.append("Original non-local rendering gate observed; synthetic offline rendering isolation, not remote course operation.\n");
+  }
   for(Method method:activity.getDeclaredMethods())if(method.getName().equals("L")&&method.getParameterTypes().length==13){
    Intent intent=(Intent)method.invoke(null,getTargetContext(),params,false,via,false,false,null,null,null,true,false,null,activity);
    getTargetContext().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

@@ -320,6 +320,9 @@ public final class NativeCourseBridge {
   }catch(ReflectiveOperationException error){throw new IllegalStateException("Cannot bind original prompt scrolling",error);}
  }
  /** Experimental: retain original build controls while limiting very long local equations. */
+ public static Object scrollLongBuildSpace(java.util.List<?> items,Object modifier,Object composer){
+  return scrollLongBuildSpace(items,modifier,composer,false);
+ }
  public static Object scrollLongBuildSpace(java.util.List<?> items,Object modifier,Object composer,boolean named){
   if(!hasLocalCourse()||items==null||items.size()<4)return modifier;
   try{
