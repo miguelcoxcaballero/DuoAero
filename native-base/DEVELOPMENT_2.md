@@ -1033,3 +1033,22 @@ this does not cover every formula or prove the three-factor vertical fraction.
 The product-fraction job on the same SHA failed its swipe harness before full
 coverage, as recorded above. Later candidate changes still need their own APK
 and Android checks.
+
+Passive journey 41587456344 recorded five saved lessons, then the process
+was killed before finishing the sixth. At capture counts 1, 10, 20 and 30,
+native heap allocated was approximately 69, 301, 520 and 812 MB respectively;
+the first lesson had not yet finished. It rose again within later lessons,
+while managed Dalvik PSS stayed roughly tens of MB and the flow count later
+stabilized at 248. SessionActivity destruction was observed after each of the
+five saved lessons. These correlations do not identify the allocation owner:
+bitmap captures, rendering and the synthetic diagnostic may contribute, and
+Rive cannot be ruled in or out by them. A new same-home-activity probe samples an
+idle baseline and each phase of twenty captures, without completing a lesson
+or forcing collection; it has not yet run. The data do not prove behavior on
+a physical phone.
+Android's device log for 41587456344 explicitly shows lowmemorykiller
+terminating first the JavaScript sandbox and then the foreground app because
+swap was exhausted and the system was thrashing. The last saved lesson was
+3.2-lesson-1; the seventh-session and restart checks did not run. The capture
+control verifies that the same home activity stays foreground, but background
+UI activity can still vary and the result must be interpreted accordingly.

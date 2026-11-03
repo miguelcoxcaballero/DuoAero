@@ -37297,7 +37297,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -37306,7 +37312,7 @@
           "text": ". "
         },
         {
-          "latex": "b=23\\,\\mathrm m,\\ c_r=4.4\\,\\mathrm m,\\ W=200000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=23\\,\\mathrm m,\\ c_r=4.4\\,\\mathrm m,\\ W=200000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -39031,7 +39037,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -39040,7 +39052,7 @@
           "text": ". "
         },
         {
-          "latex": "b=23.5\\,\\mathrm m,\\ c_r=4.5\\,\\mathrm m,\\ W=205000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=23.5\\,\\mathrm m,\\ c_r=4.5\\,\\mathrm m,\\ W=205000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -40793,7 +40805,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -40802,7 +40820,7 @@
           "text": ". "
         },
         {
-          "latex": "b=24\\,\\mathrm m,\\ c_r=4.6\\,\\mathrm m,\\ W=210000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=24\\,\\mathrm m,\\ c_r=4.6\\,\\mathrm m,\\ W=210000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -42555,7 +42573,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -42564,7 +42588,7 @@
           "text": ". "
         },
         {
-          "latex": "b=24.5\\,\\mathrm m,\\ c_r=4.7\\,\\mathrm m,\\ W=215000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=24.5\\,\\mathrm m,\\ c_r=4.7\\,\\mathrm m,\\ W=215000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -44317,7 +44341,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -44326,7 +44356,7 @@
           "text": ". "
         },
         {
-          "latex": "b=25\\,\\mathrm m,\\ c_r=4.8\\,\\mathrm m,\\ W=220000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=25\\,\\mathrm m,\\ c_r=4.8\\,\\mathrm m,\\ W=220000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -46079,7 +46109,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -46088,7 +46124,7 @@
           "text": ". "
         },
         {
-          "latex": "b=25.5\\,\\mathrm m,\\ c_r=4.9\\,\\mathrm m,\\ W=225000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=25.5\\,\\mathrm m,\\ c_r=4.9\\,\\mathrm m,\\ W=225000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -47841,7 +47877,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -47850,7 +47892,7 @@
           "text": ". "
         },
         {
-          "latex": "b=26\\,\\mathrm m,\\ c_r=5\\,\\mathrm m,\\ W=230000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=26\\,\\mathrm m,\\ c_r=5\\,\\mathrm m,\\ W=230000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
@@ -49603,7 +49645,13 @@
     "rich_text": {
       "stem": [
         {
-          "text": "Find the feasible taper-width with "
+          "text": "Find the feasible taper-ratio interval width "
+        },
+        {
+          "latex": "\\lambda_{\\max}-\\lambda_{\\min}"
+        },
+        {
+          "text": " (or no feasible interval), with "
         },
         {
           "latex": "\\lambda\\geq 0"
@@ -49612,7 +49660,7 @@
           "text": ". "
         },
         {
-          "latex": "b=26.5\\,\\mathrm m,\\ c_r=5.1\\,\\mathrm m,\\ W=235000\\,\\mathrm N,\\ \\rho=1.05"
+          "latex": "b=26.5\\,\\mathrm m,\\ c_r=5.1\\,\\mathrm m,\\ W=235000\\,\\mathrm N,\\ \\rho=1.05\\,\\mathrm{kg}/\\mathrm{m}^{3}"
         },
         {
           "text": ". "
