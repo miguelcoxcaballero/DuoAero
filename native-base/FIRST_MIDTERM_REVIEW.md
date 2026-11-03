@@ -82,10 +82,10 @@ uses one displayed arithmetic operation per step, and enforces a real wind
 speed below the stated airspeed. The ten source IDs are TA1-0420-D3,
 TA1-0484-D3, TA1-0523-D3, TA1-0627-D3, TA1-0936-D3, TA1-N3-06-06,
 TA1-N3-06-07, TA1-N3-06-08, TA1-N3-06-09 and TA1-N3-06-10. Their calculated
-closest options and intermediate displayed operands pass host tests. The
-formula introductions do not yet exist, so the hints must not be connected to
-the course; migration, Android layout, touch and retry remain unverified.
-The wind draft now includes word, complete-quantity and symbolic exercises for
+closest options and intermediate displayed operands pass host tests. The wind
+draft includes word, complete-quantity and symbolic exercises for
 six of its seven relations. The final wind square-root relation is still
 explicitly rejected by the hint-order validator until a native formula layout
 with a fixed radical and interactive quantity is implemented and verified.
+The hints must not be connected to the course yet; migration, Android layout,
+touch and retry remain unverified.

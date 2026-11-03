@@ -1,5 +1,6 @@
 """Restart a seeded synthetic account after native range-lesson completion."""
 import json,os,re,subprocess,time,zipfile
+from collections import Counter
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
@@ -47,7 +48,7 @@ with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as apk:
 path='files/duoaero-course/local-test/submissions/'+TARGET+'.json'
 def proof():return json.loads(adb('exec-out','run-as',PACKAGE,'cat',path))
 before=proof();assert before.get('completedOnce') is True
-ids={x['id'] for x in expected};assert {x['id'] for x in before['completionSubmission']['challenges']}==ids
+ids=Counter(x['id'] for x in expected);assert Counter(x['id'] for x in before['completionSubmission']['challenges'])==ids
 adb('logcat','-c');adb('shell','am','force-stop',PACKAGE);adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
 wait(lambda t:any(n.get('resource-id')=='com.duolingo:id/oval' for n in t.iter('node')))
 screenshot('range-restart-path');open_target()
@@ -59,6 +60,6 @@ while time.monotonic()<end:
  time.sleep(1)
 assert selected==NEXT,('Unexpected lesson after restart',selected)
 after=proof();assert after.get('completedOnce') is True
-assert {x['id'] for x in after['completionSubmission']['challenges']}==ids
+assert Counter(x['id'] for x in after['completionSubmission']['challenges'])==ids
 screenshot('range-restart-next')
 (OUT/'range-restart-result.txt').write_text('PASS: seeded synthetic account retained the exact completion challenge IDs and reopened the next native range lesson after restart; real accounts and remaining lessons not tested.\n')
