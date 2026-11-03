@@ -35,7 +35,8 @@ def math_latex(value):
                'c_N': r'c_{\mathrm{N}}', 'c_kN': r'c_{\mathrm{kN}}',
                'mu': r'\mu', 'm_tt': r'm_{t,\mathrm{tank}}',
                'm_tm': r'm_{t,\max}', 'm_lm': r'm_{l,\max}',
-               'm_fm': r'm_{f,\max}', 'c_e': r'c_e'}
+               'm_fm': r'm_{f,\max}', 'c_e': r'c_e',
+               'R_km': r'R_{\mathrm{km}}', 'R_m': r'R_{\mathrm{m}}'}
     if value in indexed:
         return r'\textstyle ' + indexed[value]
     symbols = {'ρ': r'\rho ', 'π': r'\pi ', 'Δ': r'\Delta ', 'ṁ': r'\dot{m}',

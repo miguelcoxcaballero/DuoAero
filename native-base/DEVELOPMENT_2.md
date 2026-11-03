@@ -933,3 +933,14 @@ remaining three sessions or restart; the mid-lesson animation was not
 observed. Keep the original grading check and inspect service/process failure
 before changing the product or retrying. Android lowmemorykiller explicitly killed the WebView JavaScript sandbox at 05:27:50 due to low swap and thrashing; this establishes memory pressure in that emulator, not the cause of that pressure. Evidence: `session-second-journey.txt`
 and `probe-second-journey.txt` in the run artifact.
+
+TSFC hint diagnostic 41583541753 at c655dd39: 13 preceding controls
+reported native CORRECT. For TA1-0173-F1 the original grading state remained
+Input, Check remained disabled, feedback absent and the same challenge ID was
+visible before and after opening/dismissing the hint. E0 was INCORRECT both
+before and after, establishing it as an initial guess rather than submitted
+feedback in this run. Check marked the hinted submission for retry, the same
+challenge reappeared as Previous mistake and was correctly answered; Claim XP
+then appeared. Reviewed hint/retry captures show legible stacked unit fractions
+and superscript powers on the emulator. This isolated run did not test course
+persistence or a physical device.

@@ -41,3 +41,15 @@ fuel mass independent of payload. The existing session limits mean that simply
 expanding these source items in place would overfill sessions. A safe split
 must preserve original IDs, award no unearned completion, and be exercised on
 Android before connecting these drafts to the course.
+
+The two families now have reusable draft generators in
+`research/jet_family_steps.py`: each displayed arithmetic step uses the
+operands shown in that step, preserves the source ID/options for the final
+choice and links hints to explicitly named formula prerequisites. The 56
+word/full-name/symbol prerequisite models are in
+`research/jet_family_prerequisites.py`. Model tests cover all 20 variants;
+they are not yet lessons. In particular, the exponential named layout still
+uses exp rather than a verified superscript arrangement, the multi-factor
+fraction layouts are not accepted, and neither selection nor hint/retry has
+been exercised for these drafts on Android. Session distribution and exact
+historical progress preservation are also still required before integration.
