@@ -10,7 +10,8 @@ import re
 import subprocess
 import time
 import xml.etree.ElementTree as ET
-from visual_controls import claim_xp
+from visual_controls import claim_xp, native_positive_banner
+from feedback_checks import assert_native_correct, feedback_terminal
 
 OUT=Path(os.environ.get('DUOAERO_EVIDENCE','/tmp/duoaero-evidence'))
 OUT.mkdir(parents=True,exist_ok=True)
@@ -68,6 +69,26 @@ def earned_rewards(tree):
     return (any(n.get('resource-id')=='com.duolingo:id/menuStreak' and n.get('content-desc','').casefold()=='1 day streak' for n in nodes)
             and any(n.get('resource-id')=='com.duolingo:id/itemButton' and n.get('text')=='10' for n in nodes))
 
+def wait_correct_answer(name, answer, timeout=60):
+    deadline=time.monotonic()+timeout
+    while time.monotonic()<deadline:
+        tree=capture(name)
+        if tree is None:
+            time.sleep(2);continue
+        current=any(answer in (n.get('text','')+n.get('content-desc','')) for n in tree.iter('node'))
+        if not current:
+            time.sleep(2);continue
+        if feedback_terminal(tree):
+            assert_native_correct(tree, name)
+            return tree
+        if any(n.get('text','')=='CONTINUE' and n.get('enabled')=='true' for n in tree.iter('node')):
+            visual=native_positive_banner(OUT/(name+'.png'), OUT/(name+'-banner.png'))
+            if visual:
+                assert_native_correct(tree, name, visual_positive=True)
+                return tree
+        time.sleep(2)
+    raise AssertionError('Positive native feedback not observed: '+name)
+
 def capture_completion_motion():
     # Multiple frames distinguish static overlapping artwork from the moving
     # original celebration. A single screenshot cannot establish animation.
@@ -92,8 +113,6 @@ try:
     root=Path(__file__).resolve().parents[1]
     bank={q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
     plan=json.loads((root/'app/assets/lesson_plan.json').read_text())
-    # Exact original grade_correct_* strings, including randomized variants.
-    positive={'Amazing!','Awesome!','Correct!','Excellent!','Good job!','Great!','Great job!','Nice job!','Nice!','Nicely done!','Wow!'}
     question_ids=list(plan[0]['lessons'][0]['ids'])
     if os.environ.get('DUOAERO_TEST_MISTAKES')=='1' or os.environ.get('DUOAERO_TEST_REVIEW')=='1':
         first=bank[question_ids[0]]
@@ -135,15 +154,7 @@ try:
         tap(tree,text=answer)
         tree=wait_for('standalone-selected-'+str(i),lambda t:any(n.get('resource-id')=='com.duolingo:id/submitButton' and n.get('enabled')=='true' for n in t.iter('node')),15)
         tap(tree,'com.duolingo:id/submitButton')
-        # The final correct ribbon renders its lettering inside Rive, which
-        # exposes no text node. Its original graded action is CONTINUE; a wrong
-        # answer exposes GOT IT. Require the current answer card as well so a
-        # between-question celebration cannot satisfy this observation.
-        def correct_feedback(t):
-            labels={n.get('text','').strip().casefold() for n in t.iter('node')}
-            current=any(answer in (n.get('text','')+n.get('content-desc','')) for n in t.iter('node'))
-            return current and 'continue' in labels and 'got it' not in labels
-        tree=wait_for('standalone-graded-'+str(i),correct_feedback,30)
+        tree=wait_correct_answer('standalone-graded-'+str(i),answer)
         tap(tree,text='CONTINUE')
     deadline=time.monotonic()+90
     end_seen=False
