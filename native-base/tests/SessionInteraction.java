@@ -65,7 +65,7 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
+ static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
   actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
@@ -130,6 +130,13 @@ final class SessionInteraction {
    }
    SessionScreen.capture(test,"mixed-graded-"+i,"mixed-graded-"+i);
    if(!correct)throw new IllegalStateException("No original correct feedback for "+q.getString("id"));
+   if(contains(test,"Something went wrong")||contains(test,"skip this exercise")||contains(test,"GOT IT"))
+    throw new IllegalStateException("Original controller reported an error or incorrect answer for "+q.getString("id"));
+   if(kind.equals("matching")){
+    boolean positiveFeedback=false;
+    for(String label:positive)if(contains(test,label))positiveFeedback=true;
+    if(!positiveFeedback)throw new IllegalStateException("Matching feedback lacks explicit positive signal");
+   }else NativeMathGrade.require(test,activity,"CORRECT");
    android.util.Log.i("DuoAeroProbe","Native mixed feedback CORRECT: "+q.getString("id")+" type="+kind);
    click(test,null,"CONTINUE");
   }
