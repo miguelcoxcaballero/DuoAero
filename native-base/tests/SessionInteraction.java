@@ -515,7 +515,7 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
-  float x=bounds.exactCenterX(),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
   long down=android.os.SystemClock.uptimeMillis();
   android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
