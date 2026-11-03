@@ -1,7 +1,7 @@
 name: Original runtime diagnostic
 on:
   push:
-    branches: [codex/native-slot-swipe-scoped, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
+    branches: [codex/scroll-equation-visible-slots, codex/original-runtime-integration, codex/integration-137, codex/static-mascot-moods, codex/duoaero-2, codex/notation-sqrt, codex/lesson-migration, codex/sections-2-research]
     paths: ['native-base/**', '.github/workflows/native-diagnostic.yml']
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/native-slot-swipe-scoped' && '["range-formula","product-fraction"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
+        scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/scroll-equation-visible-slots' && '["range-formula","product-fraction"]' || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]')))))))) }}
     timeout-minutes: 30
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
@@ -241,6 +241,11 @@ jobs:
               done
             fi
             if [[ "$probe_interact" = formula* ]]; then
+              for item in $(seq 0 19); do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/mixed-equation-bottom-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/mixed-equation-bottom-$item.$extension" || true
+                done
+              done
               for phase in prompt selected graded; do
                 for item in $(seq 0 23); do
                   for extension in png json; do

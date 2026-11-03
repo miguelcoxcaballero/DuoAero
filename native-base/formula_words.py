@@ -309,6 +309,7 @@ def named_equation_all(formula):
     return {'id':formula['id']+'-NAMED-ALL', 'type':'formula_named',
             'difficulty':formula['difficulty'],
             'stem':('Complete thrust using its contributions' if KINDS[formula['id']]=='total_thrust'
+                    else 'Complete quantities; scroll the formula' if KINDS[formula['id']]=='range'
                     else 'Complete the formula with quantities'),
             # The symbolic product is implicit; explicit multiplication signs
             # keep the relationship readable when word tiles wrap to a line.

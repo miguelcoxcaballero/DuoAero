@@ -117,6 +117,17 @@ final class SessionInteraction {
     org.json.JSONArray sequence=q.getJSONArray("answer"),items=q.getJSONArray("items");
     for(int j=0;j<sequence.length();j++){clickLast(test,items.getString(sequence.getInt(j)));Thread.sleep(300);}
    }else throw new IllegalStateException("No mixed driver for "+kind);
+   if(kind.equals("formula_named") && q.getString("id").startsWith("BOOK-V6-03-") && q.getString("id").endsWith("-NAMED-ALL")){
+    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();AccessibilityNodeInfo equation=null;
+    if(root==null)throw new IllegalStateException("No screen to scroll the equation");
+    try{
+     equation=findEquationScroll(root,0);
+     if(equation==null)throw new IllegalStateException("Long equation has no scrollable original row");
+     swipeBank(test,equation,true);
+    }finally{if(equation!=null)equation.recycle();root.recycle();}
+    if(!hasControl(test,"com.duolingo:id/submitButton"))throw new IllegalStateException("Check unavailable after equation scroll");
+    SessionScreen.capture(test,"mixed-equation-bottom-"+i,"mixed-equation-bottom-"+i);
+   }
    SessionScreen.capture(test,"mixed-selected-"+i,"mixed-selected-"+i);
    // Matching can grade automatically after the final pair. Other native
    // controllers use their original Check action.
@@ -561,6 +572,16 @@ final class SessionInteraction {
    Thread.sleep(100);
   }
   throw new IllegalStateException("A token tap did not change the observed original slot state");
+ }
+ private static AccessibilityNodeInfo findEquationScroll(AccessibilityNodeInfo node,int depth){
+  if(depth>50||!own(node))return null;
+  if(node.isVisibleToUser() && node.isScrollable() && "android.widget.ScrollView".contentEquals(node.getClassName()==null?"":node.getClassName()))
+   return AccessibilityNodeInfo.obtain(node);
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{AccessibilityNodeInfo found=findEquationScroll(child,depth+1);if(found!=null)return found;}finally{child.recycle();}
+  }
+  return null;
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
