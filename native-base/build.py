@@ -746,6 +746,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  if os.environ.get('DUOAERO_NEGATIVE_EXPONENT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0182-F1']],teach_words=True)
   assert len(mixed)==5 and mixed[1]['id']=='ISA-ISOTHERMAL-FORMULA-NAMED-ALL'
+ if os.environ.get('DUOAERO_TSFC_DIAGNOSTIC')=='1' and not production:
+  mixed=lesson_questions([by_id['TA1-0173-F1']])
+  assert len(mixed)==14 and mixed[-1]['id']=='TA1-0173-F1'
  if os.environ.get('DUOAERO_ROCKET_DRAFT_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
   from rocket_lesson import lesson as rocket_lesson

@@ -74,9 +74,9 @@ final class SessionInteraction {
  }
  static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong,org.json.JSONArray questions)throws Exception {
   actualTouch=touch;
-  boolean windScenario=false,directHintScenario=false,rocketScenario=false,payloadScenario=false;
-  for(int i=0;i<questions.length();i++){String id=questions.getJSONObject(i).getString("id");if(id.equals("TA1-0092-D2-S1"))windScenario=true;if(id.equals("TA1-0106-F1"))directHintScenario=true;if(id.equals("M2-ROCKET-DELTA-CALC"))rocketScenario=true;if(id.equals("TA1-0083-D2"))payloadScenario=true;}
-  String hintId=payloadScenario?"TA1-0083-D2":rocketScenario?"M2-ROCKET-DELTA-CALC":directHintScenario?"TA1-0106-F1":windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
+  boolean windScenario=false,directHintScenario=false,rocketScenario=false,payloadScenario=false,tsfcScenario=false;
+  for(int i=0;i<questions.length();i++){String id=questions.getJSONObject(i).getString("id");if(id.equals("TA1-0092-D2-S1"))windScenario=true;if(id.equals("TA1-0106-F1"))directHintScenario=true;if(id.equals("M2-ROCKET-DELTA-CALC"))rocketScenario=true;if(id.equals("TA1-0083-D2"))payloadScenario=true;if(id.equals("TA1-0173-F1"))tsfcScenario=true;}
+  String hintId=tsfcScenario?"TA1-0173-F1":payloadScenario?"TA1-0083-D2":rocketScenario?"M2-ROCKET-DELTA-CALC":directHintScenario?"TA1-0106-F1":windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
   org.json.JSONObject hintedQuestion=null;
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
@@ -165,7 +165,7 @@ final class SessionInteraction {
    return "PASS: wrong native fraction graded at Check and retried at lesson end, then Claim XP appeared. Course persistence not tested.\n";
   }
   if(hintRetry){
-   String retryNeedle=payloadScenario?"10100":rocketScenario?"3297":directHintScenario?"1.0 mm":windScenario?"1.4583":"17.97";
+   String retryNeedle=tsfcScenario?"A consumption is 0.02":payloadScenario?"10100":rocketScenario?"3297":directHintScenario?"1.0 mm":windScenario?"1.4583":"17.97";
    for(int attempt=0;attempt<150&&(contains(test,"GOT IT")||!contains(test,retryNeedle)||!hasControl(test,"com.duolingo:id/mathCard"));attempt++){
     if(contains(test,"you missed")&&hasContinue(test))click(test,null,"CONTINUE");
     Thread.sleep(200);
@@ -181,6 +181,7 @@ final class SessionInteraction {
    click(test,null,"CONTINUE");
    for(int attempt=0;attempt<150&&!contains(test,"CLAIM XP");attempt++)Thread.sleep(200);
    if(!contains(test,"CLAIM XP"))throw new IllegalStateException("Hinted retry did not reach lesson completion");
+   if(tsfcScenario)return "PASS: native TSFC hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
    if(directHintScenario)return "PASS: native axial extension hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
    if(rocketScenario)return "PASS: native rocket hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
    if(payloadScenario)return "PASS: native payload hint was graded only at Check and retried at lesson end, then Claim XP appeared. Course persistence was not tested.\n";
