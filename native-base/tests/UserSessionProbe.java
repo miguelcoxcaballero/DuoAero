@@ -15,6 +15,7 @@ public final class UserSessionProbe extends Instrumentation {
  private boolean seedConfig=false;
  private boolean nativeProfileCache=false;
  private boolean localService=false;
+ private boolean originalUnmarked=false;
  private String lesson="math";
  private String interaction="none";
  private Throwable setupError;
@@ -26,6 +27,7 @@ public final class UserSessionProbe extends Instrumentation {
   seedConfig=args!=null&&"native-default".equals(args.getString("config_cache"));
   nativeProfileCache=args!=null&&"native-cache".equals(args.getString("profile_mode"));
   localService=args!=null&&"true".equals(args.getString("local_service"));
+  originalUnmarked=args!=null&&"true".equals(args.getString("original_unmarked"));
   if(args!=null)lesson=args.getString("lesson",lesson);
   if(args!=null)interaction=args.getString("interact",interaction);
   if(earlySetup)try{LocalProfileSetup.install(getTargetContext(),courseId,defaultExperiments,!nativeProfileCache);}catch(Throwable error){setupError=error;}
@@ -33,7 +35,7 @@ public final class UserSessionProbe extends Instrumentation {
  }
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
-  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
+  if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed","original-expression").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
   if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-hint-touch","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie","second-journey").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
@@ -49,6 +51,21 @@ public final class UserSessionProbe extends Instrumentation {
    report.append(LocalFeatureInputs.goals(getTargetContext()));
    LocalFeatureInputs.social(getTargetContext());
    report.append("Native empty social profile and follower lists supplied before activity launch.\n");
+  }
+  if(originalUnmarked){
+   // Record exception types and code locations only, never exception messages,
+   // request contents or identifiers. Preserve the original uncaught handler.
+   Thread.UncaughtExceptionHandler original=Thread.getDefaultUncaughtExceptionHandler();
+   Thread.setDefaultUncaughtExceptionHandler((thread,failure)->{
+    for(Throwable cause=failure;cause!=null;cause=cause.getCause()){
+     android.util.Log.e("DuoAeroOriginalProbe", "cause="+cause.getClass().getName());
+     for(StackTraceElement frame:cause.getStackTrace())
+      android.util.Log.e("DuoAeroOriginalProbe", "at="+frame.getClassName()+"."+frame.getMethodName());
+    }
+    if(original!=null)original.uncaughtException(thread,failure);
+   });
+   // Keep the synthetic offline service and course gate enabled. The isolated
+   // fixture is an unmodified, unmarked original expression, not a remote course.
   }
   Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getField("formulaHintRetryEnabled").setBoolean(null,interaction.equals("math-hint")||interaction.equals("mixed-hint")||interaction.equals("mixed-hint-touch"));
   report.append("Diagnostic course variant: ").append(courseId).append("\n");
@@ -71,6 +88,7 @@ public final class UserSessionProbe extends Instrumentation {
   if(launch==null)throw new IllegalStateException("Missing original launcher");
   getTargetContext().startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
   Thread.sleep(6000);
+  if(interaction.equals("mixed-touch"))NativeFullNameReuseProbe.verify(this);
   Class<?> activity=Class.forName("com.duolingo.session.SessionActivity",true,loader);
   if(interaction.equals("second-journey")){
    MidLessonSceneObserver scene=new MidLessonSceneObserver(this,resumed);
@@ -107,12 +125,19 @@ public final class UserSessionProbe extends Instrumentation {
   }
 
   String lessonAsset=lesson.equals("math")?"hardcoded_sessions/math/math_lesson.json":lesson.equals("aerospace")?"hardcoded_sessions/duoaero/aerospace_lesson.json":"hardcoded_sessions/duoaero/aerospace_rich_lesson.json";
+  if(lesson.equals("original-expression"))lessonAsset="hardcoded_sessions/duoaero/original_expression_diagnostic.json";
   if(lesson.equals("aerospace-formula"))lessonAsset="hardcoded_sessions/duoaero/aerospace_formula_lesson.json";
   if(lesson.equals("aerospace-mixed"))lessonAsset="hardcoded_sessions/duoaero/aerospace_mixed_lesson.json";
   report.append("Lesson input: ").append(lessonAsset).append('\n');
   Object params=Class.forName("com.duolingo.data.session.start.SessionStartParams$Hardcoded",true,loader)
    .getConstructor(String.class,boolean.class).newInstance(lessonAsset,false);
   Object via=Class.forName("com.duolingo.data.onboarding.OnboardingVia",true,loader).getField("HOME").get(null);
+  if(originalUnmarked){
+   Class<?> bridge=Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader);
+   if(!(Boolean)bridge.getMethod("hasLocalCourse").invoke(null)||!bridge.getField("serveLocalCourse").getBoolean(null)||!bridge.getField("localOnly").getBoolean(null))
+    throw new IllegalStateException("Synthetic offline service is not active");
+   report.append("Unmarked original expression fixture with synthetic offline service; this is not a remote-course test.\n");
+  }
   for(Method method:activity.getDeclaredMethods())if(method.getName().equals("L")&&method.getParameterTypes().length==13){
    Intent intent=(Intent)method.invoke(null,getTargetContext(),params,false,via,false,false,null,null,null,true,false,null,activity);
    getTargetContext().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -123,6 +148,8 @@ public final class UserSessionProbe extends Instrumentation {
   android.app.Activity current=resumed.get();
   report.append("Resumed: ").append(current==null?"none":current.getClass().getName()).append('\n');
   if(current==null || !activity.isInstance(current))throw new IllegalStateException("SessionActivity did not resume");
+  if(originalUnmarked && !(Boolean)Class.forName("com.duoaero.nativebase.NativeCourseBridge",true,loader).getMethod("hasLocalCourse").invoke(null))
+   throw new IllegalStateException("Synthetic course service changed after startup");
   Object observedVm=activity.getMethod("J").invoke(current);
   try(SessionDependencies dependencies=new SessionDependencies(observedVm)){
    Thread.sleep(5000);
@@ -166,6 +193,16 @@ public final class UserSessionProbe extends Instrumentation {
   java.util.Map<?,?> executionContexts=(java.util.Map<?,?>)javascript.getClass().getField("f").get(javascript);
   report.append("Native JavaScript sandbox present: ").append(sandbox!=null).append("; execution contexts: ").append(executionContexts.keySet()).append('\n');
   SessionScreen.capture(this);
+  if(originalUnmarked){
+   android.view.accessibility.AccessibilityNodeInfo root=getUiAutomation().getRootInActiveWindow();
+   if(root==null)throw new IllegalStateException("Original expression screen unavailable");
+   try{
+    java.util.List<android.view.accessibility.AccessibilityNodeInfo> controls=root.findAccessibilityNodeInfosByViewId("com.duolingo:id/submitButton");
+    boolean visible=false;for(android.view.accessibility.AccessibilityNodeInfo control:controls){visible|=control.isVisibleToUser();control.recycle();}
+    if(!visible)throw new IllegalStateException("Original expression submit control not visible");
+   }finally{root.recycle();}
+   report.append("Original unmarked expression and submit control observed with offline local service; visual isolation only.\n");
+  }
   if(interaction.equals("wave-lottie"))report.append(WaveLottieProbe.run(this,current));
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.equals("quit-preview"))report.append(SessionInteraction.quitPreview(this));
@@ -216,3 +253,4 @@ public final class UserSessionProbe extends Instrumentation {
  report.append(playback.report());playback.close();
  output.putString("stream",report.toString());output.putBoolean("diagnostic_completed",completed);finish(completed?-1:0,output);}
 }
+

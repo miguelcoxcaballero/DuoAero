@@ -151,6 +151,7 @@ jobs:
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
           python research/test_tsfc_conversion_draft.py
+          python research/test_taper_domain.py
           python research/test_spacecraft_typology.py
           python research/test_space_environment_systems.py
           python native-base/test_tsfc_prerequisites.py
@@ -226,6 +227,7 @@ jobs:
             probe_config="${9:-none}"
             probe_profile="${10:-diagnostic-flows}"
             probe_service="${11:-false}"
+            probe_original_unmarked="${12:-false}"
             probe_timeout=180
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then probe_timeout=300; fi
             if [[ "$probe_interact" = mixed* ]]; then probe_timeout=420; fi
@@ -236,7 +238,7 @@ jobs:
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.png /sdcard/Android/data/com.duoaero.nativebase/files/lesson-*.json
             probe_status=0
-            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
+            timeout "$probe_timeout" adb shell am instrument -w -e course_id "$probe_course" -e experiments "$probe_experiments" -e bootstrap "$probe_bootstrap" -e course_cache "$probe_course_cache" -e lesson "$probe_lesson" -e interact "$probe_interact" -e capture_home "$probe_home" -e config_cache "$probe_config" -e profile_mode "$probe_profile" -e local_service "$probe_service" -e original_unmarked "$probe_original_unmarked" com.duoaero.nativebase.tests/com.duoaero.nativebase.UserSessionProbe > "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt" || probe_status=$?
             echo "Instrumentation command exit: $probe_status" >> "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.txt"
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png "$RUNNER_TEMP/duoaero-evidence/session-$probe_label.png" || true
             adb pull /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json "$RUNNER_TEMP/duoaero-evidence/views-$probe_label.json" || true
@@ -284,6 +286,9 @@ jobs:
               done
             fi
             if [[ "$probe_interact" = mixed* || "$probe_interact" = second-journey ]]; then
+              for evidence_file in $(adb shell 'ls /sdcard/Android/data/com.duoaero.nativebase/files/slot-substitution-* /sdcard/Android/data/com.duoaero.nativebase/files/bank-swipe-* /sdcard/Android/data/com.duoaero.nativebase/files/equation-swipe-* 2>/dev/null' | tr -d '\r'); do
+                adb pull "$evidence_file" "$RUNNER_TEMP/duoaero-evidence/" || true
+              done
               for phase in prompt selected graded; do
                 for item in $(seq 0 19); do
                   for extension in png json; do
@@ -540,7 +545,19 @@ jobs:
               ;;
             product-fraction)
               run_probe aerospace-product-fraction MATH_BT native-defaults late native-full aerospace-mixed mixed-touch false native-default native-cache true
-              grep -q 'All 12 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-product-fraction.txt"
+              grep -q 'All 17 mixed source exercises produced original visible correct feedback' "$RUNNER_TEMP/duoaero-evidence/session-aerospace-product-fraction.txt"
+              adb logcat -d -s DuoAeroProbe:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              grep -q 'NAMED_CARD_PADDING_RESTORED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              grep -q 'ORIGINAL_UNMARKED_TOKEN_UNCHANGED=true' "$RUNNER_TEMP/duoaero-evidence/named-card-reuse.txt"
+              adb logcat -d -s DuoAeroTokenMeasure:I '*:S' > "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
+              grep -q 'name=deflection-limit second moment of area' "$RUNNER_TEMP/duoaero-evidence/product-token-measure.txt"
+              # Original APK expression, synthetic profile and networking disabled.
+              adb shell svc wifi disable
+              adb shell svc data disable
+              run_probe original-unmarked-expression MATH_BT native-defaults late native-full original-expression none false native-default native-cache true true
+              grep -q 'Original unmarked expression and submit control observed with offline local service' "$RUNNER_TEMP/duoaero-evidence/session-original-unmarked-expression.txt"
+              adb shell svc wifi enable
+
               ;;
             direct-hint)
               python native-base/test_simple_calculation_hints.py

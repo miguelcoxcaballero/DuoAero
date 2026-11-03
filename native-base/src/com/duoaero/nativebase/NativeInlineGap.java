@@ -15,11 +15,13 @@ public final class NativeInlineGap {
  private static final String FRACTION="duoaero-fraction-slots";
  private static final String SQUARED_FRACTION="duoaero-squared-fraction-slots";
  private static final String SQUARED_TWICE="duoaero-squared-over-twice";
+ private static final String DEFLECTION_FRACTION="duoaero-deflection-fraction";
+ private static final String CANTILEVER_FRACTION="duoaero-cantilever-fraction";
  private static final String PRODUCT_FRACTION_21="duoaero-product-fraction-21";
  private static final String PRODUCT_FRACTION_22="duoaero-product-fraction-22";
  private static final String POWER="duoaero-power-slot:";
  private static final String NEGATIVE_EXPONENT="duoaero-negative-exponent";
- private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)?4:part.equals(PRODUCT_FRACTION_21)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
+ private static int countSlots(String part){return part.equals(PRODUCT_FRACTION_22)||part.equals(DEFLECTION_FRACTION)?4:part.equals(PRODUCT_FRACTION_21)||part.equals(CANTILEVER_FRACTION)?3:part.equals(FRACTION)||part.equals(SQUARED_FRACTION)||part.equals(SQUARED_TWICE)?2:part.equals("___")||part.equals(NEGATIVE_EXPONENT)||part.startsWith(OPERATOR_GAP)||part.startsWith(OPERATOR_POWER)||part.startsWith(OPERATOR_NEGATIVE)||part.startsWith(POWER)?1:0;}
  private static int slotsBefore(List<String> parts,int index){int n=0;for(int i=0;i<index;i++)n+=countSlots(parts.get(i));return n;}
  private NativeInlineGap(){}
  public static boolean isGap(Object figure){
@@ -29,6 +31,7 @@ public final class NativeInlineGap {
  }
  public static void render(Object figure,List<?> slots,Object onSelect,Object onDrop,boolean enabled,boolean checked,
                            Object modifier,float width,boolean measured,Object interaction,Object composer,int flags){
+  NativeSlotProbe.capture(slots);
   try{
    ClassLoader l=figure.getClass().getClassLoader();
    Class<?> ui=Class.forName("com.duolingo.core.math.models.figure.MathFigureUiState",true,l);
@@ -39,7 +42,8 @@ public final class NativeInlineGap {
    // Keep a binary operator together with the next interactive operand.
    // Otherwise FlowRow may leave '+' or '×' stranded at the end of a line.
    ArrayList<String> parts=new ArrayList<>();
-   for(int i=0;i<words.length();i++){
+   boolean namedMarker=words.length()>0 && words.getString(0).equals("duoaero-named-equation");
+   for(int i=namedMarker?1:0;i<words.length();i++){
     String part=words.getString(i);
     // Keep division and the opening parenthesis with the first denominator
     // slot, so neither symbol is stranded at the end of a wrapped line.
@@ -68,6 +72,7 @@ public final class NativeInlineGap {
    Class<?> irh=Class.forName("irh",true,l);
    int gaps=0;for(String part:parts)gaps+=countSlots(part);
    final int gapCount=gaps;
+   final boolean namedEquation=namedMarker&&equation&&gapCount>1;
    // The original BuildSpace composable lays out the whole list. For several
    // separated inline holes, invoke its original per-slot composable with the
    // full list and real slot index, preserving drag/drop and selection IDs.
@@ -82,6 +87,8 @@ public final class NativeInlineGap {
    }else{originalSlot=null;renderSlot=null;}
    Object function=Proxy.newProxyInstance(l,new Class<?>[]{irh},(proxy,method,args)->{
     if(method.getName().equals("invoke")){
+     boolean nestedSizing=NativeNamedTokenSizing.enter(namedEquation);
+     try{
      int index=((Integer)args[1]).intValue();Object composition=args[2];String part=parts.get(index);
      boolean powerPaired=part.startsWith(OPERATOR_POWER),negativePaired=part.startsWith(OPERATOR_NEGATIVE);
      String pairedPower=null;
@@ -114,6 +121,14 @@ public final class NativeInlineGap {
      else if(part.equals(NEGATIVE_EXPONENT)){
       Object power=NativeFractionSlot.createNegativeExponent(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
       prompt.invoke(null,power,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
+     else if(part.equals(DEFLECTION_FRACTION)){
+      Object fraction=NativeFractionSlot.createSparDeflection(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
+     }
+     else if(part.equals(CANTILEVER_FRACTION)){
+      Object fraction=NativeFractionSlot.createCantilever(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index));
+      prompt.invoke(null,fraction,null,null,null,null,null,null,null,null,null,composition,0x8000000,0x2fe);
      }
      else if(part.equals(PRODUCT_FRACTION_21)||part.equals(PRODUCT_FRACTION_22)){
       Object fraction=NativeFractionSlot.createProduct(figure,args[0],originalSlot,renderSlot,slotsBefore(parts,index),2,part.equals(PRODUCT_FRACTION_21)?1:2);
@@ -161,6 +176,7 @@ public final class NativeInlineGap {
       NativeInlineFormula.end(true,composition);
      }
      return Class.forName("xv80",true,l).getField("a").get(null);
+     }finally{NativeNamedTokenSizing.exit(nestedSizing);}
     }
     if(method.getName().equals("hashCode"))return System.identityHashCode(proxy);
     if(method.getName().equals("equals"))return proxy==args[0];
@@ -179,9 +195,15 @@ public final class NativeInlineGap {
    // wrapped line.  The original optimized implementation hardcodes Top;
    // build.py restores its alignment argument for this call.
    Object lineCenter=Class.forName("b9z",true,l).getField("l").get(null);
-   Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
+   Object equationModifier=equation && gapCount>=4
+    ?NativeCourseBridge.scrollLongBuildSpace(slots,defaultModifier,composer,namedEquation):defaultModifier;
+   boolean priorSizing=NativeNamedTokenSizing.enter(namedEquation);
+   try{
+    Class.forName("iz0",true,l).getMethod("t",int.class,mod,Class.forName("fv1",true,l),Class.forName("jv1",true,l),
        Class.forName("lj0",true,l),int.class,int.class,Class.forName("hl8",true,l),Class.forName("uv7",true,l),o18,int.class,int.class)
-    .invoke(null,parts.size(),defaultModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
+     .invoke(null,parts.size(),equationModifier,horizontal,vertical,lineCenter,0,0,null,composable,composer,0x6000d80,0xe0);
+   }finally{NativeNamedTokenSizing.exit(priorSizing);}
   }catch(Exception error){throw new IllegalStateException("Cannot compose original inline word gap",error);}
  }
 }
+

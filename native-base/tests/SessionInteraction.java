@@ -6,6 +6,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  private static boolean actualTouch;
+ private static boolean trackSlotState;
+ private static int swipeEvidence;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
   // A brand-new session may exit immediately without a confirmation sheet.
@@ -81,6 +83,7 @@ final class SessionInteraction {
   String[] positive={"Amazing!","Awesome!","Correct!","Excellent!","Good job!","Great!","Great job!","Nice job!","Nice!","Nicely done!","Wow!"};
   for(int i=0;i<questions.length();i++){
    org.json.JSONObject q=questions.getJSONObject(i);String kind=q.getString("type");
+   trackSlotState=kind.equals("formula_named");
    Thread.sleep(1800);dismissPixelLauncherAnr(test);SessionScreen.capture(test,"mixed-prompt-"+i,"mixed-prompt-"+i);
    boolean hinted=hintRetry&&q.getString("id").equals(hintId);
    boolean wrongFraction=fractionWrong&&q.getString("id").equals("COLUMN-FACTOR-FORMULA-NAMED-ALL");
@@ -126,7 +129,36 @@ final class SessionInteraction {
    }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
    else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
-    for(int j=0;j<tokens.length();j++){clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);}
+    for(int j=0;j<tokens.length();j++){
+     String before=trackSlotState?originalSlots(test):null;
+     clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);
+     if(trackSlotState)requireSlotChange(test,before);
+     if(trackSlotState && j==0 && q.getString("id").equals("INTRO-AXIAL-STIFFNESS-NAMED-ALL")){
+      String correct=tokens.getString(0), distractor=null;
+      org.json.JSONArray choices=q.getJSONArray("blocks");
+      for(int k=0;k<choices.length()&&distractor==null;k++){
+       String candidate=choices.getString(k);boolean answer=false;
+       for(int n=0;n<tokens.length();n++)if(candidate.equals(tokens.getString(n)))answer=true;
+       if(!answer)distractor=candidate;
+      }
+      if(distractor==null)throw new IllegalStateException("No substitution distractor");
+      String filledCorrect=originalSlots(test);
+      SessionScreen.capture(test,"slot-substitution-correct","slot-substitution-correct");
+      touchFirst(test,correct);Thread.sleep(500);requireSlotChange(test,filledCorrect);
+      String empty=originalSlots(test);
+      SessionScreen.capture(test,"slot-substitution-empty","slot-substitution-empty");
+      clickLast(test,distractor);Thread.sleep(500);requireSlotChange(test,empty);
+      String filledWrong=originalSlots(test);
+      if(filledCorrect.equals(filledWrong))throw new IllegalStateException("Observer missed filled-to-filled token replacement");
+      SessionScreen.capture(test,"slot-substitution-other","slot-substitution-other");
+      touchFirst(test,distractor);Thread.sleep(500);requireSlotChange(test,filledWrong);
+      String emptiedAgain=originalSlots(test);
+      clickLast(test,correct);Thread.sleep(500);requireSlotChange(test,emptiedAgain);
+      if(!filledCorrect.equals(originalSlots(test)))throw new IllegalStateException("Original token was not restored");
+      SessionScreen.capture(test,"slot-substitution-restored","slot-substitution-restored");
+      android.util.Log.i("DuoAeroProbe","Filled-slot replacement and restoration verified");
+     }
+    }
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
     Thread.sleep(1500); // Original JS grading completes asynchronously.
@@ -135,6 +167,19 @@ final class SessionInteraction {
     org.json.JSONArray sequence=q.getJSONArray("answer"),items=q.getJSONArray("items");
     for(int j=0;j<sequence.length();j++){clickLast(test,items.getString(sequence.getInt(j)));Thread.sleep(300);}
    }else throw new IllegalStateException("No mixed driver for "+kind);
+   if(kind.equals("formula_named") && q.getString("id").endsWith("-NAMED-ALL") &&
+      (q.getString("id").startsWith("BOOK-V6-03-") || q.getString("id").startsWith("SPAR-DEFLECTION-"))){
+    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();AccessibilityNodeInfo equation=null;
+    if(root==null)throw new IllegalStateException("No screen to scroll the equation");
+    SessionScreen.capture(test,"mixed-equation-before-"+i,"mixed-equation-before-"+i);
+    try{
+     equation=findEquationScroll(root,0);
+     if(equation==null)throw new IllegalStateException("Long equation has no scrollable original row");
+     for(int scroll=0;scroll<3;scroll++)swipeEquation(test,equation);
+    }finally{if(equation!=null)equation.recycle();root.recycle();}
+    if(!hasControl(test,"com.duolingo:id/submitButton"))throw new IllegalStateException("Check unavailable after equation scroll");
+    SessionScreen.capture(test,"mixed-equation-bottom-"+i,"mixed-equation-bottom-"+i);
+   }
    SessionScreen.capture(test,"mixed-selected-"+i,"mixed-selected-"+i);
    // Matching can grade automatically after the final pair. Other native
    // controllers use their original Check action.
@@ -490,8 +535,19 @@ final class SessionInteraction {
    dismissPixelLauncherAnr(test);
    AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
    if(root!=null)try{
-    node=findLast(root,text,0);
-    if(node==null)scrollBank(root,attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD,0);
+    AccessibilityNodeInfo bank=lastScrollable(root,0);
+    try{
+     if(bank==null)node=findLast(root,text,0);
+     else{
+      node=findLast(bank,text,0);
+      if(node!=null){
+       android.graphics.Rect item=new android.graphics.Rect(),visible=new android.graphics.Rect();
+       node.getBoundsInScreen(item);bank.getBoundsInScreen(visible);
+       if(item.bottom>=visible.bottom-2 || item.top<=visible.top+2){node.recycle();node=null;}
+      }
+      if(node==null)swipeBank(test,bank,attempt<9);
+     }
+    }finally{if(bank!=null)bank.recycle();}
    }finally{root.recycle();}
    if(node==null)Thread.sleep(300);
   }
@@ -546,6 +602,131 @@ final class SessionInteraction {
    }
   }finally{root.recycle();}
  }
+ private static void collectBankCards(AccessibilityNodeInfo node,android.graphics.Rect bank,java.util.List<android.graphics.Rect> cards,int depth){
+  if(depth>50||!own(node)||!node.isVisibleToUser())return;
+  android.graphics.Rect bounds=new android.graphics.Rect();node.getBoundsInScreen(bounds);
+  if(node.isClickable() && "android.widget.FrameLayout".contentEquals(node.getClassName()==null?"":node.getClassName()) && android.graphics.Rect.intersects(bounds,bank))cards.add(bounds);
+  for(int i=0;i<node.getChildCount();i++){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{collectBankCards(child,bank,cards,depth+1);}finally{child.recycle();}}
+ }
+ private static float safeBankSwipeStart(AccessibilityNodeInfo bank,android.graphics.Rect bounds,boolean forward){
+  java.util.ArrayList<android.graphics.Rect> cards=new java.util.ArrayList<>();collectBankCards(bank,bounds,cards,0);
+  java.util.Collections.sort(cards,(a,b)->Integer.compare(a.top,b.top));
+  float chosen=Float.NaN;
+  for(int i=1;i<cards.size();i++){
+   int top=Math.max(bounds.top,cards.get(i-1).bottom),bottom=Math.min(bounds.bottom,cards.get(i).top);
+   if(bottom-top<8)continue;
+   float y=(top+bottom)/2f;
+   if(forward && y>bounds.top+80)chosen=Float.isNaN(chosen)?y:Math.max(chosen,y);
+   if(!forward && y<bounds.bottom-80)chosen=Float.isNaN(chosen)?y:Math.min(chosen,y);
+  }
+  if(Float.isNaN(chosen))throw new IllegalStateException("No visible gap for safe native bank swipe");
+  return chosen;
+ }
+ private static void swipeEquation(Instrumentation test,AccessibilityNodeInfo equation)throws Exception{
+  android.graphics.Rect bounds=new android.graphics.Rect();equation.getBoundsInScreen(bounds);
+  java.util.ArrayList<android.graphics.Rect> cards=new java.util.ArrayList<>();collectBankCards(equation,bounds,cards,0);
+  // Find a free point within the equation viewport itself; the answer-bank
+  // row-gap algorithm is invalid here because this is a different container.
+  float x=Float.NaN,from=Float.NaN;
+  for(int inset:new int[]{12,24,40,64}){
+   for(int side=0;side<2;side++){
+    int candidateX=side==0?bounds.left+inset:bounds.right-inset;
+    for(int y=bounds.bottom-30;y>bounds.top+100;y-=20){
+     boolean covered=false;for(android.graphics.Rect card:cards)if(card.contains(candidateX,y)){covered=true;break;}
+     if(!covered){x=candidateX;from=y;break;}
+    }
+    if(!Float.isNaN(x))break;
+   }
+   if(!Float.isNaN(x))break;
+  }
+  if(Float.isNaN(x))throw new IllegalStateException("No free start point in equation viewport");
+  if(from-bounds.top<80)throw new IllegalStateException("Equation viewport has no usable swipe travel");
+  swipeRegion(test,x,from,bounds.top+25,"equation-swipe");
+ }
+ private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
+  android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
+  if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
+  float x=bounds.exactCenterX(),from=safeBankSwipeStart(bank,bounds,forward),to=forward?bounds.top+25:bounds.bottom-25;
+  swipeRegion(test,x,from,to,"bank-swipe");
+ }
+ private static void swipeRegion(Instrumentation test,float x,float from,float to,String evidencePrefix)throws Exception{
+  String selectedBefore=trackSlotState?originalSlots(test):null;
+  int evidence=swipeEvidence++;
+  SessionScreen.capture(test,evidencePrefix+"-before-"+evidence,evidencePrefix+"-before-"+evidence);
+  long down=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe down failed");}finally{event.recycle();}
+  for(int i=1;i<=6;i++){
+   Thread.sleep(35);long now=android.os.SystemClock.uptimeMillis();
+   event=android.view.MotionEvent.obtain(down,now,android.view.MotionEvent.ACTION_MOVE,x,from+(to-from)*i/6f,0);
+   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe move failed");}finally{event.recycle();}
+  }
+  event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x,to,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Swipe up failed");}finally{event.recycle();}
+  Thread.sleep(400);
+  SessionScreen.capture(test,evidencePrefix+"-after-"+evidence,evidencePrefix+"-after-"+evidence);
+  String selectedAfter=trackSlotState?originalSlots(test):null;
+  if(trackSlotState&&!selectedBefore.equals(selectedAfter))throw new IllegalStateException("Swipe changed original slot state");
+ }
+
+ private static void touchFirst(Instrumentation test,String text)throws Exception{
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
+  if(root==null)throw new IllegalStateException("No screen for selected token touch");
+  AccessibilityNodeInfo node;try{node=find(root,null,text,0);}finally{root.recycle();}
+  if(node==null)throw new IllegalStateException("Selected token is not visible");
+  try{
+   for(int i=0;i<8&&!node.isClickable();i++){
+    AccessibilityNodeInfo parent=node.getParent();if(parent==null)break;node.recycle();node=parent;
+   }
+   if(!own(node)||!node.isEnabled()||!node.isClickable())throw new IllegalStateException("Selected token is not tappable");
+   android.graphics.Rect r=new android.graphics.Rect();node.getBoundsInScreen(r);
+   if(r.isEmpty())throw new IllegalStateException("Selected token has empty bounds");
+   long down=android.os.SystemClock.uptimeMillis();
+   android.view.MotionEvent first=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,r.exactCenterX(),r.exactCenterY(),0);
+   android.view.MotionEvent last=android.view.MotionEvent.obtain(down,down+30,android.view.MotionEvent.ACTION_UP,r.exactCenterX(),r.exactCenterY(),0);
+   first.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);last.setSource(android.view.InputDevice.SOURCE_TOUCHSCREEN);
+   try{
+    if(!test.getUiAutomation().injectInputEvent(first,true))throw new IllegalStateException("Selected token down failed");
+    Thread.sleep(30);
+    if(!test.getUiAutomation().injectInputEvent(last,true))throw new IllegalStateException("Selected token up failed");
+   }finally{first.recycle();last.recycle();}
+  }finally{node.recycle();}
+ }
+ private static String originalSlots(Instrumentation test)throws Exception{
+  Class<?> probe=Class.forName("com.duoaero.nativebase.NativeSlotProbe",true,test.getTargetContext().getClassLoader());
+  String state=(String)probe.getMethod("snapshot").invoke(null);
+  if(state==null)throw new IllegalStateException("Original slot state not observed");
+  return state;
+ }
+ private static void requireSlotChange(Instrumentation test,String before)throws Exception{
+  for(int i=0;i<40;i++){
+   if(!before.equals(originalSlots(test)))return;
+   Thread.sleep(100);
+  }
+  throw new IllegalStateException("A token tap did not change the observed original slot state");
+ }
+ private static AccessibilityNodeInfo findEquationScroll(AccessibilityNodeInfo node,int depth){
+  if(depth>50||!own(node))return null;
+  if(node.isVisibleToUser() && node.isScrollable() && "android.widget.ScrollView".contentEquals(node.getClassName()==null?"":node.getClassName()))
+   return AccessibilityNodeInfo.obtain(node);
+  for(int i=0;i<node.getChildCount();i++){
+   AccessibilityNodeInfo child=node.getChild(i);
+   if(child!=null)try{AccessibilityNodeInfo found=findEquationScroll(child,depth+1);if(found!=null)return found;}finally{child.recycle();}
+  }
+  return null;
+ }
+ private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
+  if(depth>50||!own(node))return null;
+  AccessibilityNodeInfo descendant=null;
+  for(int i=node.getChildCount()-1;i>=0&&descendant==null;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{descendant=lastScrollable(child,depth+1);}finally{child.recycle();}}
+  android.graphics.Rect bounds=new android.graphics.Rect();node.getBoundsInScreen(bounds);
+  if(node.isVisibleToUser()&&node.isScrollable()&&bounds.height()>=80){
+   if(descendant==null)return AccessibilityNodeInfo.obtain(node);
+   android.graphics.Rect inner=new android.graphics.Rect();descendant.getBoundsInScreen(inner);
+   if(bounds.contains(inner)&&bounds.height()>inner.height()){descendant.recycle();return AccessibilityNodeInfo.obtain(node);}
+  }
+  return descendant;
+ }
  private static boolean scrollBank(AccessibilityNodeInfo node,int action,int depth){
   if(depth>50||!own(node))return false;
   // The bank is the last scrollable native region, below the prompt/slots.
@@ -593,3 +774,4 @@ final class SessionInteraction {
   return null;
  }
 }
+

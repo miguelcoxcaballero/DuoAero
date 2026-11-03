@@ -10,6 +10,7 @@ jobs:
       - name: Validate course
         run: |
           python3 tests/validate_bank.py
+          python3 research/test_taper_domain.py
           python3 native-base/test_kinetic_steps.py
           python3 native-base/test_payload_steps.py
           python3 native-base/test_reynolds_steps.py

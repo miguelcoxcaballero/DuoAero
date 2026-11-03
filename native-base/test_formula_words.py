@@ -11,6 +11,7 @@ from formula_words import KINDS, MULTI_NAMED
 root = Path(__file__).resolve().parents[1]
 bank = {q['id']:q for q in json.loads((root/'app/assets/questions.json').read_text())}
 for source_id,formula_id,expected in (
+    ('TA1-0068-F1','INTRO-CANTILEVER-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-cantilever-fraction']),
     ('TA1-0041-F1','INTRO-AXIAL-STIFFNESS',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
     ('BOOK-V6-04-D1','BOOK-V6-04-D1',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-22']),
     ('TA1-0737-D3','SPAR-STRESS-FORMULA',['___',r'duoaero-math:formula:\textstyle =','duoaero-product-fraction-21']),
@@ -23,7 +24,7 @@ for source_id,formula_id,expected in (
 ):
     named=next(q for q in lesson_questions([bank[source_id]],teach_words=True) if q['id']==formula_id+'-NAMED-ALL')
     text=challenge(named)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
-    assert json.loads(base64.b64decode(text.split('duoaero-gap:')[1]))==expected
+    assert json.loads(base64.b64decode(text.split('duoaero-gap:')[1]))==['duoaero-named-equation']+expected
 plan = json.loads((root/'app/assets/lesson_plan.json').read_text())
 seen = set()
 for node in plan:
@@ -62,13 +63,13 @@ for node in plan:
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
                 marker='duoaero-latex:duoaero-gap:'
                 parts=json.loads(base64.b64decode(body[len(marker):]).decode())
-                assert parts == ['___',r'duoaero-math:formula:\textstyle =','___',r'duoaero-math:formula:\textstyle \times','___',r'duoaero-math:formula:\textstyle \times','___']
+                assert parts == ['duoaero-named-equation','___',r'duoaero-math:formula:\textstyle =','___',r'duoaero-math:formula:\textstyle \times','___',r'duoaero-math:formula:\textstyle \times','___']
                 assert q['promptInputChallenge']['input']['expressionBuildInput']['slotCount'] == 4
             if q['id'] == 'BOOK-V6-01-D1-NAMED':
                 body=q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
                 marker='duoaero-latex:duoaero-gap:'
                 parts=json.loads(base64.b64decode(body[len(marker):]).decode())
-                assert parts == [r'duoaero-math:formula:\textstyle p=\rho R_a', '___']
+                assert parts == ['duoaero-named-equation',r'duoaero-math:formula:\textstyle p=\rho R_a', '___']
             if q['id'] != 'BOOK-V6-01-D1-WORDS':
                 continue
             body = q['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
@@ -102,7 +103,7 @@ for kind, expected in {
 }.items():
     assert MULTI_NAMED[kind][1] == expected
 assert MULTI_NAMED['spar_deflection_inertia'][1][2] == 'spar length'
-assert '___^3' in MULTI_NAMED['spar_deflection_inertia'][3]
+assert '___*___^3/3*___*___' in MULTI_NAMED['spar_deflection_inertia'][3]
 
 # I is an area property; both jet Breguet models use mass-based TSFC.
 assert MULTI_NAMED['reynolds'][1] == ['Reynolds number','density','flow speed','chord length','dynamic viscosity']
@@ -120,3 +121,12 @@ assert 'thrust-specific fuel consumption c_T in kg/(N s)' in bank['BOOK-V6-03-D1
 assert 'ce=1.4e-05 kg/(N s)' in bank['TA1-0078-D2']['stem']
 assert 'power-specific consumption ce=7.2222e-08 kg/J' in bank['TA1-0093-D2']['stem']
 print(f'PASS: {len(seen)} word and named-equation introductions precede symbolic exercises; Android UI and touch pending.')
+# Inline symbolic challenges also use formula_named; only word tiles receive
+# the named-equation sizing marker. This distinguishes them without changing
+# the native controller or relying on labels in the UI.
+example=next(q for q in lesson_questions([bank['TA1-0041-F1']],teach_words=True) if q['id']=='INTRO-AXIAL-STIFFNESS-NAMED-ALL')
+marked=challenge(example)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+assert json.loads(base64.b64decode(marked.split('duoaero-gap:',1)[1]))[0]=='duoaero-named-equation'
+symbolic=dict(example,id='DIAGNOSTIC-SYMBOLIC',mathematical_blocks=True)
+plain=challenge(symbolic)['promptInputChallenge']['prompt']['body']['taggedTextElement']['text']
+assert 'duoaero-named-equation' not in json.loads(base64.b64decode(plain.split('duoaero-gap:',1)[1]))

@@ -115,6 +115,22 @@ patched=text.replace(needle,needle+'\n\n    invoke-static {p0}, Lcom/duoaero/nat
 flow_row_source=SMALI/'smali_classes4/iz0.smali'
 flow_row_original=flow_row_source.read_bytes()
 flow_row_text=flow_row_original.decode('utf-8').replace('\r\n','\n')
+# Diagnostic only: bound token width to observe full multiline native labels.
+token_start=flow_row_text.index('.method public static final d(Lqqh;Lrp3;Lcom/duolingo/feature/math/ui/expressionbuild/TokenSource;ZIZLz5q;FLqqh;ZLs6p;Lo18;II)V')
+token_end=flow_row_text.index('.end method',token_start)
+token_method=flow_row_text[token_start:token_end]
+token_anchor='    move/from16 v8, p7'
+token_height='    const/high16 v6, 0x42600000    # 56.0f'
+assert token_method.count(token_height)==1
+token_method=token_method.replace(token_height,token_height+'''
+    invoke-static {v2, v6}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->height(Ljava/lang/Object;F)F
+    move-result v6''')
+assert token_method.count(token_anchor)==1
+token_hook=token_anchor+'''
+
+    invoke-static {v2, v8}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->width(Ljava/lang/Object;F)F
+    move-result v8'''
+flow_row_text=flow_row_text[:token_start]+token_method.replace(token_anchor,token_hook)+flow_row_text[token_end:]
 flow_row_start=flow_row_text.index('.method public static final t(ILz5q;Lfv1;Ljv1;Llj0;IILhl8;Luv7;Lo18;II)V')
 flow_row_end=flow_row_text.index('.end method',flow_row_start)
 flow_row_method=flow_row_text[flow_row_start:flow_row_end]
@@ -124,6 +140,21 @@ flow_row_hook=flow_row_anchor+'''\n    if-eqz p4, :duoaero_flow_default_alignmen
     move-object/from16 v15, p4
     :duoaero_flow_default_alignment'''
 flow_row_text=flow_row_text[:flow_row_start]+flow_row_method.replace(flow_row_anchor,flow_row_hook)+flow_row_text[flow_row_end:]
+# Isolated diagnostic: bound and scroll the original long build-space region.
+build_space_source=SMALI/'smali_classes4/fz0.smali'
+build_space_original=build_space_source.read_bytes()
+build_space_text=build_space_original.decode('utf-8').replace('\r\n','\n')
+build_space_start=build_space_text.index('.method public static final d(Ljava/util/List;Lqqh;Lqqh;ZZLz5q;FZLs6p;Lo18;I)V')
+build_space_end=build_space_text.index('.end method',build_space_start)
+build_space_method=build_space_text[build_space_start:build_space_end]
+build_space_anchor='    invoke-static {v4, v3, v1}, Landroidx/compose/foundation/layout/b;->B(Lz5q;Lo73;I)Lz5q;\n\n    move-result-object v1'
+assert build_space_method.count(build_space_anchor)==1
+build_space_hook=build_space_anchor+'''
+    invoke-static {v12, v1, v0}, Lcom/duoaero/nativebase/NativeCourseBridge;->scrollLongBuildSpace(Ljava/util/List;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v1
+    check-cast v1, Lz5q;
+'''
+build_space_text=build_space_text[:build_space_start]+build_space_method.replace(build_space_anchor,build_space_hook)+build_space_text[build_space_end:]
 visible_brand_source=SMALI/'smali_classes4/wxp.smali'
 visible_brand_original=visible_brand_source.read_bytes()
 visible_brand_text=rebrand_visible_literal(visible_brand_original.decode('utf-8').replace('\r\n','\n'),
@@ -132,12 +163,14 @@ visible_brand_text=rebrand_visible_literal(visible_brand_original.decode('utf-8'
 try:
  p.write_text(patched,encoding='utf-8')
  flow_row_source.write_text(flow_row_text,encoding='utf-8')
+ build_space_source.write_text(build_space_text,encoding='utf-8')
  visible_brand_source.write_text(visible_brand_text,encoding='utf-8')
  run(java('javac'),'-cp',APKTOOL,'-d',WORK,ROOT/'native-base/AssembleDex.java')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes4',WORK/'classes4.dex')
 finally:
  p.write_bytes(old)
  flow_row_source.write_bytes(flow_row_original)
+ build_space_source.write_bytes(build_space_original)
  visible_brand_source.write_bytes(visible_brand_original)
 # Retain original named dependency flows for opt-in synthetic diagnostics.
 # The hook records references only; it never changes an emission or result.
@@ -364,6 +397,13 @@ bank_original=bank_source.read_bytes()
 bank_text=bank_original.decode('utf-8').replace('\r\n','\n')
 bank_anchor='    invoke-static {v14, v3, v3, v9}, Loe7;->p1(Ljava/lang/Iterable;IIZ)Ljava/util/ArrayList;'
 assert bank_text.count(bank_anchor)==1
+bank_clip_anchor='    invoke-static {v14, v15}, Landroidx/compose/foundation/layout/b;->z(ILz5q;)Lz5q;\n\n    move-result-object v14'
+assert bank_text.count(bank_clip_anchor)==1
+bank_clip_hook=bank_clip_anchor+'''
+
+    invoke-static {v1, v14}, Lcom/duoaero/nativebase/NativeNamedTokenSizing;->clipBank(Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v14
+    check-cast v14, Lz5q;'''
 bank_hook='    invoke-static {v1, v10, v3}, Lcom/duoaero/nativebase/NativeCourseBridge;->bankColumns(Ljava/util/List;FI)I\n\n    move-result v3\n\n'
 tabs_source=SMALI/'smali_classes6/qu80.smali'
 tabs_original=tabs_source.read_bytes()
@@ -410,6 +450,8 @@ assert token_touch_text.count(token_touch_anchor)==1
 # local course so both tapping and the parent drag controller receive input.
 token_touch_hook=token_touch_anchor+'''
 
+    invoke-static {v1, v0, v2}, Lcom/duoaero/nativebase/NativeFullNameProbe;->apply(Landroid/view/View;Landroid/view/View;Ljava/lang/Object;)V
+
     invoke-static {}, Lcom/duoaero/nativebase/NativeCourseBridge;->hasLocalCourse()Z
     move-result v2
     if-eqz v2, :duoaero_token_touch_done
@@ -418,12 +460,25 @@ token_touch_hook=token_touch_anchor+'''
     invoke-virtual {v0, v2}, Lcom/duolingo/feature/math/ui/figure/MathFigureView;->setTouchPassthrough(Z)V
     invoke-virtual {v0, v3}, Landroid/view/View;->setImportantForAccessibility(I)V
     :duoaero_token_touch_done'''
+fraction_padding_source=SMALI/'smali_classes6/svo.smali'
+fraction_padding_original=fraction_padding_source.read_bytes()
+fraction_padding_text=fraction_padding_original.decode('utf-8').replace('\r\n','\n')
+fraction_padding_anchor='    invoke-static {v8, v0, v14, v6}, Lkxo;->z(Lz5q;FFI)Lz5q;\n\n    move-result-object v6'
+assert fraction_padding_text.count(fraction_padding_anchor)==1
+fraction_padding_hook=fraction_padding_anchor+'''
+
+    invoke-interface/range {v19 .. v19}, Lre40;->getValue()Ljava/lang/Object;
+    move-result-object v0
+    invoke-static {v0, v6}, Lcom/duoaero/nativebase/NativeFractionSlot;->denominatorPadding(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    move-result-object v6
+    check-cast v6, Lz5q;'''
 try:
+ fraction_padding_source.write_text(fraction_padding_text.replace(fraction_padding_anchor,fraction_padding_hook),encoding='utf-8')
  token_touch_source.write_text(token_touch_text.replace(token_touch_anchor,token_touch_hook),encoding='utf-8')
  profile_image_source.write_text(profile_image_text.replace(profile_image_anchor,profile_image_hook),encoding='utf-8')
  picker_source.write_text(picker_text.replace(picker_anchor,picker_hook),encoding='utf-8')
  tabs_source.write_text(tabs_text.replace(tabs_guard,tabs_replacement),encoding='utf-8')
- bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor),encoding='utf-8')
+ bank_source.write_text(bank_text.replace(bank_anchor,bank_hook+bank_anchor).replace(bank_clip_anchor,bank_clip_hook),encoding='utf-8')
  factory_source.write_text(factory_text.replace(factory_anchor,factory_hook).replace(factory_timeout,factory_timeout_hook),encoding='utf-8')
  retry_source.write_text(retry_text.replace(retry_anchor,retry_hook),encoding='utf-8')
  sandbox_source.write_text(sandbox_text.replace(sandbox_anchor,sandbox_hook),encoding='utf-8')
@@ -432,6 +487,7 @@ try:
  symbol_source.write_text(symbol_text.replace(symbol_anchor,symbol_hook+symbol_anchor),encoding='utf-8')
  run(java('java'),'-Xmx3g','-cp',str(APKTOOL)+os.pathsep+str(WORK),'AssembleDex',SMALI/'smali_classes6',WORK/'classes6.dex')
 finally:
+ fraction_padding_source.write_bytes(fraction_padding_original)
  token_touch_source.write_bytes(token_touch_original)
  profile_image_source.write_bytes(profile_image_original)
  picker_source.write_bytes(picker_original)
@@ -707,9 +763,15 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   assert len(mixed)==5
  if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
   introduced=lesson_questions([by_id['TA1-0041-F1'],by_id['BOOK-V6-04-D1'],by_id['TA1-0737-D3']],teach_words=True)
-  formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA')
+  formula_ids=('INTRO-AXIAL-STIFFNESS','BOOK-V6-04-D1','SPAR-STRESS-FORMULA','SPAR-DEFLECTION-FORMULA')
   mixed=[q for q in introduced if any(q['id']==f or q['id'].startswith(f+'-') for f in formula_ids)]
-  assert len(mixed)==12
+  assert len(mixed)==16
+  # Also exercise a genuinely symbolic multi-slot inline equation in the
+  # same run, to verify it does not inherit the named-quantity sizing.
+  sys.path.insert(0,str(ROOT/'research'))
+  from speed_limits_lesson import prerequisites as speed_limit_prerequisites
+  mixed.append(next(q for q in speed_limit_prerequisites() if q['id']=='LIMITS-MACH-PRESSURE'))
+  assert len(mixed)==17 and mixed[-1].get('mathematical_blocks')
  if os.environ.get('DUOAERO_DIRECT_HINT_DIAGNOSTIC')=='1' and not production:
   mixed=lesson_questions([by_id['TA1-0106-F1']],teach_words=True)
   assert len(mixed)==1 and mixed[0].get('formula_hint')
@@ -812,6 +874,12 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  # source-answer driver from the actual native session.
  expand_mixed=os.environ.get('DUOAERO_ISA_EXP_DIAGNOSTIC')!='1'
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic',expand_steps=expand_mixed),ensure_ascii=False))
+ if os.environ.get('DUOAERO_PRODUCT_FRACTION_DIAGNOSTIC')=='1' and not production:
+  original_math=json.loads(original_math_bytes)
+  original_expression=next(q for q in original_math['challenges'] if 'expressionBuildInput' in q.get('promptInputChallenge',{}).get('input',{}))
+  assert 'duoaero:' not in json.dumps(original_expression)
+  original_math['challenges']=[original_expression]
+  out.writestr('assets/hardcoded_sessions/duoaero/original_expression_diagnostic.json',json.dumps(original_math,ensure_ascii=False))
  def diagnostic_answers(questions):
   result=copy.deepcopy(questions)
   for question in result:
@@ -946,6 +1014,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
 with zipfile.ZipFile(WORK/'unsigned.apk') as check:
  assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in unsigned APK'
 run(tool('zipalign'),'-f','-p','4',WORK/'unsigned.apk',WORK/'aligned.apk')
+run(sys.executable,ROOT/'native-base/verify_scroll_dex.py',WORK/'aligned.apk')
 with zipfile.ZipFile(WORK/'aligned.apk') as check:
  assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in aligned APK'
 if production:
@@ -953,6 +1022,7 @@ if production:
  print('Original runtime unsigned production candidate (requires acceptance and permanent signing):',target)
 else:
  run(java('java'),'-jar',BT/'lib/apksigner.jar','sign','--ks',KEY,'--ks-pass','pass:android','--out',WORK/'DuoAero-native-base-test.apk',WORK/'aligned.apk')
+ run(sys.executable,ROOT/'native-base/verify_scroll_dex.py',WORK/'DuoAero-native-base-test.apk')
  with zipfile.ZipFile(WORK/'DuoAero-native-base-test.apk') as check:
   assert check.read(original_math_path)==original_math_bytes, 'Original lesson changed in signed test APK'
  print('Original runtime test APK:',WORK/'DuoAero-native-base-test.apk')

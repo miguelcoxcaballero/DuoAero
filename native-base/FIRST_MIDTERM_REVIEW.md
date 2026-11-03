@@ -62,3 +62,16 @@ the original 20 question IDs are retained in the case finales. This simulation
 does not alter the course or assign historical completions. Integrating it
 still requires resolving old sessions after removing the original questions,
 exact proof migration, native interaction and the unaccepted formula layouts.
+
+The trapezoidal-wing family TA1-0512-D3 and nine variants was checked for
+physical taper domain. Five formerly used negative algebraic lower bounds;
+their correct width now uses a zero lower bound. Three have a negative upper
+bound and now correctly answer that no nonnegative taper is feasible. The
+original IDs remain; the eight corrected practice records have content
+revision 2 and revised explanations and distractors. The other two already
+have nonnegative bounds. `research/test_taper_domain.py` checks all ten and is
+run by both bank and Android diagnostic workflows. No source generator for
+this family was located in tracked Python source; `author_taper_domain.py`
+provides a repeatable repair and the test rejects reintroduced invalid output.
+Published historical completions are not altered by this editorial repair;
+Android grading/layout of the revised questions remains unverified.

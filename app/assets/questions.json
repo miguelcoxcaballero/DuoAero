@@ -37262,21 +37262,21 @@
     "id": "TA1-0520-D3",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=23 m and root chord=4.4 m. It must carry 200000 N at rho=1.05, achieve Vs<=64 m/s with CLmax=1.85, and require D<=20008 N at Vcr=149 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=23 m and root chord=4.4 m. It must carry 200000 N at rho=1.05, achieve Vs<=64 m/s with CLmax=1.85, and require D<=20008 N at Vcr=149 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "0.19871",
-      "-0.19871",
-      "1.1923",
-      "0.099355"
+      "0.19223",
+      "0.19869",
+      "0.09612",
+      "No feasible taper ratio"
     ],
     "answer": 0,
-    "explanation": "The stall condition gives Smin=50.273 m². At fixed b, Di=2429.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.328 m². Convert both through lambda=2S/(b cr)−1: limits -0.0064528 and 0.19226, width 0.19871.",
+    "explanation": "The stall and drag bounds are -0.006453 and 0.192233. The physical lower bound is 0, so the feasible interval is 0 to 0.192233 and its width is 0.19223.",
     "option_explanations": {
-      "0.19871": "Correct. The stall condition gives Smin=50.273 m². At fixed b, Di=2429.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.328 m². Convert both through lambda=2S/(b cr)−1: limits -0.0064528 and 0.19226, width 0.19871.",
-      "1.1923": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.099355": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19871": "Reverses the order of the two limits."
+      "0.19869": "Uses the negative algebraic lower bound as a physical taper ratio.",
+      "0.09612": "Halves the physical interval width.",
+      "No feasible taper ratio": "A nonnegative interval exists.",
+      "0.19223": "Correct. The stall and drag bounds are -0.006453 and 0.192233. The physical lower bound is 0, so the feasible interval is 0 to 0.192233 and its width is 0.19223."
     },
     "difficulty": 3,
     "origin": {
@@ -37289,11 +37289,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      0.0
-    ],
+    "checks": [],
     "legacy_id": "TA1-0520",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "BOOK-V6-SYS-01-D3",
@@ -38959,21 +38958,21 @@
     "id": "TA1-0693-D3",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=23.5 m and root chord=4.5 m. It must carry 205000 N at rho=1.05, achieve Vs<=65 m/s with CLmax=1.85, and require D<=20470 N at Vcr=151 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=23.5 m and root chord=4.5 m. It must carry 205000 N at rho=1.05, achieve Vs<=65 m/s with CLmax=1.85, and require D<=20470 N at Vcr=151 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "0.19841",
-      "0.099205",
-      "-0.19841",
-      "1.1432"
+      "0.14319",
+      "0.19838",
+      "0.07160",
+      "No feasible taper ratio"
     ],
     "answer": 0,
-    "explanation": "The stall condition gives Smin=49.957 m². At fixed b, Di=2380.6 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.448 m². Convert both through lambda=2S/(b cr)−1: limits -0.055187 and 0.14322, width 0.19841.",
+    "explanation": "The stall and drag bounds are -0.055187 and 0.143194. The physical lower bound is 0, so the feasible interval is 0 to 0.143194 and its width is 0.14319.",
     "option_explanations": {
-      "0.19841": "Correct. The stall condition gives Smin=49.957 m². At fixed b, Di=2380.6 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.448 m². Convert both through lambda=2S/(b cr)−1: limits -0.055187 and 0.14322, width 0.19841.",
-      "1.1432": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.099205": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19841": "Reverses the order of the two limits."
+      "0.19838": "Uses the negative algebraic lower bound as a physical taper ratio.",
+      "0.07160": "Halves the physical interval width.",
+      "No feasible taper ratio": "A nonnegative interval exists.",
+      "0.14319": "Correct. The stall and drag bounds are -0.055187 and 0.143194. The physical lower bound is 0, so the feasible interval is 0 to 0.143194 and its width is 0.14319."
     },
     "difficulty": 3,
     "origin": {
@@ -38986,11 +38985,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      2.7755575615628914e-17
-    ],
+    "checks": [],
     "legacy_id": "TA1-0693",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-0854-D3",
@@ -40684,21 +40682,21 @@
     "id": "TA1-0847-D3",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=24 m and root chord=4.6 m. It must carry 210000 N at rho=1.05, achieve Vs<=66 m/s with CLmax=1.85, and require D<=20938 N at Vcr=153 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=24 m and root chord=4.6 m. It must carry 210000 N at rho=1.05, achieve Vs<=66 m/s with CLmax=1.85, and require D<=20938 N at Vcr=153 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "-0.19783",
-      "0.098913",
-      "0.19783",
-      "1.097"
+      "0.04850",
+      "0.19780",
+      "0.09701",
+      "No feasible taper ratio"
     ],
     "answer": 2,
-    "explanation": "The stall condition gives Smin=49.636 m². At fixed b, Di=2332.9 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.556 m². Convert both through lambda=2S/(b cr)−1: limits -0.10079 and 0.097037, width 0.19783.",
+    "explanation": "The stall and drag bounds are -0.100790 and 0.097008. The physical lower bound is 0, so the feasible interval is 0 to 0.097008 and its width is 0.09701.",
     "option_explanations": {
-      "0.19783": "Correct. The stall condition gives Smin=49.636 m². At fixed b, Di=2332.9 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.556 m². Convert both through lambda=2S/(b cr)−1: limits -0.10079 and 0.097037, width 0.19783.",
-      "1.097": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.098913": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19783": "Reverses the order of the two limits."
+      "0.19780": "Uses the negative algebraic lower bound as a physical taper ratio.",
+      "0.04850": "Halves the physical interval width.",
+      "No feasible taper ratio": "A nonnegative interval exists.",
+      "0.09701": "Correct. The stall and drag bounds are -0.100790 and 0.097008. The physical lower bound is 0, so the feasible interval is 0 to 0.097008 and its width is 0.09701."
     },
     "difficulty": 3,
     "origin": {
@@ -40711,11 +40709,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      -5.551115123125783e-17
-    ],
+    "checks": [],
     "legacy_id": "TA1-0847",
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-0974-D3",
@@ -42409,21 +42406,21 @@
     "id": "TA1-N3-37-06",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=24.5 m and root chord=4.7 m. It must carry 215000 N at rho=1.05, achieve Vs<=67 m/s with CLmax=1.85, and require D<=21412 N at Vcr=155 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=24.5 m and root chord=4.7 m. It must carry 215000 N at rho=1.05, achieve Vs<=67 m/s with CLmax=1.85, and require D<=21412 N at Vcr=155 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "1.0535",
-      "-0.19699",
-      "0.098497",
-      "0.19699"
+      "No feasible taper ratio",
+      "0.19697",
+      "0.02673",
+      "0.05346"
     ],
     "answer": 3,
-    "explanation": "The stall condition gives Smin=49.313 m². At fixed b, Di=2286.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.654 m². Convert both through lambda=2S/(b cr)−1: limits -0.14351 and 0.053487, width 0.19699.",
+    "explanation": "The stall and drag bounds are -0.143507 and 0.053461. The physical lower bound is 0, so the feasible interval is 0 to 0.053461 and its width is 0.05346.",
     "option_explanations": {
-      "0.19699": "Correct. The stall condition gives Smin=49.313 m². At fixed b, Di=2286.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.654 m². Convert both through lambda=2S/(b cr)−1: limits -0.14351 and 0.053487, width 0.19699.",
-      "1.0535": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.098497": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19699": "Reverses the order of the two limits."
+      "0.19697": "Uses the negative algebraic lower bound as a physical taper ratio.",
+      "0.02673": "Halves the physical interval width.",
+      "No feasible taper ratio": "A nonnegative interval exists.",
+      "0.05346": "Correct. The stall and drag bounds are -0.143507 and 0.053461. The physical lower bound is 0, so the feasible interval is 0 to 0.053461 and its width is 0.05346."
     },
     "difficulty": 3,
     "origin": {
@@ -42436,11 +42433,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      -1.1102230246251565e-16
-    ],
+    "checks": [],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-N3-03-06",
@@ -44134,21 +44130,21 @@
     "id": "TA1-N3-37-07",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=25 m and root chord=4.8 m. It must carry 220000 N at rho=1.05, achieve Vs<=68 m/s with CLmax=1.85, and require D<=21892 N at Vcr=157 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=25 m and root chord=4.8 m. It must carry 220000 N at rho=1.05, achieve Vs<=68 m/s with CLmax=1.85, and require D<=21892 N at Vcr=157 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "0.19594",
-      "0.097972",
-      "1.0124",
-      "-0.19594"
+      "0.01236",
+      "0.19592",
+      "0.00618",
+      "No feasible taper ratio"
     ],
     "answer": 0,
-    "explanation": "The stall condition gives Smin=48.986 m². At fixed b, Di=2241 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.743 m². Convert both through lambda=2S/(b cr)−1: limits -0.18356 and 0.012382, width 0.19594.",
+    "explanation": "The stall and drag bounds are -0.183563 and 0.012361. The physical lower bound is 0, so the feasible interval is 0 to 0.012361 and its width is 0.01236.",
     "option_explanations": {
-      "0.19594": "Correct. The stall condition gives Smin=48.986 m². At fixed b, Di=2241 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.743 m². Convert both through lambda=2S/(b cr)−1: limits -0.18356 and 0.012382, width 0.19594.",
-      "1.0124": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.097972": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19594": "Reverses the order of the two limits."
+      "0.19592": "Uses the negative algebraic lower bound as a physical taper ratio.",
+      "0.00618": "Halves the physical interval width.",
+      "No feasible taper ratio": "A nonnegative interval exists.",
+      "0.01236": "Correct. The stall and drag bounds are -0.183563 and 0.012361. The physical lower bound is 0, so the feasible interval is 0 to 0.012361 and its width is 0.01236."
     },
     "difficulty": 3,
     "origin": {
@@ -44161,11 +44157,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      -2.7755575615628914e-17
-    ],
+    "checks": [],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-N3-03-07",
@@ -45859,21 +45854,21 @@
     "id": "TA1-N3-37-08",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=25.5 m and root chord=4.9 m. It must carry 225000 N at rho=1.05, achieve Vs<=69 m/s with CLmax=1.85, and require D<=22378 N at Vcr=159 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=25.5 m and root chord=4.9 m. It must carry 225000 N at rho=1.05, achieve Vs<=69 m/s with CLmax=1.85, and require D<=22378 N at Vcr=159 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "0.19471",
-      "-0.19471",
-      "0.097355",
-      "0.97355"
+      "No feasible taper ratio",
+      "0.19469",
+      "0.02647",
+      "0.09735"
     ],
     "answer": 0,
-    "explanation": "The stall condition gives Smin=48.658 m². At fixed b, Di=2196.7 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.822 m². Convert both through lambda=2S/(b cr)−1: limits -0.22116 and -0.026453, width 0.19471.",
+    "explanation": "The drag constraint requires lambda <= -0.026468, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints.",
     "option_explanations": {
-      "0.19471": "Correct. The stall condition gives Smin=48.658 m². At fixed b, Di=2196.7 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.822 m². Convert both through lambda=2S/(b cr)−1: limits -0.22116 and -0.026453, width 0.19471.",
-      "0.97355": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.097355": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19471": "Reverses the order of the two limits."
+      "0.19469": "Subtracts two negative limits without enforcing a nonnegative tip chord.",
+      "0.02647": "The magnitude of a negative upper bound is not a feasible taper ratio.",
+      "0.09735": "A positive width between negative bounds is not a physical interval.",
+      "No feasible taper ratio": "Correct. The drag constraint requires lambda <= -0.026468, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints."
     },
     "difficulty": 3,
     "origin": {
@@ -45886,11 +45881,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      8.326672684688674e-17
-    ],
+    "checks": [],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-N3-03-08",
@@ -47584,21 +47578,21 @@
     "id": "TA1-N3-37-09",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=26 m and root chord=5 m. It must carry 230000 N at rho=1.05, achieve Vs<=70 m/s with CLmax=1.85, and require D<=22870 N at Vcr=161 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=26 m and root chord=5 m. It must carry 230000 N at rho=1.05, achieve Vs<=70 m/s with CLmax=1.85, and require D<=22870 N at Vcr=161 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "0.096656",
-      "-0.19331",
-      "0.19331",
-      "0.93682"
+      "0.06319",
+      "0.19330",
+      "No feasible taper ratio",
+      "0.09665"
     ],
     "answer": 2,
-    "explanation": "The stall condition gives Smin=48.328 m². At fixed b, Di=2153.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.894 m². Convert both through lambda=2S/(b cr)−1: limits -0.25649 and -0.063176, width 0.19331.",
+    "explanation": "The drag constraint requires lambda <= -0.063186, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints.",
     "option_explanations": {
-      "0.19331": "Correct. The stall condition gives Smin=48.328 m². At fixed b, Di=2153.4 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.894 m². Convert both through lambda=2S/(b cr)−1: limits -0.25649 and -0.063176, width 0.19331.",
-      "0.93682": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.096656": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19331": "Reverses the order of the two limits."
+      "0.19330": "Subtracts two negative limits without enforcing a nonnegative tip chord.",
+      "0.06319": "The magnitude of a negative upper bound is not a feasible taper ratio.",
+      "0.09665": "A positive width between negative bounds is not a physical interval.",
+      "No feasible taper ratio": "Correct. The drag constraint requires lambda <= -0.063186, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints."
     },
     "difficulty": 3,
     "origin": {
@@ -47611,11 +47605,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      0.0
-    ],
+    "checks": [],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-N3-03-09",
@@ -49309,21 +49302,21 @@
     "id": "TA1-N3-37-10",
     "topic": "2.4",
     "subtopic": "Derive a minimum area from stall",
-    "stem": "An untwisted trapezoidal wing has fixed b=26.5 m and root chord=5.1 m. It must carry 235000 N at rho=1.05, achieve Vs<=71 m/s with CLmax=1.85, and require D<=23368 N at Vcr=163 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Ignoring any additional geometric cap, what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
+    "stem": "An untwisted trapezoidal wing has fixed b=26.5 m and root chord=5.1 m. It must carry 235000 N at rho=1.05, achieve Vs<=71 m/s with CLmax=1.85, and require D<=23368 N at Vcr=163 m/s. Use e=0.85, CD0=0.025, S=b cr(1+lambda)/2 and Di=W²/(q pi e b²). Require a nonnegative tip chord (lambda >= 0), with no additional geometric cap; what is the width lambda_max−lambda_min of the feasible taper-ratio interval? Choose the closest value.",
     "type": "choice",
     "options": [
-      "-0.19178",
-      "0.095889",
-      "0.90206",
-      "0.19178"
+      "0.09589",
+      "0.19177",
+      "0.09794",
+      "No feasible taper ratio"
     ],
     "answer": 3,
-    "explanation": "The stall condition gives Smin=47.998 m². At fixed b, Di=2111.3 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.957 m². Convert both through lambda=2S/(b cr)−1: limits -0.28971 and -0.097935, width 0.19178.",
+    "explanation": "The drag constraint requires lambda <= -0.097938, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints.",
     "option_explanations": {
-      "0.19178": "Correct. The stall condition gives Smin=47.998 m². At fixed b, Di=2111.3 N is independent of S in this model; the drag cap gives Smax=(Dmax−Di)/(q CD0)=60.957 m². Convert both through lambda=2S/(b cr)−1: limits -0.28971 and -0.097935, width 0.19178.",
-      "0.90206": "Reports an upper geometric factor instead of the difference between the two taper bounds.",
-      "0.095889": "Loses the factor two in trapezoidal-wing area.",
-      "-0.19178": "Reverses the order of the two limits."
+      "0.19177": "Subtracts two negative limits without enforcing a nonnegative tip chord.",
+      "0.09794": "The magnitude of a negative upper bound is not a feasible taper ratio.",
+      "0.09589": "A positive width between negative bounds is not a physical interval.",
+      "No feasible taper ratio": "Correct. The drag constraint requires lambda <= -0.097938, but a nonnegative tip chord requires lambda >= 0. No taper ratio satisfies both constraints."
     },
     "difficulty": 3,
     "origin": {
@@ -49336,11 +49329,10 @@
       "Derive a maximum area from drag",
       "Map both area limits to taper ratio"
     ],
-    "checks": [
-      -2.7755575615628914e-17
-    ],
+    "checks": [],
     "legacy_id": null,
-    "section": "Midterm 1"
+    "section": "Midterm 1",
+    "content_revision": 2
   },
   {
     "id": "TA1-N3-03-10",
