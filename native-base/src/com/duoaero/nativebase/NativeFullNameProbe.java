@@ -23,7 +23,7 @@ public final class NativeFullNameProbe {
     Object entity=state.getClass().getField("f").get(state);
     if(entity!=null && entity.getClass().getName().endsWith("MathEntity$Algebraic")) {
      String raw=(String)entity.getClass().getField("a").get(entity);
-     if(raw!=null && raw.startsWith("duoaero:") && raw.length()>23 && raw.indexOf(' ')>=0)
+     if(raw!=null && raw.startsWith("duoaero:") && raw.indexOf(' ')>=0)
       name=raw.substring(8);
     }
    }
@@ -42,11 +42,27 @@ public final class NativeFullNameProbe {
    label.setMaxLines(3);label.setIncludeFontPadding(false);label.setClickable(false);label.setFocusable(false);
    int pad=Math.round(2*host.getResources().getDisplayMetrics().density);
    label.setPadding(pad,0,pad,0);
-   label.setAutoSizeTextTypeUniformWithConfiguration(14,18,1,TypedValue.COMPLEX_UNIT_SP);
+   label.setAutoSizeTextTypeUniformWithConfiguration(12,18,1,TypedValue.COMPLEX_UNIT_SP);
    host.addView(label,new FrameLayout.LayoutParams(-1,-1));
   }
   boolean night=(host.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)==Configuration.UI_MODE_NIGHT_YES;
   label.setTextColor(night?Color.WHITE:Color.rgb(60,60,60));
   label.setText(name);label.setVisibility(View.VISIBLE);figure.setVisibility(View.INVISIBLE);
+  final TextView measured=label; final String measuredName=name;
+  if(name.equals("deflection-limit second moment of area") || name.equals("stress-limit second moment of area") ||
+     name.equals("second moment of area") || name.equals("thrust-specific fuel consumption") ||
+     name.equals("gravitational acceleration") || name.equals("specific heat capacity at constant pressure")) {
+   measured.post(() -> {
+    android.text.Layout layout=measured.getLayout(); if(layout==null)return;
+    int[] point=new int[2];measured.getLocationOnScreen(point);
+    int lines=layout.getLineCount();
+    android.util.Log.i("DuoAeroTokenMeasure","name="+measuredName+
+      " sp="+(measured.getTextSize()/measured.getResources().getDisplayMetrics().scaledDensity)+
+      " fontScale="+measured.getResources().getConfiguration().fontScale+
+      " bounds="+point[0]+","+point[1]+","+(point[0]+measured.getWidth())+","+(point[1]+measured.getHeight())+
+      " lines="+lines+" lastBottom="+(lines==0?0:layout.getLineBottom(lines-1))+
+      " innerHeight="+(measured.getHeight()-measured.getPaddingTop()-measured.getPaddingBottom()));
+   });
+  }
  }
 }

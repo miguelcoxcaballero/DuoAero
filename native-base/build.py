@@ -120,6 +120,9 @@ token_start=flow_row_text.index('.method public static final d(Lqqh;Lrp3;Lcom/du
 token_end=flow_row_text.index('.end method',token_start)
 token_method=flow_row_text[token_start:token_end]
 token_anchor='    move/from16 v8, p7'
+token_height='    const/high16 v6, 0x42600000    # 56.0f'
+assert token_method.count(token_height)==1
+token_method=token_method.replace(token_height,'    const/high16 v6, 0x42a00000    # 80.0f')
 assert token_method.count(token_anchor)==1
 token_hook=token_anchor+'''
 

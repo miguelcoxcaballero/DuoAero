@@ -160,7 +160,7 @@ public final class UserSessionProbe extends Instrumentation {
   SessionScreen.capture(this);
   if(interaction.equals("first-assist"))report.append(SessionInteraction.firstAssistAnswer(this));
   if(interaction.equals("quit-preview"))report.append(SessionInteraction.quitPreview(this));
-  if(interaction.equals("mixed")||interaction.equals("mixed-hint")||interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"))report.append(SessionInteraction.mixedAnswers(this,interaction.equals("mixed-hint"),interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"),interaction.equals("mixed-fraction-wrong")));
+  if(interaction.equals("mixed")||interaction.equals("mixed-hint")||interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"))report.append(SessionInteraction.mixedAnswers(this,current,interaction.equals("mixed-hint"),interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"),interaction.equals("mixed-fraction-wrong")));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
   else if(interaction.equals("math-hint"))report.append(SessionInteraction.allMathHintRetry(this,current));
   else if(interaction.startsWith("formula"))report.append(SessionInteraction.formulaAnswers(this,current,interaction.equals("formula-wrong")));

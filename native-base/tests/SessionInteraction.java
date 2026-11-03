@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 /** Drives actual native controls. No answer, grading or engine state injection. */
 final class SessionInteraction {
  private static boolean actualTouch;
+ private static int swipeEvidence;
  static String quitPreview(Instrumentation test)throws Exception {
   for(int i=0;i<150&&!hasControl(test,"com.duolingo:id/challengeInstruction");i++)Thread.sleep(200);
   // A brand-new session may exit immediately without a confirmation sheet.
@@ -64,7 +65,7 @@ final class SessionInteraction {
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
- static String mixedAnswers(Instrumentation test,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
+ static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
   actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
@@ -129,6 +130,13 @@ final class SessionInteraction {
    }
    SessionScreen.capture(test,"mixed-graded-"+i,"mixed-graded-"+i);
    if(!correct)throw new IllegalStateException("No original correct feedback for "+q.getString("id"));
+   if(contains(test,"Something went wrong")||contains(test,"skip this exercise")||contains(test,"GOT IT"))
+    throw new IllegalStateException("Original controller reported an error or incorrect answer for "+q.getString("id"));
+   if(kind.equals("matching")){
+    boolean positiveFeedback=false;
+    for(String label:positive)if(contains(test,label))positiveFeedback=true;
+    if(!positiveFeedback)throw new IllegalStateException("Matching feedback lacks explicit positive signal");
+   }else NativeMathGrade.require(test,activity,"CORRECT");
    android.util.Log.i("DuoAeroProbe","Native mixed feedback CORRECT: "+q.getString("id")+" type="+kind);
    click(test,null,"CONTINUE");
   }
@@ -455,7 +463,7 @@ final class SessionInteraction {
        node.getBoundsInScreen(item);bank.getBoundsInScreen(visible);
        if(item.bottom>=visible.bottom-2 || item.top<=visible.top+2){node.recycle();node=null;}
       }
-      if(node==null)bank.performAction(attempt<9?AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+      if(node==null)swipeBank(test,bank,attempt<9);
      }
     }finally{if(bank!=null)bank.recycle();}
    }finally{root.recycle();}
@@ -511,6 +519,25 @@ final class SessionInteraction {
     }finally{button.recycle();}
    }
   }finally{root.recycle();}
+ }
+ private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
+  android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
+  if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
+  int evidence=swipeEvidence++;
+  SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
+  float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
+  long down=android.os.SystemClock.uptimeMillis();
+  android.view.MotionEvent event=android.view.MotionEvent.obtain(down,down,android.view.MotionEvent.ACTION_DOWN,x,from,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe down failed");}finally{event.recycle();}
+  for(int i=1;i<=6;i++){
+   Thread.sleep(35);long now=android.os.SystemClock.uptimeMillis();
+   event=android.view.MotionEvent.obtain(down,now,android.view.MotionEvent.ACTION_MOVE,x,from+(to-from)*i/6f,0);
+   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe move failed");}finally{event.recycle();}
+  }
+  event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),android.view.MotionEvent.ACTION_UP,x,to,0);
+  try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
+  Thread.sleep(400);
+  SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
