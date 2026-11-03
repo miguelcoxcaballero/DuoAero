@@ -36,7 +36,7 @@ public final class UserSessionProbe extends Instrumentation {
  public void onStart(){Bundle output=new Bundle();StringBuilder report=new StringBuilder();boolean completed=false;DevicePlaybackObservation playback=new DevicePlaybackObservation(getTargetContext());try{
   ClassLoader loader=getTargetContext().getClassLoader();
   if(!java.util.Arrays.asList("math","aerospace","aerospace-rich","aerospace-formula","aerospace-mixed","original-expression").contains(lesson))throw new IllegalArgumentException("Unsupported diagnostic lesson");
-  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-hint-touch","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie","second-journey","capture-memory","range-path","render-memory-reduced","render-memory-full","accessibility-memory").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
+  if(!java.util.Arrays.asList("none","first-assist","math-correct","math-wrong","math-all","math-hint","formula","formula-wrong","path-first","mixed","mixed-hint","mixed-hint-touch","mixed-touch","mixed-fraction-wrong","quit-preview","wave-lottie","second-journey","capture-memory","range-path","render-memory-reduced","render-memory-full","accessibility-memory","selection-memory").contains(interaction))throw new IllegalArgumentException("Unsupported interaction");
   if(interaction.equals("first-assist")&&!lesson.equals("aerospace"))throw new IllegalArgumentException("Interaction requires the assist fixture");
   if(interaction.startsWith("math-")&&!lesson.equals("aerospace-rich"))throw new IllegalArgumentException("Math interaction requires rich fixture");
   if(nativeCourseCache&&!courseId.equals("MATH_BT"))throw new IllegalArgumentException("Minimal cache requires original MATH_BT diagnostic profile");
@@ -222,6 +222,7 @@ public final class UserSessionProbe extends Instrumentation {
   if(interaction.equals("mixed")||interaction.equals("mixed-hint")||interaction.equals("mixed-hint-touch")||interaction.equals("mixed-touch")||interaction.equals("mixed-fraction-wrong"))report.append(SessionInteraction.mixedAnswers(this,current,interaction.equals("mixed-hint")||interaction.equals("mixed-hint-touch"),interaction.equals("mixed-touch")||interaction.equals("mixed-hint-touch")||interaction.equals("mixed-fraction-wrong"),interaction.equals("mixed-fraction-wrong")));
   if(interaction.equals("render-memory-reduced")||interaction.equals("render-memory-full"))report.append(SessionInteraction.mixedAnswers(this,current,false,true,false));
   if(interaction.equals("accessibility-memory"))report.append(AccessibilityMemoryProbe.run(this,current));
+  if(interaction.equals("selection-memory"))report.append(SelectionMemoryProbe.run(this,current));
   if(interaction.equals("math-all"))report.append(SessionInteraction.allMathAnswers(this,current));
   else if(interaction.equals("math-hint"))report.append(SessionInteraction.allMathHintRetry(this,current));
   else if(interaction.startsWith("formula"))report.append(SessionInteraction.formulaAnswers(this,current,interaction.equals("formula-wrong")));

@@ -97,6 +97,14 @@ Simply removing the ten original items from the current path would leave
 controls each. The distribution test records this exact integration issue;
 any redistribution must also preserve historical proof semantics.
 
+The integrated formula-layout diagnostic 41593029294 graded all 17 local
+controls using the original controller. The photographed long deflection
+quantity is readable after selection; the long fraction requires vertical
+scrolling to see its top or bottom, with Check remaining reachable. This is
+evidence for that diagnostic build, not acceptance of all fractions or of
+the subsequently narrowed single-slot bank shortcut. In particular the
+three-numerator/two-denominator layout remains an unaccepted inline fallback.
+
 The round-trip fuel-budget family now has a parametrized arithmetic draft in
 `research/wind_budget_steps.py`. It keeps the original final IDs and options,
 uses one displayed arithmetic operation per step, and enforces a real wind

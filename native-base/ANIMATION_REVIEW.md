@@ -142,6 +142,14 @@ accessibility reads/taps, or establish behavior on a physical phone. It also
 precedes the lesson-completion Rive scene. Both ten-question controls graded
 correctly; neither establishes a fix or a complete-lesson journey.
 
+The follow-up 41593787408 performed 300 pairs of accessibility searches on
+one unchanged synthetic choice question without tapping an answer. Native
+allocated heap stayed about 81 MB at the start and 78 MB at the end; the
+native flow count remained 178. This controls repeated fixed-screen search,
+not taps, question transitions, JavaScript grading or renderer lifecycle, so
+those remain candidates for further isolation. It does not establish a leak
+in a real account or on a physical device.
+
 `research/audit_cast_frame_edges.py` examined 480 Peanuts character frames:
 74 have alpha above 128 at an image edge (Charlie 1, Franklin 7, Linus 7,
 Lucy 10, Patty 27, Pigpen 5, Sally 17). In particular, Lucy happy frames 08–13
