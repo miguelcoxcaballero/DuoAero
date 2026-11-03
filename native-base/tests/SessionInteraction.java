@@ -87,14 +87,31 @@ final class SessionInteraction {
    if(hinted){
     hintedQuestion=q;
     String beforeHint=NativeChallengeIdentity.read(test,activity);
-    if(!q.getString("id").equals(beforeHint))throw new IllegalStateException("Hint opened on unexpected original challenge");
+    String beforeGrade=NativeChallengeIdentity.gradingState(test,activity);
+    String beforeGuess=NativeMathGrade.read(test,activity);
+    boolean beforeCheck=controlEnabled(test,"com.duolingo:id/submitButton"),beforeFeedback=contains(test,"GOT IT")||hasContinue(test);
+    SessionScreen.capture(test,"mixed-hint-before","mixed-hint-before");
+    android.util.Log.i("DuoAeroProbe","Before hint id="+beforeHint+" grading="+beforeGrade+" guess="+beforeGuess+" checkEnabled="+beforeCheck+" feedback="+beforeFeedback);
+    if(!q.getString("id").equals(beforeHint)||beforeGrade==null||!beforeGrade.endsWith("GradingState$Input"))
+     throw new IllegalStateException("Unexpected original state before hint: id="+beforeHint+" grade="+beforeGrade);
     clickTip(test);Thread.sleep(800);
     if(!contains(test,"a tip")||contains(test,"GOT IT")&&contains(test,"Incorrect"))throw new IllegalStateException("Hint sheet failed or graded before Check");
     SessionScreen.capture(test,"mixed-mach-hint","mixed-mach-hint");
     test.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);Thread.sleep(700);
-    String afterHint=NativeChallengeIdentity.read(test,activity);
-    if(!beforeHint.equals(afterHint)||"INCORRECT".equals(NativeMathGrade.read(test,activity)))
-     throw new IllegalStateException("Hint changed challenge or produced incorrect grading before Check");
+    String afterHint=null,afterGrade=null;
+    for(int wait=0;wait<75;wait++){
+     afterHint=NativeChallengeIdentity.read(test,activity);afterGrade=NativeChallengeIdentity.gradingState(test,activity);
+     if(beforeHint.equals(afterHint)&&beforeGrade.equals(afterGrade))break;
+     Thread.sleep(200);
+    }
+    String afterGuess=NativeMathGrade.read(test,activity);
+    boolean afterCheck=controlEnabled(test,"com.duolingo:id/submitButton"),afterFeedback=contains(test,"GOT IT")||hasContinue(test);
+    SessionScreen.capture(test,"mixed-hint-dismissed","mixed-hint-dismissed");
+    android.util.Log.i("DuoAeroProbe","Hint state before id="+beforeHint+" grading="+beforeGrade+" guess="+beforeGuess+" checkEnabled="+beforeCheck+" feedback="+beforeFeedback+
+      "; after id="+afterHint+" grading="+afterGrade+" guess="+afterGuess+" checkEnabled="+afterCheck+" feedback="+afterFeedback);
+    if(!beforeHint.equals(afterHint)||!beforeGrade.equals(afterGrade)||beforeFeedback||afterFeedback||beforeCheck!=afterCheck)
+     throw new IllegalStateException("Hint changed original challenge, grading state, feedback or Check availability before submission");
+    android.util.Log.i("DuoAeroProbe","Original challenge remains in input state after hint and before Check: "+afterHint);
    }
    if(kind.equals("multi")){
     org.json.JSONArray answer=q.getJSONArray("answer"),options=q.getJSONArray("options");
@@ -540,6 +557,11 @@ final class SessionInteraction {
   for(int i=node.getChildCount()-1;i>=0;i--){AccessibilityNodeInfo child=node.getChild(i);if(child!=null)try{AccessibilityNodeInfo found=findLast(child,text,depth+1);if(found!=null)return found;}finally{child.recycle();}}
   if(node.isVisibleToUser()&&(text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
   return null;
+ }
+ private static boolean controlEnabled(Instrumentation test,String id){
+  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();if(root==null)return false;
+  AccessibilityNodeInfo node;try{node=find(root,id,null,0);}finally{root.recycle();}
+  if(node==null)return false;try{return node.isEnabled();}finally{node.recycle();}
  }
  static void click(Instrumentation test,String id,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();

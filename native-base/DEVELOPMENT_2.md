@@ -905,3 +905,15 @@ relativistic-clock concepts. Its host model and answer checks pass against the
 selected course material, but it is not in the course and does not grant
 progress. Detailed editorial and original-controller Android checks remain
 pending.
+
+TSFC run 41582045011 produced native CORRECT on the 13 preceding controls and
+rendered the newly authored scientific options as fractions and powers; the
+inspected screen has visible choices and Check. It stopped after dismissing
+the hint because its diagnostic combined challenge-identity and a fragment
+guess into one assertion. The screenshot shows the question still present,
+with Check disabled, but the combined assertion does not reveal which observed
+field caused failure. The next observer reads the original visual state's
+`GradingState` and exact challenge ID before and after the hint, retains the
+dismissed-state capture, and reports both fields separately if they differ.
+It still requires the same original ID on retry and native correct grading
+before Claim XP. The complete hint/retry behavior is not yet accepted.

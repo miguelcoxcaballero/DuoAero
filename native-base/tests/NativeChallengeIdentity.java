@@ -29,4 +29,23 @@ final class NativeChallengeIdentity {
   });
   if(error.get()!=null)throw error.get();return result.get();
  }
+ static String gradingState(Instrumentation test,Activity activity)throws Exception {
+  AtomicReference<String> result=new AtomicReference<>();AtomicReference<Exception> error=new AtomicReference<>();
+  test.runOnMainSync(()->{
+   try{
+    Object vm=activity.getClass().getMethod("J").invoke(activity);if(vm==null)return;
+    Object engine=vm.getClass().getField("t2").get(vm);if(engine==null)return;
+    Object flow=engine.getClass().getField("k").get(engine);if(flow==null)return;
+    Object state=flow.getClass().getMethod("getValue").invoke(flow);
+    if(state==null||!state.getClass().getName().equals("eo10"))return;
+    Object persisted=state.getClass().getField("a").get(state);if(persisted==null)return;
+    Object visual=persisted.getClass().getField("c").get(persisted);
+    if(visual==null||!visual.getClass().getName().equals("com.duolingo.data.session.state.SessionVisualState$Challenge"))return;
+    Object grading=visual.getClass().getField("b").get(visual);
+    if(grading!=null)result.set(grading.getClass().getName());
+   }catch(Exception failure){error.set(failure);}
+  });
+  if(error.get()!=null)throw error.get();return result.get();
+ }
+
 }
