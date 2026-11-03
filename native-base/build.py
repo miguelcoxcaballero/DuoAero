@@ -839,8 +839,9 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
      identifier='second-partial-3.1-lesson-'+str(index)
      catalog[identifier]=native_session(selected,identifier,diagnostic_skill)
      catalog[identifier]['levelSessionIndex']=index
-   if extended_section_test and topic in ('3.2','3.3'):
-    filename='midterm2_space_environment_extra.json' if topic=='3.2' else 'midterm2_spacecraft_extra.json'
+   if extended_section_test and topic in ('3.2','3.3','5.1','5.2'):
+    filename={'3.2':'midterm2_space_environment_extra.json','3.3':'midterm2_spacecraft_extra.json',
+              '5.1':'midterm2_diverse_aircraft_extra.json','5.2':'midterm2_rotorcraft_extra.json'}[topic]
     extra=json.loads((ROOT/'research'/filename).read_text(encoding='utf-8'))
     assert extra['status']=='draft_not_connected_to_course' and len(extra['questions'])==10
     identifier='second-partial-'+topic+'-lesson-1'
@@ -871,13 +872,13 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    for index,(topic,title) in enumerate(diagnostic_topics):
     unit=copy.deepcopy(template);unit['teachingObjective']=topic+' · '+title;unit['unitIndex']=index;unit['levels']=unit['levels'][:1]
     level=unit['levels'][0];diagnostic_skill=stable_id('skill','second-partial-'+topic)
-    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=(3 if topic=='3.1' else 2 if topic in ('3.2','3.3') else 1) if extended_section_test else 1
+    level['id']=stable_id('level','second-partial-'+topic);level['debugName']=title;level['totalSessions']=(3 if topic=='3.1' else 2 if topic in ('3.2','3.3','5.1','5.2') else 1) if extended_section_test else 1
     level['absoluteNodeIndex']=index;level['pathLevelMetadata']['unitIndex']=index
     level['pathLevelClientData']['title']=title;level['pathLevelClientData']['skillId']=diagnostic_skill
     metadata=[{'id':'second-partial-'+topic+'-lesson-0','type':'math_lesson'}]
     if extended_section_test and topic=='3.1':
      metadata.extend({'id':'second-partial-3.1-lesson-'+str(i),'type':'math_lesson'} for i in (1,2))
-    elif extended_section_test and topic in ('3.2','3.3'):
+    elif extended_section_test and topic in ('3.2','3.3','5.1','5.2'):
      metadata.append({'id':'second-partial-'+topic+'-lesson-1','type':'math_lesson'})
     level['pathLevelClientData']['sessionMetadatas']=metadata;level['pathLevelClientData']['practiceSessionMetadatas']=metadata
     level['pathLevelMetadata']['skillId']=diagnostic_skill;units.append(unit)

@@ -6,6 +6,8 @@ import json,os,re,subprocess,time,zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from runtime_config import WORK
+from feedback_checks import assert_native_correct, feedback_terminal
+from visual_controls import native_positive_banner
 PACKAGE='com.duoaero.nativebase';OUT=Path(os.environ['DUOAERO_EVIDENCE'])
 def adb(*a):return subprocess.check_output(['adb',*a],timeout=30)
 def capture(name):
@@ -33,7 +35,8 @@ try:
  assert [u['teachingObjective'].split(' · ')[0] for u in section['units']]==['3.1','3.2','3.3','4','5.1','5.2']
  folder='files/duoaero-course/local-test/submissions';adb('shell','run-as',PACKAGE,'mkdir','-p',folder)
  for unit in section['units'][:5]:
-  id=unit['levels'][0]['pathLevelClientData']['sessionMetadatas'][0]['id'];lesson=catalog[id];now=time.time();proof={'id':id,'type':'MATH_LESSON','failed':False,'shouldLearnThings':True,'startTime':now-120,'endTime':now,'challenges':[{'id':q['id']} for q in lesson['challenges']]};write_private(folder+'/'+id+'.json',{'schema':1,'sessionId':id,'savedAt':int(now*1000),'nativeSubmission':proof,'completionSubmission':proof,'completedOnce':True})
+  for session in unit['levels'][0]['pathLevelClientData']['sessionMetadatas']:
+   id=session['id'];lesson=catalog[id];now=time.time();proof={'id':id,'type':'MATH_LESSON','failed':False,'shouldLearnThings':True,'startTime':now-120,'endTime':now,'challenges':[{'id':q['id']} for q in lesson['challenges']]};write_private(folder+'/'+id+'.json',{'schema':1,'sessionId':id,'savedAt':int(now*1000),'nativeSubmission':proof,'completionSubmission':proof,'completedOnce':True})
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
  home=wait('section-tail-home',lambda t:any(n.get('resource-id')=='com.duolingo:id/path' for n in t.iter('node')) and any(n.get('resource-id')=='com.duolingo:id/primaryCardView' for n in t.iter('node')))
  if not has(home,'MIDTERM 2'):
@@ -55,6 +58,16 @@ try:
  else:raise AssertionError('Final seeded diagnostic topic not opened')
  answer='The pitch of the rotor blades together';question=wait('section-tail-question',lambda t:has(t,answer));tap(next(n for n in question.iter('node') if answer in n.get('content-desc','') and n.get('resource-id')=='com.duolingo:id/mathCard'))
  ready=wait('section-tail-ready',lambda t:any(n.get('text')=='CHECK' and n.get('enabled')=='true' for n in t.iter('node')));tap(next(n for n in ready.iter('node') if n.get('text')=='CHECK' and n.get('enabled')=='true'))
- feedback=wait('section-tail-feedback',lambda t:has(t,'CONTINUE') or has(t,'GOT IT'));assert not has(feedback,'GOT IT')
+ end=time.monotonic()+60
+ while time.monotonic()<end:
+  feedback=capture('section-tail-feedback')
+  if feedback is None:time.sleep(2);continue
+  if feedback_terminal(feedback):
+   assert_native_correct(feedback,'first rotorcraft question');break
+  if any(n.get('text')=='CONTINUE' and n.get('enabled')=='true' for n in feedback.iter('node')):
+   if native_positive_banner(OUT/'section-tail-feedback.png',OUT/'section-tail-feedback-banner.png'):
+    assert_native_correct(feedback,'first rotorcraft question',visual_positive=True);break
+  time.sleep(2)
+ else:raise AssertionError('No original positive rotorcraft feedback')
  (OUT/'section-tail-result.txt').write_text('PASS: five earlier diagnostic topics seeded; final rotorcraft node opened and its first answer graded. Full course, real progress and Drive remain unverified.\n')
 finally:(OUT/'section-tail-log.txt').write_bytes(adb('logcat','-d','-s','DuoAeroNative:I','AndroidRuntime:E'))
