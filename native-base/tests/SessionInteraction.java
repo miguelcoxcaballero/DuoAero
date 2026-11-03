@@ -102,7 +102,11 @@ final class SessionInteraction {
    }else if(kind.equals("gap"))clickLast(test,q.getJSONArray("answer").getString(0));
    else if(kind.equals("formula_blocks")||kind.equals("formula_named")){
     org.json.JSONArray tokens=q.getJSONArray("answer_blocks");
-    for(int j=0;j<tokens.length();j++){clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);}
+    for(int j=0;j<tokens.length();j++){
+     String before=originalSlots(test);
+     clickLast(test,wrongFraction&&j==0?"area":tokens.getString(j));Thread.sleep(500);
+     requireSlotChange(test,before);
+    }
    }else if(kind.equals("choice")){
     click(test,"com.duolingo:id/mathCard",q.getString("selection"));
     Thread.sleep(1500); // Original JS grading completes asynchronously.
@@ -523,7 +527,7 @@ final class SessionInteraction {
  private static void swipeBank(Instrumentation test,AccessibilityNodeInfo bank,boolean forward)throws Exception{
   android.graphics.Rect bounds=new android.graphics.Rect();bank.getBoundsInScreen(bounds);
   if(bounds.height()<80)throw new IllegalStateException("Native answer bank has no usable scroll area");
-  java.util.List<String> selectedBefore=visibleAboveBank(test,bounds.top);
+  String selectedBefore=originalSlots(test);
   int evidence=swipeEvidence++;
   SessionScreen.capture(test,"bank-swipe-before-"+evidence,"bank-swipe-before-"+evidence);
   float x=bounds.left+Math.min(24,bounds.width()/12f),from=forward?bounds.bottom-25:bounds.top+25,to=forward?bounds.top+25:bounds.bottom-25;
@@ -539,30 +543,22 @@ final class SessionInteraction {
   try{if(!test.getUiAutomation().injectInputEvent(event,true))throw new IllegalStateException("Bank swipe up failed");}finally{event.recycle();}
   Thread.sleep(400);
   SessionScreen.capture(test,"bank-swipe-after-"+evidence,"bank-swipe-after-"+evidence);
-  java.util.List<String> selectedAfter=visibleAboveBank(test,bounds.top);
+  String selectedAfter=originalSlots(test);
   if(!selectedBefore.equals(selectedAfter))
-   throw new IllegalStateException("Bank swipe changed visible prompt/slot labels: "+selectedBefore+" -> "+selectedAfter);
+   throw new IllegalStateException("Bank swipe changed original slot state");
  }
- private static java.util.List<String> visibleAboveBank(Instrumentation test,int ignoredTop){
-  java.util.List<String> labels=new java.util.ArrayList<>();
-  AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
-  if(root==null)throw new IllegalStateException("No accessibility root during bank swipe");
-  AccessibilityNodeInfo bank=null;
-  try{
-   bank=lastScrollable(root,0);
-   if(bank==null)throw new IllegalStateException("No answer bank during swipe comparison");
-   collectOutsideBank(root,bank,labels,0);
-  }finally{if(bank!=null)bank.recycle();root.recycle();}
-  java.util.Collections.sort(labels);return labels;
+ private static String originalSlots(Instrumentation test)throws Exception{
+  Class<?> probe=Class.forName("com.duoaero.nativebase.NativeSlotProbe",true,test.getTargetContext().getClassLoader());
+  String state=(String)probe.getMethod("snapshot").invoke(null);
+  if(state==null)throw new IllegalStateException("Original slot state not observed");
+  return state;
  }
- private static void collectOutsideBank(AccessibilityNodeInfo node,AccessibilityNodeInfo bank,java.util.List<String> labels,int depth){
-  if(depth>50||!node.isVisibleToUser()||!own(node)||node.equals(bank))return;
-  CharSequence value=node.getText();
-  if(value!=null && value.length()>0)labels.add(value.toString());
-  for(int i=0;i<node.getChildCount();i++){
-   AccessibilityNodeInfo child=node.getChild(i);
-   if(child!=null)try{collectOutsideBank(child,bank,labels,depth+1);}finally{child.recycle();}
+ private static void requireSlotChange(Instrumentation test,String before)throws Exception{
+  for(int i=0;i<40;i++){
+   if(!before.equals(originalSlots(test)))return;
+   Thread.sleep(100);
   }
+  throw new IllegalStateException("A token tap did not change the observed original slot state");
  }
  private static AccessibilityNodeInfo lastScrollable(AccessibilityNodeInfo node,int depth){
   if(depth>50||!own(node))return null;
