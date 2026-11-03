@@ -559,10 +559,10 @@ for timing_call,timing_wrapper,timing_type in (
 # Diagnostic-only lifecycle stage: original summary fragment factory.
 timing_factory_source=SMALI/'smali_classes7/ym00.smali'
 timing_factory_original=timing_factory_source.read_bytes()
-timing_factory_text=timing_factory_original.decode('utf-8').replace('\\r\\n','\\n')
-timing_factory_anchor='.method public final a(Lcom/duolingo/core/sessionend/api/BaseSessionEndScreenData$PagerSlide;)Landroidx/fragment/app/p;\\n    .locals 4'
+timing_factory_text=timing_factory_original.decode('utf-8').replace('\r\n','\n')
+timing_factory_anchor='.method public final a(Lcom/duolingo/core/sessionend/api/BaseSessionEndScreenData$PagerSlide;)Landroidx/fragment/app/p;\n    .locals 4'
 assert timing_factory_text.count(timing_factory_anchor)==1
-timing_factory_text=timing_factory_text.replace(timing_factory_anchor,timing_factory_anchor+'\\n\\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCompletionTiming;->summaryFactory()V')
+timing_factory_text=timing_factory_text.replace(timing_factory_anchor,timing_factory_anchor+'\n\n    invoke-static {}, Lcom/duoaero/nativebase/NativeCompletionTiming;->summaryFactory()V')
 
 summary_pause_source=SMALI/'smali_classes7/com/duolingo/sessionend/sessioncomplete/ShortLessonStatCardView.smali'
 summary_pause_original=summary_pause_source.read_bytes()
