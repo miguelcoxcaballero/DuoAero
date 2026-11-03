@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         scenario: ${{ fromJSON(inputs.scenarios || (github.ref_name == 'codex/sections-2-research' && '["two-sections"]' || (github.ref_name == 'codex/lesson-migration' && '["accounts","atmosphere-timing","chests-native","formula-words-touch"]' || (github.ref_name == 'codex/notation-sqrt' && '["sqrt-mixed"]' || (github.ref_name == 'codex/duoaero-2' && '["accounts","static-poses-only","formula-words-touch","atmosphere-hint","atmosphere-timing","isa-mixed","chests-native"]' || (github.ref_name == 'codex/static-mascot-moods' && '["static-mascot","updater","chests-native"]' || (github.ref_name == 'codex/integration-137' && '["formula-words-touch","updater","chests-native","atmosphere-hint","accounts"]' || '["s24","google","lesson","accounts","formula","chests","atmosphere"]'))))))) }}
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       DIAGNOSTIC_SCENARIO: ${{ matrix.scenario }}
     steps:
@@ -99,7 +99,7 @@ jobs:
           python native-base/test_mascot_animation.py
           python native-base/test_static_moods.py
           python native-base/course_adapter.py
-          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|aircraft-extra|rotor-extra|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
+          case "$DIAGNOSTIC_SCENARIO" in linus-static|standalone|s24|atmosphere|atmosphere-hint|atmosphere-offset-hint|atmosphere-timing|availability-timing|energy-info|chests|chests-native|sections|two-sections|extended-section|second-journey|aircraft-extra|rotor-extra|section-tail|resume|mistakes|updater|review|google) export DUOAERO_STANDALONE=1;; esac
           if [ "$DIAGNOSTIC_SCENARIO" = google ]; then export DUOAERO_GOOGLE_GATE=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = wind-mixed* ]]; then export DUOAERO_WIND_DIAGNOSTIC=1; fi
           if [[ "$DIAGNOSTIC_SCENARIO" = column-wrong || "$DIAGNOSTIC_SCENARIO" = column-mixed ]]; then export DUOAERO_COLUMN_DIAGNOSTIC=1; fi
@@ -144,6 +144,7 @@ jobs:
           if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = aircraft-extra || "$DIAGNOSTIC_SCENARIO" = rotor-extra ]]; then export DUOAERO_EXTENDED_SECTION_DIAGNOSTIC=1; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-intro ]; then export DUOAERO_WING_DIAGNOSTIC=intro; fi
           if [ "$DIAGNOSTIC_SCENARIO" = wing-rest ]; then export DUOAERO_WING_DIAGNOSTIC=rest; fi
+          if [[ "$DIAGNOSTIC_SCENARIO" = extended-section || "$DIAGNOSTIC_SCENARIO" = second-journey ]]; then export DUOAERO_RELEASED_SECOND_DIAGNOSTIC=1; fi
           python native-base/build.py
           python native-base/test_symbolic_grading.py
           python native-base/test_wind_steps.py
@@ -163,7 +164,7 @@ jobs:
           python native-base/test_integrity.py | tee ${{ runner.temp }}/duoaero-evidence/integrity.txt
           python native-base/test_models.py --build-only
       - name: Observe original session dependencies
-        timeout-minutes: 16
+        timeout-minutes: 40
         run: |
           test -e /dev/kvm
           sudo chmod 666 /dev/kvm
@@ -210,6 +211,7 @@ jobs:
             if [[ "$probe_interact" = math-all || "$probe_interact" = path-first ]]; then probe_timeout=300; fi
             if [[ "$probe_interact" = mixed* ]]; then probe_timeout=420; fi
             if [ "$probe_interact" = formula ]; then probe_timeout=600; fi
+            if [ "$probe_interact" = second-journey ]; then probe_timeout=1800; fi
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/session-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/session-view-tree.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.png /sdcard/Android/data/com.duoaero.nativebase/files/interaction-*.json
             adb shell rm -f /sdcard/Android/data/com.duoaero.nativebase/files/home-diagnostic.png /sdcard/Android/data/com.duoaero.nativebase/files/home-view-tree.json /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.png /sdcard/Android/data/com.duoaero.nativebase/files/home-before-config.json
@@ -366,8 +368,21 @@ jobs:
               grep -q "completed extra 5.1 lesson, restarted" "$RUNNER_TEMP/duoaero-evidence/extra-section-result.txt"
               ;;
             extended-section)
-              python native-base/test_two_sections_extended.py
+              DUOAERO_TEST_RELEASED_SECOND=1 python native-base/test_two_sections_extended.py
+              cat "$RUNNER_TEMP/duoaero-evidence/released-second-package-result.txt"
+              grep -q "PASS: packaged section, catalog and no historical credits verified" "$RUNNER_TEMP/duoaero-evidence/released-second-package-result.txt"
               grep -q 'rocket session opened after restart' "$RUNNER_TEMP/duoaero-evidence/two-sections-result.txt"
+              ;;
+            second-journey)
+              adb shell pm clear com.duoaero.nativebase
+              run_probe second-journey MATH_BT native-defaults late native-full aerospace-mixed second-journey false native-default native-cache true
+              grep -q 'PASS: seven native path sessions graded and saved in order without seeded completion' "$RUNNER_TEMP/duoaero-evidence/session-second-journey.txt"
+              for item in $(seq 0 6); do
+                for extension in png json; do
+                  adb pull "/sdcard/Android/data/com.duoaero.nativebase/files/journey-after-$item.$extension" "$RUNNER_TEMP/duoaero-evidence/journey-after-$item.$extension"
+                done
+              done
+              python native-base/test_journey_restart.py
               ;;
             two-sections)
               python native-base/test_two_sections.py

@@ -750,7 +750,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
   sys.path.insert(0,str(ROOT/'research'))
   from rocket_lesson import lesson as rocket_lesson
   mixed=rocket_lesson()
-  assert len(mixed)==10
+  assert len(mixed)==11
  if os.environ.get('DUOAERO_ORBIT_DRAFT_DIAGNOSTIC')=='1' and not production:
   sys.path.insert(0,str(ROOT/'research'))
   from orbit_lesson import lesson as orbit_lesson
@@ -787,13 +787,16 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  # source-answer driver from the actual native session.
  expand_mixed=os.environ.get('DUOAERO_ISA_EXP_DIAGNOSTIC')!='1'
  out.writestr('assets/hardcoded_sessions/duoaero/aerospace_mixed_lesson.json',json.dumps(native_session(mixed,'duoaero_mixed_diagnostic',expand_steps=expand_mixed),ensure_ascii=False))
- mixed_driver=copy.deepcopy(mixed)
- for question in mixed_driver:
-  if question['type']=='matching':
-   question['pairs']=[[content(None,value) if any('latex' in p for p in notation_parts(value)) else value for value in pair] for pair in question['pairs']]
-  elif question['type']=='choice':
-   option=question['answer'];rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
-   question['selection']=content(rich[option],question['options'][option])
+ def diagnostic_answers(questions):
+  result=copy.deepcopy(questions)
+  for question in result:
+   if question['type']=='matching':
+    question['pairs']=[[content(None,value) if any('latex' in p for p in notation_parts(value)) else value for value in pair] for pair in question['pairs']]
+   elif question['type']=='choice':
+    option=question['answer'];rich=question.get('rich_text',{}).get('options',[None]*len(question['options']))
+    question['selection']=content(rich[option],question['options'][option])
+  return result
+ mixed_driver=diagnostic_answers(mixed)
  out.writestr('assets/duoaero/mixed-source.json',json.dumps(mixed_driver,ensure_ascii=False))
  plain_sample=[by_id[c['id']] for c in json.loads(lesson.read_text())['challenges'][:12]]
  # Exercise the reported unformatted density fraction on the actual original
@@ -843,6 +846,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
  extended_second=extended_section_test or released_second
  two_section_test=released_second or ((os.environ.get('DUOAERO_TWO_SECTION_DIAGNOSTIC')=='1' or extended_section_test) and not production)
  if two_section_test:
+  journey_answers={}
   draft=json.loads((ROOT/'research/midterm2_concepts.json').read_text())
   assert draft['status']=='draft_not_connected_to_course'
   diagnostic_topics=[('3.1','Launch vehicles'),('3.2','Space flight environment'),('3.3','Spacecraft'),('4','Missiles'),('5.1','Diverse aircraft'),('5.2','Rotorcraft')]
@@ -854,6 +858,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
    assert len(selected)==10
    catalog[diagnostic_id]=native_session(selected,diagnostic_id,diagnostic_skill,teach_words=True)
    catalog[diagnostic_id]['levelSessionIndex']=0
+   if released_second and not production:journey_answers[diagnostic_id]=diagnostic_answers(selected)
    if extended_second and topic=='3.1':
     sys.path.insert(0,str(ROOT/'research'))
     from rocket_lesson import lesson as rocket_lesson
@@ -862,6 +867,7 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
      identifier='second-partial-3.1-lesson-'+str(index)
      catalog[identifier]=native_session(selected,identifier,diagnostic_skill)
      catalog[identifier]['levelSessionIndex']=index
+     if released_second and not production:journey_answers[identifier]=diagnostic_answers(selected)
    if extended_second and topic in ('3.2','3.3','5.1','5.2'):
     filename={'3.2':'midterm2_space_environment_extra.json','3.3':'midterm2_spacecraft_extra.json',
               '5.1':'midterm2_diverse_aircraft_extra.json','5.2':'midterm2_rotorcraft_extra.json'}[topic]
@@ -870,6 +876,10 @@ with zipfile.ZipFile(WORK/'resources.apk') as res,zipfile.ZipFile(APK) as base,z
     identifier='second-partial-'+topic+'-lesson-1'
     catalog[identifier]=native_session(extra['questions'],identifier,diagnostic_skill)
     catalog[identifier]['levelSessionIndex']=1
+    if released_second and not production:journey_answers[identifier]=diagnostic_answers(extra['questions'])
+  if released_second and not production:
+   assert len(journey_answers)==7
+   out.writestr('assets/duoaero/journey-diagnostic-answers.json',json.dumps(journey_answers,ensure_ascii=False))
  out.writestr('assets/duoaero/course/session-catalog.json',json.dumps(catalog,ensure_ascii=False))
  out.writestr('assets/duoaero/course/legacy-session-catalog.json',json.dumps(legacy_catalog,ensure_ascii=False))
  out.write(ROOT/'native-base/lesson-migrations.json','assets/duoaero/course/lesson-migrations.json')

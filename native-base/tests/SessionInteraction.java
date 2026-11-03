@@ -58,19 +58,22 @@ final class SessionInteraction {
   if(!contains(test,"Low delivery times."))throw new IllegalStateException("First course question not visible after original path node");
   return "Original home node opened its first Aerospace question through the original remote-session loader.\n";
  }
- private static boolean hasControl(Instrumentation test,String id){
+ static boolean hasControl(Instrumentation test,String id){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)return false;
   try{AccessibilityNodeInfo node=find(root,id,null,0);if(node==null)return false;node.recycle();return true;}
   finally{root.recycle();}
  }
  static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong)throws Exception {
-  actualTouch=touch;
   java.io.ByteArrayOutputStream bytes=new java.io.ByteArrayOutputStream();
   try(java.io.InputStream input=test.getTargetContext().getAssets().open("duoaero/mixed-source.json")){
    byte[] buffer=new byte[8192];int n;while((n=input.read(buffer))!=-1)bytes.write(buffer,0,n);
   }
   org.json.JSONArray questions=new org.json.JSONArray(bytes.toString("UTF-8"));
+  return mixedAnswers(test,activity,hintRetry,touch,fractionWrong,questions);
+ }
+ static String mixedAnswers(Instrumentation test,android.app.Activity activity,boolean hintRetry,boolean touch,boolean fractionWrong,org.json.JSONArray questions)throws Exception {
+  actualTouch=touch;
   boolean windScenario=false,directHintScenario=false,rocketScenario=false,payloadScenario=false;
   for(int i=0;i<questions.length();i++){String id=questions.getJSONObject(i).getString("id");if(id.equals("TA1-0092-D2-S1"))windScenario=true;if(id.equals("TA1-0106-F1"))directHintScenario=true;if(id.equals("M2-ROCKET-DELTA-CALC"))rocketScenario=true;if(id.equals("TA1-0083-D2"))payloadScenario=true;}
   String hintId=payloadScenario?"TA1-0083-D2":rocketScenario?"M2-ROCKET-DELTA-CALC":directHintScenario?"TA1-0106-F1":windScenario?"TA1-0092-D2-S1":"TA1-0107-D2-S1";
@@ -424,7 +427,7 @@ final class SessionInteraction {
   }
   return false;
  }
- private static boolean contains(Instrumentation test,String text){
+ static boolean contains(Instrumentation test,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)return false;
   try{return contains(root,text,0);}finally{root.recycle();}
@@ -450,7 +453,7 @@ final class SessionInteraction {
  // The same label may already be in an answer slot. The bank is the last
  // matching native control in traversal order; select it rather than removing
  // a previously selected token. This only performs native accessibility taps.
- private static void clickLast(Instrumentation test,String text)throws Exception {
+ static void clickLast(Instrumentation test,String text)throws Exception {
   AccessibilityNodeInfo node=null;
   for(int attempt=0;attempt<18&&node==null;attempt++){
    dismissPixelLauncherAnr(test);
@@ -524,7 +527,7 @@ final class SessionInteraction {
   if(node.isVisibleToUser()&&(text.contentEquals(node.getText()==null?"":node.getText())||text.contentEquals(node.getContentDescription()==null?"":node.getContentDescription())))return AccessibilityNodeInfo.obtain(node);
   return null;
  }
- private static void click(Instrumentation test,String id,String text){
+ static void click(Instrumentation test,String id,String text){
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root==null)throw new IllegalStateException("No active native window");
   AccessibilityNodeInfo node;

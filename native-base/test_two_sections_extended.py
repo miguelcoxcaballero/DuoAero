@@ -55,6 +55,7 @@ try:
    section=json.loads(apk.read('assets/duoaero/course/section-2.json'))
    catalog=json.loads(apk.read('assets/duoaero/course/session-catalog.json'))
    migrations=json.loads(apk.read('assets/duoaero/course/lesson-migrations.json'))
+   driver=json.loads(apk.read('assets/duoaero/journey-diagnostic-answers.json'))
   topics=[('3.1','Launch vehicles',3),('3.2','Space flight environment',2),('3.3','Spacecraft',2)]
   assert len(section['units'])==len(topics)
   for unit,(topic,title,count) in zip(section['units'],topics):
@@ -63,8 +64,12 @@ try:
    ids=['second-partial-'+topic+'-lesson-'+str(i) for i in range(count)]
    assert level['finishedSessions']==0 and level['totalSessions']==count
    assert [m['id'] for m in level['pathLevelClientData']['sessionMetadatas']]==ids
-   assert all(identifier in catalog for identifier in ids)
+   assert all(identifier in catalog and identifier in driver for identifier in ids)
+   for identifier in ids:
+    assert [q['id'] for q in driver[identifier]]==[c['id'] for c in catalog[identifier]['challenges']], identifier
+  assert len(driver)==7
   assert not any(identifier.startswith('second-partial-') for identifier in migrations)
+  (OUT/'released-second-package-result.txt').write_text('PASS: packaged section, catalog and no historical credits verified.\n')
  adb('shell','am','force-stop',PACKAGE);assert b'Success' in adb('shell','pm','clear',PACKAGE)
  adb('shell','am','start','-W','-n',PACKAGE+'/com.duolingo.splash.LaunchActivity')
  home=wait('two-sections-home',lambda t:has(t,'1 · Aerospace industry') and any(n.get('resource-id')=='com.duolingo:id/primaryCardView' for n in t.iter('node')))
