@@ -18,6 +18,7 @@ jobs:
           python3 research/test_breguet_ratio_prerequisites.py
           python3 research/test_approach_speed_steps.py
           python3 research/test_approach_prerequisites.py
+          python3 research/test_tsfc_conversion_draft.py
           python3 research/test_speed_limits_steps.py
           python3 research/test_speed_limits_lesson.py
           python3 research/test_space_environment_extra.py
