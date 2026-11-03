@@ -1052,3 +1052,9 @@ swap was exhausted and the system was thrashing. The last saved lesson was
 3.2-lesson-1; the seventh-session and restart checks did not run. The capture
 control verifies that the same home activity stays foreground, but background
 UI activity can still vary and the result must be interpreted accordingly.
+The public AOSP Android 16 `UiAutomation.takeScreenshot` implementation closes
+its hardware buffer, copies to a software bitmap and recycles its hardware
+bitmap (https://github.com/aosp-mirror/platform_frameworks_base/blob/android-16.0.0_r1/core/java/android/app/UiAutomation.java).
+The harness also recycles the returned bitmap in `finally`. This does not
+prove the exact emulator image's behavior or rule out a platform allocation;
+the phase control is needed before changing capture frequency or the app.

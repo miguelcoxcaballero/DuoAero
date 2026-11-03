@@ -32,9 +32,9 @@ def repair(question):
     q['rich_text']={'stem':[
       {'text':'Find the feasible taper-ratio interval width '}, {'latex':r'\lambda_{\max}-\lambda_{\min}'}, {'text':' (or no feasible interval), with '}, {'latex':r'\lambda\geq 0'}, {'text':'. '},
       {'latex':r'b='+b+r'\,\mathrm m,\ c_r='+root+r'\,\mathrm m,\ W='+weight+r'\,\mathrm N,\ \rho='+rho+r'\,\mathrm{kg}/\mathrm{m}^{3}'}, {'text':'. '},
-      {'latex':r'V_s\le '+vs+r'\,\mathrm{m/s},\ C_{L,\max}='+cl}, {'text':'. '},
-      {'latex':r'D\le '+drag+r'\,\mathrm N,\ V_{cr}='+speed+r'\,\mathrm{m/s},\ e='+e+r',\ C_{D0}='+cd}, {'text':'. '},
-      {'latex':r'S=\frac{bc_r(1+\lambda)}{2},\ q=\frac12\rho V_{cr}^{2},\ D_i=\frac{W^2}{q\pi e b^2}'}, {'text':'.'}]}
+      {'latex':r'V_s\leq '+vs+r'\,\mathrm{m/s},\ C_{L,\max}='+cl}, {'text':'. '},
+      {'latex':r'D\leq '+drag+r'\,\mathrm N,\ V_{cr}='+speed+r'\,\mathrm{m/s},\ e='+e+r',\ C_{D0}='+cd}, {'text':'. '},
+      {'latex':r'S=\frac{bc_r(1+\lambda)}{2},\ q=\frac{1}{2}\rho V_{cr}^{2},\ D_i=\frac{W^2}{q\pi e b^2}'}, {'text':'.'}]}
     q['content_revision']=2
     # Earlier residual checks validated the unphysical algebra only.
     q['checks']=[]

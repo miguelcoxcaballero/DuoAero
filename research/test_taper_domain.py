@@ -18,7 +18,7 @@ for q in family:
   assert any(r'\mathrm{kg}/\mathrm{m}^{3}' in part.get('latex','') for part in q['rich_text']['stem'])
   rendered=' '.join(part.get('latex',part.get('text','')) for part in q['rich_text']['stem'])
   for value in PATTERN.match(q['stem']).groups():assert value in rendered,(q['id'],value)
-  assert r'q=\frac12\rho V_{cr}^{2}' in rendered and r'D_i=\frac' in rendered
+  assert r'q=\frac{1}{2}\rho V_{cr}^{2}' in rendered and r'D_i=\frac' in rendered
 
   assert repair(q)==q, q['id']
   assert q['origin']['kind']=='practice'

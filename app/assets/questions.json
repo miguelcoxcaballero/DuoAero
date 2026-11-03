@@ -37318,19 +37318,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 64\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 64\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 20008\\,\\mathrm N,\\ V_{cr}=149\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 20008\\,\\mathrm N,\\ V_{cr}=149\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -39058,19 +39058,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 65\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 65\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 20470\\,\\mathrm N,\\ V_{cr}=151\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 20470\\,\\mathrm N,\\ V_{cr}=151\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -40826,19 +40826,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 66\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 66\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 20938\\,\\mathrm N,\\ V_{cr}=153\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 20938\\,\\mathrm N,\\ V_{cr}=153\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -42594,19 +42594,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 67\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 67\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 21412\\,\\mathrm N,\\ V_{cr}=155\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 21412\\,\\mathrm N,\\ V_{cr}=155\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -44362,19 +44362,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 68\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 68\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 21892\\,\\mathrm N,\\ V_{cr}=157\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 21892\\,\\mathrm N,\\ V_{cr}=157\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -46130,19 +46130,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 69\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 69\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 22378\\,\\mathrm N,\\ V_{cr}=159\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 22378\\,\\mathrm N,\\ V_{cr}=159\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -47898,19 +47898,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 70\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 70\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 22870\\,\\mathrm N,\\ V_{cr}=161\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 22870\\,\\mathrm N,\\ V_{cr}=161\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
@@ -49666,19 +49666,19 @@
           "text": ". "
         },
         {
-          "latex": "V_s\\le 71\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
+          "latex": "V_s\\leq 71\\,\\mathrm{m/s},\\ C_{L,\\max}=1.85"
         },
         {
           "text": ". "
         },
         {
-          "latex": "D\\le 23368\\,\\mathrm N,\\ V_{cr}=163\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
+          "latex": "D\\leq 23368\\,\\mathrm N,\\ V_{cr}=163\\,\\mathrm{m/s},\\ e=0.85,\\ C_{D0}=0.025"
         },
         {
           "text": ". "
         },
         {
-          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac12\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
+          "latex": "S=\\frac{bc_r(1+\\lambda)}{2},\\ q=\\frac{1}{2}\\rho V_{cr}^{2},\\ D_i=\\frac{W^2}{q\\pi e b^2}"
         },
         {
           "text": "."
