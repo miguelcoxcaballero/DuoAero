@@ -80,7 +80,7 @@ public final class UserSessionProbe extends Instrumentation {
    public void onActivityPaused(android.app.Activity a){}
    public void onActivityStopped(android.app.Activity a){}
    public void onActivitySaveInstanceState(android.app.Activity a,Bundle b){}
-   public void onActivityDestroyed(android.app.Activity a){}
+   public void onActivityDestroyed(android.app.Activity a){android.util.Log.i("DuoAeroProbe","destroyed "+a.getClass().getName());}
   });
   // Exercise the real startup path before opening a session. Directly launching
   // SessionActivity skips application initialization performed by LaunchActivity.

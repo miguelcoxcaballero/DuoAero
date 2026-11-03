@@ -956,3 +956,17 @@ stress/deflection area-second-moment label was 15.155 sp at fontScale 1.15
 with three lines inside 224 px. Further review must include the range candidate,
 recomposition/isolation and a product layout that preserves the requested
 fraction/operator presentation; this result is not proof that all layouts pass.
+
+Journey 41584427690 (3 GiB emulator) saved five sessions through
+3.2-lesson-1 and graded five questions in 3.3, then the process died before
+seven sessions or restart verification. Android lowmemorykiller explicitly
+killed the WebView JS sandbox and then the app (reported app RSS about 1.72 GB
+and swap about 1.93 GB, low free swap and thrashing); no Java crash was in
+instrumentation stdout. ART logs show its managed heap around 60–70 MB at that
+point, which does not identify what accounts for native/graphics allocations.
+The synthetic harness recycles screenshot bitmaps but captures frequently and
+turns on diagnostic flow capture, which holds a bounded map of flow references;
+the passive memory observer records screenshot count, total/native/Dalvik PSS,
+native heap and diagnostic-flow count, plus activity destruction. It does not
+force collection, mutate the session, or establish the cause by itself. No
+conclusion about a physical phone follows from this emulator run.

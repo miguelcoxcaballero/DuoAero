@@ -9,6 +9,20 @@ import org.json.*;
 
 /** Screen evidence from the isolated, synthetic-profile instrumentation only. */
 final class SessionScreen {
+ private static int captures;
+ private static void sampleMemory(){
+  android.os.Debug.MemoryInfo info=new android.os.Debug.MemoryInfo();
+  android.os.Debug.getMemoryInfo(info);
+  int diagnosticFlowCount=-1;
+  try{
+   Object result=Class.forName("com.duoaero.nativebase.NativeCourseBridge").getMethod("diagnosticFlows").invoke(null);
+   diagnosticFlowCount=((java.util.Map<?,?>)result).size();
+  }catch(ReflectiveOperationException ignored){}
+  android.util.Log.i("DuoAeroProbe","MEMORY_SAMPLE flows="+diagnosticFlowCount+" captures="+captures+
+   " pssKb="+info.getTotalPss()+" nativePssKb="+info.nativePss+
+   " dalvikPssKb="+info.dalvikPss+" nativeHeapBytes="+android.os.Debug.getNativeHeapAllocatedSize());
+ }
+
  static void capture(Instrumentation test)throws Exception {
   capture(test,"session-diagnostic","session-view-tree");
  }
@@ -23,6 +37,7 @@ final class SessionScreen {
   try(FileOutputStream file=new FileOutputStream(new File(directory,screenshotName+".png"))){
    if(!screenshot.compress(Bitmap.CompressFormat.PNG,100,file))throw new IOException("PNG compression failed");
   }finally{screenshot.recycle();}
+  captures++;if(captures==1 || captures%10==0)sampleMemory();
   JSONArray nodes=new JSONArray();
   AccessibilityNodeInfo root=test.getUiAutomation().getRootInActiveWindow();
   if(root!=null)try{visit(root,nodes,0);}finally{root.recycle();}
