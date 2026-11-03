@@ -535,13 +535,15 @@ public final class NativeCourseBridge {
    java.util.Set<String> seen=new java.util.HashSet<>();
    java.util.Iterator<String> keys=body.keys();
    while(keys.hasNext()){
-    String key=keys.next();
-    if(key.equals("streak")||key.equals("streakData")||key.equals("timezone"))seen.add("streak");
+    String key=keys.next();if(body.isNull(key))continue;
+    if(key.equals("streakData"))seen.add("streak_data");
+    else if(key.equals("streak"))seen.add("streak_legacy");
+    else if(key.equals("timezone"))seen.add("timezone");
     else if(key.equals("xpGains")||key.equals("xpGoal"))seen.add("xp");
     else if(key.equals("currentCourseId")||key.equals("fromLanguage")||key.equals("learningLanguage"))seen.add("course");
     else seen.add("other");
    }
-   if(seen.isEmpty())seen.add("empty");for(String category:seen)countSyntheticPatchCategory(category);
+   if(seen.isEmpty())seen.add("empty_or_null");for(String category:seen)countSyntheticPatchCategory(category);
   }
   if(syntheticUserPatches>0&&(syntheticUserPatches<=3||syntheticUserPatches%50==0))
    Log.i("DuoAeroBatchShape","user_patch_count="+syntheticUserPatches+" categories="+syntheticPatchCategories);
